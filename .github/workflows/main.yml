@@ -46,7 +46,7 @@ jobs:
           echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PLUGIN_NAME }}
           path: ./${{ env.PLUGIN_NAME }}.zip
