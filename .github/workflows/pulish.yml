@@ -24,10 +24,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          cache: 'npm'
+          # 移除 cache 配置以避免缓存错误
           # 新增：强制指定 npm 镜像源
           registry-url: https://registry.npmjs.org/
 
