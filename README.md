@@ -111,4 +111,4 @@ https://user-images.githubusercontent.com/3410293/234194368-cd438917-e6d4-47f4-b
 
 如果您觉得本插件对您有帮助，欢迎通过以下方式给予支持：
 
-&lt;a href='https://ko-fi.com/E1E81XKC5D' target='_blank'&gt;&lt;img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /&gt;&lt;/a&gt;
+<a href='https://ko-fi.com/E1E81XKC5D' target='_blank' style='text-decoration: none;'><img src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' height='32' alt='Support me on Ko-fi' style='border: none; vertical-align: middle;' /></a>
