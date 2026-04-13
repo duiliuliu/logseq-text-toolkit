@@ -9,6 +9,9 @@ const TOOLBAR_ID = "kef-wrap-toolbar"
 let toolbar
 let textarea
 
+// 检测是否在测试模式
+const isTestMode = typeof window !== 'undefined' && window.location.pathname.includes('test.html')
+
 async function main() {
   // Reset values.
   toolbar = null
@@ -33,43 +36,45 @@ async function main() {
   logseq.provideModel(model)
 
   if (logseq.settings?.toolbar ?? true) {
-    logseq.provideUI({
-      key: TOOLBAR_ID,
-      path: "#app-container",
-      template: `<div id="${TOOLBAR_ID}"></div>`,
-    })
-
-    if (logseq.settings?.toolbarShortcut) {
-      logseq.App.registerCommandPalette(
-        {
-          key: "toggle-toolbar",
-          label: t("Toggle toolbar display"),
-          keybinding: { binding: logseq.settings?.toolbarShortcut },
-        },
-        toggleToolbarDisplay,
-      )
-    } else {
-      logseq.App.registerCommandPalette(
-        { key: "toggle-toolbar", label: t("Toggle toolbar display") },
-        toggleToolbarDisplay,
-      )
-    }
-
-    // Let div root element get generated first.
-    setTimeout(async () => {
-      toolbar = parent.document.getElementById(TOOLBAR_ID)
-      render(<Toolbar items={definitions} model={model} />, toolbar)
-
-      toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
-      parent.document.addEventListener("focusout", onBlur)
-
-      const mainContentContainer = parent.document.getElementById(
-        "main-content-container",
-      )
-      mainContentContainer.addEventListener("scroll", onScroll, {
-        passive: true,
+    if (!isTestMode) {
+      logseq.provideUI({
+        key: TOOLBAR_ID,
+        path: "#app-container",
+        template: `<div id="${TOOLBAR_ID}"></div>`,
       })
-    }, 0)
+
+      if (logseq.settings?.toolbarShortcut) {
+        logseq.App.registerCommandPalette(
+          {
+            key: "toggle-toolbar",
+            label: t("Toggle toolbar display"),
+            keybinding: { binding: logseq.settings?.toolbarShortcut },
+          },
+          toggleToolbarDisplay,
+        )
+      } else {
+        logseq.App.registerCommandPalette(
+          { key: "toggle-toolbar", label: t("Toggle toolbar display") },
+          toggleToolbarDisplay,
+        )
+      }
+
+      // Let div root element get generated first.
+      setTimeout(async () => {
+        toolbar = parent.document.getElementById(TOOLBAR_ID)
+        render(<Toolbar items={definitions} model={model} />, toolbar)
+
+        toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
+        parent.document.addEventListener("focusout", onBlur)
+
+        const mainContentContainer = parent.document.getElementById(
+          "main-content-container",
+        )
+        mainContentContainer.addEventListener("scroll", onScroll, {
+          passive: true,
+        })
+      }, 0)
+    }
   }
 
   parent.document.addEventListener("selectionchange", onSelectionChange)
@@ -78,12 +83,14 @@ async function main() {
     if (textarea) {
       textarea.removeEventListener("keydown", deletionWorkaroundHandler)
     }
-    const mainContentContainer = parent.document.getElementById(
-      "main-content-container",
-    )
-    mainContentContainer.removeEventListener("scroll", onScroll, {
-      passive: true,
-    })
+    if (!isTestMode) {
+      const mainContentContainer = parent.document.getElementById(
+        "main-content-container",
+      )
+      mainContentContainer.removeEventListener("scroll", onScroll, {
+        passive: true,
+      })
+    }
     toolbar?.removeEventListener("transitionend", onToolbarTransitionEnd)
     parent.document.removeEventListener("focusout", onBlur)
     parent.document.removeEventListener("selectionchange", onSelectionChange)
@@ -550,13 +557,22 @@ async function updateBlockText(producer, ...args) {
     end,
     ...args,
   )
-  await logseq.Editor.updateBlock(block.uuid, text)
-  if (textarea?.isConnected) {
+  
+  if (isTestMode) {
+    // 在测试模式下直接更新textarea
+    textarea.value = text
     textarea.focus()
     textarea.setSelectionRange(selStart, selEnd)
   } else {
-    await logseq.Editor.editBlock(block.uuid)
-    parent.document.activeElement.setSelectionRange(selStart, selEnd)
+    // 在Logseq环境下使用Logseq API
+    await logseq.Editor.updateBlock(block.uuid, text)
+    if (textarea?.isConnected) {
+      textarea.focus()
+      textarea.setSelectionRange(selStart, selEnd)
+    } else {
+      await logseq.Editor.editBlock(block.uuid)
+      parent.document.activeElement.setSelectionRange(selStart, selEnd)
+    }
   }
 }
 
@@ -626,7 +642,9 @@ async function onSelectionChange(e) {
     ) {
       toolbar.style.opacity = "0"
     } else if (textarea.selectionStart !== textarea.selectionEnd) {
-      await positionToolbar()
+      if (!isTestMode) {
+        await positionToolbar()
+      }
     }
   }
 }
@@ -725,6 +743,12 @@ async function handleAnnotation() {
     return
   }
 
+  if (isTestMode) {
+    // 在测试模式下的处理
+    alert('标注功能已触发\n\n测试模式下的操作：\n1. 模拟在当前页面尾部添加 ## annotation 标题\n2. 将选中的文本作为子节点添加\n3. 在子节点下创建空白节点并定位光标')
+    return
+  }
+
   // 查找或创建 "## annotation" 块
   let annotationBlock = null
   const blocks = await logseq.Editor.getPageBlocksTree(currentPage.name)
@@ -779,6 +803,13 @@ async function handleComment(type) {
   const selection = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd)
   if (!selection.trim()) {
     logseq.App.showMsg("请选择要添加评论的文本", "error")
+    return
+  }
+
+  if (isTestMode) {
+    // 在测试模式下的处理
+    const commentType = type === 'page' ? '页面' : '日记'
+    alert(`${commentType}评论功能已触发\n\n测试模式下的操作：\n1. 在${commentType}页面创建 ## comment 标题\n2. 创建子节点，内容为选中节点的引用\n3. 在子节点下创建空白节点并定位光标`)
     return
   }
 

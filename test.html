@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logseq Text Toolkit - 测试模式</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-area {
+            margin: 20px 0;
+            position: relative;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        .toolbar {
+            position: absolute;
+            background: #333e;
+            border-radius: 6px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            height: 30px;
+            padding: 0 10px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 100ms ease-in-out;
+        }
+        .toolbar.visible {
+            opacity: 1;
+        }
+        .toolbar button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            padding: 0;
+            margin: 0 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .toolbar button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .toolbar button img {
+            width: 18px;
+            height: 18px;
+        }
+        .test-results {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        .test-results h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .test-results pre {
+            background-color: #333;
+            color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .instructions {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #2c5aa0;
+        }
+        .instructions ul {
+            margin: 10px 0;
+        }
+        .instructions li {
+            margin: 5px 0;
+        }
+        .feature-group {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        .feature-group h4 {
+            margin: 0 0 10px 0;
+            color: #555;
+        }
+        .feature-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .feature-button {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .feature-button:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Logseq Text Toolkit - 测试模式</h1>
+        
+        <div class="instructions">
+            <h3>测试说明</h3>
+            <ul>
+                <li>在下面的文本框中输入或粘贴文本</li>
+                <li>选择文本，工具栏会自动出现</li>
+                <li>点击工具栏中的按钮测试各种功能</li>
+                <li>或使用下方的功能按钮直接测试</li>
+                <li>查看下方的测试结果</li>
+            </ul>
+        </div>
+        
+        <div class="test-area">
+            <h3>测试文本区域</h3>
+            <textarea id="test-textarea" placeholder="在此输入文本并选择测试..."></textarea>
+            <div id="toolbar" class="toolbar"></div>
+        </div>
+        
+        <div class="feature-group">
+            <h4>文本格式化</h4>
+            <div class="feature-buttons">
+                <button class="feature-button" onclick="applyFormat('bold')">加粗</button>
+                <button class="feature-button" onclick="applyFormat('italic')">斜体</button>
+                <button class="feature-button" onclick="applyFormat('strike')">删除线</button>
+            </div>
+        </div>
+        
+        <div class="feature-group">
+            <h4>背景高亮</h4>
+            <div class="feature-buttons">
+                <button class="feature-button" onclick="applyHighlight('red')" style="background-color: #ffc7c7;">红色</button>
+                <button class="feature-button" onclick="applyHighlight('yellow')" style="background-color: #fff380;">黄色</button>
+                <button class="feature-button" onclick="applyHighlight('blue')" style="background-color: #abdfff;">蓝色</button>
+                <button class="feature-button" onclick="applyHighlight('green')" style="background-color: #ccffc1;">绿色</button>
+                <button class="feature-button" onclick="applyHighlight('purple')" style="background-color: #e8ccff;">紫色</button>
+            </div>
+        </div>
+        
+        <div class="feature-group">
+            <h4>文本颜色</h4>
+            <div class="feature-buttons">
+                <button class="feature-button" onclick="applyTextColor('red')" style="color: #ff0000;">红色</button>
+                <button class="feature-button" onclick="applyTextColor('yellow')" style="color: #e6b800;">黄色</button>
+                <button class="feature-button" onclick="applyTextColor('blue')" style="color: #0066ff;">蓝色</button>
+                <button class="feature-button" onclick="applyTextColor('green')" style="color: #00cc00;">绿色</button>
+                <button class="feature-button" onclick="applyTextColor('purple')" style="color: #9933cc;">紫色</button>
+            </div>
+        </div>
+        
+        <div class="feature-group">
+            <h4>下划线高亮</h4>
+            <div class="feature-buttons">
+                <button class="feature-button" onclick="applyUnderline('red')" style="color: #ff0000; text-decoration: underline;">红色</button>
+                <button class="feature-button" onclick="applyUnderline('yellow')" style="color: #e6b800; text-decoration: underline;">黄色</button>
+                <button class="feature-button" onclick="applyUnderline('blue')" style="color: #0066ff; text-decoration: underline;">蓝色</button>
+                <button class="feature-button" onclick="applyUnderline('green')" style="color: #00cc00; text-decoration: underline;">绿色</button>
+                <button class="feature-button" onclick="applyUnderline('purple')" style="color: #9933cc; text-decoration: underline;">紫色</button>
+            </div>
+        </div>
+        
+        <div class="feature-group">
+            <h4>其他功能</h4>
+            <div class="feature-buttons">
+                <button class="feature-button" onclick="applyCloze()">Cloze</button>
+                <button class="feature-button" onclick="testAnnotation()">标注</button>
+                <button class="feature-button" onclick="testComment('page')">页面评论</button>
+                <button class="feature-button" onclick="testComment('journal')">日记评论</button>
+            </div>
+        </div>
+        
+        <div class="test-results">
+            <h3>测试结果</h3>
+            <pre id="test-output">选择文本并使用工具栏功能查看结果...</pre>
+        </div>
+    </div>
+
+    <script>
+        // 模拟Logseq API
+        const mockLogseq = {
+            Editor: {
+                currentBlock: {
+                    uuid: 'mock-block-uuid',
+                    content: ''
+                },
+                currentPage: {
+                    uuid: 'mock-page-uuid',
+                    name: '测试页面'
+                },
+                blocks: [
+                    { content: '## annotation' },
+                    { content: '## comment' }
+                ],
+                getCurrentBlock: async function() {
+                    this.currentBlock.content = document.getElementById('test-textarea').value;
+                    return this.currentBlock;
+                },
+                updateBlock: async function(uuid, text) {
+                    this.currentBlock.content = text;
+                    document.getElementById('test-textarea').value = text;
+                    return true;
+                },
+                editBlock: async function(uuid) {
+                    document.getElementById('test-textarea').focus();
+                    return true;
+                },
+                getCurrentPage: async function() {
+                    return this.currentPage;
+                },
+                getPageBlocksTree: async function(pageName) {
+                    return this.blocks;
+                },
+                insertBlock: async function(parentUuid, content, options) {
+                    const newBlock = { uuid: `mock-block-${Date.now()}`, content };
+                    this.blocks.push(newBlock);
+                    return newBlock;
+                },
+                createPage: async function(pageName, options, journalOptions) {
+                    return { uuid: `mock-page-${Date.now()}`, name: pageName };
+                },
+                getEditingCursorPosition: async function() {
+                    const textarea = document.getElementById('test-textarea');
+                    const rect = textarea.getBoundingClientRect();
+                    return {
+                        top: rect.top,
+                        left: rect.left,
+                        rect: { x: 0, y: 0, width: rect.width, height: rect.height }
+                    };
+                }
+            },
+            App: {
+                showMsg: function(message, type) {
+                    if (type === 'error') {
+                        alert(`错误: ${message}`);
+                    } else if (type === 'warning') {
+                        alert(`警告: ${message}`);
+                    } else {
+                        alert(message);
+                    }
+                },
+                registerCommandPalette: function(options, callback) {
+                    // 模拟注册命令
+                },
+                getUserConfigs: async function() {
+                    return { preferredFormat: 'markdown' };
+                }
+            },
+            provideModel: function(model) {
+                // 模拟提供模型
+            },
+            provideUI: function(options) {
+                // 模拟提供UI
+            },
+            provideStyle: function(style) {
+                // 模拟提供样式
+                const styleElement = document.createElement('style');
+                styleElement.textContent = style;
+                document.head.appendChild(styleElement);
+            },
+            ready: function(callback) {
+                // 模拟就绪
+                callback();
+                return Promise.resolve();
+            },
+            beforeunload: function(callback) {
+                // 模拟卸载前
+            },
+            settings: {
+                toolbar: true
+            }
+        };
+
+        // 全局变量
+        if (typeof logseq === 'undefined') {
+            window.logseq = mockLogseq;
+        }
+
+        // 显示/隐藏工具栏
+        const textarea = document.getElementById('test-textarea');
+        const toolbar = document.getElementById('toolbar');
+        
+        textarea.addEventListener('selectionchange', () => {
+            if (textarea.selectionStart !== textarea.selectionEnd) {
+                const rect = textarea.getBoundingClientRect();
+                
+                toolbar.style.top = `${rect.top - 40}px`;
+                toolbar.style.left = `${rect.left}px`;
+                toolbar.classList.add('visible');
+            } else {
+                toolbar.classList.remove('visible');
+            }
+        });
+
+        // 渲染工具栏
+        function renderToolbar() {
+            toolbar.innerHTML = `
+                <button title="加粗" onclick="applyFormat('bold')"><strong>B</strong></button>
+                <button title="斜体" onclick="applyFormat('italic')"><em>I</em></button>
+                <button title="删除线" onclick="applyFormat('strike')"><s>S</s></button>
+                <span style="margin: 0 5px; color: #ccc;">|</span>
+                <button title="红色高亮" onclick="applyHighlight('red')" style="background-color: #ffc7c7;"></button>
+                <button title="黄色高亮" onclick="applyHighlight('yellow')" style="background-color: #fff380;"></button>
+                <button title="蓝色高亮" onclick="applyHighlight('blue')" style="background-color: #abdfff;"></button>
+                <button title="绿色高亮" onclick="applyHighlight('green')" style="background-color: #ccffc1;"></button>
+                <button title="紫色高亮" onclick="applyHighlight('purple')" style="background-color: #e8ccff;"></button>
+                <span style="margin: 0 5px; color: #ccc;">|</span>
+                <button title="红色文本" onclick="applyTextColor('red')" style="color: #ff0000;">T</button>
+                <button title="黄色文本" onclick="applyTextColor('yellow')" style="color: #e6b800;">T</button>
+                <button title="蓝色文本" onclick="applyTextColor('blue')" style="color: #0066ff;">T</button>
+                <button title="绿色文本" onclick="applyTextColor('green')" style="color: #00cc00;">T</button>
+                <button title="紫色文本" onclick="applyTextColor('purple')" style="color: #9933cc;">T</button>
+                <span style="margin: 0 5px; color: #ccc;">|</span>
+                <button title="Cloze" onclick="applyCloze()">C</button>
+                <button title="标注" onclick="testAnnotation()">A</button>
+                <button title="页面评论" onclick="testComment('page')">P</button>
+                <button title="日记评论" onclick="testComment('journal')">J</button>
+            `;
+        }
+
+        // 应用文本格式化
+        function applyFormat(format) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selection = textarea.value.substring(start, end);
+            
+            if (!selection) {
+                alert('请先选择文本');
+                return;
+            }
+            
+            let result = textarea.value;
+            let formattedText = selection;
+            
+            switch (format) {
+                case 'bold':
+                    formattedText = `**${selection}**`;
+                    break;
+                case 'italic':
+                    formattedText = `*${selection}*`;
+                    break;
+                case 'strike':
+                    formattedText = `~~${selection}~~`;
+                    break;
+            }
+            
+            result = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.value = result;
+            
+            updateTestOutput(`文本格式化 - ${format}`, selection, formattedText);
+        }
+
+        // 应用背景高亮
+        function applyHighlight(color) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selection = textarea.value.substring(start, end);
+            
+            if (!selection) {
+                alert('请先选择文本');
+                return;
+            }
+            
+            const formattedText = `[:mark.${color} ${selection}]`;
+            const result = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.value = result;
+            
+            updateTestOutput(`背景高亮 - ${color}`, selection, formattedText);
+        }
+
+        // 应用文本颜色
+        function applyTextColor(color) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selection = textarea.value.substring(start, end);
+            
+            if (!selection) {
+                alert('请先选择文本');
+                return;
+            }
+            
+            const formattedText = `[:span.${color} ${selection}]`;
+            const result = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.value = result;
+            
+            updateTestOutput(`文本颜色 - ${color}`, selection, formattedText);
+        }
+
+        // 应用下划线高亮
+        function applyUnderline(color) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selection = textarea.value.substring(start, end);
+            
+            if (!selection) {
+                alert('请先选择文本');
+                return;
+            }
+            
+            const formattedText = `[:mark.${color}-underline ${selection}]`;
+            const result = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.value = result;
+            
+            updateTestOutput(`下划线高亮 - ${color}`, selection, formattedText);
+        }
+
+        // 应用Cloze
+        function applyCloze() {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selection = textarea.value.substring(start, end);
+            
+            if (!selection) {
+                alert('请先选择文本');
+                return;
+            }
+            
+            const formattedText = ` {{cloze ${selection}}}`;
+            const result = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.value = result;
+            
+            updateTestOutput('Cloze功能', selection, formattedText);
+        }
+
+        // 测试标注功能
+        async function testAnnotation() {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selection = textarea.value.substring(start, end);
+            
+            if (!selection) {
+                alert('请先选择文本');
+                return;
+            }
+            
+            // 模拟标注功能
+            try {
+                const currentPage = await logseq.Editor.getCurrentPage();
+                if (!currentPage) {
+                    alert('无法获取当前页面');
+                    return;
+                }
+
+                // 查找或创建 "## annotation" 块
+                let annotationBlock = null;
+                const blocks = await logseq.Editor.getPageBlocksTree(currentPage.name);
+                
+                for (const block of blocks) {
+                    if (block.content.trim() === "## annotation") {
+                        annotationBlock = block;
+                        break;
+                    }
+                }
+
+                if (!annotationBlock) {
+                    // 创建 "## annotation" 块
+                    annotationBlock = await logseq.Editor.insertBlock(
+                        currentPage.uuid,
+                        "## annotation",
+                        { before: false }
+                    );
+                }
+
+                // 在 annotation 块下创建子块，内容为选中的文本
+                const childBlock = await logseq.Editor.insertBlock(
+                    annotationBlock.uuid,
+                    selection.trim(),
+                    { before: false }
+                );
+
+                // 在子块下创建空白块并将光标定位到这里
+                const commentBlock = await logseq.Editor.insertBlock(
+                    childBlock.uuid,
+                    "",
+                    { before: false }
+                );
+
+                // 编辑新创建的空白块
+                await logseq.Editor.editBlock(commentBlock.uuid);
+
+                alert('标注功能已触发\n\n测试模式下的操作：\n1. 模拟在当前页面尾部添加 ## annotation 标题\n2. 将选中的文本作为子节点添加\n3. 在子节点下创建空白节点并定位光标');
+                
+                updateTestOutput('标注功能', selection, '已触发标注功能');
+            } catch (error) {
+                console.error('标注功能测试失败:', error);
+                alert('标注功能测试失败: ' + error.message);
+            }
+        }
+
+        // 测试评论功能
+        async function testComment(type) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selection = textarea.value.substring(start, end);
+            
+            if (!selection) {
+                alert('请先选择文本');
+                return;
+            }
+            
+            // 模拟评论功能
+            try {
+                const currentBlock = await logseq.Editor.getCurrentBlock();
+                if (!currentBlock) {
+                    alert('无法获取当前块');
+                    return;
+                }
+
+                // 确定目标页面
+                let targetPage;
+                if (type === "page") {
+                    // 使用当前页面
+                    targetPage = await logseq.Editor.getCurrentPage();
+                } else if (type === "journal") {
+                    // 使用当前日期的 journal 页面
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, "0");
+                    const day = String(today.getDate()).padStart(2, "0");
+                    const journalName = `${year}-${month}-${day}`;
+                    targetPage = await logseq.Editor.createPage(journalName, {}, { journal: true });
+                }
+
+                if (!targetPage) {
+                    alert('无法获取目标页面');
+                    return;
+                }
+
+                // 查找或创建 "## comment" 块
+                let commentBlock = null;
+                const blocks = await logseq.Editor.getPageBlocksTree(targetPage.name);
+                
+                for (const block of blocks) {
+                    if (block.content.trim() === "## comment") {
+                        commentBlock = block;
+                        break;
+                    }
+                }
+
+                if (!commentBlock) {
+                    // 创建 "## comment" 块
+                    commentBlock = await logseq.Editor.insertBlock(
+                        targetPage.uuid,
+                        "## comment",
+                        { before: false }
+                    );
+                }
+
+                // 获取当前块的引用
+                const blockRef = `(((${currentBlock.uuid}))`;
+                
+                // 在 comment 块下创建子块，内容为块引用
+                const refBlock = await logseq.Editor.insertBlock(
+                    commentBlock.uuid,
+                    blockRef,
+                    { before: false }
+                );
+
+                // 在子块下创建空白块并将光标定位到这里
+                const newCommentBlock = await logseq.Editor.insertBlock(
+                    refBlock.uuid,
+                    "",
+                    { before: false }
+                );
+
+                // 编辑新创建的空白块
+                await logseq.Editor.editBlock(newCommentBlock.uuid);
+
+                const commentType = type === 'page' ? '页面' : '日记';
+                alert(`${commentType}评论功能已触发\n\n测试模式下的操作：\n1. 在${commentType}页面创建 ## comment 标题\n2. 创建子节点，内容为选中节点的引用\n3. 在子节点下创建空白节点并定位光标`);
+                
+                updateTestOutput(`${commentType}评论功能`, selection, `已触发${commentType}评论功能`);
+            } catch (error) {
+                console.error('评论功能测试失败:', error);
+                alert('评论功能测试失败: ' + error.message);
+            }
+        }
+
+        // 更新测试结果
+        function updateTestOutput(feature, original, formatted) {
+            const output = document.getElementById('test-output');
+            output.textContent = `测试结果:\n功能: ${feature}\n原文本: ${original}\n处理后: ${formatted}`;
+        }
+
+        // 初始化
+        renderToolbar();
+        
+        // 预设示例文本
+        textarea.value = "这是一段示例文本，用于测试Logseq Text Toolkit插件的各种功能。\n\n我们可以测试以下功能：\n1. 文本格式化（加粗、斜体、删除线）\n2. 背景高亮\n3. 文本颜色\n4. 下划线高亮\n5. Cloze功能\n6. 标注功能\n7. 评论功能\n\n请选择上面的文本进行测试。";
+    </script>
+</body>
+</html>
