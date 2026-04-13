@@ -660,6 +660,29 @@ function onBlur(e) {
 
 // There is a large gap between 2 displays of the toolbar, so a large
 // ms number is acceptable.
+const throttle = (func, delay) => {
+  let inThrottle
+  return function() {
+    const args = arguments
+    const context = this
+    if (!inThrottle) {
+      func.apply(context, args)
+      inThrottle = true
+      setTimeout(() => inThrottle = false, delay)
+    }
+  }
+}
+
+const debounce = (func, delay) => {
+  let debounceTimer
+  return function() {
+    const args = arguments
+    const context = this
+    clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(() => func.apply(context, args), delay)
+  }
+}
+
 const hideToolbar = throttle(() => {
   if (toolbar.style.opacity !== "0") {
     toolbar.style.opacity = "0"
