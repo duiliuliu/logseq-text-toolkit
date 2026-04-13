@@ -32,15 +32,24 @@ jobs:
 
       - name: Build
         id: build
+        env:
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
         run: |
-          yarn
-          yarn build
+          # 使用 npm 代替 yarn 以避免镜像源问题
+          npm install
+          npm run build
           mkdir ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
           ls
           echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PLUGIN_NAME }}
+          path: ./${{ env.PLUGIN_NAME }}.zip
 
   release:
     needs: build
@@ -59,9 +68,12 @@ jobs:
 
       - name: Build
         id: build
+        env:
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
         run: |
-          yarn
-          yarn build
+          # 使用 npm 代替 yarn 以避免镜像源问题
+          npm install
+          npm run build
           mkdir ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}
