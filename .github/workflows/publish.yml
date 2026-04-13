@@ -33,11 +33,13 @@ jobs:
 
       - name: Build
         id: build
+        env:
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
+          YARN_REGISTRY: https://registry.npmjs.org/
         run: |
-          # 设置 yarn 镜像源为 npmjs
-          yarn config set registry https://registry.npmjs.org/
-          yarn
-          yarn build
+          # 使用 npm 代替 yarn 以避免镜像源问题
+          npm install
+          npm run build
           mkdir ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}
