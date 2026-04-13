@@ -34,6 +34,8 @@ jobs:
       - name: Build
         id: build
         run: |
+          # 设置 yarn 镜像源为 npmjs
+          yarn config set registry https://registry.npmjs.org/
           yarn
           yarn build
           mkdir ${{ env.PLUGIN_NAME }}
