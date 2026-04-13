@@ -89,4 +89,3 @@ jobs:
           files: ./${{ env.PLUGIN_NAME }}.zip
           draft: false
           prerelease: false
-          overwrite: true
