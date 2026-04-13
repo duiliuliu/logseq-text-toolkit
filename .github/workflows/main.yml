@@ -79,13 +79,24 @@ jobs:
           ls
           echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
+      - name: Create or Update Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          name: ${{ github.ref }}
-          files: ./${{ env.PLUGIN_NAME }}.zip
-          draft: false
-          prerelease: false
+        run: |
+          # 设置变量
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          RELEASE_NAME="$TAG_NAME"
+          ZIP_FILE="./${{ env.PLUGIN_NAME }}.zip"
+          
+          # 检查 release 是否存在
+          if gh release view "$TAG_NAME" > /dev/null 2>&1; then
+            echo "Release $TAG_NAME already exists, updating..."
+            # 删除已存在的 asset
+            gh release delete-asset "$TAG_NAME" "${{ env.PLUGIN_NAME }}.zip" || true
+            # 上传新的 asset
+            gh release upload "$TAG_NAME" "$ZIP_FILE"
+          else
+            echo "Creating new release $TAG_NAME..."
+            # 创建新的 release 并上传 asset
+            gh release create "$TAG_NAME" "$ZIP_FILE" --title "$RELEASE_NAME"
+          fi
