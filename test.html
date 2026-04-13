@@ -19,6 +19,91 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        .display-area {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 200px;
+            background-color: #f9f9f9;
+        }
+        .display-area h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .display-content {
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background-color: white;
+            min-height: 150px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+        }
+        .display-content strong {
+            font-weight: bold;
+        }
+        .display-content em {
+            font-style: italic;
+        }
+        .display-content s {
+            text-decoration: line-through;
+        }
+        .display-content .red {
+            background-color: #ffc7c7;
+        }
+        .display-content .yellow {
+            background-color: #fff380;
+        }
+        .display-content .blue {
+            background-color: #abdfff;
+        }
+        .display-content .green {
+            background-color: #ccffc1;
+        }
+        .display-content .purple {
+            background-color: #e8ccff;
+        }
+        .display-content .red-underline {
+            text-decoration: underline;
+            text-decoration-color: #ff0000;
+            text-decoration-thickness: 2px;
+        }
+        .display-content .yellow-underline {
+            text-decoration: underline;
+            text-decoration-color: #e6b800;
+            text-decoration-thickness: 2px;
+        }
+        .display-content .blue-underline {
+            text-decoration: underline;
+            text-decoration-color: #0066ff;
+            text-decoration-thickness: 2px;
+        }
+        .display-content .green-underline {
+            text-decoration: underline;
+            text-decoration-color: #00cc00;
+            text-decoration-thickness: 2px;
+        }
+        .display-content .purple-underline {
+            text-decoration: underline;
+            text-decoration-color: #9933cc;
+            text-decoration-thickness: 2px;
+        }
+        .test-areas {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .test-areas {
+                flex-direction: row;
+                gap: 20px;
+            }
+            .test-area,
+            .display-area {
+                flex: 1;
+            }
+        }
         h1 {
             color: #333;
             text-align: center;
@@ -150,10 +235,18 @@
             </ul>
         </div>
         
-        <div class="test-area">
-            <h3>测试文本区域</h3>
-            <textarea id="test-textarea" placeholder="在此输入文本并选择测试..."></textarea>
-            <div id="toolbar" class="toolbar"></div>
+        <div class="test-areas">
+            <div class="test-area">
+                <h3>编辑模式</h3>
+                <textarea id="test-textarea" placeholder="在此输入文本并选择测试..."></textarea>
+                <div id="toolbar" class="toolbar"></div>
+            </div>
+            <div class="display-area">
+                <h3>显示模式</h3>
+                <div id="display-content" class="display-content">
+                    失去焦点后，编辑的文本将在此处显示格式化效果...
+                </div>
+            </div>
         </div>
         
         <div class="feature-group">
@@ -620,11 +713,59 @@
             output.textContent = `测试结果:\n功能: ${feature}\n原文本: ${original}\n处理后: ${formatted}`;
         }
 
+        // 解析和转换文本为显示模式
+        function parseAndDisplayText(text) {
+            let displayText = text;
+            
+            // 处理Markdown格式
+            displayText = displayText
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // 加粗
+                .replace(/\*(.*?)\*/g, '<em>$1</em>') // 斜体
+                .replace(/~~(.*?)~~/g, '<s>$1</s>'); // 删除线
+            
+            // 处理Hiccup格式
+            // 背景高亮
+            displayText = displayText.replace(/\[:mark\.(\w+)\s+([^\]]+)\]/g, '<span class="$1">$2</span>');
+            // 文本颜色
+            displayText = displayText.replace(/\[:span\.(\w+)\s+([^\]]+)\]/g, '<span class="$1">$2</span>');
+            // 下划线高亮
+            displayText = displayText.replace(/\[:mark\.(\w+-underline)\s+([^\]]+)\]/g, '<span class="$1">$2</span>');
+            
+            // 处理Cloze
+            displayText = displayText.replace(/\{\{cloze\s+([^}]+)\}\}/g, '<span style="background-color: #e8f4f8; padding: 2px 4px; border-radius: 2px;">$1</span>');
+            
+            // 处理换行
+            displayText = displayText.replace(/\n/g, '<br>');
+            
+            return displayText;
+        }
+        
+        // 更新显示区域
+        function updateDisplayArea() {
+            const text = textarea.value;
+            const displayContent = document.getElementById('display-content');
+            displayContent.innerHTML = parseAndDisplayText(text);
+        }
+        
+        // 为textarea添加blur事件监听器
+        textarea.addEventListener('blur', updateDisplayArea);
+        
+        // 为所有功能按钮添加更新显示区域的功能
+        const featureButtons = document.querySelectorAll('.feature-button');
+        featureButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setTimeout(updateDisplayArea, 100); // 延迟执行，确保文本已更新
+            });
+        });
+        
         // 初始化
         renderToolbar();
         
         // 预设示例文本
         textarea.value = "这是一段示例文本，用于测试Logseq Text Toolkit插件的各种功能。\n\n我们可以测试以下功能：\n1. 文本格式化（加粗、斜体、删除线）\n2. 背景高亮\n3. 文本颜色\n4. 下划线高亮\n5. Cloze功能\n6. 标注功能\n7. 评论功能\n\n请选择上面的文本进行测试。";
+        
+        // 初始更新显示区域
+        updateDisplayArea();
     </script>
 </body>
 </html>
