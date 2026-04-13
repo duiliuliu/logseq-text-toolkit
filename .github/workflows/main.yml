@@ -8,6 +8,8 @@ env:
 # Controls when the workflow will run
 on:
   push:
+    branches:
+      - master
     tags:
       - "*" # Push events to matching any tag format, i.e. 1.0, 20.15.10
 
@@ -16,9 +18,36 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  release:
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+
+      - name: Build
+        id: build
+        run: |
+          yarn
+          yarn build
+          mkdir ${{ env.PLUGIN_NAME }}
+          cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
+          mv dist ${{ env.PLUGIN_NAME }}
+          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
+          ls
+          echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
+
+  release:
+    needs: build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Only run on tag pushes
+    if: startsWith(github.ref, 'refs/tags/')
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
