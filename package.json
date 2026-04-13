@@ -7,23 +7,18 @@
     "icon": "./icon.png"
   },
   "scripts": {
-    "build": "rollup -c",
-    "clean": "rm -rf dist",
-    "dev": "rollup -c -w",
-    "serve": "npx http-server . -p 3000 -o"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "dev:serve": "concurrently \"npm run dev\" \"npx http-server . -p 3000 -o\""
   },
   "dependencies": {
     "@logseq/libs": "^0.0.15",
-    "logseq-l10n": "^0.2.0",
-    "preact": "^10.6.4",
-    "rambdax": "^8.0.0"
+    "preact": "^10.11.0"
   },
   "devDependencies": {
-    "@rollup/plugin-html": "^0.2.4",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@swc/core": "^1.2.187",
-    "rollup": "^2.74.1",
-    "rollup-plugin-swc3": "^0.3.0"
+    "@vitejs/plugin-react": "^3.0.0",
+    "concurrently": "^7.6.0",
+    "vite": "^3.2.4"
   }
 }

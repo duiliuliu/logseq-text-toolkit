@@ -1,9 +1,8 @@
+import React from 'react'
+import { createRoot } from 'react-dom/client'
 import "@logseq/libs"
-import { setup, t } from "logseq-l10n"
 import { render } from "preact"
-import { debounce, throttle } from "rambdax"
 import Toolbar from "./Toolbar.jsx"
-import zhCN from "./translations/zh-CN.json"
 
 const TOOLBAR_ID = "kef-wrap-toolbar"
 let toolbar
@@ -13,8 +12,6 @@ async function main() {
   // Reset values.
   toolbar = null
   textarea = null
-
-  await setup({ builtinTranslations: { "zh-CN": zhCN } })
 
   const definitions = await getDefinitions()
 
@@ -43,14 +40,14 @@ async function main() {
       logseq.App.registerCommandPalette(
         {
           key: "toggle-toolbar",
-          label: t("Toggle toolbar display"),
+          label: "Toggle toolbar display",
           keybinding: { binding: logseq.settings?.toolbarShortcut },
         },
         toggleToolbarDisplay,
       )
     } else {
       logseq.App.registerCommandPalette(
-        { key: "toggle-toolbar", label: t("Toggle toolbar display") },
+        { key: "toggle-toolbar", label: "Toggle toolbar display" },
         toggleToolbarDisplay,
       )
     }
