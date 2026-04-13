@@ -21,5 +21,7 @@
   "Hidden text": "隐藏文字",
   "Remove formatting": "去除格式化",
   "This command can only be used when editing text": "该命令仅在编辑文字时可使用",
-  "Toggle toolbar display": "切换工具条显示"
+  "Toggle toolbar display": "切换工具条显示",
+  "Sponsor": "赞赏",
+  "Hide sponsor bar": "隐藏赞赏栏"
 }

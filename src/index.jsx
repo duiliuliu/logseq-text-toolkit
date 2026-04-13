@@ -4,9 +4,12 @@ import { render } from "preact"
 import { debounce, throttle } from "rambdax"
 import Toolbar from "./Toolbar.jsx"
 import zhCN from "./translations/zh-CN.json"
+import ja from "./translations/ja.json"
 
 const TOOLBAR_ID = "kef-wrap-toolbar"
+const SPONSOR_BAR_ID = "kef-wrap-sponsor-bar"
 let toolbar
+let sponsorBar
 let textarea
 
 // 检测是否在测试模式
@@ -17,7 +20,7 @@ async function main() {
   toolbar = null
   textarea = null
 
-  await setup({ builtinTranslations: { "zh-CN": zhCN } })
+  await setup({ builtinTranslations: { "zh-CN": zhCN, "ja": ja } })
 
   const definitions = await getDefinitions()
 
@@ -43,6 +46,15 @@ async function main() {
         template: `<div id="${TOOLBAR_ID}"></div>`,
       })
 
+      // 提供赞赏栏UI
+      if (logseq.settings?.sponsorBar ?? true) {
+        logseq.provideUI({
+          key: SPONSOR_BAR_ID,
+          path: "#app-container",
+          template: `<div id="${SPONSOR_BAR_ID}"><iframe src="https://duiliuliu.github.io/sponsor-page/" scrolling="no" frameborder="0"></iframe></div>`,
+        })
+      }
+
       if (logseq.settings?.toolbarShortcut) {
         logseq.App.registerCommandPalette(
           {
@@ -63,6 +75,11 @@ async function main() {
       setTimeout(async () => {
         toolbar = parent.document.getElementById(TOOLBAR_ID)
         render(<Toolbar items={definitions} model={model} />, toolbar)
+
+        // 获取赞赏栏元素
+        if (logseq.settings?.sponsorBar ?? true) {
+          sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
+        }
 
         toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
         parent.document.addEventListener("focusout", onBlur)
@@ -169,6 +186,37 @@ function provideStyles() {
       vertical-align: initial;
     }
     .kef-wrap-hidden #kef-wrap-toolbar {
+      display: none;
+    }
+
+    /* 赞赏栏样式 */
+    #kef-wrap-sponsor-bar {
+      position: absolute;
+      top: 40px;
+      left: -99999px;
+      z-index: var(--ls-z-index-level-2);
+      opacity: 0;
+      will-change: opacity;
+      transition: opacity 100ms ease-in-out;
+      background: var(--kef-wrap-tb-bg);
+      border-radius: 6px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 30px;
+      padding: 0 10px;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    #kef-wrap-sponsor-bar iframe {
+      width: 100%;
+      height: 20px;
+      border: none;
+      overflow: hidden;
+    }
+
+    .kef-wrap-hidden #kef-wrap-sponsor-bar {
       display: none;
     }
 
@@ -663,18 +711,33 @@ function deletionWorkaroundHandler(e) {
 async function positionToolbar() {
   const curPos = await logseq.Editor.getEditingCursorPosition()
   if (curPos != null) {
-    toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
+    // 计算位置和宽度
+    let leftPosition
+    let width = toolbar.clientWidth
+    
     if (
-      curPos.left + curPos.rect.x + toolbar.clientWidth <=
+      curPos.left + curPos.rect.x + width <=
       parent.window.innerWidth
     ) {
-      toolbar.style.left = `${curPos.left + curPos.rect.x}px`
+      leftPosition = `${curPos.left + curPos.rect.x}px`
     } else {
-      toolbar.style.left = `${
-        -toolbar.clientWidth + parent.window.innerWidth
-      }px`
+      width = parent.window.innerWidth - (curPos.left + curPos.rect.x)
+      leftPosition = `${curPos.left + curPos.rect.x}px`
     }
+    
+    // 设置工具栏位置和宽度
+    toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
+    toolbar.style.left = leftPosition
+    toolbar.style.width = `${width}px`
     toolbar.style.opacity = "1"
+    
+    // 设置赞赏栏位置和宽度
+    if (sponsorBar) {
+      sponsorBar.style.top = `${curPos.top + curPos.rect.y - 5}px`
+      sponsorBar.style.left = leftPosition
+      sponsorBar.style.width = `${width}px`
+      sponsorBar.style.opacity = "1"
+    }
   }
 }
 
@@ -682,6 +745,11 @@ function onToolbarTransitionEnd(e) {
   if (toolbar.style.opacity === "0") {
     toolbar.style.top = "0"
     toolbar.style.left = "-99999px"
+    // 同时隐藏赞赏栏
+    if (sponsorBar) {
+      sponsorBar.style.top = "0"
+      sponsorBar.style.left = "-99999px"
+    }
   }
 }
 
@@ -689,6 +757,10 @@ function onBlur(e) {
   // Update toolbar visibility upon activeElement change.
   if (document.activeElement !== textarea && toolbar?.style.opacity !== "0") {
     toolbar.style.opacity = "0"
+    // 同时隐藏赞赏栏
+    if (sponsorBar) {
+      sponsorBar.style.opacity = "0"
+    }
   }
 }
 
@@ -697,6 +769,10 @@ function onBlur(e) {
 const hideToolbar = throttle(() => {
   if (toolbar.style.opacity !== "0") {
     toolbar.style.opacity = "0"
+    // 同时隐藏赞赏栏
+    if (sponsorBar) {
+      sponsorBar.style.opacity = "0"
+    }
   }
 }, 1000)
 
