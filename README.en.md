@@ -297,4 +297,4 @@ Due to technical reason, nested formatting is not cleared completely, you can tr
 
 If you think the software I have developed is helpful to you and would like to give recognition and support, you may buy me a coffee using following link. Thank you for your support and attention.
 
-<a href="https://www.buymeacoffee.com/sethyuan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href='https://ko-fi.com/E1E81XKC5D' target='_blank' style='text-decoration: none;'><img src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' height='32' alt='Support me on Ko-fi' style='border: none; vertical-align: middle;' /></a>
