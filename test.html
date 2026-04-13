@@ -473,6 +473,19 @@
         function renderToolbar() {
             toolbar.innerHTML = `
                 <div class="dropdown-container">
+                    <button title="标注和评论">
+                        <span>💬</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button title="标注" onclick="testAnnotation()">标注</button>
+                        <button title="页面评论" onclick="testComment('page')">页面评论</button>
+                        <button title="日记评论" onclick="testComment('journal')">日记评论</button>
+                    </div>
+                </div>
+                
+                <span style="margin: 0 5px; color: #ccc;">|</span>
+                
+                <div class="dropdown-container">
                     <button title="文本格式化">
                         <span style="font-weight: bold;">Aa</span>
                     </button>
@@ -482,8 +495,6 @@
                         <button title="删除线" onclick="applyFormat('strike')"><s>S</s> 删除线</button>
                     </div>
                 </div>
-                
-                <span style="margin: 0 5px; color: #ccc;">|</span>
                 
                 <div class="dropdown-container">
                     <button title="背景高亮">
@@ -526,17 +537,6 @@
                 
                 <span style="margin: 0 5px; color: #ccc;">|</span>
                 <button title="Cloze" onclick="applyCloze()">C</button>
-                
-                <div class="dropdown-container">
-                    <button title="标注和评论">
-                        <span>💬</span>
-                    </button>
-                    <div class="dropdown-menu">
-                        <button title="标注" onclick="testAnnotation()">标注</button>
-                        <button title="页面评论" onclick="testComment('page')">页面评论</button>
-                        <button title="日记评论" onclick="testComment('journal')">日记评论</button>
-                    </div>
-                </div>
             `;
         }
 
