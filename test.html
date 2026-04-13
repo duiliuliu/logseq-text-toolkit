@@ -159,6 +159,34 @@
             width: 18px;
             height: 18px;
         }
+        .dropdown-container {
+            position: relative;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #333e;
+            border-radius: 4px;
+            padding: 5px 0;
+            margin-top: 5px;
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+        }
+        .dropdown-container:hover .dropdown-menu {
+            display: flex;
+        }
+        .dropdown-menu button {
+            width: auto;
+            height: 30px;
+            padding: 0 10px;
+            margin: 2px 5px;
+            justify-content: flex-start;
+        }
+        .dropdown-menu button:hover {
+            background: rgba(255,255,255,0.2);
+        }
         .test-results {
             margin-top: 30px;
             padding: 15px;
@@ -414,9 +442,27 @@
         textarea.addEventListener('selectionchange', () => {
             if (textarea.selectionStart !== textarea.selectionEnd) {
                 const rect = textarea.getBoundingClientRect();
+                const textareaTop = rect.top;
+                const textareaLeft = rect.left;
                 
-                toolbar.style.top = `${rect.top - 40}px`;
-                toolbar.style.left = `${rect.left}px`;
+                // 尝试获取选中文字的位置
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const range = selection.getRangeAt(0);
+                    const rangeRect = range.getBoundingClientRect();
+                    
+                    // 计算工具栏位置：在选中文字上方
+                    const toolbarTop = rangeRect.top - 40;
+                    const toolbarLeft = rangeRect.left;
+                    
+                    toolbar.style.top = `${toolbarTop}px`;
+                    toolbar.style.left = `${toolbarLeft}px`;
+                } else {
+                    //  fallback: 在textarea上方
+                    toolbar.style.top = `${textareaTop - 40}px`;
+                    toolbar.style.left = `${textareaLeft}px`;
+                }
+                
                 toolbar.classList.add('visible');
             } else {
                 toolbar.classList.remove('visible');
@@ -430,17 +476,46 @@
                 <button title="斜体" onclick="applyFormat('italic')"><em>I</em></button>
                 <button title="删除线" onclick="applyFormat('strike')"><s>S</s></button>
                 <span style="margin: 0 5px; color: #ccc;">|</span>
-                <button title="红色高亮" onclick="applyHighlight('red')" style="background-color: #ffc7c7;"></button>
-                <button title="黄色高亮" onclick="applyHighlight('yellow')" style="background-color: #fff380;"></button>
-                <button title="蓝色高亮" onclick="applyHighlight('blue')" style="background-color: #abdfff;"></button>
-                <button title="绿色高亮" onclick="applyHighlight('green')" style="background-color: #ccffc1;"></button>
-                <button title="紫色高亮" onclick="applyHighlight('purple')" style="background-color: #e8ccff;"></button>
-                <span style="margin: 0 5px; color: #ccc;">|</span>
-                <button title="红色文本" onclick="applyTextColor('red')" style="color: #ff0000;">T</button>
-                <button title="黄色文本" onclick="applyTextColor('yellow')" style="color: #e6b800;">T</button>
-                <button title="蓝色文本" onclick="applyTextColor('blue')" style="color: #0066ff;">T</button>
-                <button title="绿色文本" onclick="applyTextColor('green')" style="color: #00cc00;">T</button>
-                <button title="紫色文本" onclick="applyTextColor('purple')" style="color: #9933cc;">T</button>
+                
+                <div class="dropdown-container">
+                    <button title="背景高亮">
+                        <span style="width: 16px; height: 16px; display: inline-block; background: linear-gradient(45deg, #ffc7c7, #fff380, #abdfff, #ccffc1, #e8ccff); border-radius: 2px;"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button title="红色高亮" onclick="applyHighlight('red')" style="background-color: #ffc7c7;">红色</button>
+                        <button title="黄色高亮" onclick="applyHighlight('yellow')" style="background-color: #fff380;">黄色</button>
+                        <button title="蓝色高亮" onclick="applyHighlight('blue')" style="background-color: #abdfff;">蓝色</button>
+                        <button title="绿色高亮" onclick="applyHighlight('green')" style="background-color: #ccffc1;">绿色</button>
+                        <button title="紫色高亮" onclick="applyHighlight('purple')" style="background-color: #e8ccff;">紫色</button>
+                    </div>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button title="文本颜色">
+                        <span style="font-weight: bold; color: #ff0000;">T</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button title="红色文本" onclick="applyTextColor('red')" style="color: #ff0000;">红色</button>
+                        <button title="黄色文本" onclick="applyTextColor('yellow')" style="color: #e6b800;">黄色</button>
+                        <button title="蓝色文本" onclick="applyTextColor('blue')" style="color: #0066ff;">蓝色</button>
+                        <button title="绿色文本" onclick="applyTextColor('green')" style="color: #00cc00;">绿色</button>
+                        <button title="紫色文本" onclick="applyTextColor('purple')" style="color: #9933cc;">紫色</button>
+                    </div>
+                </div>
+                
+                <div class="dropdown-container">
+                    <button title="下划线高亮">
+                        <span style="text-decoration: underline; text-decoration-color: #ff0000; text-decoration-thickness: 2px;">U</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button title="红色下划线" onclick="applyUnderline('red')" style="color: #ff0000; text-decoration: underline;">红色</button>
+                        <button title="黄色下划线" onclick="applyUnderline('yellow')" style="color: #e6b800; text-decoration: underline;">黄色</button>
+                        <button title="蓝色下划线" onclick="applyUnderline('blue')" style="color: #0066ff; text-decoration: underline;">蓝色</button>
+                        <button title="绿色下划线" onclick="applyUnderline('green')" style="color: #00cc00; text-decoration: underline;">绿色</button>
+                        <button title="紫色下划线" onclick="applyUnderline('purple')" style="color: #9933cc; text-decoration: underline;">紫色</button>
+                    </div>
+                </div>
+                
                 <span style="margin: 0 5px; color: #ccc;">|</span>
                 <button title="Cloze" onclick="applyCloze()">C</button>
                 <button title="标注" onclick="testAnnotation()">A</button>
