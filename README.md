@@ -1,10 +1,10 @@
 
 ---
-logseq-plugin-wrap
+logseq-text-toolkit
 
 中文 | [English](sslocal://flow/file_open?url=README.en.md&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)
 
-为 Logseq 提供自定义文本包裹、替换、格式化与快捷键功能，内置一套开箱即用的常用格式规则，支持高度自定义扩展。
+Logseq 文本工具包插件，为 Logseq 提供自定义文本包裹、替换、格式化与快捷键功能，内置一套开箱即用的常用格式规则，支持高度自定义扩展。
 
 效果演示
 

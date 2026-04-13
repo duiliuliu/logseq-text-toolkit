@@ -1,9 +1,9 @@
 {
-  "name": "logseq-plugin-wrap",
+  "name": "logseq-text-toolkit",
   "version": "0.10.2",
   "main": "dist/index.html",
   "logseq": {
-    "id": "_sethyuan-logseq-wrap",
+    "id": "_sethyuan-logseq-text-toolkit",
     "icon": "./icon.png"
   },
   "scripts": {

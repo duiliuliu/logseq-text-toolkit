@@ -3,7 +3,7 @@
 name: Release
 
 env:
-  PLUGIN_NAME: logseq-plugin-wrap
+  PLUGIN_NAME: logseq-text-toolkit
 
 # Controls when the workflow will run
 on:
