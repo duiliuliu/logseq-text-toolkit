@@ -8,7 +8,9 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "dev": "rollup -c -w",
+    "serve": "npx http-server . -p 3000 -o"
   },
   "dependencies": {
     "@logseq/libs": "^0.0.15",

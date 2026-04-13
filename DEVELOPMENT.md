@@ -92,6 +92,27 @@
 npm run build
 ```
 
+### 热更新开发
+
+1. **启动热更新构建**：
+   ```bash
+   npm run dev
+   ```
+
+2. **启动本地服务**：
+   ```bash
+   npm run serve
+   ```
+
+3. **Logseq插件安装**：
+   - 在Logseq开发者模式中，通过weburl加载插件
+   - 输入本地服务地址，例如：`http://localhost:3000`
+   - 这样可以实时查看代码修改的效果
+
+### 参考项目
+
+参考了 [logseq-plugin-template-react](https://github.com/pengx17/logseq-plugin-template-react) 项目的热更新配置方式。
+
 ### 部署流程
 
 1. 提交代码到GitHub master分支
