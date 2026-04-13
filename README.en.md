@@ -1,6 +1,6 @@
 [中文](README.md) | English
 
-# logseq-plugin-wrap
+# logseq-text-toolkit
 
 Create your own wrappings/replacements with optional key bindings for selected text. A set of useful defaults is also provided.
 

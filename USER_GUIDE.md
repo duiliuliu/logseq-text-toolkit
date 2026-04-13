@@ -1,9 +1,9 @@
 
-# Logseq Wrap 插件用户操作文档
+# Logseq Text Toolkit 插件用户操作文档
 
 ## 概述
 
-`logseq-plugin-wrap` 是一个为 Logseq 提供自定义文本包裹、替换、格式化与快捷键功能的插件。本文档将详细介绍如何安装、配置和使用该插件。
+`logseq-text-toolkit` 是一个为 Logseq 提供自定义文本包裹、替换、格式化与快捷键功能的插件。本文档将详细介绍如何安装、配置和使用该插件。
 
 ---
 
@@ -22,7 +22,7 @@
 ### 方式一：通过 Logseq 插件市场安装（推荐）
 1. 打开 Logseq
 2. 点击右上角菜单 → **插件**
-3. 在插件市场中搜索 `logseq-plugin-wrap`
+3. 在插件市场中搜索 `logseq-text-toolkit`
 4. 点击 **安装**
 5. 安装完成后，插件会自动启用
 
@@ -49,7 +49,7 @@
 
 ### 3.1 打开插件配置
 1. 在 Logseq 中，点击右上角菜单 → **插件**
-2. 找到 `logseq-plugin-wrap`，点击右侧的 **设置** 按钮
+2. 找到 `logseq-text-toolkit`，点击右侧的 **设置** 按钮
 3. 在打开的配置界面中，您可以编辑和自定义插件的行为
 
 ### 3.2 主要配置项说明
@@ -200,7 +200,7 @@ Logseq 支持通过 URL（web URL）加载插件，这种方式适用于：
    ↓
 2. 进入插件市场
    ↓
-3. 搜索并安装 logseq-plugin-wrap
+3. 搜索并安装 logseq-text-toolkit
    ↓
 4. 插件自动启用
    ↓
@@ -215,7 +215,7 @@ Logseq 支持通过 URL（web URL）加载插件，这种方式适用于：
    ↓
 2. 进入插件设置
    ↓
-3. 找到 logseq-plugin-wrap 并点击设置
+3. 找到 logseq-text-toolkit 并点击设置
    ↓
 4. 修改配置项（如添加新的包裹命令、设置快捷键等）
    ↓
