@@ -12,5 +12,14 @@ export default defineConfig({
     assetsDir: '',
     emptyOutDir: true,
     sourcemap: true
+  },
+  optimizeDeps: {
+    include: ['preact']
+  },
+  resolve: {
+    alias: {
+      'react': 'preact/compat',
+      'react-dom': 'preact/compat'
+    }
   }
 })

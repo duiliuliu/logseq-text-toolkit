@@ -7,8 +7,8 @@
     "icon": "./icon.png"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "npx http-server dist -p 3000",
+    "build": "rollup -c",
     "clean": "rm -rf dist"
   },
   "dependencies": {
