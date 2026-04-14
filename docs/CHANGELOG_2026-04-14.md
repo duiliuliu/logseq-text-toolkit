@@ -9,6 +9,26 @@
 
 ---
 
+## [0.10.5] - 2026-04-14
+
+### 新增
+- 完成代码模块化重构：
+  - 新增 annotation.js 模块，处理注解和评论功能
+  - 完善所有工具模块的功能
+  - 重构 index.jsx 为纯初始化和协调文件
+- 更新插件图标，使用现代化设计的新图标
+
+### 改进
+- 优化代码结构，提高可维护性
+- 改进模块化设计，逻辑更加内聚
+- 确保所有功能正常工作
+
+### 修复
+- 确保所有模块正确集成
+- 验证项目构建成功
+
+---
+
 ## [0.10.4] - 2026-04-14
 
 ### 新增
@@ -78,6 +98,7 @@
 
 ---
 
+[0.10.5]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.5
 [0.10.4]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.4
 [0.10.3]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.3
 [0.10.2]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.2
