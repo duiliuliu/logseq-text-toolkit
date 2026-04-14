@@ -1,5 +1,5 @@
 import React from 'react';
-import ToolbarItem from '../ToolbarItem';
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 import { getToolbarPosition, getCurrentTheme } from '../../utils/state';
 import '../../styles/toolbar.css';
 
@@ -26,24 +26,21 @@ const Toolbar = ({ items, onItemClick }) => {
         color: '#333333'
       }}
     >
-      {items.map((item, index) => (
-        <ToolbarItem
-          key={index}
-          icon={item.icon}
-          label={item.label}
-          onClick={() => onItemClick(item.id)}
-          isGroup={item.isGroup}
-        >
-          {item.children && item.children.map((child, childIndex) => (
-            <ToolbarItem
-              key={childIndex}
-              icon={child.icon}
-              label={child.label}
-              onClick={() => onItemClick(child.id)}
-            />
-          ))}
-        </ToolbarItem>
-      ))}
+      <ToggleGroup type="multiple" className="flex gap-1">
+        {items.map((item, index) => (
+          <ToggleGroupItem
+            key={index}
+            value={item.id}
+            onClick={() => onItemClick(item.id)}
+            className="px-3 py-1 rounded-md hover:bg-gray-100"
+          >
+            <div className="flex items-center gap-1">
+              {item.icon && <span className="font-bold">{item.icon}</span>}
+              {item.label && <span>{item.label}</span>}
+            </div>
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
     </div>
   );
 };
