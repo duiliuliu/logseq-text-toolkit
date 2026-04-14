@@ -38,7 +38,14 @@ async function main() {
   }
   logseq.provideModel(model)
 
-  if (logseq.settings?.toolbar ?? true) {
+  // 获取设置，使用默认值确保兼容性
+  const settings = {
+    toolbar: logseq.settings?.toolbar ?? true,
+    sponsorBar: logseq.settings?.sponsorBar ?? true,
+    toolbarShortcut: logseq.settings?.toolbarShortcut ?? ""
+  }
+
+  if (settings.toolbar) {
     if (!isTestMode) {
       logseq.provideUI({
         key: TOOLBAR_ID,
@@ -47,7 +54,7 @@ async function main() {
       })
 
       // 提供赞赏栏UI
-      if (logseq.settings?.sponsorBar ?? true) {
+      if (settings.sponsorBar) {
         logseq.provideUI({
           key: SPONSOR_BAR_ID,
           path: "#app-container",
@@ -55,12 +62,12 @@ async function main() {
         })
       }
 
-      if (logseq.settings?.toolbarShortcut) {
+      if (settings.toolbarShortcut) {
         logseq.App.registerCommandPalette(
           {
             key: "toggle-toolbar",
             label: t("Toggle toolbar display"),
-            keybinding: { binding: logseq.settings?.toolbarShortcut },
+            keybinding: { binding: settings.toolbarShortcut },
           },
           toggleToolbarDisplay,
         )
@@ -77,7 +84,7 @@ async function main() {
         render(<Toolbar items={definitions} model={model} />, toolbar)
 
         // 获取赞赏栏元素
-        if (logseq.settings?.sponsorBar ?? true) {
+        if (settings.sponsorBar) {
           sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
         }
 
