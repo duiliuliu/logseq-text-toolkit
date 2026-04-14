@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from '../src/App.jsx'
-import '../src/index.css'
-import '../src/main.css'
+import App from '../App.jsx'
+import '../index.css'
+import '../main.css'
 
 // 导入mock logseq
-import './mock/mock.js'
+import './mock.js'
 
 // 初始化应用
 const initializeApp = async () => {

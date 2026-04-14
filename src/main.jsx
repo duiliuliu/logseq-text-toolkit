@@ -1,48 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
 import './main.css'
 
-// 初始化 Logseq 插件
-const initLogseqPlugin = async () => {
-  try {
-    await logseq.ready()
-    console.log('Logseq plugin ready')
-    
-    // Register plugin commands
-    logseq.App.registerCommand({
-      id: 'toggle-toolbar',
-      label: 'Toggle Text Toolkit',
-      key: 't',
-      keyModifiers: ['ctrl'],
-      handler: () => {
-        console.log('Toggle toolbar')
-      }
-    })
-    
-    // Add event listeners
-    logseq.App.on('selectionChange', (e) => {
-      console.log('Selection changed:', e)
-    })
-    
-    return true
-  } catch (error) {
-    console.error('Failed to initialize plugin:', error)
-    return false
-  }
+// 根据启动模式加载不同的应用
+let AppComponent
+if (import.meta.env.MODE === 'test') {
+  // 测试模式下加载testAPP
+  import('./test/testAPP.jsx').then((module) => {
+    // testAPP.jsx已经包含了完整的初始化逻辑
+  })
+} else {
+  // 正常模式下加载App
+  import('./App.jsx').then((module) => {
+    AppComponent = module.default
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <React.StrictMode>
+        <AppComponent />
+      </React.StrictMode>,
+    )
+  })
 }
-
-// 初始化插件并渲染应用
-const initializeApp = async () => {
-  await initLogseqPlugin()
-  
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  )
-}
-
-// 启动应用
-initializeApp()
