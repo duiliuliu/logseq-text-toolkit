@@ -4,12 +4,11 @@ import './toolbar.css'
 function Toolbar({ items }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [expandedGroup, setExpandedGroup] = useState(null)
+  const [mouseOverGroup, setMouseOverGroup] = useState(null)
 
   const parseItems = (data) => {
     const result = []
     for (const [key, value] of Object.entries(data)) {
-      if (key === 'disabled' || key === 'toolbar') continue
-      
       if (value && typeof value === 'object' && !value.label) {
         const groupItems = []
         for (const [groupKey, groupValue] of Object.entries(value)) {
@@ -48,40 +47,44 @@ function Toolbar({ items }) {
         {mainItems.map((item, index) => (
           item.isGroup ? (
             <div 
-              key={item.id} 
-              className="toolbar-main-item toolbar-group"
-              onMouseEnter={() => {
-                setHoveredItem(item)
-                setExpandedGroup(item.id)
-              }}
-              onMouseLeave={() => {
-                setHoveredItem(null)
-                setExpandedGroup(null)
-              }}
-            >
-              <div className="toolbar-item-icon">📂</div>
-              {expandedGroup === item.id && (
-                <div className="toolbar-group-dropdown">
-                  {item.items.map((subItem, subIndex) => (
-                    <div 
-                      key={subItem.id}
-                      className="toolbar-group-item"
-                      onMouseEnter={() => setHoveredItem(subItem)}
-                      onMouseLeave={() => setHoveredItem(item)}
+                      key={item.id} 
+                      className="toolbar-main-item toolbar-group"
+                      onMouseEnter={() => {
+                        setHoveredItem(item)
+                        setMouseOverGroup(item.id)
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredItem(null)
+                        setMouseOverGroup(null)
+                      }}
                     >
-                      <div className="toolbar-item-icon">
-                        {subItem.icon ? (
-                          <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
-                        ) : (
-                          '📝'
-                        )}
-                      </div>
-                      <div className="toolbar-item-label">{subItem.label}</div>
+                      <div className="toolbar-item-icon">📂</div>
+                      {mouseOverGroup === item.id && (
+                        <div 
+                          className="toolbar-group-dropdown"
+                          onMouseEnter={() => setMouseOverGroup(item.id)}
+                          onMouseLeave={() => setMouseOverGroup(null)}
+                        >
+                          {item.items.map((subItem, subIndex) => (
+                            <div 
+                              key={subItem.id}
+                              className="toolbar-group-item"
+                              onMouseEnter={() => setHoveredItem(subItem)}
+                              onMouseLeave={() => setHoveredItem(item)}
+                            >
+                              <div className="toolbar-item-icon">
+                                {subItem.icon ? (
+                                  <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
+                                ) : (
+                                  '📝'
+                                )}
+                              </div>
+                              <div className="toolbar-item-label">{subItem.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
           ) : (
             <div 
               key={item.id} 
@@ -112,40 +115,44 @@ function Toolbar({ items }) {
         {toolbarItems.map((item, index) => (
           item.isGroup ? (
             <div 
-              key={item.id} 
-              className="toolbar-expanded-item toolbar-group"
-              onMouseEnter={() => {
-                setHoveredItem(item)
-                setExpandedGroup(item.id)
-              }}
-              onMouseLeave={() => {
-                setHoveredItem(null)
-                setExpandedGroup(null)
-              }}
-            >
-              <div className="toolbar-item-icon">📂</div>
-              {expandedGroup === item.id && (
-                <div className="toolbar-group-dropdown">
-                  {item.items.map((subItem, subIndex) => (
+                  key={item.id} 
+                  className="toolbar-expanded-item toolbar-group"
+                  onMouseEnter={() => {
+                    setHoveredItem(item)
+                    setMouseOverGroup(item.id)
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredItem(null)
+                    setMouseOverGroup(null)
+                  }}
+                >
+                  <div className="toolbar-item-icon">📂</div>
+                  {mouseOverGroup === item.id && (
                     <div 
-                      key={subItem.id}
-                      className="toolbar-group-item"
-                      onMouseEnter={() => setHoveredItem(subItem)}
-                      onMouseLeave={() => setHoveredItem(item)}
+                      className="toolbar-group-dropdown"
+                      onMouseEnter={() => setMouseOverGroup(item.id)}
+                      onMouseLeave={() => setMouseOverGroup(null)}
                     >
-                      <div className="toolbar-item-icon">
-                        {subItem.icon ? (
-                          <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
-                        ) : (
-                          '📝'
-                        )}
-                      </div>
-                      <div className="toolbar-item-label">{subItem.label}</div>
+                      {item.items.map((subItem, subIndex) => (
+                        <div 
+                          key={subItem.id}
+                          className="toolbar-group-item"
+                          onMouseEnter={() => setHoveredItem(subItem)}
+                          onMouseLeave={() => setHoveredItem(item)}
+                        >
+                          <div className="toolbar-item-icon">
+                            {subItem.icon ? (
+                              <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
+                            ) : (
+                              '📝'
+                            )}
+                          </div>
+                          <div className="toolbar-item-label">{subItem.label}</div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
-              )}
-            </div>
           ) : (
             <div 
               key={item.id} 
