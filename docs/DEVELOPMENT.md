@@ -277,6 +277,29 @@ npm run test
 - 业务逻辑应拆分到独立模块中
 - 每个模块应有单一职责，便于维护和测试
 
+### 7.3 CSS 样式规范
+
+#### 7.3.1 样式文件结构
+- 全局样式：`src/main.css` - 包含主题变量和基础样式
+- 组件样式：`src/styles/` 目录下按组件分类
+- 主题样式：`src/styles/themes/` 目录下包含 light 和 dark 主题
+
+#### 7.3.2 主题变量
+- 使用 CSS 变量定义主题颜色和样式
+- 支持从 Logseq 获取主题设置
+- 支持手动切换主题（light/dark/system）
+
+#### 7.3.3 样式覆盖
+- 可以通过配置覆盖默认样式
+- 参考 `https://github.com/duiliuliu/logseq-plugin-files-manager/blob/main/src/main.css` 的实现方式
+- 使用 `--ls-primary-background-color-plugin` 等变量确保与 Logseq 主题一致
+
+#### 7.3.4 最佳实践
+- 使用 CSS 变量提高可维护性
+- 避免硬编码颜色值
+- 确保样式在 light 和 dark 主题下都能正常显示
+- 保持样式简洁，避免过度使用复杂选择器
+
 ## 8. 更新日志
 
 每次发布新版本时，必须更新 `docs/CHANGELOG_YYYY-MM-DD.md`。

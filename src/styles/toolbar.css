@@ -11,15 +11,15 @@
 }
 
 .toolbar-light {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  color: #333333;
+  background-color: var(--ls-primary-background-color-plugin);
+  border: 1px solid var(--ls-border-color-plugin);
+  color: var(--ls-primary-text-color-plugin);
 }
 
 .toolbar-dark {
-  background-color: #333333;
-  border: 1px solid #555555;
-  color: #ffffff;
+  background-color: var(--ls-primary-background-color-plugin);
+  border: 1px solid var(--ls-border-color-plugin);
+  color: var(--ls-primary-text-color-plugin);
 }
 
 .toolbar-item {
@@ -33,11 +33,7 @@
 }
 
 .toolbar-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.toolbar-dark .toolbar-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--ls-secondary-background-color-plugin);
 }
 
 .toolbar-icon {
@@ -54,8 +50,8 @@
   top: 100%;
   left: 0;
   margin-top: 4px;
-  background-color: inherit;
-  border: inherit;
+  background-color: var(--ls-primary-background-color-plugin);
+  border: 1px solid var(--ls-border-color-plugin);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 4px;
