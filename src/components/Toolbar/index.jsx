@@ -4,8 +4,9 @@ import { getToolbarPosition, getCurrentTheme } from '@/utils/state';
 import '@/styles/toolbar.css';
 
 const Toolbar = ({ items, onItemClick }) => {
-  const position = getToolbarPosition();
-  const theme = getCurrentTheme();
+  // 测试模式下使用固定位置
+  const position = getToolbarPosition() || { x: 100, y: 100 };
+  const theme = getCurrentTheme() || 'light';
 
   return (
     <div 

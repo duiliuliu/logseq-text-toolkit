@@ -21,6 +21,41 @@ const commands = {
       // 这里需要与注解功能集成
       return text;
     }
+  },
+  'wrap-cloze': {
+    label: 'Wrap with cloze',
+    execute: (text) => ` {{cloze ${text}}}`
+  },
+  'wrap-red-hl': {
+    label: 'Wrap with red highlight',
+    execute: (text) => `[[#red]]==${text}==`
+  },
+  'wrap-green-hl': {
+    label: 'Wrap with green highlight',
+    execute: (text) => `[[#green]]==${text}==`
+  },
+  'wrap-blue-hl': {
+    label: 'Wrap with blue highlight',
+    execute: (text) => `[[#blue]]==${text}==`
+  },
+  'wrap-red-text': {
+    label: 'Wrap with red text',
+    execute: (text) => `[[$red]]==${text}==`
+  },
+  'wrap-green-text': {
+    label: 'Wrap with green text',
+    execute: (text) => `[[$green]]==${text}==`
+  },
+  'wrap-blue-text': {
+    label: 'Wrap with blue text',
+    execute: (text) => `[[$blue]]==${text}==`
+  },
+  'repl-clear': {
+    label: 'Remove formatting',
+    execute: (text) => {
+      // 移除各种格式
+      return text.replace(/\[\[(?:#|\$)(?:red|green|blue)\]\]|==([^=]*)==|~~([^~]*)~~|\^\^([^\^]*)\^\^|\*\*([^\*]*)\*\*|\*([^\*]*)\*|_([^_]*)_|\$([^\$]*)\$|`([^`]*)`/g, '$1$2$3$4$5$6$7$8');
+    }
   }
 };
 
