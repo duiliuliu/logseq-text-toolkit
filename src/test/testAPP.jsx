@@ -12,6 +12,7 @@ function TestApp() {
   useEffect(() => {
     const initLogseqPlugin = async () => {
       try {
+        console.log('Welcome to Text Toolkit Test Mode!')
         await window.logseq.ready()
         console.log('Mock Logseq plugin ready')
         setIsReady(true)
