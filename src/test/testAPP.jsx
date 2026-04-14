@@ -1,23 +1,36 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from '../App.jsx'
+import React, { useEffect, useState } from 'react'
 import '../index.css'
 import '../main.css'
 
 // 导入mock logseq
 import './mock.js'
 
-// 初始化应用
-const initializeApp = async () => {
-  // 初始化mock logseq
-  await window.logseq.ready()
-  
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
+function TestApp() {
+  const [isReady, setIsReady] = useState(false)
+
+  // 初始化 mock logseq
+  useEffect(() => {
+    const initLogseqPlugin = async () => {
+      try {
+        await window.logseq.ready()
+        console.log('Mock Logseq plugin ready')
+        setIsReady(true)
+      } catch (error) {
+        console.error('Failed to initialize mock plugin:', error)
+        setIsReady(false)
+      }
+    }
+
+    initLogseqPlugin()
+  }, [])
+
+  return (
+    <div className="App">
+      <h1>Text Toolkit Plugin (Test Mode)</h1>
+      <p>Welcome to Text Toolkit Test Mode!</p>
+      <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
+    </div>
   )
 }
 
-// 启动应用
-initializeApp()
+export default TestApp
