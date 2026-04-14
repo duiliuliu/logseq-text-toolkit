@@ -130,11 +130,42 @@ function Toolbar({ items }) {
                   <div 
                     key={item.id}
                     className="toolbar-group-item"
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem({ label: 'More' })}
+                    onMouseEnter={() => {
+                      setHoveredItem(item)
+                      setMouseOverGroup(`more-${item.id}`)
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredItem({ label: 'More' })
+                      setMouseOverGroup('more')
+                    }}
                   >
                     <div className="toolbar-item-icon">📂</div>
                     <div className="toolbar-item-label">{item.label}</div>
+                    {mouseOverGroup === `more-${item.id}` && (
+                      <div 
+                        className="toolbar-group-dropdown-horizontal"
+                        onMouseEnter={() => setMouseOverGroup(`more-${item.id}`)}
+                        onMouseLeave={() => setMouseOverGroup('more')}
+                      >
+                        {item.items.map((subItem, subIndex) => (
+                          <div 
+                            key={subItem.id}
+                            className="toolbar-group-item-horizontal"
+                            onMouseEnter={() => setHoveredItem(subItem)}
+                            onMouseLeave={() => setHoveredItem(item)}
+                          >
+                            <div className="toolbar-item-icon">
+                              {subItem.icon ? (
+                                <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
+                              ) : (
+                                '📝'
+                              )}
+                            </div>
+                            <div className="toolbar-item-label">{subItem.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div 
