@@ -1,6 +1,6 @@
 {
   "name": "logseq-text-toolkit",
-  "version": "0.10.2",
+  "version": "0.10.4",
   "main": "dist/index.html",
   "logseq": {
     "id": "duiliuliu-logseq-text-toolkit",
