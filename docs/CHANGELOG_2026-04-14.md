@@ -1,3 +1,5 @@
+每天的更新聚合写入一个文件中，倒序写入，只做新增不删除
+
 # Logseq Text Toolkit 更新日志
 
 本项目的所有重要变更都将记录在此文件中。
@@ -7,15 +9,35 @@
 
 ---
 
-## [未发布]
+## [0.10.4] - 2026-04-14
+
+### 新增
+- 代码重构：将index.jsx中的逻辑分组到多个文件中，提高代码可维护性
+- 创建utils目录，包含以下模块：
+  - definitions.js: 工具栏项定义
+  - styles.js: 样式提供
+  - settings.js: 设置管理
+  - toolbar.js: 工具栏相关逻辑
+  - commands.js: 命令注册和执行
+
+### 改进
+- 优化index.jsx，大幅减少代码行数，逻辑更加清晰
+- 改进代码结构，便于后续开发和维护
+- 修复选中文字后出现"0"而非toolbar的问题
+- 创建docs目录，用于存放文档文件
+
+### 修复
+- 修复Toolbar组件渲染问题，通过添加key属性解决显示"0"的bug
+
+---
 
 ## [0.10.3] - 2026-04-13
 
 ### 新增
 - 实现测试模式，提供本地网页环境用于插件功能测试
 - 添加完整的 Logseq API 模拟，支持在测试模式下使用所有插件功能
-- 创建 [DEVELOPMENT.md](file:///workspace/DEVELOPMENT.md) 开发指南文档
-- 创建 [CHANGELOG.md](file:///workspace/CHANGELOG.md) 更新日志文档
+- 创建开发指南文档
+- 创建更新日志文档
 - 添加测试模式页面 test.html，包含所有功能按钮和测试结果显示
 
 ### 改进
@@ -32,18 +54,6 @@
 - 修复测试模式下的兼容性问题
 - 确保插件代码在测试模式和 Logseq 环境下都能正常工作
 
-### 关键效果截图
-- 测试模式页面布局：展示编辑模式和显示模式两个区域
-- 文本格式化效果：显示加粗、斜体、删除线等样式
-- 背景高亮效果：显示不同颜色的背景高亮
-- 文本颜色效果：显示不同颜色的文本
-- 下划线高亮效果：显示不同颜色的下划线
-- Cloze 功能效果：显示 Cloze 格式化效果
-
-### 标准说明
-- 标准清除：在测试模式下，刷新页面即可清除所有测试数据
-- 在正式模式下，插件会遵循 Logseq 的数据存储机制
-
 ---
 
 ## [0.10.2] - 之前
@@ -57,7 +67,7 @@
 - 标注功能
 - 页面评论功能
 - 日记评论功能
-- 完整的用户指南 [USER_GUIDE.md](file:///workspace/USER_GUIDE.md)
+- 完整的用户指南
 - 中文和英文 README 文档
 
 ### 改进
@@ -68,6 +78,6 @@
 
 ---
 
-[未发布]: https://github.com/duiliuliu/logseq-text-toolkit/compare/v0.10.3...HEAD
+[0.10.4]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.4
 [0.10.3]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.3
 [0.10.2]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.2

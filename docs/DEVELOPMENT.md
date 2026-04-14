@@ -30,18 +30,28 @@ logseq-text-toolkit/
 ├── src/
 │   ├── index.jsx          # 主插件入口文件
 │   ├── Toolbar.jsx        # 工具栏组件
+│   ├── ToolbarItem.jsx    # 工具栏项组件
 │   ├── index.html         # 插件HTML模板
-│   └── translations/      # 翻译文件
-│       └── zh-CN.json
+│   ├── translations/      # 翻译文件
+│   │   ├── zh-CN.json
+│   │   └── ja.json
+│   └── utils/             # 工具函数
+│       ├── definitions.js # 工具栏项定义
+│       ├── styles.js      # 样式提供
+│       ├── settings.js    # 设置管理
+│       ├── toolbar.js     # 工具栏相关逻辑
+│       └── commands.js    # 命令注册和执行
+├── docs/                  # 文档目录
+│   ├── DEVELOPMENT.md     # 开发指南（本文档）
+│   ├── USER_GUIDE.md      # 用户指南
+│   └── CHANGELOG_YYYY-MM-DD.md  # 更新日志（带日期）
 ├── dist/                  # 构建输出目录
 ├── test.html              # 测试模式页面
 ├── package.json           # 项目配置
-├── rollup.config.js       # Rollup配置
+├── rollup.config.mjs      # Rollup配置
 ├── README.md              # 中文README
 ├── README.en.md           # 英文README
-├── USER_GUIDE.md          # 用户指南
-├── DEVELOPMENT.md         # 开发指南（本文档）
-└── CHANGELOG.md           # 更新日志
+└── LICENSE                # 许可证
 ```
 
 ## 3. 开发流程
@@ -212,11 +222,78 @@ npx http-server dist -p 12345
 
 在更新日志和文档中，应明确标注截图是在测试模式还是正式模式下拍摄的
 
-## 7. 更新日志
+## 7. 开发规范
 
-每次发布新版本时，必须更新 [CHANGELOG.md](file:///workspace/CHANGELOG.md)。
+### 7.1 文档管理规范
 
-### 7.1 更新日志格式
+#### 7.1.1 文档目录结构
+所有文档文件必须放置在 `docs/` 目录下，包括：
+- `DEVELOPMENT.md` - 开发指南（本文档）
+- `USER_GUIDE.md` - 用户指南
+- `CHANGELOG_YYYY-MM-DD.md` - 更新日志（带日期）
+
+#### 7.1.2 更新日志规范
+
+**文件命名规则：**
+- 文件名格式：`CHANGELOG_YYYY-MM-DD.md`
+- 例如：`CHANGELOG_2026-04-14.md`
+
+**文件内容要求：**
+- 首行必须备注：`每天的更新聚合写入一个文件中，倒序写入，只做新增不删除`
+- 每天的更新聚合写入一个文件中
+- 倒序写入（最新的在最前面）
+- 只做新增，不删除历史记录
+
+**更新日志格式：**
+```markdown
+每天的更新聚合写入一个文件中，倒序写入，只做新增不删除
+
+# Logseq Text Toolkit 更新日志
+
+## [版本号] - 日期
+### 新增
+- 功能描述
+
+### 改进
+- 改进描述
+
+### 修复
+- 修复描述
+```
+
+#### 7.1.3 用户指南更新规范
+
+**更新时机：**
+- 每次有新功能发布时必须更新
+- 每次有功能优化时必须更新
+- 功能使用方式发生变化时必须更新
+
+**更新内容：**
+- 添加新功能的使用说明
+- 更新功能列表
+- 添加操作步骤
+- 包含效果截图
+- 更新功能描述
+
+### 7.2 代码结构规范
+
+#### 7.2.1 代码模块化
+- 主入口文件 `index.jsx` 应保持简洁，只负责插件初始化和协调
+- 业务逻辑应拆分到 `src/utils/` 目录下的独立模块中
+- 每个模块应有单一职责，便于维护和测试
+
+#### 7.2.2 现有模块说明
+- `definitions.js` - 工具栏项定义和默认配置
+- `styles.js` - 样式提供和主题变量
+- `settings.js` - 设置面板定义和设置变更处理
+- `toolbar.js` - 工具栏UI、事件监听和定位逻辑
+- `commands.js` - 命令注册、模型注册和功能实现
+
+## 8. 更新日志
+
+每次发布新版本时，必须更新 `docs/CHANGELOG_YYYY-MM-DD.md`。
+
+### 8.1 更新日志格式
 
 ```markdown
 ## [版本号] - 日期
@@ -230,14 +307,15 @@ npx http-server dist -p 12345
 - 修复描述
 ```
 
-### 7.2 注意事项
+### 8.2 注意事项
 
 - 倒序记录（最新的在最前面）
 - 每个版本有明确的发布日期
 - 清晰分类：新增、改进、修复
 - 使用简洁明了的描述
+- 文件名必须包含日期
 
-## 8. 常见问题
+## 9. 常见问题
 
 ### Q: 本地模式加载失败怎么办？
 A: 目前本地模式加载失败，主要依赖 GitHub 加载。请按照部署流程使用 GitHub URL 加载。
@@ -251,12 +329,12 @@ A: 运行 `npm run build` 命令，确保没有错误输出。
 ### Q: Logseq API 版本要求？
 A: 插件要求 Logseq API 版本 0.2.12+。
 
-## 9. 参考资源
+## 10. 参考资源
 
 - **Logseq 插件 API 文档**: https://logseq.github.io/plugins/
 - **Logseq DB 插件 API Skill**: https://github.com/kerim/logseq-db-plugin-api-skill
 - **项目仓库**: https://github.com/duiliuliu/logseq-text-toolkit
-- **用户指南**: [USER_GUIDE.md](file:///workspace/USER_GUIDE.md)
+- **用户指南**: [USER_GUIDE.md](file:///workspace/docs/USER_GUIDE.md)
 
 ---
 
