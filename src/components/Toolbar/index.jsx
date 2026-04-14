@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolbarItem from '../ToolbarItem';
-import { getToolbarPosition, getCurrentTheme } from '../../utils/state';
-import '../../styles/toolbar.css';
+import { getToolbarPosition, getCurrentTheme } from '@/utils/state';
+import '@/styles/toolbar.css';
 
 const Toolbar = ({ items, onItemClick }) => {
   const position = getToolbarPosition();

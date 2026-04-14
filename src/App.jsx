@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import Toolbar from './components/Toolbar'
-import { getToolbarVisible, getSelectedText } from './utils/state'
-import { executeCommand } from './utils/commands'
+import Toolbar from '@/components/Toolbar'
+import { getToolbarVisible, getSelectedText } from '@/utils/state'
+import { executeCommand } from '@/utils/commands'
 
 function App() {
   const [toolbarVisible, setToolbarVisible] = useState(false)
