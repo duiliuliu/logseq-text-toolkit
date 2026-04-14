@@ -2,33 +2,54 @@ import React, { useState } from 'react'
 import './toolbar.css'
 
 function Toolbar({ items }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [hoveredItem, setHoveredItem] = useState(null)
 
   return (
     <div className="toolbar-container">
-      <div 
-        className="toolbar-main"
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-      >
-        <div className="toolbar-icon">⚙️</div>
-      </div>
-      {isOpen && (
-        <div className="toolbar-dropdown">
-          {items.map((item, index) => (
-            <div key={index} className="toolbar-item">
-              <div className="toolbar-item-icon">
-                {item.icon ? (
-                  <div dangerouslySetInnerHTML={{ __html: item.icon }} />
-                ) : (
-                  '📝'
-                )}
-              </div>
-              <div className="toolbar-item-label">{item.label}</div>
+      <div className="toolbar-main">
+        {items.slice(0, 4).map((item, index) => (
+          <div 
+            key={index} 
+            className="toolbar-main-item"
+            onMouseEnter={() => setHoveredItem(item)}
+            onMouseLeave={() => setHoveredItem(null)}
+          >
+            <div className="toolbar-item-icon">
+              {item.icon ? (
+                <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+              ) : (
+                '📝'
+              )}
             </div>
-          ))}
+          </div>
+        ))}
+        <div className="toolbar-more">
+          <div className="toolbar-more-icon">⋮</div>
+        </div>
+      </div>
+      {hoveredItem && (
+        <div className="toolbar-tooltip">
+          {hoveredItem.label}
         </div>
       )}
+      <div className="toolbar-expanded">
+        {items.map((item, index) => (
+          <div 
+            key={index} 
+            className="toolbar-expanded-item"
+            onMouseEnter={() => setHoveredItem(item)}
+            onMouseLeave={() => setHoveredItem(null)}
+          >
+            <div className="toolbar-item-icon">
+              {item.icon ? (
+                <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+              ) : (
+                '📝'
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
