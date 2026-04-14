@@ -1,0 +1,22 @@
+/* Dark theme variables */
+:root {
+  --toolbar-background: #333333;
+  --toolbar-border: 1px solid #555555;
+  --toolbar-color: #ffffff;
+  --toolbar-item-hover: #444444;
+  
+  --modal-background: #333333;
+  --modal-border: 1px solid #555555;
+  --modal-color: #ffffff;
+  --modal-header-background: #444444;
+  --modal-footer-background: #444444;
+  
+  --button-primary-background: #4CAF50;
+  --button-primary-color: #ffffff;
+  --button-secondary-background: #555555;
+  --button-secondary-color: #ffffff;
+  
+  --input-background: #444444;
+  --input-border: 1px solid #666666;
+  --input-color: #ffffff;
+}

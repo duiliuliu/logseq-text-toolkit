@@ -1,0 +1,14 @@
+{
+  "toolbar": {
+    "bold": "Bold",
+    "highlight": "Highlight",
+    "fileLink": "File Link",
+    "comment": "Comment"
+  },
+  "comment": {
+    "title": "Add Comment"
+  },
+  "modal": {
+    "placeholder": "Please enter content"
+  }
+}

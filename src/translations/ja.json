@@ -1,0 +1,14 @@
+{
+  "toolbar": {
+    "bold": "太字",
+    "highlight": "ハイライト",
+    "fileLink": "ファイルリンク",
+    "comment": "コメント"
+  },
+  "comment": {
+    "title": "コメントを追加"
+  },
+  "modal": {
+    "placeholder": "内容を入力してください"
+  }
+}

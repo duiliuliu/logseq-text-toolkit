@@ -1,0 +1,22 @@
+/* Light theme variables */
+:root {
+  --toolbar-background: #ffffff;
+  --toolbar-border: 1px solid #e0e0e0;
+  --toolbar-color: #333333;
+  --toolbar-item-hover: #f5f5f5;
+  
+  --modal-background: #ffffff;
+  --modal-border: 1px solid #e0e0e0;
+  --modal-color: #333333;
+  --modal-header-background: #f9f9f9;
+  --modal-footer-background: #f9f9f9;
+  
+  --button-primary-background: #4CAF50;
+  --button-primary-color: #ffffff;
+  --button-secondary-background: #f0f0f0;
+  --button-secondary-color: #333333;
+  
+  --input-background: #ffffff;
+  --input-border: 1px solid #e0e0e0;
+  --input-color: #333333;
+}

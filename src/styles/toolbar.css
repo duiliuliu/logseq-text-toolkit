@@ -1,0 +1,70 @@
+/* src/styles/toolbar.css */
+
+.toolbar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.toolbar-light {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  color: #333333;
+}
+
+.toolbar-dark {
+  background-color: #333333;
+  border: 1px solid #555555;
+  color: #ffffff;
+}
+
+.toolbar-item {
+  padding: 6px 10px;
+  margin: 0 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.toolbar-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.toolbar-dark .toolbar-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.toolbar-icon {
+  margin-right: 4px;
+  font-weight: bold;
+}
+
+.toolbar-label {
+  font-size: 12px;
+}
+
+.toolbar-group {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background-color: inherit;
+  border: inherit;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+}
+
+.toolbar-group .toolbar-item {
+  margin: 2px 0;
+  width: 100%;
+}

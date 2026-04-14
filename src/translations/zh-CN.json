@@ -1,0 +1,14 @@
+{
+  "toolbar": {
+    "bold": "加粗",
+    "highlight": "高亮",
+    "fileLink": "文件链接",
+    "comment": "评论"
+  },
+  "comment": {
+    "title": "添加评论"
+  },
+  "modal": {
+    "placeholder": "请输入内容"
+  }
+}
