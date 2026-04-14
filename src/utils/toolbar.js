@@ -1,17 +1,13 @@
 import { debounce, throttle } from "rambdax"
+import { getToolbar, getSponsorBar, getTextarea, setTextarea } from "./state.js"
 
-export function setToolbarElements(toolbarEl, sponsorBarEl) {
-  toolbar = toolbarEl
-  sponsorBar = sponsorBarEl
-}
-
-export function setTextarea(textareaEl) {
-  textarea = textareaEl
-}
-
+/**
+ * 应用主题到工具栏和赞助栏
+ * @param {string} theme - 主题类型：light, dark 或 system
+ */
 export async function applyTheme(theme) {
-  const toolbarEl = toolbar
-  const sponsorBarEl = sponsorBar
+  const toolbarEl = getToolbar()
+  const sponsorBarEl = getSponsorBar()
   if (!toolbarEl) return
 
   toolbarEl.classList.remove("light-theme", "dark-theme")
@@ -38,6 +34,9 @@ export async function applyTheme(theme) {
   }
 }
 
+/**
+ * 切换工具栏显示/隐藏状态
+ */
 export function toggleToolbarDisplay() {
   const appContainer = parent.document.getElementById("app-container")
   if (appContainer.classList.contains("kef-wrap-hidden")) {
@@ -47,8 +46,13 @@ export function toggleToolbarDisplay() {
   }
 }
 
+/**
+ * 定位工具栏到光标位置
+ */
 export async function positionToolbar() {
   const curPos = await logseq.Editor.getEditingCursorPosition()
+  const toolbar = getToolbar()
+  const sponsorBar = getSponsorBar()
   if (curPos != null && toolbar) {
     let leftPosition
     let width = toolbar.clientWidth
@@ -77,7 +81,13 @@ export async function positionToolbar() {
   }
 }
 
+/**
+ * 工具栏过渡结束事件处理函数
+ * @param {Event} e - 过渡结束事件
+ */
 export function onToolbarTransitionEnd(e) {
+  const toolbar = getToolbar()
+  const sponsorBar = getSponsorBar()
   if (toolbar && toolbar.style.opacity === "0") {
     toolbar.style.top = "0"
     toolbar.style.left = "-99999px"
@@ -88,7 +98,14 @@ export function onToolbarTransitionEnd(e) {
   }
 }
 
+/**
+ * 失去焦点事件处理函数
+ * @param {Event} e - 失去焦点事件
+ */
 export function onBlur(e) {
+  const toolbar = getToolbar()
+  const textarea = getTextarea()
+  const sponsorBar = getSponsorBar()
   if (document.activeElement !== textarea && toolbar?.style.opacity !== "0") {
     toolbar.style.opacity = "0"
     if (sponsorBar) {
@@ -97,7 +114,12 @@ export function onBlur(e) {
   }
 }
 
+/**
+ * 隐藏工具栏的节流函数
+ */
 const hideToolbar = throttle(() => {
+  const toolbar = getToolbar()
+  const sponsorBar = getSponsorBar()
   if (toolbar && toolbar.style.opacity !== "0") {
     toolbar.style.opacity = "0"
     if (sponsorBar) {
@@ -106,30 +128,41 @@ const hideToolbar = throttle(() => {
   }
 }, 1000)
 
+/**
+ * 显示工具栏的防抖函数
+ */
 const showToolbar = debounce(async () => {
+  const textarea = getTextarea()
   if (textarea != null && textarea.selectionStart !== textarea.selectionEnd) {
     await positionToolbar()
   }
 }, 100)
 
+/**
+ * 滚动事件处理函数
+ * @param {Event} e - 滚动事件
+ */
 export function onScroll(e) {
   hideToolbar()
   showToolbar()
 }
 
-export function onSelectionChange(textareaRef, toolbarRef) {
+/**
+ * 创建文本选择变化事件处理函数
+ * @returns {Function} 事件处理函数
+ */
+export function onSelectionChange() {
   return async function(e) {
-    textarea = textareaRef
-    toolbar = toolbarRef
-    
     const activeElement = parent.document.activeElement
     if (
-      activeElement !== textarea &&
       activeElement.nodeName.toLowerCase() === "textarea"
     ) {
-      textarea = activeElement
+      setTextarea(activeElement)
     }
 
+    const toolbar = getToolbar()
+    const textarea = getTextarea()
+    const sponsorBar = getSponsorBar()
     if (toolbar != null && activeElement === textarea) {
       if (
         textarea.selectionStart === textarea.selectionEnd &&
@@ -145,7 +178,3 @@ export function onSelectionChange(textareaRef, toolbarRef) {
     }
   }
 }
-
-let toolbar = null
-let sponsorBar = null
-let textarea = null

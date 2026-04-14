@@ -10,8 +10,6 @@ import { provideStyles } from "./utils/styles.js"
 import { registerCommand, registerModel } from "./utils/commands.js"
 import { setupSettings, getSettings } from "./utils/settings.js"
 import {
-  setToolbarElements,
-  setTextarea,
   applyTheme,
   toggleToolbarDisplay,
   positionToolbar,
@@ -20,6 +18,7 @@ import {
   onScroll,
   onSelectionChange,
 } from "./utils/toolbar.js"
+import { setToolbarElements, setTextarea } from "./utils/state.js"
 
 const TOOLBAR_ID = "kef-wrap-toolbar"
 const SPONSOR_BAR_ID = "kef-wrap-sponsor-bar"
@@ -111,7 +110,7 @@ async function main() {
     }, 0)
   }
 
-  const selectionChangeHandler = onSelectionChange(null, null)
+  const selectionChangeHandler = onSelectionChange()
   parent.document.addEventListener("selectionchange", selectionChangeHandler)
 
   logseq.beforeunload(async () => {

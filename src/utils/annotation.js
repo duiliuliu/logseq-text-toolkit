@@ -1,3 +1,10 @@
+/**
+ * 创建评论/标注模态框
+ * @param {string} selection - 选中的文本
+ * @param {Function} onSubmit - 提交回调函数
+ * @param {Function} onCancel - 取消回调函数
+ * @returns {Function} 关闭模态框的函数
+ */
 export function createCommentAnnotationModal(selection, onSubmit, onCancel) {
   const existingModal = parent.document.getElementById("kef-wrap-comment-modal")
   if (existingModal) {
@@ -68,6 +75,9 @@ export function createCommentAnnotationModal(selection, onSubmit, onCancel) {
   }
 }
 
+/**
+ * 处理标注功能
+ */
 export async function handleAnnotation() {
   const currentPage = await logseq.Editor.getCurrentPage()
   if (!currentPage) return
@@ -127,6 +137,10 @@ export async function handleAnnotation() {
   })
 }
 
+/**
+ * 处理评论功能
+ * @param {string} type - 评论类型：page 或 journal
+ */
 export async function handleComment(type) {
   const currentBlock = await logseq.Editor.getCurrentBlock()
   if (!currentBlock) return

@@ -1,6 +1,14 @@
 import { t } from "logseq-l10n"
 import { handleAnnotation, handleComment } from "./annotation.js"
 
+/**
+ * 注册命令到Logseq命令面板
+ * @param {Object} model - 命令模型对象
+ * @param {Object} options - 命令选项
+ * @param {string} options.key - 命令键名
+ * @param {string} options.label - 命令标签
+ * @param {string} options.binding - 快捷键绑定
+ */
 export function registerCommand(model, { key, label, binding }) {
   if (binding) {
     logseq.App.registerCommandPalette(
@@ -12,6 +20,17 @@ export function registerCommand(model, { key, label, binding }) {
   }
 }
 
+/**
+ * 注册模型命令
+ * @param {Object} model - 命令模型对象
+ * @param {Object} options - 命令选项
+ * @param {string} options.key - 命令键名
+ * @param {string} options.template - 包装模板
+ * @param {string} options.pluginCommand - 插件命令
+ * @param {string} options.regex - 正则表达式
+ * @param {string} options.replacement - 替换文本
+ * @param {HTMLElement} textarea - 文本区域元素
+ */
 export function registerModel(
   model,
   { key, template, pluginCommand, regex, replacement },
@@ -32,6 +51,12 @@ export function registerModel(
   }
 }
 
+/**
+ * 更新块文本
+ * @param {HTMLElement} textarea - 文本区域元素
+ * @param {Function} producer - 文本处理函数
+ * @param {...any} args - 传递给处理函数的参数
+ */
 async function updateBlockText(textarea, producer, ...args) {
   const block = await logseq.Editor.getCurrentBlock()
 
@@ -67,6 +92,17 @@ async function updateBlockText(textarea, producer, ...args) {
   }
 }
 
+/**
+ * 包装文本
+ * @param {string} before - 选择前的文本
+ * @param {string} selection - 选中的文本
+ * @param {string} after - 选择后的文本
+ * @param {number} start - 选择开始位置
+ * @param {number} end - 选择结束位置
+ * @param {string} template - 包装模板
+ * @param {string} pluginCommand - 插件命令
+ * @returns {Array} [处理后的文本, 新的选择开始位置, 新的选择结束位置]
+ */
 async function wrap(
   before,
   selection,
@@ -105,6 +141,17 @@ async function wrap(
   return [resultText, newStart, newEnd]
 }
 
+/**
+ * 替换文本
+ * @param {string} before - 选择前的文本
+ * @param {string} selection - 选中的文本
+ * @param {string} after - 选择后的文本
+ * @param {number} start - 选择开始位置
+ * @param {number} end - 选择结束位置
+ * @param {string} regex - 正则表达式
+ * @param {string} replacement - 替换文本
+ * @returns {Array} [处理后的文本, 新的选择开始位置, 新的选择结束位置]
+ */
 function repl(before, selection, after, start, end, regex, replacement) {
   const newText = selection.replace(new RegExp(regex, "g"), replacement)
   return [`${before}${newText}${after}`, start, start + newText.length]
