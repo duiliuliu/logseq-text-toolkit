@@ -9,6 +9,17 @@
 
 ---
 
+## [0.10.6] - 2026-04-14
+
+### 新增
+- 版本更新：发布 0.10.6 版本
+
+### 改进
+- 保持代码稳定性
+- 确保所有功能正常运行
+
+---
+
 ## [0.10.5] - 2026-04-14
 
 ### 新增
@@ -98,6 +109,7 @@
 
 ---
 
+[0.10.6]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.6
 [0.10.5]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.5
 [0.10.4]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.4
 [0.10.3]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.3
