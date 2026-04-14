@@ -31,12 +31,17 @@ export const registerCommands = () => {
       logseq.App.registerCommand({
         id: `text-toolkit:${commandId}`,
         label: commands[commandId].label,
-        handler: () => {
+        handler: async () => {
           const selectedText = getSelectedText();
           if (selectedText) {
             const result = commands[commandId].execute(selectedText);
-            // 这里需要实现替换选中文本的逻辑
-            console.log(`执行命令 ${commandId}，结果: ${result}`);
+            // 实现替换选中文本的逻辑
+            try {
+              await logseq.Editor.replaceSelectedText(result);
+              console.log(`执行命令 ${commandId}，结果: ${result}`);
+            } catch (error) {
+              console.error(`替换选中文本失败:`, error);
+            }
           }
         }
       });
@@ -47,11 +52,19 @@ export const registerCommands = () => {
 };
 
 // 执行命令
-export const executeCommand = (commandId, ...args) => {
+export const executeCommand = async (commandId, ...args) => {
   if (commands[commandId]) {
     const selectedText = getSelectedText();
     if (selectedText) {
-      return commands[commandId].execute(selectedText, ...args);
+      const result = commands[commandId].execute(selectedText, ...args);
+      // 实现替换选中文本的逻辑
+      try {
+        await logseq.Editor.replaceSelectedText(result);
+        return result;
+      } catch (error) {
+        console.error(`替换选中文本失败:`, error);
+        return null;
+      }
     }
   }
   return null;

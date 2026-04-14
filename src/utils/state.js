@@ -49,4 +49,24 @@ export const setCurrentLanguage = (language) => {
 // 获取当前语言
 export const getCurrentLanguage = () => state.currentLanguage;
 
+// 监听选中文本变化
+export const listenForSelectionChanges = () => {
+  logseq.App.on('selectionChange', async (e) => {
+    try {
+      const selectedText = await logseq.Editor.getSelectedText();
+      setSelectedText(selectedText || '');
+      
+      // 显示工具栏
+      if (selectedText) {
+        setToolbarVisible(true);
+        // 这里可以添加计算工具栏位置的逻辑
+      } else {
+        setToolbarVisible(false);
+      }
+    } catch (error) {
+      console.error('获取选中文本失败:', error);
+    }
+  });
+};
+
 export default state;

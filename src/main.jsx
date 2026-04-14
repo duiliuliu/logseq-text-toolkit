@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import './main.css'
+import { registerCommands } from './utils/commands'
+import { listenForSelectionChanges } from './utils/state'
 
 // 初始化 Logseq 插件
 const initLogseqPlugin = async () => {
@@ -21,10 +23,11 @@ const initLogseqPlugin = async () => {
       }
     })
     
-    // Add event listeners
-    logseq.App.on('selectionChange', (e) => {
-      console.log('Selection changed:', e)
-    })
+    // Register text toolkit commands
+    registerCommands()
+    
+    // Listen for selection changes
+    listenForSelectionChanges()
     
     return true
   } catch (error) {

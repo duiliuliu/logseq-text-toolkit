@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import '../../styles/toolbar.css';
 
 const ToolbarItem = ({ icon, label, onClick, children, isGroup = false }) => {
   return (
