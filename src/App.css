@@ -6,6 +6,9 @@
   height: 100%;
   pointer-events: none;
   z-index: 1000;
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .App * {

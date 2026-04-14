@@ -8,71 +8,22 @@ function App() {
   const [toolbarVisible, setToolbarVisible] = useState(true) // 默认显示工具栏
   const [selectedText, setSelectedText] = useState('')
 
-  // 工具栏项目，支持分组
+  // 工具栏项目
   const toolbarItems = [
     {
-      id: 'cloze',
-      label: 'Cloze',
-      icon: 'C',
-      isGroup: true,
-      children: [
-        {
-          id: 'wrap-cloze',
-          label: 'Wrap with cloze',
-          icon: 'C'
-        }
-      ]
+      id: 'bold',
+      label: '加粗',
+      icon: 'B'
     },
     {
       id: 'highlight',
-      label: 'Highlight',
-      icon: 'H',
-      isGroup: true,
-      children: [
-        {
-          id: 'wrap-red-hl',
-          label: 'Wrap with red highlight',
-          icon: 'R'
-        },
-        {
-          id: 'wrap-green-hl',
-          label: 'Wrap with green highlight',
-          icon: 'G'
-        },
-        {
-          id: 'wrap-blue-hl',
-          label: 'Wrap with blue highlight',
-          icon: 'B'
-        }
-      ]
+      label: '高亮',
+      icon: 'H'
     },
     {
-      id: 'text-color',
-      label: 'Text Color',
-      icon: 'T',
-      isGroup: true,
-      children: [
-        {
-          id: 'wrap-red-text',
-          label: 'Wrap with red text',
-          icon: 'R'
-        },
-        {
-          id: 'wrap-green-text',
-          label: 'Wrap with green text',
-          icon: 'G'
-        },
-        {
-          id: 'wrap-blue-text',
-          label: 'Wrap with blue text',
-          icon: 'B'
-        }
-      ]
-    },
-    {
-      id: 'repl-clear',
-      label: 'Remove formatting',
-      icon: 'X'
+      id: 'file-link',
+      label: '文件链接',
+      icon: 'L'
     }
   ]
 

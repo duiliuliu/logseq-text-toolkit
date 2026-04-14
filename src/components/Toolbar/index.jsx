@@ -4,8 +4,8 @@ import { getToolbarPosition, getCurrentTheme } from '@/utils/state';
 import '@/styles/toolbar.css';
 
 const Toolbar = ({ items, onItemClick }) => {
-  // 测试模式下使用固定位置
-  const position = getToolbarPosition() || { x: 100, y: 100 };
+  // 使用固定位置，确保在预览页面中可见
+  const position = { x: 50, y: 50 };
   const theme = getCurrentTheme() || 'light';
 
   return (
@@ -13,7 +13,17 @@ const Toolbar = ({ items, onItemClick }) => {
       className={`toolbar toolbar-${theme}`}
       style={{
         left: `${position.x}px`,
-        top: `${position.y}px`
+        top: `${position.y}px`,
+        position: 'fixed',
+        zIndex: 1000,
+        display: 'flex',
+        alignItems: 'center',
+        padding: '8px',
+        borderRadius: '8px',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+        backgroundColor: '#ffffff',
+        border: '1px solid #e0e0e0',
+        color: '#333333'
       }}
     >
       {items.map((item, index) => (
