@@ -3,7 +3,10 @@
   "version": "0.10.2",
   "main": "dist/index.html",
   "logseq": {
-    "id": "_sethyuan-logseq-text-toolkit",
+    "id": "duiliuliu",
+    "title": "Text Toolkit",
+    "description": "A toolkit for text formatting and manipulation",
+    "main": "dist/index.html",
     "icon": "./icon.png"
   },
   "scripts": {
@@ -12,7 +15,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@logseq/libs": "^0.0.15",
+    "@logseq/libs": "^0.2.12",
     "logseq-l10n": "^0.2.0",
     "preact": "^10.6.4",
     "rambdax": "^8.0.0"
