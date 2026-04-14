@@ -113,14 +113,24 @@ export function onToolbarTransitionEnd(e) {
  * @param {Event} e - 失去焦点事件
  */
 export function onBlur(e) {
-  const toolbar = getToolbar()
-  const textarea = getTextarea()
-  const sponsorBar = getSponsorBar()
-  if (document.activeElement !== textarea && toolbar?.style.opacity !== "0") {
-    toolbar.style.opacity = "0"
-    if (sponsorBar) {
-      sponsorBar.style.opacity = "0"
+  try {
+    const toolbar = getToolbar()
+    const textarea = getTextarea()
+    const sponsorBar = getSponsorBar()
+    // 安全地获取parent.document
+    const parentDocument = window.parent.document
+    if (!parentDocument) {
+      console.error("Cannot access parent document")
+      return
     }
+    if (parentDocument.activeElement !== textarea && toolbar?.style.opacity !== "0") {
+      toolbar.style.opacity = "0"
+      if (sponsorBar) {
+        sponsorBar.style.opacity = "0"
+      }
+    }
+  } catch (error) {
+    console.error("Error in onBlur:", error)
   }
 }
 
@@ -163,36 +173,47 @@ export function onScroll(e) {
  */
 export function onSelectionChange() {
   return async function(e) {
-    console.log("onSelectionChange called")
-    const activeElement = parent.document.activeElement
-    console.log("activeElement:", activeElement)
-    if (
-      activeElement.nodeName.toLowerCase() === "textarea"
-    ) {
-      console.log("Setting textarea:", activeElement)
-      setTextarea(activeElement)
-    }
-
-    const toolbar = getToolbar()
-    const textarea = getTextarea()
-    const sponsorBar = getSponsorBar()
-    console.log("Toolbar:", toolbar)
-    console.log("Textarea:", textarea)
-    if (toolbar != null && activeElement === textarea) {
-      console.log("Toolbar and textarea match")
-      if (
-        textarea.selectionStart === textarea.selectionEnd &&
-        toolbar.style.opacity !== "0"
-      ) {
-        console.log("No selection, hiding toolbar")
-        toolbar.style.opacity = "0"
-        if (sponsorBar) {
-          sponsorBar.style.opacity = "0"
-        }
-      } else if (textarea.selectionStart !== textarea.selectionEnd) {
-        console.log("Text selected, positioning toolbar")
-        await positionToolbar()
+    try {
+      console.log("onSelectionChange called")
+      // 安全地获取parent.document
+      const parentDocument = window.parent.document
+      if (!parentDocument) {
+        console.error("Cannot access parent document")
+        return
       }
+      
+      const activeElement = parentDocument.activeElement
+      console.log("activeElement:", activeElement)
+      if (
+        activeElement && activeElement.nodeName.toLowerCase() === "textarea"
+      ) {
+        console.log("Setting textarea:", activeElement)
+        setTextarea(activeElement)
+      }
+
+      const toolbar = getToolbar()
+      const textarea = getTextarea()
+      const sponsorBar = getSponsorBar()
+      console.log("Toolbar:", toolbar)
+      console.log("Textarea:", textarea)
+      if (toolbar != null && activeElement === textarea) {
+        console.log("Toolbar and textarea match")
+        if (
+          textarea.selectionStart === textarea.selectionEnd &&
+          toolbar.style.opacity !== "0"
+        ) {
+          console.log("No selection, hiding toolbar")
+          toolbar.style.opacity = "0"
+          if (sponsorBar) {
+            sponsorBar.style.opacity = "0"
+          }
+        } else if (textarea.selectionStart !== textarea.selectionEnd) {
+          console.log("Text selected, positioning toolbar")
+          await positionToolbar()
+        }
+      }
+    } catch (error) {
+      console.error("Error in onSelectionChange:", error)
     }
   }
 }
