@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolbarItem from '../ToolbarItem';
-import { getToolbarPosition, getCurrentTheme } from '@/utils/state';
-import '@/styles/toolbar.css';
+import { getToolbarPosition, getCurrentTheme } from '../../utils/state';
+import '../../styles/toolbar.css';
 
 const Toolbar = ({ items, onItemClick }) => {
   // 使用固定位置，确保在预览页面中可见
