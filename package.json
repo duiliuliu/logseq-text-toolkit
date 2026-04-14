@@ -7,7 +7,7 @@
     "title": "Text Toolkit",
     "description": "A toolkit for text formatting and manipulation",
     "main": "dist/index.html",
-    "icon": "./icon.png"
+    "icon": "./images/icon.png"
   },
   "scripts": {
     "dev": "npx http-server dist -p 3000",
