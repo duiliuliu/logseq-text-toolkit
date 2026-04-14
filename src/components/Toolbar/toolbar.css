@@ -24,24 +24,12 @@
   overflow-y: hidden;
   white-space: nowrap;
   max-width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .toolbar-scrollable::-webkit-scrollbar {
-  height: 4px;
-}
-
-.toolbar-scrollable::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 2px;
-}
-
-.toolbar-scrollable::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 2px;
-}
-
-.toolbar-scrollable::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  display: none;
 }
 
 .toolbar-main-item {
