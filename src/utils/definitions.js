@@ -1,25 +1,10 @@
 import { t } from "logseq-l10n"
 
 export async function getDefinitions() {
-  const ret = Object.entries(logseq.settings ?? {})
-    .filter(
-      ([k, v]) =>
-        k.startsWith("wrap-") ||
-        k.startsWith("repl-") ||
-        k.startsWith("group-"),
-    )
-    .map(([k, v]) => {
-      if (k.startsWith("group-")) {
-        return {
-          key: k,
-          items: Object.entries(v).map(([kk, vv]) => ({ key: kk, ...vv })),
-        }
-      } else {
-        return { key: k, ...v }
-      }
-    })
-
-  if (ret.length > 0) return ret
+  const customsCfg = logseq.settings?.customs_cfg
+  if (customsCfg && Array.isArray(customsCfg) && customsCfg.length > 0) {
+    return customsCfg
+  }
 
   const { preferredFormat } = await logseq.App.getUserConfigs()
   return [

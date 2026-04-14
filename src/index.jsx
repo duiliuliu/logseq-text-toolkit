@@ -32,7 +32,12 @@ let textarea = null
 let model = {}
 
 async function main() {
-  await setup({ builtinTranslations: { "zh-CN": zhCN, "ja": ja, "en": en } })
+  const userConfigs = await logseq.App.getUserConfigs()
+  const preferredLanguage = userConfigs.preferredLanguage || "en"
+  await setup({ 
+    builtinTranslations: { "zh-CN": zhCN, "ja": ja, "en": en },
+    defaultLanguage: preferredLanguage
+  })
 
   const definitions = await getDefinitions()
   provideStyles()

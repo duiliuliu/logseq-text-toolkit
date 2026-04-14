@@ -29,6 +29,13 @@ export function setupSettings(mainFn) {
         title: "Toolbar theme",
         description: "Choose toolbar theme (light, dark, or system)",
         enumChoices: ["light", "dark", "system"]
+      },
+      {
+        key: "customs_cfg",
+        type: "object",
+        default: [],
+        title: "Custom toolbar configuration",
+        description: "Custom toolbar items configuration in JSON format"
       }
     ])
     .ready(() => {
