@@ -115,7 +115,7 @@ async function main() {
     }
   }
 
-  const selectionChangeHandler = onSelectionChange(textarea, toolbar, isTestMode)
+  const selectionChangeHandler = onSelectionChange(null, null, isTestMode)
   parent.document.addEventListener("selectionchange", selectionChangeHandler)
 
   logseq.beforeunload(async () => {
