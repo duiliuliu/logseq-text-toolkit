@@ -92,11 +92,17 @@ async function main() {
     }
 
     setTimeout(async () => {
+      console.log("Initializing toolbar elements")
       toolbar = parent.document.getElementById(TOOLBAR_ID)
       sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
+      console.log("Toolbar element:", toolbar)
+      console.log("Sponsor bar element:", sponsorBar)
       setToolbarElements(toolbar, sponsorBar)
+      console.log("Toolbar elements set")
       render(<Toolbar items={definitions} model={model} />, toolbar)
+      console.log("Toolbar rendered")
       await applyTheme(settings.toolbarTheme)
+      console.log("Theme applied")
 
       toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
       parent.document.addEventListener("focusout", onBlur)

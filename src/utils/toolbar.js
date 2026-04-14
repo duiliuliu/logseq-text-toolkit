@@ -50,12 +50,17 @@ export function toggleToolbarDisplay() {
  * 定位工具栏到光标位置
  */
 export async function positionToolbar() {
+  console.log("positionToolbar called")
   const curPos = await logseq.Editor.getEditingCursorPosition()
+  console.log("Cursor position:", curPos)
   const toolbar = getToolbar()
   const sponsorBar = getSponsorBar()
+  console.log("Toolbar in positionToolbar:", toolbar)
   if (curPos != null && toolbar) {
+    console.log("Cursor position and toolbar available")
     let leftPosition
     let width = toolbar.clientWidth
+    console.log("Toolbar width:", width)
     
     if (
       curPos.left + curPos.rect.x + width <=
@@ -66,18 +71,23 @@ export async function positionToolbar() {
       width = parent.window.innerWidth - (curPos.left + curPos.rect.x)
       leftPosition = `${curPos.left + curPos.rect.x}px`
     }
+    console.log("Calculated position:", { leftPosition, width })
     
     toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
     toolbar.style.left = leftPosition
     toolbar.style.width = `${width}px`
     toolbar.style.opacity = "1"
+    console.log("Toolbar positioned and made visible")
     
     if (sponsorBar) {
       sponsorBar.style.top = `${curPos.top + curPos.rect.y - 5}px`
       sponsorBar.style.left = leftPosition
       sponsorBar.style.width = `${width}px`
       sponsorBar.style.opacity = "1"
+      console.log("Sponsor bar positioned and made visible")
     }
+  } else {
+    console.log("Cursor position or toolbar not available")
   }
 }
 
@@ -153,26 +163,34 @@ export function onScroll(e) {
  */
 export function onSelectionChange() {
   return async function(e) {
+    console.log("onSelectionChange called")
     const activeElement = parent.document.activeElement
+    console.log("activeElement:", activeElement)
     if (
       activeElement.nodeName.toLowerCase() === "textarea"
     ) {
+      console.log("Setting textarea:", activeElement)
       setTextarea(activeElement)
     }
 
     const toolbar = getToolbar()
     const textarea = getTextarea()
     const sponsorBar = getSponsorBar()
+    console.log("Toolbar:", toolbar)
+    console.log("Textarea:", textarea)
     if (toolbar != null && activeElement === textarea) {
+      console.log("Toolbar and textarea match")
       if (
         textarea.selectionStart === textarea.selectionEnd &&
         toolbar.style.opacity !== "0"
       ) {
+        console.log("No selection, hiding toolbar")
         toolbar.style.opacity = "0"
         if (sponsorBar) {
           sponsorBar.style.opacity = "0"
         }
       } else if (textarea.selectionStart !== textarea.selectionEnd) {
+        console.log("Text selected, positioning toolbar")
         await positionToolbar()
       }
     }
