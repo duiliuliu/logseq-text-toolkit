@@ -9,6 +9,20 @@
 
 ---
 
+## [0.10.7] - 2026-04-14
+
+### 新增
+- 版本更新：发布 0.10.7 版本
+- 新增 state.js 模块，集中管理全局变量
+
+### 改进
+- 去掉 onSelectionChange 函数的多余参数，简化代码
+- 为所有代码函数添加详细的 JSDoc 注释
+- 清理 test 模式相关的代码，保持代码简洁
+- 优化状态管理，减少全局变量的使用
+
+---
+
 ## [0.10.6] - 2026-04-14
 
 ### 新增
@@ -111,6 +125,7 @@
 
 ---
 
+[0.10.7]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.7
 [0.10.6]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.6
 [0.10.5]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.5
 [0.10.4]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.4
