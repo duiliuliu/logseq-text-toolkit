@@ -3,7 +3,7 @@
   "version": "0.10.4",
   "main": "dist/index.html",
   "logseq": {
-    "id": "duiliuliu-logseq-text-toolkit",
+    "id": "logseq-text-toolkit",
     "title": "Text Toolkit",
     "description": "A toolkit for text formatting and manipulation",
     "main": "dist/index.html",
