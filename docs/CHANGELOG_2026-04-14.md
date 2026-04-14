@@ -9,6 +9,22 @@
 
 ---
 
+## [0.11.0] - 2026-04-14
+
+### 新增
+- 版本更新：发布 0.11.0 版本
+- 项目结构调整：将 index.html 移动到 src 目录
+- 测试模式改进：分离 CSS 和 JavaScript 代码到独立文件
+- 文档更新：更新开发指南和用户指南
+
+### 改进
+- 优化测试模式配置
+- 调整测试目录结构，将 js 目录重命名为 mock
+- 更新 vite.config.js 配置，支持测试模式
+- 改进插件初始化逻辑，支持测试模式检测
+
+---
+
 ## [0.10.8] - 2026-04-14
 
 ### 新增
@@ -138,6 +154,7 @@
 
 ---
 
+[0.11.0]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.11.0
 [0.10.8]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.8
 [0.10.7]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.7
 [0.10.6]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/v0.10.6
