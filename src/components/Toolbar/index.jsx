@@ -61,6 +61,11 @@ function Toolbar({ items }) {
               }}
             >
               <div className="toolbar-item-icon">📂</div>
+              {hoveredItem && hoveredItem.id === item.id && (
+                <div className="toolbar-tooltip">
+                  {hoveredItem.label}
+                </div>
+              )}
               {mouseOverGroup === item.id && (
                 <div 
                   className="toolbar-group-dropdown"
@@ -81,6 +86,11 @@ function Toolbar({ items }) {
                           '📝'
                         )}
                       </div>
+                      {hoveredItem && hoveredItem.id === subItem.id && (
+                        <div className="toolbar-tooltip toolbar-tooltip-sub">
+                          {hoveredItem.label}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -100,6 +110,11 @@ function Toolbar({ items }) {
                   '📝'
                 )}
               </div>
+              {hoveredItem && hoveredItem.id === item.id && (
+                <div className="toolbar-tooltip">
+                  {hoveredItem.label}
+                </div>
+              )}
             </div>
           )
         ))}
@@ -115,6 +130,11 @@ function Toolbar({ items }) {
           }}
         >
           <div className="toolbar-item-icon">⋮</div>
+          {hoveredItem && hoveredItem.id === 'more' && (
+            <div className="toolbar-tooltip">
+              {hoveredItem.label}
+            </div>
+          )}
           {mouseOverGroup === 'more' && (
             <div 
               className="toolbar-group-dropdown"
@@ -136,6 +156,11 @@ function Toolbar({ items }) {
                     }}
                   >
                     <div className="toolbar-item-icon">📂</div>
+                    {hoveredItem && hoveredItem.id === item.id && (
+                      <div className="toolbar-tooltip toolbar-tooltip-sub">
+                        {hoveredItem.label}
+                      </div>
+                    )}
                     {mouseOverGroup === `more-${item.id}` && (
                       <div 
                         className="toolbar-group-dropdown-horizontal"
@@ -156,6 +181,11 @@ function Toolbar({ items }) {
                                 '📝'
                               )}
                             </div>
+                            {hoveredItem && hoveredItem.id === subItem.id && (
+                              <div className="toolbar-tooltip toolbar-tooltip-sub-horizontal">
+                                {hoveredItem.label}
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -175,6 +205,11 @@ function Toolbar({ items }) {
                         '📝'
                       )}
                     </div>
+                    {hoveredItem && hoveredItem.id === item.id && (
+                      <div className="toolbar-tooltip toolbar-tooltip-sub">
+                        {hoveredItem.label}
+                      </div>
+                    )}
                   </div>
                 )
               ))}
@@ -182,11 +217,6 @@ function Toolbar({ items }) {
           )}
         </div>
       </div>
-      {hoveredItem && hoveredItem.label && (
-        <div className="toolbar-tooltip" data-item-id={hoveredItem.id}>
-          {hoveredItem.label}
-        </div>
-      )}
     </div>
   )
 }
