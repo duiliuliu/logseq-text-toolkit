@@ -1,4 +1,4 @@
-export function setupSettings(mainFn) {
+export function setupSettings() {
   logseq
     .useSettingsSchema([
       {
@@ -38,15 +38,7 @@ export function setupSettings(mainFn) {
         description: "Custom toolbar items configuration in JSON format"
       }
     ])
-    .ready(() => {
-      onSettingsChange(mainFn)
-      logseq.onSettingsChanged(() => onSettingsChange(mainFn))
-    })
     .catch(console.error)
-}
-
-function onSettingsChange(mainFn) {
-  mainFn().catch(console.error)
 }
 
 export function getSettings() {

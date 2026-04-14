@@ -33,6 +33,9 @@ async function main() {
   try {
     console.log("Initializing Text Toolkit plugin")
     
+    // 设置设置schema
+    setupSettings()
+    
     // 初始化国际化
     const userConfigs = await logseq.App.getUserConfigs()
     const preferredLanguage = userConfigs.preferredLanguage || "en"
