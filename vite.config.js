@@ -5,8 +5,11 @@ import logseqDevPlugin from 'vite-plugin-logseq'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    root: 'src',
     plugins: [react(), logseqDevPlugin()],
     build: {
+      outDir: '../dist',
+      emptyOutDir: true,
       target: 'esnext',
       minify: 'terser',
       cssCodeSplit: false,
@@ -21,9 +24,10 @@ export default defineConfig(({ mode }) => {
     },
     // 测试模式配置
     ...(mode === 'test' && {
-      root: '.',
+      root: 'test',
       build: {
-        outDir: 'dist-test',
+        outDir: '../dist-test',
+        emptyOutDir: true,
       },
     }),
   }
