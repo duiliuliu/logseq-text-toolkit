@@ -154,4 +154,55 @@
   font-size: 14px;
   color: var(--ls-primary-text-color-plugin, #333333);
   margin-left: 8px;
+  display: none;
+}
+
+.toolbar-group-item:hover .toolbar-item-label {
+  display: block;
+}
+
+/* 横向展示的子元素 */
+.toolbar-group-dropdown-horizontal {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  margin-right: 4px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.toolbar-group-item-horizontal {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-right: 1px solid var(--ls-border-color-plugin, #cccccc);
+}
+
+.toolbar-group-item-horizontal:last-child {
+  border-right: none;
+}
+
+.toolbar-group-item-horizontal:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+}
+
+.toolbar-group-item-horizontal:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.toolbar-group-item-horizontal:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.toolbar-group-item-horizontal:hover .toolbar-item-label {
+  display: block;
 }
