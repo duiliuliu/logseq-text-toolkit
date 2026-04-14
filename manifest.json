@@ -3,7 +3,7 @@
   "description": "A toolkit for text formatting and manipulation",
   "author": "duiliuliu",
   "repo": "duiliuliu/logseq-text-toolkit",
-  "icon": "icon.png",
+  "icon": "images/icon.png",
   "unsupportedGraphType": "file",
   "supportsDB": true,
   "supportsDBOnly": true

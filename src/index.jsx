@@ -5,6 +5,7 @@ import { debounce, throttle } from "rambdax"
 import Toolbar from "./Toolbar.jsx"
 import zhCN from "./translations/zh-CN.json"
 import ja from "./translations/ja.json"
+import en from "./translations/en.json"
 
 const TOOLBAR_ID = "kef-wrap-toolbar"
 const SPONSOR_BAR_ID = "kef-wrap-sponsor-bar"
@@ -20,7 +21,7 @@ async function main() {
   toolbar = null
   textarea = null
 
-  await setup({ builtinTranslations: { "zh-CN": zhCN, "ja": ja } })
+  await setup({ builtinTranslations: { "zh-CN": zhCN, "ja": ja, "en": en } })
 
   const definitions = await getDefinitions()
 
@@ -42,7 +43,8 @@ async function main() {
   const settings = {
     toolbar: logseq.settings?.toolbar ?? true,
     sponsorBar: logseq.settings?.sponsorBar ?? true,
-    toolbarShortcut: logseq.settings?.toolbarShortcut ?? ""
+    toolbarShortcut: logseq.settings?.toolbarShortcut ?? "",
+    toolbarTheme: logseq.settings?.toolbarTheme ?? "system"
   }
 
   if (settings.toolbar) {
@@ -80,24 +82,27 @@ async function main() {
 
       // Let div root element get generated first.
       setTimeout(async () => {
-        toolbar = parent.document.getElementById(TOOLBAR_ID)
-        render(<Toolbar items={definitions} model={model} />, toolbar)
+      toolbar = parent.document.getElementById(TOOLBAR_ID)
+      render(<Toolbar items={definitions} model={model} />, toolbar)
 
-        // 获取赞赏栏元素
-        if (settings.sponsorBar) {
-          sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
-        }
+      // 获取赞赏栏元素
+      if (settings.sponsorBar) {
+        sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
+      }
 
-        toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
-        parent.document.addEventListener("focusout", onBlur)
+      // 应用主题
+      applyTheme(settings.toolbarTheme)
 
-        const mainContentContainer = parent.document.getElementById(
-          "main-content-container",
-        )
-        mainContentContainer.addEventListener("scroll", onScroll, {
-          passive: true,
-        })
-      }, 0)
+      toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
+      parent.document.addEventListener("focusout", onBlur)
+
+      const mainContentContainer = parent.document.getElementById(
+        "main-content-container",
+      )
+      mainContentContainer.addEventListener("scroll", onScroll, {
+        passive: true,
+      })
+    }, 0)
     }
   }
 
@@ -136,10 +141,20 @@ async function main() {
 function provideStyles() {
   logseq.provideStyle(`
     :root {
-      --kef-wrap-tb-bg: #333e;
+      --kef-wrap-tb-bg-light: #333e;
+      --kef-wrap-tb-bg-dark: #777e;
     }
-    :root.dark {
-      --kef-wrap-tb-bg: #777e;
+    #kef-wrap-toolbar.light-theme {
+      background: var(--kef-wrap-tb-bg-light);
+    }
+    #kef-wrap-toolbar.dark-theme {
+      background: var(--kef-wrap-tb-bg-dark);
+    }
+    #kef-wrap-sponsor-bar.light-theme {
+      background: var(--kef-wrap-tb-bg-light);
+    }
+    #kef-wrap-sponsor-bar.dark-theme {
+      background: var(--kef-wrap-tb-bg-dark);
     }
     #kef-wrap-toolbar {
       position: absolute;
@@ -149,7 +164,6 @@ function provideStyles() {
       opacity: 0;
       will-change: opacity;
       transition: opacity 100ms ease-in-out;
-      background: var(--kef-wrap-tb-bg);
       border-radius: 6px;
       color: #fff;
       display: flex;
@@ -205,7 +219,6 @@ function provideStyles() {
       opacity: 0;
       will-change: opacity;
       transition: opacity 100ms ease-in-out;
-      background: var(--kef-wrap-tb-bg);
       border-radius: 6px;
       color: #fff;
       display: flex;
@@ -732,31 +745,28 @@ function deletionWorkaroundHandler(e) {
 async function positionToolbar() {
   const curPos = await logseq.Editor.getEditingCursorPosition()
   if (curPos != null) {
-    // 计算位置和宽度
-    let leftPosition
-    let width = toolbar.clientWidth
-    
+    toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
     if (
-      curPos.left + curPos.rect.x + width <=
+      curPos.left + curPos.rect.x + toolbar.clientWidth <=
       parent.window.innerWidth
     ) {
-      leftPosition = `${curPos.left + curPos.rect.x}px`
+      toolbar.style.left = `${curPos.left + curPos.rect.x}px`
     } else {
-      width = parent.window.innerWidth - (curPos.left + curPos.rect.x)
-      leftPosition = `${curPos.left + curPos.rect.x}px`
+      toolbar.style.left = `${-toolbar.clientWidth + parent.window.innerWidth}px`
     }
-    
-    // 设置工具栏位置和宽度
-    toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
-    toolbar.style.left = leftPosition
-    toolbar.style.width = `${width}px`
     toolbar.style.opacity = "1"
     
-    // 设置赞赏栏位置和宽度
+    // 设置赞赏栏位置
     if (sponsorBar) {
       sponsorBar.style.top = `${curPos.top + curPos.rect.y - 5}px`
-      sponsorBar.style.left = leftPosition
-      sponsorBar.style.width = `${width}px`
+      if (
+        curPos.left + curPos.rect.x + sponsorBar.clientWidth <=
+        parent.window.innerWidth
+      ) {
+        sponsorBar.style.left = `${curPos.left + curPos.rect.x}px`
+      } else {
+        sponsorBar.style.left = `${-sponsorBar.clientWidth + parent.window.innerWidth}px`
+      }
       sponsorBar.style.opacity = "1"
     }
   }
@@ -806,6 +816,30 @@ const showToolbar = debounce(async () => {
 function onScroll(e) {
   hideToolbar()
   showToolbar()
+}
+
+function applyTheme(theme) {
+  if (!toolbar) return
+  
+  // 移除现有的主题类
+  toolbar.classList.remove("light-theme", "dark-theme")
+  if (sponsorBar) {
+    sponsorBar.classList.remove("light-theme", "dark-theme")
+  }
+  
+  // 应用新的主题类
+  let themeClass = "light-theme"
+  if (theme === "dark") {
+    themeClass = "dark-theme"
+  } else if (theme === "system") {
+    // 跟随系统主题
+    themeClass = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark-theme" : "light-theme"
+  }
+  
+  toolbar.classList.add(themeClass)
+  if (sponsorBar) {
+    sponsorBar.classList.add(themeClass)
+  }
 }
 
 function toggleToolbarDisplay() {
