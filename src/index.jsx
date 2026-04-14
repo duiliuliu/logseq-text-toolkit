@@ -100,7 +100,7 @@ async function main() {
         sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
         setToolbarElements(toolbar, sponsorBar)
         render(<Toolbar items={definitions} model={model} />, toolbar)
-        applyTheme(settings.toolbarTheme)
+        await applyTheme(settings.toolbarTheme)
 
         toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
         parent.document.addEventListener("focusout", onBlur)

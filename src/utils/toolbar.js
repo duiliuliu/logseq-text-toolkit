@@ -9,7 +9,7 @@ export function setTextarea(textareaEl) {
   textarea = textareaEl
 }
 
-export function applyTheme(theme) {
+export async function applyTheme(theme) {
   const toolbarEl = toolbar
   const sponsorBarEl = sponsorBar
   if (!toolbarEl) return
@@ -21,7 +21,8 @@ export function applyTheme(theme) {
 
   let actualTheme = theme
   if (theme === "system") {
-    actualTheme = parent.document.documentElement.getAttribute("data-theme") || "light"
+    const userConfigs = await logseq.App.getUserConfigs()
+    actualTheme = userConfigs.preferredTheme || "light"
   }
 
   if (actualTheme === "light") {
