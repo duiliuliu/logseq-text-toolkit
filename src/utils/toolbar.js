@@ -117,7 +117,7 @@ export function onScroll(e) {
   showToolbar()
 }
 
-export function onSelectionChange(textareaRef, toolbarRef, isTestMode) {
+export function onSelectionChange(textareaRef, toolbarRef) {
   return async function(e) {
     textarea = textareaRef
     toolbar = toolbarRef
@@ -127,13 +127,7 @@ export function onSelectionChange(textareaRef, toolbarRef, isTestMode) {
       activeElement !== textarea &&
       activeElement.nodeName.toLowerCase() === "textarea"
     ) {
-      if (toolbar != null && textarea != null) {
-        textarea.removeEventListener("keydown", deletionWorkaroundHandler)
-      }
       textarea = activeElement
-      if (toolbar != null) {
-        textarea.addEventListener("keydown", deletionWorkaroundHandler)
-      }
     }
 
     if (toolbar != null && activeElement === textarea) {
@@ -146,33 +140,9 @@ export function onSelectionChange(textareaRef, toolbarRef, isTestMode) {
           sponsorBar.style.opacity = "0"
         }
       } else if (textarea.selectionStart !== textarea.selectionEnd) {
-        if (!isTestMode) {
-          await positionToolbar()
-        } else {
-          toolbar.style.opacity = "1"
-          toolbar.style.left = "100px"
-          toolbar.style.top = "100px"
-          if (sponsorBar) {
-            sponsorBar.style.opacity = "1"
-            sponsorBar.style.left = "100px"
-            sponsorBar.style.top = "140px"
-          }
-        }
+        await positionToolbar()
       }
     }
-  }
-}
-
-function deletionWorkaroundHandler(e) {
-  if (
-    (e.key === "Backspace" || e.key === "Delete") &&
-    textarea &&
-    textarea.selectionStart === 0 &&
-    textarea.selectionEnd === textarea.value.length &&
-    toolbar &&
-    toolbar.style.opacity !== "0"
-  ) {
-    toolbar.style.opacity = "0"
   }
 }
 

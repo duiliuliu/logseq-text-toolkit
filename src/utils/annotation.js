@@ -68,7 +68,7 @@ export function createCommentAnnotationModal(selection, onSubmit, onCancel) {
   }
 }
 
-export async function handleAnnotation(isTestMode) {
+export async function handleAnnotation() {
   const currentPage = await logseq.Editor.getCurrentPage()
   if (!currentPage) return
 
@@ -85,11 +85,6 @@ export async function handleAnnotation(isTestMode) {
   const selection = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd)
   if (!selection.trim()) {
     logseq.App.showMsg("请选择要添加标注的文本", "error")
-    return
-  }
-
-  if (isTestMode) {
-    alert('标注功能已触发\n\n测试模式下的操作：\n1. 模拟在当前页面尾部添加 ## annotation 标题\n2. 将选中的文本作为子节点添加\n3. 在子节点下创建空白节点并定位光标')
     return
   }
 
@@ -132,7 +127,7 @@ export async function handleAnnotation(isTestMode) {
   })
 }
 
-export async function handleComment(type, isTestMode) {
+export async function handleComment(type) {
   const currentBlock = await logseq.Editor.getCurrentBlock()
   if (!currentBlock) return
 
@@ -146,12 +141,6 @@ export async function handleComment(type, isTestMode) {
   const selection = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd)
   if (!selection.trim()) {
     logseq.App.showMsg("请选择要添加评论的文本", "error")
-    return
-  }
-
-  if (isTestMode) {
-    const commentType = type === 'page' ? '页面' : '日记'
-    alert(`${commentType}评论功能已触发\n\n测试模式下的操作：\n1. 在${commentType}页面创建 ## comment 标题\n2. 创建子节点，内容为选中节点的引用\n3. 在子节点下创建空白节点并定位光标`)
     return
   }
 

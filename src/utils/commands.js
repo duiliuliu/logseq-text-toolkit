@@ -16,24 +16,23 @@ export function registerModel(
   model,
   { key, template, pluginCommand, regex, replacement },
   textarea,
-  isTestMode,
 ) {
   if (key.startsWith("wrap-")) {
-    model[key] = () => updateBlockText(textarea, isTestMode, wrap, template, pluginCommand)
+    model[key] = () => updateBlockText(textarea, wrap, template, pluginCommand)
   } else if (key.startsWith("repl-")) {
-    model[key] = () => updateBlockText(textarea, isTestMode, repl, regex, replacement)
+    model[key] = () => updateBlockText(textarea, repl, regex, replacement)
   } else if (key.startsWith("anno-")) {
-    model[key] = () => handleAnnotation(isTestMode)
+    model[key] = () => handleAnnotation()
   } else if (key.startsWith("comment-")) {
     if (key === "comment-page") {
-      model[key] = () => handleComment("page", isTestMode)
+      model[key] = () => handleComment("page")
     } else if (key === "comment-journal") {
-      model[key] = () => handleComment("journal", isTestMode)
+      model[key] = () => handleComment("journal")
     }
   }
 }
 
-async function updateBlockText(textarea, isTestMode, producer, ...args) {
+async function updateBlockText(textarea, producer, ...args) {
   const block = await logseq.Editor.getCurrentBlock()
 
   if (block == null || textarea == null) {
@@ -58,19 +57,13 @@ async function updateBlockText(textarea, isTestMode, producer, ...args) {
     ...args,
   )
   
-  if (isTestMode) {
-    textarea.value = text
+  await logseq.Editor.updateBlock(block.uuid, text)
+  if (textarea?.isConnected) {
     textarea.focus()
     textarea.setSelectionRange(selStart, selEnd)
   } else {
-    await logseq.Editor.updateBlock(block.uuid, text)
-    if (textarea?.isConnected) {
-      textarea.focus()
-      textarea.setSelectionRange(selStart, selEnd)
-    } else {
-      await logseq.Editor.editBlock(block.uuid)
-      parent.document.activeElement.setSelectionRange(selStart, selEnd)
-    }
+    await logseq.Editor.editBlock(block.uuid)
+    parent.document.activeElement.setSelectionRange(selStart, selEnd)
   }
 }
 

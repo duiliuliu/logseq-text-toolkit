@@ -24,8 +24,6 @@ import {
 const TOOLBAR_ID = "kef-wrap-toolbar"
 const SPONSOR_BAR_ID = "kef-wrap-sponsor-bar"
 
-const isTestMode = typeof window !== 'undefined' && window.location.pathname.includes('test.html')
-
 let toolbar = null
 let sponsorBar = null
 let textarea = null
@@ -49,7 +47,7 @@ async function main() {
   model = {}
 
   const registerDefModel = (def) => {
-    registerModel(model, def, textarea, isTestMode)
+    registerModel(model, def, textarea)
   }
 
   for (const definition of definitions) {
@@ -64,72 +62,65 @@ async function main() {
   logseq.provideModel(model)
 
   if (settings.toolbar) {
-    if (!isTestMode) {
+    logseq.provideUI({
+      key: TOOLBAR_ID,
+      path: "#app-container",
+      template: `<div id="${TOOLBAR_ID}"></div>`,
+    })
+
+    if (settings.sponsorBar) {
       logseq.provideUI({
-        key: TOOLBAR_ID,
+        key: SPONSOR_BAR_ID,
         path: "#app-container",
-        template: `<div id="${TOOLBAR_ID}"></div>`,
+        template: `<div id="${SPONSOR_BAR_ID}"><iframe src="https://duiliuliu.github.io/sponsor-page/" scrolling="no" frameborder="0"></iframe></div>`,
       })
-
-      if (settings.sponsorBar) {
-        logseq.provideUI({
-          key: SPONSOR_BAR_ID,
-          path: "#app-container",
-          template: `<div id="${SPONSOR_BAR_ID}"><iframe src="https://duiliuliu.github.io/sponsor-page/" scrolling="no" frameborder="0"></iframe></div>`,
-        })
-      }
-
-      if (settings.toolbarShortcut) {
-        logseq.App.registerCommandPalette(
-          {
-            key: "toggle-toolbar",
-            label: t("Toggle toolbar display"),
-            keybinding: { binding: settings.toolbarShortcut },
-          },
-          toggleToolbarDisplay,
-        )
-      } else {
-        logseq.App.registerCommandPalette(
-          { key: "toggle-toolbar", label: t("Toggle toolbar display") },
-          toggleToolbarDisplay,
-        )
-      }
-
-      setTimeout(async () => {
-        toolbar = parent.document.getElementById(TOOLBAR_ID)
-        sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
-        setToolbarElements(toolbar, sponsorBar)
-        render(<Toolbar items={definitions} model={model} />, toolbar)
-        await applyTheme(settings.toolbarTheme)
-
-        toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
-        parent.document.addEventListener("focusout", onBlur)
-
-        const mainContentContainer = parent.document.getElementById(
-          "main-content-container",
-        )
-        mainContentContainer.addEventListener("scroll", onScroll, {
-          passive: true,
-        })
-      }, 0)
     }
-  }
 
-  const selectionChangeHandler = onSelectionChange(null, null, isTestMode)
-  parent.document.addEventListener("selectionchange", selectionChangeHandler)
-
-  logseq.beforeunload(async () => {
-    if (textarea) {
-      textarea.removeEventListener("keydown", deletionWorkaroundHandler)
+    if (settings.toolbarShortcut) {
+      logseq.App.registerCommandPalette(
+        {
+          key: "toggle-toolbar",
+          label: t("Toggle toolbar display"),
+          keybinding: { binding: settings.toolbarShortcut },
+        },
+        toggleToolbarDisplay,
+      )
+    } else {
+      logseq.App.registerCommandPalette(
+        { key: "toggle-toolbar", label: t("Toggle toolbar display") },
+        toggleToolbarDisplay,
+      )
     }
-    if (!isTestMode) {
+
+    setTimeout(async () => {
+      toolbar = parent.document.getElementById(TOOLBAR_ID)
+      sponsorBar = parent.document.getElementById(SPONSOR_BAR_ID)
+      setToolbarElements(toolbar, sponsorBar)
+      render(<Toolbar items={definitions} model={model} />, toolbar)
+      await applyTheme(settings.toolbarTheme)
+
+      toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
+      parent.document.addEventListener("focusout", onBlur)
+
       const mainContentContainer = parent.document.getElementById(
         "main-content-container",
       )
-      mainContentContainer.removeEventListener("scroll", onScroll, {
+      mainContentContainer.addEventListener("scroll", onScroll, {
         passive: true,
       })
-    }
+    }, 0)
+  }
+
+  const selectionChangeHandler = onSelectionChange(null, null)
+  parent.document.addEventListener("selectionchange", selectionChangeHandler)
+
+  logseq.beforeunload(async () => {
+    const mainContentContainer = parent.document.getElementById(
+      "main-content-container",
+    )
+    mainContentContainer.removeEventListener("scroll", onScroll, {
+      passive: true,
+    })
     toolbar?.removeEventListener("transitionend", onToolbarTransitionEnd)
     parent.document.removeEventListener("focusout", onBlur)
     parent.document.removeEventListener("selectionchange", selectionChangeHandler)
@@ -146,19 +137,6 @@ async function main() {
   }
 
   console.log("#wrap loaded")
-}
-
-function deletionWorkaroundHandler(e) {
-  if (
-    (e.key === "Backspace" || e.key === "Delete") &&
-    textarea &&
-    textarea.selectionStart === 0 &&
-    textarea.selectionEnd === textarea.value.length &&
-    toolbar &&
-    toolbar.style.opacity !== "0"
-  ) {
-    toolbar.style.opacity = "0"
-  }
 }
 
 setupSettings(main)
