@@ -39,6 +39,19 @@ window.logseq = {
     getCurrentPage: () => Promise.resolve({
       id: 'test-page',
       name: 'Test Page'
-    })
+    }),
+    getSelectedText: () => {
+      const selection = window.getSelection();
+      return Promise.resolve(selection.toString());
+    },
+    replaceSelectedText: (text) => {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(document.createTextNode(text));
+      }
+      return Promise.resolve();
+    }
   }
 };
