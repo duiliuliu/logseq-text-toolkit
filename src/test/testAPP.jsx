@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import '../index.css'
 import '../main.css'
+import Toolbar from '../components/Toolbar'
+import { toolbarItems } from './testData'
 
 // 导入mock logseq
 import './mock.js'
@@ -30,6 +32,12 @@ function TestApp() {
       <h1>Text Toolkit Plugin (Test Mode)</h1>
       <p>Welcome to Text Toolkit Test Mode!</p>
       <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
+      
+      <h2>Light Theme Toolbar</h2>
+      <Toolbar items={toolbarItems} theme="light" />
+      
+      <h2>Dark Theme Toolbar</h2>
+      <Toolbar items={toolbarItems} theme="dark" />
     </div>
   )
 }

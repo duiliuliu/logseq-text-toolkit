@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './toolbar.css'
 
-function Toolbar({ items }) {
+function Toolbar({ items, theme = 'light' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [isMoreExpanded, setIsMoreExpanded] = useState(false)
@@ -47,7 +47,7 @@ function Toolbar({ items }) {
   const allItems = isMoreExpanded ? visibleItems.concat(hiddenItems) : mainItems
 
   return (
-    <div className="toolbar-container">
+    <div className={`toolbar-container toolbar-${theme}`}>
       <div className="toolbar-main toolbar-scrollable">
         {allItems.map((item, index) => (
           item.isGroup ? (

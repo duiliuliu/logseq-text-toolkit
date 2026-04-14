@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
+  margin-bottom: 20px;
 }
 
 .toolbar-main {
@@ -17,6 +18,38 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+/* 主题样式 */
+.toolbar-dark .toolbar-main {
+  background-color: #333333;
+  border-color: #555555;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.toolbar-dark .toolbar-group-dropdown,
+.toolbar-dark .toolbar-group-dropdown-horizontal {
+  background-color: #333333;
+  border-color: #555555;
+}
+
+.toolbar-dark .toolbar-group-item:hover,
+.toolbar-dark .toolbar-group-item-horizontal:hover {
+  background-color: #444444;
+}
+
+.toolbar-dark .toolbar-main-item:hover {
+  background-color: #444444;
+}
+
+.toolbar-dark .toolbar-item-icon svg {
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+.toolbar-dark .toolbar-tooltip {
+  background-color: #555555;
+  color: #ffffff;
 }
 
 .toolbar-scrollable {
