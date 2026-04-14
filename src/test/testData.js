@@ -5,11 +5,19 @@ export const toolbarItems = {
     "template": "**$^**",
     "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><path d=\"M6 4h7a4 4 0 0 1 4 4v1a4 4 0 0 1-4 4H6V4zm0 7h7a4 4 0 0 1 4 4v1a4 4 0 0 1-4 4H6V11z\" fill=\"currentColor\"/></svg>"
   },
-  "wrap-italic": {
-    "label": "Wrap italic",
-    "binding": "mod+shift+i",
-    "template": "*$^*",
-    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><path d=\"M10 4h4l-3 16H7l3-16z\" fill=\"currentColor\"/></svg>"
+  "group-style": {
+    "wrap-italic": {
+      "label": "Wrap italic",
+      "binding": "mod+shift+i",
+      "template": "*$^*",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><path d=\"M10 4h4l-3 16H7l3-16z\" fill=\"currentColor\"/></svg>"
+    },
+    "wrap-underline": {
+      "label": "Wrap underline",
+      "binding": "",
+      "template": "__$^__",
+      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><path d=\"M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3M4 21h16\" stroke=\"currentColor\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/></svg>"
+    }
   },
   "wrap-strike-through": {
     "label": "Wrap strike through",
