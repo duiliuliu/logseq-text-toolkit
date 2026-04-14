@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from '../src/App.jsx'
 import '../src/index.css'
 import '../src/main.css'
+import './mock/mock.js'
 
 // 初始化应用
 const initializeApp = () => {
