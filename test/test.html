@@ -20,75 +20,40 @@
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 2rem;
       }
-      .test-section {
-        margin-bottom: 1.5rem;
-      }
-      .test-section h3 {
+      h1 {
         margin-top: 0;
         color: #333;
       }
-      .test-content {
+      .edit-box {
+        width: 100%;
+        min-height: 200px;
+        padding: 1rem;
         border: 1px solid #e0e0e0;
-        padding: 1rem;
         border-radius: 4px;
-        min-height: 100px;
+        font-family: inherit;
+        font-size: 16px;
+        line-height: 1.5;
+        resize: vertical;
       }
-      .test-results {
-        background-color: #f9f9f9;
-        padding: 1rem;
-        border-radius: 4px;
+      .instructions {
         margin-top: 1rem;
-      }
-      .button-group {
-        margin-top: 1rem;
-      }
-      button {
-        padding: 0.5rem 1rem;
-        margin-right: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #f0f0f0;
-        cursor: pointer;
-      }
-      button:hover {
-        background-color: #e0e0e0;
+        font-size: 14px;
+        color: #666;
       }
     </style>
   </head>
   <body>
-    <h1>Text Toolkit Test Mode</h1>
-    
     <div class="test-area">
-      <h2>测试区域</h2>
-      
-      <div class="test-section">
-        <h3>编辑模式</h3>
-        <div class="test-content" contenteditable="true">
-          选中这段文字，测试工具栏功能...
-        </div>
-      </div>
-      
-      <div class="test-section">
-        <h3>显示模式</h3>
-        <div class="test-content" id="display-area">
-          这里将显示格式化后的文本...
-        </div>
-      </div>
-      
-      <div class="test-section">
-        <h3>测试结果</h3>
-        <div class="test-results" id="test-results">
-          测试结果将显示在这里...
-        </div>
-      </div>
-      
-      <div class="button-group">
-        <button onclick="testBold()">测试加粗</button>
-        <button onclick="testHighlight()">测试高亮</button>
-        <button onclick="testFileLink()">测试文件链接</button>
-        <button onclick="testComment()">测试评论</button>
+      <h1>Text Toolkit Test Mode</h1>
+      <textarea class="edit-box" id="edit-box" placeholder="选中这段文字，测试工具栏功能..."></textarea>
+      <div class="instructions">
+        <p>测试说明：</p>
+        <ul>
+          <li>在上面的编辑框中输入或选中文字</li>
+          <li>观察是否出现工具栏</li>
+          <li>点击工具栏中的按钮测试功能</li>
+        </ul>
       </div>
     </div>
 
@@ -137,53 +102,6 @@
           })
         }
       };
-
-      // 测试函数
-      function testBold() {
-        const selection = window.getSelection();
-        if (selection.toString()) {
-          const result = `**${selection.toString()}**`;
-          updateDisplay(result);
-          updateResults(`加粗测试: ${result}`);
-        }
-      }
-
-      function testHighlight() {
-        const selection = window.getSelection();
-        if (selection.toString()) {
-          const result = `==${selection.toString()}==`;
-          updateDisplay(result);
-          updateResults(`高亮测试: ${result}`);
-        }
-      }
-
-      function testFileLink() {
-        const selection = window.getSelection();
-        if (selection.toString()) {
-          const result = `[[${selection.toString()}]]`;
-          updateDisplay(result);
-          updateResults(`文件链接测试: ${result}`);
-        }
-      }
-
-      function testComment() {
-        const selection = window.getSelection();
-        if (selection.toString()) {
-          const comment = prompt('请输入评论内容:');
-          if (comment) {
-            updateResults(`评论测试: 选中文字 "${selection.toString()}", 评论 "${comment}"`);
-          }
-        }
-      }
-
-      function updateDisplay(content) {
-        document.getElementById('display-area').textContent = content;
-      }
-
-      function updateResults(content) {
-        const results = document.getElementById('test-results');
-        results.innerHTML += `<p>${content}</p>`;
-      }
     </script>
 
     <!-- 插件脚本 -->
