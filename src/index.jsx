@@ -656,11 +656,10 @@ async function wrap(
   }
 
   const [wrapBefore, wrapAfter] = template.split("$^")
-  return [
-    `${before}${wrapBefore}${text}${wrapAfter ?? ""}${whitespaces}${after}`,
-    start,
-    end + wrapBefore.length - whitespaces.length + (wrapAfter?.length || 0),
-  ]
+  const resultText = `${before}${wrapBefore}${text}${wrapAfter ?? ""}${whitespaces}${after}`
+  const newStart = start
+  const newEnd = end + wrapBefore.length - whitespaces.length + (wrapAfter?.length || 0)
+  return [resultText, newStart, newEnd]
 }
 
 function repl(before, selection, after, start, end, regex, replacement) {
@@ -689,9 +688,24 @@ async function onSelectionChange(e) {
       toolbar.style.opacity !== "0"
     ) {
       toolbar.style.opacity = "0"
+      // 同时隐藏赞赏栏
+      if (sponsorBar) {
+        sponsorBar.style.opacity = "0"
+      }
     } else if (textarea.selectionStart !== textarea.selectionEnd) {
       if (!isTestMode) {
         await positionToolbar()
+      } else {
+        // 在测试模式下直接显示工具栏
+        toolbar.style.opacity = "1"
+        toolbar.style.left = "100px"
+        toolbar.style.top = "100px"
+        // 同时显示赞赏栏
+        if (sponsorBar) {
+          sponsorBar.style.opacity = "1"
+          sponsorBar.style.left = "100px"
+          sponsorBar.style.top = "140px"
+        }
       }
     }
   }
@@ -796,6 +810,86 @@ function toggleToolbarDisplay() {
   }
 }
 
+// 创建评论和注解的弹窗
+function createCommentAnnotationModal(selection, onSubmit, onCancel) {
+  // 检查是否已存在弹窗，如果存在则移除
+  const existingModal = parent.document.getElementById("kef-wrap-comment-modal")
+  if (existingModal) {
+    existingModal.remove()
+  }
+
+  // 创建弹窗容器
+  const modal = parent.document.createElement("div")
+  modal.id = "kef-wrap-comment-modal"
+  modal.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--ls-primary-background-color, #fff);
+    border: 1px solid var(--ls-border-color, #ddd);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    z-index: var(--ls-z-index-level-3, 1000);
+    width: 400px;
+    max-width: 90vw;
+  `
+
+  // 创建弹窗内容
+  modal.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <div style="font-weight: bold; color: var(--ls-primary-text-color, #333);">${selection.substring(0, 50)}${selection.length > 50 ? '...' : ''}</div>
+      <button id="kef-wrap-modal-close" style="background: none; border: none; font-size: 16px; cursor: pointer; color: var(--ls-secondary-text-color, #666);">&times;</button>
+    </div>
+    <div style="margin-bottom: 15px;">
+      <textarea id="kef-wrap-modal-content" rows="4" style="width: 100%; padding: 10px; border: 1px solid var(--ls-border-color, #ddd); border-radius: 4px; resize: vertical; font-family: var(--ls-font-family, sans-serif); font-size: 14px;"></textarea>
+    </div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button id="kef-wrap-modal-cancel" style="padding: 6px 12px; border: 1px solid var(--ls-border-color, #ddd); border-radius: 4px; background: var(--ls-secondary-background-color, #f5f5f5); cursor: pointer; font-size: 14px;">取消</button>
+      <button id="kef-wrap-modal-submit" style="padding: 6px 12px; border: 1px solid var(--ls-primary-color, #007bff); border-radius: 4px; background: var(--ls-primary-color, #007bff); color: white; cursor: pointer; font-size: 14px;">确定</button>
+    </div>
+  `
+
+  // 添加到文档
+  parent.document.body.appendChild(modal)
+
+  // 添加事件监听器
+  parent.document.getElementById("kef-wrap-modal-close").addEventListener("click", onCancel)
+  parent.document.getElementById("kef-wrap-modal-cancel").addEventListener("click", onCancel)
+  parent.document.getElementById("kef-wrap-modal-submit").addEventListener("click", () => {
+    const content = parent.document.getElementById("kef-wrap-modal-content").value
+    onSubmit(content)
+  })
+
+  // 点击外部关闭弹窗
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      onCancel()
+    }
+  })
+
+  // 按ESC键关闭弹窗
+  parent.document.addEventListener("keydown", function handleEscKey(e) {
+    if (e.key === "Escape") {
+      onCancel()
+      parent.document.removeEventListener("keydown", handleEscKey)
+    }
+  })
+
+  // 聚焦到文本域
+  setTimeout(() => {
+    parent.document.getElementById("kef-wrap-modal-content").focus()
+  }, 100)
+
+  // 关闭弹窗的函数
+  return function closeModal() {
+    if (modal.parentNode) {
+      modal.parentNode.removeChild(modal)
+    }
+  }
+}
+
 async function handleAnnotation() {
   // 获取当前页面
   const currentPage = await logseq.Editor.getCurrentPage()
@@ -825,42 +919,51 @@ async function handleAnnotation() {
     return
   }
 
-  // 查找或创建 "## annotation" 块
-  let annotationBlock = null
-  const blocks = await logseq.Editor.getPageBlocksTree(currentPage.name)
-  
-  for (const block of blocks) {
-    if (block.content.trim() === "## annotation") {
-      annotationBlock = block
-      break
-    }
-  }
+  // 创建弹窗
+  const closeModal = createCommentAnnotationModal(selection, async (content) => {
+    // 关闭弹窗
+    closeModal()
 
-  if (!annotationBlock) {
-    // 创建 "## annotation" 块
-    annotationBlock = await logseq.Editor.insertBlock(
-      currentPage.uuid,
-      "## annotation",
+    // 查找或创建 "## annotation" 块
+    let annotationBlock = null
+    const blocks = await logseq.Editor.getPageBlocksTree(currentPage.name)
+    
+    for (const block of blocks) {
+      if (block.content.trim() === "## annotation") {
+        annotationBlock = block
+        break
+      }
+    }
+
+    if (!annotationBlock) {
+      // 创建 "## annotation" 块
+      annotationBlock = await logseq.Editor.insertBlock(
+        currentPage.uuid,
+        "## annotation",
+        { before: false }
+      )
+    }
+
+    // 在 annotation 块下创建子块，内容为选中的文本
+    const childBlock = await logseq.Editor.insertBlock(
+      annotationBlock.uuid,
+      selection.trim(),
       { before: false }
     )
-  }
 
-  // 在 annotation 块下创建子块，内容为选中的文本
-  const childBlock = await logseq.Editor.insertBlock(
-    annotationBlock.uuid,
-    selection.trim(),
-    { before: false }
-  )
+    // 在子块下创建块，内容为用户输入的注解
+    const commentBlock = await logseq.Editor.insertBlock(
+      childBlock.uuid,
+      content.trim() || "",
+      { before: false }
+    )
 
-  // 在子块下创建空白块并将光标定位到这里
-  const commentBlock = await logseq.Editor.insertBlock(
-    childBlock.uuid,
-    "",
-    { before: false }
-  )
-
-  // 编辑新创建的空白块
-  await logseq.Editor.editBlock(commentBlock.uuid)
+    // 编辑新创建的块
+    await logseq.Editor.editBlock(commentBlock.uuid)
+  }, () => {
+    // 关闭弹窗
+    closeModal()
+  })
 }
 
 async function handleComment(type) {
@@ -889,62 +992,71 @@ async function handleComment(type) {
     return
   }
 
-  // 确定目标页面
-  let targetPage
-  if (type === "page") {
-    // 使用当前页面
-    targetPage = await logseq.Editor.getCurrentPage()
-  } else if (type === "journal") {
-    // 使用当前日期的 journal 页面
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = String(today.getMonth() + 1).padStart(2, "0")
-    const day = String(today.getDate()).padStart(2, "0")
-    const journalName = `${year}-${month}-${day}`
-    targetPage = await logseq.Editor.createPage(journalName, {}, { journal: true })
-  }
+  // 创建弹窗
+  const closeModal = createCommentAnnotationModal(selection, async (content) => {
+    // 关闭弹窗
+    closeModal()
 
-  if (!targetPage) return
-
-  // 查找或创建 "## comment" 块
-  let commentBlock = null
-  const blocks = await logseq.Editor.getPageBlocksTree(targetPage.name)
-  
-  for (const block of blocks) {
-    if (block.content.trim() === "## comment") {
-      commentBlock = block
-      break
+    // 确定目标页面
+    let targetPage
+    if (type === "page") {
+      // 使用当前页面
+      targetPage = await logseq.Editor.getCurrentPage()
+    } else if (type === "journal") {
+      // 使用当前日期的 journal 页面
+      const today = new Date()
+      const year = today.getFullYear()
+      const month = String(today.getMonth() + 1).padStart(2, "0")
+      const day = String(today.getDate()).padStart(2, "0")
+      const journalName = `${year}-${month}-${day}`
+      targetPage = await logseq.Editor.createPage(journalName, {}, { journal: true })
     }
-  }
 
-  if (!commentBlock) {
-    // 创建 "## comment" 块
-    commentBlock = await logseq.Editor.insertBlock(
-      targetPage.uuid,
-      "## comment",
+    if (!targetPage) return
+
+    // 查找或创建 "## comment" 块
+    let commentBlock = null
+    const blocks = await logseq.Editor.getPageBlocksTree(targetPage.name)
+    
+    for (const block of blocks) {
+      if (block.content.trim() === "## comment") {
+        commentBlock = block
+        break
+      }
+    }
+
+    if (!commentBlock) {
+      // 创建 "## comment" 块
+      commentBlock = await logseq.Editor.insertBlock(
+        targetPage.uuid,
+        "## comment",
+        { before: false }
+      )
+    }
+
+    // 获取当前块的引用
+    const blockRef = `(((${currentBlock.uuid}))`
+    
+    // 在 comment 块下创建子块，内容为块引用
+    const refBlock = await logseq.Editor.insertBlock(
+      commentBlock.uuid,
+      blockRef,
       { before: false }
     )
-  }
 
-  // 获取当前块的引用
-  const blockRef = `(((${currentBlock.uuid}))`
-  
-  // 在 comment 块下创建子块，内容为块引用
-  const refBlock = await logseq.Editor.insertBlock(
-    commentBlock.uuid,
-    blockRef,
-    { before: false }
-  )
+    // 在子块下创建块，内容为用户输入的评论
+    const newCommentBlock = await logseq.Editor.insertBlock(
+      refBlock.uuid,
+      content.trim() || "",
+      { before: false }
+    )
 
-  // 在子块下创建空白块并将光标定位到这里
-  const newCommentBlock = await logseq.Editor.insertBlock(
-    refBlock.uuid,
-    "",
-    { before: false }
-  )
-
-  // 编辑新创建的空白块
-  await logseq.Editor.editBlock(newCommentBlock.uuid)
+    // 编辑新创建的块
+    await logseq.Editor.editBlock(newCommentBlock.uuid)
+  }, () => {
+    // 关闭弹窗
+    closeModal()
+  })
 }
 
 logseq.ready(main).catch(console.error)

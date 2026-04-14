@@ -4,7 +4,27 @@
   "main": "dist/index.html",
   "logseq": {
     "id": "_sethyuan-logseq-text-toolkit",
-    "icon": "./icon.png"
+    "icon": "./icon.png",
+    "settings": {
+      "toolbar": {
+        "type": "boolean",
+        "default": true,
+        "title": "Show toolbar",
+        "description": "Whether to show the toolbar when selecting text"
+      },
+      "sponsorBar": {
+        "type": "boolean",
+        "default": true,
+        "title": "Show sponsor bar",
+        "description": "Whether to show the sponsor bar below the toolbar"
+      },
+      "toolbarShortcut": {
+        "type": "string",
+        "default": "",
+        "title": "Toolbar toggle shortcut",
+        "description": "Keyboard shortcut to toggle toolbar display"
+      }
+    }
   },
   "scripts": {
     "dev": "npx http-server dist -p 3000",
