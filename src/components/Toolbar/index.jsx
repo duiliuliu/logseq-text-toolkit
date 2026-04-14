@@ -1,40 +1,36 @@
-import React from 'react';
-import ToolbarItem from '../ToolbarItem';
-import { getToolbarPosition, getCurrentTheme } from '../../utils/state';
-import './index.css';
+import React, { useState } from 'react'
+import './toolbar.css'
 
-const Toolbar = ({ items, onItemClick }) => {
-  const position = getToolbarPosition();
-  const theme = getCurrentTheme();
+function Toolbar({ items }) {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div 
-      className={`toolbar toolbar-${theme}`}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`
-      }}
-    >
-      {items.map((item, index) => (
-        <ToolbarItem
-          key={index}
-          icon={item.icon}
-          label={item.label}
-          onClick={() => onItemClick(item.id)}
-          isGroup={item.isGroup}
-        >
-          {item.children && item.children.map((child, childIndex) => (
-            <ToolbarItem
-              key={childIndex}
-              icon={child.icon}
-              label={child.label}
-              onClick={() => onItemClick(child.id)}
-            />
+    <div className="toolbar-container">
+      <div 
+        className="toolbar-main"
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
+      >
+        <div className="toolbar-icon">⚙️</div>
+      </div>
+      {isOpen && (
+        <div className="toolbar-dropdown">
+          {items.map((item, index) => (
+            <div key={index} className="toolbar-item">
+              <div className="toolbar-item-icon">
+                {item.icon ? (
+                  <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+                ) : (
+                  '📝'
+                )}
+              </div>
+              <div className="toolbar-item-label">{item.label}</div>
+            </div>
           ))}
-        </ToolbarItem>
-      ))}
+        </div>
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default Toolbar;
+export default Toolbar

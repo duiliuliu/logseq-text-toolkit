@@ -1,5 +1,13 @@
 .App {
   text-align: center;
+  padding: 20px;
+}
+
+.toolbar-section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {

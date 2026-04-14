@@ -1,0 +1,60 @@
+.toolbar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--ls-primary-background-color-plugin, #f0f0f0);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toolbar-main:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);
+}
+
+.toolbar-icon {
+  font-size: 16px;
+}
+
+.toolbar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.toolbar-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toolbar-item:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+}
+
+.toolbar-item-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.toolbar-item-label {
+  font-size: 14px;
+  color: var(--ls-primary-text-color-plugin, #333333);
+}

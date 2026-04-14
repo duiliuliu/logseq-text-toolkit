@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import Toolbar from './components/Toolbar/index.jsx'
+import { toolbarItems } from './test/testData.js'
 
 function App() {
   const [isReady, setIsReady] = useState(false)
@@ -42,6 +44,9 @@ function App() {
       <h1>Text Toolkit Plugin</h1>
       <p>Welcome to Text Toolkit!</p>
       <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
+      <div className="toolbar-section">
+        <Toolbar items={toolbarItems} />
+      </div>
     </div>
   )
 }
