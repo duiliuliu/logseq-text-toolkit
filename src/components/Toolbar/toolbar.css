@@ -20,6 +20,7 @@
 }
 
 .toolbar-main-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,6 +34,44 @@
 .toolbar-main-item:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
   transform: scale(1.05);
+}
+
+.toolbar-group {
+  position: relative;
+}
+
+.toolbar-group-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 4px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 180px;
+}
+
+.toolbar-group-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toolbar-group-item:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+}
+
+.toolbar-group-item:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.toolbar-group-item:last-child {
+  border-radius: 0 0 8px 8px;
 }
 
 .toolbar-more {
@@ -83,6 +122,7 @@
 }
 
 .toolbar-expanded-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,4 +148,10 @@
 .toolbar-item-icon svg {
   width: 20px;
   height: 20px;
+}
+
+.toolbar-item-label {
+  font-size: 14px;
+  color: var(--ls-primary-text-color-plugin, #333333);
+  margin-left: 8px;
 }
