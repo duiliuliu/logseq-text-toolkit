@@ -83,15 +83,12 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
 
       <div className="setting-item">
         <label>{t('settings.hoverDelay', language)}</label>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <input 
-            type="number" 
-            value={settings.toolbar.hoverDelay} 
-            onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
-            min="0"
-          />
-          <span className="unit">毫秒</span>
-        </div>
+        <input 
+          type="number" 
+          value={settings.toolbar.hoverDelay} 
+          onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
+          min="0"
+        />
       </div>
 
       <div className="setting-item setting-item-json">

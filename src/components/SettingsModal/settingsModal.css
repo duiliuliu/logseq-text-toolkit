@@ -136,12 +136,6 @@
   justify-content: space-between !important;
 }
 
-.setting-item .unit {
-  margin-left: 4px;
-  font-size: 12px;
-  color: var(--ls-secondary-text-color-plugin, #666);
-}
-
 /* Switch开关样式 */
 .switch {
   position: relative;
