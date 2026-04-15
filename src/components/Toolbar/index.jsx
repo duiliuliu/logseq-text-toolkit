@@ -4,6 +4,7 @@ import './toolbar.css'
 function Toolbar({ items }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
+  const [moreExpanded, setMoreExpanded] = useState(false)
 
   const parseItems = (data) => {
     const result = []
@@ -42,6 +43,10 @@ function Toolbar({ items }) {
   const hiddenItems = toolbarItems.filter(item => item.hidden)
   const mainItems = visibleItems.slice(0, 3)
   const moreItems = visibleItems.slice(3).concat(hiddenItems)
+
+  const toggleMore = () => {
+    setMoreExpanded(!moreExpanded)
+  }
 
   return (
     <div className="toolbar-container">
@@ -119,103 +124,94 @@ function Toolbar({ items }) {
           )
         ))}
         <div 
-          className="toolbar-main-item toolbar-group"
-          onMouseEnter={() => {
-            setHoveredItem({ label: 'More', id: 'more' })
-            setMouseOverGroup('more')
-          }}
-          onMouseLeave={() => {
-            setHoveredItem(null)
-            setMouseOverGroup(null)
-          }}
+          className="toolbar-main-item toolbar-more"
+          onClick={toggleMore}
+          onMouseEnter={() => setHoveredItem({ label: 'More', id: 'more' })}
+          onMouseLeave={() => setHoveredItem(null)}
         >
-          <div className="toolbar-item-icon">⋮</div>
+          <div className="toolbar-item-icon">{moreExpanded ? '×' : '⋮'}</div>
           {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
             <div className="toolbar-tooltip">
-              {hoveredItem.label}
-            </div>
-          )}
-          {mouseOverGroup === 'more' && (
-            <div 
-              className="toolbar-group-dropdown"
-              onMouseEnter={() => setMouseOverGroup('more')}
-              onMouseLeave={() => setMouseOverGroup(null)}
-            >
-              {moreItems.map((item, index) => (
-                item.isGroup ? (
-                  <div 
-                    key={item.id}
-                    className="toolbar-group-item"
-                    onMouseEnter={() => {
-                      setHoveredItem(item)
-                      setMouseOverGroup(`more-${item.id}`)
-                    }}
-                    onMouseLeave={() => {
-                      setHoveredItem({ label: 'More', id: 'more' })
-                      setMouseOverGroup('more')
-                    }}
-                  >
-                    <div className="toolbar-item-icon">📂</div>
-                    {hoveredItem && hoveredItem.id === item.id && item.label && (
-                      <div className="toolbar-tooltip toolbar-tooltip-sub">
-                        {hoveredItem.label}
-                      </div>
-                    )}
-                    {mouseOverGroup === `more-${item.id}` && (
-                      <div 
-                        className="toolbar-group-dropdown-horizontal"
-                        onMouseEnter={() => setMouseOverGroup(`more-${item.id}`)}
-                        onMouseLeave={() => setMouseOverGroup('more')}
-                      >
-                        {item.items.map((subItem, subIndex) => (
-                          <div 
-                            key={subItem.id}
-                            className="toolbar-group-item-horizontal"
-                            onMouseEnter={() => setHoveredItem(subItem)}
-                            onMouseLeave={() => setHoveredItem(item)}
-                          >
-                            <div className="toolbar-item-icon">
-                              {subItem.icon ? (
-                                <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
-                              ) : (
-                                '📝'
-                              )}
-                            </div>
-                            {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
-                              <div className="toolbar-tooltip toolbar-tooltip-sub-horizontal">
-                                {hoveredItem.label}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div 
-                    key={item.id}
-                    className="toolbar-group-item"
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem({ label: 'More', id: 'more' })}
-                  >
-                    <div className="toolbar-item-icon">
-                      {item.icon ? (
-                        <div dangerouslySetInnerHTML={{ __html: item.icon }} />
-                      ) : (
-                        '📝'
-                      )}
-                    </div>
-                    {hoveredItem && hoveredItem.id === item.id && item.label && (
-                      <div className="toolbar-tooltip toolbar-tooltip-sub">
-                        {hoveredItem.label}
-                      </div>
-                    )}
-                  </div>
-                )
-              ))}
+              {moreExpanded ? 'Close' : hoveredItem.label}
             </div>
           )}
         </div>
+        {moreExpanded && (
+          <div className="toolbar-expanded">
+            {moreItems.map((item, index) => (
+              item.isGroup ? (
+                <div 
+                  key={item.id} 
+                  className="toolbar-expanded-item toolbar-group"
+                  onMouseEnter={() => {
+                    setHoveredItem(item)
+                    setMouseOverGroup(item.id)
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredItem(null)
+                    setMouseOverGroup(null)
+                  }}
+                >
+                  <div className="toolbar-item-icon">📂</div>
+                  {hoveredItem && hoveredItem.id === item.id && item.label && (
+                    <div className="toolbar-tooltip">
+                      {hoveredItem.label}
+                    </div>
+                  )}
+                  {mouseOverGroup === item.id && (
+                    <div 
+                      className="toolbar-group-dropdown"
+                      onMouseEnter={() => setMouseOverGroup(item.id)}
+                      onMouseLeave={() => setMouseOverGroup(null)}
+                    >
+                      {item.items.map((subItem, subIndex) => (
+                        <div 
+                          key={subItem.id}
+                          className="toolbar-group-item"
+                          onMouseEnter={() => setHoveredItem(subItem)}
+                          onMouseLeave={() => setHoveredItem(item)}
+                        >
+                          <div className="toolbar-item-icon">
+                            {subItem.icon ? (
+                              <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
+                            ) : (
+                              '📝'
+                            )}
+                          </div>
+                          {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
+                            <div className="toolbar-tooltip toolbar-tooltip-sub">
+                              {hoveredItem.label}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div 
+                  key={item.id}
+                  className="toolbar-expanded-item"
+                  onMouseEnter={() => setHoveredItem(item)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  <div className="toolbar-item-icon">
+                    {item.icon ? (
+                      <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+                    ) : (
+                      '📝'
+                    )}
+                  </div>
+                  {hoveredItem && hoveredItem.id === item.id && item.label && (
+                    <div className="toolbar-tooltip">
+                      {hoveredItem.label}
+                    </div>
+                  )}
+                </div>
+              )
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
