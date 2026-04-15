@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 
@@ -13,10 +13,11 @@ const iconMap = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = {} }) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = {}, hoverDelay = 2000 }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
+  const hoverTimerRef = useRef(null)
 
   const parseItems = (data) => {
     const result = []
@@ -90,12 +91,19 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           key={item.id} 
           className="toolbar-main-item toolbar-group"
           onMouseEnter={() => {
+            // 清除之前的定时器
+            if (hoverTimerRef.current) {
+              clearTimeout(hoverTimerRef.current)
+            }
             setHoveredItem(item)
             setMouseOverGroup(item.id)
           }}
           onMouseLeave={() => {
             setHoveredItem(null)
-            setMouseOverGroup(null)
+            // 设置延时隐藏下拉子元素
+            hoverTimerRef.current = setTimeout(() => {
+              setMouseOverGroup(null)
+            }, hoverDelay)
           }}
         >
           <div className="toolbar-item-icon">📂</div>
@@ -107,8 +115,19 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           {mouseOverGroup === item.id && (
             <div 
               className={`toolbar-group-dropdown ${!showBorder ? 'no-border' : ''}`}
-              onMouseEnter={() => setMouseOverGroup(item.id)}
-              onMouseLeave={() => setMouseOverGroup(null)}
+              onMouseEnter={() => {
+                // 清除之前的定时器
+                if (hoverTimerRef.current) {
+                  clearTimeout(hoverTimerRef.current)
+                }
+                setMouseOverGroup(item.id)
+              }}
+              onMouseLeave={() => {
+                // 设置延时隐藏下拉子元素
+                hoverTimerRef.current = setTimeout(() => {
+                  setMouseOverGroup(null)
+                }, hoverDelay)
+              }}
             >
               {item.items.map((subItem) => (
                 <div 
