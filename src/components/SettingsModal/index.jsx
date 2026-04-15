@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Modal from '../Modal/index.jsx'
 import useSettings from '../../hooks/useSettings.js'
+import i18n from '../../utils/i18n.js'
+import { ChevronDown, ChevronUp, Monitor, Globe, Layout, Palette, CheckCircle2 } from 'lucide-react'
 import './settingsModal.css'
 
 function SettingsModal({ isOpen, onClose, theme }) {
@@ -15,6 +17,11 @@ function SettingsModal({ isOpen, onClose, theme }) {
   } = useSettings()
   
   const [settings, setSettings] = useState(null)
+  const [collapsedSections, setCollapsedSections] = useState({})
+
+  const t = useCallback((key) => {
+    return i18n.t(key, settings?.language || 'zh-CN')
+  }, [settings?.language])
 
   useEffect(() => {
     if (isOpen) {
@@ -36,7 +43,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
   }
 
   const handleReset = async () => {
-    if (window.confirm('Are you sure you want to reset all settings to default?')) {
+    if (window.confirm(t('settings.confirmReset'))) {
       const success = await resetSettings()
       if (success) {
         loadSettings().then(data => {
@@ -63,118 +70,207 @@ function SettingsModal({ isOpen, onClose, theme }) {
     })
   }
 
+  const toggleSection = (section) => {
+    setCollapsedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
+
   if (isLoading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title="Settings">
-        <div className="settings-loading">Loading settings...</div>
+      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
+        <div className="settings-loading">{t('settings.loading')}</div>
       </Modal>
     )
   }
 
-  if (!settings) {
+  if (isOpen && !settings) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title="Settings">
-        <div className="settings-error">Failed to load settings</div>
+      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
+        <div className="settings-error">{t('settings.error')}</div>
       </Modal>
     )
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Settings">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="560px">
       <div className="settings-container" data-theme={theme}>
+        {/* General Settings Section */}
         <div className="settings-section">
-          <h3>General Settings</h3>
+          <button 
+            className="settings-section-header" 
+            onClick={() => toggleSection('general')}
+            type="button"
+          >
+            <div className="settings-section-header-left">
+              <Palette className="settings-section-icon" size={18} />
+              <h3>{t('settings.generalSettings')}</h3>
+            </div>
+            {collapsedSections.general ? 
+              <ChevronDown className="settings-collapse-icon" size={16} /> : 
+              <ChevronUp className="settings-collapse-icon" size={16} />
+            }
+          </button>
           
-          <div className="setting-item">
-            <label>Theme</label>
-            <select 
-              value={settings.theme} 
-              onChange={(e) => handleSettingChange('theme', e.target.value)}
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
-          </div>
+          {!collapsedSections.general && (
+            <div className="settings-section-content">
+              <div className="setting-item">
+                <div className="setting-item-label-wrapper">
+                  <Monitor className="setting-item-icon" size={16} />
+                  <div className="setting-item-label-content">
+                    <div className="setting-item-label">{t('settings.theme')}</div>
+                    <div className="setting-item-description">
+                      <CheckCircle2 size={12} className="setting-item-check-icon" />
+                      {t('settings.themeFollowSystem')}
+                    </div>
+                  </div>
+                </div>
+                <div className="setting-item-value">
+                  <div className="setting-input-readonly">
+                    {settings.theme}
+                  </div>
+                </div>
+              </div>
 
-          <div className="setting-item">
-            <label>Language</label>
-            <select 
-              value={settings.language} 
-              onChange={(e) => handleSettingChange('language', e.target.value)}
-            >
-              <option value="zh-CN">中文</option>
-              <option value="en">English</option>
-              <option value="ja">日本語</option>
-            </select>
-          </div>
+              <div className="setting-item">
+                <div className="setting-item-label-wrapper">
+                  <Globe className="setting-item-icon" size={16} />
+                  <div className="setting-item-label-content">
+                    <div className="setting-item-label">{t('settings.language')}</div>
+                    <div className="setting-item-description">
+                      <CheckCircle2 size={12} className="setting-item-check-icon" />
+                      {t('settings.languageFollowSystem')}
+                    </div>
+                  </div>
+                </div>
+                <div className="setting-item-value">
+                  <div className="setting-input-readonly">
+                    {settings.language}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
+        {/* Toolbar Settings Section */}
         <div className="settings-section">
-          <h3>Toolbar Settings</h3>
+          <button 
+            className="settings-section-header" 
+            onClick={() => toggleSection('toolbar')}
+            type="button"
+          >
+            <div className="settings-section-header-left">
+              <Layout className="settings-section-icon" size={18} />
+              <h3>{t('settings.toolbarSettings')}</h3>
+            </div>
+            {collapsedSections.toolbar ? 
+              <ChevronDown className="settings-collapse-icon" size={16} /> : 
+              <ChevronUp className="settings-collapse-icon" size={16} />
+            }
+          </button>
           
-          <div className="setting-item">
-            <label>Enabled</label>
-            <input 
-              type="checkbox" 
-              checked={settings.toolbar.enabled} 
-              onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
-            />
-          </div>
+          {!collapsedSections.toolbar && (
+            <div className="settings-section-content">
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.enabled')}</div>
+                <div className="setting-item-value">
+                  <div className="setting-switch-wrapper">
+                    <input 
+                      type="checkbox" 
+                      id="toolbar-enabled"
+                      checked={settings.toolbar.enabled} 
+                      onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
+                      className="setting-switch"
+                    />
+                    <label htmlFor="toolbar-enabled" className="setting-switch-label"></label>
+                  </div>
+                </div>
+              </div>
 
-          <div className="setting-item">
-            <label>Show Border</label>
-            <input 
-              type="checkbox" 
-              checked={settings.toolbar.showBorder} 
-              onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
-            />
-          </div>
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.showBorder')}</div>
+                <div className="setting-item-value">
+                  <div className="setting-switch-wrapper">
+                    <input 
+                      type="checkbox" 
+                      id="toolbar-showBorder"
+                      checked={settings.toolbar.showBorder} 
+                      onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
+                      className="setting-switch"
+                    />
+                    <label htmlFor="toolbar-showBorder" className="setting-switch-label"></label>
+                  </div>
+                </div>
+              </div>
 
-          <div className="setting-item">
-            <label>Width</label>
-            <input 
-              type="text" 
-              value={settings.toolbar.width} 
-              onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
-              placeholder="e.g., 110px"
-            />
-          </div>
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.width')}</div>
+                <div className="setting-item-value">
+                  <input 
+                    type="text" 
+                    value={settings.toolbar.width} 
+                    onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
+                    placeholder="e.g., 110px"
+                    className="setting-input"
+                  />
+                </div>
+              </div>
 
-          <div className="setting-item">
-            <label>Height</label>
-            <input 
-              type="text" 
-              value={settings.toolbar.height} 
-              onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
-              placeholder="e.g., 24px"
-            />
-          </div>
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.height')}</div>
+                <div className="setting-item-value">
+                  <input 
+                    type="text" 
+                    value={settings.toolbar.height} 
+                    onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
+                    placeholder="e.g., 24px"
+                    className="setting-input"
+                  />
+                </div>
+              </div>
 
-          <div className="setting-item">
-            <label>Hover Delay (ms)</label>
-            <input 
-              type="number" 
-              value={settings.toolbar.hoverDelay} 
-              onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
-              min="0"
-            />
-          </div>
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.hoverDelay')}</div>
+                <div className="setting-item-value">
+                  <input 
+                    type="number" 
+                    value={settings.toolbar.hoverDelay} 
+                    onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
+                    min="0"
+                    className="setting-input"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
+        {/* Action Buttons */}
         <div className="settings-actions">
-          <button className="settings-btn settings-btn-reset" onClick={handleReset}>
-            Reset to Default
+          <button 
+            className="settings-btn settings-btn-reset" 
+            onClick={handleReset}
+            type="button"
+          >
+            {t('settings.resetToDefault')}
           </button>
           <div className="settings-btn-group">
-            <button className="settings-btn settings-btn-cancel" onClick={onClose}>
-              Cancel
+            <button 
+              className="settings-btn settings-btn-cancel" 
+              onClick={onClose}
+              type="button"
+            >
+              {t('settings.cancel')}
             </button>
             <button 
               className="settings-btn settings-btn-save" 
               onClick={handleSave}
               disabled={isSaving}
+              type="button"
             >
-              {isSaving ? 'Saving...' : 'Save'}
+              {isSaving ? t('settings.saving') : t('settings.save')}
             </button>
           </div>
         </div>

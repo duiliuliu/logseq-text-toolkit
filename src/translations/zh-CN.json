@@ -10,5 +10,26 @@
   },
   "modal": {
     "placeholder": "请输入内容"
+  },
+  "settings": {
+    "title": "设置",
+    "generalSettings": "通用设置",
+    "theme": "主题",
+    "themeFollowSystem": "跟随系统",
+    "language": "语言",
+    "languageFollowSystem": "跟随系统",
+    "toolbarSettings": "工具栏设置",
+    "enabled": "启用",
+    "showBorder": "显示边框",
+    "width": "宽度",
+    "height": "高度",
+    "hoverDelay": "悬停延迟（毫秒）",
+    "resetToDefault": "重置为默认值",
+    "cancel": "取消",
+    "save": "保存",
+    "saving": "保存中...",
+    "loading": "加载设置中...",
+    "error": "加载设置失败",
+    "confirmReset": "确定要将所有设置重置为默认值吗？"
   }
 }

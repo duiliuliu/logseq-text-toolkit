@@ -10,5 +10,26 @@
   },
   "modal": {
     "placeholder": "Please enter content"
+  },
+  "settings": {
+    "title": "Settings",
+    "generalSettings": "General Settings",
+    "theme": "Theme",
+    "themeFollowSystem": "Follow System",
+    "language": "Language",
+    "languageFollowSystem": "Follow System",
+    "toolbarSettings": "Toolbar Settings",
+    "enabled": "Enabled",
+    "showBorder": "Show Border",
+    "width": "Width",
+    "height": "Height",
+    "hoverDelay": "Hover Delay (ms)",
+    "resetToDefault": "Reset to Default",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "loading": "Loading settings...",
+    "error": "Failed to load settings",
+    "confirmReset": "Are you sure you want to reset all settings to default?"
   }
 }
