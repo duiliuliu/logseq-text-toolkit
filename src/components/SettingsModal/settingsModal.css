@@ -11,35 +11,38 @@
 }
 
 .settings-section {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   border: 1px solid var(--ls-border-color-plugin, #e5e7eb);
-  border-radius: 6px;
+  border-radius: 12px;
   overflow: hidden;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background-color: var(--ls-secondary-background-color-plugin, #f9fafb);
 }
 
 .settings-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 14px;
+  padding: 16px 24px;
   cursor: pointer;
-  background-color: transparent;
+  background-color: var(--ls-secondary-background-color-plugin, #f5f5f7);
   border: none;
   width: 100%;
   text-align: left;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
   user-select: none;
+  border-bottom: 1px solid var(--ls-border-color-plugin, #e5e7eb);
 }
 
 .settings-section-header:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #f9fafb);
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
 }
 
 .settings-section-header-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .settings-section-icon {
@@ -49,16 +52,25 @@
 
 .settings-section-header h3 {
   margin: 0;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   color: var(--ls-primary-text-color-plugin, #111827);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .settings-collapse-icon {
   color: var(--ls-primary-text-color-plugin, #6b7280);
   flex-shrink: 0;
   transition: transform 0.2s ease;
+}
+
+.settings-collapse-icon {
+  transition: transform 0.2s ease;
+}
+
+.settings-section-content {
+  padding: 24px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
 }
 
 .settings-section-content {

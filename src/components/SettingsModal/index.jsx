@@ -18,6 +18,8 @@ function SettingsModal({ isOpen, onClose, theme }) {
   
   const [settings, setSettings] = useState(null)
   const [collapsedSections, setCollapsedSections] = useState({})
+  const [editMode, setEditMode] = useState('ui') // 'ui' or 'json'
+  const [jsonSettings, setJsonSettings] = useState('')
 
   const currentLanguage = settings?.language || 'zh-CN'
   
@@ -30,10 +32,30 @@ function SettingsModal({ isOpen, onClose, theme }) {
       loadSettings().then(data => {
         if (data) {
           setSettings(data)
+          setJsonSettings(JSON.stringify(data, null, 2))
         }
       })
     }
   }, [isOpen, loadSettings])
+
+  useEffect(() => {
+    if (settings) {
+      setJsonSettings(JSON.stringify(settings, null, 2))
+    }
+  }, [settings])
+
+  const handleJsonChange = (value) => {
+    setJsonSettings(value)
+  }
+
+  const applyJsonSettings = () => {
+    try {
+      const parsedSettings = JSON.parse(jsonSettings)
+      setSettings(parsedSettings)
+    } catch (error) {
+      alert('Invalid JSON format')
+    }
+  }
 
   const handleSave = async () => {
     if (!settings) return
@@ -321,57 +343,172 @@ function SettingsModal({ isOpen, onClose, theme }) {
           
           {!collapsedSections.toolbarItems && settings && (
             <div className="settings-section-content">
+              {/* Edit Mode Switch */}
               <div className="setting-item">
-                <div className="setting-item-label">{t('settings.addNewItem')}</div>
+                <div className="setting-item-label">{t('settings.editMode')}</div>
                 <div className="setting-item-value">
-                  <button 
-                    className="settings-btn settings-btn-save" 
-                    onClick={() => addToolbarItem()}
-                    type="button"
-                  >
-                    {t('settings.addItem')}
-                  </button>
+                  <div className="edit-mode-switcher">
+                    <button 
+                      className={`edit-mode-btn ${editMode === 'ui' ? 'active' : ''}`}
+                      onClick={() => setEditMode('ui')}
+                    >
+                      {t('settings.uiMode')}
+                    </button>
+                    <button 
+                      className={`edit-mode-btn ${editMode === 'json' ? 'active' : ''}`}
+                      onClick={() => setEditMode('json')}
+                    >
+                      {t('settings.jsonMode')}
+                    </button>
+                  </div>
                 </div>
               </div>
               
-              {/* Toolbar Items List */}
-              <div className="toolbar-items-list">
-                {Object.entries(settings.toolbar?.items || {}).map(([key, item]) => (
-                  <div key={key} className="toolbar-item-card">
-                    <div className="toolbar-item-header">
-                      <span className="toolbar-item-key">{key}</span>
-                      <div className="toolbar-item-actions">
-                        <button 
-                          className="toolbar-item-btn toolbar-item-btn-edit"
-                          onClick={() => editToolbarItem(key)}
-                        >
-                          ✏️
-                        </button>
-                        <button 
-                          className="toolbar-item-btn toolbar-item-btn-delete"
-                          onClick={() => deleteToolbarItem(key)}
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    </div>
-                    <div className="toolbar-item-details">
-                      <div className="toolbar-item-detail">
-                        <span className="toolbar-item-detail-label">{t('settings.label')}:</span>
-                        <span className="toolbar-item-detail-value">{item.label || 'N/A'}</span>
-                      </div>
-                      <div className="toolbar-item-detail">
-                        <span className="toolbar-item-detail-label">{t('settings.icon')}:</span>
-                        <span className="toolbar-item-detail-value">{item.icon || 'N/A'}</span>
-                      </div>
-                      <div className="toolbar-item-detail">
-                        <span className="toolbar-item-detail-label">{t('settings.funcmode')}:</span>
-                        <span className="toolbar-item-detail-value">{item.funcmode || 'N/A'}</span>
-                      </div>
+              {editMode === 'ui' ? (
+                <>
+                  <div className="setting-item">
+                    <div className="setting-item-label">{t('settings.addNewItem')}</div>
+                    <div className="setting-item-value">
+                      <button 
+                        className="settings-btn settings-btn-save" 
+                        onClick={() => addToolbarItem()}
+                        type="button"
+                      >
+                        {t('settings.addItem')}
+                      </button>
                     </div>
                   </div>
-                ))}
-              </div>
+                  
+                  {/* Toolbar Items List with Nested Structure */}
+                  <div className="toolbar-items-list">
+                    {Object.entries(settings.toolbar?.items || {}).map(([key, item]) => {
+                      // Check if this is a group item (contains nested items)
+                      const isGroup = typeof item === 'object' && item !== null && !item.label && !item.icon && !item.funcmode
+                      
+                      if (isGroup) {
+                        return (
+                          <div key={key} className="toolbar-item-card toolbar-item-group">
+                            <div className="toolbar-item-header">
+                              <span className="toolbar-item-key toolbar-item-group-key">{key}</span>
+                              <div className="toolbar-item-actions">
+                                <button 
+                                  className="toolbar-item-btn toolbar-item-btn-edit"
+                                  onClick={() => editToolbarItem(key)}
+                                >
+                                  ✏️
+                                </button>
+                                <button 
+                                  className="toolbar-item-btn toolbar-item-btn-delete"
+                                  onClick={() => deleteToolbarItem(key)}
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            </div>
+                            <div className="toolbar-group-children">
+                              {Object.entries(item).map(([childKey, childItem]) => (
+                                <div key={childKey} className="toolbar-item-card toolbar-item-child">
+                                  <div className="toolbar-item-header">
+                                    <span className="toolbar-item-key">{childKey}</span>
+                                    <div className="toolbar-item-actions">
+                                      <button 
+                                        className="toolbar-item-btn toolbar-item-btn-edit"
+                                        onClick={() => editToolbarItem(`${key}.${childKey}`)}
+                                      >
+                                        ✏️
+                                      </button>
+                                      <button 
+                                        className="toolbar-item-btn toolbar-item-btn-delete"
+                                        onClick={() => deleteToolbarItem(`${key}.${childKey}`)}
+                                      >
+                                        🗑️
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div className="toolbar-item-details">
+                                    <div className="toolbar-item-detail">
+                                      <span className="toolbar-item-detail-label">{t('settings.label')}:</span>
+                                      <span className="toolbar-item-detail-value">{childItem.label || 'N/A'}</span>
+                                    </div>
+                                    <div className="toolbar-item-detail">
+                                      <span className="toolbar-item-detail-label">{t('settings.icon')}:</span>
+                                      <span className="toolbar-item-detail-value">{childItem.icon || 'N/A'}</span>
+                                    </div>
+                                    <div className="toolbar-item-detail">
+                                      <span className="toolbar-item-detail-label">{t('settings.funcmode')}:</span>
+                                      <span className="toolbar-item-detail-value">{childItem.funcmode || 'N/A'}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )
+                      } else {
+                        // Regular item
+                        return (
+                          <div key={key} className="toolbar-item-card">
+                            <div className="toolbar-item-header">
+                              <span className="toolbar-item-key">{key}</span>
+                              <div className="toolbar-item-actions">
+                                <button 
+                                  className="toolbar-item-btn toolbar-item-btn-edit"
+                                  onClick={() => editToolbarItem(key)}
+                                >
+                                  ✏️
+                                </button>
+                                <button 
+                                  className="toolbar-item-btn toolbar-item-btn-delete"
+                                  onClick={() => deleteToolbarItem(key)}
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            </div>
+                            <div className="toolbar-item-details">
+                              <div className="toolbar-item-detail">
+                                <span className="toolbar-item-detail-label">{t('settings.label')}:</span>
+                                <span className="toolbar-item-detail-value">{item.label || 'N/A'}</span>
+                              </div>
+                              <div className="toolbar-item-detail">
+                                <span className="toolbar-item-detail-label">{t('settings.icon')}:</span>
+                                <span className="toolbar-item-detail-value">{item.icon || 'N/A'}</span>
+                              </div>
+                              <div className="toolbar-item-detail">
+                                <span className="toolbar-item-detail-label">{t('settings.funcmode')}:</span>
+                                <span className="toolbar-item-detail-value">{item.funcmode || 'N/A'}</span>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      }
+                    })}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="setting-item">
+                    <div className="setting-item-label">{t('settings.jsonSettings')}</div>
+                    <div className="setting-item-value">
+                      <button 
+                        className="settings-btn settings-btn-save" 
+                        onClick={applyJsonSettings}
+                        type="button"
+                      >
+                        {t('settings.applyJson')}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="json-editor-container">
+                    <textarea 
+                      className="json-editor"
+                      value={jsonSettings}
+                      onChange={(e) => handleJsonChange(e.target.value)}
+                      placeholder="Enter JSON settings here"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
