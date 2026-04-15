@@ -13,7 +13,7 @@ const iconMap = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '150px', selectedText = '' }) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '120px', selectedText = '' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
