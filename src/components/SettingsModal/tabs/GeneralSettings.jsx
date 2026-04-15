@@ -26,7 +26,6 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) 
         <select 
           value={settings.theme} 
           onChange={(e) => handleSettingChange('theme', e.target.value)}
-          style={{ maxWidth: '150px', boxSizing: 'border-box' }}
         >
           <option value="light">{t('settings.lightTheme', language)}</option>
           <option value="dark">{t('settings.darkTheme', language)}</option>
@@ -38,7 +37,6 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) 
         <select 
           value={settings.language} 
           onChange={(e) => handleSettingChange('language', e.target.value)}
-          style={{ maxWidth: '150px', boxSizing: 'border-box' }}
         >
           <option value="zh-CN">{t('settings.chinese', language)}</option>
           <option value="en">{t('settings.english', language)}</option>
