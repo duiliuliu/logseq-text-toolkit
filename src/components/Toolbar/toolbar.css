@@ -5,9 +5,11 @@
   gap: 8px;
   align-items: flex-start;
   margin-bottom: 20px;
+  z-index: 1000;
 }
 
 .toolbar-main {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -18,6 +20,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 1000;
 }
 
 /* 主题样式 */
@@ -76,6 +79,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  z-index: 1001;
 }
 
 .toolbar-main-item:hover {
@@ -85,6 +89,7 @@
 
 .toolbar-group {
   position: relative;
+  z-index: 1001;
 }
 
 .toolbar-group-dropdown {
@@ -98,8 +103,11 @@
   border-top: none;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 1002;
   min-width: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.2s ease;
 }
 
 .toolbar-group-item {
@@ -110,6 +118,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   white-space: nowrap;
+  z-index: 1003;
 }
 
 .toolbar-group-item:hover {
@@ -155,9 +164,12 @@
   border-radius: 6px;
   font-size: 14px;
   white-space: nowrap;
-  z-index: 1000;
+  z-index: 1004;
   margin-bottom: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.2s ease;
 }
 
 .toolbar-tooltip-sub {
@@ -230,10 +242,13 @@
   border-right: none;
   border-radius: 8px 0 0 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 1002;
   display: flex;
   flex-direction: row;
   gap: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.2s ease;
 }
 
 .toolbar-group-item-horizontal {
@@ -245,6 +260,7 @@
   transition: background-color 0.2s ease;
   border-right: 1px solid var(--ls-border-color-plugin, #cccccc);
   white-space: nowrap;
+  z-index: 1003;
 }
 
 .toolbar-group-item-horizontal:last-child {
