@@ -1,13 +1,9 @@
-export const processText = (item, selectedText) => {
+export const processText = (item, selectedText, variables = {}) => {
   if (!selectedText) return selectedText
   
   switch (item.funcmode) {
     case 'replace':
-      return replaceText(item, selectedText)
-    case 'add':
-      return addText(item, selectedText)
-    case 'invoke':
-      return invokeText(item, selectedText)
+      return replaceText(item, selectedText, variables)
     case 'console':
       console.log(`Processing ${item.clickfunc} with text: ${selectedText}`)
       return selectedText
@@ -16,26 +12,37 @@ export const processText = (item, selectedText) => {
   }
 }
 
-export const replaceText = (item, text) => {
+export const replaceText = (item, selectedText, variables = {}) => {
+  const allVariables = {
+    ...variables,
+    selectedText: selectedText
+  }
+  
   if (item.regex && item.replacement) {
     const regex = new RegExp(item.regex, 'g')
-    return text.replace(regex, item.replacement)
+    const processedReplacement = renderTemplate(item.replacement, allVariables)
+    return selectedText.replace(regex, processedReplacement)
   } else if (item.template) {
-    return item.template.replace('$^', text)
+    return renderTemplate(item.template, allVariables)
   }
-  return text
+  return selectedText
 }
 
-export const addText = (item, text) => {
-  if (item.template) {
-    return item.template.replace('$^', text)
-  }
-  return text
-}
-
-export const invokeText = (item, text) => {
-  if (item.template) {
-    return item.template.replace('$^', text)
-  }
-  return text
+export const renderTemplate = (template, variables) => {
+  if (!template) return template
+  
+  let result = template
+  
+  const variableRegex = /\{\{\$(\w+)\}\}/g
+  
+  result = result.replace(variableRegex, (match, varName) => {
+    if (varName in variables) {
+      return variables[varName]
+    }
+    return match
+  })
+  
+  result = result.replace(/\$\^/g, variables.selectedText || '')
+  
+  return result
 }
