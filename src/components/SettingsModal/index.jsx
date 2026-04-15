@@ -3,7 +3,10 @@ import Modal from '../Modal/index.jsx'
 import useSettings from '../../hooks/useSettings.js'
 import i18n from '../../utils/i18n.js'
 import defaultSettings from '../../utils/settings.js'
-import { Palette, Layout, Code2, CheckCircle2 } from 'lucide-react'
+import { Palette, Layout, Code2 } from 'lucide-react'
+import GeneralSettings from './components/GeneralSettings.jsx'
+import ToolbarSettings from './components/ToolbarSettings.jsx'
+import ToolbarElements from './components/ToolbarElements.jsx'
 import './settingsModal.css'
 
 function SettingsModal({ isOpen, onClose, theme }) {
@@ -163,7 +166,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="600px">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="640px">
       <div className="settings-container" data-theme={theme || ''}>
         {/* Tabs Navigation */}
         <div className="settings-tabs">
@@ -172,24 +175,24 @@ function SettingsModal({ isOpen, onClose, theme }) {
             onClick={() => setActiveTab('general')}
             type="button"
           >
-            <Palette size={16} />
-            {t('settings.generalSettings')}
+            <Palette size={18} />
+            <span>{t('settings.generalSettings')}</span>
           </button>
           <button
             className={`settings-tab ${activeTab === 'toolbar' ? 'active' : ''}`}
             onClick={() => setActiveTab('toolbar')}
             type="button"
           >
-            <Layout size={16} />
-            {t('settings.toolbarSettings')}
+            <Layout size={18} />
+            <span>{t('settings.toolbarSettings')}</span>
           </button>
           <button
             className={`settings-tab ${activeTab === 'elements' ? 'active' : ''}`}
             onClick={() => setActiveTab('elements')}
             type="button"
           >
-            <Code2 size={16} />
-            {t('settings.toolbarElements')}
+            <Code2 size={18} />
+            <span>{t('settings.toolbarElements')}</span>
           </button>
         </div>
 
@@ -197,161 +200,27 @@ function SettingsModal({ isOpen, onClose, theme }) {
         <div className="settings-tab-content">
           {/* General Settings */}
           {activeTab === 'general' && (
-            <div className="settings-section-content">
-              <div className="setting-item">
-                <div className="setting-item-label-wrapper">
-                  <div className="setting-item-label-content">
-                    <div className="setting-item-label">{t('settings.theme')}</div>
-                    <div className="setting-item-description">
-                      <CheckCircle2 size={12} className="setting-item-check-icon" />
-                      {t('settings.themeFollowSystem')}
-                    </div>
-                  </div>
-                </div>
-                <div className="setting-item-value">
-                  <div className="setting-input-readonly">
-                    {settings?.theme || ''}
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label-wrapper">
-                  <div className="setting-item-label-content">
-                    <div className="setting-item-label">{t('settings.language')}</div>
-                    <div className="setting-item-description">
-                      <CheckCircle2 size={12} className="setting-item-check-icon" />
-                      {t('settings.languageFollowSystem')}
-                    </div>
-                  </div>
-                </div>
-                <div className="setting-item-value">
-                  <div className="setting-input-readonly">
-                    {settings?.language || ''}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <GeneralSettings settings={settings} t={t} />
           )}
 
           {/* Toolbar Settings */}
           {activeTab === 'toolbar' && (
-            <div className="settings-section-content">
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.enabled')}</div>
-                <div className="setting-item-value">
-                  <div className="setting-switch-wrapper">
-                    <input 
-                      type="checkbox" 
-                      id="toolbar-enabled"
-                      checked={settings.toolbar?.enabled || false} 
-                      onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
-                      className="setting-switch"
-                    />
-                    <label htmlFor="toolbar-enabled" className="setting-switch-label"></label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.showBorder')}</div>
-                <div className="setting-item-value">
-                  <div className="setting-switch-wrapper">
-                    <input 
-                      type="checkbox" 
-                      id="toolbar-showBorder"
-                      checked={settings.toolbar?.showBorder || false} 
-                      onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
-                      className="setting-switch"
-                    />
-                    <label htmlFor="toolbar-showBorder" className="setting-switch-label"></label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.width')}</div>
-                <div className="setting-item-value">
-                  <div className="setting-input-with-unit">
-                    <input 
-                      type="text" 
-                      value={settings.toolbar?.width || ''} 
-                      onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
-                      placeholder="e.g., 110px"
-                      className="setting-input"
-                    />
-                    <span className="setting-input-unit">px</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.height')}</div>
-                <div className="setting-item-value">
-                  <div className="setting-input-with-unit">
-                    <input 
-                      type="text" 
-                      value={settings.toolbar?.height || ''} 
-                      onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
-                      placeholder="e.g., 24px"
-                      className="setting-input"
-                    />
-                    <span className="setting-input-unit">px</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.hoverDelay')}</div>
-                <div className="setting-item-value">
-                  <div className="setting-input-with-unit">
-                    <input 
-                      type="number" 
-                      value={settings.toolbar?.hoverDelay || 0} 
-                      onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
-                      min="0"
-                      className="setting-input"
-                    />
-                    <span className="setting-input-unit">ms</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ToolbarSettings 
+              settings={settings} 
+              handleSettingChange={handleSettingChange} 
+              t={t} 
+            />
           )}
 
           {/* Toolbar Elements */}
           {activeTab === 'elements' && (
-            <div className="settings-section-content">
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.jsonSettings')}</div>
-                <div className="setting-item-value">
-                  <div className="settings-btn-group">
-                    <button 
-                      className="settings-btn settings-btn-secondary" 
-                      onClick={resetJsonToolbarItems}
-                      type="button"
-                    >
-                      {t('settings.resetToDefault')}
-                    </button>
-                    <button 
-                      className="settings-btn settings-btn-save" 
-                      onClick={applyJsonToolbarItems}
-                      type="button"
-                    >
-                      {t('settings.applyJson')}
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="json-editor-container">
-                <textarea 
-                  className="json-editor"
-                  value={jsonToolbarItems}
-                  onChange={(e) => setJsonToolbarItems(e.target.value)}
-                  placeholder="Enter toolbar items JSON here"
-                />
-              </div>
-            </div>
+            <ToolbarElements 
+              jsonToolbarItems={jsonToolbarItems}
+              setJsonToolbarItems={setJsonToolbarItems}
+              resetJsonToolbarItems={resetJsonToolbarItems}
+              applyJsonToolbarItems={applyJsonToolbarItems}
+              t={t}
+            />
           )}
         </div>
 
