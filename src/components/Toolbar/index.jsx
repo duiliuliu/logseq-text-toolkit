@@ -187,6 +187,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
 
   const toggleMore = (e) => {
     e.stopPropagation()
+    e.preventDefault()
     setMoreExpanded(!moreExpanded)
   }
 
