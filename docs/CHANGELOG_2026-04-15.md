@@ -2,6 +2,20 @@
 
 # Logseq Text Toolkit 更新日志
 
+## [0.11.3] - 2026-04-15
+
+### 新增
+- 创建 textProcessor.js 工具文件，实现文本处理逻辑
+- 为 Toolbar 组件添加 onTextProcessed 回调函数，支持文本处理结果返回
+- 实现不同模式的文本操作（replace、add、invoke、console）
+
+### 改进
+- 优化 branch-release.yml 工作流配置，更新 actions 版本和 Node.js 版本
+- 改进 Toolbar 组件的文本处理逻辑，支持模板替换和正则表达式替换
+
+### 修复
+- 无
+
 ## [0.11.2] - 2026-04-15
 
 ### 新增
@@ -49,5 +63,6 @@
 - 优先使用 CSS 变量，变量读取失败时使用回退值，确保主题切换更加可靠
 - 修复 toolbar 叶子节点的 label 在 light 模式下显示为深色的问题
 
+[0.11.3]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.3
 [0.11.2]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.2
 [0.11.1]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.1
