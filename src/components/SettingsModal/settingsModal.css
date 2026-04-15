@@ -93,34 +93,22 @@
 
 .setting-item {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
+  margin-bottom: 16px;
   gap: 12px;
   width: 100%;
-  margin-bottom: 16px;
   box-sizing: border-box;
+  flex-wrap: nowrap;
   position: relative;
 }
 
-.setting-item > label {
-  flex-shrink: 0;
-  white-space: nowrap;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ls-primary-text-color-plugin, #333);
+.setting-item label {
   width: 120px;
-  text-align: left;
-}
-
-.setting-item > select {
-  flex: 0 0 auto;
-  min-width: 120px;
-  padding: 8px 12px;
-  border-radius: 6px;
   font-size: 14px;
-  box-sizing: border-box;
+  color: var(--ls-primary-text-color-plugin, #333);
+  flex-shrink: 0;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .setting-item input[type="checkbox"] {
@@ -181,32 +169,18 @@ input:checked + .switch-slider:before {
 }
 
 .setting-item input[type="text"],
-.setting-item input[type="number"] {
+.setting-item input[type="number"],
+.setting-item select {
   flex: 1;
   max-width: 240px;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border: 1px solid var(--ls-border-color-plugin, #ccc);
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 14px;
   background-color: #f5f5f5;
   color: var(--ls-primary-text-color-plugin, #333);
   white-space: nowrap;
   transition: all 0.2s ease;
-  box-sizing: border-box;
-}
-
-.setting-item select {
-  flex: 0 0 auto;
-  min-width: 120px;
-  padding: 8px 12px;
-  border: 1px solid var(--ls-border-color-plugin, #ccc);
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #f5f5f5;
-  color: var(--ls-primary-text-color-plugin, #333);
-  white-space: nowrap;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
 }
 
 .setting-item input[type="text"]:focus,
