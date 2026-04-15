@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getCurrentTheme } from '../../utils/state';
 import './modal.css';
 
-const Modal = ({ title, onClose, onSubmit, placeholder = '请输入内容' }) => {
+const Modal = ({ title, onClose, onSubmit, placeholder = '请输入内容', isOpen = false, width = '400px' }) => {
   const [content, setContent] = useState('');
   const theme = getCurrentTheme();
 
@@ -12,9 +12,13 @@ const Modal = ({ title, onClose, onSubmit, placeholder = '请输入内容' }) =>
     onClose();
   };
 
+  if (!isOpen) {
+    return null;
+  }
+
   return (
     <div className="modal-overlay">
-      <div className={`modal modal-${theme}`}>
+      <div className={`modal modal-${theme}`} style={{ width }}>
         <div className="modal-header">
           <h3>{title}</h3>
           <button className="modal-close" onClick={onClose}>×</button>
