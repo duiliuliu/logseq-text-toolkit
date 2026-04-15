@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './toolbar.css'
+import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 
 function Toolbar({ items, theme = 'light' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
@@ -38,6 +39,23 @@ function Toolbar({ items, theme = 'light' }) {
     return result
   }
 
+  const renderIcon = (icon) => {
+    if (!icon) return '📝'
+    
+    // 处理 lucide-react 图标
+    if (typeof icon === 'function') {
+      return <icon size={18} />
+    }
+    
+    // 处理 SVG 字符串
+    if (typeof icon === 'string' && icon.includes('<svg')) {
+      return <div dangerouslySetInnerHTML={{ __html: icon }} />
+    }
+    
+    // 处理其他情况
+    return icon
+  }
+
   const renderItem = (item) => {
     if (item.isGroup) {
       return (
@@ -73,11 +91,7 @@ function Toolbar({ items, theme = 'light' }) {
                   onMouseLeave={() => setHoveredItem(item)}
                 >
                   <div className="toolbar-item-icon">
-                    {subItem.icon ? (
-                      <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
-                    ) : (
-                      '📝'
-                    )}
+                    {renderIcon(subItem.icon)}
                   </div>
                   {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
                     <div className="toolbar-tooltip toolbar-tooltip-sub">
@@ -99,11 +113,7 @@ function Toolbar({ items, theme = 'light' }) {
           onMouseLeave={() => setHoveredItem(null)}
         >
           <div className="toolbar-item-icon">
-            {item.icon ? (
-              <div dangerouslySetInnerHTML={{ __html: item.icon }} />
-            ) : (
-              '📝'
-            )}
+            {renderIcon(item.icon)}
           </div>
           {hoveredItem && hoveredItem.id === item.id && item.label && (
             <div className="toolbar-tooltip">
