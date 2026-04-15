@@ -8,7 +8,9 @@ function Toolbar({ items, theme = 'light' }) {
 
   const parseItems = (data) => {
     const result = []
+    console.log('Parsing items:', data)
     for (const [key, value] of Object.entries(data)) {
+      console.log('Processing key:', key, 'value:', value)
       if (value && typeof value === 'object' && !value.label) {
         const groupItems = []
         for (const [groupKey, groupValue] of Object.entries(value)) {
@@ -35,6 +37,7 @@ function Toolbar({ items, theme = 'light' }) {
         })
       }
     }
+    console.log('Parsed items:', result)
     return result
   }
 

@@ -45,6 +45,8 @@ function App() {
       <p>Welcome to Text Toolkit!</p>
       <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
       <div className="toolbar-section">
+        <h2>Toolbar Section</h2>
+        <p>Toolbar should appear below:</p>
         <Toolbar items={toolbarItems} />
       </div>
     </div>
