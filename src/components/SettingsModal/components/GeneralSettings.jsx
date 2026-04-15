@@ -1,41 +1,49 @@
 import React from 'react'
-import { CheckCircle2 } from 'lucide-react'
 
-function GeneralSettings({ settings, t }) {
+function GeneralSettings({ settings, handleSettingChange, handleSaveGeneral, t, isSaving }) {
   return (
     <div className="settings-section-content">
+      <h3 className="settings-section-title">{t('settings.generalSettings')}</h3>
+      <p className="settings-section-description">{t('settings.generalSettingsDescription')}</p>
+      
       <div className="setting-item">
-        <div className="setting-item-label-wrapper">
-          <div className="setting-item-label-content">
-            <div className="setting-item-label">{t('settings.theme')}</div>
-            <div className="setting-item-description">
-              <CheckCircle2 size={12} className="setting-item-check-icon" />
-              {t('settings.themeFollowSystem')}
-            </div>
-          </div>
-        </div>
+        <div className="setting-item-label">{t('settings.theme')}</div>
         <div className="setting-item-value">
-          <div className="setting-input-readonly">
-            {settings?.theme || ''}
-          </div>
+          <select 
+            value={settings?.theme || 'light'} 
+            onChange={(e) => handleSettingChange('theme', e.target.value)}
+            className="setting-select"
+          >
+            <option value="light">{t('settings.lightTheme')}</option>
+            <option value="dark">{t('settings.darkTheme')}</option>
+          </select>
         </div>
       </div>
 
       <div className="setting-item">
-        <div className="setting-item-label-wrapper">
-          <div className="setting-item-label-content">
-            <div className="setting-item-label">{t('settings.language')}</div>
-            <div className="setting-item-description">
-              <CheckCircle2 size={12} className="setting-item-check-icon" />
-              {t('settings.languageFollowSystem')}
-            </div>
-          </div>
-        </div>
+        <div className="setting-item-label">{t('settings.language')}</div>
         <div className="setting-item-value">
-          <div className="setting-input-readonly">
-            {settings?.language || ''}
-          </div>
+          <select 
+            value={settings?.language || 'zh-CN'} 
+            onChange={(e) => handleSettingChange('language', e.target.value)}
+            className="setting-select"
+          >
+            <option value="zh-CN">{t('settings.chinese')}</option>
+            <option value="en">{t('settings.english')}</option>
+            <option value="ja">{t('settings.japanese')}</option>
+          </select>
         </div>
+      </div>
+      
+      <div className="settings-save-section">
+        <button 
+          className="settings-btn settings-btn-save"
+          onClick={handleSaveGeneral}
+          disabled={isSaving}
+          type="button"
+        >
+          {isSaving ? t('settings.saving') : t('settings.saveGeneralSettings')}
+        </button>
       </div>
     </div>
   )

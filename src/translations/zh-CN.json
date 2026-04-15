@@ -40,6 +40,21 @@
     "loading": "加载设置中...",
     "error": "加载设置失败",
     "confirmReset": "确定要将所有设置重置为默认值吗？",
-    "confirmResetItems": "确定要将工具栏元素重置为默认值吗？"
+    "confirmResetItems": "确定要将工具栏元素重置为默认值吗？",
+    "subtitle": "管理应用程序的各项配置，每个区域可独立保存",
+    "generalSettingsDescription": "配置应用的主题和语言",
+    "toolbarSettingsDescription": "配置工具栏的显示和行为",
+    "advancedSettings": "高级设置",
+    "advancedSettingsDescription": "待添加的高级功能配置",
+    "lightTheme": "浅色",
+    "darkTheme": "深色",
+    "chinese": "简体中文",
+    "english": "English",
+    "japanese": "日本語",
+    "saveGeneralSettings": "保存通用设置",
+    "saveToolbarSettings": "保存工具栏设置",
+    "saveSuccess": "保存成功！",
+    "settingsNotConfigured": "此设置区域暂未配置",
+    "comingSoon": "敬请期待更多功能..."
   }
 }

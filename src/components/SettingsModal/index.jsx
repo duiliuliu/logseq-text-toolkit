@@ -3,10 +3,10 @@ import Modal from '../Modal/index.jsx'
 import useSettings from '../../hooks/useSettings.js'
 import i18n from '../../utils/i18n.js'
 import defaultSettings from '../../utils/settings.js'
-import { Palette, Layout, Code2 } from 'lucide-react'
+import { Settings, Layout, Code2, Cog } from 'lucide-react'
 import GeneralSettings from './components/GeneralSettings.jsx'
 import ToolbarSettings from './components/ToolbarSettings.jsx'
-import ToolbarElements from './components/ToolbarElements.jsx'
+import AdvancedSettings from './components/AdvancedSettings.jsx'
 import './settingsModal.css'
 
 function SettingsModal({ isOpen, onClose, theme }) {
@@ -21,8 +21,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
   } = useSettings()
   
   const [settings, setSettings] = useState(null)
-  const [activeTab, setActiveTab] = useState('general') // 'general', 'toolbar', 'elements'
-  const [jsonToolbarItems, setJsonToolbarItems] = useState('')
+  const [activeTab, setActiveTab] = useState('general') // 'general', 'toolbar', 'advanced'
 
   const currentLanguage = settings?.language || 'zh-CN'
   
@@ -35,104 +34,10 @@ function SettingsModal({ isOpen, onClose, theme }) {
       loadSettings().then(data => {
         if (data) {
           setSettings(data)
-          setJsonToolbarItems(JSON.stringify(data.toolbar?.items || {}, null, 2))
         }
       })
     }
   }, [isOpen, loadSettings])
-
-  useEffect(() => {
-    if (settings) {
-      setJsonToolbarItems(JSON.stringify(settings.toolbar?.items || {}, null, 2))
-    }
-  }, [settings])
-
-  const validateToolbarItemsSchema = (items) => {
-    if (!items || typeof items !== 'object') {
-      return 'Toolbar items must be an object'
-    }
-    
-    for (const [key, item] of Object.entries(items)) {
-      if (typeof item === 'object' && item !== null) {
-        const isGroup = !item.label && !item.icon && !item.funcmode
-        if (isGroup) {
-          for (const [groupKey, groupItem] of Object.entries(item)) {
-            if (typeof groupItem !== 'object' || groupItem === null) {
-              return `Group item ${groupKey} must be an object`
-            }
-            if (!groupItem.label || typeof groupItem.label !== 'string') {
-              return `Group item ${groupKey} must have a label`
-            }
-          }
-        } else {
-          if (!item.label || typeof item.label !== 'string') {
-            return `Item ${key} must have a label`
-          }
-        }
-      }
-    }
-    
-    return null
-  }
-
-  const applyJsonToolbarItems = () => {
-    try {
-      const parsedItems = JSON.parse(jsonToolbarItems)
-      
-      const validationError = validateToolbarItemsSchema(parsedItems)
-      if (validationError) {
-        alert(`Schema validation error: ${validationError}`)
-        return
-      }
-      
-      setSettings(prev => ({
-        ...prev,
-        toolbar: {
-          ...prev.toolbar,
-          items: parsedItems
-        }
-      }))
-      alert('Toolbar items applied successfully!')
-    } catch (error) {
-      alert('Invalid JSON format')
-    }
-  }
-
-  const resetJsonToolbarItems = () => {
-    if (window.confirm(t('settings.confirmResetItems'))) {
-      const defaultItems = defaultSettings.toolbar.items
-      setJsonToolbarItems(JSON.stringify(defaultItems, null, 2))
-      setSettings(prev => ({
-        ...prev,
-        toolbar: {
-          ...prev.toolbar,
-          items: defaultItems
-        }
-      }))
-    }
-  }
-
-  const handleSave = async () => {
-    if (!settings) return
-
-    const success = await saveSettings(settings)
-    if (success) {
-      onClose()
-    }
-  }
-
-  const handleReset = async () => {
-    if (window.confirm(t('settings.confirmReset'))) {
-      const success = await resetSettings()
-      if (success) {
-        loadSettings().then(data => {
-          if (data) {
-            setSettings(data)
-          }
-        })
-      }
-    }
-  }
 
   const handleSettingChange = (path, value) => {
     setSettings(prev => {
@@ -147,6 +52,37 @@ function SettingsModal({ isOpen, onClose, theme }) {
       current[keys[keys.length - 1]] = value
       return newSettings
     })
+  }
+
+  const handleSaveGeneral = async () => {
+    if (!settings) return
+
+    const success = await saveSettings(settings)
+    if (success) {
+      alert(t('settings.saveSuccess'))
+    }
+  }
+
+  const handleSaveToolbar = async () => {
+    if (!settings) return
+
+    const success = await saveSettings(settings)
+    if (success) {
+      alert(t('settings.saveSuccess'))
+    }
+  }
+
+  const handleReset = async () => {
+    if (window.confirm(t('settings.confirmReset'))) {
+      const success = await resetSettings()
+      if (success) {
+        loadSettings().then(data => {
+          if (data) {
+            setSettings(data)
+          }
+        })
+      }
+    }
   }
 
   if (isLoading) {
@@ -166,8 +102,13 @@ function SettingsModal({ isOpen, onClose, theme }) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="640px">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="700px">
       <div className="settings-container" data-theme={theme || ''}>
+        <div className="settings-header">
+          <h2 className="settings-title">{t('settings.title')}</h2>
+          <p className="settings-subtitle">{t('settings.subtitle')}</p>
+        </div>
+        
         {/* Tabs Navigation */}
         <div className="settings-tabs">
           <button
@@ -175,7 +116,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
             onClick={() => setActiveTab('general')}
             type="button"
           >
-            <Palette size={18} />
+            <Settings size={16} />
             <span>{t('settings.generalSettings')}</span>
           </button>
           <button
@@ -183,16 +124,16 @@ function SettingsModal({ isOpen, onClose, theme }) {
             onClick={() => setActiveTab('toolbar')}
             type="button"
           >
-            <Layout size={18} />
+            <Layout size={16} />
             <span>{t('settings.toolbarSettings')}</span>
           </button>
           <button
-            className={`settings-tab ${activeTab === 'elements' ? 'active' : ''}`}
-            onClick={() => setActiveTab('elements')}
+            className={`settings-tab ${activeTab === 'advanced' ? 'active' : ''}`}
+            onClick={() => setActiveTab('advanced')}
             type="button"
           >
-            <Code2 size={18} />
-            <span>{t('settings.toolbarElements')}</span>
+            <Cog size={16} />
+            <span>{t('settings.advancedSettings')}</span>
           </button>
         </div>
 
@@ -200,7 +141,13 @@ function SettingsModal({ isOpen, onClose, theme }) {
         <div className="settings-tab-content">
           {/* General Settings */}
           {activeTab === 'general' && (
-            <GeneralSettings settings={settings} t={t} />
+            <GeneralSettings 
+              settings={settings} 
+              handleSettingChange={handleSettingChange} 
+              handleSaveGeneral={handleSaveGeneral}
+              t={t}
+              isSaving={isSaving}
+            />
           )}
 
           {/* Toolbar Settings */}
@@ -208,48 +155,16 @@ function SettingsModal({ isOpen, onClose, theme }) {
             <ToolbarSettings 
               settings={settings} 
               handleSettingChange={handleSettingChange} 
-              t={t} 
-            />
-          )}
-
-          {/* Toolbar Elements */}
-          {activeTab === 'elements' && (
-            <ToolbarElements 
-              jsonToolbarItems={jsonToolbarItems}
-              setJsonToolbarItems={setJsonToolbarItems}
-              resetJsonToolbarItems={resetJsonToolbarItems}
-              applyJsonToolbarItems={applyJsonToolbarItems}
+              handleSaveToolbar={handleSaveToolbar}
               t={t}
+              isSaving={isSaving}
             />
           )}
-        </div>
 
-        {/* Action Buttons */}
-        <div className="settings-actions">
-          <button 
-            className="settings-btn settings-btn-reset" 
-            onClick={handleReset}
-            type="button"
-          >
-            {t('settings.resetToDefault')}
-          </button>
-          <div className="settings-btn-group">
-            <button 
-              className="settings-btn settings-btn-cancel" 
-              onClick={onClose}
-              type="button"
-            >
-              {t('settings.cancel')}
-            </button>
-            <button 
-              className="settings-btn settings-btn-save" 
-              onClick={handleSave}
-              disabled={isSaving || !settings}
-              type="button"
-            >
-              {isSaving ? t('settings.saving') : t('settings.save')}
-            </button>
-          </div>
+          {/* Advanced Settings */}
+          {activeTab === 'advanced' && (
+            <AdvancedSettings t={t} />
+          )}
         </div>
       </div>
     </Modal>
