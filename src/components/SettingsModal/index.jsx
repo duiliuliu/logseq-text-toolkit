@@ -164,7 +164,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="600px">
-      <div className="settings-container" data-theme={theme}>
+      <div className="settings-container" data-theme={theme || ''}>
         {/* Tabs Navigation */}
         <div className="settings-tabs">
           <button
