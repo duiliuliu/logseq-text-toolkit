@@ -9,6 +9,9 @@
 - 为下拉元素添加无边框选项
 - 为 testData 上的叶子节点增加 funcmode 和 clickfunc 属性
 - 实现 Toolbar 元素点击事件处理，支持打印功能
+- 为 Toolbar 添加宽度自定义支持，通过 width 参数控制
+- 在 testAPP 中实现选中文字后在文字上方显示 toolbar 的功能
+- 实现点击 toolbar 元素时打印元素名称、function 和选中的文字的功能
 
 ### 改进
 - 调整 Toolbar 宽度和图标大小，确保图标对齐
@@ -17,11 +20,13 @@
 - 在 APP 中添加 dark 主题的 Toolbar 示例
 - 移除 Toolbar 的边框，使界面更简洁
 - 调整 dark 主题的样式，使其与 light 主题有明显区别
+- 清理无用的代码，保持代码简洁内聚
 
 ### 修复
 - 修复 Toolbar 组件中的 React 组件名称大小写问题
 - 修复 dark 主题的背景色问题（CSS 选择器问题）
 - 重写 CSS 样式，解决 dark 模式不生效的问题，使用极简干净的样式结构
 - 优先使用 CSS 变量，变量读取失败时使用回退值，确保主题切换更加可靠
+- 修复 toolbar 叶子节点的 label 在 light 模式下显示为深色的问题
 
 [0.11.1]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.1
