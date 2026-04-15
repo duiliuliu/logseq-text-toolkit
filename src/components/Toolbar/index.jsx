@@ -86,9 +86,6 @@ function Toolbar({ items }) {
                           '📝'
                         )}
                       </div>
-                      {subItem.label && (
-                        <div className="toolbar-group-item-text">{subItem.label}</div>
-                      )}
                       {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
                         <div className="toolbar-tooltip toolbar-tooltip-sub">
                           {hoveredItem.label}
@@ -159,9 +156,6 @@ function Toolbar({ items }) {
                     }}
                   >
                     <div className="toolbar-item-icon">📂</div>
-                    {item.label && (
-                      <div className="toolbar-group-item-text">{item.label}</div>
-                    )}
                     {hoveredItem && hoveredItem.id === item.id && item.label && (
                       <div className="toolbar-tooltip toolbar-tooltip-sub">
                         {hoveredItem.label}
@@ -187,9 +181,6 @@ function Toolbar({ items }) {
                                 '📝'
                               )}
                             </div>
-                            {subItem.label && (
-                              <div className="toolbar-group-item-horizontal-text">{subItem.label}</div>
-                            )}
                             {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
                               <div className="toolbar-tooltip toolbar-tooltip-sub-horizontal">
                                 {hoveredItem.label}
@@ -214,9 +205,6 @@ function Toolbar({ items }) {
                         '📝'
                       )}
                     </div>
-                    {item.label && (
-                      <div className="toolbar-group-item-text">{item.label}</div>
-                    )}
                     {hoveredItem && hoveredItem.id === item.id && item.label && (
                       <div className="toolbar-tooltip toolbar-tooltip-sub">
                         {hoveredItem.label}
