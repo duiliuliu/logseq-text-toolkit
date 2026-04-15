@@ -2,7 +2,7 @@ export const toolbarItems = {
   "wrap-bold": {
     "label": "Wrap bold",
     "binding": "",
-    "template": "**{{$selectedText}}**",
+    "template": "**${selectedText}**",
     "icon": "bold",
     "funcmode": "replace",
     "clickfunc": "Wrap bold"
@@ -11,7 +11,7 @@ export const toolbarItems = {
     "wrap-italic": {
       "label": "Wrap italic",
       "binding": "mod+shift+i",
-      "template": "*{{$selectedText}}*",
+      "template": "*${selectedText}*",
       "icon": "italic",
       "funcmode": "replace",
       "clickfunc": "Wrap italic"
@@ -19,7 +19,7 @@ export const toolbarItems = {
     "wrap-underline": {
       "label": "Wrap underline",
       "binding": "",
-      "template": "__{{$selectedText}}__",
+      "template": "__${selectedText}__",
       "icon": "underline",
       "funcmode": "replace",
       "clickfunc": "Wrap underline"
@@ -28,7 +28,7 @@ export const toolbarItems = {
   "wrap-strike-through": {
     "label": "Wrap strike through",
     "binding": "",
-    "template": "~~{{$selectedText}}~~",
+    "template": "~~${selectedText}~~",
     "icon": "strikethrough",
     "funcmode": "replace",
     "clickfunc": "Wrap strike through"
@@ -37,7 +37,7 @@ export const toolbarItems = {
     "wrap-yellow-hl": {
       "label": "Wrap with yellow highlight",
       "binding": "",
-      "template": "=={{$selectedText}}==",
+      "template": "==${selectedText}==",
       "icon": "highlighter",
       "funcmode": "replace",
       "clickfunc": "Wrap with yellow highlight"
@@ -45,7 +45,7 @@ export const toolbarItems = {
     "wrap-red-hl": {
       "label": "Wrap with red highlight",
       "binding": "",
-      "template": "[:mark.red {{$selectedText}}]",
+      "template": "[:mark.red ${selectedText}]",
       "icon": "highlighter",
       "funcmode": "replace",
       "clickfunc": "Wrap with red highlight"
@@ -53,7 +53,7 @@ export const toolbarItems = {
     "wrap-blue-hl": {
       "label": "Wrap with blue highlight",
       "binding": "",
-      "template": "[:mark.blue {{$selectedText}}]",
+      "template": "[:mark.blue ${selectedText}]",
       "icon": "highlighter",
       "funcmode": "replace",
       "clickfunc": "Wrap with blue highlight"
@@ -63,7 +63,7 @@ export const toolbarItems = {
     "wrap-red-text": {
       "label": "Wrap with red text",
       "binding": "",
-      "template": "[[:color.red {{$selectedText}}]]",
+      "template": "[[:color.red ${selectedText}]]",
       "icon": "type",
       "funcmode": "replace",
       "clickfunc": "Wrap with red text"
@@ -71,7 +71,7 @@ export const toolbarItems = {
     "wrap-blue-text": {
       "label": "Wrap with blue text",
       "binding": "",
-      "template": "[[:color.blue {{$selectedText}}]]",
+      "template": "[[:color.blue ${selectedText}]]",
       "icon": "type",
       "funcmode": "replace",
       "clickfunc": "Wrap with blue text"
@@ -80,7 +80,7 @@ export const toolbarItems = {
   "wrap-cloze": {
     "label": "Wrap with cloze",
     "binding": "",
-    "template": " {{cloze {{$selectedText}}}}",
+    "template": " {{cloze ${selectedText}}}",
     "icon": "menu",
     "funcmode": "replace",
     "clickfunc": "Wrap with cloze"

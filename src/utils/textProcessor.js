@@ -33,9 +33,16 @@ export const renderTemplate = (template, variables) => {
   
   let result = template
   
-  const variableRegex = /\{\{\$(\w+)\}\}/g
+  const templateLiteralRegex = /\${(\w+)}/g
+  result = result.replace(templateLiteralRegex, (match, varName) => {
+    if (varName in variables) {
+      return variables[varName]
+    }
+    return match
+  })
   
-  result = result.replace(variableRegex, (match, varName) => {
+  const doubleBraceRegex = /\{\{\$(\w+)\}\}/g
+  result = result.replace(doubleBraceRegex, (match, varName) => {
     if (varName in variables) {
       return variables[varName]
     }
