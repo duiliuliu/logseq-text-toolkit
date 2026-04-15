@@ -102,8 +102,8 @@
   left: 50%;
   transform: translateX(-50%);
   padding: 6px 12px;
-  background: #333;
-  color: #fff;
+  background: var(--ls-primary-background-color-plugin, #333);
+  color: var(--ls-primary-text-color-plugin, #fff);
   border-radius: 6px;
   font-size: 14px;
   white-space: nowrap;
