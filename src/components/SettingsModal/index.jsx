@@ -210,7 +210,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
                 </div>
                 <div className="setting-item-value">
                   <div className="setting-input-readonly">
-                    {settings.theme}
+                    {settings?.theme || ''}
                   </div>
                 </div>
               </div>
@@ -227,7 +227,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
                 </div>
                 <div className="setting-item-value">
                   <div className="setting-input-readonly">
-                    {settings.language}
+                    {settings?.language || ''}
                   </div>
                 </div>
               </div>
