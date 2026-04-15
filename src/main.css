@@ -62,7 +62,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  user-select: none;
+}
+
+/* 允许内容区域的文本被选择 */
+.content-section {
+  user-select: text;
 }
 
 body {

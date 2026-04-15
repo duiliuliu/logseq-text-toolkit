@@ -13,6 +13,7 @@ function TestApp() {
   const [selectedText, setSelectedText] = useState('')
   const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
+  const [toolbarWidth, setToolbarWidth] = useState('150px')
   const contentRef = useRef(null)
 
   // 初始化 mock logseq
@@ -70,6 +71,16 @@ function TestApp() {
         </select>
       </div>
       
+      <div className="toolbar-width-control">
+        <label>Toolbar width: </label>
+        <input 
+          type="text" 
+          value={toolbarWidth} 
+          onChange={(e) => setToolbarWidth(e.target.value)}
+          placeholder="e.g., 150px"
+        />
+      </div>
+      
       <div className="content-section">
         <h2>Select Text Below</h2>
         <p>Select any text in this paragraph to see the toolbar appear. The toolbar will show up above the selected text, and you can click on any toolbar item to see the element name, function, and selected text printed in the console.</p>
@@ -91,7 +102,7 @@ function TestApp() {
             items={testData} 
             theme={theme} 
             showBorder={false}
-            width="200px"
+            width={toolbarWidth}
             selectedText={selectedText}
           />
         </div>
