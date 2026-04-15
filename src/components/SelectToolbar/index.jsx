@@ -31,9 +31,23 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
             range: range,
             rect: rect
           })
+          // 计算toolbar应该显示在上方还是下方
+          const toolbarHeight = 30; // 估算toolbar高度
+          const windowHeight = window.innerHeight;
+          
+          // 如果上方空间足够，显示在上方；否则显示在下方
+          let toolbarY;
+          if (rect.top > toolbarHeight + 10) {
+            // 上方空间足够，显示在上方
+            toolbarY = rect.top - toolbarHeight - 10;
+          } else {
+            // 上方空间不足，显示在下方
+            toolbarY = rect.bottom + 10;
+          }
+          
           setToolbarPosition({
             x: rect.left + rect.width / 2,
-            y: rect.top - 10
+            y: toolbarY
           })
           setShowToolbar(true)
         } else {
@@ -50,9 +64,24 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
         const selection = window.getSelection()
         const range = selection.getRangeAt(0)
         const rect = range.getBoundingClientRect()
+        
+        // 计算toolbar应该显示在上方还是下方
+        const toolbarHeight = 30; // 估算toolbar高度
+        const windowHeight = window.innerHeight;
+        
+        // 如果上方空间足够，显示在上方；否则显示在下方
+        let toolbarY;
+        if (rect.top > toolbarHeight + 10) {
+          // 上方空间足够，显示在上方
+          toolbarY = rect.top - toolbarHeight - 10;
+        } else {
+          // 上方空间不足，显示在下方
+          toolbarY = rect.bottom + 10;
+        }
+        
         setToolbarPosition({
           x: rect.left + rect.width / 2,
-          y: rect.top - 10
+          y: toolbarY
         })
       }
     }
