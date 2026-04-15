@@ -79,6 +79,45 @@ function SettingsModal({ isOpen, onClose, theme }) {
     }))
   }
 
+  // Add new toolbar item
+  const addToolbarItem = () => {
+    const newItemKey = `new-item-${Date.now()}`
+    const newItem = {
+      label: 'New Item',
+      binding: '',
+      icon: 'plus',
+      funcmode: 'replace',
+      clickfunc: '${selectedText}'
+    }
+    
+    setSettings(prev => {
+      const newSettings = JSON.parse(JSON.stringify(prev))
+      if (!newSettings.toolbar) newSettings.toolbar = {}
+      if (!newSettings.toolbar.items) newSettings.toolbar.items = {}
+      newSettings.toolbar.items[newItemKey] = newItem
+      return newSettings
+    })
+  }
+
+  // Edit toolbar item
+  const editToolbarItem = (key) => {
+    // In a real application, this would open a modal to edit the item
+    console.log('Edit toolbar item:', key)
+  }
+
+  // Delete toolbar item
+  const deleteToolbarItem = (key) => {
+    if (window.confirm(t('settings.confirmDeleteItem', { key }))) {
+      setSettings(prev => {
+        const newSettings = JSON.parse(JSON.stringify(prev))
+        if (newSettings.toolbar?.items) {
+          delete newSettings.toolbar.items[key]
+        }
+        return newSettings
+      })
+    }
+  }
+
   if (isLoading) {
     return (
       <Modal isOpen={isOpen} onClose={onClose} title={i18n.t('settings.title', 'zh-CN')}>
@@ -244,6 +283,94 @@ function SettingsModal({ isOpen, onClose, theme }) {
                     className="setting-input"
                   />
                 </div>
+              </div>
+
+              {/* Toolbar Items Section */}
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.toolbarItems')}</div>
+                <div className="setting-item-value">
+                  <button 
+                    className="settings-btn settings-btn-secondary" 
+                    onClick={() => toggleSection('toolbarItems')}
+                    type="button"
+                  >
+                    {t('settings.manageItems')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Toolbar Items Management Section */}
+        <div className="settings-section">
+          <button 
+            className="settings-section-header" 
+            onClick={() => toggleSection('toolbarItems')}
+            type="button"
+          >
+            <div className="settings-section-header-left">
+              <Layout className="settings-section-icon" size={18} />
+              <h3>{t('settings.toolbarItemsManagement')}</h3>
+            </div>
+            {collapsedSections.toolbarItems ? 
+              <ChevronDown className="settings-collapse-icon" size={16} /> : 
+              <ChevronUp className="settings-collapse-icon" size={16} />
+            }
+          </button>
+          
+          {!collapsedSections.toolbarItems && settings && (
+            <div className="settings-section-content">
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.addNewItem')}</div>
+                <div className="setting-item-value">
+                  <button 
+                    className="settings-btn settings-btn-save" 
+                    onClick={() => addToolbarItem()}
+                    type="button"
+                  >
+                    {t('settings.addItem')}
+                  </button>
+                </div>
+              </div>
+              
+              {/* Toolbar Items List */}
+              <div className="toolbar-items-list">
+                {Object.entries(settings.toolbar?.items || {}).map(([key, item]) => (
+                  <div key={key} className="toolbar-item-card">
+                    <div className="toolbar-item-header">
+                      <span className="toolbar-item-key">{key}</span>
+                      <div className="toolbar-item-actions">
+                        <button 
+                          className="toolbar-item-btn toolbar-item-btn-edit"
+                          onClick={() => editToolbarItem(key)}
+                        >
+                          ✏️
+                        </button>
+                        <button 
+                          className="toolbar-item-btn toolbar-item-btn-delete"
+                          onClick={() => deleteToolbarItem(key)}
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </div>
+                    <div className="toolbar-item-details">
+                      <div className="toolbar-item-detail">
+                        <span className="toolbar-item-detail-label">{t('settings.label')}:</span>
+                        <span className="toolbar-item-detail-value">{item.label || 'N/A'}</span>
+                      </div>
+                      <div className="toolbar-item-detail">
+                        <span className="toolbar-item-detail-label">{t('settings.icon')}:</span>
+                        <span className="toolbar-item-detail-value">{item.icon || 'N/A'}</span>
+                      </div>
+                      <div className="toolbar-item-detail">
+                        <span className="toolbar-item-detail-label">{t('settings.funcmode')}:</span>
+                        <span className="toolbar-item-detail-value">{item.funcmode || 'N/A'}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
