@@ -59,36 +59,43 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
 
       <div className="setting-item">
         <label>{t('settings.width', language)}</label>
-        <input 
-          type="text" 
-          value={settings.toolbar.width} 
-          onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
-          placeholder={language === 'zh-CN' ? '例如：110px' : language === 'ja' ? '例：110px' : 'e.g.: 110px'}
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <input 
+            type="text" 
+            value={settings.toolbar.width} 
+            onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
+            placeholder={language === 'zh-CN' ? '例如：110px' : language === 'ja' ? '例：110px' : 'e.g.: 110px'}
+          />
+        </div>
       </div>
 
       <div className="setting-item">
         <label>{t('settings.height', language)}</label>
-        <input 
-          type="text" 
-          value={settings.toolbar.height} 
-          onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
-          placeholder={language === 'zh-CN' ? '例如：24px' : language === 'ja' ? '例：24px' : 'e.g.: 24px'}
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <input 
+            type="text" 
+            value={settings.toolbar.height} 
+            onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
+            placeholder={language === 'zh-CN' ? '例如：24px' : language === 'ja' ? '例：24px' : 'e.g.: 24px'}
+          />
+        </div>
       </div>
 
       <div className="setting-item">
         <label>{t('settings.hoverDelay', language)}</label>
-        <input 
-          type="number" 
-          value={settings.toolbar.hoverDelay} 
-          onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
-          min="0"
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <input 
+            type="number" 
+            value={settings.toolbar.hoverDelay} 
+            onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
+            min="0"
+          />
+          <span className="unit">毫秒</span>
+        </div>
       </div>
 
       <div className="setting-item setting-item-json">
-        <label>{t('settings.toolbarElements', language)}</label>
+        <label>元素</label>
         <div className="json-editor">
           <textarea 
             value={JSON.stringify(settings.toolbar.items, null, 2)}
