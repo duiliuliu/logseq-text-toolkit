@@ -23,16 +23,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "14.x"
+          node-version: "18.x"
+          cache: "npm"
 
       - name: Get current version
         id: get-version
         run: |
           VERSION=$(grep "version" package.json | cut -d '"' -f 4)
-          echo "::set-output name=version::$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Build
         env:
@@ -41,10 +42,11 @@ jobs:
           # 使用 npm 代替 yarn 以避免镜像源问题
           npm install
           npm run build
-          mkdir ${{ env.PLUGIN_NAME }}
+          mkdir -p ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
+          ls -la
 
       - name: Create branch tag
         env:
@@ -68,3 +70,4 @@ jobs:
         with:
           name: ${{ env.PLUGIN_NAME }}
           path: ./${{ env.PLUGIN_NAME }}.zip
+          retention-days: 7
