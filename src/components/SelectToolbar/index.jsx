@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 
-function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 1000 }) {
+function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 2000 }) {
   const [selectedData, setSelectedData] = useState({})
   const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
