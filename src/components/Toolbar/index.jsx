@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './toolbar.css'
 
-function Toolbar({ items }) {
+function Toolbar({ items, theme = 'light' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -126,7 +126,7 @@ function Toolbar({ items }) {
   }
 
   return (
-    <div className="toolbar-container">
+    <div className={`toolbar-container toolbar-${theme}`}>
       <div className="toolbar-main">
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
