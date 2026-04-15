@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import '../index.css'
 import '../main.css'
-import Toolbar from '../components/Toolbar'
+import SelectToolbar from '../components/SelectToolbar'
 import { toolbarItems as testData } from './testData.js'
 
 // 导入mock logseq
@@ -10,11 +10,9 @@ import './mock.js'
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
   const [theme, setTheme] = useState('light')
-  const [selectedText, setSelectedText] = useState('')
-  const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 })
-  const [showToolbar, setShowToolbar] = useState(false)
   const [toolbarWidth, setToolbarWidth] = useState('110px')
   const [toolbarHeight, setToolbarHeight] = useState('24px')
+  const [targetElement, setTargetElement] = useState(null)
   const contentRef = useRef(null)
 
   // 初始化 mock logseq
@@ -34,48 +32,12 @@ function TestApp() {
     initLogseqPlugin()
   }, [])
 
-  // 处理文本选择
+  // 当contentRef变化时，更新targetElement
   useEffect(() => {
-    const handleSelection = (e) => {
-      if (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container')) {
-        return
-      }
-
-      const selection = window.getSelection()
-      if (selection && selection.toString().length > 0) {
-        const range = selection.getRangeAt(0)
-        const rect = range.getBoundingClientRect()
-        setSelectedText(selection.toString())
-        setToolbarPosition({
-          x: rect.left + rect.width / 2,
-          y: rect.top - 10
-        })
-        setShowToolbar(true)
-      } else {
-        setShowToolbar(false)
-      }
+    if (contentRef.current) {
+      setTargetElement(contentRef.current)
     }
-
-    // 处理滚动事件，更新toolbar位置
-    const handleScroll = () => {
-      if (showToolbar && window.getSelection().toString().length > 0) {
-        const selection = window.getSelection()
-        const range = selection.getRangeAt(0)
-        const rect = range.getBoundingClientRect()
-        setToolbarPosition({
-          x: rect.left + rect.width / 2,
-          y: rect.top - 10
-        })
-      }
-    }
-
-    document.addEventListener('mouseup', handleSelection)
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      document.removeEventListener('mouseup', handleSelection)
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [showToolbar])
+  }, [contentRef])
 
   return (
     <div className="App" ref={contentRef}>
@@ -126,27 +88,14 @@ function TestApp() {
         <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
       </div>
       
-      {showToolbar && (
-        <div 
-          className="floating-toolbar"
-          style={{
-            position: 'fixed',
-            left: toolbarPosition.x,
-            top: toolbarPosition.y,
-            transform: 'translateX(-50%)',
-            zIndex: 10000
-          }}
-        >
-          <Toolbar 
-            items={testData} 
-            theme={theme} 
-            showBorder={false}
-            width={toolbarWidth}
-            height={toolbarHeight}
-            selectedData={{ text: selectedText, timestamp: new Date().toISOString() }}
-          />
-        </div>
-      )}
+      <SelectToolbar 
+        targetElement={targetElement}
+        items={testData} 
+        theme={theme} 
+        showBorder={false}
+        width={toolbarWidth}
+        height={toolbarHeight}
+      />
     </div>
   )
 }
