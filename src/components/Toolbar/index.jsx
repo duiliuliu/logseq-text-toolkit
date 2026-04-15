@@ -1,26 +1,24 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import './toolbar.css'
-import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { processText } from '../../utils/textProcessor.js'
+import ToolbarItem from '../ToolbarItem/index.jsx'
 
-const iconMap = {
-  bold: Bold,
-  italic: Italic,
-  underline: Underline,
-  strikethrough: Strikethrough,
-  highlighter: Highlighter,
-  type: Type,
-  x: X,
-  menu: Menu
-}
-
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = {}, hoverDelay = 500, onTextProcessed }) {
+function Toolbar({ 
+  items, 
+  theme = 'light', 
+  showBorder = true, 
+  width = '110px', 
+  height = '24px', 
+  selectedData = {}, 
+  hoverDelay = 500, 
+  onTextProcessed 
+}) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
   const hoverTimerRef = useRef(null)
 
-  const parseItems = (data) => {
+  const parseItems = useCallback((data) => {
     const result = []
     for (const [key, value] of Object.entries(data)) {
       if (value && typeof value === 'object' && !value.label) {
@@ -50,33 +48,9 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       }
     }
     return result
-  }
+  }, [])
 
-  const renderIcon = (icon) => {
-    if (!icon) return '📝'
-    
-    // 处理字符串类型的图标名称
-    if (typeof icon === 'string' && iconMap[icon]) {
-      const IconComponent = iconMap[icon]
-      return <IconComponent size={18} />
-    }
-    
-    // 处理 lucide-react 图标
-    if (typeof icon === 'function') {
-      const IconComponent = icon
-      return <IconComponent size={18} />
-    }
-    
-    // 处理 SVG 字符串
-    if (typeof icon === 'string' && icon.includes('<svg')) {
-      return <div dangerouslySetInnerHTML={{ __html: icon }} />
-    }
-    
-    // 处理其他情况
-    return icon
-  }
-
-  const handleItemClick = (item) => {
+  const handleItemClick = useCallback((item) => {
     if (item.clickfunc) {
       console.log(`Clicked: ${item.clickfunc} (mode: ${item.funcmode})`)
       if (selectedData && selectedData.text) {
@@ -88,96 +62,31 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
         }
       }
     }
-  }
+  }, [selectedData, onTextProcessed])
 
-  const renderItem = (item) => {
-    if (item.isGroup) {
-      return (
-        <div 
-          key={item.id} 
-          className="toolbar-main-item toolbar-group"
-          onMouseEnter={() => {
-            // 清除之前的定时器
-            if (hoverTimerRef.current) {
-              clearTimeout(hoverTimerRef.current)
-            }
-            setHoveredItem(item)
-            setMouseOverGroup(item.id)
-          }}
-          onMouseLeave={() => {
-            setHoveredItem(null)
-            // 设置延时隐藏下拉子元素
-            hoverTimerRef.current = setTimeout(() => {
-              setMouseOverGroup(null)
-            }, hoverDelay)
-          }}
-        >
-          <div className="toolbar-item-icon">📂</div>
-          {hoveredItem && hoveredItem.id === item.id && item.label && (
-            <div className="toolbar-tooltip">
-              {hoveredItem.label}
-            </div>
-          )}
-          {mouseOverGroup === item.id && (
-            <div 
-              className={`toolbar-group-dropdown ${!showBorder ? 'no-border' : ''}`}
-              onMouseEnter={() => {
-                // 清除之前的定时器
-                if (hoverTimerRef.current) {
-                  clearTimeout(hoverTimerRef.current)
-                }
-                setMouseOverGroup(item.id)
-              }}
-              onMouseLeave={() => {
-                // 设置延时隐藏下拉子元素
-                hoverTimerRef.current = setTimeout(() => {
-                  setMouseOverGroup(null)
-                }, hoverDelay)
-              }}
-            >
-              {item.items.map((subItem) => (
-                <div 
-                  key={subItem.id}
-                  className="toolbar-group-item"
-                  onMouseEnter={() => setHoveredItem(subItem)}
-                  onMouseLeave={() => setHoveredItem(item)}
-                  onClick={() => handleItemClick(subItem)}
-                >
-                  <div className="toolbar-item-icon">
-                    {renderIcon(subItem.icon)}
-                  </div>
-                  {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
-                    <div className="toolbar-tooltip toolbar-tooltip-sub">
-                      {hoveredItem.label}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )
-    } else {
-      return (
-        <div 
-          key={item.id} 
-          className="toolbar-main-item"
-          onMouseEnter={() => setHoveredItem(item)}
-          onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleItemClick(item)}
-        >
-          <div className="toolbar-item-icon">
-            {renderIcon(item.icon)}
-          </div>
-          {hoveredItem && hoveredItem.id === item.id && item.label && (
-            <div className="toolbar-tooltip">
-              {hoveredItem.label}
-            </div>
-          )}
-        </div>
-      )
+  const handleGroupHover = useCallback((item) => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current)
     }
-  }
+    setHoveredItem(item)
+    setMouseOverGroup(item.id)
+  }, [])
+
+  const handleGroupLeave = useCallback(() => {
+    setHoveredItem(null)
+    hoverTimerRef.current = setTimeout(() => {
+      setMouseOverGroup(null)
+    }, hoverDelay)
+  }, [hoverDelay])
+
+  const handleHover = useCallback((item) => {
+    setHoveredItem(item)
+  }, [])
+
+  const toggleMore = useCallback((e) => {
+    e.stopPropagation()
+    setMoreExpanded(!moreExpanded)
+  }, [moreExpanded])
 
   const toolbarItems = parseItems(items)
   const visibleItems = toolbarItems.filter(item => !item.hidden)
@@ -185,10 +94,24 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const mainItems = visibleItems.slice(0, 3)
   const moreItems = visibleItems.slice(3).concat(hiddenItems)
 
-  const toggleMore = (e) => {
-    e.stopPropagation()
-    setMoreExpanded(!moreExpanded)
-  }
+  const renderItem = (item) => (
+    <ToolbarItem
+      key={item.id}
+      item={item}
+      isGroup={item.isGroup}
+      hoveredItem={hoveredItem}
+      mouseOverGroup={mouseOverGroup}
+      hoverDelay={hoverDelay}
+      showBorder={showBorder}
+      selectedData={selectedData}
+      onTextProcessed={onTextProcessed}
+      onHover={handleHover}
+      onGroupHover={handleGroupHover}
+      onGroupLeave={handleGroupLeave}
+      onItemClick={handleItemClick}
+      onSubItemClick={handleItemClick}
+    />
+  )
 
   return (
     <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
@@ -202,7 +125,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           onMouseLeave={() => setHoveredItem(null)}
         >
           <div className="toolbar-item-icon">{moreExpanded ? '−' : '⋮'}</div>
-          {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
+          {hoveredItem?.id === 'more' && hoveredItem.label && (
             <div className="toolbar-tooltip">
               {hoveredItem.label}
             </div>
