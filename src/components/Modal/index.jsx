@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getCurrentTheme } from '../../utils/state';
-import './index.css';
+import './modal.css';
 
 const Modal = ({ title, onClose, onSubmit, placeholder = '请输入内容' }) => {
   const [content, setContent] = useState('');

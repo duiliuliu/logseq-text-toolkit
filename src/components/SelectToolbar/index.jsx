@@ -10,8 +10,8 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   // 处理文本选择
   useEffect(() => {
     const handleSelection = (e) => {
-      // 点击toolbar内部时，不隐藏toolbar
-      if (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container')) {
+      // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
+      if (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container') || e.target.closest('.toolbar-group-dropdown')) {
         return
       }
 

@@ -10,5 +10,36 @@
   },
   "modal": {
     "placeholder": "内容を入力してください"
+  },
+  "settings": {
+    "title": "設定",
+    "generalSettings": "一般設定",
+    "theme": "テーマ",
+    "themeFollowSystem": "システムに追従",
+    "language": "言語",
+    "languageFollowSystem": "システムに追従",
+    "toolbarSettings": "ツールバー設定",
+    "enabled": "有効",
+    "showBorder": "境界線を表示",
+    "width": "幅",
+    "height": "高さ",
+    "hoverDelay": "ホバー遅延 (ミリ秒)",
+    "toolbarElements": "ツールバー要素",
+    "addNewItem": "新しいアイテムを追加",
+    "addItem": "アイテムを追加",
+    "label": "ラベル",
+    "icon": "アイコン",
+    "funcmode": "機能モード",
+    "confirmDeleteItem": "このツールバーアイテムを削除しますか？",
+    "jsonSettings": "JSON設定",
+    "applyJson": "JSONを適用",
+    "resetToDefault": "デフォルトにリセット",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "saving": "保存中...",
+    "loading": "設定を読み込んでいます...",
+    "error": "設定の読み込みに失敗しました",
+    "confirmReset": "すべての設定をデフォルトにリセットしますか？",
+    "confirmResetItems": "ツールバー要素をデフォルトにリセットしてもよろしいですか？"
   }
 }

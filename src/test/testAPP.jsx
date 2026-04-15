@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import '../index.css'
 import '../main.css'
 import SelectToolbar from '../components/SelectToolbar'
+import SettingsModal from '../components/SettingsModal'
 import { toolbarItems as testData } from './testData.js'
 
 // 导入mock logseq
@@ -13,6 +14,7 @@ function TestApp() {
   const [toolbarWidth, setToolbarWidth] = useState('110px')
   const [toolbarHeight, setToolbarHeight] = useState('24px')
   const [targetElement, setTargetElement] = useState(null)
+  const [showSettings, setShowSettings] = useState(false)
   const contentRef = useRef(null)
 
   // 初始化 mock logseq
@@ -41,7 +43,15 @@ function TestApp() {
 
   return (
     <div className="App">
-      <h1>Text Toolkit Plugin (Test Mode)</h1>
+      <div className="test-app-header">
+        <h1>Text Toolkit Plugin (Test Mode)</h1>
+        <button 
+          className="settings-button"
+          onClick={() => setShowSettings(true)}
+        >
+          ⚙️ 设置
+        </button>
+      </div>
       <p>Welcome to Text Toolkit Test Mode!</p>
       <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
       
@@ -110,6 +120,12 @@ function TestApp() {
         width={toolbarWidth}
         height={toolbarHeight}
         hoverDelay={500} // 0.5秒延时
+      />
+      
+      <SettingsModal 
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        theme={theme}
       />
     </div>
   )
