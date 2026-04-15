@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
-import { ButtonGroup, ButtonGroupSeparator } from '@/components/ui/button-group'
+import { ButtonGroup } from '@/components/ui/button-group'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { MoreHorizontalIcon } from 'lucide-react'
 import './toolbar.css'
 
 function Toolbar({ items }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
-  const [isMoreExpanded, setIsMoreExpanded] = useState(false)
 
   const parseItems = (data) => {
     const result = []
@@ -44,15 +50,9 @@ function Toolbar({ items }) {
   const visibleItems = toolbarItems.filter(item => !item.hidden)
   const hiddenItems = toolbarItems.filter(item => item.hidden)
   
-  // 处理 more 展开逻辑
-  const mainItems = isMoreExpanded 
-    ? visibleItems.concat(hiddenItems)
-    : visibleItems.slice(0, 3)
+  // 主工具栏显示前3个项目，剩下的放在more菜单中
+  const mainItems = visibleItems.slice(0, 3)
   const moreItems = visibleItems.slice(3).concat(hiddenItems)
-
-  const handleMoreClick = () => {
-    setIsMoreExpanded(!isMoreExpanded)
-  }
 
   return (
     <div className="toolbar-container">
@@ -71,14 +71,14 @@ function Toolbar({ items }) {
                 setMouseOverGroup(null)
               }}
             >
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="outline" size="icon" className="relative">
                 <div className="toolbar-item-icon">📂</div>
+                {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
+                  <div className="toolbar-tooltip">
+                    {hoveredItem.label}
+                  </div>
+                )}
               </Button>
-              {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
-                <div className="toolbar-tooltip">
-                  {hoveredItem.label}
-                </div>
-              )}
               {mouseOverGroup === item.id && (
                 <div 
                   className="toolbar-group-dropdown"
@@ -115,7 +115,7 @@ function Toolbar({ items }) {
               onMouseEnter={() => setHoveredItem(item)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="outline" size="icon" className="relative">
                 <div className="toolbar-item-icon">
                   {item.icon ? (
                     <div dangerouslySetInnerHTML={{ __html: item.icon }} />
@@ -132,53 +132,51 @@ function Toolbar({ items }) {
             </div>
           )
         ))}
-        {!isMoreExpanded && moreItems.length > 0 && (
-          <div
-            onMouseEnter={() => {
-              setHoveredItem({ label: 'More', id: 'more' })
-            }}
-            onMouseLeave={() => {
-              setHoveredItem(null)
-            }}
-          >
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="relative"
-              onClick={handleMoreClick}
-            >
-              <div className="toolbar-item-icon">⋮</div>
-              {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
-                <div className="toolbar-tooltip">
-                  {hoveredItem.label}
-                </div>
-              )}
-            </Button>
-          </div>
-        )}
-        {isMoreExpanded && (
-          <div
-            onMouseEnter={() => {
-              setHoveredItem({ label: 'Less', id: 'less' })
-            }}
-            onMouseLeave={() => {
-              setHoveredItem(null)
-            }}
-          >
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="relative"
-              onClick={handleMoreClick}
-            >
-              <div className="toolbar-item-icon">−</div>
-              {hoveredItem && hoveredItem.id === 'less' && hoveredItem.label && (
-                <div className="toolbar-tooltip">
-                  {hoveredItem.label}
-                </div>
-              )}
-            </Button>
-          </div>
+        {moreItems.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" aria-label="More Options">
+                <MoreHorizontalIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {moreItems.map((item, index) => (
+                item.isGroup ? (
+                  <div key={item.id}>
+                    <DropdownMenuItem>
+                      <div className="flex items-center gap-2">
+                        <div>📂</div>
+                        <span>{item.label}</span>
+                      </div>
+                    </DropdownMenuItem>
+                    {item.items.map((subItem, subIndex) => (
+                      <DropdownMenuItem key={subItem.id} className="pl-8">
+                        <div className="flex items-center gap-2">
+                          {subItem.icon ? (
+                            <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
+                          ) : (
+                            '📝'
+                          )}
+                          <span>{subItem.label}</span>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                ) : (
+                  <DropdownMenuItem key={item.id}>
+                    <div className="flex items-center gap-2">
+                      {item.icon ? (
+                        <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+                      ) : (
+                        '📝'
+                      )}
+                      <span>{item.label}</span>
+                    </div>
+                  </DropdownMenuItem>
+                )
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
       </ButtonGroup>
     </div>
