@@ -141,26 +141,26 @@
 
 /* ================= DARK ================= */
 .toolbar-container.toolbar-dark .toolbar-main {
-  background: #2d2d2d;
-  color: #e0e0e0;
+  background: var(--ls-primary-background-color-plugin, #2d2d2d);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 .toolbar-container.toolbar-dark .toolbar-main-item:hover {
-  background: #444;
+  background: var(--ls-secondary-background-color-plugin, #444);
 }
 .toolbar-container.toolbar-dark .toolbar-group-dropdown {
-  background: #2d2d2d;
-  color: #e0e0e0;
-  border-color: #555;
+  background: var(--ls-primary-background-color-plugin, #2d2d2d);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  border-color: var(--ls-border-color-plugin, #555);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 .toolbar-container.toolbar-dark .toolbar-group-item:hover {
-  background: #444;
+  background: var(--ls-secondary-background-color-plugin, #444);
 }
 .toolbar-container.toolbar-dark .toolbar-more:hover {
-  background: #444;
+  background: var(--ls-secondary-background-color-plugin, #444);
 }
 .toolbar-container.toolbar-dark .toolbar-tooltip {
-  background: #1a1a1a;
-  color: #fff;
+  background: var(--ls-primary-background-color-plugin, #1a1a1a);
+  color: var(--ls-primary-text-color-plugin, #fff);
 }

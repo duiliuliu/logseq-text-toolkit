@@ -162,7 +162,7 @@ function Toolbar({ items, theme = 'light', showBorder = true }) {
   }
 
   return (
-    <div className={`toolbar-container toolbar-${theme}`}>
+    <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div className="toolbar-main">
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
