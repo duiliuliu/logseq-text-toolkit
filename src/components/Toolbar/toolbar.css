@@ -4,9 +4,10 @@
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   z-index: 1000;
   overflow: visible;
+  min-height: 60px;
 }
 
 .toolbar-main {
@@ -23,6 +24,7 @@
   transition: all 0.2s ease;
   z-index: 1000;
   overflow: visible;
+  min-height: 36px;
 }
 
 /* 主题样式 */
@@ -59,7 +61,7 @@
 
 .toolbar-scrollable {
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
   white-space: nowrap;
   max-width: 100%;
   scrollbar-width: none;
@@ -169,7 +171,7 @@
 
 .toolbar-tooltip {
   position: absolute;
-  bottom: 100%;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
   padding: 6px 12px;
@@ -179,8 +181,6 @@
   font-size: 14px;
   white-space: nowrap;
   z-index: 1004;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   opacity: 1;
   visibility: visible;
   transition: all 0.2s ease;
@@ -191,8 +191,6 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  bottom: auto;
-  margin-bottom: 0;
   margin-left: 8px;
 }
 
@@ -200,8 +198,6 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  bottom: auto;
-  margin-bottom: 0;
   margin-top: 8px;
 }
 
