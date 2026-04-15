@@ -53,6 +53,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   min-width: auto;
+  white-space: nowrap;
 }
 
 .toolbar-group-item {
@@ -164,6 +165,7 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
+  flex-shrink: 0;
 }
 
 .toolbar-item-icon svg {
@@ -178,11 +180,15 @@
   margin-left: 8px;
   white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  visibility: hidden;
+  width: 0;
+  transition: all 0.2s ease;
 }
 
 .toolbar-group-item:hover .toolbar-group-item-text {
   opacity: 1;
+  visibility: visible;
+  width: auto;
 }
 
 /* 横向展示的子元素 */
@@ -201,6 +207,7 @@
   display: flex;
   flex-direction: row;
   gap: 0;
+  white-space: nowrap;
 }
 
 .toolbar-group-item-horizontal {
@@ -237,9 +244,13 @@
   margin-left: 8px;
   white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  visibility: hidden;
+  width: 0;
+  transition: all 0.2s ease;
 }
 
 .toolbar-group-item-horizontal:hover .toolbar-group-item-horizontal-text {
   opacity: 1;
+  visibility: visible;
+  width: auto;
 }
