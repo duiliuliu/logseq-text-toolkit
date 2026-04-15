@@ -40,7 +40,7 @@ function TestApp() {
   }, [contentRef])
 
   return (
-    <div className="App" ref={contentRef}>
+    <div className="App">
       <h1>Text Toolkit Plugin (Test Mode)</h1>
       <p>Welcome to Text Toolkit Test Mode!</p>
       <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
