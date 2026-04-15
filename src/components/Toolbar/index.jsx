@@ -13,7 +13,7 @@ const iconMap = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true }) {
+function Toolbar({ items, theme = 'light', showBorder = true, selectedText = '' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -76,7 +76,7 @@ function Toolbar({ items, theme = 'light', showBorder = true }) {
 
   const handleItemClick = (item) => {
     if (item.clickfunc) {
-      console.log(`Clicked: ${item.clickfunc} (mode: ${item.funcmode})`)
+      console.log(`Clicked: ${item.clickfunc} (mode: ${item.funcmode}) - Selected text: ${selectedText}`)
     }
   }
 
