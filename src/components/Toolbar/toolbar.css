@@ -57,7 +57,7 @@
   z-index: 999;
   min-width: auto;
   white-space: nowrap;
-  padding: 4px 0;
+  padding: 4px 4px;
   display: flex;
   flex-direction: column;
   gap: 2px;
