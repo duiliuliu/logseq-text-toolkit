@@ -59,19 +59,11 @@ export const toolbarItems = {
       "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><text x=\"12\" y=\"16\" text-anchor=\"middle\" font-size=\"14\" fill=\"#00beff\">T</text></svg>"
     }
   },
-  "group-format": {
-    "wrap-cloze": {
-      "label": "Wrap with cloze",
-      "binding": "",
-      "template": " {{cloze $^}}",
-      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"8\" stroke=\"currentColor\" stroke-width=\"2\" fill=\"none\"/><path d=\"M12 8v8M8 12h8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>"
-    },
-    "wrap-code": {
-      "label": "Wrap with code",
-      "binding": "mod+shift+c",
-      "template": "`$^`",
-      "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><path d=\"M16 18l6-6-6-6M8 6l-6 6 6 6\" stroke=\"currentColor\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-    }
+  "wrap-cloze": {
+    "label": "Wrap with cloze",
+    "binding": "",
+    "template": " {{cloze $^}}",
+    "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"8\" stroke=\"currentColor\" stroke-width=\"2\" fill=\"none\"/><path d=\"M12 8v8M8 12h8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>"
   },
   "repl-clear": {
     "label": "Remove formatting",
