@@ -19,6 +19,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  width: 410px;
+  min-width: 410px;
+  max-width: 90vw;
 }
 
 .modal-header {

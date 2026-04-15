@@ -85,9 +85,10 @@
 .tab-section-description-small {
   margin: 0 0 16px 0;
   font-size: 12px;
-  color: var(--ls-primary-text-color-plugin, #666);
+  color: var(--ls-secondary-text-color-plugin, #999);
   line-height: 1.4;
   text-align: left;
+  opacity: 0.8;
 }
 
 .setting-item {
@@ -116,18 +117,77 @@
   margin-top: 0;
 }
 
+/* Switch开关样式 */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .switch-slider {
+  background-color: #000;
+}
+
+input:checked + .switch-slider:before {
+  transform: translateX(16px);
+}
+
+.switch-slider:hover {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
 .setting-item input[type="text"],
 .setting-item input[type="number"],
 .setting-item select {
   flex: 1;
-  max-width: 200px;
+  max-width: 160px;
   padding: 6px 10px;
   border: 1px solid var(--ls-border-color-plugin, #ccc);
   border-radius: 4px;
   font-size: 14px;
-  background-color: var(--ls-primary-background-color-plugin, #fff);
+  background-color: #f5f5f5;
   color: var(--ls-primary-text-color-plugin, #333);
   white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.setting-item input[type="text"]:focus,
+.setting-item input[type="number"]:focus,
+.setting-item select:focus {
+  border-color: #000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
 
 /* 确保工具栏配置没有横向滚动 */
@@ -180,28 +240,60 @@
 }
 
 .settings-actions {
-  margin-top: 32px;
+  margin-top: 40px;
   display: flex;
   justify-content: flex-end;
   padding-right: 8px;
+  padding-bottom: 8px;
 }
 
 .settings-btn {
-  padding: 8px 16px;
+  padding: 6px 14px;
   border: none;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .settings-btn-save {
-  background-color: var(--ls-primary-accent-color-plugin, #007bff);
+  background-color: #000;
   color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.settings-btn-save::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));
+}
+
+.settings-btn-save::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));
 }
 
 .settings-btn-save:hover:not(:disabled) {
-  background-color: var(--ls-primary-accent-color-plugin, #0056b3);
+  background-color: #333;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transform: translateY(1px);
+}
+
+.settings-btn-save:active:not(:disabled) {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px);
 }
 
 .settings-btn-save:disabled {
