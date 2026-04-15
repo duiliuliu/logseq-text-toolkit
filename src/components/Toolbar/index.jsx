@@ -74,6 +74,12 @@ function Toolbar({ items, theme = 'light', showBorder = true }) {
     return icon
   }
 
+  const handleItemClick = (item) => {
+    if (item.clickfunc) {
+      console.log(`Clicked: ${item.clickfunc} (mode: ${item.funcmode})`)
+    }
+  }
+
   const renderItem = (item) => {
     if (item.isGroup) {
       return (
@@ -107,6 +113,7 @@ function Toolbar({ items, theme = 'light', showBorder = true }) {
                   className="toolbar-group-item"
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
+                  onClick={() => handleItemClick(subItem)}
                 >
                   <div className="toolbar-item-icon">
                     {renderIcon(subItem.icon)}
@@ -129,6 +136,7 @@ function Toolbar({ items, theme = 'light', showBorder = true }) {
           className="toolbar-main-item"
           onMouseEnter={() => setHoveredItem(item)}
           onMouseLeave={() => setHoveredItem(null)}
+          onClick={() => handleItemClick(item)}
         >
           <div className="toolbar-item-icon">
             {renderIcon(item.icon)}
