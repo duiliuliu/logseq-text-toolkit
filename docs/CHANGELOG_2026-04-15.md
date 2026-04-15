@@ -2,6 +2,26 @@
 
 # Logseq Text Toolkit 更新日志
 
+## [0.11.2] - 2026-04-15
+
+### 新增
+- 创建 SelectToolbar 组件，支持指定页面元素并监听其文本选择事件
+- 实现 Toolbar 跟随选中文字滚动的功能
+- 为 Toolbar 添加 hoverDelay 参数，支持自定义下拉子元素的延时隐藏时间
+- 实现 Toolbar 根据页面空间自动选择显示位置（上方或下方）的功能
+
+### 改进
+- 调整 Toolbar 默认宽度为 110px，默认高度为 24px
+- 优化下拉子元素的大小和间距，使其比 Toolbar 元素小 2px
+- 调整下拉容器的内边距，使左右边界间距比 Toolbar 小 4px
+- 优化 label 提示的样式，减小字体大小和内边距
+- 改进鼠标交互，添加 0.5 秒延时隐藏下拉子元素，提升用户体验
+
+### 修复
+- 修复 testAPP 中 more 按钮点击失效的问题（事件冒泡冲突）
+- 修复页面无法滚动的问题（移除 overflow: hidden）
+- 修复 contentRef 重复应用的问题
+
 ## [0.11.1] - 2026-04-15
 
 ### 新增
@@ -29,4 +49,5 @@
 - 优先使用 CSS 变量，变量读取失败时使用回退值，确保主题切换更加可靠
 - 修复 toolbar 叶子节点的 label 在 light 模式下显示为深色的问题
 
+[0.11.2]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.2
 [0.11.1]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.1
