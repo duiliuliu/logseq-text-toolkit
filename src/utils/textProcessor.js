@@ -41,15 +41,5 @@ export const renderTemplate = (template, variables) => {
     return match
   })
   
-  const doubleBraceRegex = /\{\{\$(\w+)\}\}/g
-  result = result.replace(doubleBraceRegex, (match, varName) => {
-    if (varName in variables) {
-      return variables[varName]
-    }
-    return match
-  })
-  
-  result = result.replace(/\$\^/g, variables.selectedText || '')
-  
   return result
 }
