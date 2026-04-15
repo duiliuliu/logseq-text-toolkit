@@ -3,6 +3,17 @@
   max-height: 70vh;
   overflow-y: auto;
   padding-right: 8px;
+  min-width: 400px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* 确保设置面板自适应 */
+.settings-modal {
+  min-width: 400px;
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
 }
 
 /* 自定义滚动条样式 */
@@ -121,8 +132,8 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 40px;
-  height: 20px;
+  width: 32px;
+  height: 16px;
 }
 
 .switch input {
@@ -140,14 +151,14 @@
   bottom: 0;
   background-color: #ccc;
   transition: .4s;
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 16px;
-  width: 16px;
+  height: 12px;
+  width: 12px;
   left: 2px;
   bottom: 2px;
   background-color: white;
@@ -156,24 +167,28 @@
 }
 
 input:checked + .slider {
-  background-color: #4CAF50;
+  background-color: #333;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #4CAF50;
+  box-shadow: 0 0 1px #333;
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(16px);
 }
 
 /* Dark mode switch */
 [data-theme="dark"] .slider {
-  background-color: #555;
+  background-color: #666;
 }
 
 [data-theme="dark"] input:checked + .slider {
-  background-color: #4CAF50;
+  background-color: #e0e0e0;
+}
+
+[data-theme="dark"] input:checked + .slider:before {
+  background-color: #333;
 }
 
 .setting-item input[type="text"],
@@ -198,12 +213,12 @@ input:checked + .slider:before {
 }
 
 #toolbar-settings .setting-item {
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 #toolbar-settings .json-editor {
-  max-width: 100%;
-  overflow-x: auto;
+  max-width: 300px;
+  overflow-x: hidden;
 }
 
 /* JSON编辑器样式 */
