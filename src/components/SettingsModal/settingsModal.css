@@ -284,91 +284,41 @@
   color: white;
 }
 
-/* Toolbar Items Management */
-.toolbar-items-list {
+/* JSON Editor */
+.json-editor-container {
   margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.toolbar-item-card {
   border: 1px solid var(--ls-border-color-plugin, #e5e7eb);
   border-radius: 6px;
-  padding: 10px;
+  overflow: hidden;
+}
+
+.json-editor {
+  width: 100%;
+  min-height: 300px;
+  padding: 12px;
+  border: none;
+  resize: vertical;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
   background-color: var(--ls-primary-background-color-plugin, #fff);
+  color: var(--ls-primary-text-color-plugin, #111827);
   transition: all 0.2s ease;
 }
 
-.toolbar-item-card:hover {
-  border-color: var(--ls-primary-accent-color-plugin, #3b82f6);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.json-editor:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
-.toolbar-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+/* Dark mode JSON editor */
+[data-theme="dark"] .json-editor-container {
+  border-color: var(--ls-border-color-plugin, #374151);
 }
 
-.toolbar-item-key {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ls-primary-text-color-plugin, #374151);
-  background-color: var(--ls-secondary-background-color-plugin, #f3f4f6);
-  padding: 2px 6px;
-  border-radius: 3px;
-}
-
-.toolbar-item-actions {
-  display: flex;
-  gap: 4px;
-}
-
-.toolbar-item-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  border-radius: 3px;
-  transition: background-color 0.2s ease;
-  font-size: 12px;
-}
-
-.toolbar-item-btn:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #e5e7eb);
-}
-
-.toolbar-item-btn-edit {
-  color: var(--ls-primary-accent-color-plugin, #3b82f6);
-}
-
-.toolbar-item-btn-delete {
-  color: var(--ls-primary-text-color-plugin, #ef4444);
-}
-
-.toolbar-item-details {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.toolbar-item-detail {
-  display: flex;
-  font-size: 12px;
-  gap: 6px;
-}
-
-.toolbar-item-detail-label {
-  font-weight: 500;
-  color: var(--ls-primary-text-color-plugin, #6b7280);
-  min-width: 80px;
-}
-
-.toolbar-item-detail-value {
-  color: var(--ls-primary-text-color-plugin, #374151);
-  flex: 1;
+[data-theme="dark"] .json-editor {
+  background-color: var(--ls-secondary-background-color-plugin, #1f2937);
+  color: var(--ls-primary-text-color-plugin, #f9fafb);
 }
 
 /* Dark mode */

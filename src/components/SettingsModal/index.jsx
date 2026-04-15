@@ -18,7 +18,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
   
   const [settings, setSettings] = useState(null)
   const [collapsedSections, setCollapsedSections] = useState({})
-  const [editMode, setEditMode] = useState('ui') // 'ui' or 'json'
+  const [editMode, setEditMode] = useState('json') // Only 'json' mode supported
   const [jsonSettings, setJsonSettings] = useState('')
 
   const currentLanguage = settings?.language || 'zh-CN'
@@ -48,10 +48,60 @@ function SettingsModal({ isOpen, onClose, theme }) {
     setJsonSettings(value)
   }
 
+  const validateToolbarSchema = (toolbar) => {
+    if (!toolbar || typeof toolbar !== 'object') {
+      return 'Toolbar must be an object'
+    }
+    
+    if (typeof toolbar.enabled !== 'boolean') {
+      return 'Toolbar enabled must be a boolean'
+    }
+    
+    if (toolbar.items && typeof toolbar.items !== 'object') {
+      return 'Toolbar items must be an object'
+    }
+    
+    if (toolbar.items) {
+      for (const [key, item] of Object.entries(toolbar.items)) {
+        if (typeof item === 'object' && item !== null) {
+          // Check if this is a group (contains nested items)
+          const isGroup = !item.label && !item.icon && !item.funcmode
+          if (isGroup) {
+            // Validate group items
+            for (const [groupKey, groupItem] of Object.entries(item)) {
+              if (typeof groupItem !== 'object' || groupItem === null) {
+                return `Group item ${groupKey} must be an object`
+              }
+              if (!groupItem.label || typeof groupItem.label !== 'string') {
+                return `Group item ${groupKey} must have a label`
+              }
+            }
+          } else {
+            // Validate regular item
+            if (!item.label || typeof item.label !== 'string') {
+              return `Item ${key} must have a label`
+            }
+          }
+        }
+      }
+    }
+    
+    return null // No errors
+  }
+
   const applyJsonSettings = () => {
     try {
       const parsedSettings = JSON.parse(jsonSettings)
+      
+      // Validate toolbar schema
+      const validationError = validateToolbarSchema(parsedSettings.toolbar)
+      if (validationError) {
+        alert(`Schema validation error: ${validationError}`)
+        return
+      }
+      
       setSettings(parsedSettings)
+      alert('Settings applied successfully!')
     } catch (error) {
       alert('Invalid JSON format')
     }
@@ -101,44 +151,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
     }))
   }
 
-  // Add new toolbar item
-  const addToolbarItem = () => {
-    const newItemKey = `new-item-${Date.now()}`
-    const newItem = {
-      label: 'New Item',
-      binding: '',
-      icon: 'plus',
-      funcmode: 'replace',
-      clickfunc: '${selectedText}'
-    }
-    
-    setSettings(prev => {
-      const newSettings = JSON.parse(JSON.stringify(prev))
-      if (!newSettings.toolbar) newSettings.toolbar = {}
-      if (!newSettings.toolbar.items) newSettings.toolbar.items = {}
-      newSettings.toolbar.items[newItemKey] = newItem
-      return newSettings
-    })
-  }
 
-  // Edit toolbar item
-  const editToolbarItem = (key) => {
-    // In a real application, this would open a modal to edit the item
-    console.log('Edit toolbar item:', key)
-  }
-
-  // Delete toolbar item
-  const deleteToolbarItem = (key) => {
-    if (window.confirm(t('settings.confirmDeleteItem', { key }))) {
-      setSettings(prev => {
-        const newSettings = JSON.parse(JSON.stringify(prev))
-        if (newSettings.toolbar?.items) {
-          delete newSettings.toolbar.items[key]
-        }
-        return newSettings
-      })
-    }
-  }
 
   if (isLoading) {
     return (
@@ -217,114 +230,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
           )}
         </div>
 
-        {/* Toolbar Settings Section */}
-        <div className="settings-section">
-          <button 
-            className="settings-section-header" 
-            onClick={() => toggleSection('toolbar')}
-            type="button"
-          >
-            <div className="settings-section-header-left">
-              <Layout className="settings-section-icon" size={18} />
-              <h3>{t('settings.toolbarSettings')}</h3>
-            </div>
-            {collapsedSections.toolbar ? 
-              <ChevronDown className="settings-collapse-icon" size={16} /> : 
-              <ChevronUp className="settings-collapse-icon" size={16} />
-            }
-          </button>
-          
-          {!collapsedSections.toolbar && settings && (
-            <div className="settings-section-content">
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.enabled')}</div>
-                <div className="setting-item-value">
-                  <div className="setting-switch-wrapper">
-                    <input 
-                      type="checkbox" 
-                      id="toolbar-enabled"
-                      checked={settings.toolbar?.enabled || false} 
-                      onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
-                      className="setting-switch"
-                    />
-                    <label htmlFor="toolbar-enabled" className="setting-switch-label"></label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.showBorder')}</div>
-                <div className="setting-item-value">
-                  <div className="setting-switch-wrapper">
-                    <input 
-                      type="checkbox" 
-                      id="toolbar-showBorder"
-                      checked={settings.toolbar?.showBorder || false} 
-                      onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
-                      className="setting-switch"
-                    />
-                    <label htmlFor="toolbar-showBorder" className="setting-switch-label"></label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.width')}</div>
-                <div className="setting-item-value">
-                  <input 
-                    type="text" 
-                    value={settings.toolbar?.width || ''} 
-                    onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
-                    placeholder="e.g., 110px"
-                    className="setting-input"
-                  />
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.height')}</div>
-                <div className="setting-item-value">
-                  <input 
-                    type="text" 
-                    value={settings.toolbar?.height || ''} 
-                    onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
-                    placeholder="e.g., 24px"
-                    className="setting-input"
-                  />
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.hoverDelay')}</div>
-                <div className="setting-item-value">
-                  <input 
-                    type="number" 
-                    value={settings.toolbar?.hoverDelay || 0} 
-                    onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
-                    min="0"
-                    className="setting-input"
-                  />
-                </div>
-              </div>
-
-              {/* Toolbar Items Section */}
-              <div className="setting-item">
-                <div className="setting-item-label">{t('settings.toolbarItems')}</div>
-                <div className="setting-item-value">
-                  <button 
-                    className="settings-btn settings-btn-secondary" 
-                    onClick={() => toggleSection('toolbarItems')}
-                    type="button"
-                  >
-                    {t('settings.manageItems')}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Toolbar Items Management Section */}
+        {/* Toolbar Elements Management Section */}
         <div className="settings-section">
           <button 
             className="settings-section-header" 
@@ -333,7 +239,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
           >
             <div className="settings-section-header-left">
               <Layout className="settings-section-icon" size={18} />
-              <h3>{t('settings.toolbarItemsManagement')}</h3>
+              <h3>{t('settings.toolbarElements')}</h3>
             </div>
             {collapsedSections.toolbarItems ? 
               <ChevronDown className="settings-collapse-icon" size={16} /> : 
@@ -343,172 +249,26 @@ function SettingsModal({ isOpen, onClose, theme }) {
           
           {!collapsedSections.toolbarItems && settings && (
             <div className="settings-section-content">
-              {/* Edit Mode Switch */}
               <div className="setting-item">
-                <div className="setting-item-label">{t('settings.editMode')}</div>
+                <div className="setting-item-label">{t('settings.jsonSettings')}</div>
                 <div className="setting-item-value">
-                  <div className="edit-mode-switcher">
-                    <button 
-                      className={`edit-mode-btn ${editMode === 'ui' ? 'active' : ''}`}
-                      onClick={() => setEditMode('ui')}
-                    >
-                      {t('settings.uiMode')}
-                    </button>
-                    <button 
-                      className={`edit-mode-btn ${editMode === 'json' ? 'active' : ''}`}
-                      onClick={() => setEditMode('json')}
-                    >
-                      {t('settings.jsonMode')}
-                    </button>
-                  </div>
+                  <button 
+                    className="settings-btn settings-btn-save" 
+                    onClick={applyJsonSettings}
+                    type="button"
+                  >
+                    {t('settings.applyJson')}
+                  </button>
                 </div>
               </div>
-              
-              {editMode === 'ui' ? (
-                <>
-                  <div className="setting-item">
-                    <div className="setting-item-label">{t('settings.addNewItem')}</div>
-                    <div className="setting-item-value">
-                      <button 
-                        className="settings-btn settings-btn-save" 
-                        onClick={() => addToolbarItem()}
-                        type="button"
-                      >
-                        {t('settings.addItem')}
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {/* Toolbar Items List with Nested Structure */}
-                  <div className="toolbar-items-list">
-                    {Object.entries(settings.toolbar?.items || {}).map(([key, item]) => {
-                      // Check if this is a group item (contains nested items)
-                      const isGroup = typeof item === 'object' && item !== null && !item.label && !item.icon && !item.funcmode
-                      
-                      if (isGroup) {
-                        return (
-                          <div key={key} className="toolbar-item-card toolbar-item-group">
-                            <div className="toolbar-item-header">
-                              <span className="toolbar-item-key toolbar-item-group-key">{key}</span>
-                              <div className="toolbar-item-actions">
-                                <button 
-                                  className="toolbar-item-btn toolbar-item-btn-edit"
-                                  onClick={() => editToolbarItem(key)}
-                                >
-                                  ✏️
-                                </button>
-                                <button 
-                                  className="toolbar-item-btn toolbar-item-btn-delete"
-                                  onClick={() => deleteToolbarItem(key)}
-                                >
-                                  🗑️
-                                </button>
-                              </div>
-                            </div>
-                            <div className="toolbar-group-children">
-                              {Object.entries(item).map(([childKey, childItem]) => (
-                                <div key={childKey} className="toolbar-item-card toolbar-item-child">
-                                  <div className="toolbar-item-header">
-                                    <span className="toolbar-item-key">{childKey}</span>
-                                    <div className="toolbar-item-actions">
-                                      <button 
-                                        className="toolbar-item-btn toolbar-item-btn-edit"
-                                        onClick={() => editToolbarItem(`${key}.${childKey}`)}
-                                      >
-                                        ✏️
-                                      </button>
-                                      <button 
-                                        className="toolbar-item-btn toolbar-item-btn-delete"
-                                        onClick={() => deleteToolbarItem(`${key}.${childKey}`)}
-                                      >
-                                        🗑️
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className="toolbar-item-details">
-                                    <div className="toolbar-item-detail">
-                                      <span className="toolbar-item-detail-label">{t('settings.label')}:</span>
-                                      <span className="toolbar-item-detail-value">{childItem.label || 'N/A'}</span>
-                                    </div>
-                                    <div className="toolbar-item-detail">
-                                      <span className="toolbar-item-detail-label">{t('settings.icon')}:</span>
-                                      <span className="toolbar-item-detail-value">{childItem.icon || 'N/A'}</span>
-                                    </div>
-                                    <div className="toolbar-item-detail">
-                                      <span className="toolbar-item-detail-label">{t('settings.funcmode')}:</span>
-                                      <span className="toolbar-item-detail-value">{childItem.funcmode || 'N/A'}</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )
-                      } else {
-                        // Regular item
-                        return (
-                          <div key={key} className="toolbar-item-card">
-                            <div className="toolbar-item-header">
-                              <span className="toolbar-item-key">{key}</span>
-                              <div className="toolbar-item-actions">
-                                <button 
-                                  className="toolbar-item-btn toolbar-item-btn-edit"
-                                  onClick={() => editToolbarItem(key)}
-                                >
-                                  ✏️
-                                </button>
-                                <button 
-                                  className="toolbar-item-btn toolbar-item-btn-delete"
-                                  onClick={() => deleteToolbarItem(key)}
-                                >
-                                  🗑️
-                                </button>
-                              </div>
-                            </div>
-                            <div className="toolbar-item-details">
-                              <div className="toolbar-item-detail">
-                                <span className="toolbar-item-detail-label">{t('settings.label')}:</span>
-                                <span className="toolbar-item-detail-value">{item.label || 'N/A'}</span>
-                              </div>
-                              <div className="toolbar-item-detail">
-                                <span className="toolbar-item-detail-label">{t('settings.icon')}:</span>
-                                <span className="toolbar-item-detail-value">{item.icon || 'N/A'}</span>
-                              </div>
-                              <div className="toolbar-item-detail">
-                                <span className="toolbar-item-detail-label">{t('settings.funcmode')}:</span>
-                                <span className="toolbar-item-detail-value">{item.funcmode || 'N/A'}</span>
-                              </div>
-                            </div>
-                          </div>
-                        )
-                      }
-                    })}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="setting-item">
-                    <div className="setting-item-label">{t('settings.jsonSettings')}</div>
-                    <div className="setting-item-value">
-                      <button 
-                        className="settings-btn settings-btn-save" 
-                        onClick={applyJsonSettings}
-                        type="button"
-                      >
-                        {t('settings.applyJson')}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="json-editor-container">
-                    <textarea 
-                      className="json-editor"
-                      value={jsonSettings}
-                      onChange={(e) => handleJsonChange(e.target.value)}
-                      placeholder="Enter JSON settings here"
-                    />
-                  </div>
-                </>
-              )}
+              <div className="json-editor-container">
+                <textarea 
+                  className="json-editor"
+                  value={jsonSettings}
+                  onChange={(e) => handleJsonChange(e.target.value)}
+                  placeholder="Enter JSON settings here"
+                />
+              </div>
             </div>
           )}
         </div>
