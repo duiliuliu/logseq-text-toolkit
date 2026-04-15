@@ -254,3 +254,184 @@
   visibility: visible;
   width: auto;
 }
+.toolbar-container.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccc.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 12px;
+  padding: 8px.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor:.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toolbar.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toolbar-main-item {
+  position: relative;
+  display: flex;
+  align-items:.toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ls-primary-background-color-plugin, #ffffff);
+  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toolbar-main-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
