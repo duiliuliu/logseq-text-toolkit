@@ -19,9 +19,11 @@ function SettingsModal({ isOpen, onClose, theme }) {
   const [settings, setSettings] = useState(null)
   const [collapsedSections, setCollapsedSections] = useState({})
 
+  const currentLanguage = settings?.language || 'zh-CN'
+  
   const t = useCallback((key) => {
-    return i18n.t(key, settings?.language || 'zh-CN')
-  }, [settings?.language])
+    return i18n.t(key, currentLanguage)
+  }, [currentLanguage])
 
   useEffect(() => {
     if (isOpen) {
@@ -79,16 +81,16 @@ function SettingsModal({ isOpen, onClose, theme }) {
 
   if (isLoading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
-        <div className="settings-loading">{t('settings.loading')}</div>
+      <Modal isOpen={isOpen} onClose={onClose} title={i18n.t('settings.title', 'zh-CN')}>
+        <div className="settings-loading">{i18n.t('settings.loading', 'zh-CN')}</div>
       </Modal>
     )
   }
 
   if (isOpen && !settings) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
-        <div className="settings-error">{t('settings.error')}</div>
+      <Modal isOpen={isOpen} onClose={onClose} title={i18n.t('settings.title', 'zh-CN')}>
+        <div className="settings-error">{i18n.t('settings.error', 'zh-CN')}</div>
       </Modal>
     )
   }
