@@ -22,8 +22,8 @@ export const replaceText = (item, selectedText, variables = {}) => {
     const regex = new RegExp(item.regex, 'g')
     const processedReplacement = renderTemplate(item.replacement, allVariables)
     return selectedText.replace(regex, processedReplacement)
-  } else if (item.template) {
-    return renderTemplate(item.template, allVariables)
+  } else if (item.clickfunc) {
+    return renderTemplate(item.clickfunc, allVariables)
   }
   return selectedText
 }

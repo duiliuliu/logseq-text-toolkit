@@ -2,13 +2,14 @@ import React, { useEffect, useState, useRef } from 'react'
 import '../index.css'
 import '../main.css'
 import SelectToolbar from '../components/SelectToolbar'
-import { toolbarItems as testData } from './testData.js'
+import { loadSettings } from '../utils/settings.js'
 
 // 导入mock logseq
 import './mock.js'
 
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
+  const [settings, setSettings] = useState(null)
   const [theme, setTheme] = useState('light')
   const [toolbarWidth, setToolbarWidth] = useState('110px')
   const [toolbarHeight, setToolbarHeight] = useState('24px')
@@ -22,6 +23,14 @@ function TestApp() {
         console.log('Welcome to Text Toolkit Test Mode!')
         await window.logseq.ready()
         console.log('Mock Logseq plugin ready')
+        
+        // 加载设置
+        const loadedSettings = await loadSettings()
+        setSettings(loadedSettings)
+        setTheme(loadedSettings.theme)
+        setToolbarWidth(loadedSettings.toolbar.width)
+        setToolbarHeight(loadedSettings.toolbar.height)
+        
         setIsReady(true)
       } catch (error) {
         console.error('Failed to initialize mock plugin:', error)
@@ -38,6 +47,15 @@ function TestApp() {
       setTargetElement(contentRef.current)
     }
   }, [contentRef])
+
+  if (!settings) {
+    return (
+      <div className="App">
+        <h1>Text Toolkit Plugin (Test Mode)</h1>
+        <p>Loading settings...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="App">
@@ -104,12 +122,12 @@ function TestApp() {
       
       <SelectToolbar 
         targetElement={targetElement}
-        items={testData} 
+        items={settings.toolbar.items} 
         theme={theme} 
-        showBorder={false}
+        showBorder={settings.toolbar.showBorder}
         width={toolbarWidth}
         height={toolbarHeight}
-        hoverDelay={500} // 0.5秒延时
+        hoverDelay={settings.toolbar.hoverDelay}
       />
     </div>
   )
