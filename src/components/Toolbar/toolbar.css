@@ -171,6 +171,20 @@
   height: 20px;
 }
 
+/* 下拉元素的文字标签 */
+.toolbar-group-item-text {
+  font-size: 14px;
+  color: var(--ls-primary-text-color-plugin, #333333);
+  margin-left: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.toolbar-group-item:hover .toolbar-group-item-text {
+  opacity: 1;
+}
+
 /* 横向展示的子元素 */
 .toolbar-group-dropdown-horizontal {
   position: absolute;
@@ -214,4 +228,18 @@
 
 .toolbar-group-item-horizontal:last-child {
   border-radius: 0 0 0 0;
+}
+
+/* 横向子元素的文字标签 */
+.toolbar-group-item-horizontal-text {
+  font-size: 14px;
+  color: var(--ls-primary-text-color-plugin, #333333);
+  margin-left: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.toolbar-group-item-horizontal:hover .toolbar-group-item-horizontal-text {
+  opacity: 1;
 }

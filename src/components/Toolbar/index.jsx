@@ -23,7 +23,7 @@ function Toolbar({ items }) {
             id: key,
             isGroup: true,
             items: groupItems,
-            label: key.replace('group-', '')
+            label: key
           })
         }
       } else if (value && value.label) {
@@ -61,7 +61,7 @@ function Toolbar({ items }) {
               }}
             >
               <div className="toolbar-item-icon">📂</div>
-              {hoveredItem && hoveredItem.id === item.id && (
+              {hoveredItem && hoveredItem.id === item.id && item.label && (
                 <div className="toolbar-tooltip">
                   {hoveredItem.label}
                 </div>
@@ -86,7 +86,10 @@ function Toolbar({ items }) {
                           '📝'
                         )}
                       </div>
-                      {hoveredItem && hoveredItem.id === subItem.id && (
+                      {subItem.label && (
+                        <div className="toolbar-group-item-text">{subItem.label}</div>
+                      )}
+                      {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
                         <div className="toolbar-tooltip toolbar-tooltip-sub">
                           {hoveredItem.label}
                         </div>
@@ -110,7 +113,7 @@ function Toolbar({ items }) {
                   '📝'
                 )}
               </div>
-              {hoveredItem && hoveredItem.id === item.id && (
+              {hoveredItem && hoveredItem.id === item.id && item.label && (
                 <div className="toolbar-tooltip">
                   {hoveredItem.label}
                 </div>
@@ -130,7 +133,7 @@ function Toolbar({ items }) {
           }}
         >
           <div className="toolbar-item-icon">⋮</div>
-          {hoveredItem && hoveredItem.id === 'more' && (
+          {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
             <div className="toolbar-tooltip">
               {hoveredItem.label}
             </div>
@@ -156,7 +159,10 @@ function Toolbar({ items }) {
                     }}
                   >
                     <div className="toolbar-item-icon">📂</div>
-                    {hoveredItem && hoveredItem.id === item.id && (
+                    {item.label && (
+                      <div className="toolbar-group-item-text">{item.label}</div>
+                    )}
+                    {hoveredItem && hoveredItem.id === item.id && item.label && (
                       <div className="toolbar-tooltip toolbar-tooltip-sub">
                         {hoveredItem.label}
                       </div>
@@ -181,7 +187,10 @@ function Toolbar({ items }) {
                                 '📝'
                               )}
                             </div>
-                            {hoveredItem && hoveredItem.id === subItem.id && (
+                            {subItem.label && (
+                              <div className="toolbar-group-item-horizontal-text">{subItem.label}</div>
+                            )}
+                            {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
                               <div className="toolbar-tooltip toolbar-tooltip-sub-horizontal">
                                 {hoveredItem.label}
                               </div>
@@ -205,7 +214,10 @@ function Toolbar({ items }) {
                         '📝'
                       )}
                     </div>
-                    {hoveredItem && hoveredItem.id === item.id && (
+                    {item.label && (
+                      <div className="toolbar-group-item-text">{item.label}</div>
+                    )}
+                    {hoveredItem && hoveredItem.id === item.id && item.label && (
                       <div className="toolbar-tooltip toolbar-tooltip-sub">
                         {hoveredItem.label}
                       </div>
