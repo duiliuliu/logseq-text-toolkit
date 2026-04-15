@@ -35,20 +35,26 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       
       <div className="setting-item">
         <label>{t('settings.enabled', language)}</label>
-        <input 
-          type="checkbox" 
-          checked={settings.toolbar.enabled} 
-          onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
-        />
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={settings.toolbar.enabled} 
+            onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
+          />
+          <span className="slider"></span>
+        </label>
       </div>
 
       <div className="setting-item">
         <label>{t('settings.showBorder', language)}</label>
-        <input 
-          type="checkbox" 
-          checked={settings.toolbar.showBorder} 
-          onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
-        />
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={settings.toolbar.showBorder} 
+            onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
+          />
+          <span className="slider"></span>
+        </label>
       </div>
 
       <div className="setting-item">
