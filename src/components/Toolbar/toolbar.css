@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: 8px;
   align-items: center;
+  z-index: 1;
 }
 
 .toolbar-main {
@@ -17,6 +18,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 2;
 }
 
 .toolbar-main-item {
@@ -29,6 +31,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 3;
 }
 
 .toolbar-main-item:hover {
@@ -38,6 +41,7 @@
 
 .toolbar-group {
   position: relative;
+  z-index: 4;
 }
 
 .toolbar-group-dropdown {
@@ -51,7 +55,7 @@
   border-top: none;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 1;
   min-width: auto;
   white-space: nowrap;
 }
@@ -64,6 +68,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   white-space: nowrap;
+  z-index: 1;
 }
 
 .toolbar-group-item:hover {
@@ -166,29 +171,12 @@
   justify-content: center;
   font-size: 18px;
   flex-shrink: 0;
+  z-index: 5;
 }
 
 .toolbar-item-icon svg {
   width: 20px;
   height: 20px;
-}
-
-/* 下拉元素的文字标签 */
-.toolbar-group-item-text {
-  font-size: 14px;
-  color: var(--ls-primary-text-color-plugin, #333333);
-  margin-left: 8px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  width: 0;
-  transition: all 0.2s ease;
-}
-
-.toolbar-group-item:hover .toolbar-group-item-text {
-  opacity: 1;
-  visibility: visible;
-  width: auto;
 }
 
 /* 横向展示的子元素 */
@@ -203,7 +191,7 @@
   border-right: none;
   border-radius: 8px 0 0 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 1;
   display: flex;
   flex-direction: row;
   gap: 0;
@@ -219,6 +207,7 @@
   transition: background-color 0.2s ease;
   border-right: 1px solid var(--ls-border-color-plugin, #cccccc);
   white-space: nowrap;
+  z-index: 1;
 }
 
 .toolbar-group-item-horizontal:last-child {
@@ -236,202 +225,3 @@
 .toolbar-group-item-horizontal:last-child {
   border-radius: 0 0 0 0;
 }
-
-/* 横向子元素的文字标签 */
-.toolbar-group-item-horizontal-text {
-  font-size: 14px;
-  color: var(--ls-primary-text-color-plugin, #333333);
-  margin-left: 8px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  width: 0;
-  transition: all 0.2s ease;
-}
-
-.toolbar-group-item-horizontal:hover .toolbar-group-item-horizontal-text {
-  opacity: 1;
-  visibility: visible;
-  width: auto;
-}
-.toolbar-container.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccc.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor:.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.toolbar.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.toolbar-main-item {
-  position: relative;
-  display: flex;
-  align-items:.toolbar-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  z-index: 1000;
-}
-
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.toolbar-main-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
