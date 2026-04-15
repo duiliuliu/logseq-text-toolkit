@@ -62,15 +62,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-/* 允许文本选择 */
-.text-area-container {
-  user-select: text;
-}
-
-.text-area-container p {
-  user-select: text;
+  user-select: none;
 }
 
 body {

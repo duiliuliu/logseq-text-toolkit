@@ -18,16 +18,10 @@
 - 移除 Toolbar 的边框，使界面更简洁
 - 调整 dark 主题的样式，使其与 light 主题有明显区别
 
-### 新增
-- 实现选中文字后在文字上方显示 toolbar 的功能
-- 点击 toolbar 元素时打印元素名称、功能和选中的文字
-- 支持自定义鼠标样式，作为 toolbar 的初始化参数
-
 ### 修复
 - 修复 Toolbar 组件中的 React 组件名称大小写问题
 - 修复 dark 主题的背景色问题（CSS 选择器问题）
 - 重写 CSS 样式，解决 dark 模式不生效的问题，使用极简干净的样式结构
 - 优先使用 CSS 变量，变量读取失败时使用回退值，确保主题切换更加可靠
-- 修复文字无法被选中的问题，移除了全局的 user-select: none 样式
 
 [0.11.1]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.1
