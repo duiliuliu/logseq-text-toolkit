@@ -13,6 +13,11 @@
   },
   "settings": {
     "title": "Settings",
+    "tabs": {
+      "general": "⚙️ General Settings",
+      "toolbar": "🛠️ Toolbar Settings",
+      "advanced": "⚡ Advanced Settings"
+    },
     "generalSettings": "General Settings",
     "theme": "Theme",
     "themeFollowSystem": "Follow System",
@@ -40,6 +45,21 @@
     "loading": "Loading settings...",
     "error": "Failed to load settings",
     "confirmReset": "Are you sure you want to reset all settings to default?",
-    "confirmResetItems": "Are you sure you want to reset toolbar elements to default?"
+    "confirmResetItems": "Are you sure you want to reset toolbar elements to default?",
+    "subtitle": "Manage application configurations, each section can be saved independently",
+    "generalSettingsDescription": "Configure app theme and language",
+    "toolbarSettingsDescription": "Configure toolbar appearance and behavior",
+    "advancedSettings": "Advanced Settings",
+    "advancedSettingsDescription": "Advanced features configuration coming soon",
+    "lightTheme": "Light",
+    "darkTheme": "Dark",
+    "chinese": "Simplified Chinese",
+    "english": "English",
+    "japanese": "Japanese",
+    "saveGeneralSettings": "Save General Settings",
+    "saveToolbarSettings": "Save Toolbar Settings",
+    "saveSuccess": "Saved successfully!",
+    "settingsNotConfigured": "This settings area is not configured yet",
+    "comingSoon": "More features coming soon..."
   }
 }

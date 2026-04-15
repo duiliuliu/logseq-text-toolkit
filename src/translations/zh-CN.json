@@ -13,6 +13,11 @@
   },
   "settings": {
     "title": "设置",
+    "tabs": {
+      "general": "⚙️ 通用设置",
+      "toolbar": "🛠️ 工具栏设置",
+      "advanced": "⚡ 高级设置"
+    },
     "generalSettings": "通用设置",
     "theme": "主题",
     "themeFollowSystem": "跟随系统",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { getTranslation } from '../../../utils/i18n.js'
+import { t } from '../../../translations/i18n.js'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) {
   const [jsonError, setJsonError] = useState('')
@@ -25,16 +25,16 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       JSON.parse(value)
       handleSettingChange('toolbar.items', JSON.parse(value))
     } catch (error) {
-      setJsonError(getTranslation('settings.error', language))
+      setJsonError(t('settings.error', language))
     }
   }
 
   return (
     <div className="settings-tab-content">
-      <p className="tab-section-description-small">{getTranslation('settings.toolbarSettingsDescription', language)}</p>
+      <p className="tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
       
       <div className="setting-item">
-        <label>{getTranslation('settings.enabled', language)}</label>
+        <label>{t('settings.enabled', language)}</label>
         <input 
           type="checkbox" 
           checked={settings.toolbar.enabled} 
@@ -43,7 +43,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('settings.showBorder', language)}</label>
+        <label>{t('settings.showBorder', language)}</label>
         <input 
           type="checkbox" 
           checked={settings.toolbar.showBorder} 
@@ -52,7 +52,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('settings.width', language)}</label>
+        <label>{t('settings.width', language)}</label>
         <input 
           type="text" 
           value={settings.toolbar.width} 
@@ -62,7 +62,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('settings.height', language)}</label>
+        <label>{t('settings.height', language)}</label>
         <input 
           type="text" 
           value={settings.toolbar.height} 
@@ -72,7 +72,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('settings.hoverDelay', language)}</label>
+        <label>{t('settings.hoverDelay', language)}</label>
         <input 
           type="number" 
           value={settings.toolbar.hoverDelay} 
@@ -82,12 +82,12 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item setting-item-json">
-        <label>{getTranslation('settings.toolbarElements', language)}</label>
+        <label>{t('settings.toolbarElements', language)}</label>
         <div className="json-editor">
           <textarea 
             value={JSON.stringify(settings.toolbar.items, null, 2)}
             onChange={(e) => handleJsonChange(e.target.value)}
-            placeholder={getTranslation('settings.jsonSettings', language)}
+            placeholder={t('settings.jsonSettings', language)}
           />
           {jsonError && <div className="json-error">{jsonError}</div>}
         </div>
@@ -99,7 +99,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
           onClick={onSave}
           disabled={isSaving || jsonError}
         >
-          {isSaving ? getTranslation('settings.saving', language) : getTranslation('settings.saveToolbarSettings', language)}
+          {isSaving ? t('settings.saving', language) : t('settings.saveToolbarSettings', language)}
         </button>
       </div>
     </div>

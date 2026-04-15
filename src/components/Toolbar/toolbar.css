@@ -143,16 +143,33 @@
   width: 14px;
   height: 14px;
   fill: currentColor;
+  color: inherit;
 }
 
-/* 确保图标在深色主题下可见 */
+/* 确保工具栏图标在所有主题下都可见 */
+.toolbar-container .toolbar-item-icon,
+.toolbar-container .toolbar-icon {
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+/* 深色主题下，工具栏使用亮色时图标颜色调整 */
+.toolbar-container .toolbar-main {
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+/* 确保图标在深色工具栏主题下可见 */
+.toolbar-container.toolbar-dark .toolbar-main {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+.toolbar-container.toolbar-dark .toolbar-item-icon,
 .toolbar-container.toolbar-dark .toolbar-icon {
-  filter: brightness(1.5);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
 /* 确保分组图标在深色主题下可见 */
 .toolbar-container.toolbar-dark .toolbar-group .toolbar-item-icon {
-  filter: brightness(1.5);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
 /* ================= DARK ================= */

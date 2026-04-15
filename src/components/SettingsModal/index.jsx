@@ -4,7 +4,7 @@ import useSettings from '../../hooks/useSettings.js'
 import GeneralSettings from './tabs/GeneralSettings.jsx'
 import ToolbarSettings from './tabs/ToolbarSettings.jsx'
 import AdvancedSettings from './tabs/AdvancedSettings.jsx'
-import { getTranslation, getTabLabel } from '../../utils/i18n.js'
+import { t } from '../../translations/i18n.js'
 import './settingsModal.css'
 
 function SettingsModal({ isOpen, onClose, theme }) {
@@ -42,16 +42,16 @@ function SettingsModal({ isOpen, onClose, theme }) {
 
   if (isLoading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={getTranslation('settings')}>
-        <div className="settings-loading">{getTranslation('loading')}</div>
+      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
+        <div className="settings-loading">{t('settings.loading')}</div>
       </Modal>
     )
   }
 
   if (!settings) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={getTranslation('settings')}>
-        <div className="settings-error">{getTranslation('error')}</div>
+      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
+        <div className="settings-error">{t('settings.error')}</div>
       </Modal>
     )
   }
@@ -59,7 +59,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
   const language = settings.language || 'zh-CN'
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={getTranslation('settings.title', language)}>
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)}>
       <div className="settings-container" data-theme={theme}>
         <div className="settings-header">
           <div className="settings-tabs">
@@ -67,19 +67,19 @@ function SettingsModal({ isOpen, onClose, theme }) {
               className={`settings-tab ${activeTab === 'general' ? 'active' : ''}`}
               onClick={() => setActiveTab('general')}
             >
-              {getTabLabel('general', language)}
+              {t('settings.tabs.general', language)}
             </button>
             <button 
               className={`settings-tab ${activeTab === 'toolbar' ? 'active' : ''}`}
               onClick={() => setActiveTab('toolbar')}
             >
-              {getTabLabel('toolbar', language)}
+              {t('settings.tabs.toolbar', language)}
             </button>
             <button 
               className={`settings-tab ${activeTab === 'advanced' ? 'active' : ''}`}
               onClick={() => setActiveTab('advanced')}
             >
-              {getTabLabel('advanced', language)}
+              {t('settings.tabs.advanced', language)}
             </button>
           </div>
         </div>
