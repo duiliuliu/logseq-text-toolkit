@@ -4,12 +4,11 @@ import { getTranslation } from '../../../utils/i18n.js'
 function AdvancedSettings({ settings, setSettings, onSave, isSaving, language }) {
   return (
     <div className="settings-tab-content">
-      <h3 className="tab-section-title">{getTranslation('advanced.title', language)}</h3>
-      <p className="tab-section-description">{getTranslation('advanced.description', language)}</p>
+      <p className="tab-section-description-small">{getTranslation('settings.advancedSettingsDescription', language)}</p>
       
       <div className="settings-placeholder">
-        <p>{getTranslation('advanced.placeholder', language)}</p>
-        <p>{getTranslation('advanced.comingSoon', language)}</p>
+        <p>{getTranslation('settings.settingsNotConfigured', language)}</p>
+        <p>{getTranslation('settings.comingSoon', language)}</p>
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import useSettings from '../../hooks/useSettings.js'
 import GeneralSettings from './tabs/GeneralSettings.jsx'
 import ToolbarSettings from './tabs/ToolbarSettings.jsx'
 import AdvancedSettings from './tabs/AdvancedSettings.jsx'
-import { getTranslation } from '../../utils/i18n.js'
+import { getTranslation, getTabLabel } from '../../utils/i18n.js'
 import './settingsModal.css'
 
 function SettingsModal({ isOpen, onClose, theme }) {
@@ -59,29 +59,27 @@ function SettingsModal({ isOpen, onClose, theme }) {
   const language = settings.language || 'zh-CN'
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={getTranslation('settings', language)}>
+    <Modal isOpen={isOpen} onClose={onClose} title={getTranslation('settings.title', language)}>
       <div className="settings-container" data-theme={theme}>
         <div className="settings-header">
-          <p className="settings-description">{getTranslation('description', language)}</p>
-          
           <div className="settings-tabs">
             <button 
               className={`settings-tab ${activeTab === 'general' ? 'active' : ''}`}
               onClick={() => setActiveTab('general')}
             >
-              {getTranslation('tabs.general', language)}
+              {getTabLabel('general', language)}
             </button>
             <button 
               className={`settings-tab ${activeTab === 'toolbar' ? 'active' : ''}`}
               onClick={() => setActiveTab('toolbar')}
             >
-              {getTranslation('tabs.toolbar', language)}
+              {getTabLabel('toolbar', language)}
             </button>
             <button 
               className={`settings-tab ${activeTab === 'advanced' ? 'active' : ''}`}
               onClick={() => setActiveTab('advanced')}
             >
-              {getTranslation('tabs.advanced', language)}
+              {getTabLabel('advanced', language)}
             </button>
           </div>
         </div>

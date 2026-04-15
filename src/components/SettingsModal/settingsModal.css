@@ -2,6 +2,30 @@
 .settings-container {
   max-height: 70vh;
   overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* 自定义滚动条样式 */
+.settings-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.settings-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.settings-container::-webkit-scrollbar-thumb {
+  background: var(--ls-border-color-plugin, #ccc);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+.settings-container::-webkit-scrollbar-thumb:hover {
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .settings-container::-webkit-scrollbar-thumb {
+  background: var(--ls-border-color-plugin, #555);
 }
 
 .settings-loading,
@@ -12,21 +36,16 @@
 }
 
 .settings-header {
-  margin-bottom: 24px;
-}
-
-.settings-description {
-  margin: 0 0 16px 0;
-  color: var(--ls-primary-text-color-plugin, #666);
-  font-size: 14px;
+  margin-bottom: 16px;
 }
 
 .settings-tabs {
   display: flex;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);
   padding-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .settings-tab {
@@ -39,6 +58,7 @@
   transition: all 0.2s ease;
   font-size: 14px;
   border-bottom: none;
+  white-space: nowrap;
 }
 
 .settings-tab:hover {
@@ -59,26 +79,20 @@
 }
 
 .settings-tab-content {
-  padding: 0 4px;
+  padding: 0;
 }
 
-.tab-section-title {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--ls-primary-text-color-plugin, #333);
-}
-
-.tab-section-description {
-  margin: 0 0 20px 0;
-  font-size: 14px;
+.tab-section-description-small {
+  margin: 0 0 16px 0;
+  font-size: 12px;
   color: var(--ls-primary-text-color-plugin, #666);
+  line-height: 1.4;
 }
 
 .setting-item {
   display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+  align-items: flex-start;
+  margin-bottom: 12px;
   gap: 12px;
 }
 
@@ -87,6 +101,7 @@
   font-size: 14px;
   color: var(--ls-primary-text-color-plugin, #333);
   flex-shrink: 0;
+  padding-top: 2px;
 }
 
 .setting-item input[type="text"],
@@ -105,12 +120,48 @@
   width: 18px;
   height: 18px;
   cursor: pointer;
+  margin-top: 2px;
+}
+
+/* JSON编辑器样式 */
+.setting-item-json {
+  align-items: flex-start;
+}
+
+.setting-item-json label {
+  padding-top: 0;
+}
+
+.json-editor {
+  flex: 1;
+  position: relative;
+}
+
+.json-editor textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 8px 12px;
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: monospace;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  color: var(--ls-primary-text-color-plugin, #333);
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.json-error {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #dc3545;
 }
 
 .settings-actions {
-  margin-top: 32px;
+  margin-top: 24px;
   display: flex;
   justify-content: flex-end;
+  padding-right: 8px;
 }
 
 .settings-btn {
@@ -169,11 +220,7 @@
   border-bottom-color: var(--ls-primary-background-color-plugin, #2d2d2d);
 }
 
-[data-theme="dark"] .tab-section-title {
-  color: var(--ls-primary-text-color-plugin, #e0e0e0);
-}
-
-[data-theme="dark"] .tab-section-description {
+[data-theme="dark"] .tab-section-description-small {
   color: var(--ls-primary-text-color-plugin, #aaa);
 }
 
@@ -183,7 +230,8 @@
 
 [data-theme="dark"] .setting-item input[type="text"],
 [data-theme="dark"] .setting-item input[type="number"],
-[data-theme="dark"] .setting-item select {
+[data-theme="dark"] .setting-item select,
+[data-theme="dark"] .json-editor textarea {
   border-color: var(--ls-border-color-plugin, #555);
   background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
@@ -191,4 +239,28 @@
 
 [data-theme="dark"] .settings-placeholder {
   color: var(--ls-primary-text-color-plugin, #666);
+}
+
+/* 确保工具栏图标在不同主题下都可见 */
+[data-theme="dark"] .toolbar-icon {
+  filter: brightness(1.5);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .settings-tab {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .setting-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .setting-item label {
+    width: auto;
+    padding-top: 0;
+  }
 }

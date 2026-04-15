@@ -58,22 +58,22 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
     // 处理字符串类型的图标名称
     if (typeof icon === 'string' && iconMap[icon]) {
       const IconComponent = iconMap[icon]
-      return <IconComponent size={18} />
+      return <IconComponent size={18} className="toolbar-icon" />
     }
     
     // 处理 lucide-react 图标
     if (typeof icon === 'function') {
       const IconComponent = icon
-      return <IconComponent size={18} />
+      return <IconComponent size={18} className="toolbar-icon" />
     }
     
     // 处理 SVG 字符串
     if (typeof icon === 'string' && icon.includes('<svg')) {
-      return <div dangerouslySetInnerHTML={{ __html: icon }} />
+      return <div className="toolbar-icon" dangerouslySetInnerHTML={{ __html: icon }} />
     }
     
     // 处理其他情况
-    return icon
+    return <span className="toolbar-icon">{icon}</span>
   }
 
   const handleItemClick = (item) => {

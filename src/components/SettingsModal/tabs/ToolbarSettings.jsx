@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { getTranslation } from '../../../utils/i18n.js'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) {
+  const [jsonError, setJsonError] = useState('')
+  
   const handleSettingChange = (path, value) => {
     setSettings(prev => {
       const newSettings = JSON.parse(JSON.stringify(prev))
@@ -17,13 +19,22 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
     })
   }
 
+  const handleJsonChange = (value) => {
+    setJsonError('')
+    try {
+      JSON.parse(value)
+      handleSettingChange('toolbar.items', JSON.parse(value))
+    } catch (error) {
+      setJsonError(getTranslation('settings.error', language))
+    }
+  }
+
   return (
     <div className="settings-tab-content">
-      <h3 className="tab-section-title">{getTranslation('toolbar.title', language)}</h3>
-      <p className="tab-section-description">{getTranslation('toolbar.description', language)}</p>
+      <p className="tab-section-description-small">{getTranslation('settings.toolbarSettingsDescription', language)}</p>
       
       <div className="setting-item">
-        <label>{getTranslation('toolbar.enabled', language)}</label>
+        <label>{getTranslation('settings.enabled', language)}</label>
         <input 
           type="checkbox" 
           checked={settings.toolbar.enabled} 
@@ -32,7 +43,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('toolbar.showBorder', language)}</label>
+        <label>{getTranslation('settings.showBorder', language)}</label>
         <input 
           type="checkbox" 
           checked={settings.toolbar.showBorder} 
@@ -41,7 +52,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('toolbar.width', language)}</label>
+        <label>{getTranslation('settings.width', language)}</label>
         <input 
           type="text" 
           value={settings.toolbar.width} 
@@ -51,7 +62,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('toolbar.height', language)}</label>
+        <label>{getTranslation('settings.height', language)}</label>
         <input 
           type="text" 
           value={settings.toolbar.height} 
@@ -61,7 +72,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('toolbar.hoverDelay', language)}</label>
+        <label>{getTranslation('settings.hoverDelay', language)}</label>
         <input 
           type="number" 
           value={settings.toolbar.hoverDelay} 
@@ -70,13 +81,25 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
         />
       </div>
 
+      <div className="setting-item setting-item-json">
+        <label>{getTranslation('settings.toolbarElements', language)}</label>
+        <div className="json-editor">
+          <textarea 
+            value={JSON.stringify(settings.toolbar.items, null, 2)}
+            onChange={(e) => handleJsonChange(e.target.value)}
+            placeholder={getTranslation('settings.jsonSettings', language)}
+          />
+          {jsonError && <div className="json-error">{jsonError}</div>}
+        </div>
+      </div>
+
       <div className="settings-actions">
         <button 
           className="settings-btn settings-btn-save"
           onClick={onSave}
-          disabled={isSaving}
+          disabled={isSaving || jsonError}
         >
-          {isSaving ? getTranslation('toolbar.saving', language) : getTranslation('toolbar.save', language)}
+          {isSaving ? getTranslation('settings.saving', language) : getTranslation('settings.saveToolbarSettings', language)}
         </button>
       </div>
     </div>

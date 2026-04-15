@@ -145,6 +145,16 @@
   fill: currentColor;
 }
 
+/* 确保图标在深色主题下可见 */
+.toolbar-container.toolbar-dark .toolbar-icon {
+  filter: brightness(1.5);
+}
+
+/* 确保分组图标在深色主题下可见 */
+.toolbar-container.toolbar-dark .toolbar-group .toolbar-item-icon {
+  filter: brightness(1.5);
+}
+
 /* ================= DARK ================= */
 .toolbar-container.toolbar-dark .toolbar-main {
   background: var(--ls-primary-background-color-plugin, #2d2d2d);

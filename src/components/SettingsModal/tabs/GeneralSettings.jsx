@@ -19,29 +19,28 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) 
 
   return (
     <div className="settings-tab-content">
-      <h3 className="tab-section-title">{getTranslation('general.title', language)}</h3>
-      <p className="tab-section-description">{getTranslation('general.description', language)}</p>
+      <p className="tab-section-description-small">{getTranslation('settings.generalSettingsDescription', language)}</p>
       
       <div className="setting-item">
-        <label>{getTranslation('general.theme', language)}</label>
+        <label>{getTranslation('settings.theme', language)}</label>
         <select 
           value={settings.theme} 
           onChange={(e) => handleSettingChange('theme', e.target.value)}
         >
-          <option value="light">{getTranslation('theme.light', language)}</option>
-          <option value="dark">{getTranslation('theme.dark', language)}</option>
+          <option value="light">{getTranslation('settings.lightTheme', language)}</option>
+          <option value="dark">{getTranslation('settings.darkTheme', language)}</option>
         </select>
       </div>
 
       <div className="setting-item">
-        <label>{getTranslation('general.language', language)}</label>
+        <label>{getTranslation('settings.language', language)}</label>
         <select 
           value={settings.language} 
           onChange={(e) => handleSettingChange('language', e.target.value)}
         >
-          <option value="zh-CN">{getTranslation('language.zh-CN', language)}</option>
-          <option value="en">{getTranslation('language.en', language)}</option>
-          <option value="ja">{getTranslation('language.ja', language)}</option>
+          <option value="zh-CN">{getTranslation('settings.chinese', language)}</option>
+          <option value="en">{getTranslation('settings.english', language)}</option>
+          <option value="ja">{getTranslation('settings.japanese', language)}</option>
         </select>
       </div>
 
@@ -51,7 +50,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) 
           onClick={onSave}
           disabled={isSaving}
         >
-          {isSaving ? getTranslation('general.saving', language) : getTranslation('general.save', language)}
+          {isSaving ? getTranslation('settings.saving', language) : getTranslation('settings.saveGeneralSettings', language)}
         </button>
       </div>
     </div>
