@@ -42,7 +42,7 @@ function TestApp() {
   }, [contentRef])
 
   return (
-    <div className="App">
+    <div className={`App ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div className="test-app-header">
         <h1>Text Toolkit Plugin (Test Mode)</h1>
         <button 

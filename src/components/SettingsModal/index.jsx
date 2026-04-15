@@ -86,33 +86,39 @@ function SettingsModal({ isOpen, onClose, theme }) {
 
         <div className="settings-content">
           {activeTab === 'general' && (
-            <GeneralSettings 
-              settings={settings}
-              setSettings={setSettings}
-              onSave={() => handleSave('general')}
-              isSaving={isSaving}
-              language={language}
-            />
+            <div id="general-settings">
+              <GeneralSettings 
+                settings={settings}
+                setSettings={setSettings}
+                onSave={() => handleSave('general')}
+                isSaving={isSaving}
+                language={language}
+              />
+            </div>
           )}
           
           {activeTab === 'toolbar' && (
-            <ToolbarSettings 
-              settings={settings}
-              setSettings={setSettings}
-              onSave={() => handleSave('toolbar')}
-              isSaving={isSaving}
-              language={language}
-            />
+            <div id="toolbar-settings">
+              <ToolbarSettings 
+                settings={settings}
+                setSettings={setSettings}
+                onSave={() => handleSave('toolbar')}
+                isSaving={isSaving}
+                language={language}
+              />
+            </div>
           )}
           
           {activeTab === 'advanced' && (
-            <AdvancedSettings 
-              settings={settings}
-              setSettings={setSettings}
-              onSave={() => handleSave('advanced')}
-              isSaving={isSaving}
-              language={language}
-            />
+            <div id="advanced-settings">
+              <AdvancedSettings 
+                settings={settings}
+                setSettings={setSettings}
+                onSave={() => handleSave('advanced')}
+                isSaving={isSaving}
+                language={language}
+              />
+            </div>
           )}
         </div>
       </div>

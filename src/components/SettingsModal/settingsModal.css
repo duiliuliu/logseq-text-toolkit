@@ -87,13 +87,16 @@
   font-size: 12px;
   color: var(--ls-primary-text-color-plugin, #666);
   line-height: 1.4;
+  text-align: left;
 }
 
 .setting-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 12px;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .setting-item label {
@@ -101,13 +104,21 @@
   font-size: 14px;
   color: var(--ls-primary-text-color-plugin, #333);
   flex-shrink: 0;
-  padding-top: 2px;
+  text-align: left;
+}
+
+.setting-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin-top: 0;
 }
 
 .setting-item input[type="text"],
 .setting-item input[type="number"],
 .setting-item select {
   flex: 1;
+  max-width: 200px;
   padding: 8px 12px;
   border: 1px solid var(--ls-border-color-plugin, #ccc);
   border-radius: 6px;
@@ -116,11 +127,19 @@
   color: var(--ls-primary-text-color-plugin, #333);
 }
 
-.setting-item input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  margin-top: 2px;
+/* 确保工具栏配置没有横向滚动 */
+#toolbar-settings .settings-tab-content {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+#toolbar-settings .setting-item {
+  flex-wrap: wrap;
+}
+
+#toolbar-settings .json-editor {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 /* JSON编辑器样式 */
