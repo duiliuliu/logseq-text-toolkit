@@ -2,6 +2,17 @@ import React, { useState } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 
+const iconMap = {
+  bold: Bold,
+  italic: Italic,
+  underline: Underline,
+  strikethrough: Strikethrough,
+  highlighter: Highlighter,
+  type: Type,
+  x: X,
+  menu: Menu
+}
+
 function Toolbar({ items, theme = 'light' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
@@ -41,6 +52,12 @@ function Toolbar({ items, theme = 'light' }) {
 
   const renderIcon = (icon) => {
     if (!icon) return '📝'
+    
+    // 处理字符串类型的图标名称
+    if (typeof icon === 'string' && iconMap[icon]) {
+      const IconComponent = iconMap[icon]
+      return <IconComponent size={18} />
+    }
     
     // 处理 lucide-react 图标
     if (typeof icon === 'function') {
