@@ -9,16 +9,17 @@
 .toolbar-main {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
   border: none;
-  border-radius: 10px;
-  padding: 6px 10px;
+  border-radius: 8px;
+  padding: 4px 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
   z-index: 1000;
+  min-width: 100px;
 }
 
 .toolbar-main-item {

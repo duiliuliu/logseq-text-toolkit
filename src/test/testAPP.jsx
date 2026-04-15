@@ -14,7 +14,7 @@ function TestApp() {
   const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
   const [toolbarWidth, setToolbarWidth] = useState('100px')
-  const [toolbarHeight, setToolbarHeight] = useState('48px')
+  const [toolbarHeight, setToolbarHeight] = useState('36px')
   const contentRef = useRef(null)
 
   // 初始化 mock logseq
