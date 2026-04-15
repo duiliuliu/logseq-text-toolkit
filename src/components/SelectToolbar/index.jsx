@@ -11,7 +11,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   useEffect(() => {
     const handleSelection = (e) => {
       // 点击toolbar内部时，不隐藏toolbar
-      if (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container')) {
+      if (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container') || e.target.closest('.toolbar-main') || e.target.closest('.toolbar-main-item')) {
         return
       }
 
@@ -87,6 +87,12 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     }
 
     document.addEventListener('mouseup', handleSelection)
+    document.addEventListener('mousedown', (e) => {
+      // 点击 toolbar 内部时，阻止默认行为以保持文本选择
+      if (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container')) {
+        e.preventDefault()
+      }
+    })
     window.addEventListener('scroll', handleScroll)
     return () => {
       document.removeEventListener('mouseup', handleSelection)
