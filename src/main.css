@@ -18,39 +18,39 @@
   --border-color-dark: #444444;
   
   /* Default theme variables */
-  --ls-primary-background-color-plugin: var(--background-color-light);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light);
-  --ls-border-color-plugin: var(--border-color-light);
+  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f0f0f0);
+  --ls-primary-text-color-plugin: var(--primary-text-color-light, #333333);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #666666);
+  --ls-border-color-plugin: var(--border-color-light, #cccccc);
 }
 
 /* Media query for dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --ls-primary-background-color-plugin: var(--background-color-dark);
-    --ls-secondary-background-color-plugin: var(--secondary-background-color-dark);
-    --ls-primary-text-color-plugin: var(--primary-text-color-dark);
-    --ls-secondary-text-color-plugin: var(--secondary-text-color-dark);
-    --ls-border-color-plugin: var(--border-color-dark);
+    --ls-primary-background-color-plugin: var(--background-color-dark, #143642);
+    --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #3B5E69);
+    --ls-primary-text-color-plugin: var(--primary-text-color-dark, #e0e0e0);
+    --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #aaaaaa);
+    --ls-border-color-plugin: var(--border-color-dark, #444444);
   }
 }
 
 /* Theme classes */
 .light-mode {
-  --ls-primary-background-color-plugin: var(--background-color-light);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light);
-  --ls-border-color-plugin: var(--border-color-light);
+  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f0f0f0);
+  --ls-primary-text-color-plugin: var(--primary-text-color-light, #333333);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #666666);
+  --ls-border-color-plugin: var(--border-color-light, #cccccc);
 }
 
 .dark-mode {
-  --ls-primary-background-color-plugin: var(--background-color-dark);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark);
-  --ls-primary-text-color-plugin: var(--primary-text-color-dark);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark);
-  --ls-border-color-plugin: var(--border-color-dark);
+  --ls-primary-background-color-plugin: var(--background-color-dark, #143642);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #3B5E69);
+  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #e0e0e0);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #aaaaaa);
+  --ls-border-color-plugin: var(--border-color-dark, #444444);
 }
 
 :root {
@@ -62,7 +62,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  user-select: none;
+}
+
+/* 允许内容区域的文本被选择 */
+.content-section {
+  user-select: text;
 }
 
 body {
@@ -72,6 +76,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   background-color: transparent;
 }

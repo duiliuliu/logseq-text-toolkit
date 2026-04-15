@@ -300,6 +300,36 @@ npm run test
 - 确保样式在 light 和 dark 主题下都能正常显示
 - 保持样式简洁，避免过度使用复杂选择器
 
+### 7.4 图标支持
+
+#### 7.4.1 支持的图标格式
+- **SVG 字符串**：直接提供 SVG 代码
+- **lucide-react 图标**：使用 lucide-react 图标库中的图标组件
+
+#### 7.4.2 使用 lucide-react 图标
+1. 安装 lucide-react 依赖：
+   ```bash
+   npm install lucide-react
+   ```
+
+2. 导入并使用图标：
+   ```javascript
+   import { Bold, Italic, Underline } from 'lucide-react'
+   
+   // 在配置中使用
+   const toolbarItems = {
+     "wrap-bold": {
+       "label": "Bold",
+       "icon": Bold
+     }
+   }
+   ```
+
+#### 7.4.3 图标大小和对齐
+- 图标默认大小为 18x18px
+- 所有图标会自动居中对齐
+- 对于 SVG 字符串，建议使用 18x18px 的 viewBox 以确保一致的显示效果
+
 ## 8. 更新日志
 
 每次发布新版本时，必须更新 `docs/CHANGELOG_YYYY-MM-DD.md`。
