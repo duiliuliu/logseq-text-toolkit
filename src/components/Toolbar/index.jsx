@@ -13,7 +13,7 @@ const iconMap = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '120px', selectedText = '' }) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '100px', height = '48px', selectedText = '' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -166,7 +166,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '120px', s
 
   return (
     <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-      <div className="toolbar-main" style={{ width }}>
+      <div className="toolbar-main" style={{ width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
         <div 

@@ -13,7 +13,8 @@ function TestApp() {
   const [selectedText, setSelectedText] = useState('')
   const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
-  const [toolbarWidth, setToolbarWidth] = useState('120px')
+  const [toolbarWidth, setToolbarWidth] = useState('100px')
+  const [toolbarHeight, setToolbarHeight] = useState('48px')
   const contentRef = useRef(null)
 
   // 初始化 mock logseq
@@ -77,7 +78,17 @@ function TestApp() {
           type="text" 
           value={toolbarWidth} 
           onChange={(e) => setToolbarWidth(e.target.value)}
-          placeholder="e.g., 150px"
+          placeholder="e.g., 100px"
+        />
+      </div>
+      
+      <div className="toolbar-height-control">
+        <label>Toolbar height: </label>
+        <input 
+          type="text" 
+          value={toolbarHeight} 
+          onChange={(e) => setToolbarHeight(e.target.value)}
+          placeholder="e.g., 48px"
         />
       </div>
       
@@ -103,6 +114,7 @@ function TestApp() {
             theme={theme} 
             showBorder={false}
             width={toolbarWidth}
+            height={toolbarHeight}
             selectedText={selectedText}
           />
         </div>
