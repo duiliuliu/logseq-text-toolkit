@@ -36,7 +36,11 @@ function TestApp() {
 
   // 处理文本选择
   useEffect(() => {
-    const handleSelection = () => {
+    const handleSelection = (e) => {
+      if (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container')) {
+        return
+      }
+
       const selection = window.getSelection()
       if (selection && selection.toString().length > 0) {
         const range = selection.getRangeAt(0)
