@@ -94,11 +94,12 @@
 .setting-item {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   gap: 12px;
   width: 100%;
   box-sizing: border-box;
   flex-wrap: nowrap;
+  position: relative;
 }
 
 .setting-item label {
@@ -171,7 +172,7 @@ input:checked + .switch-slider:before {
 .setting-item input[type="number"],
 .setting-item select {
   flex: 1;
-  max-width: 160px;
+  max-width: 240px;
   padding: 6px 10px;
   border: 1px solid var(--ls-border-color-plugin, #ccc);
   border-radius: 4px;
@@ -240,7 +241,7 @@ input:checked + .switch-slider:before {
 }
 
 .settings-actions {
-  margin-top: 40px;
+  margin-top: 60px;
   display: flex;
   justify-content: flex-end;
   padding-right: 8px;
