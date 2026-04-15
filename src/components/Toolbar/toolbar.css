@@ -11,7 +11,7 @@
   align-items: center;
   gap: 4px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
-  border: none;
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
   border-radius: 8px;
   padding: 4px 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -20,6 +20,10 @@
   position: relative;
   z-index: 1000;
   min-width: 100px;
+}
+
+.toolbar-main.no-border {
+  border: none;
 }
 
 .toolbar-main-item {
