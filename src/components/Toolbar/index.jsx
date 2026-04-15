@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { ButtonGroup, ButtonGroupSeparator } from '@/components/ui/button-group'
+import { Button } from '@/components/ui/button'
 import './toolbar.css'
 
 function Toolbar({ items }) {
@@ -54,12 +56,12 @@ function Toolbar({ items }) {
 
   return (
     <div className="toolbar-container">
-      <div className="toolbar-main">
+      <ButtonGroup className="overflow-x-auto scrollbar-hide">
         {mainItems.map((item, index) => (
           item.isGroup ? (
             <div 
               key={item.id} 
-              className="toolbar-main-item toolbar-group"
+              className="relative"
               onMouseEnter={() => {
                 setHoveredItem(item)
                 setMouseOverGroup(item.id)
@@ -69,7 +71,9 @@ function Toolbar({ items }) {
                 setMouseOverGroup(null)
               }}
             >
-              <div className="toolbar-item-icon">📂</div>
+              <Button variant="ghost" size="icon" className="relative">
+                <div className="toolbar-item-icon">📂</div>
+              </Button>
               {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
                 <div className="toolbar-tooltip">
                   {hoveredItem.label}
@@ -108,29 +112,28 @@ function Toolbar({ items }) {
           ) : (
             <div 
               key={item.id} 
-              className="toolbar-main-item"
               onMouseEnter={() => setHoveredItem(item)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <div className="toolbar-item-icon">
-                {item.icon ? (
-                  <div dangerouslySetInnerHTML={{ __html: item.icon }} />
-                ) : (
-                  '📝'
-                )}
-              </div>
-              {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
-                <div className="toolbar-tooltip">
-                  {hoveredItem.label}
+              <Button variant="ghost" size="icon" className="relative">
+                <div className="toolbar-item-icon">
+                  {item.icon ? (
+                    <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+                  ) : (
+                    '📝'
+                  )}
                 </div>
-              )}
+                {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
+                  <div className="toolbar-tooltip">
+                    {hoveredItem.label}
+                  </div>
+                )}
+              </Button>
             </div>
           )
         ))}
         {!isMoreExpanded && moreItems.length > 0 && (
-          <div 
-            className="toolbar-main-item toolbar-group"
-            onClick={handleMoreClick}
+          <div
             onMouseEnter={() => {
               setHoveredItem({ label: 'More', id: 'more' })
             }}
@@ -138,18 +141,23 @@ function Toolbar({ items }) {
               setHoveredItem(null)
             }}
           >
-            <div className="toolbar-item-icon">⋮</div>
-            {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
-              <div className="toolbar-tooltip">
-                {hoveredItem.label}
-              </div>
-            )}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={handleMoreClick}
+            >
+              <div className="toolbar-item-icon">⋮</div>
+              {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
+                <div className="toolbar-tooltip">
+                  {hoveredItem.label}
+                </div>
+              )}
+            </Button>
           </div>
         )}
         {isMoreExpanded && (
-          <div 
-            className="toolbar-main-item toolbar-group"
-            onClick={handleMoreClick}
+          <div
             onMouseEnter={() => {
               setHoveredItem({ label: 'Less', id: 'less' })
             }}
@@ -157,15 +165,22 @@ function Toolbar({ items }) {
               setHoveredItem(null)
             }}
           >
-            <div className="toolbar-item-icon">−</div>
-            {hoveredItem && hoveredItem.id === 'less' && hoveredItem.label && (
-              <div className="toolbar-tooltip">
-                {hoveredItem.label}
-              </div>
-            )}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={handleMoreClick}
+            >
+              <div className="toolbar-item-icon">−</div>
+              {hoveredItem && hoveredItem.id === 'less' && hoveredItem.label && (
+                <div className="toolbar-tooltip">
+                  {hoveredItem.label}
+                </div>
+              )}
+            </Button>
           </div>
         )}
-      </div>
+      </ButtonGroup>
     </div>
   )
 }

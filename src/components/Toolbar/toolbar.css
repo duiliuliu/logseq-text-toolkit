@@ -8,57 +8,42 @@
   overflow: hidden;
 }
 
-.toolbar-main {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
+/* 隐藏滚动条但保留功能 */
+.scrollbar-hide {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }
 
-/* 隐藏滚动条但保留功能 */
-.toolbar-main::-webkit-scrollbar {
+.scrollbar-hide::-webkit-scrollbar {
   height: 4px;
 }
 
-.toolbar-main::-webkit-scrollbar-track {
+.scrollbar-hide::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.toolbar-main::-webkit-scrollbar-thumb {
+.scrollbar-hide::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 2px;
 }
 
-.toolbar-main::-webkit-scrollbar-thumb:hover {
+.scrollbar-hide::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.2);
 }
 
-.toolbar-main-item {
-  position: relative;
+.toolbar-item-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+  font-size: 18px;
+  width: 100%;
+  height: 100%;
 }
 
-.toolbar-main-item:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
-  transform: scale(1.05);
+.toolbar-item-icon svg {
+  width: 20px;
+  height: 20px;
+  transition: all 0.2s ease;
 }
 
 .toolbar-group {
@@ -70,11 +55,10 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: -1px;
+  margin-top: 4px;
   background-color: var(--ls-primary-background-color-plugin, #ffffff);
   border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-top: none;
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   min-width: auto;
@@ -95,31 +79,11 @@
 }
 
 .toolbar-group-item:first-child {
-  border-radius: 0 0 0 0;
+  border-radius: 8px 8px 0 0;
 }
 
 .toolbar-group-item:last-child {
   border-radius: 0 0 8px 8px;
-}
-
-.toolbar-more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.toolbar-more:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
-}
-
-.toolbar-more-icon {
-  font-size: 18px;
-  font-weight: bold;
 }
 
 .toolbar-tooltip {
@@ -157,64 +121,16 @@
   margin-top: 4px;
 }
 
-.toolbar-expanded {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.toolbar-expanded-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.toolbar-expanded-item:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
-  transform: scale(1.05);
-}
-
-.toolbar-item-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  width: 100%;
-  height: 100%;
-}
-
-.toolbar-item-icon svg {
-  width: 20px;
-  height: 20px;
-  transition: all 0.2s ease;
-}
-
-.toolbar-main-item:hover .toolbar-item-icon svg {
-  transform: scale(1.1);
-}
-
 /* 横向展示的子元素 */
 .toolbar-group-dropdown-horizontal {
   position: absolute;
   top: 50%;
   right: 100%;
   transform: translateY(-50%);
-  margin-right: -1px;
+  margin-right: 4px;
   background-color: var(--ls-primary-background-color-plugin, #ffffff);
   border: 1px solid var(--ls-border-color-plugin, #cccccc);
-  border-right: none;
-  border-radius: 8px 0 0 8px;
+  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   display: flex;
@@ -246,5 +162,5 @@
 }
 
 .toolbar-group-item-horizontal:last-child {
-  border-radius: 0 0 0 0;
+  border-radius: 0 8px 8px 0;
 }
