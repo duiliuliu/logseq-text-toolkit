@@ -11,7 +11,7 @@
   align-items: center;
   gap: 6px;
   background-color: var(--ls-primary-background-color-plugin, #ffffff);
-  border: 1px solid var(--ls-border-color-plugin, #cccccc);
+  border: none;
   border-radius: 10px;
   padding: 6px 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -167,30 +167,30 @@
 
 /* 主题支持 */
 .toolbar-dark .toolbar-main {
-  background-color: var(--ls-primary-background-color-plugin, #333333);
-  border-color: var(--ls-border-color-plugin, #555555);
-  color: var(--ls-primary-text-color-plugin, #ffffff);
+  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .toolbar-dark .toolbar-main-item:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #444444);
+  background-color: var(--ls-secondary-background-color-plugin, #404040);
 }
 
 .toolbar-dark .toolbar-group-dropdown {
-  background-color: var(--ls-primary-background-color-plugin, #333333);
-  border-color: var(--ls-border-color-plugin, #555555);
-  color: var(--ls-primary-text-color-plugin, #ffffff);
+  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .toolbar-dark .toolbar-group-item:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #444444);
+  background-color: var(--ls-secondary-background-color-plugin, #404040);
 }
 
 .toolbar-dark .toolbar-tooltip {
-  background-color: var(--ls-primary-background-color-plugin, #222222);
+  background-color: var(--ls-primary-background-color-plugin, #1a1a1a);
   color: var(--ls-primary-text-color-plugin, #ffffff);
 }
 
 .toolbar-dark .toolbar-more:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #444444);
+  background-color: var(--ls-secondary-background-color-plugin, #404040);
 }
