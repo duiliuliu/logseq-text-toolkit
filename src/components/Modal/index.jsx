@@ -2,15 +2,8 @@ import React, { useState } from 'react';
 import { getCurrentTheme } from '../../utils/state';
 import './modal.css';
 
-const Modal = ({ title, onClose, onSubmit, placeholder = '请输入内容', isOpen = false, width = '400px' }) => {
-  const [content, setContent] = useState('');
+const Modal = ({ title, onClose, children, isOpen = false, width = '400px' }) => {
   const theme = getCurrentTheme();
-
-  const handleSubmit = () => {
-    onSubmit(content);
-    setContent('');
-    onClose();
-  };
 
   if (!isOpen) {
     return null;
@@ -18,23 +11,13 @@ const Modal = ({ title, onClose, onSubmit, placeholder = '请输入内容', isOp
 
   return (
     <div className="modal-overlay">
-      <div className={`modal modal-${theme}`} style={{ width }}>
+      <div className={`modal-container modal-${theme}`} style={{ width }}>
         <div className="modal-header">
-          <h3>{title}</h3>
+          <h3 className="modal-title">{title}</h3>
           <button className="modal-close" onClick={onClose}>×</button>
         </div>
-        <div className="modal-body">
-          <textarea
-            className="modal-input"
-            placeholder={placeholder}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={4}
-          />
-        </div>
-        <div className="modal-footer">
-          <button className="modal-cancel" onClick={onClose}>取消</button>
-          <button className="modal-submit" onClick={handleSubmit}>确定</button>
+        <div className="modal-content">
+          {children}
         </div>
       </div>
     </div>
