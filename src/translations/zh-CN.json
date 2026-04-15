@@ -31,9 +31,6 @@
     "icon": "图标",
     "funcmode": "功能模式",
     "confirmDeleteItem": "确定要删除此工具栏项目吗？",
-    "editMode": "编辑模式",
-    "uiMode": "界面模式",
-    "jsonMode": "JSON模式",
     "jsonSettings": "JSON设置",
     "applyJson": "应用JSON",
     "resetToDefault": "重置为默认值",
@@ -42,6 +39,7 @@
     "saving": "保存中...",
     "loading": "加载设置中...",
     "error": "加载设置失败",
-    "confirmReset": "确定要将所有设置重置为默认值吗？"
+    "confirmReset": "确定要将所有设置重置为默认值吗？",
+    "confirmResetItems": "确定要将工具栏元素重置为默认值吗？"
   }
 }

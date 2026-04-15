@@ -31,9 +31,6 @@
     "icon": "Icon",
     "funcmode": "Function Mode",
     "confirmDeleteItem": "Are you sure you want to delete this toolbar item?",
-    "editMode": "Edit Mode",
-    "uiMode": "UI Mode",
-    "jsonMode": "JSON Mode",
     "jsonSettings": "JSON Settings",
     "applyJson": "Apply JSON",
     "resetToDefault": "Reset to Default",
@@ -42,6 +39,7 @@
     "saving": "Saving...",
     "loading": "Loading settings...",
     "error": "Failed to load settings",
-    "confirmReset": "Are you sure you want to reset all settings to default?"
+    "confirmReset": "Are you sure you want to reset all settings to default?",
+    "confirmResetItems": "Are you sure you want to reset toolbar elements to default?"
   }
 }

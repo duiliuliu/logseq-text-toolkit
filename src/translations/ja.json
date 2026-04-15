@@ -31,9 +31,6 @@
     "icon": "アイコン",
     "funcmode": "機能モード",
     "confirmDeleteItem": "このツールバーアイテムを削除しますか？",
-    "editMode": "編集モード",
-    "uiMode": "UIモード",
-    "jsonMode": "JSONモード",
     "jsonSettings": "JSON設定",
     "applyJson": "JSONを適用",
     "resetToDefault": "デフォルトにリセット",
@@ -42,6 +39,7 @@
     "saving": "保存中...",
     "loading": "設定を読み込んでいます...",
     "error": "設定の読み込みに失敗しました",
-    "confirmReset": "すべての設定をデフォルトにリセットしますか？"
+    "confirmReset": "すべての設定をデフォルトにリセットしますか？",
+    "confirmResetItems": "ツールバー要素をデフォルトにリセットしてもよろしいですか？"
   }
 }

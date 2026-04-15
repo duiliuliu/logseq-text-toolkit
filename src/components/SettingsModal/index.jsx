@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Modal from '../Modal/index.jsx'
 import useSettings from '../../hooks/useSettings.js'
 import i18n from '../../utils/i18n.js'
-import { ChevronDown, ChevronUp, Monitor, Globe, Layout, Palette, CheckCircle2 } from 'lucide-react'
+import defaultSettings from '../../utils/settings.js'
+import { Palette, Layout, Code2, CheckCircle2 } from 'lucide-react'
 import './settingsModal.css'
 
 function SettingsModal({ isOpen, onClose, theme }) {
@@ -17,9 +18,8 @@ function SettingsModal({ isOpen, onClose, theme }) {
   } = useSettings()
   
   const [settings, setSettings] = useState(null)
-  const [collapsedSections, setCollapsedSections] = useState({})
-  const [editMode, setEditMode] = useState('json') // Only 'json' mode supported
-  const [jsonSettings, setJsonSettings] = useState('')
+  const [activeTab, setActiveTab] = useState('general') // 'general', 'toolbar', 'elements'
+  const [jsonToolbarItems, setJsonToolbarItems] = useState('')
 
   const currentLanguage = settings?.language || 'zh-CN'
   
@@ -32,7 +32,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
       loadSettings().then(data => {
         if (data) {
           setSettings(data)
-          setJsonSettings(JSON.stringify(data, null, 2))
+          setJsonToolbarItems(JSON.stringify(data.toolbar?.items || {}, null, 2))
         }
       })
     }
@@ -40,70 +40,72 @@ function SettingsModal({ isOpen, onClose, theme }) {
 
   useEffect(() => {
     if (settings) {
-      setJsonSettings(JSON.stringify(settings, null, 2))
+      setJsonToolbarItems(JSON.stringify(settings.toolbar?.items || {}, null, 2))
     }
   }, [settings])
 
-  const handleJsonChange = (value) => {
-    setJsonSettings(value)
-  }
-
-  const validateToolbarSchema = (toolbar) => {
-    if (!toolbar || typeof toolbar !== 'object') {
-      return 'Toolbar must be an object'
-    }
-    
-    if (typeof toolbar.enabled !== 'boolean') {
-      return 'Toolbar enabled must be a boolean'
-    }
-    
-    if (toolbar.items && typeof toolbar.items !== 'object') {
+  const validateToolbarItemsSchema = (items) => {
+    if (!items || typeof items !== 'object') {
       return 'Toolbar items must be an object'
     }
     
-    if (toolbar.items) {
-      for (const [key, item] of Object.entries(toolbar.items)) {
-        if (typeof item === 'object' && item !== null) {
-          // Check if this is a group (contains nested items)
-          const isGroup = !item.label && !item.icon && !item.funcmode
-          if (isGroup) {
-            // Validate group items
-            for (const [groupKey, groupItem] of Object.entries(item)) {
-              if (typeof groupItem !== 'object' || groupItem === null) {
-                return `Group item ${groupKey} must be an object`
-              }
-              if (!groupItem.label || typeof groupItem.label !== 'string') {
-                return `Group item ${groupKey} must have a label`
-              }
+    for (const [key, item] of Object.entries(items)) {
+      if (typeof item === 'object' && item !== null) {
+        const isGroup = !item.label && !item.icon && !item.funcmode
+        if (isGroup) {
+          for (const [groupKey, groupItem] of Object.entries(item)) {
+            if (typeof groupItem !== 'object' || groupItem === null) {
+              return `Group item ${groupKey} must be an object`
             }
-          } else {
-            // Validate regular item
-            if (!item.label || typeof item.label !== 'string') {
-              return `Item ${key} must have a label`
+            if (!groupItem.label || typeof groupItem.label !== 'string') {
+              return `Group item ${groupKey} must have a label`
             }
+          }
+        } else {
+          if (!item.label || typeof item.label !== 'string') {
+            return `Item ${key} must have a label`
           }
         }
       }
     }
     
-    return null // No errors
+    return null
   }
 
-  const applyJsonSettings = () => {
+  const applyJsonToolbarItems = () => {
     try {
-      const parsedSettings = JSON.parse(jsonSettings)
+      const parsedItems = JSON.parse(jsonToolbarItems)
       
-      // Validate toolbar schema
-      const validationError = validateToolbarSchema(parsedSettings.toolbar)
+      const validationError = validateToolbarItemsSchema(parsedItems)
       if (validationError) {
         alert(`Schema validation error: ${validationError}`)
         return
       }
       
-      setSettings(parsedSettings)
-      alert('Settings applied successfully!')
+      setSettings(prev => ({
+        ...prev,
+        toolbar: {
+          ...prev.toolbar,
+          items: parsedItems
+        }
+      }))
+      alert('Toolbar items applied successfully!')
     } catch (error) {
       alert('Invalid JSON format')
+    }
+  }
+
+  const resetJsonToolbarItems = () => {
+    if (window.confirm(t('settings.confirmResetItems'))) {
+      const defaultItems = defaultSettings.toolbar.items
+      setJsonToolbarItems(JSON.stringify(defaultItems, null, 2))
+      setSettings(prev => ({
+        ...prev,
+        toolbar: {
+          ...prev.toolbar,
+          items: defaultItems
+        }
+      }))
     }
   }
 
@@ -144,15 +146,6 @@ function SettingsModal({ isOpen, onClose, theme }) {
     })
   }
 
-  const toggleSection = (section) => {
-    setCollapsedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }))
-  }
-
-
-
   if (isLoading) {
     return (
       <Modal isOpen={isOpen} onClose={onClose} title={i18n.t('settings.title', 'zh-CN')}>
@@ -170,30 +163,43 @@ function SettingsModal({ isOpen, onClose, theme }) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="560px">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} width="600px">
       <div className="settings-container" data-theme={theme}>
-        {/* General Settings Section */}
-        <div className="settings-section">
-          <button 
-            className="settings-section-header" 
-            onClick={() => toggleSection('general')}
+        {/* Tabs Navigation */}
+        <div className="settings-tabs">
+          <button
+            className={`settings-tab ${activeTab === 'general' ? 'active' : ''}`}
+            onClick={() => setActiveTab('general')}
             type="button"
           >
-            <div className="settings-section-header-left">
-              <Palette className="settings-section-icon" size={18} />
-              <h3>{t('settings.generalSettings')}</h3>
-            </div>
-            {collapsedSections.general ? 
-              <ChevronDown className="settings-collapse-icon" size={16} /> : 
-              <ChevronUp className="settings-collapse-icon" size={16} />
-            }
+            <Palette size={16} />
+            {t('settings.generalSettings')}
           </button>
-          
-          {!collapsedSections.general && settings && (
+          <button
+            className={`settings-tab ${activeTab === 'toolbar' ? 'active' : ''}`}
+            onClick={() => setActiveTab('toolbar')}
+            type="button"
+          >
+            <Layout size={16} />
+            {t('settings.toolbarSettings')}
+          </button>
+          <button
+            className={`settings-tab ${activeTab === 'elements' ? 'active' : ''}`}
+            onClick={() => setActiveTab('elements')}
+            type="button"
+          >
+            <Code2 size={16} />
+            {t('settings.toolbarElements')}
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        <div className="settings-tab-content">
+          {/* General Settings */}
+          {activeTab === 'general' && (
             <div className="settings-section-content">
               <div className="setting-item">
                 <div className="setting-item-label-wrapper">
-                  <Monitor className="setting-item-icon" size={16} />
                   <div className="setting-item-label-content">
                     <div className="setting-item-label">{t('settings.theme')}</div>
                     <div className="setting-item-description">
@@ -211,7 +217,6 @@ function SettingsModal({ isOpen, onClose, theme }) {
 
               <div className="setting-item">
                 <div className="setting-item-label-wrapper">
-                  <Globe className="setting-item-icon" size={16} />
                   <div className="setting-item-label-content">
                     <div className="setting-item-label">{t('settings.language')}</div>
                     <div className="setting-item-description">
@@ -228,45 +233,122 @@ function SettingsModal({ isOpen, onClose, theme }) {
               </div>
             </div>
           )}
-        </div>
 
-        {/* Toolbar Elements Management Section */}
-        <div className="settings-section">
-          <button 
-            className="settings-section-header" 
-            onClick={() => toggleSection('toolbarItems')}
-            type="button"
-          >
-            <div className="settings-section-header-left">
-              <Layout className="settings-section-icon" size={18} />
-              <h3>{t('settings.toolbarElements')}</h3>
+          {/* Toolbar Settings */}
+          {activeTab === 'toolbar' && (
+            <div className="settings-section-content">
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.enabled')}</div>
+                <div className="setting-item-value">
+                  <div className="setting-switch-wrapper">
+                    <input 
+                      type="checkbox" 
+                      id="toolbar-enabled"
+                      checked={settings.toolbar?.enabled || false} 
+                      onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
+                      className="setting-switch"
+                    />
+                    <label htmlFor="toolbar-enabled" className="setting-switch-label"></label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.showBorder')}</div>
+                <div className="setting-item-value">
+                  <div className="setting-switch-wrapper">
+                    <input 
+                      type="checkbox" 
+                      id="toolbar-showBorder"
+                      checked={settings.toolbar?.showBorder || false} 
+                      onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
+                      className="setting-switch"
+                    />
+                    <label htmlFor="toolbar-showBorder" className="setting-switch-label"></label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.width')}</div>
+                <div className="setting-item-value">
+                  <div className="setting-input-with-unit">
+                    <input 
+                      type="text" 
+                      value={settings.toolbar?.width || ''} 
+                      onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
+                      placeholder="e.g., 110px"
+                      className="setting-input"
+                    />
+                    <span className="setting-input-unit">px</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.height')}</div>
+                <div className="setting-item-value">
+                  <div className="setting-input-with-unit">
+                    <input 
+                      type="text" 
+                      value={settings.toolbar?.height || ''} 
+                      onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
+                      placeholder="e.g., 24px"
+                      className="setting-input"
+                    />
+                    <span className="setting-input-unit">px</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="setting-item">
+                <div className="setting-item-label">{t('settings.hoverDelay')}</div>
+                <div className="setting-item-value">
+                  <div className="setting-input-with-unit">
+                    <input 
+                      type="number" 
+                      value={settings.toolbar?.hoverDelay || 0} 
+                      onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
+                      min="0"
+                      className="setting-input"
+                    />
+                    <span className="setting-input-unit">ms</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            {collapsedSections.toolbarItems ? 
-              <ChevronDown className="settings-collapse-icon" size={16} /> : 
-              <ChevronUp className="settings-collapse-icon" size={16} />
-            }
-          </button>
-          
-          {!collapsedSections.toolbarItems && settings && (
+          )}
+
+          {/* Toolbar Elements */}
+          {activeTab === 'elements' && (
             <div className="settings-section-content">
               <div className="setting-item">
                 <div className="setting-item-label">{t('settings.jsonSettings')}</div>
                 <div className="setting-item-value">
-                  <button 
-                    className="settings-btn settings-btn-save" 
-                    onClick={applyJsonSettings}
-                    type="button"
-                  >
-                    {t('settings.applyJson')}
-                  </button>
+                  <div className="settings-btn-group">
+                    <button 
+                      className="settings-btn settings-btn-secondary" 
+                      onClick={resetJsonToolbarItems}
+                      type="button"
+                    >
+                      {t('settings.resetToDefault')}
+                    </button>
+                    <button 
+                      className="settings-btn settings-btn-save" 
+                      onClick={applyJsonToolbarItems}
+                      type="button"
+                    >
+                      {t('settings.applyJson')}
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="json-editor-container">
                 <textarea 
                   className="json-editor"
-                  value={jsonSettings}
-                  onChange={(e) => handleJsonChange(e.target.value)}
-                  placeholder="Enter JSON settings here"
+                  value={jsonToolbarItems}
+                  onChange={(e) => setJsonToolbarItems(e.target.value)}
+                  placeholder="Enter toolbar items JSON here"
                 />
               </div>
             </div>
