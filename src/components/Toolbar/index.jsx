@@ -50,28 +50,23 @@ function Toolbar({ items, theme = 'light' }) {
     return result
   }
 
-  const renderIcon = (icon, color) => {
+  const renderIcon = (icon) => {
     if (!icon) return '📝'
     
     // 处理字符串类型的图标名称
     if (typeof icon === 'string' && iconMap[icon]) {
       const IconComponent = iconMap[icon]
-      return <IconComponent size={18} color={color} />
+      return <IconComponent size={18} />
     }
     
     // 处理 lucide-react 图标
     if (typeof icon === 'function') {
       const IconComponent = icon
-      return <IconComponent size={18} color={color} />
+      return <IconComponent size={18} />
     }
     
     // 处理 SVG 字符串
     if (typeof icon === 'string' && icon.includes('<svg')) {
-      // 如果有颜色，替换 SVG 中的 fill 属性
-      if (color) {
-        const coloredSvg = icon.replace(/fill="[^"]*"/, `fill="${color}"`)
-        return <div dangerouslySetInnerHTML={{ __html: coloredSvg }} />
-      }
       return <div dangerouslySetInnerHTML={{ __html: icon }} />
     }
     
@@ -114,7 +109,7 @@ function Toolbar({ items, theme = 'light' }) {
                   onMouseLeave={() => setHoveredItem(item)}
                 >
                   <div className="toolbar-item-icon">
-                    {renderIcon(subItem.icon, subItem.iconColor)}
+                    {renderIcon(subItem.icon)}
                   </div>
                   {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
                     <div className="toolbar-tooltip toolbar-tooltip-sub">
@@ -136,7 +131,7 @@ function Toolbar({ items, theme = 'light' }) {
           onMouseLeave={() => setHoveredItem(null)}
         >
           <div className="toolbar-item-icon">
-            {renderIcon(item.icon, item.iconColor)}
+            {renderIcon(item.icon)}
           </div>
           {hoveredItem && hoveredItem.id === item.id && item.label && (
             <div className="toolbar-tooltip">
