@@ -10,6 +10,7 @@ import './mock.js'
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
   const [theme, setTheme] = useState('light')
+  const [cursor, setCursor] = useState('pointer')
   const [selectedText, setSelectedText] = useState('')
   const [toolbarPosition, setToolbarPosition] = useState({ top: 0, left: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
@@ -72,6 +73,17 @@ function TestApp() {
         </select>
       </div>
       
+      <div className="theme-switcher">
+        <label>Choose cursor: </label>
+        <select value={cursor} onChange={(e) => setCursor(e.target.value)}>
+          <option value="pointer">Pointer</option>
+          <option value="default">Default</option>
+          <option value="crosshair">Crosshair</option>
+          <option value="grab">Grab</option>
+          <option value="help">Help</option>
+        </select>
+      </div>
+      
       <div className="text-area-container">
         <p ref={textAreaRef}>
           请选择这段文字来测试 Toolbar 功能。当你选择文字时，Toolbar 会显示在选中文字的上方。
@@ -89,7 +101,7 @@ function TestApp() {
             zIndex: 10000
           }}
         >
-          <Toolbar items={testData} theme={theme} selectedText={selectedText} />
+          <Toolbar items={testData} theme={theme} cursor={cursor} selectedText={selectedText} />
         </div>
       )}
     </div>

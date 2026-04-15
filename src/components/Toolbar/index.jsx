@@ -13,7 +13,7 @@ const iconMap = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, selectedText = '' }) {
+function Toolbar({ items, theme = 'light', showBorder = true, selectedText = '', cursor = 'pointer' }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -86,6 +86,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, selectedText = '' 
         <div 
           key={item.id} 
           className="toolbar-main-item toolbar-group"
+          style={{ cursor }}
           onMouseEnter={() => {
             setHoveredItem(item)
             setMouseOverGroup(item.id)
@@ -111,6 +112,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, selectedText = '' 
                 <div 
                   key={subItem.id}
                   className="toolbar-group-item"
+                  style={{ cursor }}
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
                   onClick={() => handleItemClick(subItem)}
@@ -134,6 +136,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, selectedText = '' 
         <div 
           key={item.id} 
           className="toolbar-main-item"
+          style={{ cursor }}
           onMouseEnter={() => setHoveredItem(item)}
           onMouseLeave={() => setHoveredItem(null)}
           onClick={() => handleItemClick(item)}
@@ -168,6 +171,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, selectedText = '' 
         {moreExpanded && moreItems.map(renderItem)}
         <div 
           className="toolbar-main-item toolbar-more"
+          style={{ cursor }}
           onClick={toggleMore}
           onMouseEnter={() => setHoveredItem({ label: moreExpanded ? 'Collapse' : 'More', id: 'more' })}
           onMouseLeave={() => setHoveredItem(null)}
