@@ -11,7 +11,6 @@ import { MoreHorizontalIcon } from 'lucide-react'
 
 function Toolbar({ items }) {
   const [hoveredItem, setHoveredItem] = useState(null)
-  const [mouseOverGroup, setMouseOverGroup] = useState(null)
 
   const parseItems = (data) => {
     const result = []
@@ -55,7 +54,7 @@ function Toolbar({ items }) {
 
   return (
     <div className="flex justify-center py-4">
-      <ButtonGroup className="overflow-x-auto scrollbar-hide">
+      <div className="flex flex-row gap-1">
         {mainItems.map((item, index) => (
           item.isGroup ? (
             <div 
@@ -64,7 +63,7 @@ function Toolbar({ items }) {
               onMouseEnter={() => setHoveredItem(item)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <Button variant="outline" size="icon" className="relative">
+              <Button variant="outline" size="icon">
                 <div className="flex items-center justify-center">📂</div>
               </Button>
               {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
@@ -143,7 +142,7 @@ function Toolbar({ items }) {
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-      </ButtonGroup>
+      </div>
     </div>
   )
 }
