@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { MoreHorizontalIcon } from 'lucide-react'
-import './toolbar.css'
 
 function Toolbar({ items }) {
   const [hoveredItem, setHoveredItem] = useState(null)
@@ -55,80 +54,46 @@ function Toolbar({ items }) {
   const moreItems = visibleItems.slice(3).concat(hiddenItems)
 
   return (
-    <div className="toolbar-container">
+    <div className="flex justify-center py-4">
       <ButtonGroup className="overflow-x-auto scrollbar-hide">
         {mainItems.map((item, index) => (
           item.isGroup ? (
             <div 
               key={item.id} 
               className="relative"
-              onMouseEnter={() => {
-                setHoveredItem(item)
-                setMouseOverGroup(item.id)
-              }}
-              onMouseLeave={() => {
-                setHoveredItem(null)
-                setMouseOverGroup(null)
-              }}
+              onMouseEnter={() => setHoveredItem(item)}
+              onMouseLeave={() => setHoveredItem(null)}
             >
               <Button variant="outline" size="icon" className="relative">
-                <div className="toolbar-item-icon">📂</div>
-                {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
-                  <div className="toolbar-tooltip">
-                    {hoveredItem.label}
-                  </div>
-                )}
+                <div className="flex items-center justify-center">📂</div>
               </Button>
-              {mouseOverGroup === item.id && (
-                <div 
-                  className="toolbar-group-dropdown"
-                  onMouseEnter={() => setMouseOverGroup(item.id)}
-                  onMouseLeave={() => setMouseOverGroup(null)}
-                >
-                  {item.items.map((subItem, subIndex) => (
-                    <div 
-                      key={subItem.id}
-                      className="toolbar-group-item"
-                      onMouseEnter={() => setHoveredItem(subItem)}
-                      onMouseLeave={() => setHoveredItem(item)}
-                    >
-                      <div className="toolbar-item-icon">
-                        {subItem.icon ? (
-                          <div dangerouslySetInnerHTML={{ __html: subItem.icon }} />
-                        ) : (
-                          '📝'
-                        )}
-                      </div>
-                      {hoveredItem && hoveredItem.id === subItem.id && hoveredItem.label && (
-                        <div className="toolbar-tooltip toolbar-tooltip-sub">
-                          {hoveredItem.label}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+              {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-50">
+                  {hoveredItem.label}
                 </div>
               )}
             </div>
           ) : (
             <div 
               key={item.id} 
+              className="relative"
               onMouseEnter={() => setHoveredItem(item)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <Button variant="outline" size="icon" className="relative">
-                <div className="toolbar-item-icon">
+              <Button variant="outline" size="icon">
+                <div className="flex items-center justify-center">
                   {item.icon ? (
                     <div dangerouslySetInnerHTML={{ __html: item.icon }} />
                   ) : (
                     '📝'
                   )}
                 </div>
-                {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
-                  <div className="toolbar-tooltip">
-                    {hoveredItem.label}
-                  </div>
-                )}
               </Button>
+              {hoveredItem && hoveredItem.id === item.id && hoveredItem.label && (
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-50">
+                  {hoveredItem.label}
+                </div>
+              )}
             </div>
           )
         ))}
