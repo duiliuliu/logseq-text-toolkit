@@ -109,7 +109,7 @@ function TestApp() {
         showBorder={false}
         width={toolbarWidth}
         height={toolbarHeight}
-        hoverDelay={2000} // 2秒延时
+        hoverDelay={500} // 0.5秒延时
       />
     </div>
   )
