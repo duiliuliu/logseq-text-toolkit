@@ -115,7 +115,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
             }
           </button>
           
-          {!collapsedSections.general && (
+          {!collapsedSections.general && settings && (
             <div className="settings-section-content">
               <div className="setting-item">
                 <div className="setting-item-label-wrapper">
@@ -173,7 +173,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
             }
           </button>
           
-          {!collapsedSections.toolbar && (
+          {!collapsedSections.toolbar && settings && (
             <div className="settings-section-content">
               <div className="setting-item">
                 <div className="setting-item-label">{t('settings.enabled')}</div>
@@ -182,7 +182,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
                     <input 
                       type="checkbox" 
                       id="toolbar-enabled"
-                      checked={settings.toolbar.enabled} 
+                      checked={settings.toolbar?.enabled || false} 
                       onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
                       className="setting-switch"
                     />
@@ -198,7 +198,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
                     <input 
                       type="checkbox" 
                       id="toolbar-showBorder"
-                      checked={settings.toolbar.showBorder} 
+                      checked={settings.toolbar?.showBorder || false} 
                       onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
                       className="setting-switch"
                     />
@@ -212,7 +212,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
                 <div className="setting-item-value">
                   <input 
                     type="text" 
-                    value={settings.toolbar.width} 
+                    value={settings.toolbar?.width || ''} 
                     onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
                     placeholder="e.g., 110px"
                     className="setting-input"
@@ -225,7 +225,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
                 <div className="setting-item-value">
                   <input 
                     type="text" 
-                    value={settings.toolbar.height} 
+                    value={settings.toolbar?.height || ''} 
                     onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
                     placeholder="e.g., 24px"
                     className="setting-input"
@@ -238,7 +238,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
                 <div className="setting-item-value">
                   <input 
                     type="number" 
-                    value={settings.toolbar.hoverDelay} 
+                    value={settings.toolbar?.hoverDelay || 0} 
                     onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
                     min="0"
                     className="setting-input"
@@ -269,7 +269,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
             <button 
               className="settings-btn settings-btn-save" 
               onClick={handleSave}
-              disabled={isSaving}
+              disabled={isSaving || !settings}
               type="button"
             >
               {isSaving ? t('settings.saving') : t('settings.save')}
