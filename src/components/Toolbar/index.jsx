@@ -13,7 +13,7 @@ const iconMap = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light' }) {
+function Toolbar({ items, theme = 'light', showBorder = true }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -97,7 +97,7 @@ function Toolbar({ items, theme = 'light' }) {
           )}
           {mouseOverGroup === item.id && (
             <div 
-              className="toolbar-group-dropdown"
+              className={`toolbar-group-dropdown ${!showBorder ? 'no-border' : ''}`}
               onMouseEnter={() => setMouseOverGroup(item.id)}
               onMouseLeave={() => setMouseOverGroup(null)}
             >

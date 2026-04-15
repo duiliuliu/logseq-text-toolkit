@@ -44,8 +44,15 @@ function App() {
       <h1>Text Toolkit Plugin</h1>
       <p>Welcome to Text Toolkit!</p>
       <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
+      
       <div className="toolbar-section">
-        <Toolbar items={toolbarItems} />
+        <h2>Light Theme (with border)</h2>
+        <Toolbar items={toolbarItems} theme="light" showBorder={true} />
+      </div>
+      
+      <div className="toolbar-section">
+        <h2>Dark Theme (without border)</h2>
+        <Toolbar items={toolbarItems} theme="dark" showBorder={false} />
       </div>
     </div>
   )
