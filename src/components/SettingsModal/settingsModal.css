@@ -97,6 +97,7 @@
   gap: 12px;
   width: 100%;
   box-sizing: border-box;
+  flex-wrap: nowrap;
 }
 
 .setting-item label {
@@ -105,6 +106,7 @@
   color: var(--ls-primary-text-color-plugin, #333);
   flex-shrink: 0;
   text-align: left;
+  white-space: nowrap;
 }
 
 .setting-item input[type="checkbox"] {
@@ -119,12 +121,13 @@
 .setting-item select {
   flex: 1;
   max-width: 200px;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border: 1px solid var(--ls-border-color-plugin, #ccc);
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 14px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
   color: var(--ls-primary-text-color-plugin, #333);
+  white-space: nowrap;
 }
 
 /* 确保工具栏配置没有横向滚动 */
@@ -177,17 +180,17 @@
 }
 
 .settings-actions {
-  margin-top: 24px;
+  margin-top: 32px;
   display: flex;
   justify-content: flex-end;
   padding-right: 8px;
 }
 
 .settings-btn {
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 4px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
