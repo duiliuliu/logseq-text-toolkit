@@ -44,7 +44,8 @@ function Toolbar({ items, theme = 'light' }) {
     
     // 处理 lucide-react 图标
     if (typeof icon === 'function') {
-      return <icon size={18} />
+      const IconComponent = icon
+      return <IconComponent size={18} />
     }
     
     // 处理 SVG 字符串
