@@ -22,13 +22,5 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
     },
-    // 测试模式配置
-    ...(mode === 'test' && {
-      root: 'test',
-      build: {
-        outDir: '../dist-test',
-        emptyOutDir: true,
-      },
-    }),
   }
 })
