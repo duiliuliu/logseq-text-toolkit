@@ -3,17 +3,19 @@
   max-height: 70vh;
   overflow-y: auto;
   padding-right: 8px;
-  min-width: 400px;
-  max-width: 600px;
+  min-width: 350px;
+  max-width: 500px;
   width: 100%;
+  overflow-x: hidden;
 }
 
 /* 确保设置面板自适应 */
 .settings-modal {
-  min-width: 400px;
-  max-width: 600px;
+  min-width: 350px;
+  max-width: 500px;
   width: 90%;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 /* 自定义滚动条样式 */
@@ -104,8 +106,8 @@
 
 .setting-item {
   display: flex;
-  align-items: center;
-  margin-bottom: 12px;
+  align-items: baseline;
+  margin-bottom: 16px;
   gap: 12px;
   width: 100%;
   box-sizing: border-box;
@@ -113,12 +115,13 @@
 }
 
 .setting-item label {
-  width: 120px;
+  width: 100px;
   font-size: 14px;
   color: var(--ls-primary-text-color-plugin, #333);
   flex-shrink: 0;
   text-align: left;
   white-space: nowrap;
+  line-height: 1.5;
 }
 
 .setting-item input[type="checkbox"] {
@@ -195,15 +198,19 @@ input:checked + .slider:before {
 .setting-item input[type="number"],
 .setting-item select {
   flex: 1;
-  max-width: 150px;
-  padding: 6px 10px;
+  max-width: 120px;
+  padding: 8px 10px;
   border: 1px solid var(--ls-border-color-plugin, #e0e0e0);
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
   background-color: #f5f5f5;
   color: var(--ls-primary-text-color-plugin, #333);
   white-space: nowrap;
   box-sizing: border-box;
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
 }
 
 /* 确保工具栏配置没有横向滚动 */
@@ -217,7 +224,7 @@ input:checked + .slider:before {
 }
 
 #toolbar-settings .json-editor {
-  max-width: 300px;
+  max-width: 200px;
   overflow-x: hidden;
 }
 
