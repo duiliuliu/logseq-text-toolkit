@@ -1,0 +1,156 @@
+/* Settings modal styles */
+.settings-container {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.settings-loading,
+.settings-error {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--ls-primary-text-color-plugin, #666);
+}
+
+.settings-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+  margin-bottom: 32px;
+  padding-bottom: 0;
+}
+
+.settings-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.setting-item label {
+  width: 120px;
+  font-size: 14px;
+  color: var(--ls-primary-text-color-plugin, #333);
+  flex-shrink: 0;
+}
+
+.setting-item input[type="text"],
+.setting-item input[type="number"],
+.setting-item select {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+.setting-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--ls-border-color-plugin, #e0e0e0);
+}
+
+.settings-btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+.settings-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-btn-reset {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+  color: var(--ls-primary-text-color-plugin, #666);
+}
+
+.settings-btn-reset:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+.settings-btn-cancel {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+  color: var(--ls-primary-text-color-plugin, #666);
+}
+
+.settings-btn-cancel:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+.settings-btn-save {
+  background-color: var(--ls-primary-accent-color-plugin, #007bff);
+  color: white;
+}
+
+.settings-btn-save:hover:not(:disabled) {
+  background-color: var(--ls-primary-accent-color-plugin, #0056b3);
+}
+
+.settings-btn-save:disabled {
+  background-color: var(--ls-secondary-background-color-plugin, #ccc);
+  cursor: not-allowed;
+}
+
+/* Dark mode */
+[data-theme="dark"] .settings-section {
+  border-bottom-color: var(--ls-border-color-plugin, #444);
+}
+
+[data-theme="dark"] .settings-section h3 {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+[data-theme="dark"] .setting-item label {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+[data-theme="dark"] .setting-item input[type="text"],
+[data-theme="dark"] .setting-item input[type="number"],
+[data-theme="dark"] .setting-item select {
+  border-color: var(--ls-border-color-plugin, #555);
+  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+[data-theme="dark"] .settings-actions {
+  border-top-color: var(--ls-border-color-plugin, #444);
+}
+
+[data-theme="dark"] .settings-btn-reset,
+[data-theme="dark"] .settings-btn-cancel {
+  background-color: var(--ls-secondary-background-color-plugin, #444);
+  color: var(--ls-primary-text-color-plugin, #aaa);
+}
+
+[data-theme="dark"] .settings-btn-reset:hover,
+[data-theme="dark"] .settings-btn-cancel:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #555);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}

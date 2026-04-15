@@ -1,40 +1,28 @@
-import React, { useState } from 'react';
-import { getCurrentTheme } from '../../utils/state';
-import './index.css';
+import React from 'react'
+import '../Modal/modal.css'
 
-const Modal = ({ title, onClose, onSubmit, placeholder = '请输入内容' }) => {
-  const [content, setContent] = useState('');
-  const theme = getCurrentTheme();
-
-  const handleSubmit = () => {
-    onSubmit(content);
-    setContent('');
-    onClose();
-  };
+function Modal({ isOpen, onClose, title, children, width = '600px', height = '80vh' }) {
+  if (!isOpen) return null
 
   return (
-    <div className="modal-overlay">
-      <div className={`modal modal-${theme}`}>
+    <div className="modal-overlay" onClick={onClose}>
+      <div 
+        className="modal-container" 
+        style={{ width, maxHeight: height }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-header">
-          <h3>{title}</h3>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <h2 className="modal-title">{title}</h2>
+          <button className="modal-close" onClick={onClose}>
+            ×
+          </button>
         </div>
-        <div className="modal-body">
-          <textarea
-            className="modal-input"
-            placeholder={placeholder}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={4}
-          />
-        </div>
-        <div className="modal-footer">
-          <button className="modal-cancel" onClick={onClose}>取消</button>
-          <button className="modal-submit" onClick={handleSubmit}>确定</button>
+        <div className="modal-content">
+          {children}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal
