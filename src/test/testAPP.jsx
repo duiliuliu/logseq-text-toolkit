@@ -3,6 +3,7 @@ import '../index.css'
 import '../main.css'
 import SelectToolbar from '../components/SelectToolbar'
 import SettingsModal from '../components/SettingsModal/index.jsx'
+import ErrorBoundary from '../components/ErrorBoundary/index.jsx'
 import { loadSettings } from '../utils/settings.js'
 
 // 导入mock logseq
@@ -140,11 +141,13 @@ function TestApp() {
         hoverDelay={settings.toolbar.hoverDelay}
       />
       
-      <SettingsModal 
-        isOpen={isSettingsOpen} 
-        onClose={() => setIsSettingsOpen(false)} 
-        theme={theme}
-      />
+      <ErrorBoundary>
+        <SettingsModal 
+          isOpen={isSettingsOpen} 
+          onClose={() => setIsSettingsOpen(false)} 
+          theme={theme}
+        />
+      </ErrorBoundary>
     </div>
   )
 }
