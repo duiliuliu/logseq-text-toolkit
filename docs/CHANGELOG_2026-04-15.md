@@ -4,17 +4,17 @@
 
 ## [0.11.3] - 2026-04-15
 
-### 新增
-- 创建 textProcessor.js 工具文件，实现文本处理逻辑
-- 为 Toolbar 组件添加 onTextProcessed 回调函数，支持文本处理结果返回
-- 实现不同模式的文本操作（replace、add、invoke、console）
-
 ### 改进
-- 优化 branch-release.yml 工作流配置，更新 actions 版本和 Node.js 版本
-- 改进 Toolbar 组件的文本处理逻辑，支持模板替换和正则表达式替换
-
-### 修复
-- 无
+- 调大设置框宽度 16px（410px → 426px），确保 JSON 内容完整显示
+- 优化保存按钮位置，增加顶部边距使其更靠近底部
+- 调整主题输入和下拉框位置，确保下拉框在输入正下方显示
+- 优化 label 和输入布局，确保除工具栏元素和 JSON 输入框外，其他 label 和输入都在一行上
+- 调整通用设置中 select 样式：灰色背景、padding: 2px 4px、font-size: 12px、height: 24px
+- 调整工具栏设置中 switch 样式：checkbox 宽度改为 28px，所有输入右对齐
+- 将"工具栏元素"标签改为"元素"
+- 调整 JSON 编辑器宽度为 90%
+- 移除毫秒单位显示，保持代码简洁内聚
+- 清理无用代码，保持设置相关代码简洁内聚
 
 ## [0.11.2] - 2026-04-15
 
@@ -63,6 +63,5 @@
 - 优先使用 CSS 变量，变量读取失败时使用回退值，确保主题切换更加可靠
 - 修复 toolbar 叶子节点的 label 在 light 模式下显示为深色的问题
 
-[0.11.3]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.3
 [0.11.2]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.2
 [0.11.1]: https://github.com/duiliuliu/logseq-text-toolkit/releases/tag/branch-0.11.1

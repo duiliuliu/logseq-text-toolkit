@@ -13,6 +13,11 @@
   },
   "settings": {
     "title": "設定",
+    "tabs": {
+    "general": "⚙️ 一般設定",
+    "toolbar": "🛠️ ツールバー設定",
+    "advanced": "⚡ その他の設定"
+  },
     "generalSettings": "一般設定",
     "theme": "テーマ",
     "themeFollowSystem": "システムに追従",
@@ -40,6 +45,21 @@
     "loading": "設定を読み込んでいます...",
     "error": "設定の読み込みに失敗しました",
     "confirmReset": "すべての設定をデフォルトにリセットしますか？",
-    "confirmResetItems": "ツールバー要素をデフォルトにリセットしてもよろしいですか？"
+    "confirmResetItems": "ツールバー要素をデフォルトにリセットしてもよろしいですか？",
+    "subtitle": "アプリケーションの設定を管理します。各セクションは独立して保存できます。",
+    "generalSettingsDescription": "アプリのテーマと言語を設定します",
+    "toolbarSettingsDescription": "ツールバーの外観と動作を設定します",
+    "advancedSettings": "詳細設定",
+    "advancedSettingsDescription": "追加予定の高度な機能設定",
+    "lightTheme": "ライト",
+    "darkTheme": "ダーク",
+    "chinese": "简体中文",
+    "english": "English",
+    "japanese": "日本語",
+    "saveGeneralSettings": "一般設定を保存",
+    "saveToolbarSettings": "ツールバー設定を保存",
+    "saveSuccess": "保存しました！",
+    "settingsNotConfigured": "この設定エリアはまだ設定されていません",
+    "comingSoon": "近日追加予定..."
   }
 }

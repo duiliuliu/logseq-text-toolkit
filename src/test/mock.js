@@ -1,13 +1,18 @@
 // Mock Logseq API
 window.logseq = {
   ready: () => Promise.resolve(),
+  settings: {},
+  updateSettings: (settings) => {
+    console.log('Updated settings:', settings);
+    window.logseq.settings = { ...settings };
+    return Promise.resolve();
+  },
   App: {
     registerCommand: (command) => {
       console.log('Registered command:', command);
     },
     on: (event, callback) => {
       console.log('Registered event listener:', event);
-      // 模拟选择事件
       if (event === 'selectionChange') {
         document.addEventListener('mouseup', () => {
           const selection = window.getSelection();

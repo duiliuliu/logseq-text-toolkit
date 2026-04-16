@@ -11,7 +11,7 @@
   align-items: center;
   gap: 4px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
-  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border: none;
   border-radius: 8px;
   padding: 4px 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -20,10 +20,6 @@
   position: relative;
   z-index: 1000;
   min-width: 100px;
-}
-
-.toolbar-main.no-border {
-  border: none;
 }
 
 .toolbar-main-item {
@@ -147,6 +143,33 @@
   width: 14px;
   height: 14px;
   fill: currentColor;
+  color: inherit;
+}
+
+/* 确保工具栏图标在所有主题下都可见 */
+.toolbar-container .toolbar-item-icon,
+.toolbar-container .toolbar-icon {
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+/* 深色主题下，工具栏使用亮色时图标颜色调整 */
+.toolbar-container .toolbar-main {
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+/* 确保图标在深色工具栏主题下可见 */
+.toolbar-container.toolbar-dark .toolbar-main {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+.toolbar-container.toolbar-dark .toolbar-item-icon,
+.toolbar-container.toolbar-dark .toolbar-icon {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+/* 确保分组图标在深色主题下可见 */
+.toolbar-container.toolbar-dark .toolbar-group .toolbar-item-icon {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
 /* ================= DARK ================= */
@@ -173,4 +196,59 @@
 .toolbar-container.toolbar-dark .toolbar-tooltip {
   background: var(--ls-primary-background-color-plugin, #1a1a1a);
   color: var(--ls-primary-text-color-plugin, #fff);
+}
+
+/* 赞助栏样式 */
+.toolbar-sponsor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 999;
+  overflow: visible;
+  min-width: 120px;
+  max-width: 300px;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.toolbar-sponsor-iframe {
+  width: 100%;
+  height: 36px;
+  border: none;
+  display: block;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  min-width: 120px;
+  max-width: 300px;
+}
+
+/* 当工具栏展开时，赞助栏也自适应宽度 */
+.toolbar-container .toolbar-sponsor {
+  transition: width 0.2s ease;
+}
+
+/* 确保赞助栏在不同尺寸下都能合理显示 */
+@media (max-width: 480px) {
+  .toolbar-sponsor {
+    min-width: 100px;
+    max-width: 200px;
+  }
+  .toolbar-sponsor-iframe {
+    min-width: 100px;
+    max-width: 200px;
+  }
+}
+
+/* 深色主题下的赞助栏样式 */
+.toolbar-container.toolbar-dark .toolbar-sponsor {
+  background: var(--ls-primary-background-color-plugin, #2d2d2d);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }

@@ -1,97 +1,131 @@
 export const toolbarItems = {
-  "wrap-bold": {
-    "label": "Wrap bold",
-    "binding": "",
-    "template": "**${selectedText}**",
-    "icon": "bold",
+  "text-replace": {
+    "label": "文本替换",
+    // "binding": "",
+    "icon": "type",
     "funcmode": "replace",
-    "clickfunc": "Wrap bold"
+    "clickfunc": "${selectedText}"
   },
   "group-style": {
+    "wrap-bold": {
+      "label": "加粗",
+      // "binding": "",
+      "icon": "bold",
+      "funcmode": "replace",
+      "clickfunc": "**${selectedText}**"
+    },
     "wrap-italic": {
-      "label": "Wrap italic",
-      "binding": "mod+shift+i",
-      "template": "*${selectedText}*",
+      "label": "斜体",
+      // "binding": "mod+shift+i",
       "icon": "italic",
       "funcmode": "replace",
-      "clickfunc": "Wrap italic"
+      "clickfunc": "*${selectedText}*"
     },
-    "wrap-underline": {
-      "label": "Wrap underline",
-      "binding": "",
-      "template": "__${selectedText}__",
+    "wrap-strike-through": {
+      "label": "删除线",
+      // "binding": "",
+      "icon": "strikethrough",
+      "funcmode": "replace",
+      "clickfunc": "~~${selectedText}~~"
+    }
+  },
+  "group-bg-hl": {
+    "wrap-yellow-bg-hl": {
+      "label": "背景高亮黄",
+      // "binding": "",
+      "icon": "highlighter",
+      "funcmode": "replace",
+      "clickfunc": "==${selectedText}=="
+    },
+    "wrap-red-bg-hl": {
+      "label": "背景高亮红",
+      // "binding": "",
+      "icon": "highlighter",
+      "funcmode": "replace",
+      "clickfunc": "[[#red]]==${selectedText}=="
+    },
+    "wrap-green-bg-hl": {
+      "label": "背景高亮绿",
+      // "binding": "",
+      "icon": "highlighter",
+      "funcmode": "replace",
+      "clickfunc": "[[#green]]==${selectedText}=="
+    },
+    "wrap-blue-bg-hl": {
+      "label": "背景高亮蓝",
+      // "binding": "",
+      "icon": "highlighter",
+      "funcmode": "replace",
+      "clickfunc": "[[#blue]]==${selectedText}=="
+    }
+  },
+  "group-text-hl": {
+    "wrap-red-text-hl": {
+      "label": "字体高亮红",
+      // "binding": "",
+      "icon": "type",
+      "funcmode": "replace",
+      "clickfunc": "[[$red]]==${selectedText}=="
+    },
+    "wrap-yellow-text-hl": {
+      "label": "字体高亮黄",
+      // "binding": "",
+      "icon": "type",
+      "funcmode": "replace",
+      "clickfunc": "[[$yellow]]==${selectedText}=="
+    },
+    "wrap-green-text-hl": {
+      "label": "字体高亮绿",
+      // "binding": "",
+      "icon": "type",
+      "funcmode": "replace",
+      "clickfunc": "[[$green]]==${selectedText}=="
+    },
+    "wrap-blue-text-hl": {
+      "label": "字体高亮蓝",
+      // "binding": "",
+      "icon": "type",
+      "funcmode": "replace",
+      "clickfunc": "[[$blue]]==${selectedText}=="
+    }
+  },
+  "group-underline-hl": {
+    "wrap-red-underline-hl": {
+      "label": "下划线高亮红",
+      // "binding": "",
       "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "Wrap underline"
-    }
-  },
-  "wrap-strike-through": {
-    "label": "Wrap strike through",
-    "binding": "",
-    "template": "~~${selectedText}~~",
-    "icon": "strikethrough",
-    "funcmode": "replace",
-    "clickfunc": "Wrap strike through"
-  },
-  "group-hl": {
-    "wrap-yellow-hl": {
-      "label": "Wrap with yellow highlight",
-      "binding": "",
-      "template": "==${selectedText}==",
-      "icon": "highlighter",
-      "funcmode": "replace",
-      "clickfunc": "Wrap with yellow highlight"
+      "clickfunc": "__${selectedText}__"
     },
-    "wrap-red-hl": {
-      "label": "Wrap with red highlight",
-      "binding": "",
-      "template": "[:mark.red ${selectedText}]",
-      "icon": "highlighter",
+    "wrap-yellow-underline-hl": {
+      "label": "下划线高亮黄",
+      // "binding": "",
+      "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "Wrap with red highlight"
+      "clickfunc": "__${selectedText}__"
     },
-    "wrap-blue-hl": {
-      "label": "Wrap with blue highlight",
-      "binding": "",
-      "template": "[:mark.blue ${selectedText}]",
-      "icon": "highlighter",
+    "wrap-green-underline-hl": {
+      "label": "下划线高亮绿",
+      // "binding": "",
+      "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "Wrap with blue highlight"
-    }
-  },
-  "group-text": {
-    "wrap-red-text": {
-      "label": "Wrap with red text",
-      "binding": "",
-      "template": "[[:color.red ${selectedText}]]",
-      "icon": "type",
-      "funcmode": "replace",
-      "clickfunc": "Wrap with red text"
+      "clickfunc": "__${selectedText}__"
     },
-    "wrap-blue-text": {
-      "label": "Wrap with blue text",
-      "binding": "",
-      "template": "[[:color.blue ${selectedText}]]",
-      "icon": "type",
+    "wrap-blue-underline-hl": {
+      "label": "下划线高亮蓝",
+      // "binding": "",
+      "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "Wrap with blue text"
+      "clickfunc": "__${selectedText}__"
     }
-  },
-  "wrap-cloze": {
-    "label": "Wrap with cloze",
-    "binding": "",
-    "template": " {{cloze ${selectedText}}}",
-    "icon": "menu",
-    "funcmode": "replace",
-    "clickfunc": "Wrap with cloze"
   },
   "repl-clear": {
-    "label": "Remove formatting",
-    "binding": "mod+shift+x",
-    "regex": "\\[\\[(?:#|\\$)(?:red|green|blue)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
+    "label": "清除格式",
+    // "binding": "mod+shift+x",
+    "regex": "\\[\\[(?:#|\\$)(?:red|green|blue|yellow)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
     "replacement": "$1$2$3$4$5$6$7$8",
     "icon": "x",
     "funcmode": "replace",
-    "clickfunc": "Remove formatting"
+    "clickfunc": ""
   }
 }

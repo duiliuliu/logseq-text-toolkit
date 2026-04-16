@@ -2,38 +2,32 @@ import React, { useEffect, useState, useRef } from 'react'
 import '../index.css'
 import '../main.css'
 import SelectToolbar from '../components/SelectToolbar'
-import SettingsModal from '../components/SettingsModal/index.jsx'
-import ErrorBoundary from '../components/ErrorBoundary/index.jsx'
-import { loadSettings } from '../utils/settings.js'
+import SettingsModal from '../components/SettingsModal'
+import TestLayout from './components/TestLayout'
+import { toolbarItems as testData } from './testData.js'
+import testConfig from './testConfig.js'
+import { useSettingsContext } from '../hooks/useSettings.jsx'
+import { logseqAPI } from '../logseq/index.js'
 
 // 导入mock logseq
 import './mock.js'
 
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
-  const [settings, setSettings] = useState(null)
-  const [theme, setTheme] = useState('light')
-  const [toolbarWidth, setToolbarWidth] = useState('110px')
-  const [toolbarHeight, setToolbarHeight] = useState('24px')
   const [targetElement, setTargetElement] = useState(null)
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
   const contentRef = useRef(null)
+  
+  // 使用设置上下文
+  const { settings } = useSettingsContext()
 
   // 初始化 mock logseq
   useEffect(() => {
     const initLogseqPlugin = async () => {
       try {
         console.log('Welcome to Text Toolkit Test Mode!')
-        await window.logseq.ready()
+        await logseqAPI.ready()
         console.log('Mock Logseq plugin ready')
-        
-        // 加载设置
-        const loadedSettings = await loadSettings()
-        setSettings(loadedSettings)
-        setTheme(loadedSettings.theme)
-        setToolbarWidth(loadedSettings.toolbar.width)
-        setToolbarHeight(loadedSettings.toolbar.height)
-        
         setIsReady(true)
       } catch (error) {
         console.error('Failed to initialize mock plugin:', error)
@@ -51,6 +45,7 @@ function TestApp() {
     }
   }, [contentRef])
 
+  // 确保settings存在
   if (!settings) {
     return (
       <div className="App">
@@ -60,94 +55,85 @@ function TestApp() {
     )
   }
 
+  // 左侧面板内容
+  const leftContent = (
+    <div className="left-panel">
+      <h3>{testConfig.leftPanel.title}</h3>
+      {testConfig.leftPanel.sections.map((section, index) => (
+        <div key={index} className="panel-section">
+          <h4>{section.title}</h4>
+          <ul>
+            {section.items.map((item) => (
+              <li key={item.id}>{item.label}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )
+
+  // 右侧面板内容
+  const rightContent = (
+    <div className="right-panel">
+      <h3>{testConfig.rightPanel.title}</h3>
+      <div className="actions">
+        {testConfig.rightPanel.actions.map((action) => (
+          <button key={action.id} className="action-btn">
+            {action.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+
+  // 中间内容区域
+  const centerContent = (
+    <div className="center-content" ref={contentRef}>
+      <h2>{testConfig.content.title}</h2>
+      {testConfig.content.paragraphs.map((paragraph, index) => (
+        <p key={index}>{paragraph}</p>
+      ))}
+    </div>
+  )
+
   return (
-    <div className="App">
-      <div className="app-header">
+    <div className={`App ${settings.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+      {/* 顶部工具栏 */}
+      <div className="top-toolbar">
         <h1>Text Toolkit Plugin (Test Mode)</h1>
         <button 
-          className="settings-btn" 
-          onClick={() => setIsSettingsOpen(true)}
+          className="settings-button"
+          onClick={() => setShowSettings(true)}
         >
-          ⚙️ Settings
+          ⚙️ 设置
         </button>
       </div>
-      <p>Welcome to Text Toolkit Test Mode!</p>
-      <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
       
-      <div className="theme-switcher">
-        <label>Choose theme: </label>
-        <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-      </div>
+      <p className="status-text">{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
       
-      <div className="toolbar-width-control">
-        <label>Toolbar width: </label>
-        <input 
-          type="text" 
-          value={toolbarWidth} 
-          onChange={(e) => setToolbarWidth(e.target.value)}
-          placeholder="e.g., 100px"
-        />
-      </div>
-      
-      <div className="toolbar-height-control">
-        <label>Toolbar height: </label>
-        <input 
-          type="text" 
-          value={toolbarHeight} 
-          onChange={(e) => setToolbarHeight(e.target.value)}
-          placeholder="e.g., 48px"
-        />
-      </div>
-      
-      <div className="content-section" ref={contentRef}>
-        <h2>Select Text Below</h2>
-        <p>Select any text in this paragraph to see the toolbar appear. The toolbar will show up above the selected text, and you can click on any toolbar item to see the element name, function, and selected text printed in the console.</p>
-        <p>This is another paragraph with more text to select. Try selecting different parts of this text to see how the toolbar follows your selection.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-        <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-        <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-        <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-        <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-        <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-        <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-      </div>
+      {/* 使用TestLayout布局 */}
+      <TestLayout 
+        leftContent={leftContent}
+        centerContent={centerContent}
+        rightContent={rightContent}
+      />
       
       <SelectToolbar 
         targetElement={targetElement}
-        items={settings.toolbar.items} 
-        theme={theme} 
+        items={testData} 
+        theme={settings.theme} 
         showBorder={settings.toolbar.showBorder}
-        width={toolbarWidth}
-        height={toolbarHeight}
+        width={settings.toolbar.width}
+        height={settings.toolbar.height}
         hoverDelay={settings.toolbar.hoverDelay}
+        sponsorEnabled={settings.toolbar.sponsorEnabled}
       />
       
-      <ErrorBoundary>
-        <SettingsModal 
-          isOpen={isSettingsOpen} 
-          onClose={() => setIsSettingsOpen(false)} 
-          theme={theme}
-        />
-      </ErrorBoundary>
+      <SettingsModal 
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        theme={settings.theme}
+      />
     </div>
   )
 }
