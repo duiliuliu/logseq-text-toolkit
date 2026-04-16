@@ -195,14 +195,13 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
     <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       {sponsorEnabled && (
         <div className="toolbar-sponsor" style={{ width: moreExpanded ? 'auto' : width, height }}>
-          <a 
-            href="https://duiliuliu.github.io/sponsor-page/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="toolbar-sponsor-link"
-          >
-            赞赏
-          </a>
+          <iframe 
+            src="https://duiliuliu.github.io/sponsor-page/" 
+            title="Sponsor Page"
+            className="toolbar-sponsor-iframe"
+            frameBorder="0"
+            scrolling="no"
+          />
         </div>
       )}
       <div className="toolbar-main" style={{ width: moreExpanded ? 'auto' : width, height }}>

@@ -206,38 +206,23 @@
   background-color: var(--ls-primary-background-color-plugin, #fff);
   border: none;
   border-radius: 8px;
-  padding: 4px 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   transition: all 0.2s ease;
   position: relative;
   z-index: 999;
+  overflow: hidden;
 }
 
-.toolbar-sponsor-link {
-  color: var(--ls-primary-text-color-plugin, #333);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.toolbar-sponsor-link:hover {
-  color: #000;
-  text-decoration: underline;
+.toolbar-sponsor-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
 }
 
 /* 深色主题下的赞助栏样式 */
 .toolbar-container.toolbar-dark .toolbar-sponsor {
   background: var(--ls-primary-background-color-plugin, #2d2d2d);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.toolbar-container.toolbar-dark .toolbar-sponsor-link {
-  color: var(--ls-primary-text-color-plugin, #e0e0e0);
-}
-
-.toolbar-container.toolbar-dark .toolbar-sponsor-link:hover {
-  color: #fff;
-  text-decoration: underline;
 }
