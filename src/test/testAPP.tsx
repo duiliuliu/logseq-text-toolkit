@@ -39,12 +39,13 @@ function TestApp() {
     initLogseqPlugin()
   }, [])
 
-  // 当contentRef变化时，更新targetElement
+  // 当组件挂载后，更新targetElement
   useEffect(() => {
     if (contentRef.current) {
       setTargetElement(contentRef.current)
+      console.log('Target element set:', contentRef.current)
     }
-  }, [contentRef])
+  }, [])
 
   // 确保settings存在
   if (!settings) {

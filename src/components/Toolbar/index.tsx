@@ -38,9 +38,9 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const parseItems = (data: Record<string, any>): (ToolbarItem | ToolbarGroup)[] => {
     const result: (ToolbarItem | ToolbarGroup)[] = []
     for (const [key, value] of Object.entries(data)) {
-      if (value && typeof value === 'object' && !value.label) {
+      if (value && typeof value === 'object' && value.isGroup) {
         const groupItems: Record<string, ToolbarItem> = {}
-        for (const [groupKey, groupValue] of Object.entries(value)) {
+        for (const [groupKey, groupValue] of Object.entries(value.items || {})) {
           if (groupValue && typeof groupValue === 'object' && 'label' in groupValue) {
             const typedGroupValue = groupValue as any;
             groupItems[groupKey] = {
@@ -108,13 +108,23 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   }
 
   const handleItemClick = async (item: ToolbarItem) => {
+    console.log('=== handleItemClick ===');
+    console.log('Item:', item);
+    console.log('Selected data:', selectedData);
+    
     if (item.clickfunc) {
       if (selectedData && selectedData.text) {
+        console.log('Processing item with clickfunc:', item.clickfunc);
         const processedText = await processSelectedData(item, selectedData);
+        console.log('Processed text:', processedText);
         if (onTextProcessed) {
           onTextProcessed(processedText);
         }
+      } else {
+        console.log('No selected text');
       }
+    } else {
+      console.log('No clickfunc for item');
     }
   }
 
@@ -209,11 +219,20 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   }
 
   const toolbarItems = parseItems(items)
+  console.log('=== Toolbar Items ===');
+  console.log('Parsed items:', toolbarItems);
+  
   const visibleItems = toolbarItems.filter(item => !item.hidden)
   const hiddenItems = toolbarItems.filter(item => item.hidden)
   const mainItems = visibleItems.slice(0, 3)
   const moreItems = visibleItems.slice(3).concat(hiddenItems)
   const hasMoreItems = moreItems.length > 0
+  
+  console.log('Visible items:', visibleItems);
+  console.log('Hidden items:', hiddenItems);
+  console.log('Main items:', mainItems);
+  console.log('More items:', moreItems);
+  console.log('Has more items:', hasMoreItems);
 
   const toggleMore = (e: React.MouseEvent) => {
     e.stopPropagation()
