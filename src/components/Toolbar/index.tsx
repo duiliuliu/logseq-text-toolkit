@@ -235,8 +235,6 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   console.log('Has more items:', hasMoreItems);
 
   const toggleMore = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    e.preventDefault()
     setMoreExpanded(!moreExpanded)
   }
 

@@ -43,8 +43,8 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     console.log('Event target:', e.target);
     console.log('Show toolbar:', showToolbar);
     
-    // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
-    if (e.target && (e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown')) {
+    // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单和more按钮
+    if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown') || (e.target as HTMLElement).closest('.toolbar-more'))) {
       // 保持选中状态，不做任何处理
       // 确保不取消文本选择
       const selection = window.getSelection()
