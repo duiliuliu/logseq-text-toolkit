@@ -1,5 +1,6 @@
 import React from 'react'
 import { t } from '../../../translations/i18n.js'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select.jsx'
 
 function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) {
   const handleSettingChange = (path, value) => {
@@ -23,25 +24,29 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) 
       
       <div className="setting-item">
         <label>{t('settings.theme', language)}</label>
-        <select 
-          value={settings.theme} 
-          onChange={(e) => handleSettingChange('theme', e.target.value)}
-        >
-          <option value="light">{t('settings.lightTheme', language)}</option>
-          <option value="dark">{t('settings.darkTheme', language)}</option>
-        </select>
+        <Select value={settings.theme} onValueChange={(value) => handleSettingChange('theme', value)}>
+          <SelectTrigger className="w-[120px] h-6 text-xs">
+            <SelectValue placeholder={t('settings.theme', language)} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="light">{t('settings.lightTheme', language)}</SelectItem>
+            <SelectItem value="dark">{t('settings.darkTheme', language)}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="setting-item">
         <label>{t('settings.language', language)}</label>
-        <select 
-          value={settings.language} 
-          onChange={(e) => handleSettingChange('language', e.target.value)}
-        >
-          <option value="zh-CN">{t('settings.chinese', language)}</option>
-          <option value="en">{t('settings.english', language)}</option>
-          <option value="ja">{t('settings.japanese', language)}</option>
-        </select>
+        <Select value={settings.language} onValueChange={(value) => handleSettingChange('language', value)}>
+          <SelectTrigger className="w-[120px] h-6 text-xs">
+            <SelectValue placeholder={t('settings.language', language)} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="zh-CN">{t('settings.chinese', language)}</SelectItem>
+            <SelectItem value="en">{t('settings.english', language)}</SelectItem>
+            <SelectItem value="ja">{t('settings.japanese', language)}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="settings-actions">

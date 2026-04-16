@@ -3,7 +3,6 @@ import Modal from '../Modal/index.jsx'
 import useSettings from '../../hooks/useSettings.js'
 import GeneralSettings from './tabs/GeneralSettings.jsx'
 import ToolbarSettings from './tabs/ToolbarSettings.jsx'
-import AdvancedSettings from './tabs/AdvancedSettings.jsx'
 import { t } from '../../translations/i18n.js'
 import './settingsModal.css'
 
@@ -58,68 +57,48 @@ function SettingsModal({ isOpen, onClose, theme }) {
 
   const language = settings.language || 'zh-CN'
 
+  const tabs = [
+    { id: 'general', component: GeneralSettings, title: t('settings.tabs.general', language) },
+    { id: 'toolbar', component: ToolbarSettings, title: t('settings.tabs.toolbar', language) }
+  ]
+
+  const getActiveComponent = () => {
+    const activeTabData = tabs.find(tab => tab.id === activeTab)
+    if (!activeTabData) return null
+    
+    const Component = activeTabData.component
+    return (
+      <div id={`${activeTab}-settings`}>
+        <Component 
+          settings={settings}
+          setSettings={setSettings}
+          onSave={() => handleSave(activeTab)}
+          isSaving={isSaving}
+          language={language}
+        />
+      </div>
+    )
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)}>
       <div className="settings-container" data-theme={theme}>
         <div className="settings-header">
           <div className="settings-tabs">
-            <button 
-              className={`settings-tab ${activeTab === 'general' ? 'active' : ''}`}
-              onClick={() => setActiveTab('general')}
-            >
-              {t('settings.tabs.general', language)}
-            </button>
-            <button 
-              className={`settings-tab ${activeTab === 'toolbar' ? 'active' : ''}`}
-              onClick={() => setActiveTab('toolbar')}
-            >
-              {t('settings.tabs.toolbar', language)}
-            </button>
-            <button 
-              className={`settings-tab ${activeTab === 'advanced' ? 'active' : ''}`}
-              onClick={() => setActiveTab('advanced')}
-            >
-              {t('settings.tabs.advanced', language)}
-            </button>
+            {tabs.map(tab => (
+              <button 
+                key={tab.id}
+                className={`settings-tab ${activeTab === tab.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.title}
+              </button>
+            ))}
           </div>
         </div>
 
         <div className="settings-content">
-          {activeTab === 'general' && (
-            <div id="general-settings">
-              <GeneralSettings 
-                settings={settings}
-                setSettings={setSettings}
-                onSave={() => handleSave('general')}
-                isSaving={isSaving}
-                language={language}
-              />
-            </div>
-          )}
-          
-          {activeTab === 'toolbar' && (
-            <div id="toolbar-settings">
-              <ToolbarSettings 
-                settings={settings}
-                setSettings={setSettings}
-                onSave={() => handleSave('toolbar')}
-                isSaving={isSaving}
-                language={language}
-              />
-            </div>
-          )}
-          
-          {activeTab === 'advanced' && (
-            <div id="advanced-settings">
-              <AdvancedSettings 
-                settings={settings}
-                setSettings={setSettings}
-                onSave={() => handleSave('advanced')}
-                isSaving={isSaving}
-                language={language}
-              />
-            </div>
-          )}
+          {getActiveComponent()}
         </div>
       </div>
     </Modal>
