@@ -1,7 +1,7 @@
 export const toolbarItems = {
   "text-replace": {
     "label": "文本替换",
-    "binding": "",
+    // "binding": "",
     "template": "$^",
     "icon": "type",
     "funcmode": "replace",
@@ -10,7 +10,7 @@ export const toolbarItems = {
   "group-style": {
     "wrap-bold": {
       "label": "加粗",
-      "binding": "",
+      // "binding": "",
       "template": "**$^**",
       "icon": "bold",
       "funcmode": "replace",
@@ -18,7 +18,7 @@ export const toolbarItems = {
     },
     "wrap-italic": {
       "label": "斜体",
-      "binding": "mod+shift+i",
+      // "binding": "mod+shift+i",
       "template": "*$^*",
       "icon": "italic",
       "funcmode": "replace",
@@ -26,7 +26,7 @@ export const toolbarItems = {
     },
     "wrap-strike-through": {
       "label": "删除线",
-      "binding": "",
+      // "binding": "",
       "template": "~~$^~~",
       "icon": "strikethrough",
       "funcmode": "replace",
@@ -36,7 +36,7 @@ export const toolbarItems = {
   "group-bg-hl": {
     "wrap-yellow-bg-hl": {
       "label": "背景高亮黄",
-      "binding": "",
+      // "binding": "",
       "template": "==$^==",
       "icon": "highlighter",
       "funcmode": "replace",
@@ -44,7 +44,7 @@ export const toolbarItems = {
     },
     "wrap-red-bg-hl": {
       "label": "背景高亮红",
-      "binding": "",
+      // "binding": "",
       "template": "[[#red]]==$^==",
       "icon": "highlighter",
       "funcmode": "replace",
@@ -52,7 +52,7 @@ export const toolbarItems = {
     },
     "wrap-green-bg-hl": {
       "label": "背景高亮绿",
-      "binding": "",
+      // "binding": "",
       "template": "[[#green]]==$^==",
       "icon": "highlighter",
       "funcmode": "replace",
@@ -60,7 +60,7 @@ export const toolbarItems = {
     },
     "wrap-blue-bg-hl": {
       "label": "背景高亮蓝",
-      "binding": "",
+      // "binding": "",
       "template": "[[#blue]]==$^==",
       "icon": "highlighter",
       "funcmode": "replace",
@@ -70,7 +70,7 @@ export const toolbarItems = {
   "group-text-hl": {
     "wrap-red-text-hl": {
       "label": "字体高亮红",
-      "binding": "",
+      // "binding": "",
       "template": "[[$red]]==$^==",
       "icon": "type",
       "funcmode": "replace",
@@ -78,7 +78,7 @@ export const toolbarItems = {
     },
     "wrap-yellow-text-hl": {
       "label": "字体高亮黄",
-      "binding": "",
+      // "binding": "",
       "template": "[[$yellow]]==$^==",
       "icon": "type",
       "funcmode": "replace",
@@ -86,7 +86,7 @@ export const toolbarItems = {
     },
     "wrap-green-text-hl": {
       "label": "字体高亮绿",
-      "binding": "",
+      // "binding": "",
       "template": "[[$green]]==$^==",
       "icon": "type",
       "funcmode": "replace",
@@ -94,7 +94,7 @@ export const toolbarItems = {
     },
     "wrap-blue-text-hl": {
       "label": "字体高亮蓝",
-      "binding": "",
+      // "binding": "",
       "template": "[[$blue]]==$^==",
       "icon": "type",
       "funcmode": "replace",
@@ -104,7 +104,7 @@ export const toolbarItems = {
   "group-underline-hl": {
     "wrap-red-underline-hl": {
       "label": "下划线高亮红",
-      "binding": "",
+      // "binding": "",
       "template": "__$^__",
       "icon": "underline",
       "funcmode": "replace",
@@ -112,7 +112,7 @@ export const toolbarItems = {
     },
     "wrap-yellow-underline-hl": {
       "label": "下划线高亮黄",
-      "binding": "",
+      // "binding": "",
       "template": "__$^__",
       "icon": "underline",
       "funcmode": "replace",
@@ -120,7 +120,7 @@ export const toolbarItems = {
     },
     "wrap-green-underline-hl": {
       "label": "下划线高亮绿",
-      "binding": "",
+      // "binding": "",
       "template": "__$^__",
       "icon": "underline",
       "funcmode": "replace",
@@ -128,7 +128,7 @@ export const toolbarItems = {
     },
     "wrap-blue-underline-hl": {
       "label": "下划线高亮蓝",
-      "binding": "",
+      // "binding": "",
       "template": "__$^__",
       "icon": "underline",
       "funcmode": "replace",
@@ -137,7 +137,7 @@ export const toolbarItems = {
   },
   "repl-clear": {
     "label": "清除格式",
-    "binding": "mod+shift+x",
+    // "binding": "mod+shift+x",
     "regex": "\\[\\[(?:#|\\$)(?:red|green|blue|yellow)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
     "replacement": "$1$2$3$4$5$6$7$8",
     "icon": "x",

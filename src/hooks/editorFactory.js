@@ -11,7 +11,6 @@ import { logseqAPI } from '../logseq/index.js';
  * @returns {Object} 编辑器服务实例
  */
 export const getEditorService = () => {
-  console.log('Using unified editor service');
   return {
     getCurrentBlock: logseqAPI.Editor.getCurrentBlock,
     updateBlock: logseqAPI.Editor.updateBlock,

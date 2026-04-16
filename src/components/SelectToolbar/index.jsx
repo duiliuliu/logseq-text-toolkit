@@ -77,6 +77,14 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
       }
     }
 
+    // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
+    const handleMouseMove = (e) => {
+      if (showToolbar && (e.target.closest('.floating-toolbar') || e.target.closest('.toolbar-container') || e.target.closest('.toolbar-group-dropdown'))) {
+        // 鼠标在toolbar内部，保持显示状态
+        return
+      }
+    }
+
     // 处理滚动事件，更新toolbar位置
     const handleScroll = () => {
       if (showToolbar && window.getSelection().toString().length > 0) {
@@ -106,9 +114,11 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     }
 
     document.addEventListener('mouseup', handleSelection)
+    document.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll)
     return () => {
       document.removeEventListener('mouseup', handleSelection)
+      document.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('scroll', handleScroll)
     }
   }, [showToolbar, targetElement])
