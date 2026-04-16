@@ -1,4 +1,4 @@
-import { Settings } from '../types/index.ts';
+import { Settings } from './types.ts';
 
 // 默认配置数据
 const defaultSettings: Settings = {

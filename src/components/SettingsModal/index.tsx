@@ -5,7 +5,7 @@ import GeneralSettings from './tabs/GeneralSettings.tsx'
 import ToolbarSettings from './tabs/ToolbarSettings.tsx'
 import AdvancedSettings from './tabs/AdvancedSettings.tsx'
 import { t } from '../../translations/i18n.ts'
-import { ThemeType, Settings } from '../../types/index.ts'
+import { ThemeType, Settings } from '../../config/types.ts'
 import './settingsModal.css'
 
 // SettingsModal Props 类型

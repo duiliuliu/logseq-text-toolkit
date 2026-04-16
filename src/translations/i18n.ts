@@ -1,7 +1,7 @@
 import en from './en.json'
 import ja from './ja.json'
 import zhCN from './zh-CN.json'
-import { TranslationKeys, SupportedLanguage, Translations } from '../types/translations.ts'
+import { TranslationKeys, SupportedLanguage, Translations } from './translations.ts'
 
 const translations: Translations = {
   'en': en as TranslationKeys,

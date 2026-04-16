@@ -1,5 +1,5 @@
 // src/utils/state.ts
-import { ThemeType, LanguageType } from '../types/index.ts';
+import { ThemeType, LanguageType } from '../config/types.ts';
 
 interface ToolbarPosition {
   x: number;

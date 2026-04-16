@@ -1,5 +1,5 @@
 // Mock Logseq API
-import { LogseqAPI } from '../types/logseq.ts';
+import { LogseqAPI } from '../logseq.ts';
 
 const mockLogseq: LogseqAPI = {
   ready: () => Promise.resolve(),
@@ -78,3 +78,5 @@ const mockLogseq: LogseqAPI = {
 };
 
 window.logseq = mockLogseq;
+
+export default mockLogseq;

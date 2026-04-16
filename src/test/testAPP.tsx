@@ -10,7 +10,7 @@ import { useSettingsContext } from '../hooks/useSettings.tsx'
 import { logseqAPI } from '../logseq/index.ts'
 
 // 导入mock logseq
-import './mock.ts'
+import '../logseq/mock/index.ts'
 
 function TestApp() {
   const [isReady, setIsReady] = useState(false)

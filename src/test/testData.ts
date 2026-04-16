@@ -1,4 +1,4 @@
-import { ToolbarConfig } from '../types/index.ts';
+import { ToolbarConfig } from '../components/Toolbar/types.ts';
 
 export const toolbarItems: ToolbarConfig['items'] = {
   "text-replace": {

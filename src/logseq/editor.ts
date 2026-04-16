@@ -3,7 +3,7 @@
  * 提供与Logseq编辑器相关的操作，如获取当前块和更新块内容
  */
 
-import { BlockEntity, BlockUUID } from '../types/logseq.ts';
+import { BlockEntity, BlockUUID } from './logseq.ts';
 
 /**
  * 获取当前选中的块

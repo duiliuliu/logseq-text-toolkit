@@ -5,6 +5,7 @@
 
 import * as logseqImpl from './editor.ts';
 import { BlockEntity, PageEntity, LogseqApp, LogseqEditor, LogseqUI } from '@logseq/libs/dist/LSPlugin';
+import mockLogseq from './mock/index.ts';
 
 // 存储提供的模型
 const providedModels: Record<string, any> = {};
@@ -92,71 +93,8 @@ export const getLogseqAPI = (): LogseqAPI => {
   
   if (isTestMode) {
     console.log('Using mock Logseq API (test mode)');
-    // 从window中获取mock的logseq对象
-    const mockLogseq = window.logseq || {
-      App: {
-        registerCommand: (command: any) => console.log('Mock registerCommand:', command),
-        on: (event: string, _callback: (...args: any[]) => void) => console.log('Mock on:', event),
-        off: (event: string) => console.log('Mock off:', event),
-        getUserConfigs: () => Promise.resolve({
-          darkMode: false,
-          preferredLanguage: 'zh-CN'
-        }),
-        registerUIItem: registerUIItemMock
-      },
-      Editor: {
-        getCurrentBlock: () => Promise.resolve({ uuid: 'test-block', content: 'Test block content' }),
-        updateBlock: (blockId: string, content: string) => {
-          console.log('Mock updateBlock:', blockId, content);
-          return Promise.resolve(true);
-        },
-        replaceSelectedText: (text: string) => {
-          console.log('Mock replaceSelectedText:', text);
-          return Promise.resolve(true);
-        },
-        getCurrentPage: () => Promise.resolve({ uuid: 'test-page', id: 'test-page', name: 'Test Page' })
-      },
-      UI: {
-        showMsg: (msg: string, opts: any = {}) => {
-          console.log('Mock UI.showMsg:', msg, opts);
-          // 创建一个简单的错误提示框
-          const notification = document.createElement('div');
-          notification.style.position = 'fixed';
-          notification.style.top = '20px';
-          notification.style.right = '20px';
-          notification.style.padding = '12px 16px';
-          notification.style.backgroundColor = opts.type === 'error' ? '#fee2e2' : '#fef3c7';
-          notification.style.color = opts.type === 'error' ? '#b91c1c' : '#92400e';
-          notification.style.borderRadius = '6px';
-          notification.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
-          notification.style.zIndex = '10000';
-          notification.style.transition = 'all 0.3s ease';
-          notification.textContent = msg;
-          
-          document.body.appendChild(notification);
-          
-          // 3秒后自动移除
-          setTimeout(() => {
-            notification.style.opacity = '0';
-            setTimeout(() => {
-              if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-              }
-            }, 300);
-          }, 3000);
-        }
-      },
-      ready: () => Promise.resolve(),
-      settings: {},
-      updateSettings: (settings: any) => {
-        console.log('Mock updateSettings:', settings);
-        return Promise.resolve();
-      },
-      provideModel: provideModelMock,
-      provideUI: provideUIMock
-    };
-    
-    return mockLogseq as LogseqAPI;
+    // 使用导入的mockLogseq
+    return mockLogseq;
   } else {
     console.log('Using official Logseq API (production mode)');
     // 检查logseq对象是否存在，这是正常的异常逻辑

@@ -1,6 +1,6 @@
 // 导入默认配置
 import defaultSettings from '../config/defaultSettings.ts';
-import { Settings } from '../types/index.ts';
+import { Settings } from '../config/types.ts';
 
 // 加载设置
 export const loadSettings = async (): Promise<Settings> => {

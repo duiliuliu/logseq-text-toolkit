@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { t } from '../../../translations/i18n.ts'
-import { Settings } from '../../../types/index.ts'
+import { Settings } from '../../../config/types.ts'
 import { TabComponentProps } from '../index.tsx'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
