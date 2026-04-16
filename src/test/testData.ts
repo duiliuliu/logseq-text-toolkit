@@ -6,7 +6,7 @@ export const toolbarItems: ToolbarConfig['items'] = {
     label: "文本替换",
     icon: "type",
     funcmode: "replace",
-    clickfunc: "${selectedText}"
+    clickfunc: "test-${selectedText}-test"
   },
   "group-style": {
     id: "group-style",

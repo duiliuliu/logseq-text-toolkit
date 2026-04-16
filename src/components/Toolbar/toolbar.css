@@ -54,7 +54,7 @@
   border: 1px solid var(--ls-border-color-plugin, #ccc);
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 999;
+  z-index: 1004;
   min-width: auto;
   white-space: nowrap;
   padding: 4px 4px;

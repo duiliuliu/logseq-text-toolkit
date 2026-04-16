@@ -37,7 +37,12 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
       if (e.target && (e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown')) {
         // 保持选中状态，不做任何处理
-        return
+        // 确保不取消文本选择
+        const selection = window.getSelection()
+        if (selection && selection.toString().length > 0 && showToolbar) {
+          // 保持当前的selectedData
+          return
+        }
       }
 
       const selection = window.getSelection()
