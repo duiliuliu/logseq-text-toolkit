@@ -1,7 +1,7 @@
 .toolbar-container {
   position: relative;
-  display: inline-block;
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
   gap: 8px;
   align-items: center;
 }

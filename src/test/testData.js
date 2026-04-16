@@ -7,99 +7,141 @@ export const toolbarItems = {
     "funcmode": "replace",
     "clickfunc": "文本替换"
   },
-  "wrap-bold": {
-    "label": "Wrap bold",
-    "binding": "",
-    "template": "**$^**",
-    "icon": "bold",
-    "funcmode": "replace",
-    "clickfunc": "Wrap bold"
-  },
   "group-style": {
+    "wrap-bold": {
+      "label": "加粗",
+      "binding": "",
+      "template": "**$^**",
+      "icon": "bold",
+      "funcmode": "replace",
+      "clickfunc": "加粗"
+    },
     "wrap-italic": {
-      "label": "Wrap italic",
+      "label": "斜体",
       "binding": "mod+shift+i",
       "template": "*$^*",
       "icon": "italic",
-      "funcmode": "console",
-      "clickfunc": "Wrap italic"
+      "funcmode": "replace",
+      "clickfunc": "斜体"
     },
-    "wrap-underline": {
-      "label": "Wrap underline",
+    "wrap-strike-through": {
+      "label": "删除线",
       "binding": "",
-      "template": "__$^__",
-      "icon": "underline",
-      "funcmode": "add",
-      "clickfunc": "Wrap underline"
+      "template": "~~$^~~",
+      "icon": "strikethrough",
+      "funcmode": "replace",
+      "clickfunc": "删除线"
     }
   },
-  "wrap-strike-through": {
-    "label": "Wrap strike through",
-    "binding": "",
-    "template": "~~$^~~",
-    "icon": "strikethrough",
-    "funcmode": "invoke",
-    "clickfunc": "Wrap strike through"
-  },
-  "group-hl": {
-    "wrap-yellow-hl": {
-      "label": "Wrap with yellow highlight",
+  "group-bg-hl": {
+    "wrap-yellow-bg-hl": {
+      "label": "背景高亮黄",
       "binding": "",
       "template": "==$^==",
       "icon": "highlighter",
       "funcmode": "replace",
-      "clickfunc": "Wrap with yellow highlight"
+      "clickfunc": "背景高亮黄"
     },
-    "wrap-red-hl": {
-      "label": "Wrap with red highlight",
+    "wrap-red-bg-hl": {
+      "label": "背景高亮红",
       "binding": "",
       "template": "[[#red]]==$^==",
       "icon": "highlighter",
-      "funcmode": "console",
-      "clickfunc": "Wrap with red highlight"
+      "funcmode": "replace",
+      "clickfunc": "背景高亮红"
     },
-    "wrap-blue-hl": {
-      "label": "Wrap with blue highlight",
+    "wrap-green-bg-hl": {
+      "label": "背景高亮绿",
+      "binding": "",
+      "template": "[[#green]]==$^==",
+      "icon": "highlighter",
+      "funcmode": "replace",
+      "clickfunc": "背景高亮绿"
+    },
+    "wrap-blue-bg-hl": {
+      "label": "背景高亮蓝",
       "binding": "",
       "template": "[[#blue]]==$^==",
       "icon": "highlighter",
-      "funcmode": "add",
-      "clickfunc": "Wrap with blue highlight"
+      "funcmode": "replace",
+      "clickfunc": "背景高亮蓝"
     }
   },
-  "group-text": {
-    "wrap-red-text": {
-      "label": "Wrap with red text",
+  "group-text-hl": {
+    "wrap-red-text-hl": {
+      "label": "字体高亮红",
       "binding": "",
       "template": "[[$red]]==$^==",
       "icon": "type",
-      "funcmode": "invoke",
-      "clickfunc": "Wrap with red text"
+      "funcmode": "replace",
+      "clickfunc": "字体高亮红"
     },
-    "wrap-blue-text": {
-      "label": "Wrap with blue text",
+    "wrap-yellow-text-hl": {
+      "label": "字体高亮黄",
+      "binding": "",
+      "template": "[[$yellow]]==$^==",
+      "icon": "type",
+      "funcmode": "replace",
+      "clickfunc": "字体高亮黄"
+    },
+    "wrap-green-text-hl": {
+      "label": "字体高亮绿",
+      "binding": "",
+      "template": "[[$green]]==$^==",
+      "icon": "type",
+      "funcmode": "replace",
+      "clickfunc": "字体高亮绿"
+    },
+    "wrap-blue-text-hl": {
+      "label": "字体高亮蓝",
       "binding": "",
       "template": "[[$blue]]==$^==",
       "icon": "type",
       "funcmode": "replace",
-      "clickfunc": "Wrap with blue text"
+      "clickfunc": "字体高亮蓝"
     }
   },
-  "wrap-cloze": {
-    "label": "Wrap with cloze",
-    "binding": "",
-    "template": " {{cloze $^}}",
-    "icon": "menu",
-    "funcmode": "console",
-    "clickfunc": "Wrap with cloze"
+  "group-underline-hl": {
+    "wrap-red-underline-hl": {
+      "label": "下划线高亮红",
+      "binding": "",
+      "template": "__$^__",
+      "icon": "underline",
+      "funcmode": "replace",
+      "clickfunc": "下划线高亮红"
+    },
+    "wrap-yellow-underline-hl": {
+      "label": "下划线高亮黄",
+      "binding": "",
+      "template": "__$^__",
+      "icon": "underline",
+      "funcmode": "replace",
+      "clickfunc": "下划线高亮黄"
+    },
+    "wrap-green-underline-hl": {
+      "label": "下划线高亮绿",
+      "binding": "",
+      "template": "__$^__",
+      "icon": "underline",
+      "funcmode": "replace",
+      "clickfunc": "下划线高亮绿"
+    },
+    "wrap-blue-underline-hl": {
+      "label": "下划线高亮蓝",
+      "binding": "",
+      "template": "__$^__",
+      "icon": "underline",
+      "funcmode": "replace",
+      "clickfunc": "下划线高亮蓝"
+    }
   },
   "repl-clear": {
-    "label": "Remove formatting",
+    "label": "清除格式",
     "binding": "mod+shift+x",
-    "regex": "\\[\\[(?:#|\\$)(?:red|green|blue)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
+    "regex": "\\[\\[(?:#|\\$)(?:red|green|blue|yellow)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
     "replacement": "$1$2$3$4$5$6$7$8",
     "icon": "x",
-    "funcmode": "add",
-    "clickfunc": "Remove formatting"
+    "funcmode": "replace",
+    "clickfunc": "清除格式"
   }
 }

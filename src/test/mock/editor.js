@@ -3,7 +3,7 @@
  * 提供在测试环境中模拟Logseq编辑器的功能
  */
 
-import { replaceSelectedTextCommon } from '../../utils/editorCommon.js';
+import { replaceSelectedTextCommon } from '../../utils/textProcessor.js';
 
 // 存储当前选中的DOM节点
 let selectedDOMNode = null;
