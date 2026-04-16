@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Modal from '../Modal/index.jsx'
-import { useSettingsContext } from '../../hooks/useSettings.jsx'
-import GeneralSettings from './tabs/GeneralSettings.jsx'
-import ToolbarSettings from './tabs/ToolbarSettings.jsx'
-import AdvancedSettings from './tabs/AdvancedSettings.jsx'
-import { t } from '../../translations/i18n.js'
+import Modal from '../Modal/index.tsx'
+import { useSettingsContext } from '../../hooks/useSettings.tsx'
+import GeneralSettings from './tabs/GeneralSettings.tsx'
+import ToolbarSettings from './tabs/ToolbarSettings.tsx'
+import AdvancedSettings from './tabs/AdvancedSettings.tsx'
+import { t } from '../../translations/i18n.ts'
 import './settingsModal.css'
 
 function SettingsModal({ isOpen, onClose, theme }) {

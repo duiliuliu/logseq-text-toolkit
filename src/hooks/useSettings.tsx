@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
-import { loadSettings, saveSettings, resetSettings } from '../utils/settings.js'
+import { loadSettings, saveSettings, resetSettings } from '../utils/settings.ts'
 import { Settings, SettingsContextType } from '../types/index.ts'
 
 // 创建设置上下文
