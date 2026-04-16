@@ -33,42 +33,40 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
     <div className="settings-tab-content">
       <p className="tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
       
-      <div className="setting-item-group">
-        <div className="setting-item">
-          <label>{t('settings.enabled', language)}</label>
-          <label className="switch">
-            <input 
-              type="checkbox" 
-              checked={settings.toolbar.enabled} 
-              onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
-            />
-            <span className="switch-slider"></span>
-          </label>
-        </div>
+      <div className="setting-item">
+        <label>{t('settings.enabled', language)}</label>
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={settings.toolbar.enabled} 
+            onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
+          />
+          <span className="switch-slider"></span>
+        </label>
+      </div>
 
-        <div className="setting-item">
-          <label>{t('settings.showBorder', language)}</label>
-          <label className="switch">
-            <input 
-              type="checkbox" 
-              checked={settings.toolbar.showBorder} 
-              onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
-            />
-            <span className="switch-slider"></span>
-          </label>
-        </div>
+      <div className="setting-item">
+        <label>{t('settings.showBorder', language)}</label>
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={settings.toolbar.showBorder} 
+            onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
+          />
+          <span className="switch-slider"></span>
+        </label>
+      </div>
 
-        <div className="setting-item">
-          <label>赞助栏</label>
-          <label className="switch">
-            <input 
-              type="checkbox" 
-              checked={settings.toolbar.sponsorEnabled} 
-              onChange={(e) => handleSettingChange('toolbar.sponsorEnabled', e.target.checked)}
-            />
-            <span className="switch-slider"></span>
-          </label>
-        </div>
+      <div className="setting-item">
+        <label>赞助栏</label>
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={settings.toolbar.sponsorEnabled} 
+            onChange={(e) => handleSettingChange('toolbar.sponsorEnabled', e.target.checked)}
+          />
+          <span className="switch-slider"></span>
+        </label>
       </div>
 
       <div className="setting-item">
