@@ -249,6 +249,8 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   console.log('Has more items:', hasMoreItems);
 
   const toggleMore = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     setMoreExpanded(!moreExpanded)
   }
 
@@ -266,7 +268,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           />
         </div>
       )}
-      <div className="toolbar-main" style={{ width: moreExpanded ? 'auto' : width, height }}>
+      <div className="toolbar-main" style={{ width: 'auto', minWidth: width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
         {hasMoreItems && (

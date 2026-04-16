@@ -20,6 +20,7 @@
   position: relative;
   z-index: 1000;
   min-width: 100px;
+  overflow: visible !important;
 }
 
 .toolbar-main-item {
