@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
-import { processSelectData } from '../../utils/textProcessor.js'
+import { processSelectedData } from '../../utils/textProcessor.js'
 
 const iconMap = {
   bold: Bold,
@@ -79,7 +79,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const handleItemClick = (item) => {
     if (item.clickfunc) {
       if (selectedData && selectedData.text) {
-        const processedText = processSelectData(item, selectedData)
+        const processedText = processSelectedData(item, selectedData)
         if (onTextProcessed) {
           onTextProcessed(processedText)
         }

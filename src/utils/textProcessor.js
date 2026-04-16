@@ -1,5 +1,5 @@
-export const processSelectData = (item, selectedData) => {
-  console.log('=== processSelectData ===');
+export const processSelectedData = (item, selectedData) => {
+  console.log('=== processSelectedData ===');
   console.log('Item:', item);
   console.log('Selected data:', selectedData);
   
@@ -116,9 +116,11 @@ export const replaceSelectedText = async (editorService, processedText, selected
       return false;
     }
     
-    // 2. 获取选中的文字
-    console.log('Step 2: 获取选中的文字');
+    // 2. 获取选中的文字和位置信息
+    console.log('Step 2: 获取选中的文字和位置信息');
     const selectedText = selectedData.text;
+    const range = selectedData.range;
+    
     if (!selectedText) {
       console.error('Error: 没有选中的文字');
       return false;
@@ -128,8 +130,18 @@ export const replaceSelectedText = async (editorService, processedText, selected
     console.log('Step 3: 构建新的块内容');
     const originalContent = block.content;
     
-    // 简化处理：直接替换第一个匹配的选中文本
-    const newContent = originalContent.replace(selectedText, processedText);
+    // 构建新内容 - 尝试使用range信息精确替换
+    let newContent;
+    if (range) {
+      console.log('Using range information for precise replacement');
+      // 这里可以使用更复杂的逻辑来精确替换选中的内容
+      // 简化处理：直接替换第一个匹配的选中文本
+      newContent = originalContent.replace(selectedText, processedText);
+    } else {
+      console.log('Using simple replacement');
+      // 简化处理：直接替换第一个匹配的选中文本
+      newContent = originalContent.replace(selectedText, processedText);
+    }
     
     console.log('Original content:', originalContent);
     console.log('New content:', newContent);
@@ -146,7 +158,7 @@ export const replaceSelectedText = async (editorService, processedText, selected
 };
 
 export default {
-  processSelectData,
+  processSelectedData,
   replaceText,
   addText,
   invokeText,

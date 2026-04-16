@@ -94,6 +94,36 @@ export const getLogseqAPI = () => {
           preferredLanguage: 'zh-CN'
         })
       },
+      UI: {
+        showMsg: (msg, opts = {}) => {
+          console.log('Mock UI.showMsg:', msg, opts);
+          // 创建一个简单的错误提示框
+          const notification = document.createElement('div');
+          notification.style.position = 'fixed';
+          notification.style.top = '20px';
+          notification.style.right = '20px';
+          notification.style.padding = '12px 16px';
+          notification.style.backgroundColor = opts.type === 'error' ? '#fee2e2' : '#fef3c7';
+          notification.style.color = opts.type === 'error' ? '#b91c1c' : '#92400e';
+          notification.style.borderRadius = '6px';
+          notification.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+          notification.style.zIndex = '10000';
+          notification.style.transition = 'all 0.3s ease';
+          notification.textContent = msg;
+          
+          document.body.appendChild(notification);
+          
+          // 3秒后自动移除
+          setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+              if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+              }
+            }, 300);
+          }, 3000);
+        }
+      },
       ready: () => Promise.resolve(),
       settings: {},
       updateSettings: (settings) => {
@@ -113,6 +143,10 @@ export const getLogseqAPI = () => {
       App: {
         ...mockLogseq.App,
         registerUIItem: registerUIItemMock
+      },
+      // UI相关API
+      UI: {
+        showMsg: mockLogseq.UI.showMsg
       },
       // 其他API
       ready: mockLogseq.ready,
@@ -180,6 +214,10 @@ export const getLogseqAPI = () => {
         off: (event) => logseq.App.off(event),
         getUserConfigs: () => logseq.App.getUserConfigs(),
         registerUIItem: (slot, config) => logseq.App.registerUIItem(slot, config)
+      },
+      // UI相关API
+      UI: {
+        showMsg: (msg, opts = {}) => logseq.UI.showMsg(msg, opts)
       },
       // 其他API
       ready: () => logseq.ready(),
