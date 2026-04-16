@@ -110,12 +110,26 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const handleItemClick = async (item: ToolbarItem) => {
     console.log('=== handleItemClick ===');
     console.log('Item:', item);
-    console.log('Selected data:', selectedData);
+    console.log('Selected data from props:', selectedData);
+    
+    // 直接从window.getSelection()获取最新的选中文本
+    const selection = window.getSelection();
+    const currentSelectedText = selection?.toString() || '';
+    console.log('Current selected text:', currentSelectedText);
     
     if (item.clickfunc) {
-      if (selectedData && selectedData.text) {
+      if (currentSelectedText) {
+        // 创建最新的selectedData
+        const currentSelectedData: SelectedData = {
+          text: currentSelectedText,
+          timestamp: new Date().toISOString(),
+          range: selection?.getRangeAt(0),
+          rect: selection?.getRangeAt(0)?.getBoundingClientRect()
+        };
+        console.log('Current selected data:', currentSelectedData);
+        
         console.log('Processing item with clickfunc:', item.clickfunc);
-        const processedText = await processSelectedData(item, selectedData);
+        const processedText = await processSelectedData(item, currentSelectedData);
         console.log('Processed text:', processedText);
         if (onTextProcessed) {
           onTextProcessed(processedText);

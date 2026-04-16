@@ -45,12 +45,20 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     
     // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单和more按钮
     if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown') || (e.target as HTMLElement).closest('.toolbar-more'))) {
-      // 保持选中状态，不做任何处理
+      // 保持选中状态，更新selectedData
       // 确保不取消文本选择
       const selection = window.getSelection()
       console.log('Click inside toolbar, selection:', selection?.toString());
       if (selection && selection.toString().length > 0 && showToolbar) {
-        // 保持当前的selectedData
+        // 更新selectedData以确保Toolbar组件接收到最新的选中信息
+        const range = selection.getRangeAt(0)
+        const rect = range.getBoundingClientRect()
+        setSelectedData({
+          text: selection.toString(),
+          timestamp: new Date().toISOString(),
+          range: range,
+          rect: rect
+        })
         return
       }
     }
