@@ -43,24 +43,21 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     console.log('Event target:', e.target);
     console.log('Show toolbar:', showToolbar);
     
-    // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单和more按钮
-    if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown') || (e.target as HTMLElement).closest('.toolbar-more'))) {
-      // 保持选中状态，更新selectedData
-      // 确保不取消文本选择
-      const selection = window.getSelection()
-      console.log('Click inside toolbar, selection:', selection?.toString());
-      if (selection && selection.toString().length > 0 && showToolbar) {
-        // 更新selectedData以确保Toolbar组件接收到最新的选中信息
-        const range = selection.getRangeAt(0)
-        const rect = range.getBoundingClientRect()
-        setSelectedData({
-          text: selection.toString(),
-          timestamp: new Date().toISOString(),
-          range: range,
-          rect: rect
-        })
-        return
-      }
+    // 检查是否点击了toolbar内部的元素，包括more按钮
+    const isInsideToolbar = 
+      (e.target as HTMLElement).closest('.floating-toolbar') || 
+      (e.target as HTMLElement).closest('.toolbar-container') || 
+      (e.target as HTMLElement).closest('.toolbar-group-dropdown') || 
+      (e.target as HTMLElement).closest('.toolbar-more');
+    
+    console.log('Is inside toolbar:', isInsideToolbar);
+    console.log('Element closest to .toolbar-more:', (e.target as HTMLElement).closest('.toolbar-more'));
+    
+    if (isInsideToolbar && showToolbar) {
+      console.log('Click inside toolbar, keeping toolbar visible');
+      // 点击工具栏内部，直接返回，不做任何处理
+      // 这样可以保持工具栏的显示状态和more按钮的功能
+      return
     }
 
     const selection = window.getSelection()
@@ -111,7 +108,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
       console.log('Setting showToolbar to false (no selection)');
       setShowToolbar(false)
     }
-  }, [targetElement]);
+  }, [showToolbar, targetElement]);
 
   // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
   const handleMouseMove = useCallback((e: MouseEvent) => {

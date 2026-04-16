@@ -249,13 +249,19 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   console.log('Has more items:', hasMoreItems);
 
   const toggleMore = (e: React.MouseEvent) => {
+    console.log('=== toggleMore CALLED ===');
+    console.log('Event:', e);
+    console.log('Current moreExpanded:', moreExpanded);
     e.stopPropagation()
-    setMoreExpanded(!moreExpanded)
+    // e.preventDefault()  // 暂时移除，检查是否影响
+    const newState = !moreExpanded
+    console.log('Setting moreExpanded to:', newState);
+    setMoreExpanded(newState)
   }
 
   return (
     <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-      {/* {sponsorEnabled && (
+      {sponsorEnabled && (
         <div className="toolbar-sponsor" style={{ width: width, height }}>
           <iframe 
             src="https://duiliuliu.github.io/sponsor-page/?no-text=1" 
@@ -266,7 +272,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             style={{ minWidth: '100%', minHeight: '100%' }}
           />
         </div>
-      )} */}
+      )}
       <div className="toolbar-main" style={{ width: moreExpanded ? 'auto' : width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
