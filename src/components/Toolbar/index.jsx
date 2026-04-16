@@ -196,7 +196,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       {sponsorEnabled && (
         <div className="toolbar-sponsor" style={{ width: moreExpanded ? 'auto' : width, height }}>
           <iframe 
-            src="https://duiliuliu.github.io/sponsor-page/" 
+            src="https://duiliuliu.github.io/sponsor-page/?no-text=1" 
             title="Sponsor Page"
             className="toolbar-sponsor-iframe"
             frameBorder="0"

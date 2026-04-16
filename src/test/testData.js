@@ -1,4 +1,12 @@
 export const toolbarItems = {
+  "text-replace": {
+    "label": "文本替换",
+    "binding": "",
+    "template": "$^",
+    "icon": "type",
+    "funcmode": "replace",
+    "clickfunc": "文本替换"
+  },
   "wrap-bold": {
     "label": "Wrap bold",
     "binding": "",

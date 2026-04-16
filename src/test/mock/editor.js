@@ -98,8 +98,7 @@ export const getCurrentBlock = async () => {
  */
 export const updateBlock = async (blockId, content) => {
   try {
-    // 保存当前选择
-    saveSelection();
+    console.log('Updating block with content:', content);
     
     // 更新localStorage
     localStorage.setItem('mock-block-content', content);
@@ -123,10 +122,30 @@ export const updateBlock = async (blockId, content) => {
     }
     
     if (elementToUpdate) {
-      // 更新内容
+      console.log('Updating element:', elementToUpdate);
+      
+      // 保存当前选择范围
+      const selection = window.getSelection();
+      let savedRange = null;
+      if (selection && selection.rangeCount > 0) {
+        savedRange = selection.getRangeAt(0).cloneRange();
+      }
+      
+      // 更新内容 - 使用 textContent 直接替换
       elementToUpdate.textContent = content;
-      // 保持选中状态
-      restoreSelection(elementToUpdate);
+      
+      // 重新选中整个内容
+      setTimeout(() => {
+        try {
+          const newSelection = window.getSelection();
+          const newRange = document.createRange();
+          newRange.selectNodeContents(elementToUpdate);
+          newSelection.removeAllRanges();
+          newSelection.addRange(newRange);
+        } catch (e) {
+          console.error('Failed to restore selection:', e);
+        }
+      }, 0);
     }
     
     return true;
