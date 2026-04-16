@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import { SelectedData } from '../../utils/textProcessor.ts'
-import { ToolbarPosition } from '../../utils/state.ts'
+
+interface ToolbarPosition {
+  x: number
+  y: number
+}
 
 interface SelectToolbarProps {
   targetElement?: HTMLElement

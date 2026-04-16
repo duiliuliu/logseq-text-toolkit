@@ -1,5 +1,4 @@
 import React from 'react';
-import { getCurrentTheme } from '../../utils/state';
 import './modal.css';
 
 interface ModalProps {
@@ -8,11 +7,10 @@ interface ModalProps {
   children: React.ReactNode
   isOpen?: boolean
   width?: string
+  theme?: 'light' | 'dark'
 }
 
-const Modal = ({ title, onClose, children, isOpen = false, width = '400px' }: ModalProps) => {
-  const theme = getCurrentTheme();
-
+const Modal = ({ title, onClose, children, isOpen = false, width = '400px', theme = 'light' }: ModalProps) => {
   if (!isOpen) {
     return null;
   }

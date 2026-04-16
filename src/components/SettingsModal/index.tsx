@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from '../Modal/index.tsx'
-import { useSettingsContext } from '../../hooks/useSettings.tsx'
+import { useSettingsContext } from '../../config/useSettings.tsx'
 import GeneralSettings from './tabs/GeneralSettings.tsx'
 import ToolbarSettings from './tabs/ToolbarSettings.tsx'
 import AdvancedSettings from './tabs/AdvancedSettings.tsx'
@@ -64,7 +64,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
   if (isLoading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
+      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
         <div className="settings-loading">{t('settings.loading')}</div>
       </Modal>
     )
@@ -72,7 +72,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
   if (!settings) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')}>
+      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
         <div className="settings-error">{t('settings.error')}</div>
       </Modal>
     )
@@ -95,7 +95,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)}>
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={theme}>
       <div className="settings-container" data-theme={theme}>
         <div className="settings-header">
           <div className="settings-tabs">

@@ -6,7 +6,7 @@ import SettingsModal from '../components/SettingsModal/index.tsx'
 import TestLayout from './components/TestLayout/index.tsx'
 import { toolbarItems as testData } from './testData.ts'
 import testConfig from './testConfig.ts'
-import { useSettingsContext } from '../hooks/useSettings.tsx'
+import { useSettingsContext } from '../config/useSettings.tsx'
 import { logseqAPI } from '../logseq/index.ts'
 
 // 导入mock logseq

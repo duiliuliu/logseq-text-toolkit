@@ -1,3 +1,5 @@
+import { ToolbarConfig } from '../components/Toolbar/types.ts';
+
 // 主题类型
 export type ThemeType = 'light' | 'dark';
 
@@ -8,7 +10,7 @@ export type LanguageType = 'zh-CN' | 'en' | 'ja';
 export interface Settings {
   theme: ThemeType;
   language: LanguageType;
-  toolbar: any; // 暂时使用any，后续会从Toolbar/types.ts导入
+  toolbar: ToolbarConfig;
 }
 
 // Settings Context 类型
