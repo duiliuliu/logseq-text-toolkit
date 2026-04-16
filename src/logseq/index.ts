@@ -4,8 +4,7 @@
  */
 
 import * as logseqImpl from './editor.ts';
-// @ts-ignore - 忽略测试模块的类型错误
-import * as mockImpl from '../test/mock/editor.js';
+import * as mockImpl from '../test/mock.ts';
 import { LogseqAPI } from '../types/logseq.ts';
 
 // 存储提供的模型
@@ -134,9 +133,15 @@ export const getLogseqAPI = (): LogseqAPI => {
     return {
       // 编辑器相关API
       Editor: {
-        getCurrentBlock: mockImpl.getCurrentBlock,
-        updateBlock: mockImpl.updateBlock,
-        replaceSelectedText: mockImpl.replaceSelectedText
+        getCurrentBlock: mockLogseq.Editor?.getCurrentBlock || (() => Promise.resolve({ uuid: 'test-block', content: 'Test block content' })),
+        updateBlock: mockLogseq.Editor?.updateBlock || ((blockId: string, content: string) => {
+          console.log('Mock updateBlock:', blockId, content);
+          return Promise.resolve(true);
+        }),
+        replaceSelectedText: mockLogseq.Editor?.replaceSelectedText || ((text: string) => {
+          console.log('Mock replaceSelectedText:', text);
+          return Promise.resolve(true);
+        })
       },
       // 应用相关API
       App: {
@@ -184,9 +189,15 @@ export const getLogseqAPI = (): LogseqAPI => {
       return {
         // 编辑器相关API
         Editor: {
-          getCurrentBlock: mockImpl.getCurrentBlock,
-          updateBlock: mockImpl.updateBlock,
-          replaceSelectedText: mockImpl.replaceSelectedText
+          getCurrentBlock: mockLogseq.Editor?.getCurrentBlock || (() => Promise.resolve({ uuid: 'test-block', content: 'Test block content' })),
+          updateBlock: mockLogseq.Editor?.updateBlock || ((blockId: string, content: string) => {
+            console.log('Mock updateBlock:', blockId, content);
+            return Promise.resolve(true);
+          }),
+          replaceSelectedText: mockLogseq.Editor?.replaceSelectedText || ((text: string) => {
+            console.log('Mock replaceSelectedText:', text);
+            return Promise.resolve(true);
+          })
         },
         // 应用相关API
         App: mockLogseq.App,

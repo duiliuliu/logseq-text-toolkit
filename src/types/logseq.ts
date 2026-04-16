@@ -47,6 +47,7 @@ export interface LogseqEditor {
   getCurrentBlock: () => Promise<BlockEntity | null>;
   updateBlock: (blockId: BlockUUID, content: string) => Promise<boolean>;
   replaceSelectedText: (text: string) => Promise<boolean>;
+  getCurrentPage?: () => Promise<PageEntity | null>;
   // 其他编辑器API方法...
 }
 
