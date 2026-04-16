@@ -201,6 +201,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             className="toolbar-sponsor-iframe"
             frameBorder="0"
             scrolling="no"
+            style={{ minWidth: '100%', minHeight: '100%' }}
           />
         </div>
       )}

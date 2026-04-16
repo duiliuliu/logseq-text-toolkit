@@ -212,6 +212,8 @@
   position: relative;
   z-index: 999;
   overflow: hidden;
+  min-width: 100px;
+  flex-shrink: 0;
 }
 
 .toolbar-sponsor-iframe {
@@ -219,6 +221,20 @@
   height: 100%;
   border: none;
   display: block;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* 当工具栏展开时，赞助栏也自适应宽度 */
+.toolbar-container .toolbar-sponsor {
+  transition: width 0.2s ease;
+}
+
+/* 确保赞助栏在不同尺寸下都能合理显示 */
+@media (max-width: 480px) {
+  .toolbar-sponsor {
+    min-width: 80px;
+  }
 }
 
 /* 深色主题下的赞助栏样式 */

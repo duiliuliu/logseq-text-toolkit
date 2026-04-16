@@ -154,16 +154,10 @@ if (import.meta.env.MODE === 'test') {
       </SettingsProvider>
     </React.StrictMode>
   )
-} else {
-  // 正式模式，渲染基础APP
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <SettingsProvider>
-        <AppComponent />
-      </SettingsProvider>
-    </React.StrictMode>
-  )
   
-  // 执行主要逻辑
+  // 测试模式也执行 logseq.ready
+  logseqAPI.ready().then(main).catch(console.error)
+} else {
+  // 正式模式，不需要渲染基础APP，只执行主要逻辑
   logseqAPI.ready().then(main).catch(console.error)
 }
