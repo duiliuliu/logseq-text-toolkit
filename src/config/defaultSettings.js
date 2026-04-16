@@ -13,6 +13,7 @@ const defaultSettings = {
     width: '110px', // 宽度
     height: '24px', // 高度
     hoverDelay: 500, // 悬停延时
+    sponsorEnabled: true // 赞助栏开关
     
     // Toolbar 元素配置
     items: {

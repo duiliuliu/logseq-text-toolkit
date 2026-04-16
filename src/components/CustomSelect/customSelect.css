@@ -79,7 +79,7 @@
 .custom-select__option-label {
   flex: 1;
   font-size: 12px;
-  text-align: center;
+  text-align: left;
 }
 
 .custom-select__option-checkmark {

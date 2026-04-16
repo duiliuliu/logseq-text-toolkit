@@ -14,7 +14,7 @@ const iconMap = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = {}, hoverDelay = 500, onTextProcessed }) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = {}, hoverDelay = 500, onTextProcessed, sponsorEnabled = true }) {
   const [hoveredItem, setHoveredItem] = useState(null)
   const [mouseOverGroup, setMouseOverGroup] = useState(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -193,6 +193,18 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
 
   return (
     <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+      {sponsorEnabled && (
+        <div className="toolbar-sponsor" style={{ width: moreExpanded ? 'auto' : width, height }}>
+          <a 
+            href="https://duiliuliu.github.io/sponsor-page/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="toolbar-sponsor-link"
+          >
+            赞赏
+          </a>
+        </div>
+      )}
       <div className="toolbar-main" style={{ width: moreExpanded ? 'auto' : width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}

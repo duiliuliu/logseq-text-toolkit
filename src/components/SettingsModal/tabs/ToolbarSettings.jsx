@@ -89,6 +89,18 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
         />
       </div>
 
+      <div className="setting-item">
+        <label>赞助栏</label>
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={settings.toolbar.sponsorEnabled} 
+            onChange={(e) => handleSettingChange('toolbar.sponsorEnabled', e.target.checked)}
+          />
+          <span className="switch-slider"></span>
+        </label>
+      </div>
+
       <div className="setting-item setting-item-json">
         <label>元素</label>
         <div className="json-editor">

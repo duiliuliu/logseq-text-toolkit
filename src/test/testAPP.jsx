@@ -103,6 +103,7 @@ function TestApp() {
         width={settings.toolbar.width}
         height={settings.toolbar.height}
         hoverDelay={settings.toolbar.hoverDelay}
+        sponsorEnabled={settings.toolbar.sponsorEnabled}
       />
       
       <SettingsModal 
