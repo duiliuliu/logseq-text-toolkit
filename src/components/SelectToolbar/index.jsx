@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
-import { getEditorService } from '../../services/editorFactory.js'
+import { getEditorService } from '../../hooks/editorFactory.js'
 
 function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = true }) {
   const [selectedData, setSelectedData] = useState({})
