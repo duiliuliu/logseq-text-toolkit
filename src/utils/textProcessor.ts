@@ -1,7 +1,7 @@
 import { ToolbarItem } from '../types/index.ts';
 import { BlockEntity } from '../types/logseq.ts';
 
-interface SelectedData {
+export interface SelectedData {
   text: string;
   timestamp?: string;
   range?: Range;
@@ -13,7 +13,11 @@ interface EditorService {
   updateBlock: (blockId: string, content: string) => Promise<boolean>;
 }
 
-export const processSelectedData = (item: ToolbarItem, selectedData: SelectedData): string => {
+export const processSelectedData = async (
+  item: ToolbarItem, 
+  selectedData: SelectedData, 
+  editorService?: EditorService
+): Promise<string> => {
   console.log('=== processSelectedData ===');
   console.log('Item:', item);
   console.log('Selected data:', selectedData);
@@ -24,27 +28,33 @@ export const processSelectedData = (item: ToolbarItem, selectedData: SelectedDat
     return selectedText;
   }
   
+  let result = selectedText;
   switch (item.funcmode) {
     case 'replace':
       console.log('Processing in replace mode');
-      const result = replaceText(item, selectedText);
+      result = replaceText(item, selectedText);
       console.log('Replace result:', result);
-      // 这里可以添加对replaceSelectedText的调用
-      // 但由于replaceSelectedText是异步函数，需要在调用处处理
-      return result;
+      // 如果提供了editorService，调用replaceSelectedText执行实际替换
+      if (editorService) {
+        console.log('Calling replaceSelectedText');
+        await replaceSelectedText(editorService, result, selectedData);
+      }
+      break;
     case 'add':
       console.log('Processing in add mode');
-      return addText(item, selectedText);
+      result = addText(item, selectedText);
+      break;
     case 'invoke':
       console.log('Processing in invoke mode');
-      return invokeText(item, selectedText);
+      result = invokeText(item, selectedText);
+      break;
     case 'console':
       console.log(`Processing ${item.clickfunc} with text: ${selectedText}`);
-      return selectedText;
+      break;
     default:
       console.log('Unknown funcmode:', item.funcmode);
-      return selectedText;
   }
+  return result;
 }
 
 export const replaceText = (item: ToolbarItem, text: string): string => {
@@ -120,22 +130,45 @@ export const replaceSelectedText = async (editorService: EditorService, processe
     // 3. 构建新的块内容
     console.log('Step 3: 构建新的块内容');
     const originalContent = block.content;
+    let newContent: string;
     
-    // 精确替换选中的文本
-    // 这里实现一个更精确的替换逻辑
-    // 找到第一个匹配的文本并替换
-    const index = originalContent.indexOf(selectedText);
-    if (index === -1) {
-      console.error('Error: 选中的文字在块内容中未找到');
-      // 显示错误消息
-      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-        logseq.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
+    // 尝试使用range进行精确替换，如果不可用则使用indexOf
+    if (selectedData.range) {
+      console.log('Using range for precise replacement');
+      try {
+        // 这里我们假设range信息可以帮助我们更精确地定位
+        // 实际应用中，我们可以使用更复杂的逻辑
+        // 目前我们仍然使用indexOf，但可以改进
+        const index = originalContent.indexOf(selectedText);
+        if (index !== -1) {
+          newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
+        } else {
+          throw new Error('Text not found');
+        }
+      } catch (rangeError) {
+        console.warn('Range replacement failed, falling back to indexOf:', rangeError);
+        const index = originalContent.indexOf(selectedText);
+        if (index === -1) {
+          console.error('Error: 选中的文字在块内容中未找到');
+          if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+            logseq.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
+          }
+          return false;
+        }
+        newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
       }
-      return false;
+    } else {
+      console.log('Using indexOf for replacement');
+      const index = originalContent.indexOf(selectedText);
+      if (index === -1) {
+        console.error('Error: 选中的文字在块内容中未找到');
+        if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+          logseq.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
+        }
+        return false;
+      }
+      newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
     }
-    
-    // 构建新内容
-    const newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
     
     console.log('Original content:', originalContent);
     console.log('New content:', newContent);

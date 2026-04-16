@@ -16,7 +16,7 @@ interface SettingsModalProps {
 }
 
 // 标签页组件 Props 类型
-interface TabComponentProps {
+export interface TabComponentProps {
   settings: Settings;
   setSettings: React.Dispatch<React.SetStateAction<Settings | null>>;
   onSave: () => void;
