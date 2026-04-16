@@ -1,5 +1,14 @@
 import { t } from '../../../translations/i18n.ts'
-import { TabComponentProps } from '../../../types/index.ts'
+import { Settings } from '../../../types/index.ts'
+
+// 标签页组件 Props 类型
+interface TabComponentProps {
+  settings: Settings;
+  setSettings: React.Dispatch<React.SetStateAction<Settings | null>>;
+  onSave: () => void;
+  isSaving: boolean;
+  language: string;
+}
 
 function AdvancedSettings({ language }: TabComponentProps) {
   return (

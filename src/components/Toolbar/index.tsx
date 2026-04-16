@@ -2,28 +2,9 @@ import React, { useState, useRef } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { processSelectedData } from '../../utils/textProcessor.js'
+import { ToolbarItem, ToolbarGroup } from '../../types/index.ts'
 
 type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu'
-
-interface ToolbarItem {
-  id: string
-  label: string
-  binding?: string
-  icon?: IconName | React.ReactNode
-  funcmode: string
-  clickfunc: string
-  regex?: string
-  replacement?: string
-  hidden?: boolean
-}
-
-interface ToolbarGroup {
-  id: string
-  isGroup: true
-  items: ToolbarItem[]
-  label: string
-  hidden?: boolean
-}
 
 interface SelectedData {
   text: string
@@ -65,11 +46,11 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
     const result: (ToolbarItem | ToolbarGroup)[] = []
     for (const [key, value] of Object.entries(data)) {
       if (value && typeof value === 'object' && !value.label) {
-        const groupItems: ToolbarItem[] = []
+        const groupItems: Record<string, ToolbarItem> = {}
         for (const [groupKey, groupValue] of Object.entries(value)) {
           if (groupValue && typeof groupValue === 'object' && 'label' in groupValue) {
             const typedGroupValue = groupValue as any;
-            groupItems.push({
+            groupItems[groupKey] = {
               id: groupKey,
               label: typedGroupValue.label,
               funcmode: typedGroupValue.funcmode || 'replace',
@@ -79,10 +60,10 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
               regex: typedGroupValue.regex,
               replacement: typedGroupValue.replacement,
               hidden: typedGroupValue.hidden
-            })
+            }
           }
         }
-        if (groupItems.length > 0) {
+        if (Object.keys(groupItems).length > 0) {
           result.push({
             id: key,
             isGroup: true as const,
@@ -189,7 +170,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                 }, hoverDelay)
               }}
             >
-              {item.items.map((subItem) => (
+              {Object.values(item.items).map((subItem) => (
                 <div 
                   key={subItem.id}
                   className="toolbar-group-item"
