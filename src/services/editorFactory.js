@@ -7,7 +7,7 @@
 import logseqEditor from './logseq/editor.js';
 
 // 导入Mock编辑器服务
-import mockEditor from './mock/editor.js';
+import mockEditor from '../test/mock/editor.js';
 
 /**
  * 获取编辑器服务
