@@ -4,6 +4,7 @@ import '../main.css'
 import SelectToolbar from '../components/SelectToolbar/index.tsx'
 import SettingsModal from '../components/SettingsModal/index.tsx'
 import TestLayout from './components/TestLayout/index.tsx'
+import ToastContainer from '../components/Toast/Toast.tsx'
 import { toolbarItems as testData } from './testData.ts'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../config/useSettings.tsx'
@@ -134,6 +135,9 @@ function TestApp() {
         onClose={() => setShowSettings(false)}
         theme={settings.theme}
       />
+      
+      {/* Toast 容器 */}
+      <ToastContainer />
     </div>
   )
 }

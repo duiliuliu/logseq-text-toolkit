@@ -52,7 +52,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
               icon: typedGroupValue.icon,
               regex: typedGroupValue.regex,
               replacement: typedGroupValue.replacement,
-              hidden: typedGroupValue.hidden
+              hidden: typedGroupValue.hidden || false
             }
           }
         }
@@ -61,8 +61,8 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             id: key,
             isGroup: true as const,
             items: groupItems,
-            label: key,
-            hidden: value.hidden
+            label: value.label || key,
+            hidden: value.hidden || false
           })
         }
       } else if (value && typeof value === 'object' && 'label' in value) {
@@ -76,7 +76,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           icon: typedValue.icon,
           regex: typedValue.regex,
           replacement: typedValue.replacement,
-          hidden: typedValue.hidden
+          hidden: typedValue.hidden || false
         })
       }
     }
@@ -213,6 +213,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const hiddenItems = toolbarItems.filter(item => item.hidden)
   const mainItems = visibleItems.slice(0, 3)
   const moreItems = visibleItems.slice(3).concat(hiddenItems)
+  const hasMoreItems = moreItems.length > 0
 
   const toggleMore = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -237,19 +238,21 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       <div className="toolbar-main" style={{ width: moreExpanded ? 'auto' : width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
-        <div 
-          className="toolbar-main-item toolbar-more"
-          onClick={toggleMore}
-          onMouseEnter={() => setHoveredItem({ label: moreExpanded ? 'Collapse' : 'More', id: 'more', funcmode: 'console', clickfunc: 'more' })}
-          onMouseLeave={() => setHoveredItem(null)}
-        >
-          <div className="toolbar-item-icon">{moreExpanded ? '−' : '⋮'}</div>
-          {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
-            <div className="toolbar-tooltip">
-              {hoveredItem.label}
-            </div>
-          )}
-        </div>
+        {hasMoreItems && (
+          <div 
+            className="toolbar-main-item toolbar-more"
+            onClick={toggleMore}
+            onMouseEnter={() => setHoveredItem({ label: moreExpanded ? 'Collapse' : 'More', id: 'more', funcmode: 'console', clickfunc: 'more' })}
+            onMouseLeave={() => setHoveredItem(null)}
+          >
+            <div className="toolbar-item-icon">{moreExpanded ? '−' : '⋮'}</div>
+            {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
+              <div className="toolbar-tooltip">
+                {hoveredItem.label}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )

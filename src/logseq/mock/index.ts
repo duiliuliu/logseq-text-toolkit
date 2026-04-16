@@ -67,6 +67,12 @@ const mockLogseq: LogseqAPI = {
   UI: {
     showMsg: (msg: string, opts?: any) => {
       console.log('Show message:', msg, opts);
+      // 使用 Toast 组件显示消息
+      const type = opts?.type || 'info';
+      const timeout = opts?.timeout || 3000;
+      if ((window as any).addToast) {
+        (window as any).addToast(msg, type, timeout);
+      }
     }
   },
   provideModel: (model: Record<string, any>) => {
