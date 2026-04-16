@@ -4,18 +4,19 @@ import '../main.css'
 import SelectToolbar from '../components/SelectToolbar'
 import SettingsModal from '../components/SettingsModal'
 import { toolbarItems as testData } from './testData.js'
+import { useSettingsContext } from '../hooks/useSettings.js'
 
 // 导入mock logseq
 import './mock.js'
 
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
-  const [theme, setTheme] = useState('light')
-  const [toolbarWidth, setToolbarWidth] = useState('110px')
-  const [toolbarHeight, setToolbarHeight] = useState('24px')
   const [targetElement, setTargetElement] = useState(null)
   const [showSettings, setShowSettings] = useState(false)
   const contentRef = useRef(null)
+  
+  // 使用设置上下文
+  const { settings } = useSettingsContext()
 
   // 初始化 mock logseq
   useEffect(() => {
@@ -41,8 +42,18 @@ function TestApp() {
     }
   }, [contentRef])
 
+  // 确保settings存在
+  if (!settings) {
+    return (
+      <div className="App">
+        <h1>Text Toolkit Plugin (Test Mode)</h1>
+        <p>Loading settings...</p>
+      </div>
+    )
+  }
+
   return (
-    <div className={`App ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+    <div className={`App ${settings.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div className="test-app-header">
         <h1>Text Toolkit Plugin (Test Mode)</h1>
         <button 
@@ -54,34 +65,6 @@ function TestApp() {
       </div>
       <p>Welcome to Text Toolkit Test Mode!</p>
       <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
-      
-      <div className="theme-switcher">
-        <label>Choose theme: </label>
-        <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-      </div>
-      
-      <div className="toolbar-width-control">
-        <label>Toolbar width: </label>
-        <input 
-          type="text" 
-          value={toolbarWidth} 
-          onChange={(e) => setToolbarWidth(e.target.value)}
-          placeholder="e.g., 100px"
-        />
-      </div>
-      
-      <div className="toolbar-height-control">
-        <label>Toolbar height: </label>
-        <input 
-          type="text" 
-          value={toolbarHeight} 
-          onChange={(e) => setToolbarHeight(e.target.value)}
-          placeholder="e.g., 48px"
-        />
-      </div>
       
       <div className="content-section" ref={contentRef}>
         <h2>Select Text Below</h2>
@@ -115,17 +98,17 @@ function TestApp() {
       <SelectToolbar 
         targetElement={targetElement}
         items={testData} 
-        theme={theme} 
-        showBorder={false}
-        width={toolbarWidth}
-        height={toolbarHeight}
-        hoverDelay={500} // 0.5秒延时
+        theme={settings.theme} 
+        showBorder={settings.toolbar.showBorder}
+        width={settings.toolbar.width}
+        height={settings.toolbar.height}
+        hoverDelay={settings.toolbar.hoverDelay}
       />
       
       <SettingsModal 
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
-        theme={theme}
+        theme={settings.theme}
       />
     </div>
   )

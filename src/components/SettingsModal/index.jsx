@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from '../Modal/index.jsx'
-import useSettings from '../../hooks/useSettings.js'
+import { useSettingsContext } from '../../hooks/useSettings.js'
 import GeneralSettings from './tabs/GeneralSettings.jsx'
 import ToolbarSettings from './tabs/ToolbarSettings.jsx'
 import AdvancedSettings from './tabs/AdvancedSettings.jsx'
@@ -16,7 +16,7 @@ function SettingsModal({ isOpen, onClose, theme }) {
     loadSettings, 
     saveSettings, 
     resetSettings 
-  } = useSettings()
+  } = useSettingsContext()
   
   const [settings, setSettings] = useState(null)
   const [activeTab, setActiveTab] = useState('general')
@@ -30,6 +30,13 @@ function SettingsModal({ isOpen, onClose, theme }) {
       })
     }
   }, [isOpen, loadSettings])
+
+  // 当loadedSettings变化时，更新本地settings状态
+  useEffect(() => {
+    if (loadedSettings) {
+      setSettings(loadedSettings)
+    }
+  }, [loadedSettings])
 
   const handleSave = async (tab) => {
     if (!settings) return

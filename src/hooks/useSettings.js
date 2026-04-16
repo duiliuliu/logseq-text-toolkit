@@ -1,5 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, createContext, useContext } from 'react'
 import { loadSettings, saveSettings, resetSettings } from '../utils/settings.js'
+
+// 创建设置上下文
+const SettingsContext = createContext(null)
 
 /**
  * 自定义 Hook，用于管理设置
@@ -80,6 +83,26 @@ const useSettings = () => {
     saveSettings: saveSettingsData,
     resetSettings: resetSettingsData
   }
+}
+
+// Settings Provider 组件
+export const SettingsProvider = ({ children }) => {
+  const settingsData = useSettings()
+
+  return (
+    <SettingsContext.Provider value={settingsData}>
+      {children}
+    </SettingsContext.Provider>
+  )
+}
+
+// 用于在其他组件中访问设置
+export const useSettingsContext = () => {
+  const context = useContext(SettingsContext)
+  if (!context) {
+    throw new Error('useSettingsContext must be used within a SettingsProvider')
+  }
+  return context
 }
 
 export default useSettings
