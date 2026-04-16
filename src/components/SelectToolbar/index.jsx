@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import { logseqAPI } from '../../logseq/index.js'
-import { replaceSelectedText } from '../../utils/textProcessor.js'
 
 function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = true }) {
   const [selectedData, setSelectedData] = useState({})
@@ -13,46 +12,8 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   const editorService = logseqAPI.Editor
   
   // 处理文本处理完成后的回调
-  const handleTextProcessed = async (processedText, item, selectedData) => {
-    console.log('=== handleTextProcessed ===')
+  const handleTextProcessed = async (processedText) => {
     console.log('Processed text:', processedText)
-    console.log('Item:', item)
-    console.log('Selected data:', selectedData)
-    
-    let success = false
-    
-    // 根据funcmode调用相应的方法
-    switch (item.funcmode) {
-      case 'replace':
-        console.log('Using replace mode')
-        success = await replaceSelectedText(editorService, processedText, item, selectedData)
-        break
-      case 'add':
-        console.log('Using add mode')
-        success = await replaceSelectedText(editorService, processedText, item, selectedData)
-        break
-      case 'invoke':
-        console.log('Using invoke mode')
-        // invoke模式目前也使用replaceSelectedText
-        success = await replaceSelectedText(editorService, processedText, item, selectedData)
-        break
-      case 'console':
-        console.log('Using console mode')
-        // console模式只是打印日志，不进行替换
-        success = true
-        break
-      default:
-        console.log('Unknown funcmode:', item.funcmode)
-        success = await replaceSelectedText(editorService, processedText, item, selectedData)
-    }
-    
-    if (success) {
-      console.log('Text replaced successfully')
-      // 替换成功后隐藏工具栏
-      setShowToolbar(false)
-    } else {
-      console.error('Failed to replace text')
-    }
   }
 
   // 处理文本选择

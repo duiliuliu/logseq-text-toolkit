@@ -100,10 +100,9 @@ export const replaceSelectedTextCommon = async (getCurrentBlockFn, updateBlockFn
 };
 
 // 处理文本替换的完整逻辑
-export const replaceSelectedText = async (editorService, processedText, item, selectedData) => {
+export const replaceSelectedText = async (editorService, processedText, selectedData) => {
   console.log('=== replaceSelectedText ===');
   console.log('Processed text:', processedText);
-  console.log('Item:', item);
   console.log('Selected data:', selectedData);
   
   try {
@@ -117,8 +116,8 @@ export const replaceSelectedText = async (editorService, processedText, item, se
       return false;
     }
     
-    // 2. 获取选中的文字和位置
-    console.log('Step 2: 获取选中的文字和位置');
+    // 2. 获取选中的文字
+    console.log('Step 2: 获取选中的文字');
     const selectedText = selectedData.text;
     if (!selectedText) {
       console.error('Error: 没有选中的文字');
@@ -129,30 +128,8 @@ export const replaceSelectedText = async (editorService, processedText, item, se
     console.log('Step 3: 构建新的块内容');
     const originalContent = block.content;
     
-    // 查找选中文本在原始内容中的位置
-    const selection = window.getSelection();
-    const selectionStart = selection.anchorOffset;
-    const selectionEnd = selection.focusOffset;
-    const anchorNode = selection.anchorNode;
-    
-    console.log('Selection start:', selectionStart);
-    console.log('Selection end:', selectionEnd);
-    console.log('Anchor node:', anchorNode);
-    
-    // 构建新内容
-    let newContent;
-    if (anchorNode && anchorNode.textContent) {
-      const nodeText = anchorNode.textContent;
-      const beforeSelection = nodeText.substring(0, Math.min(selectionStart, selectionEnd));
-      const afterSelection = nodeText.substring(Math.max(selectionStart, selectionEnd));
-      const newNodeText = beforeSelection + processedText + afterSelection;
-      
-      // 替换整个块内容
-      newContent = originalContent.replace(nodeText, newNodeText);
-    } else {
-      // 简化处理：直接替换第一个匹配的选中文本
-      newContent = originalContent.replace(selectedText, processedText);
-    }
+    // 简化处理：直接替换第一个匹配的选中文本
+    const newContent = originalContent.replace(selectedText, processedText);
     
     console.log('Original content:', originalContent);
     console.log('New content:', newContent);
