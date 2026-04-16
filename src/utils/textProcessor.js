@@ -98,6 +98,76 @@ export const replaceSelectedTextCommon = async (getCurrentBlockFn, updateBlockFn
   }
 };
 
+// 处理文本替换的完整逻辑
+export const processAndReplaceText = async (editorService, processedText, item) => {
+  console.log('=== processAndReplaceText ===');
+  console.log('Processed text:', processedText);
+  console.log('Item:', item);
+  
+  try {
+    // 1. 获取当前块信息
+    console.log('Step 1: 获取当前块信息');
+    const block = await editorService.getCurrentBlock();
+    console.log('Current block:', block);
+    
+    if (!block || !block.content) {
+      console.error('Error: 没有获取到当前块或块内容');
+      return false;
+    }
+    
+    // 2. 获取选中的文字和位置
+    console.log('Step 2: 获取选中的文字和位置');
+    const selection = window.getSelection();
+    if (!selection || selection.toString().length === 0) {
+      console.error('Error: 没有选中的文字');
+      return false;
+    }
+    
+    const selectedText = selection.toString();
+    console.log('Selected text:', selectedText);
+    
+    // 3. 构建新的块内容
+    console.log('Step 3: 构建新的块内容');
+    const originalContent = block.content;
+    
+    // 查找选中文本在原始内容中的位置
+    const selectionStart = selection.anchorOffset;
+    const selectionEnd = selection.focusOffset;
+    const anchorNode = selection.anchorNode;
+    
+    console.log('Selection start:', selectionStart);
+    console.log('Selection end:', selectionEnd);
+    console.log('Anchor node:', anchorNode);
+    
+    // 构建新内容
+    let newContent;
+    if (anchorNode && anchorNode.textContent) {
+      const nodeText = anchorNode.textContent;
+      const beforeSelection = nodeText.substring(0, Math.min(selectionStart, selectionEnd));
+      const afterSelection = nodeText.substring(Math.max(selectionStart, selectionEnd));
+      const newNodeText = beforeSelection + processedText + afterSelection;
+      
+      // 替换整个块内容
+      newContent = originalContent.replace(nodeText, newNodeText);
+    } else {
+      // 简化处理：直接替换第一个匹配的选中文本
+      newContent = originalContent.replace(selectedText, processedText);
+    }
+    
+    console.log('Original content:', originalContent);
+    console.log('New content:', newContent);
+    
+    // 4. 更新块内容
+    console.log('Step 4: 更新块内容');
+    const success = await editorService.updateBlock(block.uuid, newContent);
+    
+    return success;
+  } catch (error) {
+    console.error('Error in processAndReplaceText:', error);
+    return false;
+  }
+};
+
 export default {
   processText,
   replaceText,
