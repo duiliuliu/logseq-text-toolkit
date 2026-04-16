@@ -13,9 +13,37 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   
   // 处理文本处理完成后的回调
   const handleTextProcessed = async (processedText, item) => {
-    console.log('Processing text:', processedText)
-    // 使用编辑器服务替换选中的文字
-    const success = await editorService.replaceSelectedText(processedText)
+    console.log('=== handleTextProcessed ===')
+    console.log('Processed text:', processedText)
+    console.log('Item:', item)
+    
+    let success = false
+    
+    // 根据funcmode调用相应的方法
+    switch (item.funcmode) {
+      case 'replace':
+        console.log('Using replace mode')
+        success = await editorService.replaceSelectedText(processedText)
+        break
+      case 'add':
+        console.log('Using add mode')
+        success = await editorService.replaceSelectedText(processedText)
+        break
+      case 'invoke':
+        console.log('Using invoke mode')
+        // invoke模式目前也使用replaceSelectedText
+        success = await editorService.replaceSelectedText(processedText)
+        break
+      case 'console':
+        console.log('Using console mode')
+        // console模式只是打印日志，不进行替换
+        success = true
+        break
+      default:
+        console.log('Unknown funcmode:', item.funcmode)
+        success = await editorService.replaceSelectedText(processedText)
+    }
+    
     if (success) {
       console.log('Text replaced successfully')
       // 替换成功后隐藏工具栏

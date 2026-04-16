@@ -4,7 +4,7 @@ export const toolbarItems = {
     // "binding": "",
     "icon": "type",
     "funcmode": "replace",
-    "clickfunc": "文本替换"
+    "clickfunc": "${selectedText}"
   },
   "group-style": {
     "wrap-bold": {
@@ -12,21 +12,21 @@ export const toolbarItems = {
       // "binding": "",
       "icon": "bold",
       "funcmode": "replace",
-      "clickfunc": "加粗"
+      "clickfunc": "**${selectedText}**"
     },
     "wrap-italic": {
       "label": "斜体",
       // "binding": "mod+shift+i",
       "icon": "italic",
       "funcmode": "replace",
-      "clickfunc": "斜体"
+      "clickfunc": "*${selectedText}*"
     },
     "wrap-strike-through": {
       "label": "删除线",
       // "binding": "",
       "icon": "strikethrough",
       "funcmode": "replace",
-      "clickfunc": "删除线"
+      "clickfunc": "~~${selectedText}~~"
     }
   },
   "group-bg-hl": {
@@ -35,28 +35,28 @@ export const toolbarItems = {
       // "binding": "",
       "icon": "highlighter",
       "funcmode": "replace",
-      "clickfunc": "背景高亮黄"
+      "clickfunc": "==${selectedText}=="
     },
     "wrap-red-bg-hl": {
       "label": "背景高亮红",
       // "binding": "",
       "icon": "highlighter",
       "funcmode": "replace",
-      "clickfunc": "背景高亮红"
+      "clickfunc": "[[#red]]==${selectedText}=="
     },
     "wrap-green-bg-hl": {
       "label": "背景高亮绿",
       // "binding": "",
       "icon": "highlighter",
       "funcmode": "replace",
-      "clickfunc": "背景高亮绿"
+      "clickfunc": "[[#green]]==${selectedText}=="
     },
     "wrap-blue-bg-hl": {
       "label": "背景高亮蓝",
       // "binding": "",
       "icon": "highlighter",
       "funcmode": "replace",
-      "clickfunc": "背景高亮蓝"
+      "clickfunc": "[[#blue]]==${selectedText}=="
     }
   },
   "group-text-hl": {
@@ -65,28 +65,28 @@ export const toolbarItems = {
       // "binding": "",
       "icon": "type",
       "funcmode": "replace",
-      "clickfunc": "字体高亮红"
+      "clickfunc": "[[$red]]==${selectedText}=="
     },
     "wrap-yellow-text-hl": {
       "label": "字体高亮黄",
       // "binding": "",
       "icon": "type",
       "funcmode": "replace",
-      "clickfunc": "字体高亮黄"
+      "clickfunc": "[[$yellow]]==${selectedText}=="
     },
     "wrap-green-text-hl": {
       "label": "字体高亮绿",
       // "binding": "",
       "icon": "type",
       "funcmode": "replace",
-      "clickfunc": "字体高亮绿"
+      "clickfunc": "[[$green]]==${selectedText}=="
     },
     "wrap-blue-text-hl": {
       "label": "字体高亮蓝",
       // "binding": "",
       "icon": "type",
       "funcmode": "replace",
-      "clickfunc": "字体高亮蓝"
+      "clickfunc": "[[$blue]]==${selectedText}=="
     }
   },
   "group-underline-hl": {
@@ -95,28 +95,28 @@ export const toolbarItems = {
       // "binding": "",
       "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "下划线高亮红"
+      "clickfunc": "__${selectedText}__"
     },
     "wrap-yellow-underline-hl": {
       "label": "下划线高亮黄",
       // "binding": "",
       "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "下划线高亮黄"
+      "clickfunc": "__${selectedText}__"
     },
     "wrap-green-underline-hl": {
       "label": "下划线高亮绿",
       // "binding": "",
       "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "下划线高亮绿"
+      "clickfunc": "__${selectedText}__"
     },
     "wrap-blue-underline-hl": {
       "label": "下划线高亮蓝",
       // "binding": "",
       "icon": "underline",
       "funcmode": "replace",
-      "clickfunc": "下划线高亮蓝"
+      "clickfunc": "__${selectedText}__"
     }
   },
   "repl-clear": {
@@ -126,6 +126,6 @@ export const toolbarItems = {
     "replacement": "$1$2$3$4$5$6$7$8",
     "icon": "x",
     "funcmode": "replace",
-    "clickfunc": "清除格式"
+    "clickfunc": ""
   }
 }
