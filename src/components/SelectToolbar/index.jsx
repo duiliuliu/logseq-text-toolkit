@@ -13,11 +13,10 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   const editorService = logseqAPI.Editor
   
   // 处理文本处理完成后的回调
-  const handleTextProcessed = async (processedText, item, selectedData) => {
+  const handleTextProcessed = async (processedText, item) => {
     console.log('=== handleTextProcessed ===')
     console.log('Processed text:', processedText)
     console.log('Item:', item)
-    console.log('Selected data:', selectedData)
     
     let success = false
     
@@ -25,16 +24,16 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     switch (item.funcmode) {
       case 'replace':
         console.log('Using replace mode')
-        success = await processAndReplaceText(editorService, processedText, item, selectedData)
+        success = await processAndReplaceText(editorService, processedText, item)
         break
       case 'add':
         console.log('Using add mode')
-        success = await processAndReplaceText(editorService, processedText, item, selectedData)
+        success = await processAndReplaceText(editorService, processedText, item)
         break
       case 'invoke':
         console.log('Using invoke mode')
         // invoke模式目前也使用processAndReplaceText
-        success = await processAndReplaceText(editorService, processedText, item, selectedData)
+        success = await processAndReplaceText(editorService, processedText, item)
         break
       case 'console':
         console.log('Using console mode')
@@ -43,7 +42,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
         break
       default:
         console.log('Unknown funcmode:', item.funcmode)
-        success = await processAndReplaceText(editorService, processedText, item, selectedData)
+        success = await processAndReplaceText(editorService, processedText, item)
     }
     
     if (success) {
