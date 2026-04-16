@@ -7,7 +7,7 @@
 import * as logseqImpl from './editor.js';
 
 // 导入mock的Logseq实现
-import * as mockImpl from '../../test/mock/editor.js';
+import * as mockImpl from '../test/mock/editor.js';
 
 // 存储提供的模型
 const providedModels = {};

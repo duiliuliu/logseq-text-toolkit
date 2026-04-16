@@ -7,7 +7,7 @@ import TestLayout from './components/TestLayout'
 import { toolbarItems as testData } from './testData.js'
 import testConfig from './testConfig.js'
 import { useSettingsContext } from '../hooks/useSettings.jsx'
-import { logseqAPI } from '../hooks/logseq/index.js'
+import { logseqAPI } from '../logseq/index.js'
 
 // 导入mock logseq
 import './mock.js'

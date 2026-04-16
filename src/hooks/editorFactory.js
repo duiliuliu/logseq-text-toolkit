@@ -4,7 +4,7 @@
  */
 
 // 导入统一的Logseq API接口
-import { logseqAPI } from './logseq/index.js';
+import { logseqAPI } from '../logseq/index.js';
 
 /**
  * 获取编辑器服务
