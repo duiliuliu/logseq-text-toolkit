@@ -1,7 +1,7 @@
 .toolbar-container {
   position: relative;
-  display: flex;
-  flex-direction: row;
+  display: inline-block;
+  flex-direction: column;
   gap: 8px;
   align-items: center;
 }
@@ -201,6 +201,7 @@
 /* 赞助栏样式 */
 .toolbar-sponsor {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   background-color: var(--ls-primary-background-color-plugin, #fff);
@@ -211,22 +212,22 @@
   transition: all 0.2s ease;
   position: relative;
   z-index: 999;
-  overflow: hidden;
-  min-width: 60px;
-  max-width: 150px;
+  overflow: visible;
+  min-width: 120px;
+  max-width: 300px;
   flex-shrink: 0;
-  padding: 2px 4px;
+  padding: 0;
 }
 
 .toolbar-sponsor-iframe {
   width: 100%;
-  height: 100%;
+  height: 36px;
   border: none;
   display: block;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  min-width: 50px;
-  max-width: 140px;
+  min-width: 120px;
+  max-width: 300px;
 }
 
 /* 当工具栏展开时，赞助栏也自适应宽度 */
@@ -237,12 +238,12 @@
 /* 确保赞助栏在不同尺寸下都能合理显示 */
 @media (max-width: 480px) {
   .toolbar-sponsor {
-    min-width: 50px;
-    max-width: 100px;
+    min-width: 100px;
+    max-width: 200px;
   }
   .toolbar-sponsor-iframe {
-    min-width: 45px;
-    max-width: 90px;
+    min-width: 100px;
+    max-width: 200px;
   }
 }
 

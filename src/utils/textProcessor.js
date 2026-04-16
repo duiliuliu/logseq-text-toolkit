@@ -65,21 +65,34 @@ export const invokeText = (item, text) => {
 }
 
 export const replaceSelectedTextCommon = async (getCurrentBlockFn, updateBlockFn, processedText) => {
-  console.log('=== replaceSelectedTextCommon ===');
+  console.log('=== replaceSelectedTextCommon - 开始 ===');
+  console.log('Step 1: 准备替换文本');
   console.log('Processed text:', processedText);
+  
   try {
+    console.log('Step 2: 获取当前块');
     const block = await getCurrentBlockFn();
+    console.log('Step 3: 检查当前块');
     console.log('Current block:', block);
+    
     if (!block) {
-      console.error('No block selected');
+      console.error('Error: 没有选中的块');
       return false;
     }
     
+    console.log('Step 4: 更新块内容');
+    console.log('Block ID:', block.uuid);
+    
     const success = await updateBlockFn(block.uuid, processedText);
+    
+    console.log('Step 5: 检查更新结果');
     console.log('Update success:', success);
+    
+    console.log('=== replaceSelectedTextCommon - 结束 ===');
     return success;
   } catch (error) {
     console.error('Error replacing selected text:', error);
+    console.log('=== replaceSelectedTextCommon - 异常结束 ===');
     return false;
   }
 };
