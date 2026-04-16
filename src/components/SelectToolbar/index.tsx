@@ -18,7 +18,7 @@ interface SelectToolbarProps {
   sponsorEnabled?: boolean
 }
 
-function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = true }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = false }: SelectToolbarProps) {
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
@@ -111,7 +111,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
       console.log('Setting showToolbar to false (no selection)');
       setShowToolbar(false)
     }
-  }, [showToolbar, targetElement]);
+  }, [targetElement]);
 
   // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
   const handleMouseMove = useCallback((e: MouseEvent) => {

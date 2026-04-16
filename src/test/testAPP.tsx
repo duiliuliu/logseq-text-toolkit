@@ -27,6 +27,9 @@ function TestApp() {
     const initLogseqPlugin = async () => {
       try {
         console.log('Welcome to Text Toolkit Test Mode!')
+        // 清除旧的localStorage设置
+        localStorage.removeItem('text-toolkit-settings')
+        console.log('Cleared old settings from localStorage')
         await logseqAPI.ready()
         console.log('Mock Logseq plugin ready')
         setIsReady(true)

@@ -255,7 +255,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
 
   return (
     <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-      {sponsorEnabled && (
+      {/* {sponsorEnabled && (
         <div className="toolbar-sponsor" style={{ width: width, height }}>
           <iframe 
             src="https://duiliuliu.github.io/sponsor-page/?no-text=1" 
@@ -266,7 +266,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             style={{ minWidth: '100%', minHeight: '100%' }}
           />
         </div>
-      )}
+      )} */}
       <div className="toolbar-main" style={{ width: moreExpanded ? 'auto' : width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
