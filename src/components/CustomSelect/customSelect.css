@@ -32,6 +32,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--ls-primary-text-color-plugin, #333);
+  text-align: left;
 }
 
 .custom-select__arrow {
