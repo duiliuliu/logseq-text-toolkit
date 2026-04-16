@@ -1,8 +1,9 @@
-export const processText = (item, selectedText) => {
-  console.log('=== processText ===');
+export const processSelectData = (item, selectedData) => {
+  console.log('=== processSelectData ===');
   console.log('Item:', item);
-  console.log('Selected text:', selectedText);
+  console.log('Selected data:', selectedData);
   
+  const selectedText = selectedData.text;
   if (!selectedText) {
     console.log('No selected text, returning original');
     return selectedText;
@@ -99,10 +100,11 @@ export const replaceSelectedTextCommon = async (getCurrentBlockFn, updateBlockFn
 };
 
 // 处理文本替换的完整逻辑
-export const processAndReplaceText = async (editorService, processedText, item) => {
-  console.log('=== processAndReplaceText ===');
+export const replaceSelectedText = async (editorService, processedText, item, selectedData) => {
+  console.log('=== replaceSelectedText ===');
   console.log('Processed text:', processedText);
   console.log('Item:', item);
+  console.log('Selected data:', selectedData);
   
   try {
     // 1. 获取当前块信息
@@ -117,20 +119,18 @@ export const processAndReplaceText = async (editorService, processedText, item) 
     
     // 2. 获取选中的文字和位置
     console.log('Step 2: 获取选中的文字和位置');
-    const selection = window.getSelection();
-    if (!selection || selection.toString().length === 0) {
+    const selectedText = selectedData.text;
+    if (!selectedText) {
       console.error('Error: 没有选中的文字');
       return false;
     }
-    
-    const selectedText = selection.toString();
-    console.log('Selected text:', selectedText);
     
     // 3. 构建新的块内容
     console.log('Step 3: 构建新的块内容');
     const originalContent = block.content;
     
     // 查找选中文本在原始内容中的位置
+    const selection = window.getSelection();
     const selectionStart = selection.anchorOffset;
     const selectionEnd = selection.focusOffset;
     const anchorNode = selection.anchorNode;
@@ -163,15 +163,16 @@ export const processAndReplaceText = async (editorService, processedText, item) 
     
     return success;
   } catch (error) {
-    console.error('Error in processAndReplaceText:', error);
+    console.error('Error in replaceSelectedText:', error);
     return false;
   }
 };
 
 export default {
-  processText,
+  processSelectData,
   replaceText,
   addText,
   invokeText,
-  replaceSelectedTextCommon
+  replaceSelectedTextCommon,
+  replaceSelectedText
 };
