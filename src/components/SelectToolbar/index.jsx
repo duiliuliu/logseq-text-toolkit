@@ -1,11 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
+import { getEditorService } from '../../services/editorFactory.js'
 
 function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = true }) {
   const [selectedData, setSelectedData] = useState({})
   const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
   const containerRef = useRef(null)
+  
+  // 获取编辑器服务
+  const editorService = getEditorService()
+  
+  // 处理文本处理完成后的回调
+  const handleTextProcessed = async (processedText, item) => {
+    console.log('Processing text:', processedText)
+    // 使用编辑器服务替换选中的文字
+    const success = await editorService.replaceSelectedText(processedText)
+    if (success) {
+      console.log('Text replaced successfully')
+      // 替换成功后隐藏工具栏
+      setShowToolbar(false)
+    } else {
+      console.error('Failed to replace text')
+    }
+  }
 
   // 处理文本选择
   useEffect(() => {
@@ -117,6 +135,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
             selectedData={selectedData}
             hoverDelay={hoverDelay}
             sponsorEnabled={sponsorEnabled}
+            onTextProcessed={handleTextProcessed}
           />
         </div>
       )}
