@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import './main.css'
+import App from './App.jsx'
 import TestApp from './test/testAPP.jsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
@@ -9,17 +10,6 @@ import { SettingsProvider } from './hooks/useSettings.jsx'
 import { logseqAPI } from './logseq/index.js'
 import { toolbarItems as defaultToolbarItems } from './test/testData.js'
 import defaultSettings from './config/defaultSettings.js'
-
-// 基础应用组件
-const BaseApp = () => {
-  return (
-    <div className="App">
-      <h1>Text Toolkit Plugin</h1>
-      <p>Welcome to Text Toolkit!</p>
-      <p>This is the base application view.</p>
-    </div>
-  )
-}
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -120,8 +110,8 @@ if (import.meta.env.MODE === 'test') {
   renderComponent(rootElement, TestApp)
   logseqAPI.ready().then(main).catch(console.error)
 } else {
-  // 在正式模式下，也渲染基础应用
+  // 在正式模式下，渲染 App 组件
   const rootElement = document.getElementById('root')
-  renderComponent(rootElement, BaseApp)
+  renderComponent(rootElement, App)
   logseqAPI.ready().then(main).catch(console.error)
 }
