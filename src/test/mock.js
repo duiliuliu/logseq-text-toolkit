@@ -1,6 +1,12 @@
 // Mock Logseq API
 window.logseq = {
   ready: () => Promise.resolve(),
+  settings: {}, // 添加settings属性
+  updateSettings: (settings) => {
+    console.log('Updated settings:', settings);
+    window.logseq.settings = { ...settings };
+    return Promise.resolve();
+  },
   App: {
     registerCommand: (command) => {
       console.log('Registered command:', command);
