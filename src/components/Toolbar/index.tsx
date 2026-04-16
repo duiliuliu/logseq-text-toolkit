@@ -233,30 +233,16 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   }
 
   const toolbarItems = parseItems(items)
-  console.log('=== Toolbar Items ===');
-  console.log('Parsed items:', toolbarItems);
   
   const visibleItems = toolbarItems.filter(item => !item.hidden)
   const hiddenItems = toolbarItems.filter(item => item.hidden)
   const mainItems = visibleItems.slice(0, 3)
   const moreItems = visibleItems.slice(3).concat(hiddenItems)
   const hasMoreItems = moreItems.length > 0
-  
-  console.log('Visible items:', visibleItems);
-  console.log('Hidden items:', hiddenItems);
-  console.log('Main items:', mainItems);
-  console.log('More items:', moreItems);
-  console.log('Has more items:', hasMoreItems);
 
   const toggleMore = (e: React.MouseEvent) => {
-    console.log('=== toggleMore CALLED ===');
-    console.log('Event:', e);
-    console.log('Current moreExpanded:', moreExpanded);
     e.stopPropagation()
-    // e.preventDefault()  // 暂时移除，检查是否影响
-    const newState = !moreExpanded
-    console.log('Setting moreExpanded to:', newState);
-    setMoreExpanded(newState)
+    setMoreExpanded(!moreExpanded)
   }
 
   return (

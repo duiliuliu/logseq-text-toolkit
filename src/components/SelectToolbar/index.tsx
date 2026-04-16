@@ -24,12 +24,6 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   const [showToolbar, setShowToolbar] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   
-  console.log('=== SelectToolbar Rendered ===');
-  console.log('Items:', items);
-  console.log('Show toolbar:', showToolbar);
-  console.log('Selected data:', selectedData);
-  console.log('Target element:', targetElement);
-  
 
   
   // 处理文本处理完成后的回调
@@ -39,10 +33,6 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
   // 处理文本选择
   const handleSelection = useCallback((e: MouseEvent) => {
-    console.log('=== handleSelection ===');
-    console.log('Event target:', e.target);
-    console.log('Show toolbar:', showToolbar);
-    
     // 检查是否点击了toolbar内部的元素，包括more按钮
     const isInsideToolbar = 
       (e.target as HTMLElement).closest('.floating-toolbar') || 
@@ -50,34 +40,17 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
       (e.target as HTMLElement).closest('.toolbar-group-dropdown') || 
       (e.target as HTMLElement).closest('.toolbar-more');
     
-    console.log('Is inside toolbar:', isInsideToolbar);
-    console.log('Element closest to .toolbar-more:', (e.target as HTMLElement).closest('.toolbar-more'));
-    
     if (isInsideToolbar && showToolbar) {
-      console.log('Click inside toolbar, keeping toolbar visible');
       // 点击工具栏内部，直接返回，不做任何处理
       // 这样可以保持工具栏的显示状态和more按钮的功能
       return
     }
 
     const selection = window.getSelection()
-    console.log('Selection:', selection?.toString());
     if (selection && selection.toString().length > 0) {
-      // 检查选择是否在目标元素内
-      const anchorNode = selection.anchorNode
-      const focusNode = selection.focusNode
-      const isInTarget = (targetElement && (targetElement.contains(anchorNode) || targetElement.contains(focusNode)))
-      
-      console.log('Anchor node:', anchorNode);
-      console.log('Focus node:', focusNode);
-      console.log('Target element:', targetElement);
-      console.log('Is in target:', isInTarget);
-      
       // 无论是否有targetElement，都显示工具栏
       const range = selection.getRangeAt(0)
       const rect = range.getBoundingClientRect()
-      console.log('Selection range:', range);
-      console.log('Selection rect:', rect);
       
       setSelectedData({
         text: selection.toString(),
@@ -102,10 +75,8 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
         x: rect.left + rect.width / 2,
         y: toolbarY
       })
-      console.log('Setting showToolbar to true');
       setShowToolbar(true)
     } else {
-      console.log('Setting showToolbar to false (no selection)');
       setShowToolbar(false)
     }
   }, [showToolbar, targetElement]);
