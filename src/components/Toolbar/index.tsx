@@ -29,7 +29,7 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = true }: ToolbarProps) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
