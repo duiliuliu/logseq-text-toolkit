@@ -1,6 +1,6 @@
 // src/hooks/useLogseq.js
 import { useEffect, useState } from 'react';
-import { logseqAPI } from './index.js';
+import { logseqAPI } from './logseq/index.js';
 
 /**
  * 自定义 Hook，用于处理 Logseq 相关的逻辑

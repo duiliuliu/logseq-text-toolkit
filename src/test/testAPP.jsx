@@ -5,6 +5,7 @@ import SelectToolbar from '../components/SelectToolbar'
 import SettingsModal from '../components/SettingsModal'
 import { toolbarItems as testData } from './testData.js'
 import { useSettingsContext } from '../hooks/useSettings.jsx'
+import { logseqAPI } from '../hooks/logseq/index.js'
 
 // 导入mock logseq
 import './mock.js'
@@ -23,7 +24,7 @@ function TestApp() {
     const initLogseqPlugin = async () => {
       try {
         console.log('Welcome to Text Toolkit Test Mode!')
-        await window.logseq.ready()
+        await logseqAPI.ready()
         console.log('Mock Logseq plugin ready')
         setIsReady(true)
       } catch (error) {
