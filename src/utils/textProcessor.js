@@ -14,6 +14,8 @@ export const processSelectedData = (item, selectedData) => {
       console.log('Processing in replace mode');
       const result = replaceText(item, selectedText);
       console.log('Replace result:', result);
+      // 这里可以添加对replaceSelectedText的调用
+      // 但由于replaceSelectedText是异步函数，需要在调用处处理
       return result;
     case 'add':
       console.log('Processing in add mode');
@@ -66,38 +68,7 @@ export const invokeText = (item, text) => {
   return text;
 }
 
-export const replaceSelectedTextCommon = async (getCurrentBlockFn, updateBlockFn, processedText) => {
-  console.log('=== replaceSelectedTextCommon - 开始 ===');
-  console.log('Step 1: 准备替换文本');
-  console.log('Processed text:', processedText);
-  
-  try {
-    console.log('Step 2: 获取当前块');
-    const block = await getCurrentBlockFn();
-    console.log('Step 3: 检查当前块');
-    console.log('Current block:', block);
-    
-    if (!block) {
-      console.error('Error: 没有选中的块');
-      return false;
-    }
-    
-    console.log('Step 4: 更新块内容');
-    console.log('Block ID:', block.uuid);
-    
-    const success = await updateBlockFn(block.uuid, processedText);
-    
-    console.log('Step 5: 检查更新结果');
-    console.log('Update success:', success);
-    
-    console.log('=== replaceSelectedTextCommon - 结束 ===');
-    return success;
-  } catch (error) {
-    console.error('Error replacing selected text:', error);
-    console.log('=== replaceSelectedTextCommon - 异常结束 ===');
-    return false;
-  }
-};
+
 
 // 处理文本替换的完整逻辑
 export const replaceSelectedText = async (editorService, processedText, selectedData) => {
@@ -113,16 +84,23 @@ export const replaceSelectedText = async (editorService, processedText, selected
     
     if (!block || !block.content) {
       console.error('Error: 没有获取到当前块或块内容');
+      // 显示错误消息
+      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+        logseq.UI.showMsg('没有获取到当前块或块内容', { type: 'error' });
+      }
       return false;
     }
     
     // 2. 获取选中的文字和位置信息
     console.log('Step 2: 获取选中的文字和位置信息');
     const selectedText = selectedData.text;
-    const range = selectedData.range;
     
     if (!selectedText) {
       console.error('Error: 没有选中的文字');
+      // 显示错误消息
+      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+        logseq.UI.showMsg('没有选中的文字', { type: 'error' });
+      }
       return false;
     }
     
@@ -130,18 +108,21 @@ export const replaceSelectedText = async (editorService, processedText, selected
     console.log('Step 3: 构建新的块内容');
     const originalContent = block.content;
     
-    // 构建新内容 - 尝试使用range信息精确替换
-    let newContent;
-    if (range) {
-      console.log('Using range information for precise replacement');
-      // 这里可以使用更复杂的逻辑来精确替换选中的内容
-      // 简化处理：直接替换第一个匹配的选中文本
-      newContent = originalContent.replace(selectedText, processedText);
-    } else {
-      console.log('Using simple replacement');
-      // 简化处理：直接替换第一个匹配的选中文本
-      newContent = originalContent.replace(selectedText, processedText);
+    // 精确替换选中的文本
+    // 这里实现一个更精确的替换逻辑
+    // 找到第一个匹配的文本并替换
+    const index = originalContent.indexOf(selectedText);
+    if (index === -1) {
+      console.error('Error: 选中的文字在块内容中未找到');
+      // 显示错误消息
+      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+        logseq.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
+      }
+      return false;
     }
+    
+    // 构建新内容
+    const newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
     
     console.log('Original content:', originalContent);
     console.log('New content:', newContent);
@@ -150,9 +131,25 @@ export const replaceSelectedText = async (editorService, processedText, selected
     console.log('Step 4: 更新块内容');
     const success = await editorService.updateBlock(block.uuid, newContent);
     
+    if (success) {
+      // 显示成功消息
+      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+        logseq.UI.showMsg('文本替换成功', { type: 'success' });
+      }
+    } else {
+      // 显示错误消息
+      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+        logseq.UI.showMsg('文本替换失败', { type: 'error' });
+      }
+    }
+    
     return success;
   } catch (error) {
     console.error('Error in replaceSelectedText:', error);
+    // 显示错误消息
+    if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
+      logseq.UI.showMsg(`文本替换失败: ${error.message}`, { type: 'error' });
+    }
     return false;
   }
 };
@@ -162,6 +159,5 @@ export default {
   replaceText,
   addText,
   invokeText,
-  replaceSelectedTextCommon,
   replaceSelectedText
 };
