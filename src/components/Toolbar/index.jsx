@@ -81,10 +81,10 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       console.log(`Clicked: ${item.clickfunc} (mode: ${item.funcmode})`)
       if (selectedData && selectedData.text) {
         console.log(`Selected data:`, selectedData)
-        const processedText = processText(item, selectedData.text)
+        const processedText = processText(item, selectedData)
         console.log(`Processed text:`, processedText)
         if (onTextProcessed) {
-          onTextProcessed(processedText, item)
+          onTextProcessed(processedText, item, selectedData)
         }
       }
     }

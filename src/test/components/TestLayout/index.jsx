@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import './testLayout.css'
 
 function TestLayout({ leftContent, centerContent, rightContent }) {
-  const [leftCollapsed, setLeftCollapsed] = useState(false)
-  const [rightCollapsed, setRightCollapsed] = useState(false)
+  const [leftCollapsed, setLeftCollapsed] = useState(true)
+  const [rightCollapsed, setRightCollapsed] = useState(true)
 
   return (
     <div className="test-layout">
