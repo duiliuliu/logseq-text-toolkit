@@ -3,15 +3,9 @@ import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { processSelectedData } from '../../utils/textProcessor.js'
 import { ToolbarItem, ToolbarGroup } from '../../types/index.ts'
+import { SelectedData } from '../../utils/textProcessor.ts'
 
 type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu'
-
-interface SelectedData {
-  text: string
-  timestamp?: string
-  range?: Range
-  rect?: DOMRect
-}
 
 interface ToolbarProps {
   items: Record<string, any>
@@ -230,7 +224,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   return (
     <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       {sponsorEnabled && (
-        <div className="toolbar-sponsor" style={{ width: moreExpanded ? 'auto' : width, height }}>
+        <div className="toolbar-sponsor" style={{ width: width, height }}>
           <iframe 
             src="https://duiliuliu.github.io/sponsor-page/?no-text=1" 
             title="Sponsor Page"
