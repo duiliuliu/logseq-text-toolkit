@@ -4,9 +4,25 @@ import { useSettingsContext } from '../../hooks/useSettings.tsx'
 import GeneralSettings from './tabs/GeneralSettings.tsx'
 import ToolbarSettings from './tabs/ToolbarSettings.tsx'
 import AdvancedSettings from './tabs/AdvancedSettings.tsx'
-import { t } from '../../translations/i18n.js'
-import { Settings, SettingsModalProps, TabComponentProps } from '../../types/index.ts'
+import { t } from '../../translations/i18n.ts'
+import { ThemeType, Settings } from '../../types/index.ts'
 import './settingsModal.css'
+
+// SettingsModal Props 类型
+interface SettingsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  theme: ThemeType;
+}
+
+// 标签页组件 Props 类型
+interface TabComponentProps {
+  settings: Settings;
+  setSettings: React.Dispatch<React.SetStateAction<Settings | null>>;
+  onSave: () => void;
+  isSaving: boolean;
+  language: string;
+}
 
 function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   const { 

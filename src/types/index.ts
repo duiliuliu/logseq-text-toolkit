@@ -55,18 +55,4 @@ export interface SettingsContextType {
   resetSettings: () => Promise<boolean>;
 }
 
-// SettingsModal Props 类型
-export interface SettingsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  theme: ThemeType;
-}
 
-// 标签页组件 Props 类型
-export interface TabComponentProps {
-  settings: Settings;
-  setSettings: React.Dispatch<React.SetStateAction<Settings | null>>;
-  onSave: () => void;
-  isSaving: boolean;
-  language: LanguageType;
-}
