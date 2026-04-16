@@ -144,10 +144,26 @@ export const toolbarItems: ToolbarConfig['items'] = {
   "repl-clear": {
     id: "repl-clear",
     label: "清除格式",
-    regex: "\\[\\[(?:#|\\$)(?:red|green|blue|yellow)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
+    regex: "\[\[(?:#|\$)(?:red|green|blue|yellow)\]\]|==([^=]*)==|~~([^~]*)~~|\^\^([^\^]*)\^\^|\*\*([^\*]*)\*\*|\*([^\*]*)\*|_([^_]*)_|\$([^\$]*)\$|`([^`]*)`",
     replacement: "$1$2$3$4$5$6$7$8",
     icon: "x",
     funcmode: "replace",
     clickfunc: ""
+  },
+  "hidden-item-1": {
+    id: "hidden-item-1",
+    label: "隐藏项目1",
+    icon: "x",
+    funcmode: "replace",
+    clickfunc: "hidden1-${selectedText}-hidden1",
+    hidden: true
+  },
+  "hidden-item-2": {
+    id: "hidden-item-2",
+    label: "隐藏项目2",
+    icon: "x",
+    funcmode: "replace",
+    clickfunc: "hidden2-${selectedText}-hidden2",
+    hidden: true
   }
 };
