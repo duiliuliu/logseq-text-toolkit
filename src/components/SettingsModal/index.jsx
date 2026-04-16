@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from '../Modal/index.jsx'
-import { useSettingsContext } from '../../hooks/useSettings.js'
+import { useSettingsContext } from '../../hooks/useSettings.jsx'
 import GeneralSettings from './tabs/GeneralSettings.jsx'
 import ToolbarSettings from './tabs/ToolbarSettings.jsx'
 import AdvancedSettings from './tabs/AdvancedSettings.jsx'

@@ -4,7 +4,7 @@ import '../main.css'
 import SelectToolbar from '../components/SelectToolbar'
 import SettingsModal from '../components/SettingsModal'
 import { toolbarItems as testData } from './testData.js'
-import { useSettingsContext } from '../hooks/useSettings.js'
+import { useSettingsContext } from '../hooks/useSettings.jsx'
 
 // 导入mock logseq
 import './mock.js'

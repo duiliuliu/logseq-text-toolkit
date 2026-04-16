@@ -4,7 +4,7 @@ import './index.css'
 import './main.css'
 import App from './App.jsx'
 import TestApp from './test/testAPP.jsx'
-import { SettingsProvider } from './hooks/useSettings.js'
+import { SettingsProvider } from './hooks/useSettings.jsx'
 
 // 根据启动模式选择应用
 const AppComponent = import.meta.env.MODE === 'test' ? TestApp : App
