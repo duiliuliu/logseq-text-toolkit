@@ -20,7 +20,7 @@ export const getLogseqAPI = (): any => {
   } else {
     console.log('Using official Logseq API (production mode)');
     // 直接返回官方的logseq对象
-    return logseq;
+    return (window as any).logseq;
   }
 };
 

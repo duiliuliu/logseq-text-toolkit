@@ -1,35 +1,35 @@
 # 更新日志 - 2026-04-16
 
-## 类型定义优化
-- 在 `types/index.ts` 中添加了 `FuncMode` 类型，使 `ToolbarItem.funcmode` 类型更精确
-- 在 `types/logseq.ts` 中优化了 `LogseqApp` 和 `LogseqAPI` 类型，使用更精确的类型替代 `any` 类型
+## 主要更新
 
-## 功能改进
-- 修改了 `textProcessor.ts` 中的 `processSelectedData` 函数，使其成为异步函数
-- 在 `processSelectedData` 函数中添加了对 `replaceSelectedText` 的调用，支持在 `replace` 模式下自动执行文本替换
-- 优化了 `replaceSelectedText` 函数，使用 `SelectedData.range` 进行精确定位，并添加了适当的回退机制
+1. **文件结构优化**
+   - 将 `/src/hooks/useSettings.tsx` 移动到 `/src/config/` 目录
+   - 将 `/src/utils/settings.ts` 移动到 `/src/config/` 目录并优化名称为 `settingsStorage.ts`
+   - 删除了多个无用文件：
+     - `/src/utils/state.ts`
+     - `/workspace/src/types` 目录
+     - `/workspace/src/utils/commands.ts`
+     - `/workspace/src/utils/annotations.ts`
 
-## 构建和部署
-- 修复了构建过程中的导入路径问题
-- 确保了项目能够正常编译和部署
-- 验证了测试模式下应用的正常运行
+2. **Logseq API 优化**
+   - 清理了 `/workspace/src/logseq/` 目录，移除了重复定义的内容和没用的逻辑
+   - 直接从 `@logseq/libs` 导入类型定义，替换了本地定义
+   - 删除了 `editor.ts` 中 logseq 没有提供的 `replaceSelectedText` 函数
+   - 优化了 `index.ts` 中获取 logseq 实例的方式
 
-## 其他
-- 确保了所有类型定义的正确使用
-- 提高了代码的类型安全性和可维护性
+3. **修复和改进**
+   - 修复了 `SelectToolbar` 和 `Modal` 中对已删除 `state.ts` 的引用问题
+   - 确保所有导入路径正确更新
+   - 验证了构建和测试服务的正常运行
 
-## 组件接口定义优化
-- 修复了标签页组件的导入问题，将 `TabComponentProps` 类型定义移到了各自的文件中
-- 优化了 Toolbar 组件的接口定义，删除了重复的 `ToolbarItem` 和 `ToolbarGroup` 接口定义
-- 修复了 Toolbar 组件中 `parseItems` 和 `renderItem` 函数，使其正确处理类型
+## 技术细节
 
-## 赞赏栏优化
-- 修改了赞赏栏样式，使其不跟随 more 按钮点击后一起调整尺寸
+- 使用 `@logseq/libs/dist/LSPlugin` 作为 API 类型定义的来源
+- 保持了本地 mock 实现作为测试用
+- 确保了所有组件在测试模式下正常工作
 
-## 文件清理
-- 删除了无用的 js、jsx 文件，保留了对应的 ts、tsx 文件
+## 验证结果
 
-## 重复接口定义优化
-- 全面扫描了项目中的 interface 定义，去除了重复的定义
-- 将 SelectedData 接口统一从 utils/textProcessor.ts 导出并引用
-- 将 ToolbarPosition 接口统一从 utils/state.ts 导出并引用
+- 构建命令 `npm run build` 成功通过，无编译错误
+- 测试服务 `npm run test` 成功启动，页面正常加载
+- 所有功能模块运行正常
