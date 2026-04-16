@@ -1,5 +1,6 @@
 import React from 'react'
 import { t } from '../../../translations/i18n.js'
+import CustomSelect from '../../CustomSelect/index.jsx'
 
 function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) {
   const handleSettingChange = (path, value) => {
@@ -17,31 +18,37 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) 
     })
   }
 
+  const themeOptions = [
+    { value: 'light', label: t('settings.lightTheme', language) },
+    { value: 'dark', label: t('settings.darkTheme', language) }
+  ]
+
+  const languageOptions = [
+    { value: 'zh-CN', label: t('settings.chinese', language) },
+    { value: 'en', label: t('settings.english', language) },
+    { value: 'ja', label: t('settings.japanese', language) }
+  ]
+
   return (
     <div className="settings-tab-content">
       <p className="tab-section-description-small">{t('settings.generalSettingsDescription', language)}</p>
       
       <div className="setting-item">
         <label>{t('settings.theme', language)}</label>
-        <select 
-          value={settings.theme} 
-          onChange={(e) => handleSettingChange('theme', e.target.value)}
-        >
-          <option value="light">{t('settings.lightTheme', language)}</option>
-          <option value="dark">{t('settings.darkTheme', language)}</option>
-        </select>
+        <CustomSelect
+          options={themeOptions}
+          value={settings.theme}
+          onChange={(value) => handleSettingChange('theme', value)}
+        />
       </div>
 
       <div className="setting-item">
         <label>{t('settings.language', language)}</label>
-        <select 
-          value={settings.language} 
-          onChange={(e) => handleSettingChange('language', e.target.value)}
-        >
-          <option value="zh-CN">{t('settings.chinese', language)}</option>
-          <option value="en">{t('settings.english', language)}</option>
-          <option value="ja">{t('settings.japanese', language)}</option>
-        </select>
+        <CustomSelect
+          options={languageOptions}
+          value={settings.language}
+          onChange={(value) => handleSettingChange('language', value)}
+        />
       </div>
 
       <div className="settings-actions">

@@ -14,10 +14,10 @@
   "settings": {
     "title": "設定",
     "tabs": {
-      "general": "⚙️ 一般設定",
-      "toolbar": "🛠️ ツールバー設定",
-      "advanced": "⚡ 詳細設定"
-    },
+    "general": "⚙️ 一般設定",
+    "toolbar": "🛠️ ツールバー設定",
+    "advanced": "⚡ その他の設定"
+  },
     "generalSettings": "一般設定",
     "theme": "テーマ",
     "themeFollowSystem": "システムに追従",

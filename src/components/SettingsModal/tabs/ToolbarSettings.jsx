@@ -58,31 +58,29 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }) 
       </div>
 
       <div className="setting-item">
-        <label>{t('settings.width', language)}</label>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <input 
-            type="text" 
-            value={settings.toolbar.width} 
-            onChange={(e) => handleSettingChange('toolbar.width', e.target.value)}
-            placeholder={language === 'zh-CN' ? '例如：110px' : language === 'ja' ? '例：110px' : 'e.g.: 110px'}
-          />
-        </div>
+        <label>{t('settings.width', language)} (px)</label>
+        <input 
+          type="number" 
+          value={settings.toolbar.width.replace('px', '')} 
+          onChange={(e) => handleSettingChange('toolbar.width', `${e.target.value}px`)}
+          placeholder="110"
+          min="1"
+        />
       </div>
 
       <div className="setting-item">
-        <label>{t('settings.height', language)}</label>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <input 
-            type="text" 
-            value={settings.toolbar.height} 
-            onChange={(e) => handleSettingChange('toolbar.height', e.target.value)}
-            placeholder={language === 'zh-CN' ? '例如：24px' : language === 'ja' ? '例：24px' : 'e.g.: 24px'}
-          />
-        </div>
+        <label>{t('settings.height', language)} (px)</label>
+        <input 
+          type="number" 
+          value={settings.toolbar.height.replace('px', '')} 
+          onChange={(e) => handleSettingChange('toolbar.height', `${e.target.value}px`)}
+          placeholder="24"
+          min="1"
+        />
       </div>
 
       <div className="setting-item">
-        <label>{t('settings.hoverDelay', language)}</label>
+        <label>{t('settings.hoverDelay', language)} (ms)</label>
         <input 
           type="number" 
           value={settings.toolbar.hoverDelay} 
