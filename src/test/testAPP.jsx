@@ -3,7 +3,9 @@ import '../index.css'
 import '../main.css'
 import SelectToolbar from '../components/SelectToolbar'
 import SettingsModal from '../components/SettingsModal'
+import TestLayout from './components/TestLayout'
 import { toolbarItems as testData } from './testData.js'
+import testConfig from './testConfig.js'
 import { useSettingsContext } from '../hooks/useSettings.jsx'
 import { logseqAPI } from '../hooks/logseq/index.js'
 
@@ -53,9 +55,51 @@ function TestApp() {
     )
   }
 
+  // 左侧面板内容
+  const leftContent = (
+    <div className="left-panel">
+      <h3>{testConfig.leftPanel.title}</h3>
+      {testConfig.leftPanel.sections.map((section, index) => (
+        <div key={index} className="panel-section">
+          <h4>{section.title}</h4>
+          <ul>
+            {section.items.map((item) => (
+              <li key={item.id}>{item.label}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )
+
+  // 右侧面板内容
+  const rightContent = (
+    <div className="right-panel">
+      <h3>{testConfig.rightPanel.title}</h3>
+      <div className="actions">
+        {testConfig.rightPanel.actions.map((action) => (
+          <button key={action.id} className="action-btn">
+            {action.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+
+  // 中间内容区域
+  const centerContent = (
+    <div className="center-content" ref={contentRef}>
+      <h2>{testConfig.content.title}</h2>
+      {testConfig.content.paragraphs.map((paragraph, index) => (
+        <p key={index}>{paragraph}</p>
+      ))}
+    </div>
+  )
+
   return (
     <div className={`App ${settings.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-      <div className="test-app-header">
+      {/* 顶部工具栏 */}
+      <div className="top-toolbar">
         <h1>Text Toolkit Plugin (Test Mode)</h1>
         <button 
           className="settings-button"
@@ -64,37 +108,15 @@ function TestApp() {
           ⚙️ 设置
         </button>
       </div>
-      <p>Welcome to Text Toolkit Test Mode!</p>
-      <p>{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
       
-      <div className="content-section" ref={contentRef}>
-        <h2>Select Text Below</h2>
-        <p>Select any text in this paragraph to see the toolbar appear. The toolbar will show up above the selected text, and you can click on any toolbar item to see the element name, function, and selected text printed in the console.</p>
-        <p>This is another paragraph with more text to select. Try selecting different parts of this text to see how the toolbar follows your selection.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-        <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-        <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-        <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-        <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-        <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-        <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-      </div>
+      <p className="status-text">{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
+      
+      {/* 使用TestLayout布局 */}
+      <TestLayout 
+        leftContent={leftContent}
+        centerContent={centerContent}
+        rightContent={rightContent}
+      />
       
       <SelectToolbar 
         targetElement={targetElement}

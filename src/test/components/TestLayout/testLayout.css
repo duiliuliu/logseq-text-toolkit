@@ -1,0 +1,44 @@
+.test-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.test-layout__left {
+  width: 280px;
+  min-width: 280px;
+  height: 100%;
+  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);
+  border-right: 1px solid var(--ls-border-color-plugin, #e0e0e0);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.test-layout__main {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.test-layout__content {
+  padding: 40px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.test-layout__right {
+  width: 280px;
+  min-width: 280px;
+  height: 100%;
+  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);
+  border-left: 1px solid var(--ls-border-color-plugin, #e0e0e0);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* 深色主题样式 */
+[data-theme="dark"] .test-layout__left,
+[data-theme="dark"] .test-layout__right {
+  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);
+  border-color: var(--ls-border-color-plugin, #444);
+}
