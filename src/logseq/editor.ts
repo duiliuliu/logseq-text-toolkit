@@ -3,7 +3,6 @@
  * 提供与Logseq编辑器相关的操作，如获取当前块和更新块内容
  */
 
-import { replaceSelectedTextCommon } from '../utils/textProcessor.ts';
 import { BlockEntity, BlockUUID } from '../types/logseq.ts';
 
 /**
@@ -52,7 +51,18 @@ export const updateBlock = async (blockId: BlockUUID, content: string): Promise<
  * @returns {Promise<boolean>} 替换是否成功
  */
 export const replaceSelectedText = async (processedText: string): Promise<boolean> => {
-  return replaceSelectedTextCommon(getCurrentBlock, updateBlock, processedText);
+  try {
+    if (typeof logseq === 'undefined') {
+      console.error('Logseq API is not available');
+      return false;
+    }
+    
+    const success = await logseq.Editor.replaceSelectedText(processedText);
+    return success;
+  } catch (error) {
+    console.error('Error replacing selected text:', error);
+    return false;
+  }
 };
 
 export default {

@@ -14,7 +14,11 @@ import defaultSettings from './config/defaultSettings.ts'
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
 
-const renderComponent = (container, Component, props = {}) => {
+interface RenderComponentProps {
+  [key: string]: any
+}
+
+const renderComponent = (container: HTMLElement | null, Component: React.ComponentType<any>, props: RenderComponentProps = {}) => {
   if (container) {
     ReactDOM.createRoot(container).render(
       <React.StrictMode>

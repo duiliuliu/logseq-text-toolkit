@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { processSelectedData, replaceSelectedText, SelectedData } from '../../utils/textProcessor.ts'
-import { getCurrentBlock, updateBlock } from '../../logseq/editor.ts'
 import { ToolbarItem, ToolbarGroup } from '../../types/index.ts'
 
 type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu'
@@ -111,11 +110,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const handleItemClick = async (item: ToolbarItem) => {
     if (item.clickfunc) {
       if (selectedData && selectedData.text) {
-        const editorService = {
-          getCurrentBlock,
-          updateBlock
-        };
-        const processedText = await processSelectedData(item, selectedData, editorService);
+        const processedText = await processSelectedData(item, selectedData);
         if (onTextProcessed) {
           onTextProcessed(processedText);
         }

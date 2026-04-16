@@ -1,5 +1,5 @@
 import { ToolbarItem } from '../types/index.ts';
-import { BlockEntity } from '../types/logseq.ts';
+import { logseqAPI } from '../logseq/index.ts';
 
 export interface SelectedData {
   text: string;
@@ -8,15 +8,9 @@ export interface SelectedData {
   rect?: DOMRect;
 }
 
-interface EditorService {
-  getCurrentBlock: () => Promise<BlockEntity | null>;
-  updateBlock: (blockId: string, content: string) => Promise<boolean>;
-}
-
 export const processSelectedData = async (
   item: ToolbarItem, 
-  selectedData: SelectedData, 
-  editorService?: EditorService
+  selectedData: SelectedData
 ): Promise<string> => {
   console.log('=== processSelectedData ===');
   console.log('Item:', item);
@@ -34,11 +28,9 @@ export const processSelectedData = async (
       console.log('Processing in replace mode');
       result = replaceText(item, selectedText);
       console.log('Replace result:', result);
-      // 如果提供了editorService，调用replaceSelectedText执行实际替换
-      if (editorService) {
-        console.log('Calling replaceSelectedText');
-        await replaceSelectedText(editorService, result, selectedData);
-      }
+      // 直接使用logseqAPI执行替换
+      console.log('Calling replaceSelectedText');
+      await replaceSelectedText(result, selectedData);
       break;
     case 'add':
       console.log('Processing in add mode');
@@ -94,7 +86,7 @@ export const invokeText = (item: ToolbarItem, text: string): string => {
 }
 
 // 处理文本替换的完整逻辑
-export const replaceSelectedText = async (editorService: EditorService, processedText: string, selectedData: SelectedData): Promise<boolean> => {
+export const replaceSelectedText = async (processedText: string, selectedData: SelectedData): Promise<boolean> => {
   console.log('=== replaceSelectedText ===');
   console.log('Processed text:', processedText);
   console.log('Selected data:', selectedData);
@@ -102,15 +94,13 @@ export const replaceSelectedText = async (editorService: EditorService, processe
   try {
     // 1. 获取当前块信息
     console.log('Step 1: 获取当前块信息');
-    const block = await editorService.getCurrentBlock();
+    const block = await logseqAPI.Editor.getCurrentBlock();
     console.log('Current block:', block);
     
     if (!block || !block.content) {
       console.error('Error: 没有获取到当前块或块内容');
       // 显示错误消息
-      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-        logseq.UI.showMsg('没有获取到当前块或块内容', { type: 'error' });
-      }
+      logseqAPI.UI.showMsg('没有获取到当前块或块内容', { type: 'error' });
       return false;
     }
     
@@ -121,9 +111,7 @@ export const replaceSelectedText = async (editorService: EditorService, processe
     if (!selectedText) {
       console.error('Error: 没有选中的文字');
       // 显示错误消息
-      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-        logseq.UI.showMsg('没有选中的文字', { type: 'error' });
-      }
+      logseqAPI.UI.showMsg('没有选中的文字', { type: 'error' });
       return false;
     }
     
@@ -150,9 +138,7 @@ export const replaceSelectedText = async (editorService: EditorService, processe
         const index = originalContent.indexOf(selectedText);
         if (index === -1) {
           console.error('Error: 选中的文字在块内容中未找到');
-          if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-            logseq.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
-          }
+          logseqAPI.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
           return false;
         }
         newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
@@ -162,9 +148,7 @@ export const replaceSelectedText = async (editorService: EditorService, processe
       const index = originalContent.indexOf(selectedText);
       if (index === -1) {
         console.error('Error: 选中的文字在块内容中未找到');
-        if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-          logseq.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
-        }
+        logseqAPI.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
         return false;
       }
       newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
@@ -175,50 +159,21 @@ export const replaceSelectedText = async (editorService: EditorService, processe
     
     // 4. 更新块内容
     console.log('Step 4: 更新块内容');
-    const success = await editorService.updateBlock(block.uuid, newContent);
+    const success = await logseqAPI.Editor.updateBlock(block.uuid, newContent);
     
     if (success) {
       // 显示成功消息
-      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-        logseq.UI.showMsg('文本替换成功', { type: 'success' });
-      }
+      logseqAPI.UI.showMsg('文本替换成功', { type: 'success' });
     } else {
       // 显示错误消息
-      if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-        logseq.UI.showMsg('文本替换失败', { type: 'error' });
-      }
+      logseqAPI.UI.showMsg('文本替换失败', { type: 'error' });
     }
     
     return success;
   } catch (error) {
     console.error('Error in replaceSelectedText:', error);
     // 显示错误消息
-    if (typeof logseq !== 'undefined' && logseq.UI && logseq.UI.showMsg) {
-      logseq.UI.showMsg(`文本替换失败: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
-    }
-    return false;
-  }
-};
-
-// 通用的文本替换函数，接受getCurrentBlock和updateBlock作为参数
-export const replaceSelectedTextCommon = async (
-  getCurrentBlock: () => Promise<BlockEntity | null>,
-  updateBlock: (blockId: string, content: string) => Promise<boolean>,
-  processedText: string
-): Promise<boolean> => {
-  try {
-    const block = await getCurrentBlock();
-    if (!block || !block.content) {
-      console.error('Error: 没有获取到当前块或块内容');
-      return false;
-    }
-
-    // 这里简化处理，直接使用processedText替换整个块内容
-    // 实际应用中可能需要更复杂的逻辑来处理选中的文本
-    const success = await updateBlock(block.uuid, processedText);
-    return success;
-  } catch (error) {
-    console.error('Error in replaceSelectedTextCommon:', error);
+    logseqAPI.UI.showMsg(`文本替换失败: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
     return false;
   }
 };
@@ -228,6 +183,5 @@ export default {
   replaceText,
   addText,
   invokeText,
-  replaceSelectedText,
-  replaceSelectedTextCommon
+  replaceSelectedText
 };
