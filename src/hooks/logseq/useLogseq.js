@@ -1,5 +1,6 @@
 // src/hooks/useLogseq.js
 import { useEffect, useState } from 'react';
+import { logseqAPI } from './index.js';
 
 /**
  * 自定义 Hook，用于处理 Logseq 相关的逻辑
@@ -12,13 +13,8 @@ const useLogseq = () => {
   useEffect(() => {
     const initLogseq = async () => {
       try {
-        if (typeof logseq !== 'undefined') {
-          await logseq.ready();
-          setIsReady(true);
-        } else {
-          // 在测试模式下，logseq 会被 mock
-          setIsReady(true);
-        }
+        await logseqAPI.ready();
+        setIsReady(true);
       } catch (err) {
         console.error('Logseq initialization error:', err);
         setError(err);
@@ -33,9 +29,9 @@ const useLogseq = () => {
    * @param {Object} command 命令对象
    */
   const registerCommand = (command) => {
-    if (isReady && typeof logseq !== 'undefined') {
+    if (isReady) {
       try {
-        logseq.App.registerCommand(command);
+        logseqAPI.App.registerCommand(command);
       } catch (err) {
         console.error('Failed to register command:', err);
         setError(err);
@@ -49,9 +45,9 @@ const useLogseq = () => {
    * @param {Function} callback 回调函数
    */
   const on = (event, callback) => {
-    if (isReady && typeof logseq !== 'undefined') {
+    if (isReady) {
       try {
-        logseq.App.on(event, callback);
+        logseqAPI.App.on(event, callback);
       } catch (err) {
         console.error('Failed to register event listener:', err);
         setError(err);
@@ -64,9 +60,9 @@ const useLogseq = () => {
    * @param {string} event 事件名称
    */
   const off = (event) => {
-    if (isReady && typeof logseq !== 'undefined') {
+    if (isReady) {
       try {
-        logseq.App.off(event);
+        logseqAPI.App.off(event);
       } catch (err) {
         console.error('Failed to unregister event listener:', err);
         setError(err);
@@ -79,9 +75,9 @@ const useLogseq = () => {
    * @returns {Promise<Object>} 用户配置
    */
   const getUserConfigs = async () => {
-    if (isReady && typeof logseq !== 'undefined') {
+    if (isReady) {
       try {
-        return await logseq.App.getUserConfigs();
+        return await logseqAPI.App.getUserConfigs();
       } catch (err) {
         console.error('Failed to get user configs:', err);
         setError(err);
@@ -96,9 +92,9 @@ const useLogseq = () => {
    * @returns {Promise<Object>} 当前页面
    */
   const getCurrentPage = async () => {
-    if (isReady && typeof logseq !== 'undefined') {
+    if (isReady) {
       try {
-        return await logseq.Editor.getCurrentPage();
+        return await logseqAPI.Editor.getCurrentPage();
       } catch (err) {
         console.error('Failed to get current page:', err);
         setError(err);
@@ -108,6 +104,60 @@ const useLogseq = () => {
     return null;
   };
 
+  /**
+   * 获取当前块
+   * @returns {Promise<Object>} 当前块
+   */
+  const getCurrentBlock = async () => {
+    if (isReady) {
+      try {
+        return await logseqAPI.Editor.getCurrentBlock();
+      } catch (err) {
+        console.error('Failed to get current block:', err);
+        setError(err);
+        return null;
+      }
+    }
+    return null;
+  };
+
+  /**
+   * 更新块内容
+   * @param {string} blockId 块ID
+   * @param {string} content 新内容
+   * @returns {Promise<boolean>} 更新是否成功
+   */
+  const updateBlock = async (blockId, content) => {
+    if (isReady) {
+      try {
+        return await logseqAPI.Editor.updateBlock(blockId, content);
+      } catch (err) {
+        console.error('Failed to update block:', err);
+        setError(err);
+        return false;
+      }
+    }
+    return false;
+  };
+
+  /**
+   * 替换选中的文字
+   * @param {string} processedText 处理后的文字
+   * @returns {Promise<boolean>} 替换是否成功
+   */
+  const replaceSelectedText = async (processedText) => {
+    if (isReady) {
+      try {
+        return await logseqAPI.Editor.replaceSelectedText(processedText);
+      } catch (err) {
+        console.error('Failed to replace selected text:', err);
+        setError(err);
+        return false;
+      }
+    }
+    return false;
+  };
+
   return {
     isReady,
     error,
@@ -115,7 +165,11 @@ const useLogseq = () => {
     on,
     off,
     getUserConfigs,
-    getCurrentPage
+    getCurrentPage,
+    getCurrentBlock,
+    updateBlock,
+    replaceSelectedText,
+    logseqAPI
   };
 };
 
