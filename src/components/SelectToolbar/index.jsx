@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
-import { getEditorService } from '../../hooks/editorFactory.js'
+import { logseqAPI } from '../../logseq/index.js'
 
 function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = true }) {
   const [selectedData, setSelectedData] = useState({})
@@ -9,7 +9,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   const containerRef = useRef(null)
   
   // 获取编辑器服务
-  const editorService = getEditorService()
+  const editorService = logseqAPI.Editor
   
   // 处理文本处理完成后的回调
   const handleTextProcessed = async (processedText, item) => {
