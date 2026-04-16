@@ -3,19 +3,19 @@
  * 提供与Logseq编辑器相关的操作，如获取当前块和更新块内容
  */
 
+import { replaceSelectedTextCommon } from '../utils/editorCommon.js';
+
 /**
  * 获取当前选中的块
  * @returns {Promise<Object|null>} 当前块对象或null
  */
 export const getCurrentBlock = async () => {
   try {
-    // 检查logseq是否可用
     if (typeof logseq === 'undefined') {
       console.error('Logseq API is not available');
       return null;
     }
     
-    // 获取当前块
     const block = await logseq.Editor.getCurrentBlock();
     return block;
   } catch (error) {
@@ -32,13 +32,11 @@ export const getCurrentBlock = async () => {
  */
 export const updateBlock = async (blockId, content) => {
   try {
-    // 检查logseq是否可用
     if (typeof logseq === 'undefined') {
       console.error('Logseq API is not available');
       return false;
     }
     
-    // 更新块内容
     const success = await logseq.Editor.updateBlock(blockId, content);
     return success;
   } catch (error) {
@@ -53,21 +51,7 @@ export const updateBlock = async (blockId, content) => {
  * @returns {Promise<boolean>} 替换是否成功
  */
 export const replaceSelectedText = async (processedText) => {
-  try {
-    // 获取当前块
-    const block = await getCurrentBlock();
-    if (!block) {
-      console.error('No block selected');
-      return false;
-    }
-    
-    // 更新块内容
-    const success = await updateBlock(block.uuid, processedText);
-    return success;
-  } catch (error) {
-    console.error('Error replacing selected text:', error);
-    return false;
-  }
+  return replaceSelectedTextCommon(getCurrentBlock, updateBlock, processedText);
 };
 
 export default {

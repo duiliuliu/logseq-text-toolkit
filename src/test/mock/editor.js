@@ -3,10 +3,16 @@
  * 提供在测试环境中模拟Logseq编辑器的功能
  */
 
+import { replaceSelectedTextCommon } from '../../utils/editorCommon.js';
+
+// 存储当前选中的DOM节点
+let selectedDOMNode = null;
+let selectionRange = null;
+
 // 模拟Logseq的BlockEntity类型
-const mockBlock = {
+const createMockBlock = (content, domNode) => ({
   uuid: 'mock-block-uuid',
-  content: '',
+  content: content,
   properties: {},
   format: 'markdown',
   children: [],
@@ -15,7 +21,40 @@ const mockBlock = {
   right: null,
   collapsed: false,
   created: new Date().toISOString(),
-  updated: new Date().toISOString()
+  updated: new Date().toISOString(),
+  domNode: domNode
+});
+
+/**
+ * 保存当前的选择范围
+ */
+const saveSelection = () => {
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount > 0) {
+    selectionRange = selection.getRangeAt(0).cloneRange();
+  }
+};
+
+/**
+ * 恢复选中状态
+ */
+const restoreSelection = (element) => {
+  try {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    
+    // 选中整个元素的文本内容
+    if (element.firstChild) {
+      range.selectNodeContents(element);
+    } else {
+      range.selectNode(element);
+    }
+    
+    selection.removeAllRanges();
+    selection.addRange(range);
+  } catch (error) {
+    console.error('Failed to restore selection:', error);
+  }
 };
 
 /**
@@ -24,14 +63,27 @@ const mockBlock = {
  */
 export const getCurrentBlock = async () => {
   try {
-    // 模拟获取当前块
-    // 在测试环境中，我们可以从localStorage或全局状态中获取模拟数据
+    // 从localStorage获取内容
     const currentContent = localStorage.getItem('mock-block-content') || '';
     
-    return {
-      ...mockBlock,
-      content: currentContent
-    };
+    // 获取当前选中的DOM节点
+    const selection = window.getSelection();
+    let domNode = null;
+    
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      let element = range.commonAncestorContainer;
+      
+      // 确保返回的是元素节点
+      while (element && element.nodeType !== Node.ELEMENT_NODE) {
+        element = element.parentNode;
+      }
+      
+      domNode = element;
+      selectedDOMNode = element;
+    }
+    
+    return createMockBlock(currentContent, domNode);
   } catch (error) {
     console.error('Error getting current block:', error);
     return null;
@@ -46,24 +98,35 @@ export const getCurrentBlock = async () => {
  */
 export const updateBlock = async (blockId, content) => {
   try {
-    // 模拟更新块内容
-    // 在测试环境中，我们可以将内容存储到localStorage中
+    // 保存当前选择
+    saveSelection();
+    
+    // 更新localStorage
     localStorage.setItem('mock-block-content', content);
     
-    // 同时更新DOM中的内容，以便在测试页面中看到变化
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      let element = range.commonAncestorContainer;
-      
-      // 确保返回的是元素节点
-      while (element && element.nodeType !== Node.ELEMENT_NODE) {
-        element = element.parentNode;
+    // 更新DOM中的内容
+    let elementToUpdate = selectedDOMNode;
+    
+    // 如果没有保存的节点，尝试从selection获取
+    if (!elementToUpdate) {
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        let element = range.commonAncestorContainer;
+        
+        while (element && element.nodeType !== Node.ELEMENT_NODE) {
+          element = element.parentNode;
+        }
+        
+        elementToUpdate = element;
       }
-      
-      if (element) {
-        element.textContent = content;
-      }
+    }
+    
+    if (elementToUpdate) {
+      // 更新内容
+      elementToUpdate.textContent = content;
+      // 保持选中状态
+      restoreSelection(elementToUpdate);
     }
     
     return true;
@@ -79,21 +142,7 @@ export const updateBlock = async (blockId, content) => {
  * @returns {Promise<boolean>} 替换是否成功
  */
 export const replaceSelectedText = async (processedText) => {
-  try {
-    // 获取当前块
-    const block = await getCurrentBlock();
-    if (!block) {
-      console.error('No block selected');
-      return false;
-    }
-    
-    // 更新块内容
-    const success = await updateBlock(block.uuid, processedText);
-    return success;
-  } catch (error) {
-    console.error('Error replacing selected text:', error);
-    return false;
-  }
+  return replaceSelectedTextCommon(getCurrentBlock, updateBlock, processedText);
 };
 
 export default {
