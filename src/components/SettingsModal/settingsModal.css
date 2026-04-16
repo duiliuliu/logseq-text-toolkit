@@ -45,7 +45,14 @@
   margin-bottom: 16px;
   border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);
   padding-bottom: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.settings-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .settings-tab {

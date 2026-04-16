@@ -42,7 +42,8 @@ function CustomSelect({ options, value, onChange, placeholder = '' }) {
               className={`custom-select__option ${option.value === value ? 'custom-select__option--selected' : ''}`}
               onClick={() => handleOptionClick(option)}
             >
-              {option.label}
+              <span className="custom-select__option-label">{option.label}</span>
+              {option.value === value && <span className="custom-select__option-checkmark">✓</span>}
             </div>
           ))}
         </div>

@@ -19,11 +19,13 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }) 
   }
 
   const themeOptions = [
+    { value: 'system', label: t('settings.themeFollowSystem', language) },
     { value: 'light', label: t('settings.lightTheme', language) },
     { value: 'dark', label: t('settings.darkTheme', language) }
   ]
 
   const languageOptions = [
+    { value: 'system', label: t('settings.languageFollowSystem', language) },
     { value: 'zh-CN', label: t('settings.chinese', language) },
     { value: 'en', label: t('settings.english', language) },
     { value: 'ja', label: t('settings.japanese', language) }
