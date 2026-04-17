@@ -1,6 +1,28 @@
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
 import { loadSettings, saveSettings, resetSettings } from '../utils/settings.js'
-import { Settings, SettingsContextType } from '../types/index.ts'
+interface Settings {
+  theme: 'light' | 'dark';
+  language: 'zh-CN' | 'en' | 'ja';
+  toolbar: {
+    enabled: boolean;
+    showBorder: boolean;
+    width: string;
+    height: string;
+    hoverDelay: number;
+    sponsorEnabled: boolean;
+    items: Record<string, any>;
+  };
+}
+
+interface SettingsContextType {
+  settings: Settings | null;
+  isLoading: boolean;
+  isSaving: boolean;
+  error: Error | null;
+  loadSettings: () => Promise<Settings | null>;
+  saveSettings: (settings: Settings) => Promise<boolean>;
+  resetSettings: () => Promise<boolean>;
+}
 
 // 创建设置上下文
 const SettingsContext = createContext<SettingsContextType | null>(null)

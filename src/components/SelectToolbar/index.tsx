@@ -41,7 +41,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   useEffect(() => {
     const handleSelection = (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
-      if (e.target && (e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown')) {
+      if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
         // 保持选中状态，不做任何处理
         return
       }

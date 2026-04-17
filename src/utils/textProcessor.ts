@@ -1,11 +1,4 @@
-interface ToolbarItem {
-  id: string;
-  label: string;
-  funcmode: string;
-  clickfunc: string;
-  regex?: string;
-  replacement?: string;
-}
+import type { ToolbarItem } from '../components/Toolbar/index.tsx';
 
 interface BlockEntity {
   uuid: string;
