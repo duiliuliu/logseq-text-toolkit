@@ -45,14 +45,18 @@ const showSettingUI = async () => {
   setTimeout(() => {
     const container = getDocument().getElementById(SETTINGS_ID)
     if (container) {
+      console.log('Found settings container, rendering SettingsModal with isOpen:', settingsModalOpen)
       const currentSettings = getSettings()
+      console.log('Current settings:', currentSettings)
       renderComponent(container, SettingsModal, {
-        isOpen: settingsModalOpen,
+        isOpen: true, // 始终渲染，由 settingToggle 控制显示/隐藏
         onClose: () => {
           settingsModalOpen = false;
         },
         theme: currentSettings.theme,
       })
+    } else {
+      console.error('Settings container not found!')
     }
   }, 1)
 }
