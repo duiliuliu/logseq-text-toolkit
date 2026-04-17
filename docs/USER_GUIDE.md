@@ -263,6 +263,16 @@ import { Bold } from 'lucide-react'
 2. 在浏览器中访问：`http://localhost:3000/`
 3. 在测试页面中测试所有功能
 
+**测试页面操作指南：**
+- **折叠左侧面板**：点击左侧的折叠按钮，减少干扰
+- **折叠右侧面板**：点击右侧的折叠按钮，专注于测试内容
+- **测试内容区域**：中间区域的文本段落是可编辑的，您可以选择其中的文字来测试工具栏功能
+
+**测试页面截图：**
+- **测试页面概览**：![测试页面概览](screenshots/test_page_overview.png)
+- **折叠面板后**：![折叠面板后](screenshots/test_page_center_content.png)
+- **测试内容区域**：![测试内容区域](screenshots/test_content_area.png)
+
 测试模式使用模拟的 Logseq API，适合快速功能验证。
 
 ## 8. 常见问题
