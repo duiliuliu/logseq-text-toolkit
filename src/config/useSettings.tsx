@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
-import { loadSettings, saveSettings, resetSettings } from './settingsStorage.ts'
 import { Settings, SettingsContextType } from './types.ts'
+import defaultSettings from './defaultSettings.ts'
 
 // 创建设置上下文
 const SettingsContext = createContext<SettingsContextType | null>(null)
@@ -20,9 +20,15 @@ const useSettings = (): SettingsContextType => {
     setIsLoading(true)
     setError(null)
     try {
-      const data = await loadSettings()
-      setSettings(data)
-      return data
+      // 在Logseq环境中直接使用logseq.settings
+      if (typeof logseq !== 'undefined' && logseq.settings) {
+        const data = { ...defaultSettings, ...logseq.settings } as unknown as Settings
+        setSettings(data)
+        return data
+      }
+      // 如果不在Logseq环境中，返回默认设置
+      setSettings(defaultSettings)
+      return defaultSettings
     } catch (err) {
       console.error('Failed to load settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
@@ -37,11 +43,12 @@ const useSettings = (): SettingsContextType => {
     setIsSaving(true)
     setError(null)
     try {
-      const success = await saveSettings(newSettings)
-      if (success) {
+      if (typeof logseq !== 'undefined') {
+        await logseq.updateSettings(newSettings as unknown as Record<string, any>)
         setSettings(newSettings)
+        return true
       }
-      return success
+      return false
     } catch (err) {
       console.error('Failed to save settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
@@ -56,11 +63,12 @@ const useSettings = (): SettingsContextType => {
     setIsSaving(true)
     setError(null)
     try {
-      const success = await resetSettings()
-      if (success) {
-        await loadSettingsData()
+      if (typeof logseq !== 'undefined') {
+        await logseq.updateSettings(defaultSettings as unknown as Record<string, any>)
+        setSettings(defaultSettings)
+        return true
       }
-      return success
+      return false
     } catch (err) {
       console.error('Failed to reset settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
@@ -68,12 +76,24 @@ const useSettings = (): SettingsContextType => {
     } finally {
       setIsSaving(false)
     }
-  }, [loadSettingsData])
+  }, [])
 
   // 初始化时加载设置
   useEffect(() => {
     loadSettingsData()
   }, [loadSettingsData])
+
+  // 监听设置变化
+  useEffect(() => {
+    if (typeof logseq !== 'undefined' && (logseq as any).onSettingsChanged) {
+      const unsubscribe = (logseq as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
+        console.log('Settings changed:', { newSettings, oldSettings })
+        const mergedSettings = { ...defaultSettings, ...newSettings } as unknown as Settings
+        setSettings(mergedSettings)
+      })
+      return unsubscribe
+    }
+  }, [])
 
   return {
     settings,

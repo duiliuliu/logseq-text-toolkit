@@ -1,12 +1,51 @@
 // Mock Logseq API
 import { LogseqAPI } from '../logseq.ts';
+import defaultSettings from '../../config/defaultSettings.ts';
 
-const mockLogseq: LogseqAPI = {
+const SETTINGS_KEY = 'text-toolkit-settings';
+const settingsChangeHandlers: Array<(newSettings: any, oldSettings: any) => void> = [];
+
+const loadSettings = (): Record<string, any> => {
+  try {
+    const saved = localStorage.getItem(SETTINGS_KEY);
+    if (saved) {
+      return { ...defaultSettings, ...JSON.parse(saved) };
+    }
+  } catch (e) {
+    console.error('Failed to load settings:', e);
+  }
+  return defaultSettings as unknown as Record<string, any>;
+};
+
+const saveSettings = (settings: Record<string, any>): void => {
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  } catch (e) {
+    console.error('Failed to save settings:', e);
+  }
+};
+
+const initialSettings = loadSettings();
+
+const mockLogseq: LogseqAPI & {
+  onSettingsChanged?: <T = any>(cb: (a: T, b: T) => void) => () => void;
+} = {
   ready: () => Promise.resolve(),
-  settings: {},
+  get settings() {
+    return initialSettings;
+  },
+  set settings(value) {
+    const oldSettings = { ...initialSettings };
+    Object.assign(initialSettings, value);
+    saveSettings(initialSettings);
+    settingsChangeHandlers.forEach(cb => cb(initialSettings, oldSettings));
+  },
   updateSettings: (settings: Record<string, any>) => {
     console.log('Updated settings:', settings);
-    mockLogseq.settings = { ...settings };
+    const oldSettings = { ...initialSettings };
+    Object.assign(initialSettings, settings);
+    saveSettings(initialSettings);
+    settingsChangeHandlers.forEach(cb => cb(initialSettings, oldSettings));
     return Promise.resolve();
   },
   App: {
@@ -81,6 +120,17 @@ const mockLogseq: LogseqAPI = {
   provideUI: (config: any) => {
     console.log('Provided UI:', config);
   }
+};
+
+mockLogseq.onSettingsChanged = <T = any>(cb: (a: T, b: T) => void): (() => void) => {
+  console.log('Registered settings change handler');
+  settingsChangeHandlers.push(cb);
+  return () => {
+    const index = settingsChangeHandlers.indexOf(cb);
+    if (index !== -1) {
+      settingsChangeHandlers.splice(index, 1);
+    }
+  };
 };
 
 window.logseq = mockLogseq;
