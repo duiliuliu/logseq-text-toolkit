@@ -99,9 +99,9 @@ function TestApp() {
   )
 
   return (
-    <div className={`App ${settings.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+    <div id="app-container" className={`App ${settings.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       {/* 顶部工具栏 */}
-      <div className="top-toolbar">
+      <div id="head" className="top-toolbar">
         <h1>Text Toolkit Plugin (Test Mode)</h1>
         <button 
           className="settings-button"

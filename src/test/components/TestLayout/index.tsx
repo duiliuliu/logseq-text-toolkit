@@ -12,8 +12,8 @@ function TestLayout({ leftContent, centerContent, rightContent }: TestLayoutProp
   const [rightCollapsed, setRightCollapsed] = useState(true)
 
   return (
-    <div className="test-layout">
-      <div className={`test-layout__left ${leftCollapsed ? 'collapsed' : ''}`}>
+    <div id="main-container" className="test-layout">
+      <div id="left-sidebar" className={`test-layout__left ${leftCollapsed ? 'collapsed' : ''}`}>
         <div className="panel-header">
           <button 
             className="collapse-btn" 
@@ -26,11 +26,11 @@ function TestLayout({ leftContent, centerContent, rightContent }: TestLayoutProp
         {!leftCollapsed && leftContent}
       </div>
       <div className="test-layout__main">
-        <div className="test-layout__content">
+        <div id="main-content-container" className="test-layout__content">
           {centerContent}
         </div>
       </div>
-      <div className={`test-layout__right ${rightCollapsed ? 'collapsed' : ''}`}>
+      <div id="right-sidebar" className={`test-layout__right ${rightCollapsed ? 'collapsed' : ''}`}>
         <div className="panel-header">
           <button 
             className="collapse-btn" 
