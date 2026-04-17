@@ -72,6 +72,12 @@ export const replaceSelectedText = async (item: ToolbarItem, selectedData: Selec
       // 使用indexOf找到第一个匹配项
       const index = originalContent.indexOf(selectedText);
       if (index === -1) {
+        console.error('Selected text not found in block content:', {
+          originalContent,
+          selectedText,
+          processedText,
+          selectedData
+        });
         logseqAPI.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
         return false;
       }
@@ -125,6 +131,12 @@ const buildContentWithRange = (originalContent: string, selectedText: string, pr
   // 如果range信息不可用或匹配失败，回退到indexOf方法
   const index = originalContent.indexOf(selectedText);
   if (index === -1) {
+    console.error('Selected text not found in block content (fallback to indexOf):', {
+      originalContent,
+      selectedText,
+      processedText,
+      selectedData
+    });
     throw new Error('选中的文字在块内容中未找到');
   }
   return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
