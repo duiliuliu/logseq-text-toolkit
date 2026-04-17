@@ -11,6 +11,34 @@ import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './logseq/mock/settings.ts'
 
+// 获取正确的document对象
+const getDocument = (): Document => {
+  // 检测是否在测试模式
+  const isTestMode = import.meta.env.MODE === 'test';
+  
+  if (!isTestMode && typeof window !== 'undefined' && window.parent !== window) {
+    // 在iframe中且非测试模式，使用parent.document
+    return window.parent.document;
+  } else {
+    // 测试模式或不在iframe中，使用当前document
+    return document;
+  }
+}
+
+// 获取正确的window对象
+const getWindow = (): Window => {
+  // 检测是否在测试模式
+  const isTestMode = import.meta.env.MODE === 'test';
+  
+  if (!isTestMode && typeof window !== 'undefined' && window.parent !== window) {
+    // 在iframe中且非测试模式，使用parent.window
+    return window.parent;
+  } else {
+    // 测试模式或不在iframe中，使用当前window
+    return window;
+  }
+}
+
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
 
@@ -39,7 +67,7 @@ const showSettingUI = async () => {
   })
 
   setTimeout(() => {
-    const container = document.getElementById(SETTINGS_ID)
+    const container = getDocument().getElementById(SETTINGS_ID)
     if (container) {
       const currentSettings = getSettings()
       renderComponent(container, SettingsModal, {
@@ -69,8 +97,8 @@ const showSelectToolbar = async () => {
     })
 
     setTimeout(() => {
-      const toolbarContainer = document.getElementById(TOOLBAR_ID)
-      const mainContentContainer = document.getElementById('main-content-container')
+      const toolbarContainer = getDocument().getElementById(TOOLBAR_ID)
+      const mainContentContainer = getDocument().getElementById('main-content-container')
       if (toolbarContainer && mainContentContainer) {
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
@@ -112,12 +140,12 @@ const main = async () => {
 }
 
 if (import.meta.env.MODE === 'test') {
-  const rootElement = document.getElementById('root')
+  const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
   logseqAPI.ready().then(main).catch(console.error)
 } else {
   // 在正式模式下，渲染 App 组件
-  const rootElement = document.getElementById('root')
+  const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, App)
   logseqAPI.ready().then(main).catch(console.error)
 }

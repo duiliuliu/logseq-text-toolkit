@@ -30,12 +30,27 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     console.log('Processed text:', processedText)
   }
 
+  // 获取正确的document对象
+  const getDocument = (): Document => {
+    // 检测是否在测试模式
+    const isTestMode = import.meta.env.MODE === 'test';
+    
+    if (!isTestMode && typeof window !== 'undefined' && window.parent !== window) {
+      // 在iframe中且非测试模式，使用parent.document
+      return window.parent.document;
+    } else {
+      // 测试模式或不在iframe中，使用当前document
+      return document;
+    }
+  }
+
   // 获取选择对象的辅助函数
   const getSelection = (): Selection | null => {
-    if (typeof document !== 'undefined') {
-      return document.getSelection()
+    const doc = getDocument();
+    if (doc) {
+      return doc.getSelection();
     }
-    return null
+    return null;
   }
 
   // 更新toolbar位置
@@ -60,11 +75,27 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
         
         // 计算toolbar应该显示在上方还是下方
         const toolbarHeight = 30; // 估算toolbar高度
+        const padding = 10; // 间距
         
-        // 如果上方空间足够，显示在上方；否则显示在下方
-        const toolbarY = rect.top > toolbarHeight + 10 
-          ? rect.top - toolbarHeight - 10 
-          : rect.bottom + 10;
+        // 获取视口高度
+        const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
+        
+        // 计算上方和下方的可用空间
+        const spaceAbove = rect.top;
+        const spaceBelow = viewportHeight - rect.bottom;
+        
+        // 优先选择空间更大的方向
+        let toolbarY: number;
+        if (spaceAbove >= spaceBelow && spaceAbove >= toolbarHeight + padding) {
+          // 显示在上方
+          toolbarY = rect.top - toolbarHeight - padding;
+        } else if (spaceBelow >= toolbarHeight + padding) {
+          // 显示在下方
+          toolbarY = rect.bottom + padding;
+        } else {
+          // 空间不足，选择空间较大的方向
+          toolbarY = spaceAbove > spaceBelow ? rect.top - toolbarHeight - padding : rect.bottom + padding;
+        }
         
         setToolbarPosition({
           x: rect.left + rect.width / 2,
