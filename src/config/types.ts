@@ -10,6 +10,8 @@ export type LanguageType = 'zh-CN' | 'en' | 'ja';
 export interface Settings {
   theme: ThemeType;
   language: LanguageType;
+  useSystemTheme: boolean;
+  useSystemLanguage: boolean;
   toolbar: ToolbarConfig;
 }
 

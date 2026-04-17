@@ -8,14 +8,32 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
     setSettings(prev => {
       if (!prev) return prev
       const newSettings = JSON.parse(JSON.stringify(prev))
-      const keys = path.split('.')
-      let current = newSettings
       
-      for (let i = 0; i < keys.length - 1; i++) {
-        current = current[keys[i]]
+      if (path === 'theme') {
+        if (value === 'system') {
+          newSettings.useSystemTheme = true
+        } else {
+          newSettings.useSystemTheme = false
+          newSettings.theme = value
+        }
+      } else if (path === 'language') {
+        if (value === 'system') {
+          newSettings.useSystemLanguage = true
+        } else {
+          newSettings.useSystemLanguage = false
+          newSettings.language = value
+        }
+      } else {
+        const keys = path.split('.')
+        let current = newSettings
+        
+        for (let i = 0; i < keys.length - 1; i++) {
+          current = current[keys[i]]
+        }
+        
+        current[keys[keys.length - 1]] = value
       }
       
-      current[keys[keys.length - 1]] = value
       return newSettings
     })
   }
@@ -41,7 +59,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label>{t('settings.theme', language)}</label>
         <CustomSelect
           options={themeOptions}
-          value={settings.theme}
+          value={settings.useSystemTheme ? 'system' : settings.theme}
           onChange={(value) => handleSettingChange('theme', value)}
         />
       </div>
@@ -50,7 +68,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label>{t('settings.language', language)}</label>
         <CustomSelect
           options={languageOptions}
-          value={settings.language}
+          value={settings.useSystemLanguage ? 'system' : settings.language}
           onChange={(value) => handleSettingChange('language', value)}
         />
       </div>

@@ -4,9 +4,11 @@ import { Settings } from './types.ts';
 const defaultSettings: Settings = {
   // 主题设置
   theme: 'light', // light, dark
+  useSystemTheme: false,
   
   // 语言设置
   language: 'zh-CN', // zh-CN, en, ja
+  useSystemLanguage: false,
   
   // Toolbar 全局设置
   toolbar: {
