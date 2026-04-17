@@ -45,13 +45,7 @@ const showSettingUI = async () => {
       const currentSettings = getSettings()
       renderComponent(container, SettingsModal, {
         isOpen: true,
-        onClose: () => {
-          logseqAPI.provideUI({
-            key: SETTINGS_ID,
-            path: '#app-container',
-            template: '',
-          })
-        },
+        onClose: () => {},
         theme: currentSettings.theme,
       })
     }

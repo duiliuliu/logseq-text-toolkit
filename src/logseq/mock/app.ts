@@ -75,23 +75,47 @@ const App = {
   registerUIItem: (slot: string, config: any) => {
     console.log('Registered UI item:', slot, config);
     
-    // 查找id=toolbar的元素
-    const toolbarElement = document.getElementById('toolbar');
-    if (toolbarElement) {
-      // 检查是否已存在该key的元素
-      const existingElement = document.getElementById(config.key);
-      if (existingElement) {
-        existingElement.remove();
+    // 尝试添加UI项，带有重试机制
+    const tryAddUIItem = () => {
+      // 查找id=toolbar的元素
+      const toolbarElement = document.getElementById('toolbar');
+      if (toolbarElement) {
+        // 检查是否已存在该key的元素
+        const existingElement = document.getElementById(config.key);
+        if (existingElement) {
+          existingElement.remove();
+        }
+        
+        // 创建新元素并添加到toolbar
+        const element = document.createElement('div');
+        element.id = config.key;
+        element.innerHTML = config.template;
+        toolbarElement.appendChild(element);
+        console.log('Added UI item to toolbar:', config.key);
+        return true;
       }
+      return false;
+    };
+    
+    // 立即尝试一次
+    if (!tryAddUIItem()) {
+      // 如果失败，使用MutationObserver等待toolbar元素出现
+      const observer = new MutationObserver((mutations, obs) => {
+        if (tryAddUIItem()) {
+          obs.disconnect();
+        }
+      });
       
-      // 创建新元素并添加到toolbar
-      const element = document.createElement('div');
-      element.id = config.key;
-      element.innerHTML = config.template;
-      toolbarElement.appendChild(element);
-      console.log('Added UI item to toolbar:', config.key);
-    } else {
-      console.warn('Toolbar element not found, UI item not added:', config.key);
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+      
+      // 设置超时，防止无限等待
+      setTimeout(() => {
+        observer.disconnect();
+        console.warn('Timeout waiting for toolbar element, UI item not added:', config.key);
+      }, 5000);
     }
   },
   
