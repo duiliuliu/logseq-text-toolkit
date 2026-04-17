@@ -32,7 +32,7 @@ const useSettings = (): SettingsContextType => {
             if (userConfigs) {
               const updatedSettings = {
                 ...data,
-                theme: data.useSystemTheme ? (userConfigs.darkMode ? 'dark' : 'light') : data.theme,
+                theme: data.useSystemTheme ? userConfigs.preferredThemeMode : data.theme,
                 language: data.useSystemLanguage ? userConfigs.preferredLanguage : data.language
               }
               setSettings(updatedSettings)
@@ -82,7 +82,7 @@ const useSettings = (): SettingsContextType => {
             if (userConfigs) {
               const updatedSettings = {
                 ...settingsToSave,
-                theme: settingsToSave.useSystemTheme ? (userConfigs.darkMode ? 'dark' : 'light') : settingsToSave.theme,
+                theme: settingsToSave.useSystemTheme ? userConfigs.preferredThemeMode : settingsToSave.theme,
                 language: settingsToSave.useSystemLanguage ? userConfigs.preferredLanguage : settingsToSave.language
               }
               setSettings(updatedSettings)

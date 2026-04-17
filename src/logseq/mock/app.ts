@@ -58,8 +58,16 @@ const App = {
   getUserConfigs: () => {
     console.log('Get user configs');
     return Promise.resolve({
-      darkMode: false,
-      preferredLanguage: 'zh-CN'
+      preferredThemeMode: 'light',
+      preferredFormat: 'markdown',
+      preferredDateFormat: 'yyyy-MM-dd',
+      preferredStartOfWeek: '1',
+      preferredLanguage: 'zh-CN',
+      preferredWorkflow: 'linear',
+      currentGraph: 'test-graph',
+      showBracket: true,
+      enabledFlashcards: false,
+      enabledJournals: true
     });
   },
   
