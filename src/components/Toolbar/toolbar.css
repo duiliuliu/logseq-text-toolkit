@@ -20,6 +20,8 @@
   position: relative;
   z-index: 1000;
   min-width: 100px;
+  width: auto;
+  white-space: nowrap;
   overflow: visible !important;
 }
 

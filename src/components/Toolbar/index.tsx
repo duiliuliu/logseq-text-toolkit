@@ -183,7 +183,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           />
         </div>
       )}
-      <div className="toolbar-main" style={{ width: moreExpanded ? 'auto' : width, height }}>
+      <div className="toolbar-main" style={{ minWidth: width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
         {hasMoreItems && (
