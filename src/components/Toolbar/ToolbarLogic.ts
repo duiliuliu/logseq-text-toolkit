@@ -76,10 +76,17 @@ export const handleItemClick = async (item: ToolbarItem, selectedData: SelectedD
  * 过滤工具栏项目
  */
 export const filterToolbarItems = (items: (ToolbarItem | ToolbarGroup)[]) => {
+  // 区分可见元素和隐藏元素
   const visibleItems = items.filter(item => !item.hidden);
   const hiddenItems = items.filter(item => item.hidden);
-  const mainItems = visibleItems.slice(0, 3);
-  const moreItems = visibleItems.slice(3).concat(hiddenItems);
+  
+  // 所有可见元素都直接展示，不需要截取前3个
+  const mainItems = visibleItems;
+  
+  // 只有隐藏元素需要折叠到more中
+  const moreItems = hiddenItems;
+  
+  // 只有当有隐藏元素时才需要展示more按钮
   const hasMoreItems = moreItems.length > 0;
   
   return { visibleItems, hiddenItems, mainItems, moreItems, hasMoreItems };
