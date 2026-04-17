@@ -24,6 +24,27 @@ const useSettings = (): SettingsContextType => {
       // 使用logseqAPI
       if (logseqAPI && logseqAPI.settings) {
         const data = { ...defaultSettings, ...logseqAPI.settings } as unknown as Settings
+        
+        // 如果设置了使用系统配置，从logseq获取系统配置
+        if (data.useSystemTheme || data.useSystemLanguage) {
+          try {
+            const userConfigs = await logseqAPI.App.getUserConfigs()
+            if (userConfigs) {
+              const updatedSettings = {
+                ...data,
+                theme: data.useSystemTheme ? (userConfigs.darkMode ? 'dark' : 'light') : data.theme,
+                language: data.useSystemLanguage ? userConfigs.preferredLanguage : data.language
+              }
+              setSettings(updatedSettings)
+              return updatedSettings
+            }
+          } catch (configErr) {
+            console.error('Failed to get user configs:', configErr)
+            setSettings(data)
+            return data
+          }
+        }
+        
         setSettings(data)
         return data
       }
@@ -45,8 +66,34 @@ const useSettings = (): SettingsContextType => {
     setError(null)
     try {
       if (logseqAPI) {
-        await logseqAPI.updateSettings(newSettings as unknown as Record<string, any>)
-        setSettings(newSettings)
+        // 处理系统设置标记
+        const settingsToSave = {
+          ...newSettings,
+          useSystemTheme: newSettings.theme === 'system',
+          useSystemLanguage: newSettings.language === 'system'
+        }
+        
+        await logseqAPI.updateSettings(settingsToSave as unknown as Record<string, any>)
+        
+        // 如果设置为系统值，立即从logseq获取系统配置
+        if (settingsToSave.useSystemTheme || settingsToSave.useSystemLanguage) {
+          try {
+            const userConfigs = await logseqAPI.App.getUserConfigs()
+            if (userConfigs) {
+              const updatedSettings = {
+                ...settingsToSave,
+                theme: settingsToSave.useSystemTheme ? (userConfigs.darkMode ? 'dark' : 'light') : settingsToSave.theme,
+                language: settingsToSave.useSystemLanguage ? userConfigs.preferredLanguage : settingsToSave.language
+              }
+              setSettings(updatedSettings)
+            }
+          } catch (configErr) {
+            console.error('Failed to get user configs:', configErr)
+            setSettings(settingsToSave)
+          }
+        } else {
+          setSettings(settingsToSave)
+        }
         return true
       }
       return false
