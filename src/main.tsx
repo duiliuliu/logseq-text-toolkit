@@ -69,7 +69,7 @@ const showSelectToolbar = async () => {
     setTimeout(() => {
       const toolbarContainer = document.getElementById(TOOLBAR_ID)
       const mainContentContainer = document.getElementById('main-content-container')
-      if (toolbarContainer) {
+      if (toolbarContainer && mainContentContainer) {
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: defaultToolbarItems,

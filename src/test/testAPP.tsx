@@ -120,16 +120,18 @@ function TestApp() {
         rightContent={rightContent}
       />
       
-      <SelectToolbar 
-        targetElement={targetElement || undefined}
-        items={testData} 
-        theme={settings.theme} 
-        showBorder={settings.toolbar.showBorder}
-        width={settings.toolbar.width}
-        height={settings.toolbar.height}
-        hoverDelay={settings.toolbar.hoverDelay}
-        sponsorEnabled={settings.toolbar.sponsorEnabled}
-      />
+      {targetElement && (
+        <SelectToolbar 
+          targetElement={targetElement}
+          items={testData} 
+          theme={settings.theme} 
+          showBorder={settings.toolbar.showBorder}
+          width={settings.toolbar.width}
+          height={settings.toolbar.height}
+          hoverDelay={settings.toolbar.hoverDelay}
+          sponsorEnabled={settings.toolbar.sponsorEnabled}
+        />
+      )}
       
       <SettingsModal 
         isOpen={showSettings}
