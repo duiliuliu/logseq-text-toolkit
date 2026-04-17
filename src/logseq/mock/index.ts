@@ -59,8 +59,14 @@ const mockLogseq: LogseqAPI & {
       targetElement = document.body;
     }
     
+    // 确保config.key存在
+    if (!config.key) {
+      console.warn('No key provided for provideUI, generating random key');
+      config.key = `logseq-ui-${Date.now()}`;
+    }
+    
     // 创建容器元素
-    const containerId = config.key || `logseq-ui-${Date.now()}`;
+    const containerId = config.key;
     let container = document.getElementById(containerId);
     
     if (config.template) {
