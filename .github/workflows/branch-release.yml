@@ -4,6 +4,7 @@ name: Branch Release
 
 env:
   PLUGIN_NAME: logseq-text-toolkit
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 # Controls when the workflow will run
 on:
@@ -40,7 +41,7 @@ jobs:
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
         run: |
           # 使用 npm 代替 yarn 以避免镜像源问题
-          npm install
+          npm install --no-lockfile
           npm run build
           mkdir -p ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
