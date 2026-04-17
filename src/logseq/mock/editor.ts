@@ -1,22 +1,40 @@
 // Mock Logseq Editor API
+import { getSelection, getDocument } from '../utils.ts';
+
 const Editor = {
-  // 获取当前页面
-  getCurrentPage: () => {
-    console.log('Get current page');
-    return Promise.resolve({
-      uuid: 'test-page',
-      id: 'test-page',
-      name: 'Test Page',
-      properties: {}
-    });
-  },
-  
   // 获取当前块
   getCurrentBlock: () => {
     console.log('Get current block');
+    
+    const selection = getSelection();
+    const doc = getDocument();
+    
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      let currentElement = range.commonAncestorContainer;
+      
+      // 向上查找，找到一个合适的块元素
+      while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
+        currentElement = currentElement.parentElement;
+      }
+      
+      if (currentElement && currentElement instanceof HTMLElement) {
+        // 生成一个基于元素路径的唯一ID
+        const blockId = generateBlockId(currentElement);
+        const content = currentElement.textContent || '';
+        
+        return Promise.resolve({
+          uuid: blockId,
+          content: content,
+          properties: {}
+        });
+      }
+    }
+    
+    // 没有选中内容时，返回默认块
     return Promise.resolve({
-      uuid: 'test-block',
-      content: 'Test block content',
+      uuid: 'default-block',
+      content: 'Default block content',
       properties: {}
     });
   },
@@ -24,53 +42,74 @@ const Editor = {
   // 更新块内容
   updateBlock: (blockId: string, content: string) => {
     console.log('Update block:', blockId, content);
-    return Promise.resolve(true);
-  },
-  
-  // 替换选中的文本
-  replaceSelectedText: (text: string) => {
-    console.log('Replace selected text:', text);
-    // 尝试在测试环境中替换选中的文本
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      range.deleteContents();
-      range.insertNode(document.createTextNode(text));
-      selection.removeAllRanges();
-      selection.addRange(range);
+    
+    const doc = getDocument();
+    
+    // 根据blockId找到对应的元素
+    const element = findElementByBlockId(blockId, doc);
+    
+    if (element) {
+      element.textContent = content;
+      return Promise.resolve(true);
     }
-    return Promise.resolve(true);
-  },
-  
-  // 插入块
-  insertBlock: (content: string, options?: {
-    before?: string;
-    after?: string;
-    sibling?: boolean;
-  }) => {
-    console.log('Insert block:', content, options);
-    return Promise.resolve({
-      uuid: `block-${Date.now()}`,
-      content,
-      properties: {}
-    });
-  },
-  
-  // 获取块内容
-  getBlock: (blockId: string) => {
-    console.log('Get block:', blockId);
-    return Promise.resolve({
-      uuid: blockId,
-      content: 'Block content',
-      properties: {}
-    });
-  },
-  
-  // 删除块
-  removeBlock: (blockId: string) => {
-    console.log('Remove block:', blockId);
-    return Promise.resolve(true);
+    
+    return Promise.resolve(false);
   }
 };
+
+// 生成基于元素路径的唯一ID
+function generateBlockId(element: HTMLElement): string {
+  const path: string[] = [];
+  let current: Element | null = element;
+  
+  while (current) {
+    let selector = current.tagName.toLowerCase();
+    
+    // 添加类名作为额外标识
+    if (current.classList.length > 0) {
+      const classes = Array.from(current.classList).join('.');
+      selector += `.${classes}`;
+    }
+    
+    // 添加ID作为标识
+    if (current.id) {
+      selector += `#${current.id}`;
+    }
+    
+    path.unshift(selector);
+    current = current.parentElement;
+  }
+  
+  return path.join(' > ');
+}
+
+// 根据blockId查找元素
+function findElementByBlockId(blockId: string, doc: Document): HTMLElement | null {
+  // 对于默认块，返回main-content-container
+  if (blockId === 'default-block') {
+    return doc.getElementById('main-content-container');
+  }
+  
+  // 尝试解析blockId为选择器路径
+  try {
+    // 简单实现：尝试直接使用blockId作为选择器
+    const elements = doc.querySelectorAll(blockId);
+    if (elements.length > 0) {
+      return elements[0] as HTMLElement;
+    }
+  } catch (error) {
+    console.error('Error finding element by blockId:', error);
+  }
+  
+  // 回退：查找包含blockId的元素
+  const allElements = doc.querySelectorAll('*');
+  for (const element of allElements) {
+    if (element.textContent?.includes(blockId)) {
+      return element as HTMLElement;
+    }
+  }
+  
+  return null;
+}
 
 export default Editor;
