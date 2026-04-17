@@ -112,9 +112,9 @@ const main = async () => {
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
-        <a style="font-weight: bold" data-on-click="settingToggle" data-rect>
+        <button style="font-weight: bold; background: none; border: none; cursor: pointer; font-size: 16px;" data-on-click="settingToggle" data-rect>
           ⚙️
-        </a>
+        </button>
       `,
     })
 

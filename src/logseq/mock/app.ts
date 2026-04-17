@@ -92,6 +92,23 @@ const App = {
         element.innerHTML = config.template;
         toolbarElement.appendChild(element);
         console.log('Added UI item to toolbar:', config.key);
+        
+        // 为带有 data-on-click 属性的元素添加事件监听器
+        const clickableElements = element.querySelectorAll('[data-on-click]');
+        clickableElements.forEach(clickable => {
+          clickable.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const functionName = clickable.getAttribute('data-on-click');
+            if (functionName && typeof (globalThis as any)[functionName] === 'function') {
+              console.log('Calling function:', functionName);
+              (globalThis as any)[functionName]();
+            } else {
+              console.warn('Function not found:', functionName);
+            }
+          });
+        });
+        
         return true;
       }
       return false;
