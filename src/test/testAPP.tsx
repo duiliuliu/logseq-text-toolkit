@@ -92,7 +92,7 @@ function TestApp() {
     <div className="center-content" ref={contentRef}>
       <h2>{testConfig.content.title}</h2>
       {testConfig.content.paragraphs.map((paragraph, index) => (
-        <div key={index} className="editable-paragraph">
+        <div key={index} id={`editable-paragraph-${index + 1}`} className="editable-paragraph">
           {paragraph}
         </div>
       ))}

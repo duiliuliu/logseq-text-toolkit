@@ -44,6 +44,20 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
   return text;
 }
 
+// 回退：使用indexOf找到第一个匹配项的辅助函数
+const findAndReplaceText = (originalContent: string, selectedText: string, processedText: string): string => {
+  const index = originalContent.indexOf(selectedText);
+  if (index === -1) {
+    console.error('Selected text not found in block content:', {
+      originalContent,
+      selectedText,
+      processedText
+    });
+    throw new Error('选中的文字在块内容中未找到');
+  }
+  return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
+};
+
 // 处理文本替换的完整逻辑
 export const replaceSelectedText = async (item: ToolbarItem, selectedData: SelectedData): Promise<boolean> => {
   try {
@@ -73,30 +87,16 @@ export const replaceSelectedText = async (item: ToolbarItem, selectedData: Selec
       // 尝试在当前选中的元素中进行精确替换
       const success = await replaceInSelectedElement(selectedText, processedText);
       if (success) {
-        logseqAPI.UI.showMsg('文本替换成功', { type: 'success' });
         return true;
       }
       
       // 回退：使用indexOf找到第一个匹配项
-      const index = originalContent.indexOf(selectedText);
-      if (index === -1) {
-        console.error('Selected text not found in block content:', {
-          originalContent,
-          selectedText,
-          processedText,
-          selectedData
-        });
-        logseqAPI.UI.showMsg('选中的文字在块内容中未找到', { type: 'error' });
-        return false;
-      }
-      newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
+      newContent = findAndReplaceText(originalContent, selectedText, processedText);
     }
     
     const success = await logseqAPI.Editor.updateBlock(block.uuid, newContent);
     
-    if (success) {
-      logseqAPI.UI.showMsg('文本替换成功', { type: 'success' });
-    } else {
+    if (!success) {
       logseqAPI.UI.showMsg('文本替换失败', { type: 'error' });
     }
     
@@ -185,17 +185,7 @@ const buildContentWithRange = (originalContent: string, selectedText: string, pr
   }
   
   // 如果range信息不可用或匹配失败，回退到indexOf方法
-  const index = originalContent.indexOf(selectedText);
-  if (index === -1) {
-    console.error('Selected text not found in block content (fallback to indexOf):', {
-      originalContent,
-      selectedText,
-      processedText,
-      selectedData
-    });
-    throw new Error('选中的文字在块内容中未找到');
-  }
-  return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
+  return findAndReplaceText(originalContent, selectedText, processedText);
 };
 
 export default {
