@@ -31,10 +31,6 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
   // 处理文本选择
   useEffect(() => {
-    if (!targetElement) {
-      return
-    }
-
     const handleSelection = (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
       if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
@@ -44,12 +40,15 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
       const selection = window.getSelection()
       if (selection && selection.toString().length > 0) {
-        // 检查选择是否在目标元素内
-        const anchorNode = selection.anchorNode
-        const focusNode = selection.focusNode
-        const isInTarget = (targetElement.contains(anchorNode) || targetElement.contains(focusNode))
+        // 如果有targetElement，检查选择是否在目标元素内
+        let shouldShowToolbar = true;
+        if (targetElement) {
+          const anchorNode = selection.anchorNode
+          const focusNode = selection.focusNode
+          shouldShowToolbar = (targetElement.contains(anchorNode) || targetElement.contains(focusNode))
+        }
         
-        if (isInTarget) {
+        if (shouldShowToolbar) {
           const range = selection.getRangeAt(0)
           const rect = range.getBoundingClientRect()
           
@@ -64,14 +63,9 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
           const toolbarHeight = 30; // 估算toolbar高度
           
           // 如果上方空间足够，显示在上方；否则显示在下方
-          let toolbarY: number;
-          if (rect.top > toolbarHeight + 10) {
-            // 上方空间足够，显示在上方
-            toolbarY = rect.top - toolbarHeight - 10;
-          } else {
-            // 上方空间不足，显示在下方
-            toolbarY = rect.bottom + 10;
-          }
+          const toolbarY = rect.top > toolbarHeight + 10 
+            ? rect.top - toolbarHeight - 10 
+            : rect.bottom + 10;
           
           setToolbarPosition({
             x: rect.left + rect.width / 2,
@@ -107,14 +101,9 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
             const toolbarHeight = 30; // 估算toolbar高度
             
             // 如果上方空间足够，显示在上方；否则显示在下方
-            let toolbarY: number;
-            if (rect.top > toolbarHeight + 10) {
-              // 上方空间足够，显示在上方
-              toolbarY = rect.top - toolbarHeight - 10;
-            } else {
-              // 上方空间不足，显示在下方
-              toolbarY = rect.bottom + 10;
-            }
+            const toolbarY = rect.top > toolbarHeight + 10 
+              ? rect.top - toolbarHeight - 10 
+              : rect.bottom + 10;
             
             setToolbarPosition({
               x: rect.left + rect.width / 2,
@@ -125,16 +114,19 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
       }
     }
 
-    // 绑定事件到targetElement
-    targetElement.addEventListener('mouseup', handleSelection)
-    targetElement.addEventListener('mousemove', handleMouseMove)
-    targetElement.addEventListener('scroll', handleScroll)
+    // 根据是否有targetElement来决定绑定到哪里
+    const eventTarget = targetElement || document;
+    const scrollTarget = targetElement || window;
+    
+    eventTarget.addEventListener('mouseup', handleSelection)
+    eventTarget.addEventListener('mousemove', handleMouseMove)
+    scrollTarget.addEventListener('scroll', handleScroll)
     
     return () => {
       // 移除事件监听器
-      targetElement.removeEventListener('mouseup', handleSelection)
-      targetElement.removeEventListener('mousemove', handleMouseMove)
-      targetElement.removeEventListener('scroll', handleScroll)
+      eventTarget.removeEventListener('mouseup', handleSelection)
+      eventTarget.removeEventListener('mousemove', handleMouseMove)
+      scrollTarget.removeEventListener('scroll', handleScroll)
     }
   }, [showToolbar, targetElement])
 
