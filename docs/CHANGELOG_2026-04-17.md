@@ -14,6 +14,10 @@
 - 优化 SelectToolbar 位置计算，避免遮挡选中文字
 - 实现 iframe 环境支持，使用 parent.document
 - 创建公共工具函数文件 logseq/utils.ts，提供跨环境工具函数
+- 改进 mock Editor API 的 getCurrentBlock 和 updateBlock 实现
+- 优化 blockId 生成方式，使用标准 JS 选择器路径
+- 实现精确的文本替换功能，支持选中区域的精确替换
+- 添加 textProcessor 中的详细错误日志
 
 ### 修复
 - 修复 SettingsModal 保存后不关闭的问题
