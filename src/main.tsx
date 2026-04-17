@@ -96,7 +96,7 @@ const main = async () => {
 
     logseqAPI.provideModel({ showSettingUI })
 
-    logseqAPI.App.registerUIItem('head', {
+    logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
         <a style="font-weight: bold" data-on-click="showSettingUI" data-rect>

@@ -74,6 +74,25 @@ const App = {
   // 注册UI项
   registerUIItem: (slot: string, config: any) => {
     console.log('Registered UI item:', slot, config);
+    
+    // 查找id=toolbar的元素
+    const toolbarElement = document.getElementById('toolbar');
+    if (toolbarElement) {
+      // 检查是否已存在该key的元素
+      const existingElement = document.getElementById(config.key);
+      if (existingElement) {
+        existingElement.remove();
+      }
+      
+      // 创建新元素并添加到toolbar
+      const element = document.createElement('div');
+      element.id = config.key;
+      element.innerHTML = config.template;
+      toolbarElement.appendChild(element);
+      console.log('Added UI item to toolbar:', config.key);
+    } else {
+      console.warn('Toolbar element not found, UI item not added:', config.key);
+    }
   },
   
   // 触发事件
