@@ -45,17 +45,21 @@ const mockLogseq: LogseqAPI & {
     
     // 检查是否指定了path，如果没有指定则使用默认路径
     const targetPath = config.path || 'body';
+    console.log('Target path:', targetPath);
     
     // 查找目标元素
     let targetElement: HTMLElement | null;
-    if (targetPath.startsWith('#')) {
+    try {
       targetElement = document.querySelector(targetPath);
-    } else {
-      targetElement = document.querySelector(targetPath);
+      console.log('Found target element:', targetElement);
+    } catch (error) {
+      console.error('Error finding target element:', error);
+      targetElement = null;
     }
     
     // 如果找不到目标元素，默认使用body
     if (!targetElement) {
+      console.log('Target element not found, using body');
       targetElement = document.body;
     }
     
@@ -68,6 +72,7 @@ const mockLogseq: LogseqAPI & {
     // 创建容器元素
     const containerId = config.key;
     let container = document.getElementById(containerId);
+    console.log('Container ID:', containerId, 'Existing container:', container);
     
     if (config.template) {
       // 如果有模板，创建或更新容器
@@ -78,12 +83,15 @@ const mockLogseq: LogseqAPI & {
         container.style.position = 'fixed';
         container.style.zIndex = '9999';
         targetElement.appendChild(container);
+        console.log('Created new container and added to target element');
       }
       container.innerHTML = config.template;
+      console.log('Updated container template');
     } else {
       // 如果没有模板，移除容器
       if (container) {
         container.remove();
+        console.log('Removed container');
       }
     }
   }
