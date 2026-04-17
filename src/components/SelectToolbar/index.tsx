@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Toolbar from '../Toolbar'
+import { SelectedData } from '../../utils/textProcessor.ts'
 
 interface ToolbarPosition {
   x: number
@@ -7,6 +8,7 @@ interface ToolbarPosition {
 }
 
 interface SelectToolbarProps {
+  targetElement?: HTMLElement
   items: Record<string, any>
   theme?: 'light' | 'dark'
   showBorder?: boolean
@@ -16,13 +18,22 @@ interface SelectToolbarProps {
   sponsorEnabled?: boolean
 }
 
-function SelectToolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = false }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = false }: SelectToolbarProps) {
+  const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+
+  
+  // 处理文本处理完成后的回调
+  const handleTextProcessed = async (processedText: string) => {
+    console.log('Processed text:', processedText)
+  }
 
   // 处理文本选择
   const handleSelection = useCallback((e: MouseEvent) => {
-    // 检查是否点击了toolbar内部的元素
+    // 检查是否点击了toolbar内部的元素，包括more按钮
     const isInsideToolbar = 
       (e.target as HTMLElement).closest('.floating-toolbar') || 
       (e.target as HTMLElement).closest('.toolbar-container') || 
@@ -30,18 +41,27 @@ function SelectToolbar({ items, theme = 'light', showBorder = true, width = '110
       (e.target as HTMLElement).closest('.toolbar-more');
     
     if (isInsideToolbar && showToolbar) {
-      // 点击工具栏内部，保持显示状态
+      // 点击工具栏内部，直接返回，不做任何处理
+      // 这样可以保持工具栏的显示状态和more按钮的功能
       return
     }
 
     const selection = window.getSelection()
     if (selection && selection.toString().length > 0) {
+      // 无论是否有targetElement，都显示工具栏
       const range = selection.getRangeAt(0)
       const rect = range.getBoundingClientRect()
       
+      setSelectedData({
+        text: selection.toString(),
+        timestamp: new Date().toISOString(),
+        range: range,
+        rect: rect
+      })
       // 计算toolbar应该显示在上方还是下方
       const toolbarHeight = 30; // 估算toolbar高度
       
+      // 如果上方空间足够，显示在上方；否则显示在下方
       let toolbarY: number;
       if (rect.top > toolbarHeight + 10) {
         // 上方空间足够，显示在上方
@@ -59,6 +79,14 @@ function SelectToolbar({ items, theme = 'light', showBorder = true, width = '110
     } else {
       setShowToolbar(false)
     }
+  }, [showToolbar, targetElement]);
+
+  // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (showToolbar && e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
+      // 鼠标在toolbar内部，保持显示状态
+      return
+    }
   }, [showToolbar]);
 
   // 处理滚动事件，更新toolbar位置
@@ -73,6 +101,7 @@ function SelectToolbar({ items, theme = 'light', showBorder = true, width = '110
           // 计算toolbar应该显示在上方还是下方
           const toolbarHeight = 30; // 估算toolbar高度
           
+          // 如果上方空间足够，显示在上方；否则显示在下方
           let toolbarY: number;
           if (rect.top > toolbarHeight + 10) {
             // 上方空间足够，显示在上方
@@ -94,15 +123,17 @@ function SelectToolbar({ items, theme = 'light', showBorder = true, width = '110
   // 添加事件监听器
   useEffect(() => {
     document.addEventListener('mouseup', handleSelection)
+    document.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll)
     return () => {
       document.removeEventListener('mouseup', handleSelection)
+      document.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [handleSelection, handleScroll])
+  }, [handleSelection, handleMouseMove, handleScroll])
 
   return (
-    <div>
+    <div ref={containerRef}>
       {showToolbar && (
         <div 
           className="floating-toolbar"
@@ -120,8 +151,10 @@ function SelectToolbar({ items, theme = 'light', showBorder = true, width = '110
             showBorder={showBorder}
             width={width}
             height={height}
+            selectedData={selectedData}
             hoverDelay={hoverDelay}
             sponsorEnabled={sponsorEnabled}
+            onTextProcessed={handleTextProcessed}
           />
         </div>
       )}

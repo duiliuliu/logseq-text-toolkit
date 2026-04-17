@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
+import { processSelectedData, replaceSelectedText, SelectedData } from '../../utils/textProcessor.ts'
 import { ToolbarItem, ToolbarGroup } from './types.ts'
-import { parseItems, handleItemClick, splitToolbarItems } from './toolbarLogic.ts'
 
 type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu'
 
@@ -12,6 +12,7 @@ interface ToolbarProps {
   showBorder?: boolean
   width?: string
   height?: string
+  selectedData?: SelectedData
   hoverDelay?: number
   onTextProcessed?: (processedText: string) => void
   sponsorEnabled?: boolean
@@ -28,11 +29,59 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
   const hoverTimerRef = useRef<number | null>(null)
+
+  const parseItems = (data: Record<string, any>): (ToolbarItem | ToolbarGroup)[] => {
+    const result: (ToolbarItem | ToolbarGroup)[] = []
+    for (const [key, value] of Object.entries(data)) {
+      if (value && typeof value === 'object' && value.isGroup) {
+        const groupItems: Record<string, ToolbarItem> = {}
+        for (const [groupKey, groupValue] of Object.entries(value.items || {})) {
+          if (groupValue && typeof groupValue === 'object' && 'label' in groupValue) {
+            const typedGroupValue = groupValue as any;
+            groupItems[groupKey] = {
+              id: groupKey,
+              label: typedGroupValue.label,
+              funcmode: typedGroupValue.funcmode || 'replace',
+              clickfunc: typedGroupValue.clickfunc || '',
+              binding: typedGroupValue.binding,
+              icon: typedGroupValue.icon,
+              regex: typedGroupValue.regex,
+              replacement: typedGroupValue.replacement,
+              hidden: typedGroupValue.hidden || false
+            }
+          }
+        }
+        if (Object.keys(groupItems).length > 0) {
+          result.push({
+            id: key,
+            isGroup: true as const,
+            items: groupItems,
+            label: value.label || key,
+            hidden: value.hidden || false
+          })
+        }
+      } else if (value && typeof value === 'object' && 'label' in value) {
+        const typedValue = value as any;
+        result.push({
+          id: key,
+          label: typedValue.label,
+          funcmode: typedValue.funcmode || 'replace',
+          clickfunc: typedValue.clickfunc || '',
+          binding: typedValue.binding,
+          icon: typedValue.icon,
+          regex: typedValue.regex,
+          replacement: typedValue.replacement,
+          hidden: typedValue.hidden || false
+        })
+      }
+    }
+    return result
+  }
 
   const renderIcon = (icon: any) => {
     if (!icon) return '📝'
@@ -56,6 +105,41 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
     
     // 处理其他情况
     return <span className="toolbar-icon">{icon}</span>
+  }
+
+  const handleItemClick = async (item: ToolbarItem) => {
+    console.log('=== handleItemClick ===');
+    console.log('Item:', item);
+    console.log('Selected data from props:', selectedData);
+    
+    // 直接从window.getSelection()获取最新的选中文本
+    const selection = window.getSelection();
+    const currentSelectedText = selection?.toString() || '';
+    console.log('Current selected text:', currentSelectedText);
+    
+    if (item.clickfunc) {
+      if (currentSelectedText) {
+        // 创建最新的selectedData
+        const currentSelectedData: SelectedData = {
+          text: currentSelectedText,
+          timestamp: new Date().toISOString(),
+          range: selection?.getRangeAt(0),
+          rect: selection?.getRangeAt(0)?.getBoundingClientRect()
+        };
+        console.log('Current selected data:', currentSelectedData);
+        
+        console.log('Processing item with clickfunc:', item.clickfunc);
+        const processedText = await processSelectedData(item, currentSelectedData);
+        console.log('Processed text:', processedText);
+        if (onTextProcessed) {
+          onTextProcessed(processedText);
+        }
+      } else {
+        console.log('No selected text');
+      }
+    } else {
+      console.log('No clickfunc for item');
+    }
   }
 
   const renderItem = (item: ToolbarItem | ToolbarGroup) => {
@@ -109,7 +193,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                   className="toolbar-group-item"
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
-                  onClick={() => handleItemClick(subItem, onTextProcessed)}
+                  onClick={() => handleItemClick(subItem)}
                 >
                   <div className="toolbar-item-icon">
                     {renderIcon(subItem.icon)}
@@ -133,7 +217,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           className="toolbar-main-item"
           onMouseEnter={() => setHoveredItem(toolbarItem)}
           onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleItemClick(toolbarItem, onTextProcessed)}
+          onClick={() => handleItemClick(toolbarItem)}
         >
           <div className="toolbar-item-icon">
             {renderIcon(toolbarItem.icon)}
@@ -149,7 +233,12 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   }
 
   const toolbarItems = parseItems(items)
-  const { mainItems, moreItems, hasMoreItems } = splitToolbarItems(toolbarItems)
+  
+  const visibleItems = toolbarItems.filter(item => !item.hidden)
+  const hiddenItems = toolbarItems.filter(item => item.hidden)
+  const mainItems = visibleItems.slice(0, 3)
+  const moreItems = visibleItems.slice(3).concat(hiddenItems)
+  const hasMoreItems = moreItems.length > 0
 
   const toggleMore = (e: React.MouseEvent) => {
     e.stopPropagation()
