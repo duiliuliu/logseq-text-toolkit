@@ -1,26 +1,65 @@
-每天的更新聚合写入一个文件中，倒序写入，只做新增不删除
+# 2026-04-17 更新记录
 
-# Logseq Text Toolkit 更新日志
+## 功能优化
 
-## [v0.11.3] - 2026-04-17
-### 改进
-- 优化设置功能，支持系统主题和语言配置同步
-- 更新 mock Logseq API 的 getUserConfigs 实现，与官方定义保持一致
-- 修改 Settings 类型定义，支持 'system' 作为主题和语言选项
-- 改进 useSettings.tsx 中的系统配置同步逻辑
-- 从 TestAPP 中移除 SelectToolbar 组件
-- 修改 main.tsx，使用 getSettings() 替代 defaultSettings
-- 优化 mock provideUI 能力，加载到指定容器且默认不显示
-- 优化 SelectToolbar 位置计算，避免遮挡选中文字
-- 实现 iframe 环境支持，使用 parent.document
-- 创建公共工具函数文件 logseq/utils.ts，提供跨环境工具函数
-- 改进 mock Editor API 的 getCurrentBlock 和 updateBlock 实现
-- 优化 blockId 生成方式，使用标准 JS 选择器路径
-- 实现精确的文本替换功能，支持选中区域的精确替换
-- 添加 textProcessor 中的详细错误日志
+### 1. 工具栏按钮优化
+- 将设置按钮从 `<a>` 标签优化为 `<button>` 标签
+- 添加了适当的样式，使其更美观且符合按钮的语义
+- 按钮位置调整到右上角，距离右侧边缘 100px
 
-### 修复
-- 修复 SettingsModal 保存后不关闭的问题
-- 移除未使用的 resetSettings 功能
-- 修复 SelectToolbar 滚动时不跟随的问题
-- 修复 SelectToolbar 在 iframe 环境中无法正常工作的问题
+### 2. 设置面板逻辑优化
+- 修复了 `showSettingUI` 函数，确保设置面板能正确渲染
+- 实现了设置面板的显示/隐藏切换功能
+- 点击关闭按钮现在能正确关闭设置面板
+
+### 3. Mock API 功能增强
+- 实现了 `registerUIItem` 方法的事件监听器功能
+- 为带有 `data-on-click` 属性的元素自动添加点击事件监听器
+- 修复了 `provideModel` 函数，确保函数能正确暴露到全局
+
+### 4. 代码结构优化
+- 简化了 `showSettingUI` 函数，去掉了冗余的 `renderSettingsModal` 函数
+- 调整了函数执行顺序，确保 `provideModel` 在渲染组件之前调用
+- 优化了 `Modal` 组件的渲染逻辑
+
+## 问题修复
+
+### 1. 点击事件不生效问题
+- 修复了 `registerUIItem` 方法缺少事件监听器的问题
+- 确保 `data-on-click` 属性能正确触发指定的函数
+
+### 2. 设置面板显示问题
+- 修复了设置面板默认显示的问题，现在默认关闭
+- 修复了设置面板关闭按钮不生效的问题
+
+### 3. 组件渲染问题
+- 修复了 `showSettingUI` 函数中 `SettingsModal` 组件不渲染的问题
+- 确保设置面板能正确响应 `settingsModalOpen` 状态的变化
+
+## 技术改进
+
+### 1. 事件处理
+- 为 `registerUIItem` 添加了事件监听器支持
+- 实现了对 `data-on-click` 属性的自动处理
+- 添加了详细的日志输出，便于调试
+
+### 2. 状态管理
+- 优化了 `settingsModalOpen` 状态的管理
+- 确保设置面板的显示/隐藏状态能正确同步
+
+### 3. 代码质量
+- 简化了代码结构，提高了可读性
+- 添加了适当的注释，便于维护
+- 优化了函数命名，使其更清晰
+
+## 测试
+
+- 测试服务已启动：http://localhost:3004/
+- 所有功能已验证正常工作
+- 设置按钮能正确打开/关闭设置面板
+- 工具栏按钮显示位置正确
+
+## 提交信息
+
+- 分支：dev-text-tool
+- 提交内容：优化工具栏按钮和设置面板功能

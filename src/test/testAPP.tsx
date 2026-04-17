@@ -95,12 +95,6 @@ function TestApp() {
         <h1>Text Toolkit Plugin (Test Mode)</h1>
         <div id="toolbar" className="toolbar-container" style={{ position: 'absolute', top: '10px', right: '100px' }}>
         </div>
-        <button 
-          className="settings-button"
-          onClick={() => setShowSettings(true)}
-        >
-          ⚙️ 设置
-        </button>
       </div>
       
       <p className="status-text">{isReady ? 'Plugin is ready and running' : 'Initializing plugin...'}</p>
