@@ -59,42 +59,44 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
-  const hoverTimerRef = useRef<number | null>(null)
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   const parseItems = (data: Record<string, any>): (ToolbarItem | ToolbarGroup)[] => {
     const result: (ToolbarItem | ToolbarGroup)[] = []
     for (const [key, value] of Object.entries(data)) {
-      if (value && typeof value === 'object' && !value.label) {
+      if (value && typeof value === 'object' && value.isGroup) {
         const groupItems: ToolbarItem[] = []
-        for (const [groupKey, groupValue] of Object.entries(value)) {
-          if (groupValue && typeof groupValue === 'object' && 'label' in groupValue) {
-            const typedGroupValue = groupValue as any;
-            groupItems.push({
-              id: groupKey,
-              label: typedGroupValue.label,
-              funcmode: typedGroupValue.funcmode || 'replace',
-              clickfunc: typedGroupValue.clickfunc || '',
-              binding: typedGroupValue.binding,
-              icon: typedGroupValue.icon,
-              regex: typedGroupValue.regex,
-              replacement: typedGroupValue.replacement,
-              hidden: typedGroupValue.hidden
-            })
+        if (value.items && typeof value.items === 'object') {
+          for (const [groupKey, groupValue] of Object.entries(value.items)) {
+            if (groupValue && typeof groupValue === 'object' && 'label' in groupValue) {
+              const typedGroupValue = groupValue as any;
+              groupItems.push({
+                id: typedGroupValue.id || groupKey,
+                label: typedGroupValue.label,
+                funcmode: typedGroupValue.funcmode || 'replace',
+                clickfunc: typedGroupValue.clickfunc || '',
+                binding: typedGroupValue.binding,
+                icon: typedGroupValue.icon,
+                regex: typedGroupValue.regex,
+                replacement: typedGroupValue.replacement,
+                hidden: typedGroupValue.hidden
+              })
+            }
           }
         }
         if (groupItems.length > 0) {
           result.push({
-            id: key,
+            id: value.id || key,
             isGroup: true as const,
             items: groupItems,
-            label: key,
+            label: value.label || key,
             hidden: value.hidden
           })
         }
       } else if (value && typeof value === 'object' && 'label' in value) {
         const typedValue = value as any;
         result.push({
-          id: key,
+          id: typedValue.id || key,
           label: typedValue.label,
           funcmode: typedValue.funcmode || 'replace',
           clickfunc: typedValue.clickfunc || '',

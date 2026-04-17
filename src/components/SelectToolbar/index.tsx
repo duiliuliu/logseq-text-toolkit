@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import Toolbar from '../Toolbar'
+import Toolbar from '../Toolbar/index.tsx'
 
 interface SelectedData {
   text: string
