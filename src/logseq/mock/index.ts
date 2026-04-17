@@ -48,14 +48,17 @@ const mockLogseq: LogseqAPI & {
     
     // 查找目标元素
     let targetElement: HTMLElement | null;
-    if (targetPath.startsWith('#')) {
+    try {
       targetElement = document.querySelector(targetPath);
-    } else {
-      targetElement = document.querySelector(targetPath);
+      console.log('Found target element:', targetElement);
+    } catch (error) {
+      console.error('Error finding target element:', error);
+      targetElement = null;
     }
     
     // 如果找不到目标元素，默认使用body
     if (!targetElement) {
+      console.warn(`Target element '${targetPath}' not found, using body instead`);
       targetElement = document.body;
     }
     
@@ -74,16 +77,19 @@ const mockLogseq: LogseqAPI & {
       if (!container) {
         container = document.createElement('div');
         container.id = containerId;
-        container.style.display = 'none'; // 默认不显示
         container.style.position = 'fixed';
         container.style.zIndex = '9999';
+        // 移除默认的display:none，让SelectToolbar能够正常显示
         targetElement.appendChild(container);
+        console.log('Created container:', container);
       }
       container.innerHTML = config.template;
+      console.log('Updated container template');
     } else {
       // 如果没有模板，移除容器
       if (container) {
         container.remove();
+        console.log('Removed container:', containerId);
       }
     }
   }

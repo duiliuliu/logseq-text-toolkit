@@ -54,7 +54,7 @@ const showSettingUI = async () => {
         theme: currentSettings.theme,
       })
     }
-  }, 0)
+  }, 50)
 }
 
 const showSelectToolbar = async () => {
@@ -83,7 +83,7 @@ const showSelectToolbar = async () => {
           sponsorEnabled: currentSettings.toolbar.sponsorEnabled,
         })
       }
-    }, 0)
+    }, 50)
   }
 }
 
