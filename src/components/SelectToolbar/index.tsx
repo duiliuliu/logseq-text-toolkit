@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import { SelectedData } from '../../utils/textProcessor.ts'
 
@@ -24,80 +24,41 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
   const [showToolbar, setShowToolbar] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   
-
-  
   // 处理文本处理完成后的回调
   const handleTextProcessed = async (processedText: string) => {
     console.log('Processed text:', processedText)
   }
 
   // 处理文本选择
-  const handleSelection = useCallback((e: MouseEvent) => {
-    // 检查是否点击了toolbar内部的元素，包括more按钮
-    const isInsideToolbar = 
-      (e.target as HTMLElement).closest('.floating-toolbar') || 
-      (e.target as HTMLElement).closest('.toolbar-container') || 
-      (e.target as HTMLElement).closest('.toolbar-group-dropdown') || 
-      (e.target as HTMLElement).closest('.toolbar-more');
-    
-    if (isInsideToolbar && showToolbar) {
-      // 点击工具栏内部，直接返回，不做任何处理
+  useEffect(() => {
+    if (!targetElement) {
       return
     }
 
-    const selection = window.getSelection()
-    if (selection && selection.toString().length > 0) {
-      // 检查选中的元素是否在targetElement内
-      const range = selection.getRangeAt(0)
-      const commonAncestor = range.commonAncestorContainer as HTMLElement
-      const isInTarget = targetElement && targetElement.contains(commonAncestor)
-      
-      if (isInTarget || !targetElement) {
-        // 无论是否有targetElement，都显示工具栏
-        const rect = range.getBoundingClientRect()
-        
-        setSelectedData({
-          text: selection.toString(),
-          timestamp: new Date().toISOString(),
-          range: range,
-          rect: rect
-        })
-        
-        // 计算toolbar应该显示在上方还是下方
-        const toolbarHeight = 30; // 估算toolbar高度
-        const toolbarY = rect.top > toolbarHeight + 10 
-          ? rect.top - toolbarHeight - 10 
-          : rect.bottom + 10;
-        
-        setToolbarPosition({
-          x: rect.left + rect.width / 2,
-          y: toolbarY
-        })
-        setShowToolbar(true)
-      } else {
-        setShowToolbar(false)
+    const handleSelection = (e: MouseEvent) => {
+      // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
+      if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
+        // 保持选中状态，不做任何处理
+        return
       }
-    } else {
-      setShowToolbar(false)
-    }
-  }, [showToolbar, targetElement]);
 
-  // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (showToolbar && e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
-      // 鼠标在toolbar内部，保持显示状态
-      return
-    }
-  }, [showToolbar]);
-
-  // 处理滚动事件，更新toolbar位置
-  const handleScroll = useCallback(() => {
-    if (showToolbar) {
       const selection = window.getSelection()
       if (selection && selection.toString().length > 0) {
-        const range = selection.getRangeAt(0)
-        if (range) {
+        // 检查选择是否在目标元素内
+        const anchorNode = selection.anchorNode
+        const focusNode = selection.focusNode
+        const isInTarget = (targetElement.contains(anchorNode) || targetElement.contains(focusNode))
+        
+        if (isInTarget) {
+          const range = selection.getRangeAt(0)
           const rect = range.getBoundingClientRect()
+          
+          setSelectedData({
+            text: selection.toString(),
+            timestamp: new Date().toISOString(),
+            range: range,
+            rect: rect
+          })
           
           // 计算toolbar应该显示在上方还是下方
           const toolbarHeight = 30; // 估算toolbar高度
@@ -116,22 +77,66 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
             x: rect.left + rect.width / 2,
             y: toolbarY
           })
+          setShowToolbar(true)
+        } else {
+          setShowToolbar(false)
+        }
+      } else {
+        setShowToolbar(false)
+      }
+    }
+
+    // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
+    const handleMouseMove = (e: MouseEvent) => {
+      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
+        // 鼠标在toolbar内部，保持显示状态
+        return
+      }
+    }
+
+    // 处理滚动事件，更新toolbar位置
+    const handleScroll = () => {
+      if (showToolbar) {
+        const selection = window.getSelection()
+        if (selection && selection.toString().length > 0) {
+          const range = selection.getRangeAt(0)
+          if (range) {
+            const rect = range.getBoundingClientRect()
+            
+            // 计算toolbar应该显示在上方还是下方
+            const toolbarHeight = 30; // 估算toolbar高度
+            
+            // 如果上方空间足够，显示在上方；否则显示在下方
+            let toolbarY: number;
+            if (rect.top > toolbarHeight + 10) {
+              // 上方空间足够，显示在上方
+              toolbarY = rect.top - toolbarHeight - 10;
+            } else {
+              // 上方空间不足，显示在下方
+              toolbarY = rect.bottom + 10;
+            }
+            
+            setToolbarPosition({
+              x: rect.left + rect.width / 2,
+              y: toolbarY
+            })
+          }
         }
       }
     }
-  }, [showToolbar]);
 
-  // 添加事件监听器
-  useEffect(() => {
-    document.addEventListener('mouseup', handleSelection)
-    document.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('scroll', handleScroll)
+    // 绑定事件到targetElement
+    targetElement.addEventListener('mouseup', handleSelection)
+    targetElement.addEventListener('mousemove', handleMouseMove)
+    targetElement.addEventListener('scroll', handleScroll)
+    
     return () => {
-      document.removeEventListener('mouseup', handleSelection)
-      document.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('scroll', handleScroll)
+      // 移除事件监听器
+      targetElement.removeEventListener('mouseup', handleSelection)
+      targetElement.removeEventListener('mousemove', handleMouseMove)
+      targetElement.removeEventListener('scroll', handleScroll)
     }
-  }, [handleSelection, handleMouseMove, handleScroll])
+  }, [showToolbar, targetElement])
 
   return (
     <div ref={containerRef}>
