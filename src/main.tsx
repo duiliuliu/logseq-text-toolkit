@@ -9,7 +9,6 @@ import SelectToolbar from './components/SelectToolbar'
 import { SettingsProvider } from './config/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
-import { getSettings } from './logseq/mock/settings.ts'
 import { getDocument, getWindow } from './logseq/utils.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
@@ -34,6 +33,18 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
 // 存储设置面板的显示状态
 let settingsModalOpen = false;
 
+// 获取设置的辅助函数，根据环境使用不同的实现
+const getCurrentSettings = (): any => {
+  if (import.meta.env.MODE === 'test') {
+    // 在测试环境中，动态导入 mock 的 getSettings
+    const { getSettings: getMockSettings } = require('./logseq/mock/settings.ts')
+    return getMockSettings()
+  } else {
+    // 在正式环境中，使用 logseqAPI.settings
+    return logseqAPI.settings
+  }
+}
+
 const showSettingUI = async () => {
   console.log('Showing settings UI with isOpen:', settingsModalOpen)
   logseqAPI.provideUI({
@@ -45,7 +56,7 @@ const showSettingUI = async () => {
   setTimeout(() => {
     const container = getDocument().getElementById(SETTINGS_ID)
     if (container) {
-      const currentSettings = getSettings()
+      const currentSettings = getCurrentSettings()
       renderComponent(container, SettingsModal, {
         isOpen: settingsModalOpen, // 根据 settingsModalOpen 的值决定是否显示
         onClose: () => {
@@ -69,7 +80,7 @@ const settingToggle = async () => {
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
 
-  const currentSettings = getSettings()
+  const currentSettings = getCurrentSettings()
   if (currentSettings.toolbar.enabled) {
     logseqAPI.provideUI({
       key: TOOLBAR_ID,
