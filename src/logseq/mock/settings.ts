@@ -56,10 +56,4 @@ export const onSettingsChanged = <T = any>(cb: (a: T, b: T) => void): (() => voi
   };
 };
 
-// 重置设置
-export const resetSettings = async (): Promise<void> => {
-  const oldSettings = { ...currentSettings };
-  currentSettings = loadSettings();
-  saveSettings(currentSettings);
-  settingsChangeHandlers.forEach(cb => cb(currentSettings, oldSettings));
-};
+

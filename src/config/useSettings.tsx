@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
 import { Settings, SettingsContextType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'
+import { logseqAPI } from '../logseq/index.ts'
 
 // 创建设置上下文
 const SettingsContext = createContext<SettingsContextType | null>(null)
@@ -20,13 +21,13 @@ const useSettings = (): SettingsContextType => {
     setIsLoading(true)
     setError(null)
     try {
-      // 在Logseq环境中直接使用logseq.settings
-      if (typeof logseq !== 'undefined' && logseq.settings) {
-        const data = { ...defaultSettings, ...logseq.settings } as unknown as Settings
+      // 使用logseqAPI
+      if (logseqAPI && logseqAPI.settings) {
+        const data = { ...defaultSettings, ...logseqAPI.settings } as unknown as Settings
         setSettings(data)
         return data
       }
-      // 如果不在Logseq环境中，返回默认设置
+      // 如果没有logseqAPI，返回默认设置
       setSettings(defaultSettings)
       return defaultSettings
     } catch (err) {
@@ -43,8 +44,8 @@ const useSettings = (): SettingsContextType => {
     setIsSaving(true)
     setError(null)
     try {
-      if (typeof logseq !== 'undefined') {
-        await logseq.updateSettings(newSettings as unknown as Record<string, any>)
+      if (logseqAPI) {
+        await logseqAPI.updateSettings(newSettings as unknown as Record<string, any>)
         setSettings(newSettings)
         return true
       }
@@ -63,8 +64,8 @@ const useSettings = (): SettingsContextType => {
     setIsSaving(true)
     setError(null)
     try {
-      if (typeof logseq !== 'undefined') {
-        await logseq.updateSettings(defaultSettings as unknown as Record<string, any>)
+      if (logseqAPI) {
+        await logseqAPI.updateSettings(defaultSettings as unknown as Record<string, any>)
         setSettings(defaultSettings)
         return true
       }
@@ -85,8 +86,8 @@ const useSettings = (): SettingsContextType => {
 
   // 监听设置变化
   useEffect(() => {
-    if (typeof logseq !== 'undefined' && (logseq as any).onSettingsChanged) {
-      const unsubscribe = (logseq as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
+    if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
+      const unsubscribe = (logseqAPI as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
         console.log('Settings changed:', { newSettings, oldSettings })
         const mergedSettings = { ...defaultSettings, ...newSettings } as unknown as Settings
         setSettings(mergedSettings)

@@ -3,7 +3,7 @@ import { LogseqAPI } from '../logseq.ts';
 import App from './app.ts';
 import Editor from './editor.ts';
 import UI from './ui.ts';
-import { getSettings, updateSettings, onSettingsChanged, resetSettings } from './settings.ts';
+import { getSettings, updateSettings, onSettingsChanged } from './settings.ts';
 
 const mockLogseq: LogseqAPI & {
   onSettingsChanged?: <T = any>(cb: (a: T, b: T) => void) => () => void;
@@ -51,8 +51,7 @@ mockLogseq.onSettingsChanged = <T = any>(cb: SettingsCallback<T>): (() => void) 
   return onSettingsChanged(cb);
 };
 
-// 导出重置设置的方法
-export const resetMockSettings = resetSettings;
+
 
 // 挂载到全局
 globalThis.logseq = mockLogseq;
