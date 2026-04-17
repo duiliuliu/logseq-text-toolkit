@@ -29,6 +29,7 @@ jobs:
         with:
           node-version: "18.x"
           cache: "npm"
+          cache-dependency-path: package.json
 
       - name: Get current version
         id: get-version
@@ -41,7 +42,7 @@ jobs:
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
         run: |
           # 使用 npm 代替 yarn 以避免镜像源问题
-          npm install --no-lockfile
+          npm install --no-lockfile --legacy-peer-deps
           npm run build
           mkdir -p ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
