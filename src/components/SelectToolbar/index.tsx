@@ -47,12 +47,12 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
     const selection = window.getSelection()
     if (selection && selection.toString().length > 0) {
-      // 检查选中的元素是否在containerRef内
+      // 检查选中的元素是否在targetElement内
       const range = selection.getRangeAt(0)
       const commonAncestor = range.commonAncestorContainer as HTMLElement
-      const isInContainer = containerRef.current && containerRef.current.contains(commonAncestor)
+      const isInTarget = targetElement && targetElement.contains(commonAncestor)
       
-      if (isInContainer || !containerRef.current) {
+      if (isInTarget || !targetElement) {
         // 无论是否有targetElement，都显示工具栏
         const rect = range.getBoundingClientRect()
         
@@ -80,7 +80,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     } else {
       setShowToolbar(false)
     }
-  }, [showToolbar]);
+  }, [showToolbar, targetElement]);
 
   // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
   const handleMouseMove = useCallback((e: MouseEvent) => {
