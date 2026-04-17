@@ -31,8 +31,11 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
   }
 }
 
-const showSettingUI = async () => {
-  console.log('Showing settings UI')
+// 存储设置面板的显示状态
+let settingsModalOpen = false;
+
+const renderSettingsModal = async () => {
+  console.log('Rendering settings modal')
   logseqAPI.provideUI({
     key: SETTINGS_ID,
     path: '#app-container',
@@ -44,12 +47,24 @@ const showSettingUI = async () => {
     if (container) {
       const currentSettings = getSettings()
       renderComponent(container, SettingsModal, {
-        isOpen: true,
-        onClose: () => {},
+        isOpen: settingsModalOpen,
+        onClose: () => {
+          settingsModalOpen = false;
+        },
         theme: currentSettings.theme,
       })
     }
   }, 1)
+}
+
+const settingToggle = async () => {
+  console.log('Toggling settings modal')
+  settingsModalOpen = !settingsModalOpen;
+  await renderSettingsModal();
+}
+
+const showSettingUI = async () => {
+  await renderSettingsModal();
 }
 
 const showSelectToolbar = async () => {
@@ -88,12 +103,16 @@ const main = async () => {
     await logseqAPI.ready()
     console.log('Logseq API ready')
 
-    logseqAPI.provideModel({ showSettingUI })
+    // 初始渲染设置组件（默认隐藏）
+    await showSettingUI()
+    
+    // 提供设置切换函数
+    logseqAPI.provideModel({ settingToggle })
 
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
-        <a style="font-weight: bold" data-on-click="showSettingUI" data-rect>
+        <a style="font-weight: bold" data-on-click="settingToggle" data-rect>
           ⚙️
         </a>
       `,
