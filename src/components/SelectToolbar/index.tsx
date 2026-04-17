@@ -42,7 +42,6 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     
     if (isInsideToolbar && showToolbar) {
       // 点击工具栏内部，直接返回，不做任何处理
-      // 这样可以保持工具栏的显示状态和more按钮的功能
       return
     }
 
@@ -58,18 +57,12 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
         range: range,
         rect: rect
       })
+      
       // 计算toolbar应该显示在上方还是下方
       const toolbarHeight = 30; // 估算toolbar高度
-      
-      // 如果上方空间足够，显示在上方；否则显示在下方
-      let toolbarY: number;
-      if (rect.top > toolbarHeight + 10) {
-        // 上方空间足够，显示在上方
-        toolbarY = rect.top - toolbarHeight - 10;
-      } else {
-        // 上方空间不足，显示在下方
-        toolbarY = rect.bottom + 10;
-      }
+      const toolbarY = rect.top > toolbarHeight + 10 
+        ? rect.top - toolbarHeight - 10 
+        : rect.bottom + 10;
       
       setToolbarPosition({
         x: rect.left + rect.width / 2,
@@ -79,7 +72,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     } else {
       setShowToolbar(false)
     }
-  }, [showToolbar, targetElement]);
+  }, [showToolbar]);
 
   // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
   const handleMouseMove = useCallback((e: MouseEvent) => {
