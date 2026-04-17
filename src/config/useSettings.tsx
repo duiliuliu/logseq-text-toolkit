@@ -16,46 +16,20 @@ const useSettings = (): SettingsContextType => {
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  // 同步系统配置
-  const syncSystemConfigs = useCallback(async (currentSettings: Settings): Promise<Settings> => {
-    let updatedSettings = { ...currentSettings };
-    
-    try {
-      if (logseqAPI && logseqAPI.App && logseqAPI.App.getUserConfigs) {
-        const systemConfigs = await logseqAPI.App.getUserConfigs();
-        
-        if (currentSettings.useSystemTheme) {
-          updatedSettings.theme = systemConfigs.darkMode ? 'dark' : 'light';
-        }
-        
-        if (currentSettings.useSystemLanguage) {
-          updatedSettings.language = systemConfigs.preferredLanguage as LanguageType;
-        }
-      }
-    } catch (err) {
-      console.error('Failed to sync system configs:', err);
-    }
-    
-    return updatedSettings;
-  }, []);
-
   // 加载设置
   const loadSettingsData = useCallback(async (): Promise<Settings | null> => {
     setIsLoading(true)
     setError(null)
     try {
       // 使用logseqAPI
-      let settingsData: Settings;
       if (logseqAPI && logseqAPI.settings) {
-        settingsData = { ...defaultSettings, ...logseqAPI.settings } as unknown as Settings
-      } else {
-        settingsData = defaultSettings;
+        const data = { ...defaultSettings, ...logseqAPI.settings } as unknown as Settings
+        setSettings(data)
+        return data
       }
-      
-      // 同步系统配置
-      const updatedSettings = await syncSystemConfigs(settingsData);
-      setSettings(updatedSettings);
-      return updatedSettings;
+      // 如果没有logseqAPI，返回默认设置
+      setSettings(defaultSettings)
+      return defaultSettings
     } catch (err) {
       console.error('Failed to load settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
@@ -63,7 +37,7 @@ const useSettings = (): SettingsContextType => {
     } finally {
       setIsLoading(false)
     }
-  }, [syncSystemConfigs])
+  }, [])
 
   // 保存设置
   const saveSettingsData = useCallback(async (newSettings: Settings): Promise<boolean> => {
@@ -72,10 +46,7 @@ const useSettings = (): SettingsContextType => {
     try {
       if (logseqAPI) {
         await logseqAPI.updateSettings(newSettings as unknown as Record<string, any>)
-        
-        // 同步系统配置
-        const updatedSettings = await syncSystemConfigs(newSettings);
-        setSettings(updatedSettings);
+        setSettings(newSettings)
         return true
       }
       return false
@@ -86,7 +57,7 @@ const useSettings = (): SettingsContextType => {
     } finally {
       setIsSaving(false)
     }
-  }, [syncSystemConfigs])
+  }, [])
 
   // 重置设置
   const resetSettingsData = useCallback(async (): Promise<boolean> => {
@@ -95,10 +66,7 @@ const useSettings = (): SettingsContextType => {
     try {
       if (logseqAPI) {
         await logseqAPI.updateSettings(defaultSettings as unknown as Record<string, any>)
-        
-        // 同步系统配置
-        const updatedSettings = await syncSystemConfigs(defaultSettings);
-        setSettings(updatedSettings);
+        setSettings(defaultSettings)
         return true
       }
       return false
@@ -109,7 +77,7 @@ const useSettings = (): SettingsContextType => {
     } finally {
       setIsSaving(false)
     }
-  }, [syncSystemConfigs])
+  }, [])
 
   // 初始化时加载设置
   useEffect(() => {
@@ -119,17 +87,14 @@ const useSettings = (): SettingsContextType => {
   // 监听设置变化
   useEffect(() => {
     if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
-      const unsubscribe = (logseqAPI as any).onSettingsChanged(async (newSettings: any, oldSettings: any) => {
+      const unsubscribe = (logseqAPI as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
         console.log('Settings changed:', { newSettings, oldSettings })
         const mergedSettings = { ...defaultSettings, ...newSettings } as unknown as Settings
-        
-        // 同步系统配置
-        const updatedSettings = await syncSystemConfigs(mergedSettings);
-        setSettings(updatedSettings)
+        setSettings(mergedSettings)
       })
       return unsubscribe
     }
-  }, [syncSystemConfigs])
+  }, [])
 
   return {
     settings,
