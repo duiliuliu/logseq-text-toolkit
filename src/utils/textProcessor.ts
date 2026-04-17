@@ -1,5 +1,6 @@
 import { ToolbarItem } from '../components/Toolbar/types.ts';
 import { logseqAPI } from '../logseq/index.ts';
+import { getSelection, getDocument } from '../logseq/utils.ts';
 
 export interface SelectedData {
   text: string;
@@ -62,14 +63,21 @@ export const replaceSelectedText = async (item: ToolbarItem, selectedData: Selec
     
     const originalContent = block.content;
     
-    // 实现精确的替换方法，参考range和rect信息
+    // 实现精确的替换方法
     let newContent: string;
     
     if (selectedData.range) {
-      // 如果有range信息，尝试使用更精确的方法
+      // 使用range信息实现精确替换
       newContent = buildContentWithRange(originalContent, selectedText, processedText, selectedData);
     } else {
-      // 使用indexOf找到第一个匹配项
+      // 尝试在当前选中的元素中进行精确替换
+      const success = await replaceInSelectedElement(selectedText, processedText);
+      if (success) {
+        logseqAPI.UI.showMsg('文本替换成功', { type: 'success' });
+        return true;
+      }
+      
+      // 回退：使用indexOf找到第一个匹配项
       const index = originalContent.indexOf(selectedText);
       if (index === -1) {
         console.error('Selected text not found in block content:', {
@@ -99,6 +107,54 @@ export const replaceSelectedText = async (item: ToolbarItem, selectedData: Selec
     } catch (uiError) {
       console.error('Error showing message:', uiError);
     }
+    return false;
+  }
+};
+
+// 在当前选中的元素中进行精确替换
+const replaceInSelectedElement = async (selectedText: string, processedText: string): Promise<boolean> => {
+  try {
+    // 获取当前选择
+    const selection = getSelection();
+    const doc = getDocument();
+    if (!selection || selection.rangeCount === 0) {
+      return false;
+    }
+    
+    const range = selection.getRangeAt(0);
+    const startContainer = range.startContainer;
+    const endContainer = range.endContainer;
+    
+    // 检查是否在同一个文本节点中
+    if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
+      const textNode = startContainer as Text;
+      const startOffset = range.startOffset;
+      const endOffset = range.endOffset;
+      
+      // 验证选中的文本是否匹配
+      const actualSelectedText = textNode.textContent?.substring(startOffset, endOffset);
+      if (actualSelectedText === selectedText) {
+        // 执行精确替换
+        const before = textNode.textContent?.substring(0, startOffset) || '';
+        const after = textNode.textContent?.substring(endOffset) || '';
+        const newText = before + processedText + after;
+        
+        textNode.textContent = newText;
+        
+        // 重新设置选择范围
+        const newRange = doc.createRange();
+        newRange.setStart(textNode, startOffset);
+        newRange.setEnd(textNode, startOffset + processedText.length);
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+        
+        return true;
+      }
+    }
+    
+    return false;
+  } catch (error) {
+    console.error('Error in replaceInSelectedElement:', error);
     return false;
   }
 };

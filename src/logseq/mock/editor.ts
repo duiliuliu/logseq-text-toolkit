@@ -57,7 +57,7 @@ const Editor = {
   }
 };
 
-// 生成基于元素路径的唯一ID
+// 生成基于元素路径的唯一ID（使用JS路径格式）
 function generateBlockId(element: HTMLElement): string {
   const path: string[] = [];
   let current: Element | null = element;
@@ -65,15 +65,26 @@ function generateBlockId(element: HTMLElement): string {
   while (current) {
     let selector = current.tagName.toLowerCase();
     
-    // 添加类名作为额外标识
-    if (current.classList.length > 0) {
+    // 添加ID作为标识（优先使用ID）
+    if (current.id) {
+      selector = `#${current.id}`;
+    } else if (current.classList.length > 0) {
+      // 添加类名作为额外标识
       const classes = Array.from(current.classList).join('.');
       selector += `.${classes}`;
-    }
-    
-    // 添加ID作为标识
-    if (current.id) {
-      selector += `#${current.id}`;
+    } else {
+      // 添加索引位置
+      const siblings = current.parentElement?.children;
+      if (siblings) {
+        let index = 0;
+        for (let i = 0; i < siblings.length; i++) {
+          if (siblings[i] === current) {
+            index = i;
+            break;
+          }
+        }
+        selector += `:nth-child(${index + 1})`;
+      }
     }
     
     path.unshift(selector);
