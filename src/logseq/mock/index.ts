@@ -42,6 +42,44 @@ const mockLogseq: LogseqAPI & {
   // 提供UI
   provideUI: (config: any) => {
     console.log('Provided UI:', config);
+    
+    // 检查是否指定了path，如果没有指定则使用默认路径
+    const targetPath = config.path || 'body';
+    
+    // 查找目标元素
+    let targetElement: HTMLElement | null;
+    if (targetPath.startsWith('#')) {
+      targetElement = document.querySelector(targetPath);
+    } else {
+      targetElement = document.querySelector(targetPath);
+    }
+    
+    // 如果找不到目标元素，默认使用body
+    if (!targetElement) {
+      targetElement = document.body;
+    }
+    
+    // 创建容器元素
+    const containerId = config.key || `logseq-ui-${Date.now()}`;
+    let container = document.getElementById(containerId);
+    
+    if (config.template) {
+      // 如果有模板，创建或更新容器
+      if (!container) {
+        container = document.createElement('div');
+        container.id = containerId;
+        container.style.display = 'none'; // 默认不显示
+        container.style.position = 'fixed';
+        container.style.zIndex = '9999';
+        targetElement.appendChild(container);
+      }
+      container.innerHTML = config.template;
+    } else {
+      // 如果没有模板，移除容器
+      if (container) {
+        container.remove();
+      }
+    }
   }
 };
 

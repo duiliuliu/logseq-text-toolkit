@@ -9,7 +9,7 @@ import SelectToolbar from './components/SelectToolbar'
 import { SettingsProvider } from './config/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
-import defaultSettings from './config/defaultSettings.ts'
+import { getSettings } from './logseq/mock/settings.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -41,6 +41,7 @@ const showSettingUI = async () => {
   setTimeout(() => {
     const container = document.getElementById(SETTINGS_ID)
     if (container) {
+      const currentSettings = getSettings()
       renderComponent(container, SettingsModal, {
         isOpen: true,
         onClose: () => {
@@ -50,7 +51,7 @@ const showSettingUI = async () => {
             template: '',
           })
         },
-        theme: defaultSettings.theme,
+        theme: currentSettings.theme,
       })
     }
   }, 0)
@@ -59,7 +60,8 @@ const showSettingUI = async () => {
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
 
-  if (defaultSettings.toolbar.enabled) {
+  const currentSettings = getSettings()
+  if (currentSettings.toolbar.enabled) {
     logseqAPI.provideUI({
       key: TOOLBAR_ID,
       path: '#app-container',
@@ -73,12 +75,12 @@ const showSelectToolbar = async () => {
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: defaultToolbarItems,
-          theme: defaultSettings.theme,
-          showBorder: defaultSettings.toolbar.showBorder,
-          width: defaultSettings.toolbar.width,
-          height: defaultSettings.toolbar.height,
-          hoverDelay: defaultSettings.toolbar.hoverDelay,
-          sponsorEnabled: defaultSettings.toolbar.sponsorEnabled,
+          theme: currentSettings.theme,
+          showBorder: currentSettings.toolbar.showBorder,
+          width: currentSettings.toolbar.width,
+          height: currentSettings.toolbar.height,
+          hoverDelay: currentSettings.toolbar.hoverDelay,
+          sponsorEnabled: currentSettings.toolbar.sponsorEnabled,
         })
       }
     }, 0)

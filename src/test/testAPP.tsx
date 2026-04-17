@@ -1,11 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import '../index.css'
 import '../main.css'
-import SelectToolbar from '../components/SelectToolbar/index.tsx'
 import SettingsModal from '../components/SettingsModal/index.tsx'
 import TestLayout from './components/TestLayout/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
-import { toolbarItems as testData } from './testData.ts'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../config/useSettings.tsx'
 import { logseqAPI } from '../logseq/index.ts'
@@ -15,7 +13,6 @@ import '../logseq/mock/index.ts'
 
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
-  const [targetElement, setTargetElement] = useState<HTMLElement | null>(null)
   const [showSettings, setShowSettings] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   
@@ -37,14 +34,6 @@ function TestApp() {
     }
 
     initLogseqPlugin()
-  }, [])
-
-  // 当组件挂载后，更新targetElement
-  useEffect(() => {
-    if (contentRef.current) {
-      setTargetElement(contentRef.current)
-      console.log('Target element set:', contentRef.current)
-    }
   }, [])
 
   // 确保settings存在
@@ -119,19 +108,6 @@ function TestApp() {
         centerContent={centerContent}
         rightContent={rightContent}
       />
-      
-      {targetElement && (
-        <SelectToolbar 
-          targetElement={targetElement}
-          items={testData} 
-          theme={settings.theme} 
-          showBorder={settings.toolbar.showBorder}
-          width={settings.toolbar.width}
-          height={settings.toolbar.height}
-          hoverDelay={settings.toolbar.hoverDelay}
-          sponsorEnabled={settings.toolbar.sponsorEnabled}
-        />
-      )}
       
       <SettingsModal 
         isOpen={showSettings}
