@@ -1,5 +1,19 @@
-import { ToolbarItem } from '../types/index.ts';
-import { BlockEntity } from '../types/logseq.ts';
+interface ToolbarItem {
+  id: string;
+  label: string;
+  funcmode: string;
+  clickfunc: string;
+  regex?: string;
+  replacement?: string;
+}
+
+interface BlockEntity {
+  uuid: string;
+  content: string;
+  properties?: any;
+  format?: string;
+  children?: BlockEntity[];
+}
 
 interface SelectedData {
   text: string;

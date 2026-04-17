@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
-import { processSelectedData } from '../../utils/textProcessor.js'
+import { processSelectedData } from '../../utils/textProcessor.ts'
 
 type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu'
 
