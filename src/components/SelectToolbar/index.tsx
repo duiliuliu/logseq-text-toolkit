@@ -47,28 +47,36 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
     const selection = window.getSelection()
     if (selection && selection.toString().length > 0) {
-      // 无论是否有targetElement，都显示工具栏
+      // 检查选中的元素是否在containerRef内
       const range = selection.getRangeAt(0)
-      const rect = range.getBoundingClientRect()
+      const commonAncestor = range.commonAncestorContainer as HTMLElement
+      const isInContainer = containerRef.current && containerRef.current.contains(commonAncestor)
       
-      setSelectedData({
-        text: selection.toString(),
-        timestamp: new Date().toISOString(),
-        range: range,
-        rect: rect
-      })
-      
-      // 计算toolbar应该显示在上方还是下方
-      const toolbarHeight = 30; // 估算toolbar高度
-      const toolbarY = rect.top > toolbarHeight + 10 
-        ? rect.top - toolbarHeight - 10 
-        : rect.bottom + 10;
-      
-      setToolbarPosition({
-        x: rect.left + rect.width / 2,
-        y: toolbarY
-      })
-      setShowToolbar(true)
+      if (isInContainer || !containerRef.current) {
+        // 无论是否有targetElement，都显示工具栏
+        const rect = range.getBoundingClientRect()
+        
+        setSelectedData({
+          text: selection.toString(),
+          timestamp: new Date().toISOString(),
+          range: range,
+          rect: rect
+        })
+        
+        // 计算toolbar应该显示在上方还是下方
+        const toolbarHeight = 30; // 估算toolbar高度
+        const toolbarY = rect.top > toolbarHeight + 10 
+          ? rect.top - toolbarHeight - 10 
+          : rect.bottom + 10;
+        
+        setToolbarPosition({
+          x: rect.left + rect.width / 2,
+          y: toolbarY
+        })
+        setShowToolbar(true)
+      } else {
+        setShowToolbar(false)
+      }
     } else {
       setShowToolbar(false)
     }

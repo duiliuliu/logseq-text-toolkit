@@ -28,7 +28,7 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -109,7 +109,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                   className="toolbar-group-item"
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
-                  onClick={() => handleItemClick(subItem, onTextProcessed)}
+                  onClick={() => handleItemClick(subItem, selectedData, onTextProcessed)}
                 >
                   <div className="toolbar-item-icon">
                     {renderIcon(subItem.icon)}
@@ -133,7 +133,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           className="toolbar-main-item"
           onMouseEnter={() => setHoveredItem(toolbarItem)}
           onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleItemClick(toolbarItem, onTextProcessed)}
+          onClick={() => handleItemClick(toolbarItem, selectedData, onTextProcessed)}
         >
           <div className="toolbar-item-icon">
             {renderIcon(toolbarItem.icon)}

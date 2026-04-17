@@ -63,21 +63,9 @@ export const parseItems = (data: Record<string, any>): (ToolbarItem | ToolbarGro
 /**
  * 处理工具栏项目点击
  */
-export const handleItemClick = async (item: ToolbarItem, onTextProcessed?: (processedText: string) => void) => {
-  // 直接从window.getSelection()获取最新的选中文本
-  const selection = window.getSelection();
-  const currentSelectedText = selection?.toString() || '';
-  
-  if (item.clickfunc && currentSelectedText) {
-    // 创建最新的selectedData
-    const currentSelectedData: SelectedData = {
-      text: currentSelectedText,
-      timestamp: new Date().toISOString(),
-      range: selection?.getRangeAt(0),
-      rect: selection?.getRangeAt(0)?.getBoundingClientRect()
-    };
-    
-    const processedText = await processSelectedData(item, currentSelectedData);
+export const handleItemClick = async (item: ToolbarItem, selectedData: SelectedData, onTextProcessed?: (processedText: string) => void) => {
+  if (item.clickfunc && selectedData.text) {
+    const processedText = await processSelectedData(item, selectedData);
     if (onTextProcessed) {
       onTextProcessed(processedText);
     }
