@@ -206,5 +206,23 @@ export const toolbarItems: ToolbarConfig['items'] = {
     clickfunc: "",
     regex: "\[\[(?:#|\$)(?:red|green|blue)\]\]|==([^=]*)==|~~([^~]*)~~|\^\^([^\^]*)\^\^|\*\*([^\*]*)\*\*|\*([^\*]*)\*|_([^_]*)_|\$([^\$]*)\$|`([^`]*)`",
     replacement: "$1$2$3$4$5$6$7$8"
+  },
+  "wrap-code": {
+    id: "wrap-code",
+    label: "代码块",
+    binding: "mod+shift+c",
+    icon: "type",
+    funcmode: "replace",
+    clickfunc: "```\n${selectedText}\n```",
+    hidden: true
+  },
+  "wrap-quote": {
+    id: "wrap-quote",
+    label: "引用",
+    binding: "mod+shift+q",
+    icon: "menu",
+    funcmode: "replace",
+    clickfunc: "> ${selectedText}",
+    hidden: true
   }
 };
