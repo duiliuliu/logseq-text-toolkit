@@ -35,7 +35,7 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
 let settingsModalOpen = false;
 
 const showSettingUI = async () => {
-  console.log('Showing settings UI')
+  console.log('Showing settings UI with isOpen:', settingsModalOpen)
   logseqAPI.provideUI({
     key: SETTINGS_ID,
     path: '#app-container',
@@ -45,13 +45,12 @@ const showSettingUI = async () => {
   setTimeout(() => {
     const container = getDocument().getElementById(SETTINGS_ID)
     if (container) {
-      console.log('Found settings container, rendering SettingsModal with isOpen:', settingsModalOpen)
       const currentSettings = getSettings()
-      console.log('Current settings:', currentSettings)
       renderComponent(container, SettingsModal, {
-        isOpen: true, // 始终渲染，由 settingToggle 控制显示/隐藏
+        isOpen: settingsModalOpen, // 根据 settingsModalOpen 的值决定是否显示
         onClose: () => {
           settingsModalOpen = false;
+          showSettingUI(); // 关闭后重新渲染以更新状态
         },
         theme: currentSettings.theme,
       })
