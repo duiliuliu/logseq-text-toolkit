@@ -1,14 +1,12 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import '../index.css'
 import '../main.css'
 import SettingsModal from '../components/SettingsModal/index.tsx'
 import TestLayout from './components/TestLayout/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
-import SelectToolbar from '../components/SelectToolbar/index.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../config/useSettings.tsx'
 import { logseqAPI } from '../logseq/index.ts'
-import { toolbarItems as defaultToolbarItems } from './testData.ts'
 
 // 导入mock logseq
 import '../logseq/mock/index.ts'
@@ -16,18 +14,9 @@ import '../logseq/mock/index.ts'
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
-  const [targetElement, setTargetElement] = useState<HTMLElement | null>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
   
   // 使用设置上下文
   const { settings } = useSettingsContext()
-  
-  // 当contentRef变化时，更新targetElement
-  useEffect(() => {
-    if (contentRef.current) {
-      setTargetElement(contentRef.current)
-    }
-  }, [])
 
   // 初始化 mock logseq
   useEffect(() => {
@@ -89,7 +78,7 @@ function TestApp() {
 
   // 中间内容区域
   const centerContent = (
-    <div className="center-content" ref={contentRef}>
+    <div className="center-content">
       <h2>{testConfig.content.title}</h2>
       {testConfig.content.paragraphs.map((paragraph, index) => (
         <div key={index} id={`editable-paragraph-${index + 1}`} className="editable-paragraph">
@@ -119,18 +108,6 @@ function TestApp() {
         leftContent={leftContent}
         centerContent={centerContent}
         rightContent={rightContent}
-      />
-      
-      {/* 选择工具栏 */}
-      <SelectToolbar
-        targetElement={targetElement}
-        items={defaultToolbarItems}
-        theme={settings.theme}
-        showBorder={true}
-        width="110px"
-        height="24px"
-        hoverDelay={500}
-        sponsorEnabled={false}
       />
       
       <SettingsModal 
