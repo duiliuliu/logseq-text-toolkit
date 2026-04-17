@@ -9,7 +9,7 @@ interface ToolbarPosition {
 }
 
 interface SelectToolbarProps {
-  targetElement: HTMLElement
+  targetElement: HTMLElement | null
   items: Record<string, any>
   theme?: 'light' | 'dark'
   showBorder?: boolean
@@ -33,6 +33,11 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
   // 更新toolbar位置
   const updateToolbarPosition = () => {
+    if (!targetElement) {
+      setShowToolbar(false)
+      return
+    }
+    
     const selection = getSelection()
     if (selection && selection.toString().length > 0) {
       // 检查选择是否在目标元素内
@@ -90,6 +95,8 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
   // 处理文本选择
   useEffect(() => {
+    if (!targetElement) return
+
     const handleSelection = (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
       if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {

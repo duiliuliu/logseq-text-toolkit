@@ -68,6 +68,22 @@ export const toolbarItems: ToolbarConfig['items'] = {
         icon: "highlighter",
         funcmode: "replace",
         clickfunc: "[:mark.blue ${selectedText}]"
+      },
+      "wrap-green-hl": {
+        id: "wrap-green-hl",
+        label: "绿色高亮",
+        binding: "",
+        icon: "highlighter",
+        funcmode: "replace",
+        clickfunc: "[:mark.green ${selectedText}]"
+      },
+      "wrap-purple-hl": {
+        id: "wrap-purple-hl",
+        label: "紫色高亮",
+        binding: "",
+        icon: "highlighter",
+        funcmode: "replace",
+        clickfunc: "[:mark.purple ${selectedText}]"
       }
     }
   },
@@ -91,8 +107,87 @@ export const toolbarItems: ToolbarConfig['items'] = {
         icon: "type",
         funcmode: "replace",
         clickfunc: "[[:color.blue ${selectedText}]]"
+      },
+      "wrap-yellow-text": {
+        id: "wrap-yellow-text",
+        label: "黄色文本",
+        binding: "",
+        icon: "type",
+        funcmode: "replace",
+        clickfunc: "[[:color.yellow ${selectedText}]]"
+      },
+      "wrap-green-text": {
+        id: "wrap-green-text",
+        label: "绿色文本",
+        binding: "",
+        icon: "type",
+        funcmode: "replace",
+        clickfunc: "[[:color.green ${selectedText}]]"
+      },
+      "wrap-purple-text": {
+        id: "wrap-purple-text",
+        label: "紫色文本",
+        binding: "",
+        icon: "type",
+        funcmode: "replace",
+        clickfunc: "[[:color.purple ${selectedText}]]"
       }
     }
+  },
+  "group-underline": {
+    id: "group-underline",
+    isGroup: true,
+    label: "下划线",
+    items: {
+      "wrap-red-underline": {
+        id: "wrap-red-underline",
+        label: "红色下划线",
+        binding: "",
+        icon: "underline",
+        funcmode: "replace",
+        clickfunc: "[:mark.red-underline ${selectedText}]"
+      },
+      "wrap-yellow-underline": {
+        id: "wrap-yellow-underline",
+        label: "黄色下划线",
+        binding: "",
+        icon: "underline",
+        funcmode: "replace",
+        clickfunc: "[:mark.yellow-underline ${selectedText}]"
+      },
+      "wrap-blue-underline": {
+        id: "wrap-blue-underline",
+        label: "蓝色下划线",
+        binding: "",
+        icon: "underline",
+        funcmode: "replace",
+        clickfunc: "[:mark.blue-underline ${selectedText}]"
+      },
+      "wrap-green-underline": {
+        id: "wrap-green-underline",
+        label: "绿色下划线",
+        binding: "",
+        icon: "underline",
+        funcmode: "replace",
+        clickfunc: "[:mark.green-underline ${selectedText}]"
+      },
+      "wrap-purple-underline": {
+        id: "wrap-purple-underline",
+        label: "紫色下划线",
+        binding: "",
+        icon: "underline",
+        funcmode: "replace",
+        clickfunc: "[:mark.purple-underline ${selectedText}]"
+      }
+    }
+  },
+  "wrap-file-link": {
+    id: "wrap-file-link",
+    label: "文件链接",
+    binding: "",
+    icon: "link",
+    funcmode: "replace",
+    clickfunc: "[[${selectedText}]]"
   },
   "wrap-cloze": {
     id: "wrap-cloze",

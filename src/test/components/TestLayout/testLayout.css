@@ -20,6 +20,7 @@
   flex: 1;
   overflow: auto;
   padding: 20px;
+  min-height: 400px;
 }
 
 .test-layout__content {
