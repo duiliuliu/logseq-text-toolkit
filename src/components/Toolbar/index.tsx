@@ -64,6 +64,10 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
         <div 
           key={item.id} 
           className="toolbar-main-item toolbar-group"
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
           onMouseEnter={() => {
             // 清除之前的定时器
             if (hoverTimerRef.current) {
@@ -107,6 +111,10 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                 <div 
                   key={subItem.id}
                   className="toolbar-group-item"
+                  onMouseDown={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                  }}
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
                   onClick={() => handleItemClick(subItem, selectedData, onTextProcessed)}
@@ -131,6 +139,10 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
         <div 
           key={toolbarItem.id} 
           className="toolbar-main-item"
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
           onMouseEnter={() => setHoveredItem(toolbarItem)}
           onMouseLeave={() => setHoveredItem(null)}
           onClick={() => handleItemClick(toolbarItem, selectedData, onTextProcessed)}
@@ -152,6 +164,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   const { mainItems, moreItems, hasMoreItems } = filterToolbarItems(toolbarItems)
 
   const toggleMore = (e: React.MouseEvent) => {
+    e.preventDefault()
     e.stopPropagation()
     setMoreExpanded(!moreExpanded)
   }
@@ -176,6 +189,10 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
         {hasMoreItems && (
           <div 
             className="toolbar-main-item toolbar-more"
+            onMouseDown={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
             onClick={toggleMore}
             onMouseEnter={() => setHoveredItem({ label: moreExpanded ? 'Collapse' : 'More', id: 'more', funcmode: 'console', clickfunc: 'more' })}
             onMouseLeave={() => setHoveredItem(null)}

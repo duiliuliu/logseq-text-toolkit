@@ -8,7 +8,7 @@ interface ToolbarPosition {
 }
 
 interface SelectToolbarProps {
-  targetElement?: HTMLElement
+  targetElement: HTMLElement
   items: Record<string, any>
   theme?: 'light' | 'dark'
   showBorder?: boolean
@@ -40,13 +40,10 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
 
       const selection = window.getSelection()
       if (selection && selection.toString().length > 0) {
-        // 如果有targetElement，检查选择是否在目标元素内
-        let shouldShowToolbar = true;
-        if (targetElement) {
-          const anchorNode = selection.anchorNode
-          const focusNode = selection.focusNode
-          shouldShowToolbar = (targetElement.contains(anchorNode) || targetElement.contains(focusNode))
-        }
+        // 检查选择是否在目标元素内
+        const anchorNode = selection.anchorNode
+        const focusNode = selection.focusNode
+        const shouldShowToolbar = (targetElement.contains(anchorNode) || targetElement.contains(focusNode))
         
         if (shouldShowToolbar) {
           const range = selection.getRangeAt(0)
@@ -114,19 +111,16 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
       }
     }
 
-    // 根据是否有targetElement来决定绑定到哪里
-    const eventTarget = targetElement || document;
-    const scrollTarget = targetElement || window;
-    
-    eventTarget.addEventListener('mouseup', handleSelection)
-    eventTarget.addEventListener('mousemove', handleMouseMove)
-    scrollTarget.addEventListener('scroll', handleScroll)
+    // 直接绑定到targetElement
+    targetElement.addEventListener('mouseup', handleSelection)
+    targetElement.addEventListener('mousemove', handleMouseMove)
+    targetElement.addEventListener('scroll', handleScroll, true)
     
     return () => {
       // 移除事件监听器
-      eventTarget.removeEventListener('mouseup', handleSelection)
-      eventTarget.removeEventListener('mousemove', handleMouseMove)
-      scrollTarget.removeEventListener('scroll', handleScroll)
+      targetElement.removeEventListener('mouseup', handleSelection)
+      targetElement.removeEventListener('mousemove', handleMouseMove)
+      targetElement.removeEventListener('scroll', handleScroll, true)
     }
   }, [showToolbar, targetElement])
 
