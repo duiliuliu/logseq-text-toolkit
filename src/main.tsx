@@ -10,34 +10,7 @@ import { SettingsProvider } from './config/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './logseq/mock/settings.ts'
-
-// 获取正确的document对象
-const getDocument = (): Document => {
-  // 检测是否在测试模式
-  const isTestMode = import.meta.env.MODE === 'test';
-  
-  if (!isTestMode && typeof window !== 'undefined' && window.parent !== window) {
-    // 在iframe中且非测试模式，使用parent.document
-    return window.parent.document;
-  } else {
-    // 测试模式或不在iframe中，使用当前document
-    return document;
-  }
-}
-
-// 获取正确的window对象
-const getWindow = (): Window => {
-  // 检测是否在测试模式
-  const isTestMode = import.meta.env.MODE === 'test';
-  
-  if (!isTestMode && typeof window !== 'undefined' && window.parent !== window) {
-    // 在iframe中且非测试模式，使用parent.window
-    return window.parent;
-  } else {
-    // 测试模式或不在iframe中，使用当前window
-    return window;
-  }
-}
+import { getDocument, getWindow } from './logseq/utils.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'

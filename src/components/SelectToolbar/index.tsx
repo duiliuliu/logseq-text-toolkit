@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import { SelectedData } from '../../utils/textProcessor.ts'
+import { getSelection, getWindow } from '../../logseq/utils.ts'
 
 interface ToolbarPosition {
   x: number
@@ -30,29 +31,6 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
     console.log('Processed text:', processedText)
   }
 
-  // 获取正确的document对象
-  const getDocument = (): Document => {
-    // 检测是否在测试模式
-    const isTestMode = import.meta.env.MODE === 'test';
-    
-    if (!isTestMode && typeof window !== 'undefined' && window.parent !== window) {
-      // 在iframe中且非测试模式，使用parent.document
-      return window.parent.document;
-    } else {
-      // 测试模式或不在iframe中，使用当前document
-      return document;
-    }
-  }
-
-  // 获取选择对象的辅助函数
-  const getSelection = (): Selection | null => {
-    const doc = getDocument();
-    if (doc) {
-      return doc.getSelection();
-    }
-    return null;
-  }
-
   // 更新toolbar位置
   const updateToolbarPosition = () => {
     const selection = getSelection()
@@ -78,7 +56,7 @@ function SelectToolbar({ targetElement, items, theme = 'light', showBorder = tru
         const padding = 10; // 间距
         
         // 获取视口高度
-        const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
+        const viewportHeight = getWindow().innerHeight;
         
         // 计算上方和下方的可用空间
         const spaceAbove = rect.top;
