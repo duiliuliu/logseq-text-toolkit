@@ -36,9 +36,19 @@ const mockLogseq: LogseqAPI & {
   
   // 提供模型
   provideModel: (model: Record<string, any>) => {
-    console.log('Provided model:', model);
+    console.log('provideModel called with model:', model);
+    console.log('model keys:', Object.keys(model));
+    console.log('model.settingToggle:', typeof model.settingToggle);
+    
     // 将模型方法暴露到全局，以便元素通过 data-on-click 调用
     Object.assign(globalThis, model);
+    
+    // 直接在 globalThis 上设置函数，确保能被访问到
+    if (model.settingToggle) {
+      (globalThis as any).settingToggle = model.settingToggle;
+      console.log('Directly set settingToggle on globalThis');
+    }
+    
     // 同时将模型方法添加到 mockLogseq 本身，符合官方 API 规范
     Object.assign(mockLogseq, model);
     return mockLogseq;
