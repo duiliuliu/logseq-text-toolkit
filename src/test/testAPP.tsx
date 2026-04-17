@@ -93,7 +93,7 @@ function TestApp() {
       {/* 顶部工具栏 */}
       <div id="head" className="top-toolbar">
         <h1>Text Toolkit Plugin (Test Mode)</h1>
-        <div id="toolbar" className="toolbar-container" style={{ position: 'absolute', top: '10px', right: '10px' }}>
+        <div id="toolbar" className="toolbar-container" style={{ position: 'absolute', top: '10px', right: '100px' }}>
         </div>
         <button 
           className="settings-button"
