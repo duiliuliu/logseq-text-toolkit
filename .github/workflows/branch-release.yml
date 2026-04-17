@@ -67,9 +67,38 @@ jobs:
           
           echo "Created branch tag: $BRANCH_TAG"
 
+      - name: Create release tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ steps.get-version.outputs.version }}
+          RELEASE_TAG="v${VERSION}"
+          
+          # Delete existing tag if it exists
+          git tag -d $RELEASE_TAG 2>/dev/null || true
+          git push origin :$RELEASE_TAG 2>/dev/null || true
+          
+          # Create new release tag
+          git tag $RELEASE_TAG
+          git push origin $RELEASE_TAG
+          
+          echo "Created release tag: $RELEASE_TAG"
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.PLUGIN_NAME }}
           path: ./${{ env.PLUGIN_NAME }}.zip
           retention-days: 7
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get-version.outputs.version }}
+          name: Release v${{ steps.get-version.outputs.version }}
+          body: |
+            ## Changes
+            - Automated release for version ${{ steps.get-version.outputs.version }}
+          files: ./${{ env.PLUGIN_NAME }}.zip
