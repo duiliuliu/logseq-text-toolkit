@@ -37,6 +37,11 @@ const mockLogseq: LogseqAPI & {
   // 提供模型
   provideModel: (model: Record<string, any>) => {
     console.log('Provided model:', model);
+    // 将模型方法暴露到全局，以便元素通过 data-on-click 调用
+    Object.assign(globalThis, model);
+    // 同时将模型方法添加到 mockLogseq 本身，符合官方 API 规范
+    Object.assign(mockLogseq, model);
+    return mockLogseq;
   },
   
   // 提供UI
