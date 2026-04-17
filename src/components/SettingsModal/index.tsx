@@ -59,6 +59,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     const success = await saveSettings(settings)
     if (success) {
       console.log(`${tab} settings saved successfully`)
+      onClose()
     }
   }
 
