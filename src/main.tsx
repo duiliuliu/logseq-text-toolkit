@@ -114,10 +114,7 @@ const main = async () => {
 if (import.meta.env.MODE === 'test') {
   const rootElement = document.getElementById('root')
   renderComponent(rootElement, TestApp)
-  // 等待TestApp渲染完成后再调用main
-  setTimeout(() => {
-    logseqAPI.ready().then(main).catch(console.error)
-  }, 100)
+  logseqAPI.ready().then(main).catch(console.error)
 } else {
   // 在正式模式下，渲染 App 组件
   const rootElement = document.getElementById('root')
