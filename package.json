@@ -1,13 +1,18 @@
 {
   "name": "logseq-text-toolkit",
   "version": "0.11.4",
+  "description": "A toolkit for text formatting and manipulation",
+  "author": "duiliuliu",
+  "license": "MIT",
   "main": "dist/index.html",
   "logseq": {
     "id": "logseq-text-toolkit",
     "title": "Text Toolkit",
     "description": "A toolkit for text formatting and manipulation",
     "main": "dist/index.html",
-    "icon": "./icon.png"
+    "icon": "./icon.png",
+    "minSDKVersion": "0.2.12",
+    "supportsDB": true
   },
   "scripts": {
     "dev": "vite",
