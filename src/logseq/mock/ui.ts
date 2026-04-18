@@ -1,4 +1,6 @@
 // Mock Logseq UI API
+import { getDocument } from '../utils';
+
 const UI = {
   // 显示消息
   showMsg: (msg: string, opts?: {
@@ -52,7 +54,8 @@ const UI = {
 
 // 创建简单的通知
 const createSimpleNotification = (msg: string, type: string, timeout: number) => {
-  const notification = document.createElement('div');
+  const doc = getDocument();
+  const notification = doc.createElement('div');
   notification.className = `mock-notification mock-notification-${type}`;
   notification.style.cssText = `
     position: fixed;
@@ -84,24 +87,24 @@ const createSimpleNotification = (msg: string, type: string, timeout: number) =>
   
   notification.textContent = msg;
   
-  document.body.appendChild(notification);
+  doc.body.appendChild(notification);
   
   // 添加动画样式
-  const style = document.createElement('style');
+  const style = doc.createElement('style');
   style.textContent = `
     @keyframes slideIn {
       from { transform: translateX(100%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
   `;
-  document.head.appendChild(style);
+  doc.head.appendChild(style);
   
   // 自动移除通知
   setTimeout(() => {
     notification.style.animation = 'slideIn 0.3s ease-out reverse';
     setTimeout(() => {
-      document.body.removeChild(notification);
-      document.head.removeChild(style);
+      doc.body.removeChild(notification);
+      doc.head.removeChild(style);
     }, 300);
   }, timeout);
 };

@@ -1,4 +1,6 @@
 // Mock Logseq App API
+import { getDocument } from '../utils';
+
 const eventListeners: Map<string, Array<(...args: any[]) => void>> = new Map();
 
 const App = {
@@ -18,8 +20,9 @@ const App = {
     
     // 特殊处理 selectionChange 事件
     if (event === 'selectionChange') {
-      document.addEventListener('mouseup', () => {
-        const selection = window.getSelection();
+      const doc = getDocument();
+      doc.addEventListener('mouseup', () => {
+        const selection = doc.getSelection();
         if (selection && selection.toString()) {
           const range = selection.getRangeAt(0);
           const rect = range.getBoundingClientRect();
@@ -78,16 +81,17 @@ const App = {
     // 尝试添加UI项，带有重试机制
     const tryAddUIItem = () => {
       // 查找id=toolbar的元素
-      const toolbarElement = document.getElementById('toolbar');
+      const doc = getDocument();
+      const toolbarElement = doc.getElementById('toolbar');
       if (toolbarElement) {
         // 检查是否已存在该key的元素
-        const existingElement = document.getElementById(config.key);
+        const existingElement = doc.getElementById(config.key);
         if (existingElement) {
           existingElement.remove();
         }
         
         // 创建新元素并添加到toolbar
-        const element = document.createElement('div');
+        const element = doc.createElement('div');
         element.id = config.key;
         element.innerHTML = config.template;
         toolbarElement.appendChild(element);
@@ -123,7 +127,8 @@ const App = {
         }
       });
       
-      observer.observe(document.body, {
+      const doc = getDocument();
+      observer.observe(doc.body, {
         childList: true,
         subtree: true
       });

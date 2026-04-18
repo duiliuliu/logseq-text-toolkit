@@ -4,6 +4,7 @@ import App from './app.ts';
 import Editor from './editor.ts';
 import UI from './ui.ts';
 import { getSettings, updateSettings, onSettingsChanged } from './settings.ts';
+import { getDocument } from '../utils.ts';
 
 const mockLogseq: LogseqAPI & {
   onSettingsChanged?: <T = any>(cb: (a: T, b: T) => void) => () => void;
@@ -63,8 +64,9 @@ const mockLogseq: LogseqAPI & {
     
     // 查找目标元素
     let targetElement: HTMLElement | null;
+    const doc = getDocument();
     try {
-      targetElement = document.querySelector(targetPath);
+      targetElement = doc.querySelector(targetPath);
       console.log('Found target element:', targetElement);
     } catch (error) {
       console.error('Error finding target element:', error);
@@ -74,7 +76,7 @@ const mockLogseq: LogseqAPI & {
     // 如果找不到目标元素，默认使用body
     if (!targetElement) {
       console.warn(`Target element '${targetPath}' not found, using body instead`);
-      targetElement = document.body;
+      targetElement = doc.body;
     }
     
     // 确保config.key存在
@@ -85,12 +87,12 @@ const mockLogseq: LogseqAPI & {
     
     // 创建容器元素
     const containerId = config.key;
-    let container = document.getElementById(containerId);
+    let container = doc.getElementById(containerId);
     
     if (config.template) {
       // 如果有模板，创建或更新容器
       if (!container) {
-        container = document.createElement('div');
+        container = doc.createElement('div');
         container.id = containerId;
         container.style.position = 'fixed';
         container.style.zIndex = '9999';

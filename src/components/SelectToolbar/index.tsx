@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import { SelectedData } from '../../utils/textProcessor.ts'
-import { getSelection, getWindow } from '../../logseq/utils.ts'
+import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts'
 import { useSettingsContext } from '../../config/useSettings.tsx'
 
 interface ToolbarPosition {
@@ -145,9 +145,8 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
     }
     
     // 绑定到document以捕获整个页面的滚动
-    if (typeof document !== 'undefined') {
-      document.addEventListener('scroll', handleScroll, true)
-    }
+    const doc = getDocument();
+    doc.addEventListener('scroll', handleScroll, true)
     
     return () => {
       // 移除事件监听器
@@ -163,9 +162,8 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
       }
       
       // 移除document的事件监听器
-      if (typeof document !== 'undefined') {
-        document.removeEventListener('scroll', handleScroll, true)
-      }
+      const doc = getDocument();
+      doc.removeEventListener('scroll', handleScroll, true)
     }
   }, [showToolbar, targetElement])
 

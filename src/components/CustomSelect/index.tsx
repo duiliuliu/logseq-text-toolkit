@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './customSelect.css'
+import { getDocument } from '../../logseq/utils'
 
 interface Option {
   value: string
@@ -24,9 +25,10 @@ function CustomSelect({ options, value, onChange, placeholder = '' }: CustomSele
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
+    const doc = getDocument()
+    doc.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+      doc.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
 
