@@ -1,19 +1,13 @@
 {
   "name": "logseq-text-toolkit",
-  "version": "0.11.6",
+  "version": "0.11.4",
   "main": "dist/index.html",
   "logseq": {
     "id": "logseq-text-toolkit",
     "title": "Text Toolkit",
     "description": "A toolkit for text formatting and manipulation",
     "main": "dist/index.html",
-    "icon": "./icon.png",
-    "author": "Your Name",
-    "version": "0.11.6",
-    "minLogseqVersion": "0.9.0",
-    "maxLogseqVersion": "*",
-    "keywords": ["text", "formatting", "toolkit", "logseq", "plugin"],
-    "categories": ["productivity", "text-editing"]
+    "icon": "./icon.png"
   },
   "scripts": {
     "dev": "vite",

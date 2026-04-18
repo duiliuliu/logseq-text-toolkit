@@ -7,8 +7,7 @@ import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
 import { SettingsProvider } from './config/useSettings.tsx'
-// 直接使用全局的 logseq 对象
-const logseqAPI = (globalThis as any).logseq;
+import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './logseq/mock/settings.ts'
 import { getDocument } from './logseq/utils.ts'
@@ -37,7 +36,7 @@ let settingsModalOpen = false;
 
 const showSettingUI = async () => {
   console.log('Showing settings UI with isOpen:', settingsModalOpen)
-  logseq.provideUI({
+  logseqAPI.provideUI({
     key: SETTINGS_ID,
     path: '#app-container',
     template: `<div id="${SETTINGS_ID}"></div>`,
@@ -72,7 +71,7 @@ const showSelectToolbar = async () => {
 
   const currentSettings = getSettings()
   if (currentSettings.toolbar.enabled) {
-    logseq.provideUI({
+    logseqAPI.provideUI({
       key: TOOLBAR_ID,
       path: '#app-container',
       template: `<div id="${TOOLBAR_ID}"></div>`,
@@ -94,21 +93,17 @@ const showSelectToolbar = async () => {
 const main = async () => {
   try {
     console.log('Initializing Text Toolkit Plugin')
+    await logseqAPI.ready()
     console.log('Logseq API ready')
-    
-    // 显示测试消息
-    logseq.UI.showMsg('❤️  Message from Hello World Plugin :)')
-    console.log('Test message shown')
-    
-    /*
+
     // 先提供设置切换函数
     console.log('About to call provideModel with settingToggle:', typeof settingToggle)
-    logseq.provideModel({ settingToggle })
+    logseqAPI.provideModel({ settingToggle })
 
     // 初始渲染设置组件（默认隐藏）
     await showSettingUI()
 
-    logseq.App.registerUIItem('toolbar', {
+    logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
         <button style="font-weight: bold; background: none; border: none; cursor: pointer; font-size: 16px;" data-on-click="settingToggle" data-rect>
@@ -119,7 +114,6 @@ const main = async () => {
 
     await showSelectToolbar()
     console.log('Text Toolkit Plugin initialized successfully')
-    */
   } catch (error) {
     console.error('Failed to initialize Text Toolkit Plugin:', error)
   }
@@ -128,9 +122,10 @@ const main = async () => {
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
-  // 在测试模式下使用 mockLogseq
-  (globalThis as any).logseq.ready(main).catch(console.error)
+  logseqAPI.ready().then(main).catch(console.error)
 } else {
-  // 在正式模式下，直接使用全局 logseq
-  logseq.ready(main).catch(console.error)
+  // 在正式模式下，渲染 App 组件
+  const rootElement = getDocument().getElementById('root')
+  renderComponent(rootElement, App)
+  logseqAPI.ready().then(main).catch(console.error)
 }
