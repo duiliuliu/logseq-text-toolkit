@@ -71,7 +71,7 @@ const showSelectToolbar = async () => {
 
   const currentSettings = getSettings()
   if (currentSettings.toolbar.enabled) {
-    logseqAPI.provideUI({
+    logseq.provideUI({
       key: TOOLBAR_ID,
       path: '#app-container',
       template: `<div id="${TOOLBAR_ID}"></div>`,
@@ -102,7 +102,7 @@ const main = async () => {
     // // 初始渲染设置组件（默认隐藏）
     // await showSettingUI()
 
-    logseqAPI.App.registerUIItem('toolbar', {
+    logseq.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
         <button style="font-weight: bold; background: none; border: none; cursor: pointer; font-size: 16px;" data-on-click="settingToggle" data-rect>
@@ -123,5 +123,5 @@ if (import.meta.env.MODE === 'test') {
   renderComponent(rootElement, TestApp)
   logseqAPI.ready(main).catch(console.error)
 } else { 
-  logseqAPI.ready(main).catch(console.error)
+  logseq.ready(main).catch(console.error)
 }
