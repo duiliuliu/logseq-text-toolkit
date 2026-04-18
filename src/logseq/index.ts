@@ -4,24 +4,23 @@
  */
 
 import mockLogseq from './mock/index.ts';
-import { LogseqAPI } from './logseq.ts';
 
 /**
  * 获取Logseq API实例
- * @returns {LogseqAPI} Logseq API实例
+ * @returns {any} Logseq API实例
  */
-export const getLogseqAPI = (): LogseqAPI => {
+export const getLogseqAPI = (): any => {
   // 检查是否在测试模式下
   const isTestMode = import.meta.env.MODE === 'test';
   
   if (isTestMode) {
     console.log('Using mock Logseq API (test mode)');
     // 使用导入的mockLogseq
-    return mockLogseq as LogseqAPI;
+    return mockLogseq;
   } else {
     console.log('Using official Logseq API (production mode)');
-    // 直接使用全局的logseq对象（Logseq会在插件iframe中注入）
-    return (globalThis as any).logseq as LogseqAPI;
+    // 直接返回官方的logseq对象
+    return (parent as any).logseq;
   }
 };
 
