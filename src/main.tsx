@@ -94,7 +94,6 @@ const showSelectToolbar = async () => {
 const main = async () => {
   try {
     console.log('Initializing Text Toolkit Plugin')
-    await logseqAPI.ready()
     console.log('Logseq API ready')
 
     // 先提供设置切换函数
@@ -123,10 +122,10 @@ const main = async () => {
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
-  logseqAPI.ready().then(main).catch(console.error)
+  logseqAPI.ready(main).catch(console.error)
 } else {
   // 在正式模式下，渲染 App 组件
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, App)
-  logseqAPI.ready().then(main).catch(console.error)
+  logseqAPI.ready(main).catch(console.error)
 }
