@@ -3,7 +3,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import './main.css'
-import App from './App.tsx'
 import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
@@ -43,29 +42,29 @@ const showSettingUI = async () => {
     template: `<div id="${SETTINGS_ID}"></div>`,
   })
 
-  setTimeout(() => {
-    const container = getDocument().getElementById(SETTINGS_ID)
-    if (container) {
-      const currentSettings = getSettings()
-      renderComponent(container, SettingsModal, {
-        isOpen: settingsModalOpen, // 根据 settingsModalOpen 的值决定是否显示
-        onClose: () => {
-          settingsModalOpen = false;
-          showSettingUI(); // 关闭后重新渲染以更新状态
-        },
-        theme: currentSettings.theme,
-      })
-    } else {
-      console.error('Settings container not found!')
-    }
-  }, 1)
+  // setTimeout(() => {
+  //   const container = getDocument().getElementById(SETTINGS_ID)
+  //   if (container) {
+  //     const currentSettings = getSettings()
+  //     renderComponent(container, SettingsModal, {
+  //       isOpen: settingsModalOpen, // 根据 settingsModalOpen 的值决定是否显示
+  //       onClose: () => {
+  //         settingsModalOpen = false;
+  //         showSettingUI(); // 关闭后重新渲染以更新状态
+  //       },
+  //       theme: currentSettings.theme,
+  //     })
+  //   } else {
+  //     console.error('Settings container not found!')
+  //   }
+  // }, 1)
 }
 
-const settingToggle = async () => {
-  console.log('Toggling settings modal')
-  settingsModalOpen = !settingsModalOpen;
-  await showSettingUI();
-}
+// const settingToggle = async () => {
+//   console.log('Toggling settings modal')
+//   settingsModalOpen = !settingsModalOpen;
+//   await showSettingUI();
+// }
 
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
@@ -97,11 +96,11 @@ const main = async () => {
     console.log('Logseq API ready')
 
     // 先提供设置切换函数
-    console.log('About to call provideModel with settingToggle:', typeof settingToggle)
-    logseqAPI.provideModel({ settingToggle })
+    // console.log('About to call provideModel with settingToggle:', typeof settingToggle)
+    // logseqAPI.provideModel({ settingToggle })
 
-    // 初始渲染设置组件（默认隐藏）
-    await showSettingUI()
+    // // 初始渲染设置组件（默认隐藏）
+    // await showSettingUI()
 
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
@@ -123,9 +122,6 @@ if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
   logseqAPI.ready(main).catch(console.error)
-} else {
-  // 在正式模式下，渲染 App 组件
-  const rootElement = getDocument().getElementById('root')
-  renderComponent(rootElement, App)
+} else { 
   logseqAPI.ready(main).catch(console.error)
 }
