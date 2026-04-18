@@ -19,8 +19,8 @@ export const getLogseqAPI = (): any => {
     return mockLogseq;
   } else {
     console.log('Using official Logseq API (production mode)');
-    // 直接返回全局的logseq对象（Logseq插件环境中logseq是全局变量）
-    return (globalThis as any).logseq;
+    // 直接返回官方的logseq对象
+    return (window as any).logseq;
   }
 };
 
