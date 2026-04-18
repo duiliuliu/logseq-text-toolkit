@@ -10,7 +10,7 @@ import { SettingsProvider } from './config/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './logseq/mock/settings.ts'
-import { getDocument, getWindow } from './logseq/utils.ts'
+import { getDocument } from './logseq/utils.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
