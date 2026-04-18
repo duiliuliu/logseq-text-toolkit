@@ -9,7 +9,13 @@ import { getDocument } from '../utils.ts';
 const mockLogseq: LogseqAPI & {
   onSettingsChanged?: <T = any>(cb: (a: T, b: T) => void) => () => void;
 } = {
-  ready: () => Promise.resolve(),
+  ready: (fn?: () => void) => {
+    const promise = Promise.resolve();
+    if (typeof fn === 'function') {
+      promise.then(fn);
+    }
+    return promise;
+  },
   
   // 动态获取设置
   get settings() {
