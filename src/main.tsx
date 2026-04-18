@@ -93,7 +93,6 @@ const showSelectToolbar = async () => {
 const main = async () => {
   try {
     console.log('Initializing Text Toolkit Plugin')
-    await logseqAPI.ready()
     console.log('Logseq API ready')
     
     // 显示测试消息
@@ -130,8 +129,6 @@ if (import.meta.env.MODE === 'test') {
   renderComponent(rootElement, TestApp)
   logseqAPI.ready().then(main).catch(console.error)
 } else {
-  // 在正式模式下，渲染 App 组件
-  const rootElement = getDocument().getElementById('root')
-  renderComponent(rootElement, App)
+  // 在正式模式下，直接调用 main 函数
   logseqAPI.ready().then(main).catch(console.error)
 }
