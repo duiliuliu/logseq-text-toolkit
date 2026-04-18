@@ -95,7 +95,12 @@ const main = async () => {
     console.log('Initializing Text Toolkit Plugin')
     await logseqAPI.ready()
     console.log('Logseq API ready')
-
+    
+    // 显示测试消息
+    logseqAPI.UI.showMsg('❤️  Message from Hello World Plugin :)')
+    console.log('Test message shown')
+    
+    /*
     // 先提供设置切换函数
     console.log('About to call provideModel with settingToggle:', typeof settingToggle)
     logseqAPI.provideModel({ settingToggle })
@@ -114,6 +119,7 @@ const main = async () => {
 
     await showSelectToolbar()
     console.log('Text Toolkit Plugin initialized successfully')
+    */
   } catch (error) {
     console.error('Failed to initialize Text Toolkit Plugin:', error)
   }
