@@ -84,12 +84,6 @@ const showSelectToolbar = async () => {
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: defaultToolbarItems,
-          theme: currentSettings.theme,
-          showBorder: currentSettings.toolbar.showBorder,
-          width: currentSettings.toolbar.width,
-          height: currentSettings.toolbar.height,
-          hoverDelay: currentSettings.toolbar.hoverDelay,
-          sponsorEnabled: currentSettings.toolbar.sponsorEnabled,
         })
       }
     }, 1)

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import { SelectedData } from '../../utils/textProcessor.ts'
 import { getSelection, getWindow } from '../../logseq/utils.ts'
+import { useSettingsContext } from '../../config/useSettings.tsx'
 
 interface ToolbarPosition {
   x: number
@@ -19,12 +20,21 @@ interface SelectToolbarProps {
   sponsorEnabled?: boolean
 }
 
-function SelectToolbar({ targetElement, items, theme = 'light', showBorder = true, width = '110px', height = '24px', hoverDelay = 500, sponsorEnabled = false }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
+  const { settings } = useSettingsContext()
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const selectionRef = useRef<Selection | null>(null)
+  
+  // 从设置中获取配置
+  const theme = settings?.theme || 'light'
+  const showBorder = settings?.toolbar?.showBorder !== false
+  const width = settings?.toolbar?.width || '110px'
+  const height = settings?.toolbar?.height || '24px'
+  const hoverDelay = settings?.toolbar?.hoverDelay || 500
+  const sponsorEnabled = settings?.toolbar?.sponsorEnabled !== false
   
   // 处理文本处理完成后的回调
   const handleTextProcessed = async (processedText: string) => {
