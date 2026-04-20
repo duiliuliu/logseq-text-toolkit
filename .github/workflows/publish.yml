@@ -39,7 +39,7 @@ jobs:
         run: |
           # 使用 npm 代替 yarn 以避免镜像源问题
           npm install
-          npm run build
+          npm run build:plugin
           mkdir ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}

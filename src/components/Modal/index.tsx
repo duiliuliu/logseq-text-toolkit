@@ -10,7 +10,7 @@ interface ModalProps {
   theme?: 'light' | 'dark'
 }
 
-const Modal = ({ title, onClose, children, isOpen = false, width = '400px', theme = 'light' }: ModalProps) => {
+const Modal = ({ title, onClose, children, isOpen = false, width = '90vw', theme = 'light' }: ModalProps) => {
   if (!isOpen) {
     return null;
   }

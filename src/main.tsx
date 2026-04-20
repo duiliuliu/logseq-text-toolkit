@@ -81,9 +81,10 @@ const showSelectToolbar = async () => {
       const toolbarContainer = getDocument().getElementById(TOOLBAR_ID)
       const mainContentContainer = getDocument().getElementById('main-content-container')
       if (toolbarContainer && mainContentContainer) {
+        const currentSettings = getSettings()
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
-          items: defaultToolbarItems,
+          items: currentSettings.toolbar.items,
         })
       }
     }, 1)

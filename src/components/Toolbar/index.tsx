@@ -40,22 +40,22 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
     // 处理字符串类型的图标名称
     if (typeof icon === 'string' && iconMap[icon as IconName]) {
       const IconComponent = iconMap[icon as IconName]
-      return <IconComponent size={18} className="toolbar-icon" />
+      return <IconComponent size={18} className="ltt-toolbar-icon" />
     }
     
     // 处理 lucide-react 图标
     if (typeof icon === 'function') {
       const IconComponent = icon
-      return <IconComponent size={18} className="toolbar-icon" />
+      return <IconComponent size={18} className="ltt-toolbar-icon" />
     }
     
     // 处理 SVG 字符串
     if (typeof icon === 'string' && icon.includes('<svg')) {
-      return <div className="toolbar-icon" dangerouslySetInnerHTML={{ __html: icon }} />
+      return <div className="ltt-toolbar-icon" dangerouslySetInnerHTML={{ __html: icon }} />
     }
     
     // 处理其他情况
-    return <span className="toolbar-icon">{icon}</span>
+    return <span className="ltt-toolbar-icon">{icon}</span>
   }
 
   const renderItem = (item: ToolbarItem | ToolbarGroup) => {
@@ -63,7 +63,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       return (
         <div 
           key={item.id} 
-          className="toolbar-main-item toolbar-group"
+          className="ltt-toolbar-main-item ltt-toolbar-group"
           onMouseDown={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -84,15 +84,15 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             }, hoverDelay)
           }}
         >
-          <div className="toolbar-item-icon">📂</div>
+          <div className="ltt-toolbar-item-icon">📂</div>
           {hoveredItem && hoveredItem.id === item.id && item.label && (
-            <div className="toolbar-tooltip">
+            <div className="ltt-toolbar-tooltip">
               {hoveredItem.label}
             </div>
           )}
           {mouseOverGroup === item.id && (
             <div 
-              className={`toolbar-group-dropdown ${!showBorder ? 'no-border' : ''}`}
+              className={`ltt-toolbar-group-dropdown ${!showBorder ? 'ltt-no-border' : ''}`}
               onMouseEnter={() => {
                 // 清除之前的定时器
                 if (hoverTimerRef.current) {
@@ -110,7 +110,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
               {Object.values(item.items).map((subItem) => (
                 <div 
                   key={subItem.id}
-                  className="toolbar-group-item"
+                  className="ltt-toolbar-group-item"
                   onMouseDown={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
@@ -119,11 +119,11 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                   onMouseLeave={() => setHoveredItem(item)}
                   onClick={() => handleItemClick(subItem, selectedData, onTextProcessed)}
                 >
-                  <div className="toolbar-item-icon">
+                  <div className="ltt-toolbar-item-icon">
                     {renderIcon(subItem.icon)}
                   </div>
                   {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
-                    <div className="toolbar-tooltip toolbar-tooltip-sub">
+                    <div className="ltt-toolbar-tooltip ltt-toolbar-tooltip-sub">
                       {hoveredItem.label}
                     </div>
                   )}
@@ -138,7 +138,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       return (
         <div 
           key={toolbarItem.id} 
-          className="toolbar-main-item"
+          className="ltt-toolbar-main-item"
           onMouseDown={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -147,11 +147,11 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           onMouseLeave={() => setHoveredItem(null)}
           onClick={() => handleItemClick(toolbarItem, selectedData, onTextProcessed)}
         >
-          <div className="toolbar-item-icon">
+          <div className="ltt-toolbar-item-icon">
             {renderIcon(toolbarItem.icon)}
           </div>
           {hoveredItem && hoveredItem.id === toolbarItem.id && toolbarItem.label && (
-            <div className="toolbar-tooltip">
+            <div className="ltt-toolbar-tooltip">
               {hoveredItem.label}
             </div>
           )}
@@ -170,25 +170,25 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   }
 
   return (
-    <div className={`toolbar-container toolbar-${theme} ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+    <div className={`ltt-toolbar-container ltt-toolbar-${theme} ${theme === 'dark' ? 'ltt-dark-mode' : 'ltt-light-mode'}`}>
       {sponsorEnabled && (
-        <div className="toolbar-sponsor" style={{ width: width, height }}>
+        <div className="ltt-toolbar-sponsor" style={{ width: width, height }}>
           <iframe 
             src="https://duiliuliu.github.io/sponsor-page/?no-text=1" 
             title="Sponsor Page"
-            className="toolbar-sponsor-iframe"
+            className="ltt-toolbar-sponsor-iframe"
             frameBorder="0"
             scrolling="no"
             style={{ minWidth: '100%', minHeight: '100%' }}
           />
         </div>
       )}
-      <div className="toolbar-main" style={{ minWidth: width, height }}>
+      <div className="ltt-toolbar-main" style={{ minWidth: width, height }}>
         {mainItems.map(renderItem)}
         {moreExpanded && moreItems.map(renderItem)}
         {hasMoreItems && (
           <div 
-            className="toolbar-main-item toolbar-more"
+            className="ltt-toolbar-main-item ltt-toolbar-more"
             onMouseDown={(e) => {
               e.preventDefault()
               e.stopPropagation()
@@ -197,9 +197,9 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             onMouseEnter={() => setHoveredItem({ label: moreExpanded ? 'Collapse' : 'More', id: 'more', funcmode: 'console', clickfunc: 'more' })}
             onMouseLeave={() => setHoveredItem(null)}
           >
-            <div className="toolbar-item-icon">{moreExpanded ? '−' : '⋮'}</div>
+            <div className="ltt-toolbar-item-icon">{moreExpanded ? '−' : '⋮'}</div>
             {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
-              <div className="toolbar-tooltip">
+              <div className="ltt-toolbar-tooltip">
                 {hoveredItem.label}
               </div>
             )}

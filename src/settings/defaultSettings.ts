@@ -19,19 +19,19 @@ const defaultSettings: Settings = {
     
     // Toolbar 元素配置
     items: {
-      "wrap-bold": {
-        id: "wrap-bold",
-        label: "Wrap bold",
-        binding: "",
-        icon: "bold",
-        funcmode: "replace",
-        clickfunc: "**${selectedText}**"
-      },
       "group-style": {
         id: "group-style",
         isGroup: true,
         label: "Style",
         items: {
+          "wrap-bold": {
+            id: "wrap-bold",
+            label: "Wrap bold",
+            binding: "",
+            icon: "bold",
+            funcmode: "replace",
+            clickfunc: "**${selectedText}**"
+          },
           "wrap-italic": {
             id: "wrap-italic",
             label: "Wrap italic",
@@ -39,6 +39,14 @@ const defaultSettings: Settings = {
             icon: "italic",
             funcmode: "replace",
             clickfunc: "*${selectedText}*"
+          },
+          "wrap-strike-through": {
+            id: "wrap-strike-through",
+            label: "Wrap strike through",
+            binding: "",
+            icon: "strikethrough",
+            funcmode: "replace",
+            clickfunc: "~~${selectedText}~~"
           },
           "wrap-underline": {
             id: "wrap-underline",
@@ -49,14 +57,6 @@ const defaultSettings: Settings = {
             clickfunc: "__${selectedText}__"
           }
         }
-      },
-      "wrap-strike-through": {
-        id: "wrap-strike-through",
-        label: "Wrap strike through",
-        binding: "",
-        icon: "strikethrough",
-        funcmode: "replace",
-        clickfunc: "~~${selectedText}~~"
       },
       "group-hl": {
         id: "group-hl",
@@ -119,16 +119,6 @@ const defaultSettings: Settings = {
         icon: "menu",
         funcmode: "replace",
         clickfunc: " {{cloze ${selectedText}}}"
-      },
-      "repl-clear": {
-        id: "repl-clear",
-        label: "Remove formatting",
-        binding: "mod+shift+x",
-        icon: "x",
-        funcmode: "replace",
-        clickfunc: "",
-        regex: "\\[\\[(?:#|\\$)(?:red|green|blue)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
-        replacement: "$1$2$3$4$5$6$7$8"
       }
     }
   }

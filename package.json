@@ -17,7 +17,8 @@
   "scripts": {
     "dev": "vite",
     "test": "vite --mode test",
-    "build": "vite build",
+    "build": "vite build --mode test",
+    "build:plugin": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {

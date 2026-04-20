@@ -32,6 +32,18 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     }
   }
 
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    e.preventDefault()
+    const text = e.clipboardData.getData('text')
+    try {
+      // 尝试解析粘贴的内容为 JSON
+      JSON.parse(text)
+      handleSettingChange('toolbar.items', JSON.parse(text))
+    } catch (error) {
+      setJsonError(t('settings.error', language))
+    }
+  }
+
   return (
     <div className="settings-tab-content">
       <p className="tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
@@ -118,6 +130,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
           <textarea 
             value={JSON.stringify(settings.toolbar.items, null, 2)}
             onChange={(e) => handleJsonChange(e.target.value)}
+            onPaste={handlePaste}
             placeholder={t('settings.jsonSettings', language)}
             rows={12}
           />
