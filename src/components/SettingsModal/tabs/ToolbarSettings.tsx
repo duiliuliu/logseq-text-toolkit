@@ -3,6 +3,7 @@ import { t } from '../../../translations/i18n.ts'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
 import { logseqAPI } from '../../../logseq/index.ts'
+import './ToolbarSettings.css'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const [jsonError, setJsonError] = useState('')
@@ -152,13 +153,42 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
               <li><strong>icon 可选值</strong>: bold, italic, underline, highlight, copy, link, comment, type, sparkles</li>
             </ul>
           </div>
-          <textarea 
-            value={jsonInput}
-            onChange={(e) => handleJsonChange(e.target.value)}
-            onPaste={handlePaste}
-            placeholder={t('settings.jsonSettings', language)}
-            rows={12}
-          />
+          <div className="json-textarea-container">
+            <textarea 
+              value={jsonInput}
+              onChange={(e) => handleJsonChange(e.target.value)}
+              onPaste={handlePaste}
+              placeholder={t('settings.jsonSettings', language)}
+              rows={12}
+              className="json-textarea"
+            />
+            <div className="json-textarea-actions">
+              <button 
+                className="json-textarea-btn"
+                onClick={() => {
+                  navigator.clipboard.writeText(jsonInput).then(() => {
+                    logseqAPI.showMsg('JSON 已复制到剪贴板', 'success');
+                  });
+                }}
+                title="复制 JSON"
+              >
+                复制
+              </button>
+              <button 
+                className="json-textarea-btn"
+                onClick={() => {
+                  navigator.clipboard.readText().then((text) => {
+                    setJsonInput(text);
+                    debouncedHandleJsonChange(text);
+                    logseqAPI.showMsg('内容已粘贴', 'success');
+                  });
+                }}
+                title="粘贴 JSON"
+              >
+                粘贴
+              </button>
+            </div>
+          </div>
           {jsonError && <div className="json-error">{jsonError}</div>}
         </div>
       </div>

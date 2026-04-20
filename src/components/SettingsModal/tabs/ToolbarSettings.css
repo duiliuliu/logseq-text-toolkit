@@ -1,0 +1,105 @@
+/* JSON 输入区域样式 */
+.json-textarea-container {
+  position: relative;
+  width: 100%;
+}
+
+.json-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px;
+  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);
+  border-radius: 8px;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  color: var(--ls-primary-text-color-plugin, #333);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.json-textarea:focus {
+  outline: none;
+  border-color: var(--ls-accent-color-plugin, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.json-textarea::placeholder {
+  color: var(--ls-secondary-text-color-plugin, #9ca3af);
+}
+
+.json-textarea-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+
+.json-textarea-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);
+  border-radius: 4px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  color: var(--ls-primary-text-color-plugin, #333);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.json-textarea-btn:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f3f4f6);
+  border-color: var(--ls-accent-color-plugin, #3b82f6);
+  transform: translateY(-1px);
+}
+
+.json-textarea-btn:active {
+  transform: translateY(0);
+}
+
+/* 错误提示样式 */
+.json-error {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 深色主题样式 */
+.dark-mode .json-textarea {
+  background-color: var(--ls-primary-background-color-plugin, #1e293b);
+  color: var(--ls-primary-text-color-plugin, #f1f5f9);
+  border-color: var(--ls-border-color-plugin, #334155);
+}
+
+.dark-mode .json-textarea:focus {
+  border-color: var(--ls-accent-color-plugin, #60a5fa);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.dark-mode .json-textarea::placeholder {
+  color: var(--ls-secondary-text-color-plugin, #94a3b8);
+}
+
+.dark-mode .json-textarea-btn {
+  background-color: var(--ls-primary-background-color-plugin, #1e293b);
+  color: var(--ls-primary-text-color-plugin, #f1f5f9);
+  border-color: var(--ls-border-color-plugin, #334155);
+}
+
+.dark-mode .json-textarea-btn:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #334155);
+  border-color: var(--ls-accent-color-plugin, #60a5fa);
+}
+
+.dark-mode .json-error {
+  background-color: #451a1a;
+  color: #fecaca;
+  border-color: #7f1d1d;
+}
