@@ -3,7 +3,7 @@
 name: Release
 
 env:
-  PLUGIN_NAME: logseq-plugin-wrap
+  PLUGIN_NAME: logseq-text-toolkit
 
 # Controls when the workflow will run
 on:
@@ -16,7 +16,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  release:
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -30,9 +30,12 @@ jobs:
 
       - name: Build
         id: build
+        env:
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
         run: |
-          yarn
-          yarn build
+          # 使用 npm 代替 yarn 以避免镜像源问题
+          npm install
+          npm run build:plugin
           mkdir ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}
@@ -40,25 +43,60 @@ jobs:
           ls
           echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ github.ref }}
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
+          name: ${{ env.PLUGIN_NAME }}
+          path: ./${{ env.PLUGIN_NAME }}.zip
 
-      - name: Upload zip file
-        id: upload_zip
-        uses: actions/upload-release-asset@v1
+  release:
+    needs: build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Only run on tag pushes
+    if: startsWith(github.ref, 'refs/tags/')
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+
+      - name: Build
+        id: build
+        env:
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
+        run: |
+          # 使用 npm 代替 yarn 以避免镜像源问题
+          npm install
+          npm run build:plugin
+          mkdir ${{ env.PLUGIN_NAME }}
+          cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
+          mv dist ${{ env.PLUGIN_NAME }}
+          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
+          ls
+          echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
+
+      - name: Create or Update Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.PLUGIN_NAME }}.zip
-          asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag_name }}.zip
-          asset_content_type: application/zip
+        run: |
+          # 设置变量
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          RELEASE_NAME="$TAG_NAME"
+          ZIP_FILE="./${{ env.PLUGIN_NAME }}.zip"
+          
+          # 检查 release 是否存在
+          if gh release view "$TAG_NAME" > /dev/null 2>&1; then
+            echo "Release $TAG_NAME already exists, updating..."
+            # 删除已存在的 asset
+            gh release delete-asset "$TAG_NAME" "${{ env.PLUGIN_NAME }}.zip" || true
+            # 上传新的 asset
+            gh release upload "$TAG_NAME" "$ZIP_FILE"
+          else
+            echo "Creating new release $TAG_NAME..."
+            # 创建新的 release 并上传 asset
+            gh release create "$TAG_NAME" "$ZIP_FILE" --title "$RELEASE_NAME"
+          fi
