@@ -96,7 +96,13 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={theme}>
+    <Modal 
+      isOpen={isOpen} 
+      onClose={onClose} 
+      title={t('settings.title', language)} 
+      theme={theme}
+      resizeObserverTarget="root"
+    >
       <div className="settings-container" data-theme={theme}>
         <div className="settings-header">
           <div className="settings-tabs">

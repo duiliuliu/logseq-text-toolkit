@@ -171,7 +171,6 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
     <div ref={containerRef}>
       {showToolbar && (
         <div 
-          className="floating-toolbar"
           style={{
             position: 'fixed',
             left: toolbarPosition.x,
