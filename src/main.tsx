@@ -8,7 +8,6 @@ import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
 import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
-import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
 
@@ -83,7 +82,7 @@ const showSelectToolbar = async () => {
       if (toolbarContainer && mainContentContainer) {
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
-          items: defaultToolbarItems,
+          items: currentSettings.toolbar.items,
         })
       }
     }, 1)
