@@ -107,10 +107,22 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       <div className="setting-item setting-item-json">
         <label>元素</label>
         <div className="json-editor">
+          <div className="json-hint">
+            <p>示例结构：</p>
+            <pre>{`[
+  {
+    "id": "bold",
+    "label": "加粗",
+    "icon": "B",
+    "action": "formatBold"
+  }
+]`}</pre>
+          </div>
           <textarea 
             value={JSON.stringify(settings.toolbar.items, null, 2)}
             onChange={(e) => handleJsonChange(e.target.value)}
             placeholder={t('settings.jsonSettings', language)}
+            rows={10}
           />
           {jsonError && <div className="json-error">{jsonError}</div>}
         </div>

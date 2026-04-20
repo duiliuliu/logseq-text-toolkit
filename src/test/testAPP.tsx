@@ -89,8 +89,21 @@ function TestApp() {
     <div id="app-container" className={`App ${settings.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       {/* 顶部工具栏 */}
       <div id="head" className="top-toolbar">
-        <h1>Text Toolkit Plugin (Test Mode)</h1>
-        <div id="toolbar" className="toolbar-container" style={{ position: 'absolute', top: '10px', right: '100px' }}>
+        <div className="toolbar-content">
+          <h1>Text Toolkit Plugin (Test Mode)</h1>
+          <div className="toolbar-actions">
+            <button 
+              id="setting-button"
+              className="settings-btn"
+              onClick={() => setShowSettings(true)}
+              aria-label="Settings"
+            >
+              ⚙️
+            </button>
+          </div>
+        </div>
+        <div id="toolbar" className="toolbar-container">
+          {/* 工具栏内容将在这里动态生成 */}
         </div>
       </div>
       
