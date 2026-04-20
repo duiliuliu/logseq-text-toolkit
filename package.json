@@ -1,13 +1,14 @@
 {
-  "name": "logseq-plugin-wrap",
-  "version": "0.10.2",
+  "name": "logseq-text-toolkit",
+  "version": "0.13.1",
   "main": "dist/index.html",
   "logseq": {
-    "id": "_sethyuan-logseq-wrap",
+    "id": "logseq-text-toolkit",
     "icon": "./icon.png"
   },
   "scripts": {
     "build": "rollup -c",
+    "build:plugin": "rollup -c",
     "clean": "rm -rf dist"
   },
   "dependencies": {
