@@ -1,12 +1,12 @@
 // Mock Logseq API
-import { LogseqAPI } from '../logseq.ts';
-import App from './app.ts';
+ import App from './app.ts';
 import Editor from './editor.ts';
 import UI from './ui.ts';
 import { getSettings, updateSettings, onSettingsChanged } from './settings.ts';
 import { getDocument } from '../utils.ts';
+import { ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 
-const mockLogseq: LogseqAPI & {
+const mockLogseq: ILSPluginUser & {
   onSettingsChanged?: <T = any>(cb: (a: T, b: T) => void) => () => void;
 } = {
   ready: (fn?: () => void) => {

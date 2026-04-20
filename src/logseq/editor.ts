@@ -3,8 +3,9 @@
  * 提供与Logseq编辑器相关的操作，如获取当前块和更新块内容
  */
 
-import { BlockEntity } from './logseq.ts';
+import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 
+ 
 // 从 @logseq/libs 导入 BlockUUID 类型
 type BlockUUID = string;
 
