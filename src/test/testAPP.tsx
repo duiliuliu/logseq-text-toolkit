@@ -76,12 +76,37 @@ function TestApp() {
   // 中间内容区域
   const centerContent = (
     <div className="center-content">
-      <h2>{testConfig.content.title}</h2>
-      {testConfig.content.paragraphs.map((paragraph, index) => (
-        <div key={index} id={`editable-paragraph-${index + 1}`} className="editable-paragraph">
-          {paragraph}
+      <div className="content-header">
+        <h2>{testConfig.content.title}</h2>
+        <p className="content-description">测试工具栏功能和文本编辑操作</p>
+      </div>
+      
+      <div className="test-content-section">
+        <div className="content-card">
+          <h3>工具栏演示</h3>
+          <div className="content-area">
+            {testConfig.content.paragraphs.map((paragraph, index) => (
+              <div key={index} id={`editable-paragraph-${index + 1}`} className="editable-paragraph">
+                {paragraph}
+              </div>
+            ))}
+          </div>
+          <div className="content-actions">
+            <button className="action-button">应用样式</button>
+            <button className="action-button">重置</button>
+          </div>
         </div>
-      ))}
+        
+        <div className="content-card">
+          <h3>功能说明</h3>
+          <ul className="feature-list">
+            <li>点击工具栏按钮可应用相应的文本格式</li>
+            <li>支持粗体、斜体、下划线等基本格式</li>
+            <li>可通过设置自定义工具栏布局</li>
+            <li>支持深色/浅色主题切换</li>
+          </ul>
+        </div>
+      </div>
     </div>
   )
 
@@ -89,8 +114,20 @@ function TestApp() {
     <div id="app-container" className={`App ${settings.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       {/* 顶部工具栏 */}
       <div id="head" className="top-toolbar">
-        <h1>Text Toolkit Plugin (Test Mode)</h1>
-        <div id="toolbar" className="toolbar-container" style={{ position: 'absolute', top: '10px', right: '100px' }}>
+        <div className="toolbar-content">
+          <h1>Text Toolkit Plugin (Test Mode)</h1>
+          <div className="toolbar-actions">
+            <div id="toolbar" className="toolbar-container">
+            </div>
+            <button 
+              id="settings-btn" 
+              className="settings-button"
+              onClick={() => setShowSettings(true)}
+              aria-label="Settings"
+            >
+              ⚙️
+            </button>
+          </div>
         </div>
       </div>
       

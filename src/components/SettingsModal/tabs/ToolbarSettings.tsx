@@ -105,12 +105,19 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="setting-item setting-item-json">
-        <label>元素</label>
+        <label>工具栏项目 (JSON)</label>
         <div className="json-editor">
+          <div className="json-hint">
+            <p>•单个元素：直接配置 icon 和 action，如粗体、斜体</p>
+            <p>•分组元素：添加 "children" 数组可创建下拉菜单，如颜色高亮组</p>
+            <p>•隐藏元素：添加 "hidden": true 可隐藏按钮，点击工具栏"更多"按钮展开</p>
+            <p>•icon 可选值: bold, italic, underline, highlight, copy, link, comment, type, sparkles</p>
+          </div>
           <textarea 
             value={JSON.stringify(settings.toolbar.items, null, 2)}
             onChange={(e) => handleJsonChange(e.target.value)}
             placeholder={t('settings.jsonSettings', language)}
+            rows={15}
           />
           {jsonError && <div className="json-error">{jsonError}</div>}
         </div>
