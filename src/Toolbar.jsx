@@ -5,6 +5,7 @@ export default function Toolbar({ items, model }) {
     e.preventDefault()
     e.stopPropagation()
     if (e.button !== 0) return
+    console.log('Toolbar triggerAction:', { key, type: typeof model[key], value: model[key] })
     if (typeof model[key] === 'function') {
       model[key]()
     }
