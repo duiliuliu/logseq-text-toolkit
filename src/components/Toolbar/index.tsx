@@ -185,7 +185,6 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       )}
       <div className="ltt-toolbar-main" style={{ minWidth: width, height }}>
         {mainItems.map(renderItem)}
-        {moreExpanded && moreItems.map(renderItem)}
         {hasMoreItems && (
           <div 
             className="ltt-toolbar-main-item ltt-toolbar-more"
@@ -203,6 +202,11 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                 {hoveredItem.label}
               </div>
             )}
+          </div>
+        )}
+        {moreExpanded && (
+          <div className="ltt-toolbar-more-dropdown">
+            {moreItems.map(renderItem)}
           </div>
         )}
       </div>

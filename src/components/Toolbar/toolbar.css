@@ -95,6 +95,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
 }
 .ltt-toolbar-more:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
@@ -103,6 +104,27 @@
 .ltt-toolbar-more-icon {
   font-size: 18px;
   font-weight: bold;
+}
+
+.ltt-toolbar-more-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1004;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px;
+  min-width: auto;
+}
+
+.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {
+  position: static;
 }
 
 .ltt-toolbar-tooltip {

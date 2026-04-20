@@ -3,6 +3,8 @@ import { t } from '../../../translations/i18n.ts'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
 import { logseqAPI } from '../../../logseq/index.ts'
+import { Textarea } from '../../ui/textarea.tsx'
+import '../../ui/textarea.css'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const [jsonError, setJsonError] = useState('')
@@ -152,7 +154,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
               <li><strong>icon 可选值</strong>: bold, italic, underline, highlight, copy, link, comment, type, sparkles</li>
             </ul>
           </div>
-          <textarea 
+          <Textarea 
             value={jsonInput}
             onChange={(e) => handleJsonChange(e.target.value)}
             onPaste={handlePaste}
