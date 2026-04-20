@@ -144,6 +144,104 @@ npm run build
 ```
 
 #### 包裹命令配置 (wrap-*)
+
+#### CSS 配置
+
+插件包含以下 CSS 配置，用于定义工具栏样式和各种高亮效果：
+
+```css
+/* 工具栏样式 */
+:root {
+  --kef-wrap-tb-bg: #333e;
+}
+:root.dark {
+  --kef-wrap-tb-bg: #777e;
+}
+#kef-wrap-toolbar {
+  position: absolute;
+  top: 0;
+  left: -99999px;
+  z-index: var(--ls-z-index-level-2);
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 100ms ease-in-out;
+  background: var(--kef-wrap-tb-bg);
+  border-radius: 6px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 10px;
+}
+
+/* 颜色变量定义 */
+.white-theme,
+html[data-theme=light] {
+  --mark-red: #ffc7c7;
+  --mark-blue: #abdfff;
+  --mark-yellow: #fff3a3;
+  --mark-green: #ccffc1;
+  --mark-purple: #d2b3ff;
+  --span-red: #ff0000;
+  --span-blue: #0066ff;
+  --span-yellow: #ffdd00;
+  --span-green: #00cc00;
+  --span-purple: #6800ff;
+  --mark-border-radius: 0.25rem;
+}
+.dark-theme,
+html[data-theme=dark] {
+  --mark-red: #ff7070;
+  --mark-blue: #87c3ff;
+  --mark-yellow: #fff3a3;
+  --mark-green: #a3ffc4;
+  --mark-purple: #d2b3ff;
+  --span-red: #ff0000;
+  --span-blue: #0080ff;
+  --span-yellow: #ffdd00;
+  --span-green: #00ff5b;
+  --span-purple: #6800ff;
+  --mark-border-radius: 0.25rem;
+}
+
+/* 背景高亮样式 */
+mark.red {
+  background-color: var(--mark-red) !important;
+  color: #262626 !important;
+  border-radius: var(--mark-border-radius) !important;
+  padding: 2px 4px !important;
+  display: inline !important;
+}
+
+/* 文字颜色样式 */
+span.red {
+  color: var(--span-red) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+
+/* 下划线高亮样式 */
+u.red {
+  color: var(--span-red) !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--span-red) !important;
+  text-decoration-thickness: 2px !important;
+  text-decoration-skip-ink: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+
+/* 其他颜色的样式定义类似，包括 blue、yellow、green、purple */
+```
+
+#### 包裹命令配置 (wrap-*)
+
 ```json
 {
   "group-custom": {

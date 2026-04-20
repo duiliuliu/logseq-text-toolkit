@@ -143,6 +143,101 @@ npm run build
 }
 ```
 
+#### CSS Configuration
+
+The plugin includes the following CSS configuration for defining toolbar styles and various highlight effects:
+
+```css
+/* Toolbar styles */
+:root {
+  --kef-wrap-tb-bg: #333e;
+}
+:root.dark {
+  --kef-wrap-tb-bg: #777e;
+}
+#kef-wrap-toolbar {
+  position: absolute;
+  top: 0;
+  left: -99999px;
+  z-index: var(--ls-z-index-level-2);
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 100ms ease-in-out;
+  background: var(--kef-wrap-tb-bg);
+  border-radius: 6px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 10px;
+}
+
+/* Color variable definitions */
+.white-theme,
+html[data-theme=light] {
+  --mark-red: #ffc7c7;
+  --mark-blue: #abdfff;
+  --mark-yellow: #fff3a3;
+  --mark-green: #ccffc1;
+  --mark-purple: #d2b3ff;
+  --span-red: #ff0000;
+  --span-blue: #0066ff;
+  --span-yellow: #ffdd00;
+  --span-green: #00cc00;
+  --span-purple: #6800ff;
+  --mark-border-radius: 0.25rem;
+}
+.dark-theme,
+html[data-theme=dark] {
+  --mark-red: #ff7070;
+  --mark-blue: #87c3ff;
+  --mark-yellow: #fff3a3;
+  --mark-green: #a3ffc4;
+  --mark-purple: #d2b3ff;
+  --span-red: #ff0000;
+  --span-blue: #0080ff;
+  --span-yellow: #ffdd00;
+  --span-green: #00ff5b;
+  --span-purple: #6800ff;
+  --mark-border-radius: 0.25rem;
+}
+
+/* Background highlight styles */
+mark.red {
+  background-color: var(--mark-red) !important;
+  color: #262626 !important;
+  border-radius: var(--mark-border-radius) !important;
+  padding: 2px 4px !important;
+  display: inline !important;
+}
+
+/* Text color styles */
+span.red {
+  color: var(--span-red) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+
+/* Underline highlight styles */
+u.red {
+  color: var(--span-red) !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--span-red) !important;
+  text-decoration-thickness: 2px !important;
+  text-decoration-skip-ink: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+
+/* Other color styles are similar, including blue, yellow, green, purple */
+```
+
 #### Wrap Command Configuration (wrap-*)
 ```json
 {
