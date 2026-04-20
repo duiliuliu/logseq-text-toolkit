@@ -1,62 +1,83 @@
 // Mock Logseq UI API
-import { getDocument } from '../utils';
+import { getDocument } from '../utils'
 
-const UI = {
+const UI: any = {
   // 显示消息
-  showMsg: (msg: string, opts?: {
-    type?: 'info' | 'success' | 'error' | 'warning';
-    timeout?: number;
-  }) => {
-    console.log('Show message:', msg, opts);
-    
-    // 使用 Toast 组件显示消息
-    const type = opts?.type || 'info';
-    const timeout = opts?.timeout || 3000;
-    
-    // 尝试使用全局的 addToast 函数
-    if ((window as any).addToast) {
-      (window as any).addToast(msg, type, timeout);
-    } else {
-      // 如果没有 Toast 组件，创建一个简单的通知
-      createSimpleNotification(msg, type, timeout);
-    }
-  },
-  
-  // 显示对话框
-  showDialog: (config: {
-    title: string;
-    body: React.ReactNode;
-    buttons?: Array<{
-      text: string;
-      onClick: () => void;
-      primary?: boolean;
-    }>;
-  }) => {
-    console.log('Show dialog:', config);
-    // 这里可以实现一个简单的对话框
-  },
-  
-  // 显示下拉菜单
-  showContextMenu: (config: {
-    x: number;
-    y: number;
-    items: Array<{
-      key: string;
-      label: string;
-      onClick: () => void;
-      disabled?: boolean;
-    }>;
-  }) => {
-    console.log('Show context menu:', config);
-    // 这里可以实现一个简单的上下文菜单
-  },
-};
+  showMsg: (content: string, status?: string, opts?: any) => {
+    console.log('UI.showMsg called', content, status, opts)
 
-// 创建简单的通知
+    const type = status || 'info'
+    const timeout = opts?.timeout || 3000
+
+    if ((window as any).addToast) {
+      (window as any).addToast(content, type, timeout)
+    } else {
+      createSimpleNotification(content, type, timeout)
+    }
+
+    return Promise.resolve(opts?.key || 'msg-' + Date.now())
+  },
+
+  // 关闭消息
+  closeMsg: (key: string) => {
+    console.log('UI.closeMsg called', key)
+  },
+
+  // 查询元素位置
+  queryElementRect: (selector: string) => {
+    console.log('UI.queryElementRect called', selector)
+    const doc = getDocument()
+    const el = doc.querySelector(selector)
+    if (el) {
+      const rect = el.getBoundingClientRect()
+      return Promise.resolve({
+        left: rect.left,
+        top: rect.top,
+        width: rect.width,
+        height: rect.height,
+        right: rect.right,
+        bottom: rect.bottom
+      })
+    }
+    return Promise.resolve(null)
+  },
+
+  // 通过 ID 查询元素
+  queryElementById: (id: string) => {
+    console.log('UI.queryElementById called', id)
+    const doc = getDocument()
+    const el = doc.getElementById(id)
+    return Promise.resolve(!!el)
+  },
+
+  // 检查插槽是否有效
+  checkSlotValid: (slot: string) => {
+    console.log('UI.checkSlotValid called', slot)
+    return Promise.resolve(true)
+  },
+
+  // 解析主题 CSS 属性值
+  resolveThemeCssPropsVals: (props: string | string[]) => {
+    console.log('UI.resolveThemeCssPropsVals called', props)
+    return Promise.resolve({})
+  },
+
+  // 显示对话框
+  showDialog: (config: any) => {
+    console.log('UI.showDialog called', config)
+  },
+
+  // 显示上下文菜单
+  showContextMenu: (config: any) => {
+    console.log('UI.showContextMenu called', config)
+  }
+}
+
+// 创建简单通知
 const createSimpleNotification = (msg: string, type: string, timeout: number) => {
-  const doc = getDocument();
-  const notification = doc.createElement('div');
-  notification.className = `mock-notification mock-notification-${type}`;
+  const doc = getDocument()
+  const notification = doc.createElement('div')
+  notification.className = `mock-notification mock-notification-${type}`
   notification.style.cssText = `
     position: fixed;
     top: 20px;
@@ -68,45 +89,46 @@ const createSimpleNotification = (msg: string, type: string, timeout: number) =>
     z-index: 9999;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     animation: slideIn 0.3s ease-out;
-  `;
-  
-  // 设置不同类型的样式
+  `
+
   switch (type) {
     case 'success':
-      notification.style.backgroundColor = '#4CAF50';
-      break;
+      notification.style.backgroundColor = '#4CAF50'
+      break
     case 'error':
-      notification.style.backgroundColor = '#F44336';
-      break;
+      notification.style.backgroundColor = '#F44336'
+      break
     case 'warning':
-      notification.style.backgroundColor = '#FF9800';
-      break;
+      notification.style.backgroundColor = '#FF9800'
+      break
     default:
-      notification.style.backgroundColor = '#2196F3';
+      notification.style.backgroundColor = '#2196F3'
   }
-  
-  notification.textContent = msg;
-  
-  doc.body.appendChild(notification);
-  
-  // 添加动画样式
-  const style = doc.createElement('style');
+
+  notification.textContent = msg
+
+  doc.body.appendChild(notification)
+
+  const style = doc.createElement('style')
   style.textContent = `
     @keyframes slideIn {
       from { transform: translateX(100%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
-  `;
-  doc.head.appendChild(style);
-  
-  // 自动移除通知
-  setTimeout(() => {
-    notification.style.animation = 'slideIn 0.3s ease-out reverse';
-    setTimeout(() => {
-      doc.body.removeChild(notification);
-      doc.head.removeChild(style);
-    }, 300);
-  }, timeout);
-};
+  `
+  doc.head.appendChild(style)
 
-export default UI;
+  setTimeout(() => {
+    notification.style.animation = 'slideIn 0.3s ease-out reverse'
+    setTimeout(() => {
+      if (doc.body.contains(notification)) {
+        doc.body.removeChild(notification)
+      }
+      if (doc.head.contains(style)) {
+        doc.head.removeChild(style)
+      }
+    }, 300)
+  }, timeout)
+}
+
+export default UI
