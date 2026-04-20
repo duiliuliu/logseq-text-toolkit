@@ -1,4 +1,5 @@
 import '@logseq/libs'
+import logseqAPI from './logseq'
 
 // 基础插件初始化
 const main = async () => {
@@ -6,7 +7,7 @@ const main = async () => {
     console.log('Initializing Text Toolkit Plugin')
     
     // 注册工具栏按钮
-    logseq.App.registerUIItem('toolbar', {
+    logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-btn',
       template: `
         <button style="font-weight: bold; background: none; border: none; cursor: pointer; font-size: 16px;" data-on-click="showHello" data-rect>
@@ -16,7 +17,7 @@ const main = async () => {
     })
     
     // 提供模型方法
-    logseq.provideModel({
+    logseqAPI.provideModel({
       showHello: () => {
         logseq.UI.showMsg('Hello from Text Toolkit!', 'info')
       }
@@ -29,4 +30,4 @@ const main = async () => {
 }
 
 // 启动插件
-logseq.ready(main).catch(console.error)
+logseqAPI.ready(main).catch(console.error)

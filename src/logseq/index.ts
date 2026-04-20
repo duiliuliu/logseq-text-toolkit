@@ -4,6 +4,8 @@
  */
 
 import mockLogseq from './mock/index.ts';
+import '@logseq/libs'
+
 
 /**
  * 获取Logseq API实例
@@ -20,7 +22,7 @@ export const getLogseqAPI = (): any => {
   } else {
     console.log('Using official Logseq API (production mode)');
     // 直接返回官方的logseq对象
-    return (globalThis as any).logseq;
+    return logseq;
   }
 };
 
