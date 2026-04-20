@@ -107,6 +107,14 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       <div className="setting-item setting-item-json">
         <label>元素</label>
         <div className="json-editor">
+          <div className="json-hint">
+            <ul>
+              <li><strong>单个元素</strong>：直接配置 icon 和 action，如粗体、斜体</li>
+              <li><strong>分组元素</strong>：添加 "children" 数组可创建下拉菜单，如颜色高亮组</li>
+              <li><strong>隐藏元素</strong>：添加 "hidden": true 可隐藏按钮</li>
+              <li><strong>icon 可选值</strong>: bold, italic, underline, highlight, copy, link, comment, type, sparkles</li>
+            </ul>
+          </div>
           <textarea 
             value={JSON.stringify(settings.toolbar.items, null, 2)}
             onChange={(e) => handleJsonChange(e.target.value)}
@@ -114,41 +122,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
             rows={12}
           />
           {jsonError && <div className="json-error">{jsonError}</div>}
-          <div className="json-hint">
-            <h4>配置提示：</h4>
-            <ul>
-              <li><strong>单个元素</strong>：直接配置 icon 和 action，如粗体、斜体</li>
-              <li><strong>分组元素</strong>：添加 "children" 数组可创建下拉菜单，如颜色高亮组（红色+黄色+蓝色）</li>
-              <li><strong>隐藏元素</strong>：添加 "hidden": true 可隐藏按钮，点击工具栏"更多"按钮展开</li>
-              <li><strong>icon 可选值</strong>: bold, italic, underline, highlight, copy, link, comment, type, sparkles</li>
-            </ul>
-            <p>示例结构：</p>
-            <pre>{`[
-  {
-    "id": "bold",
-    "label": "加粗",
-    "icon": "bold",
-    "action": "formatBold"
-  },
-  {
-    "id": "highlight-group",
-    "label": "高亮",
-    "icon": "highlight",
-    "children": [
-      {
-        "id": "highlight-yellow",
-        "label": "黄色高亮",
-        "action": "highlightYellow"
-      },
-      {
-        "id": "highlight-red",
-        "label": "红色高亮",
-        "action": "highlightRed"
-      }
-    ]
-  }
-]`}</pre>
-          </div>
         </div>
       </div>
 
