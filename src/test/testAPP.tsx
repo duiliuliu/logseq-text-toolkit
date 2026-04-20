@@ -8,9 +8,6 @@ import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
 import { logseqAPI } from '../logseq/index.ts'
 
-// 导入mock logseq
-import '../logseq/mock/index.ts'
-
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
   const [showSettings, setShowSettings] = useState(false)

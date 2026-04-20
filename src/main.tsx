@@ -9,7 +9,7 @@ import SelectToolbar from './components/SelectToolbar'
 import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
-import { getSettings } from './logseq/mock/settings.ts'
+import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
