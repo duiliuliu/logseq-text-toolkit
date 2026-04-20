@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Modal from '../Modal/index.tsx'
-import { useSettingsContext } from '../../config/useSettings.tsx'
+import { useSettingsContext } from '../../settings/useSettings.tsx'
 import GeneralSettings from './tabs/GeneralSettings.tsx'
 import ToolbarSettings from './tabs/ToolbarSettings.tsx'
 import AdvancedSettings from './tabs/AdvancedSettings.tsx'
 import { t } from '../../translations/i18n.ts'
-import { ThemeType, Settings } from '../../config/types.ts'
+import { ThemeType, Settings } from '../../settings/types.ts'
 import './settingsModal.css'
 
 // SettingsModal Props 类型

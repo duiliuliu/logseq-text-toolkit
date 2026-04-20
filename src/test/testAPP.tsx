@@ -5,7 +5,7 @@ import SettingsModal from '../components/SettingsModal/index.tsx'
 import TestLayout from './components/TestLayout/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
 import testConfig from './testConfig.ts'
-import { useSettingsContext } from '../config/useSettings.tsx'
+import { useSettingsContext } from '../settings/useSettings.tsx'
 import { logseqAPI } from '../logseq/index.ts'
 
 // 导入mock logseq

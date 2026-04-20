@@ -1,209 +1,216 @@
-// Mock Logseq API
-import App from './app'
-import Editor from './editor'
-import UI from './ui'
-import DB from './db'
-import Git from './git'
-import Utils from './utils'
-import Assets from './assets'
-import Request from './request'
-import FileStorage from './fileStorage'
-import Experiments from './experiments'
-import { getSettings, updateSettings, onSettingsChanged } from './settings'
+import type { ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user'
 
-// 简单的 EventEmitter 实现
-class EventEmitter {
-  private events: Map<string, Array<(...args: any[]) => void>> = new Map()
-
-  on(event: string, listener: (...args: any[]) => void) {
-    if (!this.events.has(event)) {
-      this.events.set(event, [])
-    }
-    this.events.get(event)?.push(listener)
-    return this
-  }
-
-  off(event: string, listener?: (...args: any[]) => void) {
-    if (!this.events.has(event)) return this
-    if (!listener) {
-      this.events.delete(event)
-    } else {
-      const listeners = this.events.get(event)
-      if (listeners) {
-        const index = listeners.indexOf(listener)
-        if (index !== -1) {
-          listeners.splice(index, 1)
-        }
-      }
-    }
-    return this
-  }
-
-  emit(event: string, ...args: any[]) {
-    if (!this.events.has(event)) return false
-    const listeners = this.events.get(event)
-    listeners?.forEach(listener => listener(...args))
-    return true
-  }
-}
-
-// 模拟 baseInfo
-const baseInfo = {
-  id: 'logseq-text-toolkit',
-  mode: 'iframe' as const,
-  settings: {
-    disabled: false
-  },
-  effect: true,
-  iir: false,
-  lsr: ''
-}
-
-const mockLogseq = Object.assign(new EventEmitter(), {
-  // 基本属性
-  connected: true,
-  baseInfo,
-  effect: true,
-  logger: console,
-  get settings() {
-    const settings = getSettings()
-    if (!('disabled' in settings)) {
-      (settings as any).disabled = false
-    }
-    return settings
-  },
-  set settings(value) {
-    updateSettings(value)
-  },
-  version: '0.2.12',
-  isMainUIVisible: false,
-  caller: {},
-
-  // ready 方法
+const mockLogseq: any = {
   ready: (modelOrCallback?: any, callback?: any) => {
     const promise = Promise.resolve()
     if (typeof modelOrCallback === 'function') {
       promise.then(modelOrCallback)
     } else if (typeof callback === 'function') {
       promise.then(callback)
-      if (modelOrCallback) {
-        mockLogseq.provideModel(modelOrCallback)
-      }
-    } else if (modelOrCallback) {
-      mockLogseq.provideModel(modelOrCallback)
     }
     return promise
   },
 
-  // beforeunload 方法
-  beforeunload: (callback: () => Promise<void>) => {
-    console.log('beforeunload callback registered')
-    window.addEventListener('beforeunload', async (e) => {
-      await callback()
-    })
+  get settings() {
+    return { disabled: false }
   },
 
-  // provideModel 方法
-  provideModel: (model: Record<string, any>) => {
-    console.log('provideModel called with model:', model)
-    Object.assign(globalThis, model)
-    Object.assign(mockLogseq, model)
-    return mockLogseq
+  updateSettings: () => Promise.resolve(),
+
+  App: {
+    getInfo: () => Promise.resolve({ version: '0.10.0', supportDb: true }),
+    getUserInfo: () => Promise.resolve(null),
+    getUserConfigs: () => Promise.resolve({
+      preferredThemeMode: 'light',
+      preferredFormat: 'markdown',
+      preferredLanguage: 'zh-CN'
+    }),
+    registerCommand: () => {},
+    registerCommandPalette: () => {},
+    registerCommandShortcut: () => {},
+    invokeExternalCommand: () => Promise.resolve(),
+    invokeExternalPlugin: () => Promise.resolve(),
+    getExternalPlugin: () => Promise.resolve(null),
+    getStateFromStore: () => Promise.resolve(null),
+    setStateFromStore: () => Promise.resolve(),
+    relaunch: () => Promise.resolve(),
+    quit: () => Promise.resolve(),
+    openExternalLink: () => Promise.resolve(),
+    execGitCommand: () => Promise.resolve(''),
+    getCurrentGraph: () => Promise.resolve(null),
+    checkCurrentIsDbGraph: () => Promise.resolve(false),
+    getCurrentGraphConfigs: () => Promise.resolve({}),
+    setCurrentGraphConfigs: () => Promise.resolve(),
+    getCurrentGraphFavorites: () => Promise.resolve(null),
+    getCurrentGraphRecent: () => Promise.resolve(null),
+    getCurrentGraphTemplates: () => Promise.resolve(null),
+    pushState: () => {},
+    replaceState: () => {},
+    getTemplate: () => Promise.resolve(null),
+    existTemplate: () => Promise.resolve(false),
+    createTemplate: () => Promise.resolve(),
+    removeTemplate: () => Promise.resolve(),
+    insertTemplate: () => Promise.resolve(),
+    setZoomFactor: () => {},
+    setFullScreen: () => {},
+    setLeftSidebarVisible: () => {},
+    setRightSidebarVisible: () => {},
+    clearRightSidebarBlocks: () => {},
+    registerUIItem: () => {},
+    registerPageMenuItem: () => {},
+    on: () => () => {},
+    off: () => {},
+    trigger: () => {},
+    onCurrentGraphChanged: () => () => {},
+    onGraphAfterIndexed: () => () => {},
+    onThemeModeChanged: () => () => {},
+    onThemeChanged: () => () => {},
+    onTodayJournalCreated: () => () => {},
+    onBeforeCommandInvoked: () => () => {},
+    onAfterCommandInvoked: () => () => {},
+    onBlockRendererSlotted: () => () => {},
+    onMacroRendererSlotted: () => () => {},
+    onPageHeadActionsSlotted: () => () => {},
+    onRouteChanged: () => () => {},
+    onSidebarVisibleChanged: () => () => {},
+    _installPluginHook: () => {},
+    _uninstallPluginHook: () => {},
   },
 
-  // provideTheme 方法
-  provideTheme: (theme: any) => {
-    console.log('provideTheme called:', theme)
-    return mockLogseq
+  Editor: {
+    registerSlashCommand: () => {},
+    registerBlockContextMenuItem: () => {},
+    registerHighlightContextMenuItem: () => {},
+    checkEditing: () => Promise.resolve(false),
+    insertAtEditingCursor: () => Promise.resolve(),
+    restoreEditingCursor: () => Promise.resolve(),
+    exitEditingMode: () => Promise.resolve(),
+    getEditingCursorPosition: () => Promise.resolve(null),
+    getEditingBlockContent: () => Promise.resolve(''),
+    getCurrentPage: () => Promise.resolve(null),
+    getTodayPage: () => Promise.resolve(null),
+    getCurrentBlock: () => Promise.resolve(null),
+    getSelectedBlocks: () => Promise.resolve(null),
+    clearSelectedBlocks: () => Promise.resolve(),
+    getCurrentPageBlocksTree: () => Promise.resolve([]),
+    getPageBlocksTree: () => Promise.resolve(null),
+    getPageLinkedReferences: () => Promise.resolve(null),
+    getPagesFromNamespace: () => Promise.resolve(null),
+    getPagesTreeFromNamespace: () => Promise.resolve(null),
+    newBlockUUID: () => Promise.resolve('uuid-' + Date.now()),
+    isPageBlock: () => false,
+    insertBlock: () => Promise.resolve(null),
+    insertBatchBlock: () => Promise.resolve(null),
+    updateBlock: () => Promise.resolve(),
+    removeBlock: () => Promise.resolve(),
+    getBlock: () => Promise.resolve(null),
+    setBlockCollapsed: () => Promise.resolve(),
+    getPage: () => Promise.resolve(null),
+    createPage: () => Promise.resolve(null),
+    createJournalPage: () => Promise.resolve(null),
+    deletePage: () => Promise.resolve(),
+    renamePage: () => Promise.resolve(),
+    getAllPages: () => Promise.resolve(null),
+    getAllTags: () => Promise.resolve(null),
+    getAllProperties: () => Promise.resolve(null),
+    getTagObjects: () => Promise.resolve(null),
+    createTag: () => Promise.resolve(null),
+    getTag: () => Promise.resolve(null),
+    getTagsByName: () => Promise.resolve(null),
+    addTagProperty: () => Promise.resolve(),
+    removeTagProperty: () => Promise.resolve(),
+    addTagExtends: () => Promise.resolve(),
+    removeTagExtends: () => Promise.resolve(),
+    addBlockTag: () => Promise.resolve(),
+    removeBlockTag: () => Promise.resolve(),
+    setBlockIcon: () => Promise.resolve(),
+    removeBlockIcon: () => Promise.resolve(),
+    addPropertyValueChoices: () => Promise.resolve(),
+    setPropertyNodeTags: () => Promise.resolve(),
+    prependBlockInPage: () => Promise.resolve(null),
+    appendBlockInPage: () => Promise.resolve(null),
+    getPreviousSiblingBlock: () => Promise.resolve(null),
+    getNextSiblingBlock: () => Promise.resolve(null),
+    moveBlock: () => Promise.resolve(),
+    editBlock: () => Promise.resolve(),
+    selectBlock: () => Promise.resolve(),
+    saveFocusedCodeEditorContent: () => Promise.resolve(),
+    getProperty: () => Promise.resolve(null),
+    upsertProperty: () => Promise.resolve({} as any),
+    removeProperty: () => Promise.resolve(),
+    upsertBlockProperty: () => Promise.resolve(),
+    removeBlockProperty: () => Promise.resolve(),
+    getBlockProperty: () => Promise.resolve(null),
+    getBlockProperties: () => Promise.resolve(null),
+    getPageProperties: () => Promise.resolve(null),
+    scrollToBlockInPage: () => {},
+    openInRightSidebar: () => {},
+    openPDFViewer: () => Promise.resolve(),
+    onInputSelectionEnd: () => () => {},
   },
 
-  // provideStyle 方法
-  provideStyle: (style: any) => {
-    console.log('provideStyle called:', style)
-    return mockLogseq
+  UI: {
+    showMsg: () => Promise.resolve('msg-key'),
+    closeMsg: () => {},
+    queryElementRect: () => Promise.resolve(null),
+    queryElementById: () => Promise.resolve(false),
+    checkSlotValid: () => Promise.resolve(true),
+    resolveThemeCssPropsVals: () => Promise.resolve({}),
   },
 
-  // provideUI 方法
-  provideUI: (ui: any) => {
-    console.log('provideUI called:', ui)
-    return mockLogseq
+  DB: {
+    q: () => Promise.resolve([]),
+    customQuery: () => Promise.resolve([]),
+    datascriptQuery: () => Promise.resolve([]),
+    onChanged: () => () => {},
+    onBlockChanged: () => () => {},
+    setFileContent: () => Promise.resolve(),
+    getFileContent: () => Promise.resolve(null),
   },
 
-  // useSettingsSchema 方法
-  useSettingsSchema: (schemas: any[]) => {
-    console.log('useSettingsSchema called:', schemas)
-    return mockLogseq
+  Git: {
+    execCommand: () => Promise.resolve({ stdout: '', stderr: '', exitCode: 0 }),
+    loadIgnoreFile: () => Promise.resolve(''),
+    saveIgnoreFile: () => Promise.resolve(),
   },
 
-  // updateSettings 方法
-  updateSettings: (attrs: Record<string, any>) => {
-    console.log('updateSettings called:', attrs)
-    updateSettings(attrs)
+  Utils: {
+    toJs: (obj: {}) => Promise.resolve(obj),
   },
 
-  // onSettingsChanged 方法
-  onSettingsChanged: <T = any>(cb: (a: T, b: T) => void) => {
-    return onSettingsChanged(cb)
+  Assets: {
+    listFilesOfCurrentGraph: () => Promise.resolve([]),
+    makeSandboxStorage: () => ({ getItem: () => Promise.resolve(null), setItem: () => Promise.resolve(), removeItem: () => Promise.resolve() }),
+    makeUrl: () => Promise.resolve(''),
+    builtInOpen: () => Promise.resolve(undefined),
   },
 
-  // showSettingsUI 方法
-  showSettingsUI: () => {
-    console.log('showSettingsUI called')
-  },
+  Request: {},
 
-  // hideSettingsUI 方法
-  hideSettingsUI: () => {
-    console.log('hideSettingsUI called')
-  },
+  Experiments: {},
 
-  // setMainUIAttrs 方法
-  setMainUIAttrs: (attrs: any) => {
-    console.log('setMainUIAttrs called:', attrs)
-  },
+  FileStorage: {},
 
-  // setMainUIInlineStyle 方法
-  setMainUIInlineStyle: (style: any) => {
-    console.log('setMainUIInlineStyle called:', style)
-  },
+  provideModel: () => mockLogseq,
+  provideTheme: () => mockLogseq,
+  provideStyle: () => mockLogseq,
+  provideUI: () => mockLogseq,
+  useSettingsSchema: () => mockLogseq,
+  onSettingsChanged: () => () => {},
+  showSettingsUI: () => {},
+  hideSettingsUI: () => {},
+  setMainUIAttrs: () => {},
+  setMainUIInlineStyle: () => {},
+  showMainUI: () => {},
+  hideMainUI: () => {},
+  toggleMainUI: () => {},
+  isMainUIVisible: false,
+  version: '0.2.12',
+  connected: true,
+  caller: {},
+  resolveResourceFullUrl: (path: string) => path,
+}
 
-  // showMainUI 方法
-  showMainUI: (opts?: any) => {
-    console.log('showMainUI called:', opts)
-    mockLogseq.isMainUIVisible = true
-  },
-
-  // hideMainUI 方法
-  hideMainUI: (opts?: any) => {
-    console.log('hideMainUI called:', opts)
-    mockLogseq.isMainUIVisible = false
-  },
-
-  // toggleMainUI 方法
-  toggleMainUI: () => {
-    console.log('toggleMainUI called')
-    mockLogseq.isMainUIVisible = !mockLogseq.isMainUIVisible
-  },
-
-  // resolveResourceFullUrl 方法
-  resolveResourceFullUrl: (filePath: string) => {
-    console.log('resolveResourceFullUrl called:', filePath)
-    return filePath
-  },
-
-  // 各个 API 模块
-  App,
-  Editor,
-  UI,
-  DB,
-  Git,
-  Utils,
-  Assets,
-  Request,
-  FileStorage,
-  Experiments
-} as any)
-
-// 挂载到全局
 globalThis.logseq = mockLogseq
 
 export default mockLogseq

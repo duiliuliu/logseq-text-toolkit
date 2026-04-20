@@ -1,6 +1,6 @@
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
-import { Settings } from '../../../config/types.ts'
+import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
 
 function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {

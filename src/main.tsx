@@ -6,10 +6,10 @@ import './main.css'
 import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
-import { SettingsProvider } from './config/useSettings.tsx'
+import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
-import { getSettings } from './logseq/mock/settings.ts'
+import defaultSettings from './settings/defaultSettings.ts'
 import { getDocument } from './logseq/utils.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
@@ -45,7 +45,7 @@ const showSettingUI = async () => {
   setTimeout(() => {
     const container = getDocument().getElementById(SETTINGS_ID)
     if (container) {
-      const currentSettings = getSettings()
+      const currentSettings = defaultSettings
       renderComponent(container, SettingsModal, {
         isOpen: settingsModalOpen, // 根据 settingsModalOpen 的值决定是否显示
         onClose: () => {
@@ -69,7 +69,7 @@ const settingToggle = async () => {
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
 
-  const currentSettings = getSettings()
+  const currentSettings = defaultSettings
   if (currentSettings.toolbar.enabled) {
     logseqAPI.provideUI({
       key: TOOLBAR_ID,

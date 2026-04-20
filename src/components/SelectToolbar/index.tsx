@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
 import { SelectedData } from '../../utils/textProcessor.ts'
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts'
-import { useSettingsContext } from '../../config/useSettings.tsx'
+import { useSettingsContext } from '../../settings/useSettings.tsx'
 
 interface ToolbarPosition {
   x: number
