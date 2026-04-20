@@ -33,10 +33,10 @@ jobs:
           VERSION=$(jq -r '.version' package.json)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Package dist-origin
+      - name: Package dist-origin as dist
         run: |
-          mkdir -p ${{ env.PLUGIN_NAME }}
-          cp -r dist-origin ${{ env.PLUGIN_NAME }}/
+          mkdir -p ${{ env.PLUGIN_NAME }}/dist
+          cp -r dist-origin/* ${{ env.PLUGIN_NAME }}/dist/
           cp README.md README.en.md package.json icon.png ${{ env.PLUGIN_NAME }}/
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
           ls -la
