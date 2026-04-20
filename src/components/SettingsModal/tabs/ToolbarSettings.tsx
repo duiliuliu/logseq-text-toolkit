@@ -8,9 +8,14 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
   const [jsonError, setJsonError] = useState('')
   const [jsonInput, setJsonInput] = useState(JSON.stringify(settings.toolbar.items, null, 2))
   
-  // 防抖处理
+  // 仅在 settings 从外部变化时更新 jsonInput
   useEffect(() => {
-    setJsonInput(JSON.stringify(settings.toolbar.items, null, 2))
+    // 只有当 jsonInput 与 settings.toolbar.items 不一致时才更新
+    // 避免在用户输入时重置光标位置
+    const currentJson = JSON.stringify(settings.toolbar.items, null, 2)
+    if (jsonInput !== currentJson) {
+      setJsonInput(currentJson)
+    }
   }, [settings.toolbar.items])
   
   const handleSettingChange = (path: string, value: any) => {
@@ -57,16 +62,11 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text')
-    try {
-      // 尝试解析粘贴的内容为 JSON
-      JSON.parse(text)
-      handleSettingChange('toolbar.items', JSON.parse(text))
-      logseqAPI.showMsg('JSON 粘贴成功', 'success')
-    } catch (error) {
-      const errorMsg = t('settings.error', language)
-      setJsonError(errorMsg)
-      logseqAPI.showMsg(errorMsg, 'error')
-    }
+    // 直接设置粘贴的内容到 jsonInput，不进行 JSON 解析
+    setJsonInput(text)
+    // 触发防抖处理的 JSON 解析
+    debouncedHandleJsonChange(text)
+    logseqAPI.showMsg('内容粘贴成功', 'success')
   }
 
   return (

@@ -119,6 +119,15 @@ const defaultSettings: Settings = {
         icon: "menu",
         funcmode: "replace",
         clickfunc: " {{cloze ${selectedText}}}"
+      },
+      "wrap-code": {
+        id: "wrap-code",
+        label: "Wrap with code",
+        binding: "",
+        icon: "type",
+        funcmode: "replace",
+        clickfunc: "```\n${selectedText}\n```",
+        hidden: true
       }
     }
   }
