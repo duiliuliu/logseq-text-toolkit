@@ -1,10 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { t } from '../../../translations/i18n.ts'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
+import { logseqAPI } from '../../../logseq/index.ts'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const [jsonError, setJsonError] = useState('')
+  const [jsonInput, setJsonInput] = useState(JSON.stringify(settings.toolbar.items, null, 2))
+  
+  // 防抖处理
+  useEffect(() => {
+    setJsonInput(JSON.stringify(settings.toolbar.items, null, 2))
+  }, [settings.toolbar.items])
   
   const handleSettingChange = (path: string, value: any) => {
     setSettings(prev => {
@@ -22,7 +29,17 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     })
   }
 
-  const handleJsonChange = (value: string) => {
+  // 防抖函数
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout
+    return (...args: any[]) => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => func.apply(null, args), delay)
+    }
+  }
+
+  // 防抖处理的 JSON 解析
+  const debouncedHandleJsonChange = debounce((value: string) => {
     setJsonError('')
     try {
       JSON.parse(value)
@@ -30,6 +47,11 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     } catch (error) {
       setJsonError(t('settings.error', language))
     }
+  }, 300)
+
+  const handleJsonChange = (value: string) => {
+    setJsonInput(value)
+    debouncedHandleJsonChange(value)
   }
 
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -39,8 +61,11 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       // 尝试解析粘贴的内容为 JSON
       JSON.parse(text)
       handleSettingChange('toolbar.items', JSON.parse(text))
+      logseqAPI.showMsg('JSON 粘贴成功', 'success')
     } catch (error) {
-      setJsonError(t('settings.error', language))
+      const errorMsg = t('settings.error', language)
+      setJsonError(errorMsg)
+      logseqAPI.showMsg(errorMsg, 'error')
     }
   }
 
@@ -128,7 +153,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
             </ul>
           </div>
           <textarea 
-            value={JSON.stringify(settings.toolbar.items, null, 2)}
+            value={jsonInput}
             onChange={(e) => handleJsonChange(e.target.value)}
             onPaste={handlePaste}
             placeholder={t('settings.jsonSettings', language)}
