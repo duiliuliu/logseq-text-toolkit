@@ -8,6 +8,7 @@ import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
 import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
+import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
 
@@ -82,7 +83,7 @@ const showSelectToolbar = async () => {
       if (toolbarContainer && mainContentContainer) {
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
-          items: currentSettings.toolbar.items,
+          items: defaultToolbarItems,
         })
       }
     }, 1)
@@ -123,14 +124,4 @@ if (import.meta.env.MODE === 'test') {
   logseqAPI.ready(main).catch(console.error)
 } else { 
   logseqAPI.ready(main).catch(console.error)
-}
-
-// 监听 root 元素大小变化，用于 settingmodal 自适应
-const rootElement = getDocument().getElementById('root')
-if (rootElement) {
-  const resizeObserver = new ResizeObserver(() => {
-    // 触发设置模态框大小更新
-    window.dispatchEvent(new CustomEvent('rootResize'))
-  })
-  resizeObserver.observe(rootElement)
 }

@@ -19,44 +19,44 @@ const defaultSettings: Settings = {
     
     // Toolbar 元素配置
     items: {
-      "group-format": {
-        id: "group-format",
+      "wrap-bold": {
+        id: "wrap-bold",
+        label: "Wrap bold",
+        binding: "",
+        icon: "bold",
+        funcmode: "replace",
+        clickfunc: "**${selectedText}**"
+      },
+      "group-style": {
+        id: "group-style",
         isGroup: true,
-        label: "Format",
+        label: "Style",
         items: {
-          "wrap-bold": {
-            id: "wrap-bold",
-            label: "Bold",
-            binding: "",
-            icon: "bold",
-            funcmode: "replace",
-            clickfunc: "**${selectedText}**"
-          },
           "wrap-italic": {
             id: "wrap-italic",
-            label: "Italic",
+            label: "Wrap italic",
             binding: "mod+shift+i",
             icon: "italic",
             funcmode: "replace",
             clickfunc: "*${selectedText}*"
           },
-          "wrap-strike-through": {
-            id: "wrap-strike-through",
-            label: "Strikethrough",
-            binding: "",
-            icon: "strikethrough",
-            funcmode: "replace",
-            clickfunc: "~~${selectedText}~~"
-          },
           "wrap-underline": {
             id: "wrap-underline",
-            label: "Underline",
+            label: "Wrap underline",
             binding: "",
             icon: "underline",
             funcmode: "replace",
             clickfunc: "__${selectedText}__"
           }
         }
+      },
+      "wrap-strike-through": {
+        id: "wrap-strike-through",
+        label: "Wrap strike through",
+        binding: "",
+        icon: "strikethrough",
+        funcmode: "replace",
+        clickfunc: "~~${selectedText}~~"
       },
       "group-hl": {
         id: "group-hl",
@@ -65,7 +65,7 @@ const defaultSettings: Settings = {
         items: {
           "wrap-yellow-hl": {
             id: "wrap-yellow-hl",
-            label: "Yellow",
+            label: "Wrap with yellow highlight",
             binding: "",
             icon: "highlighter",
             funcmode: "replace",
@@ -73,7 +73,7 @@ const defaultSettings: Settings = {
           },
           "wrap-red-hl": {
             id: "wrap-red-hl",
-            label: "Red",
+            label: "Wrap with red highlight",
             binding: "",
             icon: "highlighter",
             funcmode: "replace",
@@ -81,7 +81,7 @@ const defaultSettings: Settings = {
           },
           "wrap-blue-hl": {
             id: "wrap-blue-hl",
-            label: "Blue",
+            label: "Wrap with blue highlight",
             binding: "",
             icon: "highlighter",
             funcmode: "replace",
@@ -96,7 +96,7 @@ const defaultSettings: Settings = {
         items: {
           "wrap-red-text": {
             id: "wrap-red-text",
-            label: "Red Text",
+            label: "Wrap with red text",
             binding: "",
             icon: "type",
             funcmode: "replace",
@@ -104,7 +104,7 @@ const defaultSettings: Settings = {
           },
           "wrap-blue-text": {
             id: "wrap-blue-text",
-            label: "Blue Text",
+            label: "Wrap with blue text",
             binding: "",
             icon: "type",
             funcmode: "replace",
@@ -114,11 +114,21 @@ const defaultSettings: Settings = {
       },
       "wrap-cloze": {
         id: "wrap-cloze",
-        label: "Cloze",
+        label: "Wrap with cloze",
         binding: "",
         icon: "menu",
         funcmode: "replace",
         clickfunc: " {{cloze ${selectedText}}}"
+      },
+      "repl-clear": {
+        id: "repl-clear",
+        label: "Remove formatting",
+        binding: "mod+shift+x",
+        icon: "x",
+        funcmode: "replace",
+        clickfunc: "",
+        regex: "\\[\\[(?:#|\\$)(?:red|green|blue)\\]\\]|==([^=]*)==|~~([^~]*)~~|\\^\\^([^\\^]*)\\^\\^|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|_([^_]*)_|\\$([^\\$]*)\\$|`([^`]*)`",
+        replacement: "$1$2$3$4$5$6$7$8"
       }
     }
   }

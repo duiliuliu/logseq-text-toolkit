@@ -1,143 +1,13 @@
 import '../index.css'
 import '../main.css'
-import './testApp.css'
 import TestLayout from './components/TestLayout/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
-import DemoContent from './components/DemoContent/index.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
 
 function TestApp() {
   // 使用设置上下文
-  const { settings, saveSettings } = useSettingsContext()
-  
-  // 重置设置函数
-  const handleResetSettings = async () => {
-    try {
-      // 重置为默认设置
-      const defaultSettings = {
-        theme: 'light',
-        language: 'zh-CN',
-        toolbar: {
-          enabled: true,
-          showBorder: true,
-          width: '110px',
-          height: '24px',
-          hoverDelay: 500,
-          sponsorEnabled: true,
-          items: {
-            "group-format": {
-              id: "group-format",
-              isGroup: true,
-              label: "Format",
-              items: {
-                "wrap-bold": {
-                  id: "wrap-bold",
-                  label: "Bold",
-                  binding: "",
-                  icon: "bold",
-                  funcmode: "replace",
-                  clickfunc: "**${selectedText}**"
-                },
-                "wrap-italic": {
-                  id: "wrap-italic",
-                  label: "Italic",
-                  binding: "mod+shift+i",
-                  icon: "italic",
-                  funcmode: "replace",
-                  clickfunc: "*${selectedText}*"
-                },
-                "wrap-strike-through": {
-                  id: "wrap-strike-through",
-                  label: "Strikethrough",
-                  binding: "",
-                  icon: "strikethrough",
-                  funcmode: "replace",
-                  clickfunc: "~~${selectedText}~~"
-                },
-                "wrap-underline": {
-                  id: "wrap-underline",
-                  label: "Underline",
-                  binding: "",
-                  icon: "underline",
-                  funcmode: "replace",
-                  clickfunc: "__${selectedText}__"
-                }
-              }
-            },
-            "group-hl": {
-              id: "group-hl",
-              isGroup: true,
-              label: "Highlight",
-              items: {
-                "wrap-yellow-hl": {
-                  id: "wrap-yellow-hl",
-                  label: "Yellow",
-                  binding: "",
-                  icon: "highlighter",
-                  funcmode: "replace",
-                  clickfunc: "==${selectedText}=="
-                },
-                "wrap-red-hl": {
-                  id: "wrap-red-hl",
-                  label: "Red",
-                  binding: "",
-                  icon: "highlighter",
-                  funcmode: "replace",
-                  clickfunc: "[:mark.red ${selectedText}]"
-                },
-                "wrap-blue-hl": {
-                  id: "wrap-blue-hl",
-                  label: "Blue",
-                  binding: "",
-                  icon: "highlighter",
-                  funcmode: "replace",
-                  clickfunc: "[:mark.blue ${selectedText}]"
-                }
-              }
-            },
-            "group-text": {
-              id: "group-text",
-              isGroup: true,
-              label: "Text",
-              items: {
-                "wrap-red-text": {
-                  id: "wrap-red-text",
-                  label: "Red Text",
-                  binding: "",
-                  icon: "type",
-                  funcmode: "replace",
-                  clickfunc: "[[:color.red ${selectedText}]]"
-                },
-                "wrap-blue-text": {
-                  id: "wrap-blue-text",
-                  label: "Blue Text",
-                  binding: "",
-                  icon: "type",
-                  funcmode: "replace",
-                  clickfunc: "[[:color.blue ${selectedText}]]"
-                }
-              }
-            },
-            "wrap-cloze": {
-              id: "wrap-cloze",
-              label: "Cloze",
-              binding: "",
-              icon: "menu",
-              funcmode: "replace",
-              clickfunc: " {{cloze ${selectedText}}}"
-            }
-          }
-        }
-      }
-      
-      await saveSettings(defaultSettings)
-      alert('设置已重置为默认值')
-    } catch (error) {
-      console.error('重置设置失败:', error)
-      alert('重置设置失败，请重试')
-    }
-  }
+  const { settings } = useSettingsContext()
 
   // 左侧面板内容
   const leftContent = (
@@ -162,22 +32,7 @@ function TestApp() {
       <h3>{testConfig.rightPanel.title}</h3>
       <div className="actions">
         {testConfig.rightPanel.actions.map((action) => (
-          <button 
-            key={action.id} 
-            className="action-btn"
-            onClick={() => {
-              if (action.id === 'reset-settings') {
-                handleResetSettings()
-              } else if (action.id === 'toggle-theme') {
-                // 切换主题功能
-                const newTheme = settings?.theme === 'light' ? 'dark' : 'light'
-                saveSettings({ ...settings, theme: newTheme })
-              } else if (action.id === 'clear-all') {
-                // 清空内容功能
-                alert('内容已清空')
-              }
-            }}
-          >
+          <button key={action.id} className="action-btn">
             {action.label}
           </button>
         ))}
@@ -186,23 +41,65 @@ function TestApp() {
   )
 
   // 中间内容区域
-  const centerContent = <DemoContent />
+  const centerContent = (
+    <div className="center-content">
+      <div className="content-header">
+        <h2 className="content-title">文字选择工具栏演示</h2>
+        <p className="content-description">选择下方文本，体验完整的文字格式化工具</p>
+      </div>
+      
+      <div className="demo-container">
+        <div className="demo-section">
+          <h3 className="demo-section-title">基础文本格式化</h3>
+          <p className="demo-text">
+            Logseq Text Toolkit 是一款强大的文字格式化工具，支持多种格式转换，包括：
+            <strong>粗体文字</strong>、<em>斜体文字</em>、<u>下划线文字</u>、
+            <del>删除线文字</del>、<mark>高亮文字</mark>等。
+            无论您是在记笔记、写文档，还是在进行知识管理，这个工具都能帮助您提高效率。
+          </p>
+        </div>
+        
+        <div className="demo-section">
+          <h3 className="demo-section-title">代码和列表</h3>
+          <div className="demo-code">
+            <code>const greeting = "Hello, Logseq!";</code>
+          </div>
+          <ul className="demo-list">
+            <li>项目一：文本格式化</li>
+            <li>项目二：颜色高亮</li>
+            <li>项目三：代码块</li>
+            <li>项目四：列表样式</li>
+          </ul>
+        </div>
+        
+        <div className="demo-section">
+          <h3 className="demo-section-title">高级格式化</h3>
+          <p className="demo-text">
+            此外，还支持 <span className="highlight-yellow">黄色高亮</span>、
+            <span className="highlight-red">红色高亮</span>、
+            <span className="highlight-blue">蓝色高亮</span> 等多种颜色标记功能，
+            让您的笔记更加丰富多彩。
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <div id="app-container" className={`App ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-      {/* 测试工具栏 */}
-      <div id="test-toolbar">
-        <div className="test-toolbar-content">
-          <span className="test-toolbar-text">工具栏演示</span>
-          <div className="test-toolbar-actions">
-            <button className="test-toolbar-btn" title="粗体">
-              <span className="test-toolbar-icon">B</span>
+      {/* 右上角工具栏横幅 */}
+      <div id="toolbar" className="toolbar-banner">
+        <div className="toolbar-banner-content">
+          <span className="toolbar-banner-text">工具栏演示</span>
+          <div className="toolbar-banner-actions">
+            <button className="toolbar-banner-btn" title="粗体">
+              <span className="toolbar-icon">B</span>
             </button>
-            <button className="test-toolbar-btn" title="斜体">
-              <span className="test-toolbar-icon">I</span>
+            <button className="toolbar-banner-btn" title="斜体">
+              <span className="toolbar-icon">I</span>
             </button>
-            <button className="test-toolbar-btn" title="下划线">
-              <span className="test-toolbar-icon">U</span>
+            <button className="toolbar-banner-btn" title="下划线">
+              <span className="toolbar-icon">U</span>
             </button>
           </div>
         </div>

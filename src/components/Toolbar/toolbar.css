@@ -1,4 +1,4 @@
-.text-toolkit-container {
+.toolbar-container {
   position: relative;
   display: inline-block;
   flex-direction: column;
@@ -6,54 +6,48 @@
   align-items: center;
 }
 
-/* 浮动工具栏样式 */
-.text-toolkit-floating-toolbar {
-  display: inline-block;
-}
-
-.text-toolkit-main {
+.toolbar-main {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
   border: none;
   border-radius: 8px;
-  padding: 2px 6px;
+  padding: 4px 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
   z-index: 1000;
-  width: 100%;
+  min-width: 100px;
+  width: auto;
   white-space: nowrap;
   overflow: visible !important;
-  box-sizing: border-box;
-  min-height: 100%;
 }
 
-.text-toolkit-main-item {
+.toolbar-main-item {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 100%;
+  width: 20px;
+  height: 20px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 1001;
 }
-.text-toolkit-main-item:hover {
+.toolbar-main-item:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
   transform: scale(1.05);
 }
 
-.text-toolkit-group {
+.toolbar-group {
   position: relative;
   z-index: 1002;
 }
 
-.text-toolkit-group-dropdown {
+.toolbar-group-dropdown {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -71,47 +65,47 @@
   flex-direction: column;
   gap: 2px;
 }
-.text-toolkit-group-dropdown.no-border {
+.toolbar-group-dropdown.no-border {
   border: none;
 }
 
-.text-toolkit-group-item {
+.toolbar-group-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   padding: 0;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
   border-radius: 4px;
 }
-.text-toolkit-group-item:hover {
+.toolbar-group-item:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
 }
 
 
-.text-toolkit-more {
+.toolbar-more {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
-  height: 100%;
+  height: 24px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.text-toolkit-more:hover {
+.toolbar-more:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
 }
 
-.text-toolkit-more-icon {
+.toolbar-more-icon {
   font-size: 18px;
   font-weight: bold;
 }
 
-.text-toolkit-tooltip {
+.toolbar-tooltip {
   position: absolute;
   bottom: 100%;
   left: 50%;
@@ -125,14 +119,14 @@
   z-index: 1003;
   margin-bottom: 4px;
 }
-.text-toolkit-tooltip-sub {
+.toolbar-tooltip-sub {
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
   bottom: auto;
   margin: 0 0 0 4px;
 }
-.text-toolkit-tooltip-sub-horizontal {
+.toolbar-tooltip-sub-horizontal {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
@@ -140,7 +134,7 @@
   margin: 4px 0 0;
 }
 
-.text-toolkit-item-icon {
+.toolbar-item-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,7 +142,7 @@
   width: 16px;
   height: 16px;
 }
-.text-toolkit-item-icon svg {
+.toolbar-item-icon svg {
   width: 14px;
   height: 14px;
   fill: currentColor;
@@ -156,59 +150,59 @@
 }
 
 /* 确保工具栏图标在所有主题下都可见 */
-.text-toolkit-container .text-toolkit-item-icon,
-.text-toolkit-container .text-toolkit-icon {
+.toolbar-container .toolbar-item-icon,
+.toolbar-container .toolbar-icon {
   color: var(--ls-primary-text-color-plugin, #333);
 }
 
 /* 深色主题下，工具栏使用亮色时图标颜色调整 */
-.text-toolkit-container .text-toolkit-main {
+.toolbar-container .toolbar-main {
   color: var(--ls-primary-text-color-plugin, #333);
 }
 
 /* 确保图标在深色工具栏主题下可见 */
-.text-toolkit-container.text-toolkit-dark .text-toolkit-main {
+.toolbar-container.toolbar-dark .toolbar-main {
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
-.text-toolkit-container.text-toolkit-dark .text-toolkit-item-icon,
-.text-toolkit-container.text-toolkit-dark .text-toolkit-icon {
+.toolbar-container.toolbar-dark .toolbar-item-icon,
+.toolbar-container.toolbar-dark .toolbar-icon {
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
 /* 确保分组图标在深色主题下可见 */
-.text-toolkit-container.text-toolkit-dark .text-toolkit-group .text-toolkit-item-icon {
+.toolbar-container.toolbar-dark .toolbar-group .toolbar-item-icon {
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
 /* ================= DARK ================= */
-.text-toolkit-container.text-toolkit-dark .text-toolkit-main {
+.toolbar-container.toolbar-dark .toolbar-main {
   background: var(--ls-primary-background-color-plugin, #2d2d2d);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-.text-toolkit-container.text-toolkit-dark .text-toolkit-main-item:hover {
+.toolbar-container.toolbar-dark .toolbar-main-item:hover {
   background: var(--ls-secondary-background-color-plugin, #444);
 }
-.text-toolkit-container.text-toolkit-dark .text-toolkit-group-dropdown {
+.toolbar-container.toolbar-dark .toolbar-group-dropdown {
   background: var(--ls-primary-background-color-plugin, #2d2d2d);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
   border-color: var(--ls-border-color-plugin, #555);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-.text-toolkit-container.text-toolkit-dark .text-toolkit-group-item:hover {
+.toolbar-container.toolbar-dark .toolbar-group-item:hover {
   background: var(--ls-secondary-background-color-plugin, #444);
 }
-.text-toolkit-container.text-toolkit-dark .text-toolkit-more:hover {
+.toolbar-container.toolbar-dark .toolbar-more:hover {
   background: var(--ls-secondary-background-color-plugin, #444);
 }
-.text-toolkit-container.text-toolkit-dark .text-toolkit-tooltip {
+.toolbar-container.toolbar-dark .toolbar-tooltip {
   background: var(--ls-primary-background-color-plugin, #1a1a1a);
   color: var(--ls-primary-text-color-plugin, #fff);
 }
 
 /* 赞助栏样式 */
-.text-toolkit-sponsor {
+.toolbar-sponsor {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -222,28 +216,42 @@
   position: relative;
   z-index: 999;
   overflow: visible;
-  width: 100%;
+  min-width: 120px;
+  max-width: 300px;
   flex-shrink: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-.text-toolkit-sponsor-iframe {
+.toolbar-sponsor-iframe {
   width: 100%;
   height: 36px;
   border: none;
   display: block;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  min-width: 120px;
+  max-width: 300px;
 }
 
 /* 当工具栏展开时，赞助栏也自适应宽度 */
-.text-toolkit-container .text-toolkit-sponsor {
+.toolbar-container .toolbar-sponsor {
   transition: width 0.2s ease;
 }
 
+/* 确保赞助栏在不同尺寸下都能合理显示 */
+@media (max-width: 480px) {
+  .toolbar-sponsor {
+    min-width: 100px;
+    max-width: 200px;
+  }
+  .toolbar-sponsor-iframe {
+    min-width: 100px;
+    max-width: 200px;
+  }
+}
+
 /* 深色主题下的赞助栏样式 */
-.text-toolkit-container.text-toolkit-dark .text-toolkit-sponsor {
+.toolbar-container.toolbar-dark .toolbar-sponsor {
   background: var(--ls-primary-background-color-plugin, #2d2d2d);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }

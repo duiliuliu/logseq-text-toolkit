@@ -109,7 +109,7 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
 
     const handleSelection = (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
-      if (e.target && ((e.target as HTMLElement).closest('.text-toolkit-floating-toolbar') || (e.target as HTMLElement).closest('.text-toolkit-container') || (e.target as HTMLElement).closest('.text-toolkit-group-dropdown'))) {
+      if (e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
         // 保持选中状态，不做任何处理
         return
       }
@@ -119,7 +119,7 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
     const handleMouseMove = (e: MouseEvent) => {
-      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.text-toolkit-floating-toolbar') || (e.target as HTMLElement).closest('.text-toolkit-container') || (e.target as HTMLElement).closest('.text-toolkit-group-dropdown'))) {
+      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.floating-toolbar') || (e.target as HTMLElement).closest('.toolbar-container') || (e.target as HTMLElement).closest('.toolbar-group-dropdown'))) {
         // 鼠标在toolbar内部，保持显示状态
         return
       }
@@ -171,7 +171,7 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
     <div ref={containerRef}>
       {showToolbar && (
         <div 
-          className="text-toolkit-floating-toolbar"
+          className="floating-toolbar"
           style={{
             position: 'fixed',
             left: toolbarPosition.x,
