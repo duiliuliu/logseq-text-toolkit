@@ -344,99 +344,7 @@ function provideStyles() {
       border: none !important;
     }
 
-    /* ==============================================
-    5. 兼容旧格式的样式
-    ============================================== */
-    /* 🔴 红色背景 */
-    span.page-reference[data-ref="red"] {
-      background-color: #ffc7c7 !important;
-      color: #262626 !important;
-      border-radius: 0.25rem !important;
-      padding: 2px 4px !important;
-      display: inline-flex !important;
-    }
-    /* 🟢 绿色背景 */
-    span.page-reference[data-ref="green"] {
-      background-color: #ccffc1 !important;
-      color: #262626 !important;
-      border-radius: 0.25rem !important;
-      padding: 2px 4px !important;
-      display: inline-flex !important;
-    }
-    /* 🔵 蓝色背景 */
-    span.page-reference[data-ref="blue"] {
-      background-color: #abdfff !important;
-      color: #262626 !important;
-      border-radius: 0.25rem !important;
-      padding: 2px 4px !important;
-      display: inline-flex !important;
-    }
 
-    /* 隐藏 $red/$green/$blue 的括号（重点修复 [[ 显示问题） */
-    span.page-reference[data-ref="$red"] .bracket,
-    span.page-reference[data-ref="$green"] .bracket,
-    span.page-reference[data-ref="$blue"] .bracket,
-    /* 隐藏普通 red/green/blue 的括号 */
-    span.page-reference[data-ref="red"] .bracket,
-    span.page-reference[data-ref="green"] .bracket,
-    span.page-reference[data-ref="blue"] .bracket {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      width: 0 !important;
-      height: 0 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      border: none !important;
-    }
-
-    /* 纯文字颜色样式（带$符号：$red $green $blue） */
-    span.page-reference[data-ref="$red"] {
-      color: #ff0000 !important;
-      background: transparent !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
-      display: inline !important;
-      border: none !important;
-    }
-    span.page-reference[data-ref="$green"] {
-      color: #00cc00 !important;
-      background: transparent !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
-      display: inline !important;
-      border: none !important;
-    }
-    span.page-reference[data-ref="$blue"] {
-      color: #0066ff !important; /* 蓝色字体，可根据需要调整色值 */
-      background: transparent !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
-      display: inline !important;
-      border: none !important;
-    }
-
-    /* 强制覆盖子元素样式，确保颜色生效 */
-    span.page-reference[data-ref="$red"] > span,
-    span.page-reference[data-ref="$green"] > span,
-    span.page-reference[data-ref="$blue"] > span {
-      color: inherit !important;
-      background: transparent !important;
-      display: inline !important;
-      border: none !important;
-    }
-
-    /* 兜底保障 */
-    span.page-reference[data-ref="red"],
-    span.page-reference[data-ref="green"],
-    span.page-reference[data-ref="blue"],
-    span.page-reference[data-ref="$red"],
-    span.page-reference[data-ref="$green"],
-    span.page-reference[data-ref="$blue"] {
-      visibility: visible !important;
-      opacity: 1 !important;
-      border: none !important;
-    }
 
     .block-content-inner:has(+ .block-body [data-ref="#caption"] + mark) > .flex-1 {
       text-align: center;
@@ -534,7 +442,7 @@ async function getDefinitions() {
       ],
     },
     {
-      key: "group-text-custom",
+      key: "group-text-color",
       items: [
         {
           key: "wrap-red-text",
@@ -571,6 +479,11 @@ async function getDefinitions() {
           template: "[:span.purple $^]",
           icon: '<svg t="1643270432116" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12761" width="200" height="200"><path d="M256 768h512a85.333333 85.333333 0 0 1 85.333333 85.333333v42.666667a85.333333 85.333333 0 0 1-85.333333 85.333333H256a85.333333 85.333333 0 0 1-85.333333-85.333333v-42.666667a85.333333 85.333333 0 0 1 85.333333-85.333333z m0 85.333333v42.666667h512v-42.666667H256z m401.578667-341.333333H366.421333L298.666667 682.666667H213.333333l256.128-640H554.666667l256 640h-85.333334l-67.754666-170.666667z m-33.877334-85.333333L512 145.365333 400.298667 426.666667h223.402666z" p-id="12762" fill="#6800ff"></path></svg>',
         },
+      ],
+    },
+    {
+      key: "group-text-underline",
+      items: [
         {
           key: "wrap-red-underline",
           label: t("Wrap with red underline"),
