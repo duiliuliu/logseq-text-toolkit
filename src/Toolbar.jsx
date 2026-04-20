@@ -13,10 +13,10 @@ export default function Toolbar({ items, model }) {
       const groupItems = item.items?.filter((subitem) => subitem.icon) ?? []
       if (groupItems.length <= 0) return null
       return (
-        <div class="kef-wrap-tb-list">
+        <div className="kef-wrap-tb-list">
           <ToolbarItem {...groupItems[0]} action={triggerAction} />
           {groupItems.length > 1 && (
-            <div class="kef-wrap-tb-itemlist">
+            <div className="kef-wrap-tb-itemlist">
               {groupItems.map((subitem, i) => {
                 if (i === 0) return null
                 return <ToolbarItem {...subitem} action={triggerAction} />

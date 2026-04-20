@@ -1,6 +1,7 @@
 import "@logseq/libs"
 import { setup, t } from "logseq-l10n"
-import { render } from "preact"
+import React from "react"
+import ReactDOM from "react-dom/client"
 import { debounce, throttle } from "rambdax"
 import Toolbar from "./Toolbar.jsx"
 import zhCN from "./translations/zh-CN.json"
@@ -58,7 +59,7 @@ async function main() {
     // Let div root element get generated first.
     setTimeout(async () => {
       toolbar = parent.document.getElementById(TOOLBAR_ID)
-      render(<Toolbar items={definitions} model={model} />, toolbar)
+      ReactDOM.createRoot(toolbar).render(<Toolbar items={definitions} model={model} />)
 
       toolbar.addEventListener("transitionend", onToolbarTransitionEnd)
       parent.document.addEventListener("focusout", onBlur)
