@@ -32,26 +32,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     }
   }
 
-  const formatJson = () => {
-    try {
-      const formattedJson = JSON.stringify(settings.toolbar.items, null, 2)
-      handleSettingChange('toolbar.items', JSON.parse(formattedJson))
-      setJsonError('')
-    } catch (error) {
-      setJsonError(t('settings.error', language))
-    }
-  }
-
-  const copyJson = () => {
-    try {
-      const jsonString = JSON.stringify(settings.toolbar.items, null, 2)
-      navigator.clipboard.writeText(jsonString)
-      alert('JSON copied to clipboard!')
-    } catch (error) {
-      console.error('Failed to copy JSON:', error)
-    }
-  }
-
   return (
     <div className="settings-tab-content">
       <p className="tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
@@ -134,10 +114,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
               <li><strong>隐藏元素</strong>：添加 "hidden": true 可隐藏按钮</li>
               <li><strong>icon 可选值</strong>: bold, italic, underline, highlight, copy, link, comment, type, sparkles</li>
             </ul>
-          </div>
-          <div className="json-actions">
-            <button className="json-action-btn" onClick={formatJson}>格式化</button>
-            <button className="json-action-btn" onClick={copyJson}>复制</button>
           </div>
           <textarea 
             value={JSON.stringify(settings.toolbar.items, null, 2)}

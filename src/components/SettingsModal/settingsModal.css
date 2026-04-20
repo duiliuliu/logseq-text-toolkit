@@ -308,39 +308,6 @@ input:checked + .switch-slider:before {
   font-weight: 500;
 }
 
-.json-actions {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.json-action-btn {
-  padding: 4px 8px;
-  border: 1px solid var(--ls-border-color-plugin, #e2e8f0);
-  background-color: var(--ls-primary-background-color-plugin, #fff);
-  color: var(--ls-primary-text-color-plugin, #1e293b);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s ease;
-}
-
-.json-action-btn:hover {
-  background-color: var(--ls-hover-color-plugin, #f1f5f9);
-  border-color: var(--ls-accent-color-plugin, #3b82f6);
-}
-
-.dark-mode .json-action-btn {
-  background-color: var(--ls-primary-background-color-plugin, #0f172a);
-  border-color: var(--ls-border-color-plugin, #334155);
-  color: var(--ls-primary-text-color-plugin, #f1f5f9);
-}
-
-.dark-mode .json-action-btn:hover {
-  background-color: var(--ls-hover-color-plugin, #334155);
-  border-color: var(--ls-accent-color-plugin, #60a5fa);
-}
-
 .settings-actions {
   margin-top: 60px;
   display: flex;
