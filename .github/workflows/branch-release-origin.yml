@@ -1,6 +1,6 @@
-# Branch Release Workflow
+# Branch Release Workflow for origin
 
-name: Branch Release
+name: Branch Release (Origin)
 
 env:
   PLUGIN_NAME: logseq-text-toolkit
@@ -10,7 +10,8 @@ env:
 on:
   push:
     branches:
-      - dev-text-tool
+      - dev-text-tool-origin
+      - dev-text-tool-origin2
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,18 +19,13 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-and-tag:
-    # The type of runner that the job will run on
+    # The type of runner that the workflow will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "18.x"
-          cache: "npm"
-          cache-dependency-path: package.json
 
       - name: Get current version
         id: get-version
@@ -37,16 +33,11 @@ jobs:
           VERSION=$(jq -r '.version' package.json)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Build
-        env:
-          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
+      - name: Package dist-origin
         run: |
-          # 使用 npm 代替 yarn 以避免镜像源问题
-          npm install --no-lockfile --legacy-peer-deps
-          npm run build:plugin
           mkdir -p ${{ env.PLUGIN_NAME }}
-          cp README.md README.en.md package.json icon.png ${{ env.PLUGIN_NAME }}
-          mv dist ${{ env.PLUGIN_NAME }}
+          cp -r dist-origin ${{ env.PLUGIN_NAME }}/
+          cp README.md README.en.md package.json icon.png ${{ env.PLUGIN_NAME }}/
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
           ls -la
 
