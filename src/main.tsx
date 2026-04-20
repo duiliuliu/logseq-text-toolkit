@@ -124,3 +124,13 @@ if (import.meta.env.MODE === 'test') {
 } else { 
   logseqAPI.ready(main).catch(console.error)
 }
+
+// 监听 root 元素大小变化，用于 settingmodal 自适应
+const rootElement = getDocument().getElementById('root')
+if (rootElement) {
+  const resizeObserver = new ResizeObserver(() => {
+    // 触发设置模态框大小更新
+    window.dispatchEvent(new CustomEvent('rootResize'))
+  })
+  resizeObserver.observe(rootElement)
+}

@@ -32,6 +32,31 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     }
   }
 
+  // 处理复制功能
+  const handleCopyJson = async () => {
+    try {
+      const jsonString = JSON.stringify(settings.toolbar.items, null, 2)
+      await navigator.clipboard.writeText(jsonString)
+      // 可以添加一个提示，告知用户复制成功
+      console.log('JSON copied to clipboard')
+    } catch (error) {
+      console.error('Failed to copy JSON:', error)
+    }
+  }
+
+  // 处理粘贴功能
+  const handlePasteJson = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    try {
+      const text = await navigator.clipboard.readText()
+      // 验证粘贴的内容是否是有效的 JSON
+      JSON.parse(text)
+      handleJsonChange(text)
+    } catch (error) {
+      setJsonError('粘贴的内容不是有效的 JSON')
+      console.error('Failed to paste JSON:', error)
+    }
+  }
+
   return (
     <div className="settings-tab-content">
       <p className="tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
@@ -115,12 +140,22 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
               <li><strong>icon 可选值</strong>: bold, italic, underline, highlight, copy, link, comment, type, sparkles</li>
             </ul>
           </div>
-          <textarea 
-            value={JSON.stringify(settings.toolbar.items, null, 2)}
-            onChange={(e) => handleJsonChange(e.target.value)}
-            placeholder={t('settings.jsonSettings', language)}
-            rows={12}
-          />
+          <div className="json-textarea-container">
+            <textarea 
+              value={JSON.stringify(settings.toolbar.items, null, 2)}
+              onChange={(e) => handleJsonChange(e.target.value)}
+              onPaste={handlePasteJson}
+              placeholder={t('settings.jsonSettings', language)}
+              rows={12}
+            />
+            <button 
+              className="json-copy-btn"
+              onClick={handleCopyJson}
+              title="复制到剪贴板"
+            >
+              复制
+            </button>
+          </div>
           {jsonError && <div className="json-error">{jsonError}</div>}
         </div>
       </div>
