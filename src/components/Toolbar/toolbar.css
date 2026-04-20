@@ -9,21 +9,20 @@
 .toolbar-main {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
   border: none;
   border-radius: 8px;
-  padding: 2px 4px;
+  padding: 4px 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
   z-index: 1000;
-  min-width: auto;
+  min-width: 100px;
   width: auto;
   white-space: nowrap;
   overflow: visible !important;
-  height: 100%;
 }
 
 .toolbar-main-item {
@@ -31,13 +30,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 1001;
-  flex-shrink: 0;
 }
 .toolbar-main-item:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
@@ -97,12 +95,6 @@
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.toolbar-main-item.toolbar-group {
-  width: 24px;
-  height: 24px;
 }
 .toolbar-more:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);

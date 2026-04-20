@@ -112,8 +112,6 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 1rem;
 }
 
 .toolbar-content h1 {
@@ -313,27 +311,27 @@ body {
 
 /* 右上角工具栏横幅 */
 .toolbar-banner {
-  position: static;
-  margin: 0 0 16px 0;
-  padding: 2px 8px;
-  background: #e5e7eb;
-  color: #4b5563;
-  border-radius: 6px;
-  box-shadow: none;
-  transform: none;
-  transition: none;
-  width: fit-content;
-  align-self: flex-end;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 4px 12px;
+  background: linear-gradient(to right, var(--ls-accent-color-plugin), #6366f1);
+  color: white;
+  border-radius: 0 0 0 8px;
+  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
 }
 
 .toolbar-banner-content {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 .toolbar-banner-text {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.5px;
 }
@@ -344,25 +342,25 @@ body {
 }
 
 .toolbar-banner-btn {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #d1d5db;
-  background: #f3f4f6;
-  color: #4b5563;
-  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .toolbar-banner-btn:hover {
-  background: #e5e7eb;
-  border-color: #9ca3af;
-  transform: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
 }
 
 .toolbar-icon {
