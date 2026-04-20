@@ -151,6 +151,114 @@ npm run build
     "binding": "",                  // 快捷键（可选）
     "template": "**$^**",          // 包裹模板，$^ 代表选中的文本
     "icon": "<svg ...></svg>"    // 图标（支持 SVG 字符串）
+  },
+  "wrap-italic": {
+    "label": "Italic",
+    "binding": "mod+shift+i",
+    "template": "*$^*",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-strike-through": {
+    "label": "Strike through",
+    "binding": "",
+    "template": "~~$^~~",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-yellow-hl": {
+    "label": "Yellow highlight",
+    "binding": "",
+    "template": "==$^==",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-red-hl": {
+    "label": "Red highlight",
+    "binding": "",
+    "template": "[:mark.red $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-blue-hl": {
+    "label": "Blue highlight",
+    "binding": "",
+    "template": "[:mark.blue $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-green-hl": {
+    "label": "Green highlight",
+    "binding": "",
+    "template": "[:mark.green $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-purple-hl": {
+    "label": "Purple highlight",
+    "binding": "",
+    "template": "[:mark.purple $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-red-text": {
+    "label": "Red text",
+    "binding": "",
+    "template": "[:span.red $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-blue-text": {
+    "label": "Blue text",
+    "binding": "",
+    "template": "[:span.blue $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-yellow-text": {
+    "label": "Yellow text",
+    "binding": "",
+    "template": "[:span.yellow $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-green-text": {
+    "label": "Green text",
+    "binding": "",
+    "template": "[:span.green $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-purple-text": {
+    "label": "Purple text",
+    "binding": "",
+    "template": "[:span.purple $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-red-underline": {
+    "label": "Red underline",
+    "binding": "",
+    "template": "[:u.red $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-blue-underline": {
+    "label": "Blue underline",
+    "binding": "",
+    "template": "[:u.blue $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-yellow-underline": {
+    "label": "Yellow underline",
+    "binding": "",
+    "template": "[:u.yellow $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-green-underline": {
+    "label": "Green underline",
+    "binding": "",
+    "template": "[:u.green $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-purple-underline": {
+    "label": "Purple underline",
+    "binding": "",
+    "template": "[:u.purple $^]",
+    "icon": "<svg ...></svg>"
+  },
+  "wrap-cloze": {
+    "label": "Cloze",
+    "binding": "",
+    "template": " {{cloze $^}}",
+    "icon": "<svg ...></svg>"
   }
 }
 ```
