@@ -1,0 +1,104 @@
+# Branch Release Workflow
+
+name: Branch Release
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - dev-text-tool
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-tag:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          cache: "npm"
+          cache-dependency-path: package.json
+
+      - name: Get current version
+        id: get-version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build
+        env:
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
+        run: |
+          # 使用 npm 代替 yarn 以避免镜像源问题
+          npm install --no-lockfile --legacy-peer-deps
+          npm run build:plugin
+          mkdir -p ${{ env.PLUGIN_NAME }}
+          cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
+          mv dist ${{ env.PLUGIN_NAME }}
+          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
+          ls -la
+
+      - name: Create branch tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ steps.get-version.outputs.version }}
+          BRANCH_TAG="branch-${VERSION}"
+          
+          # Delete existing tag if it exists
+          git tag -d $BRANCH_TAG 2>/dev/null || true
+          git push origin :$BRANCH_TAG 2>/dev/null || true
+          
+          # Create new branch tag
+          git tag $BRANCH_TAG
+          git push origin $BRANCH_TAG
+          
+          echo "Created branch tag: $BRANCH_TAG"
+
+      - name: Create release tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ steps.get-version.outputs.version }}
+          RELEASE_TAG="v${VERSION}"
+          
+          # Delete existing tag if it exists
+          git tag -d $RELEASE_TAG 2>/dev/null || true
+          git push origin :$RELEASE_TAG 2>/dev/null || true
+          
+          # Create new release tag
+          git tag $RELEASE_TAG
+          git push origin $RELEASE_TAG
+          
+          echo "Created release tag: $RELEASE_TAG"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PLUGIN_NAME }}
+          path: ./${{ env.PLUGIN_NAME }}.zip
+          retention-days: 7
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get-version.outputs.version }}
+          name: Release v${{ steps.get-version.outputs.version }}
+          body: |
+            ## Changes
+            - Automated release for version ${{ steps.get-version.outputs.version }}
+          files: ./${{ env.PLUGIN_NAME }}.zip
