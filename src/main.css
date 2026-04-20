@@ -315,11 +315,11 @@ body {
   top: 0;
   right: 0;
   z-index: 1000;
-  padding: 4px 12px;
-  background: linear-gradient(to right, var(--ls-accent-color-plugin), #6366f1);
+  padding: 2px 8px;
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(99, 102, 241, 0.7));
   color: white;
-  border-radius: 0 0 0 8px;
-  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 0 6px;
+  box-shadow: -1px 1px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(0);
   transition: transform 0.3s ease;
 }

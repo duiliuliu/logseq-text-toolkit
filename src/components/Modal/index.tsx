@@ -10,14 +10,14 @@ interface ModalProps {
   theme?: 'light' | 'dark'
 }
 
-const Modal = ({ title, onClose, children, isOpen = false, width = '400px', theme = 'light' }: ModalProps) => {
+const Modal = ({ title, onClose, children, isOpen = false, width = 'auto', theme = 'light' }: ModalProps) => {
   if (!isOpen) {
     return null;
   }
 
   return (
     <div className="modal-overlay">
-      <div className={`modal-container modal-${theme}`} style={{ width }}>
+      <div className={`modal-container modal-${theme}`} style={{ width: width === 'auto' ? 'max-content' : width, maxWidth: '90vw', maxHeight: '90vh' }}>
         <div className="modal-header">
           <h3 className="modal-title">{title}</h3>
           <button className="modal-close" onClick={onClose}>×</button>
