@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../index.css'
 import '../main.css'
-import SettingsModal from '../components/SettingsModal/index.tsx'
 import TestLayout from './components/TestLayout/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
 import testConfig from './testConfig.ts'
@@ -10,7 +9,6 @@ import { logseqAPI } from '../logseq/index.ts'
 
 function TestApp() {
   const [isReady, setIsReady] = useState(false)
-  const [showSettings, setShowSettings] = useState(false)
   
   // 使用设置上下文
   const { settings } = useSettingsContext()
@@ -91,16 +89,6 @@ function TestApp() {
       <div id="head" className="top-toolbar">
         <div className="toolbar-content">
           <h1>Text Toolkit Plugin (Test Mode)</h1>
-          <div className="toolbar-actions">
-            <button 
-              id="setting-button"
-              className="settings-btn"
-              onClick={() => setShowSettings(true)}
-              aria-label="Settings"
-            >
-              ⚙️
-            </button>
-          </div>
         </div>
         <div id="toolbar" className="toolbar-container">
           {/* 工具栏内容将在这里动态生成 */}
@@ -114,12 +102,6 @@ function TestApp() {
         leftContent={leftContent}
         centerContent={centerContent}
         rightContent={rightContent}
-      />
-      
-      <SettingsModal 
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-        theme={settings.theme}
       />
       
       {/* Toast 容器 */}

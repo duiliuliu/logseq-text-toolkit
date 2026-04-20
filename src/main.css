@@ -1,56 +1,74 @@
 /* src/main.css */
 
-/* Light theme variables */
+/* Light theme variables - 参考 shadcn 和苹果设计 */
 :root {
   --background-color-light: #ffffff;
   --text-color-light: #000000;
-  --primary-text-color-light: #333333;
-  --secondary-text-color-light: #666666;
-  --secondary-background-color-light: #f0f0f0;
-  --border-color-light: #cccccc;
+  --primary-text-color-light: #1e293b;
+  --secondary-text-color-light: #64748b;
+  --secondary-background-color-light: #f8fafc;
+  --border-color-light: #e2e8f0;
+  --accent-color-light: #3b82f6;
+  --hover-color-light: #f1f5f9;
+  --focus-color-light: #dbeafe;
   
-  /* Dark theme variables */
-  --background-color-dark: #143642;
+  /* Dark theme variables - 参考 shadcn 和苹果设计 */
+  --background-color-dark: #0f172a;
   --text-color-dark: #ffffff;
-  --primary-text-color-dark: #e0e0e0;
-  --secondary-text-color-dark: #aaaaaa;
-  --secondary-background-color-dark: #3B5E69;
-  --border-color-dark: #444444;
+  --primary-text-color-dark: #f1f5f9;
+  --secondary-text-color-dark: #94a3b8;
+  --secondary-background-color-dark: #1e293b;
+  --border-color-dark: #334155;
+  --accent-color-dark: #60a5fa;
+  --hover-color-dark: #334155;
+  --focus-color-dark: #1e3a8a;
   
   /* Default theme variables */
   --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f0f0f0);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light, #333333);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #666666);
-  --ls-border-color-plugin: var(--border-color-light, #cccccc);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);
+  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);
+  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);
+  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);
+  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);
+  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);
 }
 
 /* Media query for dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --ls-primary-background-color-plugin: var(--background-color-dark, #143642);
-    --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #3B5E69);
-    --ls-primary-text-color-plugin: var(--primary-text-color-dark, #e0e0e0);
-    --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #aaaaaa);
-    --ls-border-color-plugin: var(--border-color-dark, #444444);
+    --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);
+    --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);
+    --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);
+    --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);
+    --ls-border-color-plugin: var(--border-color-dark, #334155);
+    --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);
+    --ls-hover-color-plugin: var(--hover-color-dark, #334155);
+    --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
   }
 }
 
 /* Theme classes */
 .light-mode {
   --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f0f0f0);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light, #333333);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #666666);
-  --ls-border-color-plugin: var(--border-color-light, #cccccc);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);
+  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);
+  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);
+  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);
+  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);
+  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);
 }
 
 .dark-mode {
-  --ls-primary-background-color-plugin: var(--background-color-dark, #143642);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #3B5E69);
-  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #e0e0e0);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #aaaaaa);
-  --ls-border-color-plugin: var(--border-color-dark, #444444);
+  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);
+  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);
+  --ls-border-color-plugin: var(--border-color-dark, #334155);
+  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);
+  --ls-hover-color-plugin: var(--hover-color-dark, #334155);
+  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
 }
 
 :root {
@@ -86,7 +104,7 @@ body {
   padding: 1rem;
   background-color: var(--ls-primary-background-color-plugin);
   border-bottom: 1px solid var(--ls-border-color-plugin);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .toolbar-content {
@@ -98,8 +116,10 @@ body {
 
 .toolbar-content h1 {
   font-size: 1.5rem;
+  font-weight: 600;
   margin: 0;
   color: var(--ls-primary-text-color-plugin);
+  letter-spacing: -0.025em;
 }
 
 .toolbar-actions {
@@ -109,7 +129,7 @@ body {
 
 .settings-btn {
   padding: 0.5rem;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid var(--ls-border-color-plugin);
   background-color: var(--ls-secondary-background-color-plugin);
   color: var(--ls-primary-text-color-plugin);
@@ -119,19 +139,21 @@ body {
 }
 
 .settings-btn:hover {
-  background-color: var(--ls-border-color-plugin);
+  background-color: var(--ls-hover-color-plugin);
+  border-color: var(--ls-accent-color-plugin);
 }
 
 .toolbar-container {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   background-color: var(--ls-secondary-background-color-plugin);
-  border-radius: 4px;
-  min-height: 40px;
+  border-radius: 8px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+  border: 1px solid var(--ls-border-color-plugin);
 }
 
 .status-text {
@@ -139,6 +161,9 @@ body {
   text-align: center;
   color: var(--ls-secondary-text-color-plugin);
   font-size: 0.9rem;
+  background-color: var(--ls-secondary-background-color-plugin);
+  border-radius: 8px;
+  margin: 1rem;
 }
 
 /* 测试布局样式 */
@@ -152,65 +177,90 @@ body {
 
 .test-layout__left,
 .test-layout__right {
-  width: 250px;
+  width: 280px;
   background-color: var(--ls-secondary-background-color-plugin);
-  border-radius: 4px;
-  padding: 1rem;
+  border-radius: 8px;
+  padding: 1.5rem;
   transition: width 0.3s ease;
+  border: 1px solid var(--ls-border-color-plugin);
 }
 
 .test-layout__left.collapsed,
 .test-layout__right.collapsed {
-  width: 40px;
-  padding: 1rem 0.5rem;
+  width: 60px;
+  padding: 1.5rem 0.75rem;
 }
 
 .panel-header {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .collapse-btn {
-  padding: 0.25rem;
-  border: none;
-  background: none;
+  padding: 0.5rem;
+  border: 1px solid var(--ls-border-color-plugin);
+  background-color: var(--ls-primary-background-color-plugin);
   color: var(--ls-primary-text-color-plugin);
   cursor: pointer;
   font-size: 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.collapse-btn:hover {
+  background-color: var(--ls-hover-color-plugin);
 }
 
 .test-layout__main {
   flex: 1;
   background-color: var(--ls-primary-background-color-plugin);
-  border-radius: 4px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--ls-border-color-plugin);
 }
 
 .test-layout__content h2 {
   color: var(--ls-primary-text-color-plugin);
   margin-top: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
 }
 
 .editable-paragraph {
-  padding: 1rem;
+  padding: 1.25rem;
   background-color: var(--ls-secondary-background-color-plugin);
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 1rem;
   cursor: text;
-  min-height: 60px;
+  min-height: 72px;
+  border: 1px solid var(--ls-border-color-plugin);
+  transition: all 0.2s ease;
+}
+
+.editable-paragraph:hover {
+  border-color: var(--ls-accent-color-plugin);
+  background-color: var(--ls-hover-color-plugin);
 }
 
 .left-panel h3,
 .right-panel h3 {
   color: var(--ls-primary-text-color-plugin);
   margin-top: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
 }
 
 .panel-section h4 {
   color: var(--ls-secondary-text-color-plugin);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .panel-section ul {
@@ -220,29 +270,41 @@ body {
 }
 
 .panel-section li {
-  padding: 0.5rem;
+  padding: 0.75rem;
   background-color: var(--ls-primary-background-color-plugin);
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 0.5rem;
   color: var(--ls-primary-text-color-plugin);
+  border: 1px solid var(--ls-border-color-plugin);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.panel-section li:hover {
+  background-color: var(--ls-hover-color-plugin);
+  border-color: var(--ls-accent-color-plugin);
 }
 
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .action-btn {
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border: 1px solid var(--ls-border-color-plugin);
   background-color: var(--ls-primary-background-color-plugin);
   color: var(--ls-primary-text-color-plugin);
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .action-btn:hover {
-  background-color: var(--ls-secondary-background-color-plugin);
+  background-color: var(--ls-hover-color-plugin);
+  border-color: var(--ls-accent-color-plugin);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
