@@ -12,10 +12,10 @@ function TestApp() {
 
   // 左侧面板内容
   const leftContent = (
-    <div className="ltt-left-panel">
+    <div className="left-panel">
       <h3>{testConfig.leftPanel.title}</h3>
       {testConfig.leftPanel.sections.map((section, index) => (
-        <div key={index} className="ltt-panel-section">
+        <div key={index} className="panel-section">
           <h4>{section.title}</h4>
           <ul>
             {section.items.map((item) => (
@@ -29,11 +29,11 @@ function TestApp() {
 
   // 右侧面板内容
   const rightContent = (
-    <div className="ltt-right-panel">
+    <div className="right-panel">
       <h3>{testConfig.rightPanel.title}</h3>
-      <div className="ltt-actions">
+      <div className="actions">
         {testConfig.rightPanel.actions.map((action) => (
-          <button key={action.id} className="ltt-action-btn">
+          <button key={action.id} className="action-btn">
             {action.label}
           </button>
         ))}
@@ -45,28 +45,28 @@ function TestApp() {
   const centerContent = <TextSelectionDemo />
 
   return (
-    <div id="ltt-app-container" className={`ltt-app ${settings?.theme === 'dark' ? 'ltt-dark-mode' : 'ltt-light-mode'}`}>
+    <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       {/* 右上角工具栏横幅 */}
-      <div id="ltt-toolbar" className="ltt-toolbar-banner">
-        <div className="ltt-toolbar-banner-content">
-          <span className="ltt-toolbar-banner-text">工具栏演示</span>
-          <div className="ltt-toolbar-banner-actions">
-            <button className="ltt-toolbar-banner-btn" title="粗体">
-              <span className="ltt-toolbar-icon">B</span>
+      <div id="toolbar" className="toolbar-banner">
+        <div className="toolbar-banner-content">
+          <span className="toolbar-banner-text">工具栏演示</span>
+          <div className="toolbar-banner-actions">
+            <button className="toolbar-banner-btn" title="粗体">
+              <span className="toolbar-icon">B</span>
             </button>
-            <button className="ltt-toolbar-banner-btn" title="斜体">
-              <span className="ltt-toolbar-icon">I</span>
+            <button className="toolbar-banner-btn" title="斜体">
+              <span className="toolbar-icon">I</span>
             </button>
-            <button className="ltt-toolbar-banner-btn" title="下划线">
-              <span className="ltt-toolbar-icon">U</span>
+            <button className="toolbar-banner-btn" title="下划线">
+              <span className="toolbar-icon">U</span>
             </button>
           </div>
         </div>
       </div>
       
       {/* 顶部区域 */}
-      <div id="ltt-head" className="ltt-top-toolbar">
-        <div className="ltt-toolbar-content">
+      <div id="head" className="top-toolbar">
+        <div className="toolbar-content">
           <h1>Text Toolkit Plugin (Test Mode)</h1>
         </div>
       </div>
