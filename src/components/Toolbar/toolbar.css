@@ -95,58 +95,9 @@
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
-  z-index: 1005;
 }
 .ltt-toolbar-more:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
-}
-
-.ltt-toolbar-more-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 4px;
-  background-color: var(--ls-primary-background-color-plugin, #fff);
-  border: 1px solid var(--ls-border-color-plugin, #ccc);
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 1006;
-  min-width: 120px;
-  white-space: nowrap;
-  padding: 4px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.ltt-toolbar-more-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  border-radius: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-.ltt-toolbar-more-item:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
-}
-
-.ltt-toolbar-more-item-label {
-  font-size: 14px;
-  color: var(--ls-primary-text-color-plugin, #333);
-}
-
-.ltt-toolbar-tooltip-more {
-  left: 50%;
-  top: 100%;
-  transform: translateX(-50%);
-  bottom: auto;
-  margin: 4px 0 0;
 }
 
 .ltt-toolbar-more-icon {
@@ -248,21 +199,6 @@
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {
   background: var(--ls-primary-background-color-plugin, #1a1a1a);
   color: var(--ls-primary-text-color-plugin, #fff);
-}
-
-.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more-dropdown {
-  background: var(--ls-primary-background-color-plugin, #2d2d2d);
-  color: var(--ls-primary-text-color-plugin, #e0e0e0);
-  border-color: var(--ls-border-color-plugin, #555);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more-item:hover {
-  background: var(--ls-secondary-background-color-plugin, #444);
-}
-
-.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more-item-label {
-  color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
 /* 赞助栏样式 */

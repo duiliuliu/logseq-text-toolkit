@@ -185,6 +185,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       )}
       <div className="ltt-toolbar-main" style={{ minWidth: width, height }}>
         {mainItems.map(renderItem)}
+        {moreExpanded && moreItems.map(renderItem)}
         {hasMoreItems && (
           <div 
             className="ltt-toolbar-main-item ltt-toolbar-more"
@@ -200,41 +201,6 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
               <div className="ltt-toolbar-tooltip">
                 {hoveredItem.label}
-              </div>
-            )}
-            {moreExpanded && (
-              <div className="ltt-toolbar-more-dropdown">
-                {moreItems.map((item) => (
-                  <div 
-                    key={item.id} 
-                    className="ltt-toolbar-more-item"
-                    onMouseDown={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                    }}
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                    onClick={() => {
-                      if (!('isGroup' in item)) {
-                        handleItemClick(item, selectedData, onTextProcessed)
-                      }
-                    }}
-                  >
-                    <div className="ltt-toolbar-item-icon">
-                      {renderIcon('isGroup' in item ? 'menu' : (item as ToolbarItem).icon)}
-                    </div>
-                    {('isGroup' in item ? item : (item as ToolbarItem)).label && (
-                      <span className="ltt-toolbar-more-item-label">
-                        {('isGroup' in item ? item : (item as ToolbarItem)).label}
-                      </span>
-                    )}
-                    {hoveredItem && hoveredItem.id === item.id && (
-                      <div className="ltt-toolbar-tooltip ltt-toolbar-tooltip-more">
-                        {hoveredItem.label}
-                      </div>
-                    )}
-                  </div>
-                ))}
               </div>
             )}
           </div>

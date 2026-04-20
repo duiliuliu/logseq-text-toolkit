@@ -49,6 +49,7 @@ function TestApp() {
       {/* 右上角工具栏横幅 */}
       <div id="toolbar" className="toolbar-banner">
         <div className="toolbar-banner-content">
+          <span className="toolbar-banner-text">工具栏演示</span>
           <div className="toolbar-banner-actions">
             <button className="toolbar-banner-btn" title="粗体">
               <span className="toolbar-icon">B</span>
