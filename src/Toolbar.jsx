@@ -5,7 +5,9 @@ export default function Toolbar({ items, model }) {
     e.preventDefault()
     e.stopPropagation()
     if (e.button !== 0) return
-    model[key]()
+    if (typeof model[key] === 'function') {
+      model[key]()
+    }
   }
 
   return items.map((item) => {
