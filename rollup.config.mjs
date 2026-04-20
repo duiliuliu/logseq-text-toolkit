@@ -9,6 +9,8 @@ export default {
   output: {
     dir: "dist",
     entryFileNames: "[name].[hash].js",
+    format: "iife",
+    name: "LogseqTextToolkit",
   },
   plugins: [
     html({
@@ -21,10 +23,12 @@ export default {
             "{preload}",
             `<link rel="modulepreload" as="script" href="${fileName}" />`,
           )
-          .replace("{js}", `<script type="module" src="${fileName}"></script>`)
+          .replace("{js}", `<script src="${fileName}"></script>`)
       },
     }),
-    nodeResolve(),
+    nodeResolve({
+      browser: true,
+    }),
     json(),
     swc(
       defineRollupSwcOption({
@@ -42,4 +46,5 @@ export default {
       }),
     ),
   ],
+  external: ["@logseq/libs"],
 }
