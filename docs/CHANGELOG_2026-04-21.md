@@ -1,73 +1,28 @@
-# Changelog - 2026-04-21
+# Text Toolkit 更新日志
 
-## 主要更新
+## 2026-04-21
 
-### 1. 工具栏按钮样式优化
-- 更新了工具栏设置按钮的样式，使用标准的 Logseq 按钮样式
-- 添加了 `ti ti-settings` 图标，替换了原来的 ⚙️ 表情符号
-- 为按钮添加了 `ltt-settings-button` ID 前缀，避免与其他插件冲突
+### 修复与优化
 
-### 2. 样式加载优化
-- 在 `showSettingUI` 函数中添加了 `logseqAPI.provideStyle` 来加载 `settingsModal.css`
-- 在 `showSelectToolbar` 函数中添加了 `logseqAPI.provideStyle` 来加载 `toolbar.css`
-- 确保样式在组件渲染前加载，避免样式闪烁
+1. **修复工具栏配置取值逻辑**
+   - 修正了 `main.tsx` 中提取工具栏配置的逻辑，从错误的对象遍历改为直接使用 `currentSettings.ToolbarItems`
+   - 更新了 `SelectToolbar` 组件的类型定义，使其能够正确接受数组类型的 `items` 参数
 
-### 3. CSS 命名空间优化
-- 为 `SettingsModal` 组件的所有 CSS 类和 ID 添加了 `ltt-` 前缀
-- 为 `Toolbar` 组件的所有 CSS 类和 ID 保持了 `ltt-` 前缀
-- 为 `SelectToolbar` 组件的 CSS 类和 ID 保持了 `ltt-` 前缀
-- 避免了与其他插件的样式冲突
+2. **优化配置结构**
+   - 将默认设置从 TypeScript 文件迁移到 JSON 文件 (`defaultSettings.json`)
+   - 保持了 `defaultSettings.ts` 作为导出接口，确保向后兼容
 
-### 4. 组件代码优化
-- 更新了 `GeneralSettings.tsx`，将所有 class 替换为带 `ltt-` 前缀的版本
-- 更新了 `ToolbarSettings.tsx`，将所有 class 替换为带 `ltt-` 前缀的版本
-- 更新了 `AdvancedSettings.tsx`，将所有 class 替换为带 `ltt-` 前缀的版本
-- 更新了 `SettingsModal/index.tsx`，将所有 class 和 ID 替换为带 `ltt-` 前缀的版本
-- 更新了 `settingsModal.css`，将所有选择器替换为带 `ltt-` 前缀的版本
+3. **SVG 图标优化**
+   - 优化了文本颜色组的 SVG 图标，使用更符合场景的文本图标
+   - 优化了下划线组的 SVG 图标，使用更符合场景的下划线图标
+   - 确保所有图标在工具栏和下拉菜单中都能正确显示
 
-### 5. 性能和稳定性
-- 确保样式加载的一致性
-- 减少了样式冲突的可能性
-- 提高了插件的整体稳定性
+4. **类型定义调整**
+   - 确保所有相关文件使用 `ToolbarItems` 替代了 `items`
+   - 保持了类型定义的一致性
 
-## 技术细节
+### 技术改进
 
-### 样式加载
-```typescript
-// 在 showSettingUI 中
-logseqAPI.provideStyle(`
-  @import url('/src/components/SettingsModal/settingsModal.css');
-`)
-
-// 在 showSelectToolbar 中
-logseqAPI.provideStyle(`
-  @import url('/src/components/Toolbar/toolbar.css');
-`)
-```
-
-### 工具栏按钮
-```html
-<a class="button" id="ltt-settings-button"
-   data-on-click="settingToggle"
-   data-rect>
-  <i class="ti ti-settings"></i> 
-</a>
-```
-
-### CSS 命名空间
-所有 CSS 类现在都使用 `ltt-` 前缀，例如：
-- `ltt-settings-container` 代替 `settings-container`
-- `ltt-toolbar-main` 代替 `toolbar-main`
-- `ltt-setting-item` 代替 `setting-item`
-
-## 影响范围
-
-此更新影响以下文件：
-- `/src/main.tsx` - 添加样式加载和更新工具栏按钮
-- `/src/components/SettingsModal/index.tsx` - 添加 ltt 前缀
-- `/src/components/SettingsModal/settingsModal.css` - 添加 ltt 前缀
-- `/src/components/SettingsModal/tabs/GeneralSettings.tsx` - 添加 ltt 前缀
-- `/src/components/SettingsModal/tabs/ToolbarSettings.tsx` - 添加 ltt 前缀
-- `/src/components/SettingsModal/tabs/AdvancedSettings.tsx` - 添加 ltt 前缀
-
-此更新不会影响插件的功能，只是优化了样式加载和命名空间，提高了与其他插件的兼容性。
+- 构建系统支持 JSON 导入，通过 `tsconfig.json` 中的 `resolveJsonModule` 配置
+- 代码结构更加清晰，配置与逻辑分离
+- 提升了代码的可维护性和可读性

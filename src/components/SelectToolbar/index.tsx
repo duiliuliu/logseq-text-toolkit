@@ -11,7 +11,7 @@ interface ToolbarPosition {
 
 interface SelectToolbarProps {
   targetElement: HTMLElement | null
-  items: Record<string, any>
+  items: Array<any>
   theme?: 'light' | 'dark'
   showBorder?: boolean
   width?: string

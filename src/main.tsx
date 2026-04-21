@@ -92,17 +92,12 @@ const showSelectToolbar = async () => {
       const mainContentContainer = getDocument().getElementById('main-content-container')
       if (toolbarContainer && mainContentContainer) {
         const currentSettings = getSettings()
-        // 提取工具栏分组配置
-        const toolbarGroups = {}
-        Object.entries(currentSettings).forEach(([key, value]) => {
-          if (typeof value === 'object' && value !== null) {
-            toolbarGroups[key] = value
-          }
-        })
-        console.log('Toolbar groups:', toolbarGroups)
+        // 使用ToolbarItems作为工具栏配置
+        const toolbarItems = currentSettings.ToolbarItems || []
+        console.log('Toolbar items:', toolbarItems)
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
-          items: toolbarGroups,
+          items: toolbarItems,
         })
       }
     }, 1)
