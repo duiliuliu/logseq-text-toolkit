@@ -107,7 +107,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           toolbarY = spaceAbove > spaceBelow ? rect.top - toolbarHeight - padding : rect.bottom + padding;
         }
         
-        // 确保toolbar在选中元素的正上方或正下方，左右位置更准确
+        // 直接使用选中元素的对应横向位置
         let toolbarX = rect.left + rect.width / 2
         
         // 考虑toolbar本身的宽度，确保居中对齐
@@ -115,6 +115,17 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           const toolbarWidth = containerRef.current.offsetWidth
           if (toolbarWidth > 0) {
             toolbarX -= toolbarWidth / 2
+          }
+        }
+        
+        // 边界检查，确保toolbar不会超出视口
+        const viewportWidth = getWindow().innerWidth
+        if (containerRef.current) {
+          const toolbarWidth = containerRef.current.offsetWidth
+          if (toolbarX < 0) {
+            toolbarX = 0
+          } else if (toolbarX + toolbarWidth > viewportWidth) {
+            toolbarX = viewportWidth - toolbarWidth
           }
         }
         
