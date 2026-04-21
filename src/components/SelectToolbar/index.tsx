@@ -65,14 +65,27 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
       console.log('SelectToolbar: Should show toolbar:', shouldShowToolbar)
       
       if (shouldShowToolbar) {
-        const range = selection.getRangeAt(0)
-        const rect = range.getBoundingClientRect()
-        console.log('SelectToolbar: Selection rect:', rect)
+        let rect: DOMRect
+        try {
+          const range = selection.getRangeAt(0)
+          rect = range.getBoundingClientRect()
+          console.log('SelectToolbar: Selection rect:', rect)
+          
+          // 检查rect是否有效，如果无效则使用目标元素的位置
+          if (rect.width === 0 && rect.height === 0) {
+            console.log('SelectToolbar: Selection rect is invalid, using target element rect')
+            rect = targetElement.getBoundingClientRect()
+            console.log('SelectToolbar: Target element rect:', rect)
+          }
+        } catch (error) {
+          console.log('SelectToolbar: Error getting range rect, using target element rect:', error)
+          rect = targetElement.getBoundingClientRect()
+          console.log('SelectToolbar: Target element rect:', rect)
+        }
         
         setSelectedData({
           text: selection.toString(),
           timestamp: new Date().toISOString(),
-          range: range,
           rect: rect
         })
         
