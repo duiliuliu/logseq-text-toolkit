@@ -23,17 +23,26 @@ const useSettings = (): SettingsContextType => {
     try {
       // 使用logseqAPI
       if (logseqAPI && logseqAPI.settings) {
-        const data = { ...defaultSettings, ...logseqAPI.settings } as unknown as Settings
+        // 确保所有必需字段都有值
+        const data: Settings = {
+          ...defaultSettings,
+          ...logseqAPI.settings,
+          // 确保类型正确
+          theme: (logseqAPI.settings.theme || 'light') as ThemeType,
+          language: (logseqAPI.settings.language || 'zh-CN') as LanguageType,
+          useSystemTheme: Boolean(logseqAPI.settings.useSystemTheme),
+          useSystemLanguage: Boolean(logseqAPI.settings.useSystemLanguage)
+        }
         
         // 如果设置了使用系统配置，从logseq获取系统配置
         if (data.useSystemTheme || data.useSystemLanguage) {
           try {
             const userConfigs = await logseqAPI.App.getUserConfigs()
             if (userConfigs) {
-              const updatedSettings = {
+              const updatedSettings: Settings = {
                 ...data,
-                theme: data.useSystemTheme ? userConfigs.preferredThemeMode : data.theme,
-                language: data.useSystemLanguage ? userConfigs.preferredLanguage : data.language
+                theme: data.useSystemTheme ? (userConfigs.preferredThemeMode as ThemeType) : data.theme,
+                language: data.useSystemLanguage ? (userConfigs.preferredLanguage as LanguageType) : data.language
               }
               setSettings(updatedSettings)
               return updatedSettings
@@ -67,7 +76,7 @@ const useSettings = (): SettingsContextType => {
     try {
       if (logseqAPI) {
         // 处理系统设置标记
-        const settingsToSave = {
+        const settingsToSave: Settings = {
           ...newSettings,
           useSystemTheme: newSettings.theme === 'system',
           useSystemLanguage: newSettings.language === 'system'
@@ -80,10 +89,10 @@ const useSettings = (): SettingsContextType => {
           try {
             const userConfigs = await logseqAPI.App.getUserConfigs()
             if (userConfigs) {
-              const updatedSettings = {
+              const updatedSettings: Settings = {
                 ...settingsToSave,
-                theme: settingsToSave.useSystemTheme ? userConfigs.preferredThemeMode : settingsToSave.theme,
-                language: settingsToSave.useSystemLanguage ? userConfigs.preferredLanguage : settingsToSave.language
+                theme: settingsToSave.useSystemTheme ? (userConfigs.preferredThemeMode as ThemeType) : settingsToSave.theme,
+                language: settingsToSave.useSystemLanguage ? (userConfigs.preferredLanguage as LanguageType) : settingsToSave.language
               }
               setSettings(updatedSettings)
             }
@@ -136,7 +145,15 @@ const useSettings = (): SettingsContextType => {
     if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
       const unsubscribe = (logseqAPI as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
         console.log('Settings changed:', { newSettings, oldSettings })
-        const mergedSettings = { ...defaultSettings, ...newSettings } as unknown as Settings
+        // 确保类型正确
+        const mergedSettings: Settings = {
+          ...defaultSettings,
+          ...newSettings,
+          theme: (newSettings.theme || 'light') as ThemeType,
+          language: (newSettings.language || 'zh-CN') as LanguageType,
+          useSystemTheme: Boolean(newSettings.useSystemTheme),
+          useSystemLanguage: Boolean(newSettings.useSystemLanguage)
+        }
         setSettings(mergedSettings)
       })
       return unsubscribe

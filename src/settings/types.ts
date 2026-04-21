@@ -13,6 +13,8 @@ export interface ToolbarItem {
   funcmode: string;
   clickfunc: string;
   hidden?: boolean;
+  regex?: string;
+  replacement?: string;
 }
 
 // Toolbar group type
@@ -22,14 +24,14 @@ export interface ToolbarGroup {
 
 // 全局设置类型
 export interface Settings {
-  theme: ThemeType | string;
-  language: LanguageType | string;
+  theme: ThemeType;
+  language: LanguageType;
   toolbar: boolean;
   disabled: boolean;
   toolbarShortcut: string;
-  useSystemTheme?: boolean;
-  useSystemLanguage?: boolean;
-  [key: string]: ToolbarGroup | ThemeType | string | boolean | LanguageType | undefined;
+  useSystemTheme: boolean;
+  useSystemLanguage: boolean;
+  [key: string]: ToolbarGroup | ThemeType | LanguageType | boolean | undefined;
 }
 
 // Settings Context 类型

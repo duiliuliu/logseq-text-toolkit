@@ -6,6 +6,8 @@ const defaultSettings: Settings = {
   toolbar: true,
   disabled: false,
   toolbarShortcut: '',
+  useSystemTheme: false,
+  useSystemLanguage: false,
   
   'group-custom': {
     'wrap-bold': {
