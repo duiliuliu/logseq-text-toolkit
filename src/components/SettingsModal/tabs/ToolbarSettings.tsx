@@ -126,6 +126,62 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
+      <div className="ltt-setting-item">
+        <label>{t('settings.showBorder', language)}</label>
+        <label className="ltt-switch">
+          <input 
+            type="checkbox" 
+            checked={settings.showBorder} 
+            onChange={(e) => handleSettingChange('showBorder', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.width', language)}</label>
+        <input 
+          type="number" 
+          value={settings.width ? settings.width.replace('px', '') : '110'} 
+          onChange={(e) => handleSettingChange('width', `${e.target.value}px`)}
+          placeholder="110"
+          min="1"
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.height', language)}</label>
+        <input 
+          type="number" 
+          value={settings.height ? settings.height.replace('px', '') : '24'} 
+          onChange={(e) => handleSettingChange('height', `${e.target.value}px`)}
+          placeholder="24"
+          min="1"
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.hoverDelay', language)}</label>
+        <input 
+          type="number" 
+          value={settings.hoverDelay} 
+          onChange={(e) => handleSettingChange('hoverDelay', parseInt(e.target.value) || 0)}
+          min="0"
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.sponsorEnabled', language)}</label>
+        <label className="ltt-switch">
+          <input 
+            type="checkbox" 
+            checked={settings.sponsorEnabled} 
+            onChange={(e) => handleSettingChange('sponsorEnabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
       <div className="ltt-setting-item ltt-setting-item-json">
         <label>工具栏元素配置</label>
         <div className="ltt-json-editor">

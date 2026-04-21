@@ -8,6 +8,11 @@ const defaultSettings: Settings = {
   toolbarShortcut: '',
   useSystemTheme: false,
   useSystemLanguage: false,
+  showBorder: true,
+  width: '110px',
+  height: '24px',
+  hoverDelay: 500,
+  sponsorEnabled: false,
   
   'group-custom': {
     'wrap-bold': {

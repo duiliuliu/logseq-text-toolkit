@@ -254,19 +254,23 @@ input:checked + .ltt-switch-slider:before {
 }
 
 .ltt-json-editor textarea {
-  width: 100%;
-  min-height: 240px;
-  padding: 16px;
-  border: 1px solid var(--ls-border-color-plugin, #e2e8f0);
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: monospace;
-  background-color: var(--ls-primary-background-color-plugin, #fff);
-  color: var(--ls-primary-text-color-plugin, #1e293b);
-  resize: vertical;
-  line-height: 1.5;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
+  width: 100% !important;
+  min-height: 240px !important;
+  max-height: 400px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  padding: 16px !important;
+  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-family: monospace !important;
+  background-color: var(--ls-primary-background-color-plugin, #fff) !important;
+  color: var(--ls-primary-text-color-plugin, #1e293b) !important;
+  resize: vertical !important;
+  line-height: 1.5 !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+  white-space: pre-wrap !important;
 }
 
 .ltt-json-editor textarea:focus {
@@ -436,10 +440,11 @@ input:checked + .ltt-switch-slider:before {
     padding: 6px 12px;
   }
   
+  /* 确保开关不会在响应式布局中变形 */
   .ltt-setting-item {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
+    /* 保持开关不变化布局 */
+    flex-direction: row !important;
+    align-items: center !important;
   }
   
   .ltt-setting-item label {

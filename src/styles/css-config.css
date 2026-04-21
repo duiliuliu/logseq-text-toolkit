@@ -183,7 +183,6 @@ span.purple {
    7. 下划线高亮样式（u 元素）
    ============================================== */
 u.red {
-  color: var(--span-red) !important;
   text-decoration: underline !important;
   text-decoration-color: var(--span-red) !important;
   text-decoration-thickness: 2px !important;
@@ -195,7 +194,6 @@ u.red {
   border: none !important;
 }
 u.blue {
-  color: var(--span-blue) !important;
   text-decoration: underline !important;
   text-decoration-color: var(--span-blue) !important;
   text-decoration-thickness: 2px !important;
@@ -207,7 +205,6 @@ u.blue {
   border: none !important;
 }
 u.yellow {
-  color: var(--span-yellow) !important;
   text-decoration: underline !important;
   text-decoration-color: var(--span-yellow) !important;
   text-decoration-thickness: 2px !important;
@@ -219,7 +216,6 @@ u.yellow {
   border: none !important;
 }
 u.green {
-  color: var(--span-green) !important;
   text-decoration: underline !important;
   text-decoration-color: var(--span-green) !important;
   text-decoration-thickness: 2px !important;
@@ -231,7 +227,6 @@ u.green {
   border: none !important;
 }
 u.purple {
-  color: var(--span-purple) !important;
   text-decoration: underline !important;
   text-decoration-color: var(--span-purple) !important;
   text-decoration-thickness: 2px !important;

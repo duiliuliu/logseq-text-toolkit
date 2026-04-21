@@ -76,13 +76,10 @@ const settingToggle = async () => {
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
 
-  // 打印当前设置数据
-  const currentSettings = getSettings()
-  console.log('Current settings:', currentSettings)
-
   // 提供工具栏样式
   logseqAPI.provideStyle(toolbarCSS)
 
+  const currentSettings = getSettings()
   if (currentSettings.toolbar) {
     logseqAPI.provideUI({
       key: TOOLBAR_ID,
@@ -102,6 +99,7 @@ const showSelectToolbar = async () => {
             toolbarGroups[key] = value
           }
         })
+        console.log('Toolbar groups:', toolbarGroups)
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: toolbarGroups,

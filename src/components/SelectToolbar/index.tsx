@@ -30,11 +30,11 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
   
   // 从设置中获取配置
   const theme = settings?.theme || 'light'
-  const showBorder = true // 默认值
-  const width = '110px' // 默认值
-  const height = '24px' // 默认值
-  const hoverDelay = 500 // 默认值
-  const sponsorEnabled = false // 默认值
+  const showBorder = settings?.showBorder !== undefined ? settings.showBorder : true
+  const width = settings?.width || '110px'
+  const height = settings?.height || '24px'
+  const hoverDelay = settings?.hoverDelay !== undefined ? settings.hoverDelay : 500
+  const sponsorEnabled = settings?.sponsorEnabled !== undefined ? settings.sponsorEnabled : false
   
   // 处理文本处理完成后的回调
   const handleTextProcessed = async (processedText: string) => {

@@ -32,9 +32,14 @@ export interface Settings {
   toolbar: boolean;
   disabled: boolean;
   toolbarShortcut: string;
+  showBorder: boolean;
+  width: string;
+  height: string;
+  hoverDelay: number;
+  sponsorEnabled: boolean;
   
   // 工具栏元素配置
-  [key: string]: ToolbarGroup | ToolbarItem | ThemeType | LanguageType | boolean | undefined;
+  [key: string]: ToolbarGroup | ToolbarItem | ThemeType | LanguageType | boolean | string | number | undefined;
 }
 
 // Settings Context 类型
