@@ -47,119 +47,85 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       setShowToolbar(false)
       return
     }
-    
-    const selection = getSelection()
-    if (selection && selection.toString().length > 0) {
-      // 检查选择是否在目标元素内
-      const anchorNode = selection.anchorNode
-      const focusNode = selection.focusNode
-      const shouldShowToolbar = (targetElement.contains(anchorNode) || targetElement.contains(focusNode))
-      
-      if (shouldShowToolbar) {
-        let rect: DOMRect
-        try {
-          // 获取选择范围的实际矩形，优先使用range的bounding rect
-          if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0)
-            rect = range.getBoundingClientRect()
-            // 如果rect宽度为0（可能是纯文本选择），使用focusNode的parent
-            if (rect.width === 0 && focusNode && focusNode.parentNode && focusNode.parentNode.nodeType === Node.ELEMENT_NODE) {
-              rect = (focusNode.parentNode as HTMLElement).getBoundingClientRect()
-            }
-          } else if (focusNode && focusNode.nodeType === Node.ELEMENT_NODE) {
-            rect = (focusNode as HTMLElement).getBoundingClientRect()
-          } else if (focusNode && focusNode.parentNode && focusNode.parentNode.nodeType === Node.ELEMENT_NODE) {
-            rect = (focusNode.parentNode as HTMLElement).getBoundingClientRect()
-          } else {
-            rect = targetElement.getBoundingClientRect()
-          }
-        } catch (error) {
-          rect = targetElement.getBoundingClientRect()
-        }
-        
-        setSelectedData({
-          text: selection.toString(),
-          timestamp: new Date().toISOString(),
-          rect: rect
-        })
-        
-        // 计算toolbar应该显示在上方还是下方
-        const toolbarHeight = 32; // 实际toolbar高度
-        const padding = 2; // 更小的间距，更贴近选中元素
-        
-        // 获取视口高度
-        const viewportHeight = getWindow().innerHeight;
-        
-        // 计算上方和下方的可用空间
-        const spaceAbove = rect.top;
-        const spaceBelow = viewportHeight - rect.bottom;
-        
-        // 优先选择空间更大的方向，紧贴选中元素
-        let toolbarY: number;
-        if (spaceAbove >= spaceBelow && spaceAbove >= toolbarHeight + padding) {
-          // 显示在上方
-          toolbarY = rect.top - toolbarHeight - padding;
-        } else if (spaceBelow >= toolbarHeight + padding) {
-          // 显示在下方
-          toolbarY = rect.bottom + padding;
-        } else {
-          // 空间不足，选择空间较大的方向
-          toolbarY = spaceAbove > spaceBelow ? rect.top - toolbarHeight - padding : rect.bottom + padding;
-        }
-        
-        // 使用用户提供的位置计算方法
-        const sel = getWindow().getSelection();
-        let selectionRect = rect;
-        
-        if (sel && sel.rangeCount) {
-          const range = sel.getRangeAt(0);
-          selectionRect = range.getBoundingClientRect();
 
-          if (selectionRect.width === 0 || selectionRect.height === 0) {
-            const nodeRect = sel.focusNode && sel.focusNode.parentElement ? sel.focusNode.parentElement.getBoundingClientRect() : rect;
-            selectionRect = {
-              ...nodeRect,
-              x: nodeRect.x,
-              y: nodeRect.y,
-              width: 0,
-              height: nodeRect.height
-            };
-          }
-        }
-        
-        // 直接使用选中元素的对应横向位置
-        let toolbarX = selectionRect.left + selectionRect.width / 2
-        
-        // 考虑toolbar本身的宽度，确保居中对齐
-        if (containerRef.current) {
-          const toolbarWidth = containerRef.current.offsetWidth
-          if (toolbarWidth > 0) {
-            toolbarX -= toolbarWidth / 2
-          }
-        }
-        
-        // 边界检查，确保toolbar不会超出视口
-        const viewportWidth = getWindow().innerWidth
-        if (containerRef.current) {
-          const toolbarWidth = containerRef.current.offsetWidth
-          if (toolbarX < 0) {
-            toolbarX = 0
-          } else if (toolbarX + toolbarWidth > viewportWidth) {
-            toolbarX = viewportWidth - toolbarWidth
-          }
-        }
-        
-        setToolbarPosition({
-          x: toolbarX,
-          y: toolbarY
-        })
-        setShowToolbar(true)
-      } else {
-        setShowToolbar(false)
-      }
-    } else {
+    const selection = getSelection()
+    if (!selection || selection.toString().length === 0) {
       setShowToolbar(false)
+      return
     }
+
+    // 检查是否在目标元素内
+    const anchorNode = selection.anchorNode
+    const focusNode = selection.focusNode
+    const shouldShowToolbar = targetElement.contains(anchorNode) || targetElement.contains(focusNode)
+
+    if (!shouldShowToolbar) {
+      setShowToolbar(false)
+      return
+    }
+
+    // ======================
+    // ✅ 核心：只获取一次正确位置
+    // ======================
+    let rect: DOMRect
+    try {
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0)
+        rect = range.getBoundingClientRect()
+
+        // 只有宽度为0时光标才兜底，不影响选中文本
+        if (rect.width === 0 && focusNode?.parentElement) {
+          rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect()
+        }
+      } else {
+        rect = targetElement.getBoundingClientRect()
+      }
+    } catch {
+      rect = targetElement.getBoundingClientRect()
+    }
+
+    setSelectedData({
+      text: selection.toString(),
+      timestamp: new Date().toISOString(),
+      rect
+    })
+
+    // ======================
+    // ✅ 定位（紧贴选中文字，不飘）
+    // ======================
+    const toolbarHeight = 32
+    const padding = 3 // 贴文字距离
+    const viewportHeight = getWindow().innerHeight
+    let toolbarY: number
+
+    // 上下位置判断
+    const spaceAbove = rect.top
+    const spaceBelow = viewportHeight - rect.bottom
+
+    if (spaceAbove > toolbarHeight + 10) {
+      toolbarY = rect.top - toolbarHeight - padding
+    } else {
+      toolbarY = rect.bottom + padding
+    }
+
+    // ======================
+    // ✅ 水平居中（完美对齐）
+    // ======================
+    let toolbarX = rect.left + rect.width / 2
+    if (containerRef.current) {
+      toolbarX -= containerRef.current.offsetWidth / 2
+    }
+
+    // 边界不超出屏幕
+    const viewportWidth = getWindow().innerWidth
+    if (containerRef.current) {
+      const w = containerRef.current.offsetWidth
+      if (toolbarX < 0) toolbarX = 0
+      if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w
+    }
+
+    setToolbarPosition({ x: toolbarX, y: toolbarY })
+    setShowToolbar(true)
   }
 
   // 处理文本选择
