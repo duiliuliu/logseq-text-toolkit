@@ -217,7 +217,7 @@ input:checked + .ltt-switch-slider:before {
   outline: none;
 }
 
-/* 确保工具栏配置没有横向滚动 */
+/* 确保工具栏配置在窄屏模式下正常显示 */
 #ltt-toolbar-settings .ltt-settings-tab-content {
   overflow-x: hidden;
   max-width: 100%;
@@ -231,6 +231,30 @@ input:checked + .ltt-switch-slider:before {
   max-width: 100%;
   overflow-x: auto;
   width: 100%;
+}
+
+/* 响应式调整：确保textarea在窄屏模式下正常显示 */
+@media (max-width: 480px) {
+  .ltt-json-editor textarea {
+    min-height: 200px !important;
+    font-size: 12px !important;
+    padding: 12px !important;
+  }
+  
+  .ltt-setting-item {
+    gap: 8px !important;
+  }
+  
+  .ltt-setting-item > label {
+    width: 100% !important;
+    text-align: left !important;
+  }
+  
+  .ltt-setting-item input[type="text"],
+  .ltt-setting-item input[type="number"] {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
 }
 
 /* JSON编辑器样式 */
