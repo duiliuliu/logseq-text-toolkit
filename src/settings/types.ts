@@ -33,8 +33,8 @@ export interface Settings {
   disabled: boolean;
   toolbarShortcut: string;
   
-  // 工具栏分组配置
-  [key: string]: ToolbarGroup | ThemeType | LanguageType | boolean | undefined;
+  // 工具栏元素配置
+  [key: string]: ToolbarGroup | ToolbarItem | ThemeType | LanguageType | boolean | undefined;
 }
 
 // Settings Context 类型
