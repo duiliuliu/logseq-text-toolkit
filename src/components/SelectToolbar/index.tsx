@@ -20,7 +20,7 @@ interface SelectToolbarProps {
   sponsorEnabled?: boolean
 }
 
-function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProps) {
   const { settings } = useSettingsContext()
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
@@ -194,7 +194,7 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
           }}
         >
           <Toolbar 
-            items={items} 
+            items={ToolbarItems} 
             theme={theme} 
             showBorder={showBorder}
             width={width}

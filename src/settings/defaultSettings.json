@@ -1,0 +1,196 @@
+{
+  "theme": "light",
+  "language": "zh-CN",
+  "toolbar": true,
+  "disabled": false,
+  "toolbarShortcut": "",
+  "useSystemTheme": false,
+  "useSystemLanguage": false,
+  "showBorder": true,
+  "width": "110px",
+  "height": "24px",
+  "hoverDelay": 500,
+  "sponsorEnabled": false,
+  "ToolbarItems": [
+    {
+      "id": "group-custom",
+      "label": "Format",
+      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6\"></path><path d=\"M14 4h6a2 2 0 0 1 2 2v6\"></path><path d=\"M15 12h5\"></path><path d=\"M17 12v5\"></path></svg>",
+      "funcmode": "replace",
+      "clickfunc": "",
+      "subItems": [
+        {
+          "id": "wrap-bold",
+          "label": "Bold",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z\"></path><path d=\"M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": "**${selectedText}**"
+        },
+        {
+          "id": "wrap-italic",
+          "label": "Italic",
+          "binding": "mod+shift+i",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 4h-7a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h7\"></path><path d=\"M14 4v16\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": "*${selectedText}*"
+        },
+        {
+          "id": "wrap-strike-through",
+          "label": "Strike through",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 4H9a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h7\"></path><path d=\"M14 17l4-4\"></path><path d=\"M20 7l-4 4\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": "~~${selectedText}~~"
+        }
+      ]
+    },
+    {
+      "id": "group-hl-custom",
+      "label": "Highlight",
+      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 14V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8\"></path><path d=\"M4 18h16\"></path><path d=\"M10 14h4\"></path></svg>",
+      "funcmode": "replace",
+      "clickfunc": "",
+      "subItems": [
+        {
+          "id": "wrap-yellow-hl",
+          "label": "Yellow",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"#ffe79a\" stroke=\"#333\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"></rect></svg>",
+          "funcmode": "replace",
+          "clickfunc": "==${selectedText}=="
+        },
+        {
+          "id": "wrap-red-hl",
+          "label": "Red",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"#ffc7c7\" stroke=\"#333\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"></rect></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":mark.red ${selectedText}]"
+        },
+        {
+          "id": "wrap-blue-hl",
+          "label": "Blue",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"#abdfff\" stroke=\"#333\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"></rect></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":mark.blue ${selectedText}]"
+        },
+        {
+          "id": "wrap-green-hl",
+          "label": "Green",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"#ccffc1\" stroke=\"#333\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"></rect></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":mark.green ${selectedText}]"
+        },
+        {
+          "id": "wrap-purple-hl",
+          "label": "Purple",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"#d2b3ff\" stroke=\"#333\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"></rect></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":mark.purple ${selectedText}]"
+        }
+      ]
+    },
+    {
+      "id": "group-text-color",
+      "label": "Text Color",
+      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 3a2 2 0 0 0-2 2v14a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6z\"></path><path d=\"m9 18 6-6\"></path></svg>",
+      "funcmode": "replace",
+      "clickfunc": "",
+      "subItems": [
+        {
+          "id": "wrap-red-text",
+          "label": "Red text",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f00\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 3a2 2 0 0 0-2 2v14a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6z\"></path><path d=\"m9 18 6-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":span.red ${selectedText}]"
+        },
+        {
+          "id": "wrap-blue-text",
+          "label": "Blue text",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00beff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 3a2 2 0 0 0-2 2v14a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6z\"></path><path d=\"m9 18 6-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":span.blue ${selectedText}]"
+        },
+        {
+          "id": "wrap-yellow-text",
+          "label": "Yellow text",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ffdd00\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 3a2 2 0 0 0-2 2v14a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6z\"></path><path d=\"m9 18 6-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":span.yellow ${selectedText}]"
+        },
+        {
+          "id": "wrap-green-text",
+          "label": "Green text",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00cc00\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 3a2 2 0 0 0-2 2v14a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6z\"></path><path d=\"m9 18 6-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":span.green ${selectedText}]"
+        },
+        {
+          "id": "wrap-purple-text",
+          "label": "Purple text",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#6800ff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 3a2 2 0 0 0-2 2v14a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6z\"></path><path d=\"m9 18 6-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":span.purple ${selectedText}]"
+        }
+      ]
+    },
+    {
+      "id": "group-text-underline",
+      "label": "Underline",
+      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4v6a6 6 0 0 0 12 0V4\"></path><path d=\"M6 12v6a6 6 0 0 0 12 0v-6\"></path></svg>",
+      "funcmode": "replace",
+      "clickfunc": "",
+      "subItems": [
+        {
+          "id": "wrap-red-underline",
+          "label": "Red underline",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f00\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4v6a6 6 0 0 0 12 0V4\"></path><path d=\"M6 12v6a6 6 0 0 0 12 0v-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":u.red ${selectedText}]"
+        },
+        {
+          "id": "wrap-blue-underline",
+          "label": "Blue underline",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00beff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4v6a6 6 0 0 0 12 0V4\"></path><path d=\"M6 12v6a6 6 0 0 0 12 0v-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":u.blue ${selectedText}]"
+        },
+        {
+          "id": "wrap-yellow-underline",
+          "label": "Yellow underline",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ffdd00\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4v6a6 6 0 0 0 12 0V4\"></path><path d=\"M6 12v6a6 6 0 0 0 12 0v-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":u.yellow ${selectedText}]"
+        },
+        {
+          "id": "wrap-green-underline",
+          "label": "Green underline",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00cc00\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4v6a6 6 0 0 0 12 0V4\"></path><path d=\"M6 12v6a6 6 0 0 0 12 0v-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":u.green ${selectedText}]"
+        },
+        {
+          "id": "wrap-purple-underline",
+          "label": "Purple underline",
+          "binding": "",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#6800ff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 4v6a6 6 0 0 0 12 0V4\"></path><path d=\"M6 12v6a6 6 0 0 0 12 0v-6\"></path></svg>",
+          "funcmode": "replace",
+          "clickfunc": ":u.purple ${selectedText}]"
+        }
+      ]
+    }
+  ]
+}

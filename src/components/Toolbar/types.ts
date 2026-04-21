@@ -24,5 +24,5 @@ export interface ToolbarConfig {
   height: string;
   hoverDelay: number;
   sponsorEnabled: boolean;
-  items: Array<ToolbarItem | ToolbarGroup>;
+  ToolbarItems: Array<ToolbarItem | ToolbarGroup>;
 }

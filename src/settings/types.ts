@@ -39,7 +39,7 @@ export interface Settings {
   sponsorEnabled: boolean;
   
   // 工具栏元素配置
-  items: Array<ToolbarItem | ToolbarGroup>;
+  ToolbarItems: Array<ToolbarItem | ToolbarGroup>;
   
   [key: string]: any;
 }
