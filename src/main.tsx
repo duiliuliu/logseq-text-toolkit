@@ -98,7 +98,7 @@ const showSelectToolbar = async () => {
         // 提取工具栏分组配置
         const toolbarGroups = {}
         Object.entries(currentSettings).forEach(([key, value]) => {
-          if (key.startsWith('group-') && typeof value === 'object' && value !== null) {
+          if (typeof value === 'object' && value !== null) {
             toolbarGroups[key] = value
           }
         })

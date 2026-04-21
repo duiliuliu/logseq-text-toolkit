@@ -82,7 +82,7 @@ export const replaceSelectedText = async (item: ToolbarItem, selectedData: Selec
     
     if (selectedData.range) {
       // 使用range信息实现精确替换
-      newContent = buildContentWithRange(originalContent, selectedText, processedText, selectedData);
+      newContent = buildContentWithRange(originalContent, selectedText, processedText);
     } else {
       // 尝试在当前选中的元素中进行精确替换
       const success = await replaceInSelectedElement(selectedText, processedText);
@@ -160,31 +160,8 @@ const replaceInSelectedElement = async (selectedText: string, processedText: str
 };
 
 // 使用range信息构建精确的替换内容
-const buildContentWithRange = (originalContent: string, selectedText: string, processedText: string, selectedData: SelectedData): string => {
-  // 首先尝试使用range的startOffset和endOffset（如果可用）
-  if (selectedData.range && 'startOffset' in selectedData.range && 'endOffset' in selectedData.range) {
-    const range = selectedData.range as any;
-    if (range.startContainer && range.startContainer.textContent) {
-      const containerText = range.startContainer.textContent;
-      const startOffset = range.startOffset;
-      const endOffset = range.endOffset;
-      
-      // 检查选中的文本是否匹配
-      const textInRange = containerText.substring(startOffset, endOffset);
-      if (textInRange === selectedText) {
-        // 构建新内容
-        const newContainerText = containerText.substring(0, startOffset) + processedText + containerText.substring(endOffset);
-        
-        // 查找容器文本在原始内容中的位置
-        const containerIndex = originalContent.indexOf(containerText);
-        if (containerIndex !== -1) {
-          return originalContent.substring(0, containerIndex) + newContainerText + originalContent.substring(containerIndex + containerText.length);
-        }
-      }
-    }
-  }
-  
-  // 如果range信息不可用或匹配失败，回退到indexOf方法
+const buildContentWithRange = (originalContent: string, selectedText: string, processedText: string): string => {
+  // 直接回退到indexOf方法，简化逻辑
   return findAndReplaceText(originalContent, selectedText, processedText);
 };
 
