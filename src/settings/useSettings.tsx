@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
-import { Settings, SettingsContextType } from './types.ts'
+import { Settings, SettingsContextType, ThemeType, LanguageType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'
 import { logseqAPI } from '../logseq/index.ts'
 
