@@ -107,8 +107,28 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           toolbarY = spaceAbove > spaceBelow ? rect.top - toolbarHeight - padding : rect.bottom + padding;
         }
         
+        // 使用用户提供的位置计算方法
+        const sel = getWindow().getSelection();
+        let selectionRect = rect;
+        
+        if (sel && sel.rangeCount) {
+          const range = sel.getRangeAt(0);
+          selectionRect = range.getBoundingClientRect();
+
+          if (selectionRect.width === 0 || selectionRect.height === 0) {
+            const nodeRect = sel.focusNode && sel.focusNode.parentElement ? sel.focusNode.parentElement.getBoundingClientRect() : rect;
+            selectionRect = {
+              ...nodeRect,
+              x: nodeRect.x,
+              y: nodeRect.y,
+              width: 0,
+              height: nodeRect.height
+            };
+          }
+        }
+        
         // 直接使用选中元素的对应横向位置
-        let toolbarX = rect.left + rect.width / 2
+        let toolbarX = selectionRect.left + selectionRect.width / 2
         
         // 考虑toolbar本身的宽度，确保居中对齐
         if (containerRef.current) {
