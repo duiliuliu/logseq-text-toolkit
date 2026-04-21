@@ -5,7 +5,7 @@
 
 /**
  * 获取正确的document对象
- * 在Logseq中，插件是按照iframe加载的，直接使用parent.document
+ * 在Logseq中，插件是按照iframe加载的，使用parent.document
  * 在测试环境中，使用当前document
  * @returns {Document} 正确的document对象
  */
@@ -17,14 +17,18 @@ export const getDocument = (): Document => {
     // 测试模式，使用当前document
     return document;
   } else {
-    // 非测试模式，直接使用parent.document
-    return parent.document;
+    // 非测试模式，使用parent.document（添加安全检查）
+    if (parent && parent.document) {
+      return parent.document;
+    }
+    // 降级到当前document
+    return document;
   }
 };
 
 /**
  * 获取正确的window对象
- * 在Logseq中，插件是按照iframe加载的，直接使用parent.window
+ * 在Logseq中，插件是按照iframe加载的，使用parent.window
  * 在测试环境中，使用当前window
  * @returns {Window} 正确的window对象
  */
@@ -36,8 +40,12 @@ export const getWindow = (): Window => {
     // 测试模式，使用当前window
     return window;
   } else {
-    // 非测试模式，直接使用parent.window
-    return parent;
+    // 非测试模式，使用parent（添加安全检查）
+    if (parent) {
+      return parent;
+    }
+    // 降级到当前window
+    return window;
   }
 };
 

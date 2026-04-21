@@ -147,8 +147,9 @@
 .ltt-switch {
   position: relative;
   display: inline-block;
-  width: 36px;
-  height: 20px;
+  width: 36px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
 }
 
 .ltt-switch input {

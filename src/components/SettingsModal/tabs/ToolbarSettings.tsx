@@ -105,18 +105,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.disabled', language)}</label>
-        <label className="ltt-switch">
-          <input 
-            type="checkbox" 
-            checked={settings.disabled} 
-            onChange={(e) => handleSettingChange('disabled', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
-      </div>
-
-      <div className="ltt-setting-item">
         <label>{t('settings.toolbarShortcut', language)}</label>
         <input 
           type="text" 
