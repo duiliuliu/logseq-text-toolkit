@@ -85,7 +85,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         
         // 计算toolbar应该显示在上方还是下方
         const toolbarHeight = 32; // 实际toolbar高度
-        const padding = 4; // 间距
+        const padding = 2; // 更小的间距，更贴近选中元素
         
         // 获取视口高度
         const viewportHeight = getWindow().innerHeight;
