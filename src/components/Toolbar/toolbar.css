@@ -23,6 +23,8 @@
   justify-content: flex-start;
   width: auto !important;
   min-width: 60px !important;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 .ltt-toolbar-main-item {
@@ -128,6 +130,8 @@
   padding: 8px;
   min-width: auto;
   white-space: nowrap;
+  flex-shrink: 0;
+  overflow: visible;
 }
 
 .ltt-toolbar-more-dropdown .ltt-toolbar-main-item {
