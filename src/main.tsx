@@ -10,7 +10,7 @@ import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS } from './styles.ts'
+import { settingsModalCSS, modalCSS, toolbarCSS } from './styles/index.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
