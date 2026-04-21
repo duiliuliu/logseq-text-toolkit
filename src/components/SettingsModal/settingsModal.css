@@ -221,19 +221,16 @@ input:checked + .ltt-switch-slider:before {
 #ltt-toolbar-settings .ltt-settings-tab-content {
   overflow-x: hidden;
   max-width: 100%;
-  width: 100%;
 }
 
 #ltt-toolbar-settings .ltt-setting-item {
   flex-wrap: wrap;
-  width: 100%;
 }
 
 #ltt-toolbar-settings .ltt-json-editor {
   max-width: 100%;
   overflow-x: auto;
   width: 100%;
-  min-width: 0;
 }
 
 /* JSON编辑器样式 */
@@ -454,23 +451,6 @@ input:checked + .ltt-switch-slider:before {
   .ltt-setting-item label {
     width: auto;
     padding-top: 0;
-  }
-  
-  /* 确保JSON编辑器在窄屏模式下正常显示 */
-  .ltt-setting-item-json {
-    width: 100%;
-  }
-  
-  .ltt-json-editor {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  
-  .ltt-json-editor textarea {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
   }
 }
 
