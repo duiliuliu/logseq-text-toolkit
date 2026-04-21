@@ -11,6 +11,7 @@ import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
+import { settingsModalCSS, modalCSS, toolbarCSS } from './styles.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -38,14 +39,10 @@ const showSettingUI = async () => {
   console.log('Showing settings UI with isOpen:', settingsModalOpen)
   
   // 提供设置模态框样式
-  logseqAPI.provideStyle(`
-    @import url('/src/components/SettingsModal/settingsModal.css');
-  `)
+  logseqAPI.provideStyle(settingsModalCSS)
   
   // 提供模态框基础样式
-  logseqAPI.provideStyle(`
-    @import url('/src/components/Modal/modal.css');
-  `)
+  logseqAPI.provideStyle(modalCSS)
   
   logseqAPI.provideUI({
     key: SETTINGS_ID,
@@ -85,11 +82,8 @@ const showSelectToolbar = async () => {
   console.log('Current settings:', currentSettings)
 
   // 提供工具栏样式
-  logseqAPI.provideStyle(`
-    @import url('/src/components/Toolbar/toolbar.css');
-  `)
+  logseqAPI.provideStyle(toolbarCSS)
 
-  // currentSettings already declared above
   if (currentSettings.toolbar.enabled) {
     logseqAPI.provideUI({
       key: TOOLBAR_ID,
