@@ -1,7 +1,6 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import './main.css'
 import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'

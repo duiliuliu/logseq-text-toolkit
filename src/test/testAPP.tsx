@@ -1,4 +1,4 @@
-import '../index.css'
+import '../main.css'
 import './testApp.css'
 import TestLayout from './components/TestLayout/index.tsx'
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
