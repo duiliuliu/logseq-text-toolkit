@@ -42,6 +42,11 @@ const showSettingUI = async () => {
     @import url('/src/components/SettingsModal/settingsModal.css');
   `)
   
+  // 提供模态框基础样式
+  logseqAPI.provideStyle(`
+    @import url('/src/components/Modal/modal.css');
+  `)
+  
   logseqAPI.provideUI({
     key: SETTINGS_ID,
     path: '#app-container',
@@ -69,18 +74,22 @@ const showSettingUI = async () => {
 const settingToggle = async () => {
   console.log('Toggling settings modal')
   settingsModalOpen = !settingsModalOpen;
-  await showSettingUI();
+  showSettingUI();
 }
 
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
+
+  // 打印当前设置数据
+  const currentSettings = getSettings()
+  console.log('Current settings:', currentSettings)
 
   // 提供工具栏样式
   logseqAPI.provideStyle(`
     @import url('/src/components/Toolbar/toolbar.css');
   `)
 
-  const currentSettings = getSettings()
+  // currentSettings already declared above
   if (currentSettings.toolbar.enabled) {
     logseqAPI.provideUI({
       key: TOOLBAR_ID,

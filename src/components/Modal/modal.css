@@ -13,7 +13,6 @@
 }
 
 .modal-container {
-  background-color: var(--ls-primary-background-color-plugin, #fff);
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   display: flex;
@@ -29,14 +28,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);
+  border-bottom: 1px solid;
 }
 
 .modal-title {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: var(--ls-primary-text-color-plugin, #333);
 }
 
 .modal-close {
@@ -44,7 +42,6 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: var(--ls-primary-text-color-plugin, #666);
   padding: 0;
   width: 32px;
   height: 32px;
@@ -57,7 +54,6 @@
 
 .modal-close:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
-  color: var(--ls-primary-text-color-plugin, #333);
 }
 
 .modal-content {
@@ -66,24 +62,45 @@
   flex: 1;
 }
 
-/* Dark mode */
-.dark-mode .modal-container {
+/* Theme-specific styles */
+.modal-light {
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+}
+
+.modal-light .modal-header {
+  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);
+}
+
+.modal-light .modal-title {
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+.modal-light .modal-close {
+  color: var(--ls-primary-text-color-plugin, #666);
+}
+
+.modal-light .modal-close:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+.modal-dark {
   background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
 }
 
-.dark-mode .modal-header {
+.modal-dark .modal-header {
   border-bottom-color: var(--ls-border-color-plugin, #444);
 }
 
-.dark-mode .modal-title {
+.modal-dark .modal-title {
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
 
-.dark-mode .modal-close {
+.modal-dark .modal-close {
   color: var(--ls-primary-text-color-plugin, #aaa);
 }
 
-.dark-mode .modal-close:hover {
+.modal-dark .modal-close:hover {
   background-color: var(--ls-secondary-background-color-plugin, #444);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
 }
