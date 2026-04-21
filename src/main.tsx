@@ -10,7 +10,7 @@ import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS } from './styles/index.ts'
+import { settingsModalCSS, modalCSS, toolbarCSS, cssConfigCSS } from './styles/index.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -108,6 +108,9 @@ const main = async () => {
   try {
     console.log('Initializing Text Toolkit Plugin')
     console.log('Logseq API ready')
+
+    // 提供CSS配置
+    logseqAPI.provideStyle(cssConfigCSS)
 
     // 先提供设置切换函数
     console.log('About to call provideModel with settingToggle:', typeof settingToggle)
