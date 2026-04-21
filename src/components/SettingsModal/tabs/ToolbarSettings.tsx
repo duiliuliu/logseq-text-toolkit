@@ -1,35 +1,23 @@
 import { useState, useEffect } from 'react'
 import { t } from '../../../translations/i18n.ts'
-import { Settings, ToolbarGroup } from '../../../settings/types.ts'
+import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
-import { logseqAPI } from '../../../logseq/index.ts'
 import { Textarea } from '../../ui/textarea.tsx'
 import '../../ui/textarea.css'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const [jsonError, setJsonError] = useState('')
   
-  // 提取工具栏元素配置
-  const getToolbarItems = () => {
-    const items: Record<string, ToolbarGroup | ToolbarItem> = {}
-    Object.entries(settings).forEach(([key, value]) => {
-      if (typeof value === 'object' && value !== null) {
-        items[key] = value as ToolbarGroup | ToolbarItem
-      }
-    })
-    return items
-  }
-  
-  const [jsonInput, setJsonInput] = useState(JSON.stringify(getToolbarItems(), null, 2))
+  // 直接使用 settings.ToolbarItems 作为工具栏配置
+  const [jsonInput, setJsonInput] = useState(JSON.stringify(settings.ToolbarItems || [], null, 2))
   
   // 仅在 settings 从外部变化时更新 jsonInput
   useEffect(() => {
-    const currentItems = getToolbarItems()
-    const currentJson = JSON.stringify(currentItems, null, 2)
+    const currentJson = JSON.stringify(settings.ToolbarItems || [], null, 2)
     if (jsonInput !== currentJson) {
       setJsonInput(currentJson)
     }
-  }, [settings])
+  }, [settings.ToolbarItems])
   
   const handleSettingChange = (key: string, value: any) => {
     setSettings(prev => {
@@ -41,51 +29,23 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     })
   }
 
-  // 防抖函数
-  const debounce = (func: Function, delay: number) => {
-    let timeoutId: NodeJS.Timeout
-    return (...args: any[]) => {
-      clearTimeout(timeoutId)
-      timeoutId = setTimeout(() => func.apply(null, args), delay)
-    }
-  }
-
-  // 防抖处理的 JSON 解析
-  const debouncedHandleJsonChange = debounce((value: string) => {
+  const handleJsonChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value
+    setJsonInput(value)
     setJsonError('')
+    
     try {
-      const parsedItems = JSON.parse(value) as Record<string, ToolbarGroup | ToolbarItem>
-      
-      // 清除所有现有的元素配置
-      const newSettings = { ...settings }
-      Object.keys(newSettings).forEach(key => {
-        if (typeof newSettings[key] === 'object' && newSettings[key] !== null) {
-          delete newSettings[key as keyof Settings]
+      const parsedItems = JSON.parse(value)
+      setSettings(prev => {
+        if (!prev) return prev
+        return {
+          ...prev,
+          ToolbarItems: parsedItems
         }
       })
-      
-      // 添加新的元素配置
-      Object.entries(parsedItems).forEach(([itemKey, itemValue]) => {
-        newSettings[itemKey as keyof Settings] = itemValue
-      })
-      
-      setSettings(newSettings)
     } catch (error) {
       setJsonError(t('settings.error', language))
     }
-  }, 300)
-
-  const handleJsonChange = (value: string) => {
-    setJsonInput(value)
-    debouncedHandleJsonChange(value)
-  }
-
-  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
-    e.preventDefault()
-    const text = e.clipboardData.getData('text')
-    setJsonInput(text)
-    debouncedHandleJsonChange(text)
-    logseqAPI.showMsg('内容粘贴成功', 'success')
   }
 
   return (
@@ -175,7 +135,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         <div className="ltt-json-editor">
           <div className="ltt-json-hint">
             <ul>
-              <li><strong>分组格式</strong>：使用 "group-" 前缀作为分组键，值为包含多个元素的对象</li>
+              <li><strong>分组格式</strong>：包含 subItems 数组的对象</li>
               <li><strong>单个元素</strong>：直接定义元素，需要 id, label, icon, funcmode, clickfunc</li>
               <li><strong>隐藏元素</strong>：添加 "hidden": true 可隐藏按钮</li>
               <li><strong>绑定快捷键</strong>：添加 "binding" 字段设置快捷键</li>
@@ -183,8 +143,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
           </div>
           <Textarea 
             value={jsonInput}
-            onChange={(e) => handleJsonChange(e.target.value)}
-            onPaste={handlePaste}
+            onChange={handleJsonChange}
             placeholder={t('settings.jsonSettings', language)}
             rows={12}
           />

@@ -21,8 +21,14 @@
    - 确保所有相关文件使用 `ToolbarItems` 替代了 `items`
    - 保持了类型定义的一致性
 
+5. **简化设置页面代码**
+   - 优化了 `ToolbarSettings.tsx` 中的输入逻辑，去掉了不必要的 `debounce` 函数
+   - 简化了 JSON 输入处理，直接使用 Textarea 组件的默认行为
+   - 移除了重复的 `handlePaste` 函数，使用 Textarea 组件的默认粘贴功能
+
 ### 技术改进
 
 - 构建系统支持 JSON 导入，通过 `tsconfig.json` 中的 `resolveJsonModule` 配置
 - 代码结构更加清晰，配置与逻辑分离
 - 提升了代码的可维护性和可读性
+- 减少了代码冗余，依赖组件的内置功能而非重复实现
