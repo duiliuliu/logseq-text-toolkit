@@ -12,51 +12,57 @@ export interface ToolbarLogicProps {
 /**
  * 解析工具栏项目
  */
-export const parseItems = (data: Record<string, any>): (ToolbarItem | ToolbarGroup)[] => {
+export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => {
   const result: (ToolbarItem | ToolbarGroup)[] = [];
-  for (const [key, value] of Object.entries(data)) {
-    if (value && typeof value === 'object' && value.isGroup) {
-      const groupItems: Record<string, ToolbarItem> = {};
-      for (const [groupKey, groupValue] of Object.entries(value.items || {})) {
-        if (groupValue && typeof groupValue === 'object' && 'label' in groupValue) {
-          const typedGroupValue = groupValue as any;
-          groupItems[groupKey] = {
-            id: groupKey,
-            label: typedGroupValue.label,
-            funcmode: typedGroupValue.funcmode || 'replace',
-            clickfunc: typedGroupValue.clickfunc || '',
-            binding: typedGroupValue.binding,
-            icon: typedGroupValue.icon,
-            regex: typedGroupValue.regex,
-            replacement: typedGroupValue.replacement,
-            hidden: typedGroupValue.hidden || false
-          };
+  
+  for (const item of data) {
+    if (item && typeof item === 'object') {
+      // 检查是否为 group 元素：有 subItems 属性且长度大于 0
+      if (item.subItems && Array.isArray(item.subItems) && item.subItems.length > 0) {
+        // 处理 subItems
+        const subItems: ToolbarItem[] = item.subItems.map((subItem: any) => ({
+          id: subItem.id,
+          label: subItem.label,
+          funcmode: subItem.funcmode || 'replace',
+          clickfunc: subItem.clickfunc || '',
+          binding: subItem.binding,
+          icon: subItem.icon,
+          regex: subItem.regex,
+          replacement: subItem.replacement,
+          hidden: subItem.hidden || false
+        }));
+        
+        if (subItems.length > 0) {
+          result.push({
+            id: item.id,
+            label: item.label || item.id,
+            funcmode: item.funcmode || 'replace',
+            clickfunc: item.clickfunc || '',
+            binding: item.binding,
+            icon: item.icon,
+            regex: item.regex,
+            replacement: item.replacement,
+            hidden: item.hidden || false,
+            subItems: subItems
+          });
         }
-      }
-      if (Object.keys(groupItems).length > 0) {
+      } else if ('label' in item) {
+        // 处理普通工具栏项目
         result.push({
-          id: key,
-          isGroup: true as const,
-          items: groupItems,
-          label: value.label || key,
-          hidden: value.hidden || false
+          id: item.id,
+          label: item.label,
+          funcmode: item.funcmode || 'replace',
+          clickfunc: item.clickfunc || '',
+          binding: item.binding,
+          icon: item.icon,
+          regex: item.regex,
+          replacement: item.replacement,
+          hidden: item.hidden || false
         });
       }
-    } else if (value && typeof value === 'object' && 'label' in value) {
-      const typedValue = value as any;
-      result.push({
-        id: key,
-        label: typedValue.label,
-        funcmode: typedValue.funcmode || 'replace',
-        clickfunc: typedValue.clickfunc || '',
-        binding: typedValue.binding,
-        icon: typedValue.icon,
-        regex: typedValue.regex,
-        replacement: typedValue.replacement,
-        hidden: typedValue.hidden || false
-      });
     }
   }
+  
   return result;
 };
 

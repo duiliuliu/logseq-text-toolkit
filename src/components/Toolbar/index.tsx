@@ -6,7 +6,7 @@ import { ToolbarItem, ToolbarGroup } from './types.ts'
 import { parseItems, handleItemClick, filterToolbarItems, IconName } from './ToolbarLogic.ts'
 
 interface ToolbarProps {
-  items: Record<string, any>
+  items: Array<ToolbarItem | ToolbarGroup>
   theme?: 'light' | 'dark'
   showBorder?: boolean
   width?: string
@@ -59,7 +59,8 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
   }
 
   const renderItem = (item: ToolbarItem | ToolbarGroup) => {
-    if ('isGroup' in item && item.isGroup) {
+    // 判断是否为 group 元素：检查是否有 subItems 属性且长度大于 0
+    if ('subItems' in item && item.subItems && item.subItems.length > 0) {
       return (
         <div 
           key={item.id} 
@@ -84,7 +85,9 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             }, hoverDelay)
           }}
         >
-          <div className="ltt-toolbar-item-icon">📂</div>
+          <div className="ltt-toolbar-item-icon">
+            {renderIcon(item.icon)}
+          </div>
           {hoveredItem && hoveredItem.id === item.id && item.label && (
             <div className="ltt-toolbar-tooltip">
               {hoveredItem.label}
@@ -107,7 +110,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                 }, hoverDelay)
               }}
             >
-              {Object.values(item.items).map((subItem) => (
+              {item.subItems.map((subItem) => (
                 <div 
                   key={subItem.id}
                   className="ltt-toolbar-group-item"
