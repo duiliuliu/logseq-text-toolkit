@@ -31,7 +31,14 @@ const useSettings = (): SettingsContextType => {
           theme: (logseqAPI.settings.theme || 'light') as ThemeType,
           language: (logseqAPI.settings.language || 'zh-CN') as LanguageType,
           useSystemTheme: Boolean(logseqAPI.settings.useSystemTheme),
-          useSystemLanguage: Boolean(logseqAPI.settings.useSystemLanguage)
+          useSystemLanguage: Boolean(logseqAPI.settings.useSystemLanguage),
+          // 确保工具栏相关字段类型正确
+          toolbar: Boolean(logseqAPI.settings.toolbar),
+          disabled: Boolean(logseqAPI.settings.disabled),
+          showBorder: Boolean(logseqAPI.settings.showBorder),
+          sponsorEnabled: Boolean(logseqAPI.settings.sponsorEnabled),
+          // 确保数值类型正确
+          hoverDelay: parseInt(logseqAPI.settings.hoverDelay) || 500
         }
         
         // 如果设置了使用系统配置，从logseq获取系统配置
@@ -152,7 +159,14 @@ const useSettings = (): SettingsContextType => {
           theme: (newSettings.theme || 'light') as ThemeType,
           language: (newSettings.language || 'zh-CN') as LanguageType,
           useSystemTheme: Boolean(newSettings.useSystemTheme),
-          useSystemLanguage: Boolean(newSettings.useSystemLanguage)
+          useSystemLanguage: Boolean(newSettings.useSystemLanguage),
+          // 确保工具栏相关字段类型正确
+          toolbar: Boolean(newSettings.toolbar),
+          disabled: Boolean(newSettings.disabled),
+          showBorder: Boolean(newSettings.showBorder),
+          sponsorEnabled: Boolean(newSettings.sponsorEnabled),
+          // 确保数值类型正确
+          hoverDelay: parseInt(newSettings.hoverDelay) || 500
         }
         setSettings(mergedSettings)
       })

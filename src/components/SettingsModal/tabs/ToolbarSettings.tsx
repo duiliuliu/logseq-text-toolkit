@@ -52,6 +52,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
       
+      {/* Switch 类型的设置项 */}
       <div className="ltt-setting-item">
         <label>{t('settings.enabled', language)}</label>
         <label className="ltt-switch">
@@ -65,16 +66,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.toolbarShortcut', language)}</label>
-        <input 
-          type="text" 
-          value={settings.toolbarShortcut} 
-          onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
-          placeholder={t('settings.toolbarShortcutPlaceholder', language)}
-        />
-      </div>
-
-      <div className="ltt-setting-item">
         <label>{t('settings.showBorder', language)}</label>
         <label className="ltt-switch">
           <input 
@@ -84,6 +75,29 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
           />
           <span className="ltt-switch-slider"></span>
         </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.sponsorEnabled', language)}</label>
+        <label className="ltt-switch">
+          <input 
+            type="checkbox" 
+            checked={settings.sponsorEnabled} 
+            onChange={(e) => handleSettingChange('sponsorEnabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      {/* Input 类型的设置项 */}
+      <div className="ltt-setting-item">
+        <label>{t('settings.toolbarShortcut', language)}</label>
+        <input 
+          type="text" 
+          value={settings.toolbarShortcut} 
+          onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
+          placeholder={t('settings.toolbarShortcutPlaceholder', language)}
+        />
       </div>
 
       <div className="ltt-setting-item">
@@ -116,18 +130,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
           onChange={(e) => handleSettingChange('hoverDelay', parseInt(e.target.value) || 0)}
           min="0"
         />
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{t('settings.sponsorEnabled', language)}</label>
-        <label className="ltt-switch">
-          <input 
-            type="checkbox" 
-            checked={settings.sponsorEnabled} 
-            onChange={(e) => handleSettingChange('sponsorEnabled', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
       </div>
 
       <div className="ltt-setting-item ltt-setting-item-json">
