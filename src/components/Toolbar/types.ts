@@ -12,12 +12,8 @@ export interface ToolbarItem {
 }
 
 // Toolbar 组类型
-export interface ToolbarGroup {
-  id: string;
-  isGroup: true;
-  items: Record<string, ToolbarItem>;
-  label: string;
-  hidden?: boolean;
+export interface ToolbarGroup extends ToolbarItem {
+  subItems: ToolbarItem[];
 }
 
 // Toolbar 配置类型
@@ -28,5 +24,5 @@ export interface ToolbarConfig {
   height: string;
   hoverDelay: number;
   sponsorEnabled: boolean;
-  items: Record<string, ToolbarItem | ToolbarGroup>;
+  items: Array<ToolbarItem | ToolbarGroup>;
 }

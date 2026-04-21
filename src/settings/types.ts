@@ -16,8 +16,8 @@ export interface ToolbarItem {
 }
 
 // Toolbar group type
-export interface ToolbarGroup {
-  [key: string]: ToolbarItem;
+export interface ToolbarGroup extends ToolbarItem {
+  subItems: ToolbarItem[];
 }
 
 // 全局设置类型
@@ -39,7 +39,9 @@ export interface Settings {
   sponsorEnabled: boolean;
   
   // 工具栏元素配置
-  [key: string]: ToolbarGroup | ToolbarItem | ThemeType | LanguageType | boolean | string | number | undefined;
+  items: Array<ToolbarItem | ToolbarGroup>;
+  
+  [key: string]: any;
 }
 
 // Settings Context 类型

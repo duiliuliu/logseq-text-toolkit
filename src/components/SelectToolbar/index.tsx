@@ -44,43 +44,31 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
   // 更新toolbar位置
   const updateToolbarPosition = () => {
     if (!targetElement) {
-      console.log('SelectToolbar: No target element')
       setShowToolbar(false)
       return
     }
     
     const selection = getSelection()
-    console.log('SelectToolbar: Selection:', selection)
-    
     if (selection && selection.toString().length > 0) {
-      console.log('SelectToolbar: Selected text:', selection.toString())
-      
       // 检查选择是否在目标元素内
       const anchorNode = selection.anchorNode
       const focusNode = selection.focusNode
-      console.log('SelectToolbar: Anchor node:', anchorNode)
-      console.log('SelectToolbar: Focus node:', focusNode)
-      
       const shouldShowToolbar = (targetElement.contains(anchorNode) || targetElement.contains(focusNode))
-      console.log('SelectToolbar: Should show toolbar:', shouldShowToolbar)
       
       if (shouldShowToolbar) {
         let rect: DOMRect
         try {
-          const range = selection.getRangeAt(0)
-          rect = range.getBoundingClientRect()
-          console.log('SelectToolbar: Selection rect:', rect)
-          
-          // 检查rect是否有效，如果无效则使用目标元素的位置
-          if (rect.width === 0 && rect.height === 0) {
-            console.log('SelectToolbar: Selection rect is invalid, using target element rect')
-            rect = targetElement.getBoundingClientRect()
-            console.log('SelectToolbar: Target element rect:', rect)
+          // 优先使用focusNode.getBoundingClientRect()
+          if (focusNode && focusNode.nodeType === Node.ELEMENT_NODE) {
+            rect = (focusNode as HTMLElement).getBoundingClientRect()
+          } else if (focusNode && focusNode.parentNode && focusNode.parentNode.nodeType === Node.ELEMENT_NODE) {
+            rect = (focusNode.parentNode as HTMLElement).getBoundingClientRect()
+          } else {
+            const range = selection.getRangeAt(0)
+            rect = range.getBoundingClientRect()
           }
         } catch (error) {
-          console.log('SelectToolbar: Error getting range rect, using target element rect:', error)
           rect = targetElement.getBoundingClientRect()
-          console.log('SelectToolbar: Target element rect:', rect)
         }
         
         setSelectedData({
@@ -95,32 +83,25 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
         
         // 获取视口高度
         const viewportHeight = getWindow().innerHeight;
-        console.log('SelectToolbar: Viewport height:', viewportHeight)
         
         // 计算上方和下方的可用空间
         const spaceAbove = rect.top;
         const spaceBelow = viewportHeight - rect.bottom;
-        console.log('SelectToolbar: Space above:', spaceAbove)
-        console.log('SelectToolbar: Space below:', spaceBelow)
         
         // 优先选择空间更大的方向
         let toolbarY: number;
         if (spaceAbove >= spaceBelow && spaceAbove >= toolbarHeight + padding) {
           // 显示在上方
           toolbarY = rect.top - toolbarHeight - padding;
-          console.log('SelectToolbar: Showing above, Y:', toolbarY)
         } else if (spaceBelow >= toolbarHeight + padding) {
           // 显示在下方
           toolbarY = rect.bottom + padding;
-          console.log('SelectToolbar: Showing below, Y:', toolbarY)
         } else {
           // 空间不足，选择空间较大的方向
           toolbarY = spaceAbove > spaceBelow ? rect.top - toolbarHeight - padding : rect.bottom + padding;
-          console.log('SelectToolbar: Space insufficient, Y:', toolbarY)
         }
         
         const toolbarX = rect.left + rect.width / 2
-        console.log('SelectToolbar: Final position - X:', toolbarX, 'Y:', toolbarY)
         
         setToolbarPosition({
           x: toolbarX,
@@ -128,11 +109,9 @@ function SelectToolbar({ targetElement, items }: SelectToolbarProps) {
         })
         setShowToolbar(true)
       } else {
-        console.log('SelectToolbar: Selection not in target element')
         setShowToolbar(false)
       }
     } else {
-      console.log('SelectToolbar: No selection')
       setShowToolbar(false)
     }
   }
