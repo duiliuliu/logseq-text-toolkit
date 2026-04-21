@@ -52,7 +52,7 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 1px;
+  margin-top: 4px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
   border: 1px solid var(--ls-border-color-plugin, #ccc);
   border-radius: 0 0 8px 8px;
