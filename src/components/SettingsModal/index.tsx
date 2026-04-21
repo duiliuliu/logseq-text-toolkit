@@ -5,14 +5,14 @@ import GeneralSettings from './tabs/GeneralSettings.tsx'
 import ToolbarSettings from './tabs/ToolbarSettings.tsx'
 import AdvancedSettings from './tabs/AdvancedSettings.tsx'
 import { t } from '../../translations/i18n.ts'
-import { Settings } from '../../settings/types.ts'
+import { ThemeType, Settings } from '../../settings/types.ts'
 import './settingsModal.css'
 
 // SettingsModal Props 类型
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  theme: string;
+  theme: ThemeType;
 }
 
 // 标签页组件 Props 类型

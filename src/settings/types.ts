@@ -1,4 +1,8 @@
+// 主题类型
+export type ThemeType = 'light' | 'dark' | 'system';
 
+// 语言类型
+export type LanguageType = 'zh-CN' | 'en' | 'ja' | 'system';
 
 // Toolbar item type
 export interface ToolbarItem {
@@ -18,14 +22,14 @@ export interface ToolbarGroup {
 
 // 全局设置类型
 export interface Settings {
-  theme: string;
-  language: string;
+  theme: ThemeType | string;
+  language: LanguageType | string;
   toolbar: boolean;
   disabled: boolean;
   toolbarShortcut: string;
   useSystemTheme?: boolean;
   useSystemLanguage?: boolean;
-  [key: string]: ToolbarGroup | string | boolean | undefined;
+  [key: string]: ToolbarGroup | ThemeType | string | boolean | LanguageType | undefined;
 }
 
 // Settings Context 类型
