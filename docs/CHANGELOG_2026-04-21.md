@@ -4,31 +4,37 @@
 
 ### 修复与优化
 
-1. **修复工具栏配置取值逻辑**
-   - 修正了 `main.tsx` 中提取工具栏配置的逻辑，从错误的对象遍历改为直接使用 `currentSettings.ToolbarItems`
-   - 更新了 `SelectToolbar` 组件的类型定义，使其能够正确接受数组类型的 `items` 参数
+1. **修复toolbar展示位置计算**
+   - 优化了SelectToolbar组件中的位置计算逻辑，优先使用range.getBoundingClientRect()获取选中元素的位置
+   - 调整了toolbar与选中元素的间距，从10px改为4px，使位置更加贴近选中元素
+   - 调整了toolbar高度估算为32px，更符合实际尺寸
 
-2. **优化配置结构**
-   - 将默认设置从 TypeScript 文件迁移到 JSON 文件 (`defaultSettings.json`)
-   - 保持了 `defaultSettings.ts` 作为导出接口，确保向后兼容
+2. **修复Toolbar组件配置问题**
+   - 修复了宽度、高度、显示边框等配置不生效的问题
+   - 设置了Toolbar的minWidth为60px
+   - 更新了默认高度为28px，提供更好的视觉体验
+   - 移除了CSS中的硬编码宽度限制，让配置生效
 
-3. **SVG 图标优化**
-   - 优化了文本颜色组的 SVG 图标，使用更符合场景的文本图标
-   - 优化了下划线组的 SVG 图标，使用更符合场景的下划线图标
-   - 确保所有图标在工具栏和下拉菜单中都能正确显示
+3. **确保下拉元素和Toolbar之间0间距**
+   - 修改了下拉菜单的margin-top从4px改为0
+   - 调整了下拉菜单的圆角为0 0 8px 8px，与Toolbar的圆角完美配合
+   - 让下拉菜单看起来像是Toolbar的自然延伸，形成一个整体
 
-4. **类型定义调整**
-   - 确保所有相关文件使用 `ToolbarItems` 替代了 `items`
-   - 保持了类型定义的一致性
+4. **下拉菜单边界优化**
+   - 确保下拉菜单的左右边界不会超出Toolbar的左右边界
+   - 添加了相应的CSS和ref来处理边界问题
+   - 保持了下拉菜单的视觉一致性
 
-5. **简化设置页面代码**
-   - 优化了 `ToolbarSettings.tsx` 中的输入逻辑，去掉了不必要的 `debounce` 函数
-   - 简化了 JSON 输入处理，直接使用 Textarea 组件的默认行为
-   - 移除了重复的 `handlePaste` 函数，使用 Textarea 组件的默认粘贴功能
+5. **优化SVG图标**
+   - **Format组**：保留了Lucide风格的加粗、斜体和删除线图标，保持简洁清晰
+   - **Highlight组**：优化了高亮图标，使用彩色矩形并带有对应颜色的边框，更直观地展示不同颜色
+   - **Text Color组**：重新设计了图标，使用带颜色的"A"字符直接展示文字颜色效果
+   - **Underline组**：创建了新的图标，包含"A"字符和对应颜色的下划线，直观展示下划线颜色
+   - 所有图标都使用了现代、友好的配色方案
 
 ### 技术改进
 
-- 构建系统支持 JSON 导入，通过 `tsconfig.json` 中的 `resolveJsonModule` 配置
+- 构建系统支持JSON导入，通过tsconfig.json中的resolveJsonModule配置
 - 代码结构更加清晰，配置与逻辑分离
 - 提升了代码的可维护性和可读性
 - 减少了代码冗余，依赖组件的内置功能而非重复实现

@@ -28,7 +28,7 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '24px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '28px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -58,11 +58,15 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
     return <span className="ltt-toolbar-icon">{icon}</span>
   }
 
+  const groupRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  
   const renderItem = (item: ToolbarItem | ToolbarGroup) => {
     // 判断是否为 group 元素：检查是否有 subItems 属性且长度大于 0
     if ('subItems' in item && item.subItems && item.subItems.length > 0) {
       return (
         <div 
+          ref={groupRef}
           key={item.id} 
           className="ltt-toolbar-main-item ltt-toolbar-group"
           onMouseDown={(e) => {
@@ -95,6 +99,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           )}
           {mouseOverGroup === item.id && (
             <div 
+              ref={dropdownRef}
               className={`ltt-toolbar-group-dropdown ${!showBorder ? 'ltt-no-border' : ''}`}
               onMouseEnter={() => {
                 // 清除之前的定时器
@@ -186,7 +191,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           />
         </div>
       )}
-      <div className="ltt-toolbar-main" style={{ minWidth: width, height }}>
+      <div className="ltt-toolbar-main" style={{ minWidth: '60px', width: width, height: height, border: showBorder ? '1px solid var(--ls-border-color-plugin, #ccc)' : 'none' }}>
         {mainItems.map(renderItem)}
         {hasMoreItems && (
           <div 

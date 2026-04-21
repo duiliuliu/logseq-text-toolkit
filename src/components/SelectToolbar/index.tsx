@@ -58,14 +58,20 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       if (shouldShowToolbar) {
         let rect: DOMRect
         try {
-          // 优先使用focusNode.getBoundingClientRect()
-          if (focusNode && focusNode.nodeType === Node.ELEMENT_NODE) {
+          // 获取选择范围的实际矩形，优先使用range的bounding rect
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0)
+            rect = range.getBoundingClientRect()
+            // 如果rect宽度为0（可能是纯文本选择），使用focusNode的parent
+            if (rect.width === 0 && focusNode && focusNode.parentNode && focusNode.parentNode.nodeType === Node.ELEMENT_NODE) {
+              rect = (focusNode.parentNode as HTMLElement).getBoundingClientRect()
+            }
+          } else if (focusNode && focusNode.nodeType === Node.ELEMENT_NODE) {
             rect = (focusNode as HTMLElement).getBoundingClientRect()
           } else if (focusNode && focusNode.parentNode && focusNode.parentNode.nodeType === Node.ELEMENT_NODE) {
             rect = (focusNode.parentNode as HTMLElement).getBoundingClientRect()
           } else {
-            const range = selection.getRangeAt(0)
-            rect = range.getBoundingClientRect()
+            rect = targetElement.getBoundingClientRect()
           }
         } catch (error) {
           rect = targetElement.getBoundingClientRect()
@@ -78,8 +84,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         })
         
         // 计算toolbar应该显示在上方还是下方
-        const toolbarHeight = 30; // 估算toolbar高度
-        const padding = 10; // 间距
+        const toolbarHeight = 32; // 实际toolbar高度
+        const padding = 4; // 间距
         
         // 获取视口高度
         const viewportHeight = getWindow().innerHeight;
@@ -88,7 +94,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         const spaceAbove = rect.top;
         const spaceBelow = viewportHeight - rect.bottom;
         
-        // 优先选择空间更大的方向
+        // 优先选择空间更大的方向，紧贴选中元素
         let toolbarY: number;
         if (spaceAbove >= spaceBelow && spaceAbove >= toolbarHeight + padding) {
           // 显示在上方
