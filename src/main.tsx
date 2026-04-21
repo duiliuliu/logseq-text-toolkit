@@ -83,7 +83,7 @@ const showSelectToolbar = async () => {
   // 提供工具栏样式
   logseqAPI.provideStyle(toolbarCSS)
 
-  if (currentSettings.toolbar.enabled) {
+  if (currentSettings.toolbar) {
     logseqAPI.provideUI({
       key: TOOLBAR_ID,
       path: '#app-container',
@@ -95,9 +95,16 @@ const showSelectToolbar = async () => {
       const mainContentContainer = getDocument().getElementById('main-content-container')
       if (toolbarContainer && mainContentContainer) {
         const currentSettings = getSettings()
+        // 提取工具栏分组配置
+        const toolbarGroups = {}
+        Object.entries(currentSettings).forEach(([key, value]) => {
+          if (key.startsWith('group-') && typeof value === 'object' && value !== null) {
+            toolbarGroups[key] = value
+          }
+        })
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
-          items: currentSettings.toolbar.items,
+          items: toolbarGroups,
         })
       }
     }, 1)

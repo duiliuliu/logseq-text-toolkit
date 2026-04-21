@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { t } from '../../../translations/i18n.ts'
-import { Settings } from '../../../settings/types.ts'
+import { Settings, ToolbarGroup } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
 import { logseqAPI } from '../../../logseq/index.ts'
 import { Textarea } from '../../ui/textarea.tsx'
@@ -8,31 +8,36 @@ import '../../ui/textarea.css'
 
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const [jsonError, setJsonError] = useState('')
-  const [jsonInput, setJsonInput] = useState(JSON.stringify(settings.toolbar.items, null, 2))
+  
+  // 提取工具栏分组配置
+  const getToolbarGroups = () => {
+    const groups: Record<string, ToolbarGroup> = {}
+    Object.entries(settings).forEach(([key, value]) => {
+      if (key.startsWith('group-') && typeof value === 'object' && value !== null) {
+        groups[key] = value as ToolbarGroup
+      }
+    })
+    return groups
+  }
+  
+  const [jsonInput, setJsonInput] = useState(JSON.stringify(getToolbarGroups(), null, 2))
   
   // 仅在 settings 从外部变化时更新 jsonInput
   useEffect(() => {
-    // 只有当 jsonInput 与 settings.toolbar.items 不一致时才更新
-    // 避免在用户输入时重置光标位置
-    const currentJson = JSON.stringify(settings.toolbar.items, null, 2)
+    const currentGroups = getToolbarGroups()
+    const currentJson = JSON.stringify(currentGroups, null, 2)
     if (jsonInput !== currentJson) {
       setJsonInput(currentJson)
     }
-  }, [settings.toolbar.items])
+  }, [settings])
   
-  const handleSettingChange = (path: string, value: any) => {
+  const handleSettingChange = (key: string, value: any) => {
     setSettings(prev => {
       if (!prev) return prev
-      const newSettings = JSON.parse(JSON.stringify(prev))
-      const keys = path.split('.')
-      let current = newSettings
-      
-      for (let i = 0; i < keys.length - 1; i++) {
-        current = current[keys[i]]
+      return {
+        ...prev,
+        [key]: value
       }
-      
-      current[keys[keys.length - 1]] = value
-      return newSettings
     })
   }
 
@@ -49,8 +54,22 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
   const debouncedHandleJsonChange = debounce((value: string) => {
     setJsonError('')
     try {
-      JSON.parse(value)
-      handleSettingChange('toolbar.items', JSON.parse(value))
+      const parsedGroups = JSON.parse(value) as Record<string, ToolbarGroup>
+      
+      // 清除所有现有的分组配置
+      const newSettings = { ...settings }
+      Object.keys(newSettings).forEach(key => {
+        if (key.startsWith('group-')) {
+          delete newSettings[key as keyof Settings]
+        }
+      })
+      
+      // 添加新的分组配置
+      Object.entries(parsedGroups).forEach(([groupKey, groupValue]) => {
+        newSettings[groupKey as keyof Settings] = groupValue
+      })
+      
+      setSettings(newSettings)
     } catch (error) {
       setJsonError(t('settings.error', language))
     }
@@ -64,9 +83,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text')
-    // 直接设置粘贴的内容到 jsonInput，不进行 JSON 解析
     setJsonInput(text)
-    // 触发防抖处理的 JSON 解析
     debouncedHandleJsonChange(text)
     logseqAPI.showMsg('内容粘贴成功', 'success')
   }
@@ -80,78 +97,44 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label className="ltt-switch">
           <input 
             type="checkbox" 
-            checked={settings.toolbar.enabled} 
-            onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
+            checked={settings.toolbar} 
+            onChange={(e) => handleSettingChange('toolbar', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.showBorder', language)}</label>
+        <label>{t('settings.disabled', language)}</label>
         <label className="ltt-switch">
           <input 
             type="checkbox" 
-            checked={settings.toolbar.showBorder} 
-            onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
+            checked={settings.disabled} 
+            onChange={(e) => handleSettingChange('disabled', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
       <div className="ltt-setting-item">
-        <label>赞助栏</label>
-        <label className="ltt-switch">
-          <input 
-            type="checkbox" 
-            checked={settings.toolbar.sponsorEnabled} 
-            onChange={(e) => handleSettingChange('toolbar.sponsorEnabled', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{t('settings.width', language)} (px)</label>
+        <label>{t('settings.toolbarShortcut', language)}</label>
         <input 
-          type="number" 
-          value={settings.toolbar.width ? settings.toolbar.width.replace('px', '') : '110'} 
-          onChange={(e) => handleSettingChange('toolbar.width', `${e.target.value}px`)}
-          placeholder="110"
-          min="1"
-        />
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{t('settings.height', language)} (px)</label>
-        <input 
-          type="number" 
-          value={settings.toolbar.height ? settings.toolbar.height.replace('px', '') : '24'} 
-          onChange={(e) => handleSettingChange('toolbar.height', `${e.target.value}px`)}
-          placeholder="24"
-          min="1"
-        />
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{t('settings.hoverDelay', language)} (ms)</label>
-        <input 
-          type="number" 
-          value={settings.toolbar.hoverDelay} 
-          onChange={(e) => handleSettingChange('toolbar.hoverDelay', parseInt(e.target.value) || 0)}
-          min="0"
+          type="text" 
+          value={settings.toolbarShortcut} 
+          onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
+          placeholder={t('settings.toolbarShortcutPlaceholder', language)}
         />
       </div>
 
       <div className="ltt-setting-item ltt-setting-item-json">
-        <label>元素</label>
+        <label>工具栏分组配置</label>
         <div className="ltt-json-editor">
           <div className="ltt-json-hint">
             <ul>
-              <li><strong>单个元素</strong>：直接配置 icon 和 action，如粗体、斜体</li>
-              <li><strong>分组元素</strong>：添加 "children" 数组可创建下拉菜单，如颜色高亮组</li>
+              <li><strong>分组格式</strong>：使用 "group-" 前缀作为分组键</li>
+              <li><strong>单个元素</strong>：每个元素需要 id, label, icon, funcmode, clickfunc</li>
               <li><strong>隐藏元素</strong>：添加 "hidden": true 可隐藏按钮</li>
-              <li><strong>icon 可选值</strong>: bold, italic, underline, highlight, copy, link, comment, type, sparkles</li>
+              <li><strong>绑定快捷键</strong>：添加 "binding" 字段设置快捷键</li>
             </ul>
           </div>
           <Textarea 
