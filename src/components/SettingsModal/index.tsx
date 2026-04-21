@@ -97,13 +97,13 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={theme}>
-      <div className="settings-container" data-theme={theme}>
-        <div className="settings-header">
-          <div className="settings-tabs">
+      <div className="ltt-settings-container" data-theme={theme}>
+        <div className="ltt-settings-header">
+          <div className="ltt-settings-tabs">
             {tabs.map(tab => (
               <button 
                 key={tab.id}
-                className={`settings-tab ${activeTab === tab.id ? 'active' : ''}`}
+                className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 {tab.label}
@@ -112,9 +112,9 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
           </div>
         </div>
 
-        <div className="settings-content">
+        <div className="ltt-settings-content">
           {TabComponent && (
-            <div id={`${activeTab}-settings`}>
+            <div id={`ltt-${activeTab}-settings`}>
               <TabComponent 
                 settings={settings}
                 setSettings={setSettings}

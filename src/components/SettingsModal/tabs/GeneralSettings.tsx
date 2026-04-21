@@ -34,10 +34,10 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
   ]
 
   return (
-    <div className="settings-tab-content">
-      <p className="tab-section-description-small">{t('settings.generalSettingsDescription', language)}</p>
+    <div className="ltt-settings-tab-content">
+      <p className="ltt-tab-section-description-small">{t('settings.generalSettingsDescription', language)}</p>
       
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>{t('settings.theme', language)}</label>
         <CustomSelect
           options={themeOptions}
@@ -46,7 +46,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>{t('settings.language', language)}</label>
         <CustomSelect
           options={languageOptions}
@@ -55,9 +55,9 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      <div className="settings-actions">
+      <div className="ltt-settings-actions">
         <button 
-          className="settings-btn settings-btn-save"
+          className="ltt-settings-btn ltt-settings-btn-save"
           onClick={onSave}
           disabled={isSaving}
         >

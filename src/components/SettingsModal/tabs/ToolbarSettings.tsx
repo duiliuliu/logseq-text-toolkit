@@ -72,46 +72,46 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
   }
 
   return (
-    <div className="settings-tab-content">
-      <p className="tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
+    <div className="ltt-settings-tab-content">
+      <p className="ltt-tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
       
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>{t('settings.enabled', language)}</label>
-        <label className="switch">
+        <label className="ltt-switch">
           <input 
             type="checkbox" 
             checked={settings.toolbar.enabled} 
             onChange={(e) => handleSettingChange('toolbar.enabled', e.target.checked)}
           />
-          <span className="switch-slider"></span>
+          <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>{t('settings.showBorder', language)}</label>
-        <label className="switch">
+        <label className="ltt-switch">
           <input 
             type="checkbox" 
             checked={settings.toolbar.showBorder} 
             onChange={(e) => handleSettingChange('toolbar.showBorder', e.target.checked)}
           />
-          <span className="switch-slider"></span>
+          <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>赞助栏</label>
-        <label className="switch">
+        <label className="ltt-switch">
           <input 
             type="checkbox" 
             checked={settings.toolbar.sponsorEnabled} 
             onChange={(e) => handleSettingChange('toolbar.sponsorEnabled', e.target.checked)}
           />
-          <span className="switch-slider"></span>
+          <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>{t('settings.width', language)} (px)</label>
         <input 
           type="number" 
@@ -122,7 +122,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>{t('settings.height', language)} (px)</label>
         <input 
           type="number" 
@@ -133,7 +133,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      <div className="setting-item">
+      <div className="ltt-setting-item">
         <label>{t('settings.hoverDelay', language)} (ms)</label>
         <input 
           type="number" 
@@ -143,10 +143,10 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      <div className="setting-item setting-item-json">
+      <div className="ltt-setting-item ltt-setting-item-json">
         <label>元素</label>
-        <div className="json-editor">
-          <div className="json-hint">
+        <div className="ltt-json-editor">
+          <div className="ltt-json-hint">
             <ul>
               <li><strong>单个元素</strong>：直接配置 icon 和 action，如粗体、斜体</li>
               <li><strong>分组元素</strong>：添加 "children" 数组可创建下拉菜单，如颜色高亮组</li>
@@ -161,13 +161,13 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
             placeholder={t('settings.jsonSettings', language)}
             rows={12}
           />
-          {jsonError && <div className="json-error">{jsonError}</div>}
+          {jsonError && <div className="ltt-json-error">{jsonError}</div>}
         </div>
       </div>
 
-      <div className="settings-actions">
+      <div className="ltt-settings-actions">
         <button 
-          className="settings-btn settings-btn-save"
+          className="ltt-settings-btn ltt-settings-btn-save"
           onClick={onSave}
           disabled={isSaving || !!jsonError}
         >

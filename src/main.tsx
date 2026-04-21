@@ -36,6 +36,12 @@ let settingsModalOpen = false;
 
 const showSettingUI = async () => {
   console.log('Showing settings UI with isOpen:', settingsModalOpen)
+  
+  // 提供设置模态框样式
+  logseqAPI.provideStyle(`
+    @import url('/src/components/SettingsModal/settingsModal.css');
+  `)
+  
   logseqAPI.provideUI({
     key: SETTINGS_ID,
     path: '#app-container',
@@ -68,6 +74,11 @@ const settingToggle = async () => {
 
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
+
+  // 提供工具栏样式
+  logseqAPI.provideStyle(`
+    @import url('/src/components/Toolbar/toolbar.css');
+  `)
 
   const currentSettings = getSettings()
   if (currentSettings.toolbar.enabled) {
@@ -106,9 +117,11 @@ const main = async () => {
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
-        <button style="font-weight: bold; background: none; border: none; cursor: pointer; font-size: 16px;" data-on-click="settingToggle" data-rect>
-          ⚙️
-        </button>
+        <a class="button" id="ltt-settings-button"
+        data-on-click="settingToggle"
+        data-rect>
+         <i class="ti ti-settings"></i> 
+        </a>
       `,
     })
 
