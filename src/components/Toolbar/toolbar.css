@@ -1,9 +1,9 @@
 .ltt-toolbar-container {
   position: relative;
-  display: inline-block;
+  display: flex;
   flex-direction: column;
-  gap: 8px;
-  align-items: center;
+  gap: 4px;
+  align-items: flex-start;
 }
 
 .ltt-toolbar-main {
@@ -30,12 +30,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 1001;
+  flex-shrink: 0;
 }
 .ltt-toolbar-main-item:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
@@ -75,13 +76,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 .ltt-toolbar-group-item:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
@@ -98,6 +100,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
+  flex-shrink: 0;
 }
 .ltt-toolbar-more:hover {
   background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
@@ -120,9 +123,11 @@
   z-index: 1004;
   display: flex;
   flex-wrap: nowrap;
+  flex-direction: row;
   gap: 4px;
   padding: 8px;
   min-width: auto;
+  white-space: nowrap;
 }
 
 .ltt-toolbar-more-dropdown .ltt-toolbar-main-item {

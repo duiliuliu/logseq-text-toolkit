@@ -212,12 +212,12 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
             )}
           </div>
         )}
-        {moreExpanded && (
-          <div className="ltt-toolbar-more-dropdown">
-            {moreItems.map(renderItem)}
-          </div>
-        )}
       </div>
+      {moreExpanded && (
+        <div className="ltt-toolbar-more-dropdown">
+          {moreItems.map(renderItem)}
+        </div>
+      )}
     </div>
   )
 }
