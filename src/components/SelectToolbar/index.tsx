@@ -109,12 +109,10 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
 
     // ======================
-    // ✅ 水平居中（完美对齐）
+    // ✅ 左侧对齐（与选中文字左侧对齐）
     // ======================
-    let toolbarX = rect.left + rect.width / 2
-    if (containerRef.current) {
-      toolbarX -= containerRef.current.offsetWidth / 2
-    }
+    let toolbarX = rect.left
+    // 不需要减去toolbar宽度，保持左侧对齐
 
     // 边界不超出屏幕
     const viewportWidth = getWindow().innerWidth

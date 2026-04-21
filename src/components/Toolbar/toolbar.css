@@ -132,6 +132,7 @@
   white-space: nowrap;
   flex-shrink: 0;
   overflow: visible;
+  min-width: max-content;
 }
 
 .ltt-toolbar-more-dropdown .ltt-toolbar-main-item {
