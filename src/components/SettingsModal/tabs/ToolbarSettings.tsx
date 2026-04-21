@@ -115,7 +115,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label>{t('settings.width', language)} (px)</label>
         <input 
           type="number" 
-          value={settings.toolbar.width.replace('px', '')} 
+          value={settings.toolbar.width ? settings.toolbar.width.replace('px', '') : '110'} 
           onChange={(e) => handleSettingChange('toolbar.width', `${e.target.value}px`)}
           placeholder="110"
           min="1"
@@ -126,7 +126,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label>{t('settings.height', language)} (px)</label>
         <input 
           type="number" 
-          value={settings.toolbar.height.replace('px', '')} 
+          value={settings.toolbar.height ? settings.toolbar.height.replace('px', '') : '24'} 
           onChange={(e) => handleSettingChange('toolbar.height', `${e.target.value}px`)}
           placeholder="24"
           min="1"
