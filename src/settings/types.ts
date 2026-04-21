@@ -20,16 +20,27 @@ export interface ToolbarGroup {
   [key: string]: ToolbarItem;
 }
 
+// 工具栏配置类型
+export interface ToolbarConfig {
+  enabled: boolean;
+  showBorder: boolean;
+  width: string;
+  height: string;
+  hoverDelay: number;
+  sponsorEnabled: boolean;
+  items: Record<string, ToolbarItem | ToolbarGroup>;
+}
+
 // 全局设置类型
 export interface Settings {
   theme: ThemeType | string;
   language: LanguageType | string;
-  toolbar: boolean;
+  toolbar: ToolbarConfig;
   disabled: boolean;
   toolbarShortcut: string;
   useSystemTheme?: boolean;
   useSystemLanguage?: boolean;
-  [key: string]: ToolbarGroup | ThemeType | string | boolean | LanguageType | undefined;
+  [key: string]: any;
 }
 
 // Settings Context 类型
