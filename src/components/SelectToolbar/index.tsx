@@ -18,9 +18,11 @@ interface SelectToolbarProps {
   height?: string
   hoverDelay?: number
   sponsorEnabled?: boolean
+  positioningMethod?: 'default' | 'logseq'
+  getCursorPosition?: () => Promise<{ top: number; left: number; rect: { x: number; y: number } } | null>
 }
 
-function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items: ToolbarItems, positioningMethod = 'default', getCursorPosition }: SelectToolbarProps) {
   const { settings } = useSettingsContext()
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
@@ -42,7 +44,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   }
 
   // 更新toolbar位置
-  const updateToolbarPosition = () => {
+  const updateToolbarPosition = async () => {
     if (!targetElement) {
       setShowToolbar(false)
       return
@@ -64,8 +66,34 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       return
     }
 
+    // 根据定位方法获取位置
+    if (positioningMethod === 'logseq' && getCursorPosition) {
+      try {
+        const curPos = await getCursorPosition()
+        if (curPos != null) {
+          if (containerRef.current) {
+            const toolbar = containerRef.current
+            const toolbarHeight = 32
+            let toolbarY = curPos.top + curPos.rect.y - toolbarHeight - 3
+            
+            let toolbarX = curPos.left + curPos.rect.x
+            if (toolbarX + toolbar.clientWidth > getWindow().innerWidth) {
+              toolbarX = getWindow().innerWidth - toolbar.clientWidth
+            }
+            
+            setToolbarPosition({ x: toolbarX, y: toolbarY })
+            setShowToolbar(true)
+            return
+          }
+        }
+      } catch (error) {
+        console.error('Error getting cursor position:', error)
+        // 出错时回退到默认定位
+      }
+    }
+
     // ======================
-    // ✅ 核心：只获取一次正确位置
+    // ✅ 核心：只获取一次正确位置（默认定位方法）
     // ======================
     let rect: DOMRect
     try {
@@ -130,14 +158,14 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   useEffect(() => {
     if (!targetElement) return
 
-    const handleSelection = (e: MouseEvent) => {
+    const handleSelection = async (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
       if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
         // 保持选中状态，不做任何处理
         return
       }
 
-      updateToolbarPosition()
+      await updateToolbarPosition()
     }
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
@@ -149,9 +177,9 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
 
     // 处理滚动事件，更新toolbar位置
-    const handleScroll = () => {
+    const handleScroll = async () => {
       if (showToolbar) {
-        updateToolbarPosition()
+        await updateToolbarPosition()
       }
     }
 
