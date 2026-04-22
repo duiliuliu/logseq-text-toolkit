@@ -1,13 +1,9 @@
-## [0.11.8] - 2026-04-22
+## [0.11.7] - 2026-04-22
 ### 改进
-- 使用 `getWindow()` 函数替换 `(window as any).parent.window` 写法，提高代码可读性和安全性
-- 优化 `updateToolbarPosition` 函数实现，使用统一的窗口获取方式
+- 将设置按钮图片引用改为 SVG 图标
+- 优化 Toolbar 点击 more 后的展示逻辑，将所有元素都展示在 Toolbar 上，不折行
+- 优化 deploy-pages workflow，参考 branch-release.yml 的配置
 
 ### 修复
-- 修复 Toolbar 点击 more 后折行展示的问题
-  - **问题原因**：Toolbar 容器和 more 下拉菜单的宽度限制导致内容折行
-  - **修复方式**：修改 `.ltt-toolbar-container` 样式为 `inline-flex`，添加 `width: auto` 和 `max-width: none`；优化 `.ltt-toolbar-more-dropdown` 样式，确保展开内容在单行显示
-
-### 新增
-- 在 main.tsx 中实现 `updateToolbarPosition` 功能，传入 SelectToolbar 组件
-- 使用 Logseq API 的 `Editor.getEditingCursorPosition()` 获取光标位置并计算工具栏位置
+- 修复 Toolbar 点击 more 后折行问题，让所有元素都在一行展示
+- 修复 deploy-pages workflow 的依赖安装问题，添加 NPM_CONFIG_REGISTRY 配置

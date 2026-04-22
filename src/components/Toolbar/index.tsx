@@ -191,8 +191,9 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           />
         </div>
       )}
-      <div className="ltt-toolbar-main" style={{ minWidth: '60px', width: width, height: height, border: showBorder ? '1px solid var(--ls-border-color-plugin, #ccc)' : 'none' }}>
+      <div className="ltt-toolbar-main" style={{ minWidth: '60px', width: moreExpanded ? 'auto' : width, height: height, border: showBorder ? '1px solid var(--ls-border-color-plugin, #ccc)' : 'none' }}>
         {mainItems.map(renderItem)}
+        {moreExpanded && moreItems.map(renderItem)}
         {hasMoreItems && (
           <div 
             className="ltt-toolbar-main-item ltt-toolbar-more"
@@ -213,11 +214,6 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           </div>
         )}
       </div>
-      {moreExpanded && (
-        <div className="ltt-toolbar-more-dropdown">
-          {moreItems.map(renderItem)}
-        </div>
-      )}
     </div>
   )
 }
