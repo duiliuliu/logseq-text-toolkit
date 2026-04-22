@@ -191,7 +191,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           />
         </div>
       )}
-      <div className="ltt-toolbar-main" style={{ minWidth: '60px', width: 'auto', height: height, border: showBorder ? '1px solid var(--ls-border-color-plugin, #ccc)' : 'none' }}>
+      <div className="ltt-toolbar-main" style={{ minWidth: '60px', width: width, height: height, border: showBorder ? '1px solid var(--ls-border-color-plugin, #ccc)' : 'none' }}>
         {mainItems.map(renderItem)}
         {hasMoreItems && (
           <div 
