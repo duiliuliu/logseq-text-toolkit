@@ -95,9 +95,29 @@ const showSelectToolbar = async () => {
         // 使用ToolbarItems作为工具栏配置
         const toolbarItems = currentSettings.ToolbarItems || []
         console.log('Toolbar items:', toolbarItems)
+        
+        // 实现 updateToolbarPosition 功能
+        const updateToolbarPosition = async () => {
+          const curPos = await logseqAPI.Editor.getEditingCursorPosition()
+          if (curPos != null) {
+            const toolbar = toolbarContainer
+            toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
+            if (
+              curPos.left + curPos.rect.x + toolbar.clientWidth <=
+              (window as any).parent.window.innerWidth
+            ) {
+              toolbar.style.left = `${curPos.left + curPos.rect.x}px`
+            } else {
+              toolbar.style.left = `${-toolbar.clientWidth + (window as any).parent.window.innerWidth}px`
+            }
+            toolbar.style.opacity = "1"
+          }
+        }
+        
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: toolbarItems,
+          updateToolbarPosition,
         })
       }
     }, 1)

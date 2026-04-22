@@ -1,9 +1,11 @@
 .ltt-toolbar-container {
   position: relative;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   gap: 4px;
   align-items: flex-start;
+  max-width: none;
+  width: auto;
 }
 
 .ltt-toolbar-main {
@@ -128,11 +130,12 @@
   flex-direction: row;
   gap: 4px;
   padding: 8px;
-  min-width: auto;
   white-space: nowrap;
   flex-shrink: 0;
   overflow: visible;
   min-width: max-content;
+  width: auto;
+  max-width: none;
 }
 
 .ltt-toolbar-more-dropdown .ltt-toolbar-main-item {

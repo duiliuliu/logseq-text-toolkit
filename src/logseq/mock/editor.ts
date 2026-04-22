@@ -38,6 +38,60 @@ const Editor: any = {
     });
   },
 
+  // 获取编辑光标位置
+  getEditingCursorPosition: () => {
+    console.log('Get editing cursor position');
+
+    const selection = getSelection();
+    const doc = getDocument();
+
+    let rect: DOMRect | null = null;
+
+    try {
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        rect = range.getBoundingClientRect();
+        const focusNode = selection.focusNode;
+
+        // 只有宽度为0时光标才兜底，不影响选中文本
+        if (rect.width === 0 && focusNode?.parentElement) {
+          rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect();
+        }
+      } else {
+        // 如果没有range，尝试找到编辑区域
+        const mainContentContainer = doc.getElementById('main-content-container');
+        if (mainContentContainer) {
+          rect = mainContentContainer.getBoundingClientRect();
+        }
+      }
+    } catch {
+      // 如果出错，使用默认值
+      const mainContentContainer = doc.getElementById('main-content-container');
+      if (mainContentContainer) {
+        rect = mainContentContainer.getBoundingClientRect();
+      }
+    }
+
+    if (rect) {
+      return Promise.resolve({
+        top: 0, // 相对偏移
+        left: 0, // 相对偏移
+        rect: {
+          x: rect.x,
+          y: rect.y,
+          width: rect.width,
+          height: rect.height,
+          top: rect.top,
+          right: rect.right,
+          bottom: rect.bottom,
+          left: rect.left,
+        }
+      });
+    }
+
+    return Promise.resolve(null);
+  },
+
   // 更新块内容
   updateBlock: (blockId: string, content: string) => {
     console.log('Update block:', blockId, content);
