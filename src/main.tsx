@@ -98,20 +98,38 @@ const showSelectToolbar = async () => {
         
         // 实现 updateToolbarPosition 功能
         const updateToolbarPosition = async () => {
-          const curPos = await logseqAPI.Editor.getEditingCursorPosition()
-          if (curPos != null) {
-            const toolbar = toolbarContainer
-            const parentWindow = getWindow()
-            toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
-            if (
-              curPos.left + curPos.rect.x + toolbar.clientWidth <=
-              parentWindow.innerWidth
-            ) {
-              toolbar.style.left = `${curPos.left + curPos.rect.x}px`
+          console.log('updateToolbarPosition called')
+          try {
+            const curPos = await logseqAPI.Editor.getEditingCursorPosition()
+            console.log('Cursor position:', curPos)
+            if (curPos != null) {
+              const toolbar = toolbarContainer
+              console.log('Toolbar container:', toolbar)
+              console.log('Toolbar clientWidth:', toolbar.clientWidth)
+              const parentWindow = getWindow()
+              console.log('Parent window innerWidth:', parentWindow.innerWidth)
+              const topPosition = curPos.top + curPos.rect.y - 35
+              console.log('Calculated top position:', topPosition)
+              toolbar.style.top = `${topPosition}px`
+              
+              const totalWidth = curPos.left + curPos.rect.x + toolbar.clientWidth
+              console.log('Total width needed:', totalWidth)
+              if (totalWidth <= parentWindow.innerWidth) {
+                const leftPosition = curPos.left + curPos.rect.x
+                console.log('Calculated left position (normal):', leftPosition)
+                toolbar.style.left = `${leftPosition}px`
+              } else {
+                const leftPosition = -toolbar.clientWidth + parentWindow.innerWidth
+                console.log('Calculated left position (adjusted):', leftPosition)
+                toolbar.style.left = `${leftPosition}px`
+              }
+              console.log('Setting toolbar opacity to 1')
+              toolbar.style.opacity = "1"
             } else {
-              toolbar.style.left = `${-toolbar.clientWidth + parentWindow.innerWidth}px`
+              console.log('Cursor position is null')
             }
-            toolbar.style.opacity = "1"
+          } catch (error) {
+            console.error('Error in updateToolbarPosition:', error)
           }
         }
         
@@ -146,7 +164,7 @@ const main = async () => {
         <a class="button" id="ltt-settings-button"
         data-on-click="settingToggle"
         data-rect>
-         <i class="ti ti-settings"></i> 
+         <img src="${window.location.origin}/icon.png" style="width: 16px; height: 16px;" />
         </a>
       `,
     })

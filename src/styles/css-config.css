@@ -65,37 +65,19 @@
   display: none;
 }
 /* ==============================================
-   3. 颜色变量定义（浅色主题）
+   3. 颜色变量定义（使用 Logseq 主题变量）
    ============================================== */
-.white-theme,
-html[data-theme=light] {
-  --mark-red: #ffc7c7;
-  --mark-blue: #abdfff;
-  --mark-yellow: #fff3a3;
-  --mark-green: #ccffc1;
-  --mark-purple: #d2b3ff;
-  --span-red: #ff0000;
-  --span-blue: #0066ff;
-  --span-yellow: #ffdd00;
-  --span-green: #00cc00;
-  --span-purple: #6800ff;
-  --mark-border-radius: 0.25rem;
-}
-/* ==============================================
-   4. 颜色变量定义（深色主题）
-   ============================================== */
-.dark-theme,
-html[data-theme=dark] {
-  --mark-red: #ff7070;
-  --mark-blue: #87c3ff;
-  --mark-yellow: #fff3a3;
-  --mark-green: #a3ffc4;
-  --mark-purple: #d2b3ff;
-  --span-red: #ff0000;
-  --span-blue: #0080ff;
-  --span-yellow: #ffdd00;
-  --span-green: #00ff5b;
-  --span-purple: #6800ff;
+:root {
+  --mark-red: var(--ls-highlight-color-red, #ffc7c7);
+  --mark-blue: var(--ls-highlight-color-blue, #abdfff);
+  --mark-yellow: var(--ls-highlight-color-yellow, #fff3a3);
+  --mark-green: var(--ls-highlight-color-green, #ccffc1);
+  --mark-purple: var(--ls-highlight-color-purple, #d2b3ff);
+  --span-red: var(--ls-color-red, #ff0000);
+  --span-blue: var(--ls-color-blue, #0066ff);
+  --span-yellow: var(--ls-color-yellow, #ffdd00);
+  --span-green: var(--ls-color-green, #00cc00);
+  --span-purple: var(--ls-color-purple, #6800ff);
   --mark-border-radius: 0.25rem;
 }
 /* ==============================================
