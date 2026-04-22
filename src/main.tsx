@@ -123,7 +123,7 @@ const main = async () => {
         <a class="button" id="ltt-settings-button"
         data-on-click="settingToggle"
         data-rect>
-         <img src="${window.location.origin}/icon.png" style="width: 16px; height: 16px;" />
+         <img src="https://github.com/duiliuliu/logseq-text-toolkit/blob/dev-text-tool/icon.png?raw=true" style="width: 16px; height: 16px;" />
         </a>
       `,
     })
