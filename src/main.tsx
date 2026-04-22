@@ -95,23 +95,9 @@ const showSelectToolbar = async () => {
         // 使用ToolbarItems作为工具栏配置
         const toolbarItems = currentSettings.ToolbarItems || []
         console.log('Toolbar items:', toolbarItems)
-        
-        // 实现logseq定位方法
-        const getCursorPosition = async () => {
-          try {
-            const curPos = await logseqAPI.Editor.getEditingCursorPosition()
-            return curPos
-          } catch (error) {
-            console.error('Error getting cursor position:', error)
-            return null
-          }
-        }
-        
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: toolbarItems,
-          positioningMethod: 'logseq',
-          getCursorPosition: getCursorPosition
         })
       }
     }, 1)
