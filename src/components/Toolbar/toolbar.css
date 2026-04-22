@@ -1,7 +1,7 @@
 .ltt-toolbar-container {
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 4px;
   align-items: flex-start;
 }
@@ -114,16 +114,20 @@
 }
 
 .ltt-toolbar-more-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
   border: 1px solid var(--ls-border-color-plugin, #ccc);
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   z-index: 1004;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   gap: 4px;
-  padding: 4px 8px;
+  padding: 8px;
   min-width: auto;
   white-space: nowrap;
   flex-shrink: 0;

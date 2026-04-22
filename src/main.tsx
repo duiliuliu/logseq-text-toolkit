@@ -9,9 +9,8 @@ import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
-import { getDocument, getWindow, getSelection } from './logseq/utils.ts'
+import { getDocument } from './logseq/utils.ts'
 import { settingsModalCSS, modalCSS, toolbarCSS, cssConfigCSS } from './styles/index.ts'
-import { SelectedData } from './utils/textProcessor.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -74,46 +73,6 @@ const settingToggle = async () => {
   showSettingUI();
 }
 
-const updateToolbarPosition = async (
-  containerRef: React.RefObject<HTMLDivElement>, 
-  setToolbarPosition: React.Dispatch<React.SetStateAction<any>>, 
-  setShowToolbar: React.Dispatch<React.SetStateAction<boolean>>, 
-  setSelectedData: React.Dispatch<React.SetStateAction<SelectedData>>
-) => {
-  const selection = getSelection()
-  const doc = getDocument()
-  
-  if (!selection || selection.isCollapsed) {
-    setShowToolbar(false)
-    return
-  }
-
-  const selectedText = selection.toString().trim()
-  if (!selectedText) {
-    setShowToolbar(false)
-    return
-  }
-
-  setSelectedData({ text: selectedText })
-
-  const curPos = await logseqAPI.Editor.getEditingCursorPosition()
-  if (curPos != null) {
-    const toolbar = containerRef.current
-    if (toolbar) {
-      const parent = getWindow()
-      let left = curPos.left + curPos.rect.x
-      let top = curPos.top + curPos.rect.y - 35
-      
-      if (left + toolbar.clientWidth > parent.innerWidth) {
-        left = -toolbar.clientWidth + parent.innerWidth
-      }
-
-      setToolbarPosition({ x: left, y: top })
-    }
-    setShowToolbar(true)
-  }
-}
-
 const showSelectToolbar = async () => {
   console.log('Showing Select Toolbar')
 
@@ -139,7 +98,6 @@ const showSelectToolbar = async () => {
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: toolbarItems,
-          updateToolbarPosition: updateToolbarPosition as any
         })
       }
     }, 1)

@@ -38,60 +38,6 @@ const Editor: any = {
     });
   },
 
-  // 获取编辑光标位置
-  getEditingCursorPosition: () => {
-    console.log('Get editing cursor position');
-
-    const selection = getSelection();
-    const doc = getDocument();
-
-    if (selection && selection.rangeCount > 0) {
-      try {
-        const range = selection.getRangeAt(0);
-        let rect = range.getBoundingClientRect();
-        const focusNode = selection.focusNode;
-
-        // 只有宽度为0时光标才兜底，不影响选中文本
-        if (rect.width === 0 && focusNode?.parentElement) {
-          rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect();
-        }
-
-        return Promise.resolve({
-          rect: rect,
-          top: 0,
-          left: 0
-        });
-      } catch {
-        // 如果出错，返回默认位置
-        const mainContainer = doc.getElementById('main-content-container');
-        if (mainContainer) {
-          const rect = mainContainer.getBoundingClientRect();
-          return Promise.resolve({
-            rect: rect,
-            top: 0,
-            left: 0
-          });
-        }
-      }
-    }
-
-    // 返回默认位置
-    return Promise.resolve({
-      rect: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-      },
-      top: 0,
-      left: 0
-    });
-  },
-
   // 更新块内容
   updateBlock: (blockId: string, content: string) => {
     console.log('Update block:', blockId, content);
