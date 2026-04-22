@@ -9,7 +9,7 @@ import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
-import { getDocument } from './logseq/utils.ts'
+import { getDocument, getWindow } from './logseq/utils.ts'
 import { settingsModalCSS, modalCSS, toolbarCSS, cssConfigCSS } from './styles/index.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
@@ -101,14 +101,15 @@ const showSelectToolbar = async () => {
           const curPos = await logseqAPI.Editor.getEditingCursorPosition()
           if (curPos != null) {
             const toolbar = toolbarContainer
+            const parentWindow = getWindow()
             toolbar.style.top = `${curPos.top + curPos.rect.y - 35}px`
             if (
               curPos.left + curPos.rect.x + toolbar.clientWidth <=
-              (window as any).parent.window.innerWidth
+              parentWindow.innerWidth
             ) {
               toolbar.style.left = `${curPos.left + curPos.rect.x}px`
             } else {
-              toolbar.style.left = `${-toolbar.clientWidth + (window as any).parent.window.innerWidth}px`
+              toolbar.style.left = `${-toolbar.clientWidth + parentWindow.innerWidth}px`
             }
             toolbar.style.opacity = "1"
           }
