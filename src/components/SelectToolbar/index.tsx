@@ -18,9 +18,10 @@ interface SelectToolbarProps {
   height?: string
   hoverDelay?: number
   sponsorEnabled?: boolean
+  updateToolbarPosition?: (containerRef: React.RefObject<HTMLDivElement>, setToolbarPosition: React.Dispatch<React.SetStateAction<ToolbarPosition>>, setShowToolbar: React.Dispatch<React.SetStateAction<boolean>>, setSelectedData: React.Dispatch<React.SetStateAction<SelectedData>>) => void
 }
 
-function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPosition: externalUpdateToolbarPosition }: SelectToolbarProps) {
   const { settings } = useSettingsContext()
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
@@ -41,91 +42,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     console.log('Processed text:', processedText)
   }
 
-  // 更新toolbar位置
-  const updateToolbarPosition = () => {
-    if (!targetElement) {
-      setShowToolbar(false)
-      return
-    }
-
-    const selection = getSelection()
-    if (!selection || selection.toString().length === 0) {
-      setShowToolbar(false)
-      return
-    }
-
-    // 检查是否在目标元素内
-    const anchorNode = selection.anchorNode
-    const focusNode = selection.focusNode
-    const shouldShowToolbar = targetElement.contains(anchorNode) || targetElement.contains(focusNode)
-
-    if (!shouldShowToolbar) {
-      setShowToolbar(false)
-      return
-    }
-
-    // ======================
-    // ✅ 核心：只获取一次正确位置
-    // ======================
-    let rect: DOMRect
-    try {
-      if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0)
-        rect = range.getBoundingClientRect()
-
-        // 只有宽度为0时光标才兜底，不影响选中文本
-        if (rect.width === 0 && focusNode?.parentElement) {
-          rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect()
-        }
-      } else {
-        rect = targetElement.getBoundingClientRect()
-      }
-    } catch {
-      rect = targetElement.getBoundingClientRect()
-    }
-
-    setSelectedData({
-      text: selection.toString(),
-      timestamp: new Date().toISOString(),
-      rect
-    })
-
-    // ======================
-    // ✅ 定位（紧贴选中文字，不飘）
-    // ======================
-    const toolbarHeight = 32
-    const padding = 3 // 贴文字距离
-    const viewportHeight = getWindow().innerHeight
-    let toolbarY: number
-
-    // 上下位置判断
-    const spaceAbove = rect.top
-    const spaceBelow = viewportHeight - rect.bottom
-
-    if (spaceAbove > toolbarHeight + 10) {
-      toolbarY = rect.top - toolbarHeight - padding
-    } else {
-      toolbarY = rect.bottom + padding
-    }
-
-    // ======================
-    // ✅ 左侧对齐（与选中文字左侧对齐）
-    // ======================
-    let toolbarX = rect.left
-    // 不需要减去toolbar宽度，保持左侧对齐
-
-    // 边界不超出屏幕
-    const viewportWidth = getWindow().innerWidth
-    if (containerRef.current) {
-      const w = containerRef.current.offsetWidth
-      if (toolbarX < 0) toolbarX = 0
-      if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w
-    }
-
-    setToolbarPosition({ x: toolbarX, y: toolbarY })
-    setShowToolbar(true)
-  }
-
   // 处理文本选择
   useEffect(() => {
     if (!targetElement) return
@@ -137,7 +53,9 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         return
       }
 
-      updateToolbarPosition()
+      if (externalUpdateToolbarPosition) {
+        externalUpdateToolbarPosition(containerRef, setToolbarPosition, setShowToolbar, setSelectedData)
+      }
     }
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
@@ -150,8 +68,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
     // 处理滚动事件，更新toolbar位置
     const handleScroll = () => {
-      if (showToolbar) {
-        updateToolbarPosition()
+      if (showToolbar && externalUpdateToolbarPosition) {
+        externalUpdateToolbarPosition(containerRef, setToolbarPosition, setShowToolbar, setSelectedData)
       }
     }
 
@@ -188,7 +106,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       const doc = getDocument();
       doc.removeEventListener('scroll', handleScroll, true)
     }
-  }, [showToolbar, targetElement])
+  }, [showToolbar, targetElement, externalUpdateToolbarPosition])
 
   return (
     <div ref={containerRef}>
