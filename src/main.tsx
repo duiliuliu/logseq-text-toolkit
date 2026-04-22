@@ -74,8 +74,6 @@ const settingToggle = async () => {
 }
 
 const showSelectToolbar = async () => {
-  console.log('Showing Select Toolbar')
-
   // 提供工具栏样式
   logseqAPI.provideStyle(toolbarCSS)
 
@@ -94,49 +92,10 @@ const showSelectToolbar = async () => {
         const currentSettings = getSettings()
         // 使用ToolbarItems作为工具栏配置
         const toolbarItems = currentSettings.ToolbarItems || []
-        console.log('Toolbar items:', toolbarItems)
-        
-        // 实现 updateToolbarPosition 功能
-        const updateToolbarPosition = async () => {
-          console.log('updateToolbarPosition called')
-          try {
-            const curPos = await logseqAPI.Editor.getEditingCursorPosition()
-            console.log('Cursor position:', curPos)
-            if (curPos != null) {
-              const toolbar = toolbarContainer
-              console.log('Toolbar container:', toolbar)
-              console.log('Toolbar clientWidth:', toolbar.clientWidth)
-              const parentWindow = getWindow()
-              console.log('Parent window innerWidth:', parentWindow.innerWidth)
-              const topPosition = curPos.top + curPos.rect.y - 35
-              console.log('Calculated top position:', topPosition)
-              toolbar.style.top = `${topPosition}px`
-              
-              const totalWidth = curPos.left + curPos.rect.x + toolbar.clientWidth
-              console.log('Total width needed:', totalWidth)
-              if (totalWidth <= parentWindow.innerWidth) {
-                const leftPosition = curPos.left + curPos.rect.x
-                console.log('Calculated left position (normal):', leftPosition)
-                toolbar.style.left = `${leftPosition}px`
-              } else {
-                const leftPosition = -toolbar.clientWidth + parentWindow.innerWidth
-                console.log('Calculated left position (adjusted):', leftPosition)
-                toolbar.style.left = `${leftPosition}px`
-              }
-              console.log('Setting toolbar opacity to 1')
-              toolbar.style.opacity = "1"
-            } else {
-              console.log('Cursor position is null')
-            }
-          } catch (error) {
-            console.error('Error in updateToolbarPosition:', error)
-          }
-        }
         
         renderComponent(toolbarContainer, SelectToolbar, {
           targetElement: mainContentContainer,
           items: toolbarItems,
-          updateToolbarPosition,
         })
       }
     }, 1)

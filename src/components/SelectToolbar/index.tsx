@@ -18,10 +18,9 @@ interface SelectToolbarProps {
   height?: string
   hoverDelay?: number
   sponsorEnabled?: boolean
-  updateToolbarPosition?: () => Promise<void> // 新增：外部传入的更新位置函数
 }
 
-function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPosition: externalUpdateToolbarPosition }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProps) {
   const { settings } = useSettingsContext()
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
@@ -42,8 +41,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPositi
     console.log('Processed text:', processedText)
   }
 
-  // 内部默认实现的更新位置（如果外部没有传入）
-  const internalUpdateToolbarPosition = async () => {
+  // 更新工具栏位置
+  const updateToolbarPosition = async () => {
     if (!targetElement) {
       setShowToolbar(false)
       return
@@ -65,9 +64,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPositi
       return
     }
 
-    // ======================
-    // ✅ 核心：只获取一次正确位置
-    // ======================
+    // 核心：只获取一次正确位置
     let rect: DOMRect
     try {
       if (selection.rangeCount > 0) {
@@ -91,9 +88,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPositi
       rect
     })
 
-    // ======================
-    // ✅ 定位（紧贴选中文字，不飘）
-    // ======================
+    // 定位（紧贴选中文字，不飘）
     const toolbarHeight = 32
     const padding = 3 // 贴文字距离
     const viewportHeight = getWindow().innerHeight
@@ -109,11 +104,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPositi
       toolbarY = rect.bottom + padding
     }
 
-    // ======================
-    // ✅ 左侧对齐（与选中文字左侧对齐）
-    // ======================
+    // 左侧对齐（与选中文字左侧对齐）
     let toolbarX = rect.left
-    // 不需要减去toolbar宽度，保持左侧对齐
 
     // 边界不超出屏幕
     const viewportWidth = getWindow().innerWidth
@@ -126,9 +118,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPositi
     setToolbarPosition({ x: toolbarX, y: toolbarY })
     setShowToolbar(true)
   }
-
-  // 使用外部传入的或内部实现的更新位置函数
-  const updateToolbarPosition = externalUpdateToolbarPosition || internalUpdateToolbarPosition
 
   // 处理文本选择
   useEffect(() => {
@@ -192,7 +181,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems, updateToolbarPositi
       const doc = getDocument();
       doc.removeEventListener('scroll', handleScroll, true)
     }
-  }, [showToolbar, targetElement, updateToolbarPosition])
+  }, [showToolbar, targetElement])
 
   return (
     <div ref={containerRef}>
