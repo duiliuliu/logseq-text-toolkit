@@ -88,7 +88,6 @@ mark,
 .ls-block .block-content-inner mark,
 .ls-block .block-title mark,
 .journal-title mark {
-  --ctl-highlight-color: rgba(250, 204, 21, 0.32);
   color: inherit !important;
   -webkit-text-fill-color: currentColor !important;
   text-decoration: none !important;
@@ -100,7 +99,6 @@ mark,
   padding: 0 0.18em !important;
   box-decoration-break: clone !important;
   -webkit-box-decoration-break: clone !important;
-  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
   background-size: 100% 100% !important;
   background-position: 0% 0% !important;
   background-repeat: no-repeat !important;
@@ -108,32 +106,27 @@ mark,
 
 /* 红色高亮 */
 mark.red {
-  --ctl-highlight-color: rgba(239, 68, 68, 0.4) !important;
-  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+  background-image: linear-gradient(45deg, var(--mark-red) 0%, var(--mark-red) 100%) !important;
 }
 
 /* 蓝色高亮 */
 mark.blue {
-  --ctl-highlight-color: rgba(59, 130, 246, 0.4) !important;
-  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+  background-image: linear-gradient(45deg, var(--mark-blue) 0%, var(--mark-blue) 100%) !important;
 }
 
 /* 绿色高亮 */
 mark.green {
-  --ctl-highlight-color: rgba(34, 197, 94, 0.4) !important;
-  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+  background-image: linear-gradient(45deg, var(--mark-green) 0%, var(--mark-green) 100%) !important;
 }
 
 /* 紫色高亮 */
 mark.purple {
-  --ctl-highlight-color: rgba(168, 85, 247, 0.4) !important;
-  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+  background-image: linear-gradient(45deg, var(--mark-purple) 0%, var(--mark-purple) 100%) !important;
 }
 
 /* 黄色高亮 */
 mark.yellow {
-  --ctl-highlight-color: rgba(250, 204, 21, 0.4) !important;
-  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+  background-image: linear-gradient(45deg, var(--mark-yellow) 0%, var(--mark-yellow) 100%) !important;
 }
 /* ==============================================
    6. 文字颜色样式（span 元素）
