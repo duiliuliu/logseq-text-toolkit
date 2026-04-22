@@ -3,6 +3,7 @@ import Toolbar from '../Toolbar'
 import { SelectedData } from '../../utils/textProcessor.ts'
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts'
 import { useSettingsContext } from '../../settings/useSettings.tsx'
+import { logseqAPI } from '../../logseq/index.ts'
 
 interface ToolbarPosition {
   x: number
@@ -64,59 +65,93 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       return
     }
 
-    // 核心：只获取一次正确位置
-    let rect: DOMRect
     try {
-      if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0)
-        rect = range.getBoundingClientRect()
+      // 使用 logseqAPI 获取光标位置
+      const curPos = await logseqAPI.Editor.getEditingCursorPosition()
+      if (curPos != null) {
+        setSelectedData({
+          text: selection.toString(),
+          timestamp: new Date().toISOString(),
+          rect: curPos.rect
+        })
 
-        // 只有宽度为0时光标才兜底，不影响选中文本
-        if (rect.width === 0 && focusNode?.parentElement) {
-          rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect()
+        let toolbarY = curPos.top + curPos.rect.y - 35
+        let toolbarX: number
+
+        // 边界不超出屏幕
+        const viewportWidth = getWindow().innerWidth
+        if (containerRef.current) {
+          const w = containerRef.current.offsetWidth
+          if (curPos.left + curPos.rect.x + w <= viewportWidth) {
+            toolbarX = curPos.left + curPos.rect.x
+          } else {
+            toolbarX = -w + viewportWidth
+          }
+          if (toolbarX < 0) toolbarX = 0
+        } else {
+          toolbarX = curPos.left + curPos.rect.x
         }
-      } else {
+
+        setToolbarPosition({ x: toolbarX, y: toolbarY })
+        setShowToolbar(true)
+      }
+    } catch (error) {
+      console.error('Error getting cursor position:', error)
+      // 如果 logseqAPI 失败，降级到原来的实现
+      // 核心：只获取一次正确位置
+      let rect: DOMRect
+      try {
+        if (selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0)
+          rect = range.getBoundingClientRect()
+
+          // 只有宽度为0时光标才兜底，不影响选中文本
+          if (rect.width === 0 && focusNode?.parentElement) {
+            rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect()
+          }
+        } else {
+          rect = targetElement.getBoundingClientRect()
+        }
+      } catch {
         rect = targetElement.getBoundingClientRect()
       }
-    } catch {
-      rect = targetElement.getBoundingClientRect()
+
+      setSelectedData({
+        text: selection.toString(),
+        timestamp: new Date().toISOString(),
+        rect
+      })
+
+      // 定位（紧贴选中文字，不飘）
+      const toolbarHeight = 32
+      const padding = 3 // 贴文字距离
+      const viewportHeight = getWindow().innerHeight
+      let toolbarY: number
+
+      // 上下位置判断
+      const spaceAbove = rect.top
+      const spaceBelow = viewportHeight - rect.bottom
+
+      if (spaceAbove > toolbarHeight + 10) {
+        toolbarY = rect.top - toolbarHeight - padding
+      } else {
+        toolbarY = rect.bottom + padding
+      }
+
+      // 左侧对齐（与选中文字左侧对齐）
+      let toolbarX = rect.left
+
+      // 边界不超出屏幕
+      const viewportWidth = getWindow().innerWidth
+      if (containerRef.current) {
+        const w = containerRef.current.offsetWidth
+        if (toolbarX < 0) toolbarX = 0
+        if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w
+      }
+
+      setToolbarPosition({ x: toolbarX, y: toolbarY })
+      setShowToolbar(true)
     }
-
-    setSelectedData({
-      text: selection.toString(),
-      timestamp: new Date().toISOString(),
-      rect
-    })
-
-    // 定位（紧贴选中文字，不飘）
-    const toolbarHeight = 32
-    const padding = 3 // 贴文字距离
-    const viewportHeight = getWindow().innerHeight
-    let toolbarY: number
-
-    // 上下位置判断
-    const spaceAbove = rect.top
-    const spaceBelow = viewportHeight - rect.bottom
-
-    if (spaceAbove > toolbarHeight + 10) {
-      toolbarY = rect.top - toolbarHeight - padding
-    } else {
-      toolbarY = rect.bottom + padding
-    }
-
-    // 左侧对齐（与选中文字左侧对齐）
-    let toolbarX = rect.left
-
-    // 边界不超出屏幕
-    const viewportWidth = getWindow().innerWidth
-    if (containerRef.current) {
-      const w = containerRef.current.offsetWidth
-      if (toolbarX < 0) toolbarX = 0
-      if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w
-    }
-
-    setToolbarPosition({ x: toolbarX, y: toolbarY })
-    setShowToolbar(true)
   }
 
   // 处理文本选择

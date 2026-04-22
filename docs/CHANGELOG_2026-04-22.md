@@ -3,6 +3,8 @@
 - 将设置按钮图片引用改为 SVG 图标
 - 优化 Toolbar 点击 more 后的展示逻辑，将所有元素都展示在 Toolbar 上，不折行
 - 优化 deploy-pages workflow，参考 branch-release.yml 的配置
+- 修改 SelectToolbar 组件，使用 logseqAPI.Editor.getEditingCursorPosition() 获取光标位置
+- 添加降级逻辑，当 logseqAPI 失败时使用原来的实现
 
 ### 修复
 - 修复 Toolbar 点击 more 后折行问题，让所有元素都在一行展示
