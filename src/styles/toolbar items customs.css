@@ -9,7 +9,7 @@
 }
 /* ==============================================
    2. 工具栏样式
-   ============================================== */
+   ==============================================
 #kef-wrap-toolbar {
   position: absolute;
   top: 0;
@@ -66,7 +66,7 @@
 }
 /* ==============================================
    3. 颜色变量定义（使用 Logseq 主题变量）
-   ============================================== */
+   ==============================================
 :root {
   --mark-red: var(--ls-highlight-color-red, #ffc7c7);
   --mark-blue: var(--ls-highlight-color-blue, #abdfff);
@@ -80,47 +80,64 @@
   --span-purple: var(--ls-color-purple, #6800ff);
   --mark-border-radius: 0.25rem;
 }
-/* ==============================================
-   5. 背景高亮样式（mark 元素）
-   ============================================== */
+/* ————————————————————————————————————————
+ mark 高亮样式（原项目结构 100% 保留）
+ 修复：彩色 mark 不生效问题
+———————————————————————————————————————— */
+mark,
+.ls-block .block-content-inner mark,
+.ls-block .block-title mark,
+.journal-title mark {
+  --ctl-highlight-color: rgba(250, 204, 21, 0.32);
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-decoration: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-radius: 4px !important;
+  padding: 0 0.18em !important;
+  box-decoration-break: clone !important;
+  -webkit-box-decoration-break: clone !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+  background-size: 100% 100% !important;
+  background-position: 0% 0% !important;
+  background-repeat: no-repeat !important;
+}
+
+/* 红色高亮 */
 mark.red {
-  background-color: var(--mark-red) !important;
-  color: #262626 !important;
-  border-radius: var(--mark-border-radius) !important;
-  padding: 2px 4px !important;
-  display: inline !important;
+  --ctl-highlight-color: rgba(239, 68, 68, 0.4) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
 }
+
+/* 蓝色高亮 */
 mark.blue {
-  background-color: var(--mark-blue) !important;
-  color: #262626 !important;
-  border-radius: var(--mark-border-radius) !important;
-  padding: 2px 4px !important;
-  display: inline !important;
+  --ctl-highlight-color: rgba(59, 130, 246, 0.4) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
 }
-mark.yellow {
-  background-color: var(--mark-yellow) !important;
-  color: #262626 !important;
-  border-radius: var(--mark-border-radius) !important;
-  padding: 2px 4px !important;
-  display: inline !important;
-}
+
+/* 绿色高亮 */
 mark.green {
-  background-color: var(--mark-green) !important;
-  color: #262626 !important;
-  border-radius: var(--mark-border-radius) !important;
-  padding: 2px 4px !important;
-  display: inline !important;
+  --ctl-highlight-color: rgba(34, 197, 94, 0.4) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
 }
+
+/* 紫色高亮 */
 mark.purple {
-  background-color: var(--mark-purple) !important;
-  color: #262626 !important;
-  border-radius: var(--mark-border-radius) !important;
-  padding: 2px 4px !important;
-  display: inline !important;
+  --ctl-highlight-color: rgba(168, 85, 247, 0.4) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+}
+
+/* 黄色高亮 */
+mark.yellow {
+  --ctl-highlight-color: rgba(250, 204, 21, 0.4) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
 }
 /* ==============================================
    6. 文字颜色样式（span 元素）
-   ============================================== */
+   ==============================================
 span.red {
   color: var(--span-red) !important;
   background: transparent !important;
@@ -163,7 +180,7 @@ span.purple {
 }
 /* ==============================================
    7. 下划线高亮样式（u 元素）
-   ============================================== */
+   ==============================================
 u.red {
   text-decoration: underline !important;
   text-decoration-color: var(--span-red) !important;
@@ -221,7 +238,7 @@ u.purple {
 }
 /* ==============================================
    8. 特殊样式
-   ============================================== */
+   ==============================================
 .block-content-inner:has(+ .block-body [data-ref="#caption"] + mark) > .flex-1 {
   text-align: center;
 }

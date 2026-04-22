@@ -133,7 +133,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item ltt-setting-item-json">
-        <label>工具栏元素配置</label>
+        <label>元素配置</label>
         <div className="ltt-json-editor">
           <div className="ltt-json-hint">
             <ul>

@@ -234,7 +234,7 @@ input:checked + .ltt-switch-slider:before {
 }
 
 /* 响应式调整：确保textarea在窄屏模式下正常显示 */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .ltt-json-editor textarea {
     min-height: 200px !important;
     font-size: 12px !important;
@@ -254,6 +254,44 @@ input:checked + .ltt-switch-slider:before {
   .ltt-setting-item input[type="number"] {
     width: 100% !important;
     min-width: 100% !important;
+  }
+  
+  /* 确保元素配置在窄屏幕下正常显示 */
+  .ltt-setting-item-json {
+    width: 100% !important;
+  }
+  
+  .ltt-json-editor {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .ltt-json-editor textarea {
+    width: 100% !important;
+    min-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* 针对更小屏幕的调整 */
+@media (max-width: 480px) {
+  .ltt-json-editor textarea {
+    min-height: 180px !important;
+    font-size: 11px !important;
+    padding: 10px !important;
+  }
+  
+  .ltt-setting-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  
+  .ltt-setting-item > label {
+    width: 100% !important;
+  }
+  
+  .ltt-switch {
+    align-self: flex-start !important;
   }
 }
 
