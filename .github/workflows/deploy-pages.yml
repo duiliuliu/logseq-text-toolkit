@@ -30,7 +30,7 @@ jobs:
         run: npm install --no-lockfile --legacy-peer-deps
 
       - name: Build
-        run: npm run build:plugin
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
