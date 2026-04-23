@@ -233,68 +233,6 @@ input:checked + .ltt-switch-slider:before {
   width: 100%;
 }
 
-/* 响应式调整：确保textarea在窄屏模式下正常显示 */
-@media (max-width: 768px) {
-  .ltt-json-editor textarea {
-    min-height: 200px !important;
-    font-size: 12px !important;
-    padding: 12px !important;
-  }
-  
-  .ltt-setting-item {
-    gap: 8px !important;
-  }
-  
-  .ltt-setting-item > label {
-    width: 100% !important;
-    text-align: left !important;
-  }
-  
-  .ltt-setting-item input[type="text"],
-  .ltt-setting-item input[type="number"] {
-    width: 100% !important;
-    min-width: 100% !important;
-  }
-  
-  /* 确保元素配置在窄屏幕下正常显示 */
-  .ltt-setting-item-json {
-    width: 100% !important;
-  }
-  
-  .ltt-json-editor {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  
-  .ltt-json-editor textarea {
-    width: 100% !important;
-    min-width: 100% !important;
-    box-sizing: border-box !important;
-  }
-}
-
-/* 针对更小屏幕的调整 */
-@media (max-width: 480px) {
-  .ltt-json-editor textarea {
-    min-height: 180px !important;
-    font-size: 11px !important;
-    padding: 10px !important;
-  }
-  
-  .ltt-setting-item {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-  }
-  
-  .ltt-setting-item > label {
-    width: 100% !important;
-  }
-  
-  .ltt-switch {
-    align-self: flex-start !important;
-  }
-}
-
 /* JSON编辑器样式 */
 .ltt-setting-item-json {
   align-items: flex-start;
@@ -503,16 +441,74 @@ input:checked + .ltt-switch-slider:before {
     padding: 6px 12px;
   }
   
-  /* 确保开关不会在响应式布局中变形 */
   .ltt-setting-item {
-    /* 保持开关不变化布局 */
-    flex-direction: row !important;
-    align-items: center !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
   }
   
-  .ltt-setting-item label {
-    width: auto;
-    padding-top: 0;
+  .ltt-setting-item > label {
+    width: 100% !important;
+    text-align: left !important;
+  }
+  
+  .ltt-setting-item input[type="text"],
+  .ltt-setting-item input[type="number"] {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+  
+  .ltt-json-editor textarea {
+    min-height: 200px !important;
+    font-size: 12px !important;
+    padding: 12px !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .ltt-json-editor {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .ltt-switch {
+    align-self: flex-start !important;
+  }
+}
+
+/* 针对更窄屏幕的调整 */
+@media (max-width: 480px) {
+  .ltt-settings-container {
+    padding: 0 8px;
+  }
+  
+  .ltt-settings-tab {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  
+  .ltt-setting-item input[type="text"],
+  .ltt-setting-item input[type="number"] {
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+  }
+  
+  .ltt-json-editor textarea {
+    min-height: 180px !important;
+    font-size: 11px !important;
+    padding: 10px !important;
+  }
+  
+  .ltt-settings-actions {
+    margin-top: 40px;
+    justify-content: center;
+    padding-right: 0;
+  }
+  
+  .ltt-settings-btn {
+    padding: 8px 16px;
+    font-size: 13px;
   }
 }
 
