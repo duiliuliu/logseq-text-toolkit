@@ -23,52 +23,52 @@
   --hover-color-dark: #334155;
   --focus-color-dark: #1e3a8a;
   
-  /* Default theme variables */
-  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);
-  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);
-  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);
-  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);
-  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);
+  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */
+  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));
+  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));
+  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));
+  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));
+  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));
+  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));
+  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));
+  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));
 }
 
 /* Media query for dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);
-    --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);
-    --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);
-    --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);
-    --ls-border-color-plugin: var(--border-color-dark, #334155);
-    --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);
-    --ls-hover-color-plugin: var(--hover-color-dark, #334155);
-    --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
+    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));
+    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));
+    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));
+    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));
+    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));
+    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
+    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
+    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
   }
 }
 
 /* Theme classes */
 .light-mode {
-  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);
-  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);
-  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);
-  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);
-  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);
+  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));
+  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));
+  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));
+  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));
+  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));
+  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));
+  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));
+  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));
 }
 
 .dark-mode {
-  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);
-  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);
-  --ls-border-color-plugin: var(--border-color-dark, #334155);
-  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);
-  --ls-hover-color-plugin: var(--hover-color-dark, #334155);
-  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
+  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));
+  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));
+  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));
+  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));
+  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));
+  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
+  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
+  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
 }
 
 :root {

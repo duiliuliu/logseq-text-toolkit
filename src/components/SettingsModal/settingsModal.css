@@ -234,16 +234,16 @@ input:checked + .ltt-switch-slider:before {
 }
 
 /* JSON编辑器样式 */
-.ltt-setting-item-json {
-  align-items: flex-start;
+.ltt-setting-item.ltt-setting-item-json {
   flex-direction: column !important;
   align-items: flex-start !important;
+  width: 100% !important;
   gap: 8px !important;
 }
 
 .ltt-setting-item-json label {
   padding-top: 0;
-  width: 100% !important;
+  width: 120px !important;
   text-align: left !important;
   margin-bottom: 4px;
 }
@@ -454,8 +454,8 @@ input:checked + .ltt-switch-slider:before {
   
   .ltt-setting-item input[type="text"],
   .ltt-setting-item input[type="number"] {
-    width: 100% !important;
-    min-width: 100% !important;
+    width: 80px !important;
+    min-width: 80px !important;
   }
   
   .ltt-json-editor textarea {
@@ -486,6 +486,10 @@ input:checked + .ltt-switch-slider:before {
   .ltt-settings-tab {
     font-size: 11px;
     padding: 4px 8px;
+  }
+  
+  .ltt-setting-item > label {
+    width: 36px !important;
   }
   
   .ltt-setting-item input[type="text"],
