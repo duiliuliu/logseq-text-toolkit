@@ -124,13 +124,20 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
 export const regexReplaceText = (item: ToolbarItem, text: string): string => {
   if (item.clickfunc) {
     try {
-      // 解析 clickfunc 中的正则表达式和替换内容
-      // 格式示例: /pattern/replacement/flags
-      const regexMatch = item.clickfunc.match(/\/(.*)\/(.*)\/(.*)/);
-      if (regexMatch) {
-        const [, pattern, replacement, flags] = regexMatch;
+      // 处理对象格式的clickfunc（包含regex和replacement属性）
+      if (typeof item.clickfunc === 'object' && item.clickfunc.regex && item.clickfunc.replacement) {
+        const { regex: pattern, replacement, flags = 'g' } = item.clickfunc;
         const regex = new RegExp(pattern, flags);
         return text.replace(regex, replacement);
+      }
+      // 处理字符串格式的clickfunc（格式示例: /pattern/replacement/flags）
+      else if (typeof item.clickfunc === 'string') {
+        const regexMatch = item.clickfunc.match(/\/(.*)\/(.*)\/(.*)/);
+        if (regexMatch) {
+          const [, pattern, replacement, flags] = regexMatch;
+          const regex = new RegExp(pattern, flags);
+          return text.replace(regex, replacement);
+        }
       }
     } catch (error) {
       console.error('Error parsing regex:', error);
