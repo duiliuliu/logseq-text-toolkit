@@ -242,3 +242,41 @@ u.purple {
 .block-content-inner:has(+ .block-body [data-ref="#caption"] + mark) > .flex-1 {
   text-align: center;
 }
+
+/* ==============================================
+   9. Cloze 样式
+   ============================================== */
+span.cloze {
+  position: relative;
+  display: inline-block;
+  width: 3em;
+  height: 1.2em;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0 0.2em;
+}
+
+span.cloze::after {
+  content: "...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+span.cloze * {
+  display: none !important;
+}
+
+/* 深色主题下的cloze样式 */
+[data-theme="dark"] span.cloze {
+  background-color: #444;
+}
+
+[data-theme="dark"] span.cloze::after {
+  color: #aaa;
+}
