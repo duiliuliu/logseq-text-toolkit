@@ -46,47 +46,7 @@ export const processSelectedData = async (
   return result;
 };
 
-/**
- * 替换文本
- * @param item 工具栏项目
- * @param text 原始文本
- * @returns 替换后的文本
- */
-export const replaceText = (item: ToolbarItem, text: string): string => {
-  if (item.regex && item.replacement) {
-    const regex = new RegExp(item.regex, 'g');
-    return text.replace(regex, item.replacement);
-  } else if (item.clickfunc) {
-    return item.clickfunc.replace(/\${selectedText}/g, text);
-  }
-  return text;
-};
-
-/**
- * 正则替换文本
- * @param item 工具栏项目
- * @param text 原始文本
- * @returns 替换后的文本
- */
-export const regexReplaceText = (item: ToolbarItem, text: string): string => {
-  if (item.clickfunc) {
-    try {
-      // 解析 clickfunc 中的正则表达式和替换内容
-      // 格式示例: /pattern/replacement/flags
-      const regexMatch = item.clickfunc.match(/\/(.*)\/(.*)\/(.*)/);
-      if (regexMatch) {
-        const [, pattern, replacement, flags] = regexMatch;
-        const regex = new RegExp(pattern, flags);
-        return text.replace(regex, replacement);
-      }
-    } catch (error) {
-      console.error('Error parsing regex:', error);
-    }
-  }
-  return text;
-};
-
-// == 核心函数 ==
+// ====================================================================================================
 
 /**
  * 处理文本替换的完整逻辑
@@ -135,7 +95,51 @@ export const replaceSelectedText = async (
   }
 };
 
-// == 辅助函数 ==
+// ====================================================================================================
+
+/**
+ * 替换文本
+ * @param item 工具栏项目
+ * @param text 原始文本
+ * @returns 替换后的文本
+ */
+export const replaceText = (item: ToolbarItem, text: string): string => {
+  if (item.regex && item.replacement) {
+    const regex = new RegExp(item.regex, 'g');
+    return text.replace(regex, item.replacement);
+  } else if (item.clickfunc) {
+    return item.clickfunc.replace(/\${selectedText}/g, text);
+  }
+  return text;
+};
+
+// ====================================================================================================
+
+/**
+ * 正则替换文本
+ * @param item 工具栏项目
+ * @param text 原始文本
+ * @returns 替换后的文本
+ */
+export const regexReplaceText = (item: ToolbarItem, text: string): string => {
+  if (item.clickfunc) {
+    try {
+      // 解析 clickfunc 中的正则表达式和替换内容
+      // 格式示例: /pattern/replacement/flags
+      const regexMatch = item.clickfunc.match(/\/(.*)\/(.*)\/(.*)/);
+      if (regexMatch) {
+        const [, pattern, replacement, flags] = regexMatch;
+        const regex = new RegExp(pattern, flags);
+        return text.replace(regex, replacement);
+      }
+    } catch (error) {
+      console.error('Error parsing regex:', error);
+    }
+  }
+  return text;
+};
+
+// ====================================================================================================
 
 /**
  * 更新 block 内容
@@ -179,6 +183,8 @@ const updateBlockContent = async (
   }
 };
 
+// ====================================================================================================
+
 /**
  * 回退：使用indexOf找到第一个匹配项的辅助函数
  * @param originalContent 原始内容
@@ -198,6 +204,8 @@ const findAndReplaceText = (originalContent: string, selectedText: string, proce
   }
   return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
 };
+
+// ====================================================================================================
 
 /**
  * 在当前选中的元素中进行精确替换
