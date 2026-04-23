@@ -21,6 +21,7 @@
     "toolbar": "🛠️ Toolbar Settings",
     "advanced": "⚡ Other Settings"
   },
+    "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
     "generalSettings": "General Settings",
     "theme": "Theme",
     "themeFollowSystem": "Follow System",

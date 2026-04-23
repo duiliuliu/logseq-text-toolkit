@@ -21,6 +21,7 @@
     "toolbar": "🛠️ 工具栏设置",
     "advanced": "⚡ 其他设置"
   },
+    "saveSuccessRestart": "保存成功，请重启应用生效",
     "generalSettings": "通用设置",
     "theme": "主题",
     "themeFollowSystem": "跟随系统",

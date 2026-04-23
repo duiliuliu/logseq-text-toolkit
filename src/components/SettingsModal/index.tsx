@@ -60,7 +60,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     const success = await saveSettings(settings)
     if (success) {
       console.log(`${tab} settings saved successfully`)
-      logseqAPI.UI.showMsg('保存成功，请重启应用生效', { type: 'success' })
+      logseqAPI.UI.showMsg(t('settings.saveSuccessRestart', language), { type: 'success' })
       onClose()
     }
   }

@@ -21,6 +21,7 @@
     "toolbar": "🛠️ ツールバー設定",
     "advanced": "⚡ その他の設定"
   },
+    "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
     "generalSettings": "一般設定",
     "theme": "テーマ",
     "themeFollowSystem": "システムに追従",
