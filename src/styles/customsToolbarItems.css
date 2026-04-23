@@ -247,34 +247,29 @@ u.purple {
    9. Cloze 样式
    ============================================== */
 span.cloze {
+  color: transparent !important;
+  font-size: 0 !important;
+  background: #e6e6e6;
+  border-radius: 2px;
+  padding: 1px 6px;
+  margin: 0 2px;
   position: relative;
-  display: inline-block;
-  width: 3em;
-  height: 1.2em;
-  background-color: #e0e0e0;
-  border-radius: 3px;
-  overflow: hidden;
-  margin: 0 0.2em;
 }
 
 span.cloze::after {
   content: "...";
+  font-size: 16px;
+  color: #999;
+  letter-spacing: 2px;
   position: absolute;
-  top: 50%;
   left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
-  color: #666;
-  font-size: 0.8em;
-  font-weight: bold;
-}
-
-span.cloze * {
-  display: none !important;
 }
 
 /* 深色主题下的cloze样式 */
 [data-theme="dark"] span.cloze {
-  background-color: #444;
+  background: #444;
 }
 
 [data-theme="dark"] span.cloze::after {
