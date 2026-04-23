@@ -89,7 +89,7 @@ export const replaceSelectedText = async (
     try {
       logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', language)}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
     } catch (uiError) {
-      console.error('Error showing message:', uiError);
+      console.warn('Error showing message:', uiError);
     }
     return selectedData.text;
   }
@@ -140,7 +140,7 @@ export const regexReplaceText = (item: ToolbarItem, text: string): string => {
         }
       }
     } catch (error) {
-      console.error('Error parsing regex:', error);
+      console.warn('Error parsing regex:', error);
     }
   }
   return text;
@@ -185,7 +185,7 @@ const updateBlockContent = async (
     // b. 更新block
     return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
   } catch (error) {
-    console.error('Error updating block content:', error);
+    console.warn('Error updating block content:', error);
     return false;
   }
 };
@@ -202,7 +202,7 @@ const updateBlockContent = async (
 const findAndReplaceText = (originalContent: string, selectedText: string, processedText: string): string => {
   const index = originalContent.indexOf(selectedText);
   if (index === -1) {
-    console.error('Selected text not found in block content:', {
+    console.warn('Selected text not found in block content:', {
       originalContent,
       selectedText,
       processedText
@@ -262,7 +262,7 @@ const replaceInSelectedElement = async (selectedText: string, processedText: str
     
     return false;
   } catch (error) {
-    console.error('Error in replaceInSelectedElement:', error);
+    console.warn('Error in replaceInSelectedElement:', error);
     return false;
   }
 };
