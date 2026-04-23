@@ -1,76 +1,26 @@
 /* src/main.css */
 
-/* Light theme variables - 参考 shadcn 和苹果设计 */
+/* 使用 Logseq 系统颜色变量 */
 :root {
-  --background-color-light: #ffffff;
-  --text-color-light: #000000;
-  --primary-text-color-light: #1e293b;
-  --secondary-text-color-light: #64748b;
-  --secondary-background-color-light: #f8fafc;
-  --border-color-light: #e2e8f0;
-  --accent-color-light: #3b82f6;
-  --hover-color-light: #f1f5f9;
-  --focus-color-light: #dbeafe;
-  
-  /* Dark theme variables - 参考 shadcn 和苹果设计 */
-  --background-color-dark: #0f172a;
-  --text-color-dark: #ffffff;
-  --primary-text-color-dark: #f1f5f9;
-  --secondary-text-color-dark: #94a3b8;
-  --secondary-background-color-dark: #1e293b;
-  --border-color-dark: #334155;
-  --accent-color-dark: #60a5fa;
-  --hover-color-dark: #334155;
-  --focus-color-dark: #1e3a8a;
-  
-  /* Default theme variables */
-  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);
-  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);
-  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);
-  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);
-  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);
+  /* Default theme variables - 使用 Logseq 系统颜色变量 */
+  --ls-primary-background-color-plugin: var(--ls-primary-background-color, #ffffff);
+  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, #f7f7f7);
+  --ls-tertiary-background-color-plugin: var(--ls-tertiary-background-color, #eaeaea);
+  --ls-quaternary-background-color-plugin: var(--ls-quaternary-background-color, #dcdcdc);
+  --ls-primary-text-color-plugin: var(--ls-primary-text-color, #433f38);
+  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, #161e2e);
+  --ls-border-color-plugin: var(--ls-border-color, #ccc);
+  --ls-secondary-border-color-plugin: var(--ls-secondary-border-color, #e2e2e2);
+  --ls-active-primary-color-plugin: var(--ls-active-primary-color, #0069b6);
+  --ls-active-secondary-color-plugin: var(--ls-active-secondary-color, #00477c);
+  --ls-link-text-color-plugin: var(--ls-link-text-color, #106ba3);
+  --ls-icon-color-plugin: var(--ls-icon-color, #646464);
+  --ls-accent-color-plugin: var(--ls-active-primary-color, #0069b6);
+  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--ls-a-chosen-bg, var(--ls-quaternary-background-color, #dcdcdc)));
+  --ls-focus-color-plugin: var(--ls-selection-background-color, #e4f2ff);
 }
 
-/* Media query for dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);
-    --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);
-    --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);
-    --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);
-    --ls-border-color-plugin: var(--border-color-dark, #334155);
-    --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);
-    --ls-hover-color-plugin: var(--hover-color-dark, #334155);
-    --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
-  }
-}
-
-/* Theme classes */
-.light-mode {
-  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);
-  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);
-  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);
-  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);
-  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);
-  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);
-}
-
-.dark-mode {
-  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);
-  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);
-  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);
-  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);
-  --ls-border-color-plugin: var(--border-color-dark, #334155);
-  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);
-  --ls-hover-color-plugin: var(--hover-color-dark, #334155);
-  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
-}
-
+/* Light theme 默认值作为后备 */
 :root {
   font-family: 'Roboto', 'Noto Sans JP', sans-serif;
   line-height: 1.5;
@@ -80,19 +30,18 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  color-scheme: light;
-  color: #213547;
-  background-color: #ffffff;
+  color: var(--ls-primary-text-color, #433f38);
+  background-color: transparent;
 }
 
 /* 链接样式 */
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--ls-link-text-color, #106ba3);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--ls-link-text-hover-color, #1a537c);
 }
 
 /* 按钮样式 */
@@ -103,17 +52,17 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #f9f9f9;
-  color: #213547;
+  background-color: var(--ls-secondary-background-color, #f7f7f7);
+  color: var(--ls-primary-text-color, #433f38);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--ls-active-primary-color, #0069b6);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px solid var(--ls-focus-ring-color, rgba(66, 133, 244, 0.5));
 }
 
 /* 允许内容区域的文本被选择 */
@@ -132,16 +81,16 @@ body {
   background-color: transparent;
 }
 
-/* Dark mode button and link styles */
-.dark-mode button {
-  background-color: #1a1a1a !important;
-  color: rgba(255, 255, 255, 0.87) !important;
+/* 深色模式按钮和链接样式 - 自动继承 Logseq 主题 */
+[data-theme="dark"] button {
+  background-color: var(--ls-secondary-background-color) !important;
+  color: var(--ls-primary-text-color) !important;
 }
 
-.dark-mode a {
-  color: #646cff !important;
+[data-theme="dark"] a {
+  color: var(--ls-link-text-color) !important;
 }
 
-.dark-mode a:hover {
-  color: #535bf2 !important;
+[data-theme="dark"] a:hover {
+  color: var(--ls-link-text-hover-color) !important;
 }

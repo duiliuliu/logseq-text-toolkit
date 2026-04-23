@@ -477,6 +477,15 @@ input:checked + .ltt-switch-slider:before {
   }
 }
 
+/* 输入框设置 */
+@media (max-width: 768px) {
+  .ltt-setting-item input[type="text"],
+  .ltt-setting-item input[type="number"] {
+    width: 80px !important;
+    min-width: 80px !important;
+  }
+}
+
 /* 针对更窄屏幕的调整 */
 @media (max-width: 480px) {
   .ltt-settings-container {
@@ -509,6 +518,27 @@ input:checked + .ltt-switch-slider:before {
   .ltt-settings-btn {
     padding: 8px 16px;
     font-size: 13px;
+  }
+  
+  /* label和switch开关宽度设置 */
+  .ltt-setting-item > label {
+    width: 36px !important;
+  }
+  
+  /* json label宽度调整 */
+  .ltt-setting-item-json label {
+    padding-top: 0;
+    width: 120px !important;
+    text-align: left !important;
+    margin-bottom: 4px;
+  }
+  
+  /* ltt-setting-item.ltt-setting-item-json 设置 */
+  .ltt-setting-item.ltt-setting-item-json {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    gap: 8px !important;
   }
 }
 
