@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
-import { SelectedData } from '../../utils/textProcessor.ts'
+import { SelectedData } from './textProcessor.ts'
 import { ToolbarItem, ToolbarGroup } from './types.ts'
 import { parseItems, handleItemClick, filterToolbarItems, IconName } from './ToolbarLogic.ts'
 

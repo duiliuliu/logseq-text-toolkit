@@ -1,5 +1,5 @@
 import { ToolbarItem, ToolbarGroup } from './types.ts';
-import { processSelectedData, SelectedData } from '../../utils/textProcessor.ts';
+import { processSelectedData, SelectedData } from './textProcessor.ts';
 
 export type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu';
 

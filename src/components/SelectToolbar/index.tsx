@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Toolbar from '../Toolbar'
-import { SelectedData } from '../../utils/textProcessor.ts'
+import { SelectedData } from '../Toolbar/textProcessor.ts'
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts'
 import { useSettingsContext } from '../../settings/useSettings.tsx'
 import { logseqAPI } from '../../logseq/index.ts'
