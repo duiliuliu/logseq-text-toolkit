@@ -6,6 +6,7 @@ import ToolbarSettings from './tabs/ToolbarSettings.tsx'
 import AdvancedSettings from './tabs/AdvancedSettings.tsx'
 import { t } from '../../translations/i18n.ts'
 import { ThemeType, Settings } from '../../settings/types.ts'
+import { logseqAPI } from '../../logseq/index.ts'
 import './settingsModal.css'
 
 // SettingsModal Props 类型
@@ -59,6 +60,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     const success = await saveSettings(settings)
     if (success) {
       console.log(`${tab} settings saved successfully`)
+      logseqAPI.UI.showMsg('保存成功，请重启应用生效', { type: 'success' })
       onClose()
     }
   }

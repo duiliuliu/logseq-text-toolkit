@@ -101,17 +101,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.width', language)}</label>
-        <input 
-          type="number" 
-          value={settings.width ? settings.width.replace('px', '') : '110'} 
-          onChange={(e) => handleSettingChange('width', `${e.target.value}px`)}
-          placeholder="110"
-          min="1"
-        />
-      </div>
-
-      <div className="ltt-setting-item">
         <label>{t('settings.height', language)}</label>
         <input 
           type="number" 
