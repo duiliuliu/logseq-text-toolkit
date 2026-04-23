@@ -115,6 +115,28 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   // provideStyle 方法
   provideStyle: (style: any) => {
     console.log('provideStyle called:', style);
+    
+    // 获取文档对象
+    const doc = getDocument();
+    
+    // 创建style元素
+    const styleElement = doc.createElement('style');
+    styleElement.type = 'text/css';
+    
+    // 设置style内容
+    if (typeof style === 'string') {
+      styleElement.textContent = style;
+    } else if (typeof style === 'object' && style.content) {
+      styleElement.textContent = style.content;
+    }
+    
+    // 将style元素添加到head中
+    const head = doc.head || doc.getElementsByTagName('head')[0];
+    if (head) {
+      head.appendChild(styleElement);
+      console.log('Style applied to document head');
+    }
+    
     return mockLogseq;
   },
 
