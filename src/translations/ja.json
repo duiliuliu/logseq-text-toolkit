@@ -3,7 +3,10 @@
     "bold": "太字",
     "highlight": "ハイライト",
     "fileLink": "ファイルリンク",
-    "comment": "コメント"
+    "comment": "コメント",
+    "noSelection": "処理するテキストを選択してください",
+    "replaceFailed": "テキストの置換に失敗しました",
+    "noBlockContent": "ブロックの内容を取得できません"
   },
   "comment": {
     "title": "コメントを追加"

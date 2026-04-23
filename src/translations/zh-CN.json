@@ -3,7 +3,10 @@
     "bold": "加粗",
     "highlight": "高亮",
     "fileLink": "文件链接",
-    "comment": "评论"
+    "comment": "评论",
+    "noSelection": "请选择要处理的文本",
+    "replaceFailed": "文本替换失败",
+    "noBlockContent": "无法获取块内容"
   },
   "comment": {
     "title": "添加评论"
