@@ -1,6 +1,7 @@
 import { ToolbarItem } from './types.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { getSelection, getDocument } from '../../logseq/utils.ts';
+import { t } from '../../translations/i18n.ts';
 
 /**
  * 选中数据接口
@@ -16,11 +17,13 @@ export interface SelectedData {
  * 处理选中的数据
  * @param item 工具栏项目
  * @param selectedData 选中的数据
+ * @param language 语言代码
  * @returns 处理后的文本
  */
 export const processSelectedData = async (
   item: ToolbarItem, 
-  selectedData: SelectedData
+  selectedData: SelectedData,
+  language: string = 'zh-CN'
 ): Promise<string> => {
   const selectedText = selectedData.text;
   if (!selectedText) {
@@ -30,16 +33,12 @@ export const processSelectedData = async (
   let result = selectedText;
   switch (item.funcmode) {
     case 'replace':
-      await replaceSelectedText(item, selectedData);
-      result = replaceText(item, selectedText);
+    case 'regexReplace':
+      result = await replaceSelectedText(item, selectedData, language);
       break;
     case 'add':
     case 'invoke':
       result = replaceText(item, selectedText);
-      break;
-    case 'regexReplace':
-      await replaceSelectedText(item, selectedData);
-      result = regexReplaceText(item, selectedText);
       break;
     case 'console':
       break;
@@ -87,6 +86,99 @@ export const regexReplaceText = (item: ToolbarItem, text: string): string => {
   return text;
 };
 
+// == 核心函数 ==
+
+/**
+ * 处理文本替换的完整逻辑
+ * @param item 工具栏项目
+ * @param selectedData 选中的数据
+ * @param language 语言代码
+ * @returns 处理后的文本
+ */
+export const replaceSelectedText = async (
+  item: ToolbarItem, 
+  selectedData: SelectedData,
+  language: string = 'zh-CN'
+): Promise<string> => {
+  try {
+    // 1. 对selectedData.text 参数判断处理
+    const selectedText = selectedData.text;
+    if (!selectedText) {
+      logseqAPI.UI.showMsg(t('toolbar.noSelection', language), { type: 'error' });
+      return selectedText;
+    }
+    
+    // 2. 对selectedData.text作文本处理
+    let processedText: string;
+    if (item.funcmode === 'regexReplace') {
+      processedText = regexReplaceText(item, selectedText);
+    } else {
+      processedText = replaceText(item, selectedText);
+    }
+    
+    // 3. 用处理后的文本更新block content
+    const success = await updateBlockContent(selectedText, processedText, language);
+    
+    if (!success) {
+      logseqAPI.UI.showMsg(t('toolbar.replaceFailed', language), { type: 'error' });
+    }
+    
+    // 4. 返回 processedText
+    return processedText;
+  } catch (error) {
+    try {
+      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', language)}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
+    } catch (uiError) {
+      console.error('Error showing message:', uiError);
+    }
+    return selectedData.text;
+  }
+};
+
+// == 辅助函数 ==
+
+/**
+ * 更新 block 内容
+ * @param selectedText 选中的文本
+ * @param processedText 处理后的文本
+ * @param language 语言代码
+ * @returns 是否更新成功
+ */
+const updateBlockContent = async (
+  selectedText: string, 
+  processedText: string,
+  language: string
+): Promise<boolean> => {
+  try {
+    // a. 获取block
+    const block = await logseqAPI.Editor.getCurrentBlock();
+    if (!block || !block.content) {
+      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
+      return false;
+    }
+    
+    const originalContent = block.content;
+    
+    // 实现精确的替换方法
+    let newContent: string;
+    
+    // 尝试在当前选中的元素中进行精确替换
+    const success = await replaceInSelectedElement(selectedText, processedText);
+    if (success) {
+      return true;
+    }
+    
+    // 回退：使用indexOf找到第一个匹配项
+    newContent = findAndReplaceText(originalContent, selectedText, processedText);
+    
+    // b. 更新block
+    return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
+  } catch (error) {
+    console.error('Error updating block content:', error);
+    return false;
+  }
+};
+
 /**
  * 回退：使用indexOf找到第一个匹配项的辅助函数
  * @param originalContent 原始内容
@@ -105,69 +197,6 @@ const findAndReplaceText = (originalContent: string, selectedText: string, proce
     throw new Error('选中的文字在块内容中未找到');
   }
   return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
-};
-
-/**
- * 处理文本替换的完整逻辑
- * @param item 工具栏项目
- * @param selectedData 选中的数据
- * @returns 是否替换成功
- */
-export const replaceSelectedText = async (item: ToolbarItem, selectedData: SelectedData): Promise<boolean> => {
-  try {
-    const selectedText = selectedData.text;
-    if (!selectedText) {
-      logseqAPI.UI.showMsg('没有选中的文字', { type: 'error' });
-      return false;
-    }
-    
-    let processedText: string;
-    if (item.funcmode === 'regexReplace') {
-      processedText = regexReplaceText(item, selectedText);
-    } else {
-      processedText = replaceText(item, selectedText);
-    }
-    
-    const block = await logseqAPI.Editor.getCurrentBlock();
-    if (!block || !block.content) {
-      logseqAPI.UI.showMsg('没有获取到当前块或块内容', { type: 'error' });
-      return false;
-    }
-    
-    const originalContent = block.content;
-    
-    // 实现精确的替换方法
-    let newContent: string;
-    
-    if (selectedData.range) {
-      // 使用range信息实现精确替换
-      newContent = buildContentWithRange(originalContent, selectedText, processedText);
-    } else {
-      // 尝试在当前选中的元素中进行精确替换
-      const success = await replaceInSelectedElement(selectedText, processedText);
-      if (success) {
-        return true;
-      }
-      
-      // 回退：使用indexOf找到第一个匹配项
-      newContent = findAndReplaceText(originalContent, selectedText, processedText);
-    }
-    
-    const success = await logseqAPI.Editor.updateBlock(block.uuid, newContent);
-    
-    if (!success) {
-      logseqAPI.UI.showMsg('文本替换失败', { type: 'error' });
-    }
-    
-    return success;
-  } catch (error) {
-    try {
-      logseqAPI.UI.showMsg(`文本替换失败: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
-    } catch (uiError) {
-      console.error('Error showing message:', uiError);
-    }
-    return false;
-  }
 };
 
 /**
@@ -221,18 +250,6 @@ const replaceInSelectedElement = async (selectedText: string, processedText: str
     console.error('Error in replaceInSelectedElement:', error);
     return false;
   }
-};
-
-/**
- * 使用range信息构建精确的替换内容
- * @param originalContent 原始内容
- * @param selectedText 选中的文本
- * @param processedText 处理后的文本
- * @returns 替换后的内容
- */
-const buildContentWithRange = (originalContent: string, selectedText: string, processedText: string): string => {
-  // 直接回退到indexOf方法，简化逻辑
-  return findAndReplaceText(originalContent, selectedText, processedText);
 };
 
 export default {

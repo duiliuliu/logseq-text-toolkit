@@ -15,6 +15,7 @@ interface ToolbarProps {
   hoverDelay?: number
   onTextProcessed?: (processedText: string) => void
   sponsorEnabled?: boolean
+  language?: string
 }
 
 const iconMap: Record<IconName, React.ElementType> = {
@@ -28,7 +29,7 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '28px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false }: ToolbarProps) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '28px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false, language = 'zh-CN' }: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -125,7 +126,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                   }}
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
-                  onClick={() => handleItemClick(subItem, selectedData, onTextProcessed)}
+                  onClick={() => handleItemClick(subItem, selectedData, onTextProcessed, language)}
                 >
                   <div className="ltt-toolbar-item-icon">
                     {renderIcon(subItem.icon)}
@@ -153,7 +154,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           }}
           onMouseEnter={() => setHoveredItem(toolbarItem)}
           onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleItemClick(toolbarItem, selectedData, onTextProcessed)}
+          onClick={() => handleItemClick(toolbarItem, selectedData, onTextProcessed, language)}
         >
           <div className="ltt-toolbar-item-icon">
             {renderIcon(toolbarItem.icon)}

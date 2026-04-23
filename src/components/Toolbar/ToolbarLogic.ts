@@ -69,9 +69,9 @@ export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => 
 /**
  * 处理工具栏项目点击
  */
-export const handleItemClick = async (item: ToolbarItem, selectedData: SelectedData, onTextProcessed?: (processedText: string) => void) => {
+export const handleItemClick = async (item: ToolbarItem, selectedData: SelectedData, onTextProcessed?: (processedText: string) => void, language: string = 'zh-CN') => {
   if (item.clickfunc && selectedData.text) {
-    const processedText = await processSelectedData(item, selectedData);
+    const processedText = await processSelectedData(item, selectedData, language);
     if (onTextProcessed) {
       onTextProcessed(processedText);
     }
