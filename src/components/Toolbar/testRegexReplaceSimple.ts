@@ -9,7 +9,8 @@ interface ToolbarItem {
   clickfunc: {
     regex: string;
     replacement: string;
-  };
+    flags?: string;
+  } | string;
 }
 
 /**
@@ -150,6 +151,58 @@ function testRegexReplace() {
       name: 'Multiple formats',
       input: '**bold** and *italic* and [:mark.red red]',
       expected: 'bold and italic and red'
+    },
+    // 用户提供的测试用例
+    {
+      name: 'User test case 1',
+      input: 'thsi is a **bold text** .',
+      expected: 'thsi is a bold text .'
+    },
+    {
+      name: 'User test case 2',
+      input: 'a *italic text* sentance',
+      expected: 'a italic text sentance'
+    },
+    {
+      name: 'User test case 3',
+      input: 'these sentance are [:mark.red red text] red texts',
+      expected: 'these sentance are red text red texts'
+    },
+    {
+      name: 'User test case 4',
+      input: 'use highlight feature to change the word, like:[:mark.yellow yellow text]\'',
+      expected: 'use highlight feature to change the word, like:yellow text\''
+    },
+    {
+      name: 'User test case 5 (failed case)',
+      input: 'AI \'s [:u.red biggest] a',
+      expected: 'AI \'s biggest a'
+    },
+    // 复杂测试用例
+    {
+      name: 'Complex case 1: Nested formats',
+      input: '**bold and *italic* text**',
+      expected: 'bold and *italic* text'
+    },
+    {
+      name: 'Complex case 2: Multiple formats in sequence',
+      input: '**bold** *italic* ~~strikethrough~~ `code`',
+      expected: 'bold italic strikethrough code'
+    },
+    {
+      name: 'Complex case 3: Format with punctuation',
+      input: '**bold!** *italic?* ~~strikethrough.~~',
+      expected: 'bold! italic? strikethrough.'
+    },
+    {
+      name: 'Complex case 4: Mark with special characters',
+      input: '[:mark.red red text with !@#$%^&*()]',
+      expected: 'red text with !@#$%^&*()'
+    },
+    {
+      name: 'Complex case 5: Mixed mark types',
+      input: '[:mark.red red] [:span.blue blue] [:u.green green]',
+      expected: 'red blue green'
     }
   ];
   
@@ -158,8 +211,8 @@ function testRegexReplace() {
     id: 'remove-formatting',
     funcmode: 'regexReplace',
     clickfunc: {
-      regex: '\[\[:(mark|span|u)\.(red|blue|yellow|green|purple)\s+([^\]]*)\]\]|==([^=]*)==|~~([^~]*)~~|\^\^([^\^]*)\^\^|\*\*([^\*]*)\*\*|\*([^\*]*)\*|`([^`]*)`',
-      replacement: '$3$4$5$6$7$8$9'
+      regex: '\\[:(?:mark|span|u)\\.(?:red|blue|yellow|green|purple)\\s+([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`',
+      replacement: '$1$2$3$4$5$6'
     }
   } as ToolbarItem;
   
