@@ -1,0 +1,382 @@
+/* Test App 样式 */
+
+/* 右上角工具栏横幅 - 很小很窄的浅灰色 */
+.toolbar-banner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 4px 12px;
+  background: #e5e7eb; /* 浅灰色 */
+  color: #374151;
+  border-radius: 0 0 0 8px;
+  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.toolbar-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toolbar-banner-text {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.toolbar-banner-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.toolbar-banner-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #d1d5db;
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.toolbar-banner-btn:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+}
+
+.toolbar-icon {
+  display: inline-block;
+}
+
+/* 顶部区域 */
+.top-toolbar {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--ls-primary-background-color-plugin);
+  border-bottom: 1px solid var(--ls-border-color-plugin);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.toolbar-content h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ls-primary-text-color-plugin);
+  letter-spacing: -0.025em;
+}
+
+/* 内容演示区域 */
+.content-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--ls-border-color-plugin);
+}
+
+.content-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ls-primary-text-color-plugin);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.025em;
+}
+
+.content-description {
+  font-size: 14px;
+  color: var(--ls-secondary-text-color-plugin);
+  margin: 0;
+}
+
+.demo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.demo-section {
+  padding: 24px;
+  background: var(--ls-secondary-background-color-plugin);
+  border-radius: 12px;
+  border: 1px solid var(--ls-border-color-plugin);
+  transition: all 0.2s ease;
+}
+
+.demo-section:hover {
+  border-color: var(--ls-accent-color-plugin);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.demo-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ls-primary-text-color-plugin);
+  margin: 0 0 16px 0;
+}
+
+.demo-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ls-primary-text-color-plugin);
+  margin: 0;
+}
+
+.demo-text strong {
+  font-weight: 600;
+}
+
+.demo-text em {
+  font-style: italic;
+}
+
+.demo-text u {
+  text-decoration: underline;
+}
+
+.demo-text del {
+  text-decoration: line-through;
+  color: var(--ls-secondary-text-color-plugin);
+}
+
+.demo-text mark {
+  background: #fef08a;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.demo-code {
+  background: var(--ls-primary-background-color-plugin);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--ls-border-color-plugin);
+  margin-bottom: 16px;
+}
+
+.demo-code code {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.dark-mode .demo-code code {
+  color: #e2e8f0;
+}
+
+.demo-list {
+  margin: 0;
+  padding-left: 24px;
+  color: var(--ls-primary-text-color-plugin);
+}
+
+.demo-list li {
+  margin-bottom: 8px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.highlight-yellow {
+  background: #fef08a;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.highlight-red {
+  background: #fecdd3;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.highlight-blue {
+  background: #bfdbfe;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* 左侧面板 */
+.left-panel {
+  width: 280px;
+  background-color: var(--ls-secondary-background-color-plugin);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: width 0.3s ease;
+  border: 1px solid var(--ls-border-color-plugin);
+}
+
+.left-panel h3 {
+  color: var(--ls-primary-text-color-plugin);
+  margin-top: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+
+.panel-section h4 {
+  color: var(--ls-secondary-text-color-plugin);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.panel-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.panel-section li {
+  padding: 0.75rem;
+  background-color: var(--ls-primary-background-color-plugin);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  color: var(--ls-primary-text-color-plugin);
+  border: 1px solid var(--ls-border-color-plugin);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.panel-section li:hover {
+  background-color: var(--ls-hover-color-plugin);
+  border-color: var(--ls-accent-color-plugin);
+}
+
+/* 右侧面板 */
+.right-panel {
+  width: 280px;
+  background-color: var(--ls-secondary-background-color-plugin);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: width 0.3s ease;
+  border: 1px solid var(--ls-border-color-plugin);
+}
+
+.right-panel h3 {
+  color: var(--ls-primary-text-color-plugin);
+  margin-top: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.action-btn {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--ls-border-color-plugin);
+  background-color: var(--ls-primary-background-color-plugin);
+  color: var(--ls-primary-text-color-plugin);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.action-btn:hover {
+  background-color: var(--ls-hover-color-plugin);
+  border-color: var(--ls-accent-color-plugin);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 测试布局 */
+.test-layout {
+  display: flex;
+  width: 100%;
+  min-height: 600px;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.test-layout__left.collapsed,
+.test-layout__right.collapsed {
+  width: 60px;
+  padding: 1.5rem 0.75rem;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.collapse-btn {
+  padding: 0.5rem;
+  border: 1px solid var(--ls-border-color-plugin);
+  background-color: var(--ls-primary-background-color-plugin);
+  color: var(--ls-primary-text-color-plugin);
+  cursor: pointer;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.collapse-btn:hover {
+  background-color: var(--ls-hover-color-plugin);
+}
+
+.test-layout__main {
+  flex: 1;
+  background-color: var(--ls-primary-background-color-plugin);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--ls-border-color-plugin);
+}
+
+.test-layout__content h2 {
+  color: var(--ls-primary-text-color-plugin);
+  margin-top: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+
+/* 应用容器 */
+.app {
+  width: 100%;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+.light-mode {
+  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);
+  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);
+  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);
+  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);
+  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);
+  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);
+}
+
+.dark-mode {
+  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);
+  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);
+  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);
+  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);
+  --ls-border-color-plugin: var(--border-color-dark, #334155);
+  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);
+  --ls-hover-color-plugin: var(--hover-color-dark, #334155);
+  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
+}

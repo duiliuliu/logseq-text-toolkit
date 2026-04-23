@@ -5,8 +5,8 @@
 Logseq Text Toolkit 是一个为 Logseq 提供强大文本格式化功能的插件。本指南将帮助开发者了解项目的开发流程、测试方法和部署步骤。
 
 ### 技术栈
-- **框架**: Preact + JavaScript
-- **构建工具**: Rollup
+- **框架**: React + JavaScript
+- **构建工具**: Vite
 - **Logseq API**: 0.2.12+
 - **官方文档**: https://logseq.github.io/plugins/
 
@@ -27,31 +27,29 @@ npm install
 ### 2.3 项目结构
 ```
 logseq-text-toolkit/
-├── src/
-│   ├── index.jsx          # 主插件入口文件
-│   ├── Toolbar.jsx        # 工具栏组件
-│   ├── ToolbarItem.jsx    # 工具栏项组件
+├── src/                  # 源码目录
 │   ├── index.html         # 插件HTML模板
-│   ├── translations/      # 翻译文件
-│   │   ├── zh-CN.json
-│   │   └── ja.json
-│   └── utils/             # 工具函数
-│       ├── definitions.js # 工具栏项定义
-│       ├── styles.js      # 样式提供
-│       ├── settings.js    # 设置管理
-│       ├── toolbar.js     # 工具栏相关逻辑
-│       └── commands.js    # 命令注册和执行
+│   ├── main.jsx           # 插件主入口文件
+│   ├── App.jsx            # 应用主组件
+│   ├── index.css          # 全局样式
+│   ├── App.css            # 应用样式
+│   └── components/        # React 组件（待实现）
+├── test/                  # 测试目录
+│   ├── test.html          # 测试模式页面
+│   ├── css/               # 测试样式
+│   │   └── style.css
+│   └── mock/              # Mock 数据和 API
+│       └── mock.js
 ├── docs/                  # 文档目录
 │   ├── DEVELOPMENT.md     # 开发指南（本文档）
 │   ├── USER_GUIDE.md      # 用户指南
-│   └── CHANGELOG_YYYY-MM-DD.md  # 更新日志（带日期）
+│   ├── CHANGELOG_YYYY-MM-DD.md  # 更新日志（带日期）
+│   └── branch-YYYY-MM-DD-changelog.md  # 分支更新日志
 ├── dist/                  # 构建输出目录
-├── test.html              # 测试模式页面
+├── icon.png               # 插件图标
 ├── package.json           # 项目配置
-├── rollup.config.mjs      # Rollup配置
-├── README.md              # 中文README
-├── README.en.md           # 英文README
-└── LICENSE                # 许可证
+├── vite.config.js         # Vite配置
+└── .gitignore             # Git忽略文件
 ```
 
 ## 3. 开发流程
@@ -75,7 +73,7 @@ logseq-text-toolkit/
    - 添加功能操作和效果截图
 
 5. **每次更新记录更新日志**
-   - 倒序记录（最新的在最前面）
+   - 按照 [第8节 更新日志](#8-更新日志) 的规范记录
    - 记录重要变更和功能改进
 
 ### 3.2 开发步骤
@@ -83,7 +81,7 @@ logseq-text-toolkit/
 #### 步骤1：代码开发
 ```bash
 # 编辑代码文件
-# 主要在 src/index.jsx 中开发
+# 主要在 src/ 目录中开发
 ```
 
 #### 步骤2：编译验证
@@ -96,15 +94,15 @@ npm run build
 
 #### 步骤3：测试模式验证
 ```bash
-# 启动本地服务器
-npx http-server dist -p 12345
+# 启动测试模式服务器
+npm run test
 
 # 在浏览器中打开
-# http://127.0.0.1:12345/test.html
+# http://localhost:3000/
 ```
 
 #### 步骤4：Logseq环境验证
-1. 提交代码到 GitHub master 分支
+1. 提交代码到 GitHub 分支
 2. 更新 tag 触发 release
 3. 等待最新的 release 包产出
 4. 在 Logseq 开发者模式中：
@@ -126,11 +124,9 @@ npx http-server dist -p 12345
 
 ### 4.3 如何使用测试模式
 
-1. 确保项目已构建：`npm run build`
-2. 确保 test.html 在 dist 目录中
-3. 启动本地服务器：`npx http-server dist -p 12345`
-4. 在浏览器中访问：`http://127.0.0.1:12345/test.html`
-5. 在页面中测试所有功能
+1. 启动测试模式服务器：`npm run test`
+2. 在浏览器中访问：`http://localhost:3000/`
+3. 在页面中测试所有功能
 
 ### 4.4 测试模式验证清单
 
@@ -138,29 +134,27 @@ npx http-server dist -p 12345
 - [ ] 背景高亮（红、黄、蓝、绿、紫）
 - [ ] 文本颜色（红、黄、蓝、绿、紫）
 - [ ] 下划线高亮（红、黄、蓝、绿、紫）
-- [ ] Cloze 功能
-- [ ] 标注功能
-- [ ] 页面评论功能
-- [ ] 日记评论功能
+- [ ] 文件链接功能
+- [ ] 评论/注解功能
 
 ## 5. 部署流程
 
 ### 5.1 GitHub 部署流程
 
-1. **提交代码到 master 分支**
+1. **提交代码到分支**
    ```bash
    git add .
    git commit -m "描述你的变更"
-   git push origin master
+   git push origin dev-text-tool
    ```
 
 2. **创建并推送 tag**
    ```bash
    # 创建 tag（遵循语义化版本）
-   git tag v0.10.3
+   git tag v0.11.0
    
    # 推送 tag
-   git push origin v0.10.3
+   git push origin v0.11.0
    ```
 
 3. **等待 GitHub Actions 自动构建和发布**
@@ -175,12 +169,7 @@ npx http-server dist -p 12345
 
 ### 5.2 版本号规范
 
-遵循语义化版本（Semantic Versioning）：
-- **主版本号**：不兼容的 API 修改
-- **次版本号**：向下兼容的功能性新增
-- **修订号**：向下兼容的问题修正
-
-示例：`v0.10.3`
+版本号规范请参考 [第8节 更新日志](#8-更新日志) 中的版本号规范部分
 
 ## 6. 文档更新
 
@@ -231,35 +220,11 @@ npx http-server dist -p 12345
 - `DEVELOPMENT.md` - 开发指南（本文档）
 - `USER_GUIDE.md` - 用户指南
 - `CHANGELOG_YYYY-MM-DD.md` - 更新日志（带日期）
+- `branch-YYYY-MM-DD-changelog.md` - 分支更新日志
 
 #### 7.1.2 更新日志规范
 
-**文件命名规则：**
-- 文件名格式：`CHANGELOG_YYYY-MM-DD.md`
-- 例如：`CHANGELOG_2026-04-14.md`
-
-**文件内容要求：**
-- 首行必须备注：`每天的更新聚合写入一个文件中，倒序写入，只做新增不删除`
-- 每天的更新聚合写入一个文件中
-- 倒序写入（最新的在最前面）
-- 只做新增，不删除历史记录
-
-**更新日志格式：**
-```markdown
-每天的更新聚合写入一个文件中，倒序写入，只做新增不删除
-
-# Logseq Text Toolkit 更新日志
-
-## [版本号] - 日期
-### 新增
-- 功能描述
-
-### 改进
-- 改进描述
-
-### 修复
-- 修复描述
-```
+更新日志规范请参考 [第8节 更新日志](#8-更新日志)
 
 #### 7.1.3 用户指南更新规范
 
@@ -278,22 +243,70 @@ npx http-server dist -p 12345
 ### 7.2 代码结构规范
 
 #### 7.2.1 代码模块化
-- 主入口文件 `index.jsx` 应保持简洁，只负责插件初始化和协调
-- 业务逻辑应拆分到 `src/utils/` 目录下的独立模块中
+- 主入口文件 `main.jsx` 应保持简洁，只负责插件初始化和协调
+- 业务逻辑应拆分到独立模块中
 - 每个模块应有单一职责，便于维护和测试
 
-#### 7.2.2 现有模块说明
-- `definitions.js` - 工具栏项定义和默认配置
-- `styles.js` - 样式提供和主题变量
-- `settings.js` - 设置面板定义和设置变更处理
-- `toolbar.js` - 工具栏UI、事件监听和定位逻辑
-- `commands.js` - 命令注册、模型注册和功能实现
+### 7.3 CSS 样式规范
+
+#### 7.3.1 样式文件结构
+- 全局样式：`src/main.css` - 包含主题变量和基础样式
+- 组件样式：`src/styles/` 目录下按组件分类
+- 主题样式：`src/styles/themes/` 目录下包含 light 和 dark 主题
+
+#### 7.3.2 主题变量
+- 使用 CSS 变量定义主题颜色和样式
+- 支持从 Logseq 获取主题设置
+- 支持手动切换主题（light/dark/system）
+
+#### 7.3.3 样式覆盖
+- 可以通过配置覆盖默认样式
+- 参考 `https://github.com/duiliuliu/logseq-plugin-files-manager/blob/main/src/main.css` 的实现方式
+- 使用 `--ls-primary-background-color-plugin` 等变量确保与 Logseq 主题一致
+
+#### 7.3.4 最佳实践
+- 使用 CSS 变量提高可维护性
+- 避免硬编码颜色值
+- 确保样式在 light 和 dark 主题下都能正常显示
+- 保持样式简洁，避免过度使用复杂选择器
+
+### 7.4 图标支持
+
+#### 7.4.1 支持的图标格式
+- **SVG 字符串**：直接提供 SVG 代码
+- **lucide-react 图标**：使用 lucide-react 图标库中的图标组件
+
+#### 7.4.2 使用 lucide-react 图标
+1. 安装 lucide-react 依赖：
+   ```bash
+   npm install lucide-react
+   ```
+
+2. 导入并使用图标：
+   ```javascript
+   import { Bold, Italic, Underline } from 'lucide-react'
+   
+   // 在配置中使用
+   const toolbarItems = {
+     "wrap-bold": {
+       "label": "Bold",
+       "icon": Bold
+     }
+   }
+   ```
+
+#### 7.4.3 图标大小和对齐
+- 图标默认大小为 18x18px
+- 所有图标会自动居中对齐
+- 对于 SVG 字符串，建议使用 18x18px 的 viewBox 以确保一致的显示效果
 
 ## 8. 更新日志
 
-每次发布新版本时，必须更新 `docs/CHANGELOG_YYYY-MM-DD.md`。
+### 8.1 更新日志规范
 
-### 8.1 更新日志格式
+本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/) 格式和 [语义化版本](https://semver.org/lang/zh-CN/) 规范。
+
+### 8.2 更新日志格式
 
 ```markdown
 ## [版本号] - 日期
@@ -305,15 +318,40 @@ npx http-server dist -p 12345
 
 ### 修复
 - 修复描述
+
+### 移除
+- 移除描述
+
+### 废弃
+- 废弃描述
+
+### 安全
+- 安全描述
 ```
 
-### 8.2 注意事项
+### 8.3 注意事项
 
-- 倒序记录（最新的在最前面）
-- 每个版本有明确的发布日期
-- 清晰分类：新增、改进、修复
-- 使用简洁明了的描述
-- 文件名必须包含日期
+- **只做新增，不做删减**：更新日志只添加新内容，不删除历史记录
+- **倒序记录**：最新的更新在最前面
+- **版本号规范**：遵循语义化版本（主版本号.次版本号.修订号）
+- **日期格式**：YYYY-MM-DD
+- **分类清晰**：使用标准分类（新增、改进、修复、移除、废弃、安全）
+- **描述简洁**：使用简洁明了的描述
+- **文件名规范**：`CHANGELOG_YYYY-MM-DD.md`
+
+### 8.4 提交要求
+
+- 每次代码变更都必须更新更新日志
+- 每次提交前必须启动测试服务并验证功能
+- 提交信息应清晰描述变更内容
+
+### 8.5 测试服务
+
+每次提交前必须运行：
+```bash
+npm run test
+```
+并在提交信息中包含测试服务地址（默认为 http://localhost:3000/ 或其他可用端口）
 
 ## 9. 常见问题
 
@@ -321,7 +359,7 @@ npx http-server dist -p 12345
 A: 目前本地模式加载失败，主要依赖 GitHub 加载。请按照部署流程使用 GitHub URL 加载。
 
 ### Q: 测试模式如何配置？
-A: 测试模式支持一键配置，无需任何特殊配置。直接访问 test.html 即可使用。
+A: 测试模式支持一键配置，无需任何特殊配置。直接运行 `npm run test` 即可使用。
 
 ### Q: 如何确保代码可编译？
 A: 运行 `npm run build` 命令，确保没有错误输出。
@@ -333,8 +371,23 @@ A: 插件要求 Logseq API 版本 0.2.12+。
 
 - **Logseq 插件 API 文档**: https://logseq.github.io/plugins/
 - **Logseq DB 插件 API Skill**: https://github.com/kerim/logseq-db-plugin-api-skill
+- **Logseq Files Manager 插件**: https://github.com/duiliuliu/logseq-plugin-files-manager/blob/main/src/main.tsx
 - **项目仓库**: https://github.com/duiliuliu/logseq-text-toolkit
 - **用户指南**: [USER_GUIDE.md](file:///workspace/docs/USER_GUIDE.md)
+
+## 11. AI 开发指引
+
+### Logseq 官方库 AI 指引
+
+Logseq 官方提供了关于 AI 开发的详细指引，建议开发者参考：
+
+- **Logseq 官方库 AI 指引**: [@logseq/libs/development-notes/AGENTS.md](https://github.com/logseq/logseq/blob/master/libs/development-notes/AGENTS.md)
+
+该文档提供了：
+- AI 相关开发的最佳实践
+- 插件与 AI 集成的方法
+- 性能优化建议
+- 安全性考虑
 
 ---
 

@@ -1,0 +1,147 @@
+/* src/main.css */
+
+/* Light theme variables - 参考 shadcn 和苹果设计 */
+:root {
+  --background-color-light: #ffffff;
+  --text-color-light: #000000;
+  --primary-text-color-light: #1e293b;
+  --secondary-text-color-light: #64748b;
+  --secondary-background-color-light: #f8fafc;
+  --border-color-light: #e2e8f0;
+  --accent-color-light: #3b82f6;
+  --hover-color-light: #f1f5f9;
+  --focus-color-light: #dbeafe;
+  
+  /* Dark theme variables - 参考 shadcn 和苹果设计 */
+  --background-color-dark: #0f172a;
+  --text-color-dark: #ffffff;
+  --primary-text-color-dark: #f1f5f9;
+  --secondary-text-color-dark: #94a3b8;
+  --secondary-background-color-dark: #1e293b;
+  --border-color-dark: #334155;
+  --accent-color-dark: #60a5fa;
+  --hover-color-dark: #334155;
+  --focus-color-dark: #1e3a8a;
+  
+  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */
+  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));
+  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));
+  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));
+  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));
+  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));
+  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));
+  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));
+  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));
+}
+
+/* Media query for dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));
+    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));
+    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));
+    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));
+    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));
+    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
+    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
+    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
+  }
+}
+
+/* Theme classes */
+.light-mode {
+  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));
+  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));
+  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));
+  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));
+  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));
+  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));
+  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));
+  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));
+}
+
+.dark-mode {
+  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));
+  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));
+  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));
+  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));
+  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));
+  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
+  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
+  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
+}
+
+:root {
+  font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light;
+  color: #213547;
+  background-color: #ffffff;
+}
+
+/* 链接样式 */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+/* 按钮样式 */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  color: #213547;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* 允许内容区域的文本被选择 */
+.content-section {
+  user-select: text;
+}
+
+body {
+  width: auto;
+  height: 90%;
+  margin: 0;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: auto;
+  background-color: transparent;
+}
+
+/* Dark mode button and link styles */
+.dark-mode button {
+  background-color: #1a1a1a !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.dark-mode a {
+  color: #646cff !important;
+}
+
+.dark-mode a:hover {
+  color: #535bf2 !important;
+}
