@@ -214,28 +214,45 @@
 
 /* ================= DARK ================= */
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {
-  background: var(--ls-primary-background-color-plugin, #2d2d2d);
+  background: var(--ls-primary-background-color-plugin, #1e1e1e);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border: 1px solid var(--ls-border-color-plugin, #333333);
 }
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {
-  background: var(--ls-secondary-background-color-plugin, #444);
+  background: var(--ls-secondary-background-color-plugin, #2a2a2a);
+  border-radius: 6px;
 }
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {
-  background: var(--ls-primary-background-color-plugin, #2d2d2d);
+  background: var(--ls-primary-background-color-plugin, #1e1e1e);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
-  border-color: var(--ls-border-color-plugin, #555);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border-color: var(--ls-border-color-plugin, #333333);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 6px;
+  gap: 4px;
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
 }
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {
-  background: var(--ls-secondary-background-color-plugin, #444);
+  background: var(--ls-secondary-background-color-plugin, #2a2a2a);
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {
+  border-radius: 6px;
 }
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {
-  background: var(--ls-secondary-background-color-plugin, #444);
+  background: var(--ls-secondary-background-color-plugin, #2a2a2a);
 }
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {
   background: var(--ls-primary-background-color-plugin, #1a1a1a);
-  color: var(--ls-primary-text-color-plugin, #fff);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* 赞助栏样式 */
@@ -289,6 +306,8 @@
 
 /* 深色主题下的赞助栏样式 */
 .ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {
-  background: var(--ls-primary-background-color-plugin, #2d2d2d);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background: var(--ls-primary-background-color-plugin, #1e1e1e);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border: 1px solid var(--ls-border-color-plugin, #333333);
+  border-radius: 8px;
 }

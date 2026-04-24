@@ -386,52 +386,131 @@ input:checked + .ltt-switch-slider:before {
 }
 
 /* Dark mode */
+[data-theme="dark"] .ltt-settings-container {
+  background: var(--ls-primary-background-color-plugin, #1e1e1e);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 1px solid var(--ls-border-color-plugin, #333333);
+}
+
 [data-theme="dark"] .ltt-settings-tabs {
-  border-bottom-color: var(--ls-border-color-plugin, #444);
+  border-bottom-color: var(--ls-border-color-plugin, #333333);
 }
 
 [data-theme="dark"] .ltt-settings-tab {
-  background-color: var(--ls-secondary-background-color-plugin, #333);
-  color: var(--ls-primary-text-color-plugin, #aaa);
-  border-color: var(--ls-border-color-plugin, #444);
+  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  border-color: var(--ls-border-color-plugin, #333333);
+  border-radius: 8px 8px 0 0;
+  padding: 10px 16px;
+  font-size: 14px;
 }
 
 [data-theme="dark"] .ltt-settings-tab:hover {
-  background-color: var(--ls-secondary-background-color-plugin, #444);
-  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  background-color: var(--ls-secondary-background-color-plugin, #333333);
+  color: var(--ls-primary-text-color-plugin, #ffffff);
 }
 
 [data-theme="dark"] .ltt-settings-tab.active {
-  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
-  color: var(--ls-primary-text-color-plugin, #e0e0e0);
-  border-color: var(--ls-border-color-plugin, #444);
-  border-bottom-color: var(--ls-primary-background-color-plugin, #2d2d2d);
+  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);
+  color: var(--ls-primary-text-color-plugin, #ffffff);
+  border-color: var(--ls-border-color-plugin, #333333);
+  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);
+  font-weight: 500;
 }
 
 [data-theme="dark"] .ltt-tab-section-description-small {
-  color: var(--ls-primary-text-color-plugin, #aaa);
+  color: var(--ls-secondary-text-color-plugin, #a0a0a0);
 }
 
 [data-theme="dark"] .ltt-setting-item label {
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 [data-theme="dark"] .ltt-setting-item input[type="text"],
 [data-theme="dark"] .ltt-setting-item input[type="number"],
 [data-theme="dark"] .ltt-setting-item select,
 [data-theme="dark"] .ltt-json-editor textarea {
-  border-color: var(--ls-border-color-plugin, #555);
-  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
+  border-color: var(--ls-border-color-plugin, #333333);
+  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .ltt-setting-item input[type="text"]:focus,
+[data-theme="dark"] .ltt-setting-item input[type="number"]:focus,
+[data-theme="dark"] .ltt-setting-item select:focus,
+[data-theme="dark"] .ltt-json-editor textarea:focus {
+  border-color: var(--ls-accent-color-plugin, #60a5fa);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  outline: none;
 }
 
 [data-theme="dark"] .ltt-settings-placeholder {
-  color: var(--ls-primary-text-color-plugin, #666);
+  color: var(--ls-secondary-text-color-plugin, #666666);
 }
 
 /* 确保工具栏图标在不同主题下都可见 */
 [data-theme="dark"] .ltt-toolbar-icon {
   filter: brightness(1.5);
+}
+
+/* 深色主题下的按钮样式 */
+[data-theme="dark"] .ltt-settings-btn-save {
+  background-color: var(--ls-accent-color-plugin, #3b82f6);
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .ltt-settings-btn-save:hover:not(:disabled) {
+  background-color: var(--ls-accent-color-plugin, #2563eb);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .ltt-settings-btn-save:disabled {
+  background-color: var(--ls-secondary-background-color-plugin, #333333);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 深色主题下的开关样式 */
+[data-theme="dark"] .ltt-switch-slider {
+  background-color: var(--ls-secondary-background-color-plugin, #333333);
+}
+
+[data-theme="dark"] input:checked + .ltt-switch-slider {
+  background-color: var(--ls-accent-color-plugin, #3b82f6);
+}
+
+/* 深色主题下的 JSON 编辑器样式 */
+[data-theme="dark"] .ltt-json-editor textarea {
+  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);
+  border: 1px solid var(--ls-border-color-plugin, #333333);
+  border-radius: 8px;
+  padding: 16px;
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  resize: vertical;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .ltt-json-editor textarea:focus {
+  border-color: var(--ls-accent-color-plugin, #60a5fa);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  outline: none;
 }
 
 /* 响应式调整 */
@@ -534,6 +613,9 @@ input:checked + .ltt-switch-slider:before {
 
 /* 深色主题下的设置项组样式 */
 [data-theme="dark"] .ltt-setting-item-group {
-  background-color: #2a2a2a;
-  border-color: #444;
+  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);
+  border-color: var(--ls-border-color-plugin, #333333);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
