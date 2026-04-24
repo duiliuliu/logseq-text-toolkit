@@ -55,6 +55,11 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       return <div className="ltt-toolbar-icon" dangerouslySetInnerHTML={{ __html: icon }} />
     }
     
+    // 处理 tabler 图标类名
+    if (typeof icon === 'string' && icon.startsWith('ti ti-')) {
+      return <i className={`ltt-toolbar-icon ${icon}`}></i>
+    }
+    
     // 处理其他情况
     return <span className="ltt-toolbar-icon">{icon}</span>
   }

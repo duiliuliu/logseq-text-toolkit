@@ -123,11 +123,7 @@ const main = async () => {
         <a class="button" id="ltt-settings-button"
         data-on-click="settingToggle"
         data-rect>
-         <svg width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="18" stroke="#000" stroke-width="12" fill="none" stroke-linejoin="round"></rect>
-  <path d="M32 16 L44 28 V44 L32 32 L20 44 V28 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
-  <path d="M32 24 L38 30 H26 Z" stroke="#000" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
-</svg>
+         <i class="ti ti-text-wrap"></i>
         </a>
       `,
     })
