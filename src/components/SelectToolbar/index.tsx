@@ -1,11 +1,17 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Toolbar from '../Toolbar'
 import { SelectedData } from '../Toolbar/textProcessor.ts'
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts'
 import { useSettingsContext } from '../../settings/useSettings.tsx'
 import { logseqAPI } from '../../logseq/index.ts'
-import { InlineCommentModal } from '../InlineComment/index';
+import { InlineCommentModal } from '../InlineComment/index'
 import { InlineComment } from '../../lib/inlineComment/index.ts'
+import { 
+  toolbarManager, 
+  eventBus, 
+  type ItemClickEvent, 
+  type TextProcessedEvent 
+} from '../../lib/toolbar/index.ts'
 
 interface ToolbarPosition {
   x: number
@@ -30,7 +36,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const [showToolbar, setShowToolbar] = useState(false)
   const [showInlineComment, setShowInlineComment] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  const selectionRef = useRef<Selection | null>(null)
   
   // 从设置中获取配置
   const theme = settings?.theme || 'light'
@@ -39,11 +44,27 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const height = settings?.height || '24px'
   const hoverDelay = settings?.hoverDelay !== undefined ? settings.hoverDelay : 500
   const sponsorEnabled = settings?.sponsorEnabled !== undefined ? settings.sponsorEnabled : false
-  
-  // 处理 inlineComment
-  const handleInlineComment = async () => {
-    setShowInlineComment(true)
-  }
+
+  // 初始化工具栏管理器
+  useEffect(() => {
+    if (settings && !toolbarManager.isReady()) {
+      toolbarManager.initialize(settings)
+      toolbarManager.setLanguage(settings.language || 'zh-CN')
+    }
+  }, [settings])
+
+  // 订阅文本处理完成事件
+  useEffect(() => {
+    const handleTextProcessedEvent = (data: TextProcessedEvent) => {
+      console.log('Processed text:', data.processedText)
+    }
+
+    eventBus.on('textProcessed', handleTextProcessedEvent)
+
+    return () => {
+      eventBus.off('textProcessed', handleTextProcessedEvent)
+    }
+  }, [])
   
   // 处理 inlineComment 保存
   const handleInlineCommentSave = async (config: { selectedText: string, comment: string }) => {
@@ -71,6 +92,12 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       }
       
       await logseqAPI.Editor.updateBlock(block.uuid, newContent)
+      
+      // 发布文本处理完成事件
+      eventBus.emit('textProcessed', {
+        processedText,
+        originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
+      })
     } catch (error) {
       console.warn('Error updating block with inline comment:', error)
     }
@@ -78,28 +105,25 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     setShowInlineComment(false)
   }
   
-  // 处理文本处理完成后的回调
-  const handleTextProcessed = async (processedText: string) => {
-    console.log('Processed text:', processedText)
-  }
-  
-  // 重写 handleItemClick 来支持 inlineComment
-  const handleItemClick = async (item: any, selectedData: SelectedData) => {
+  // 使用事件总线处理项目点击
+  const handleItemClick = useCallback(async (item: any, selectedData: SelectedData) => {
+    // 特殊处理 inlineComment
     if (item.funcmode === 'invoke' && item.clickfunc === 'inlineComment') {
-      handleInlineComment()
+      setShowInlineComment(true)
       return
     }
     
-    // 其他处理逻辑保持原样
+    // 发布项目点击事件
+    eventBus.emit('itemClick', { item, selectedData })
+    
+    // 执行功能
     try {
-      const { processSelectedData } = await import('../Toolbar/textProcessor.ts')
-      const language = settings?.language || 'zh-CN'
-      const processedText = await processSelectedData(item, selectedData, language)
-      handleTextProcessed(processedText)
+      const processedText = await toolbarManager.executeAction(item, selectedData)
+      console.log('Action executed, processed text:', processedText)
     } catch (error) {
-      console.warn('Error processing item click:', error)
+      console.warn('Error executing action:', error)
     }
-  }
+  }, [])
 
   // 更新工具栏位置
   const updateToolbarPosition = async () => {
@@ -128,11 +152,15 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       // 使用 logseqAPI 获取光标位置
       const curPos = await logseqAPI.Editor.getEditingCursorPosition()
       if (curPos != null) {
-        setSelectedData({
+        const newSelectedData: SelectedData = {
           text: selection.toString(),
           timestamp: new Date().toISOString(),
           rect: curPos.rect
-        })
+        }
+        setSelectedData(newSelectedData)
+
+        // 发布选择变化事件
+        eventBus.emit('selectionChange', { selectedData: newSelectedData })
 
         let toolbarY = curPos.top + curPos.rect.y - 35
         let toolbarX: number
@@ -175,11 +203,15 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         rect = targetElement.getBoundingClientRect()
       }
 
-      setSelectedData({
+      const newSelectedData: SelectedData = {
         text: selection.toString(),
         timestamp: new Date().toISOString(),
         rect
-      })
+      }
+      setSelectedData(newSelectedData)
+
+      // 发布选择变化事件
+      eventBus.emit('selectionChange', { selectedData: newSelectedData })
 
       // 定位（紧贴选中文字，不飘）
       const toolbarHeight = 32
@@ -299,7 +331,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
             selectedData={selectedData}
             hoverDelay={hoverDelay}
             sponsorEnabled={sponsorEnabled}
-            onTextProcessed={handleTextProcessed}
             onItemClick={handleItemClick}
           />
         </div>

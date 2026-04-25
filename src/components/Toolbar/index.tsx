@@ -13,7 +13,6 @@ interface ToolbarProps {
   height?: string
   selectedData?: SelectedData
   hoverDelay?: number
-  onTextProcessed?: (processedText: string) => void
   onItemClick?: (item: any, selectedData: SelectedData) => void
   sponsorEnabled?: boolean
   language?: string
@@ -30,7 +29,18 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '28px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, onItemClick, sponsorEnabled = false, language = 'zh-CN' }: ToolbarProps) {
+function Toolbar({ 
+  items, 
+  theme = 'light', 
+  showBorder = true, 
+  width = '110px', 
+  height = '28px', 
+  selectedData = { text: '' }, 
+  hoverDelay = 500, 
+  onItemClick, 
+  sponsorEnabled = false, 
+  language = 'zh-CN' 
+}: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -72,7 +82,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
     if (onItemClick) {
       onItemClick(item, selectedData)
     } else {
-      handleItemClick(item, selectedData, onTextProcessed, language)
+      handleItemClick(item, selectedData, undefined, language)
     }
   }
   
