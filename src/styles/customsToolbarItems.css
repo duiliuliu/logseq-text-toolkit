@@ -275,3 +275,57 @@ span.cloze::after {
 [data-theme="dark"] span.cloze::after {
   color: #aaa;
 }
+
+/* ==============================================
+   10. Inline Comment 样式
+   ============================================== */
+span.inline-comment {
+  background: rgba(251, 191, 36, 0.2);
+  border-bottom: 2px dashed #fbbf24;
+  padding: 1px 4px;
+  margin: 0 2px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+span.inline-comment:hover {
+  background: rgba(251, 191, 36, 0.4);
+}
+
+span.inline-comment::after {
+  content: attr(data-comment);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  background: var(--ls-primary-background-color, #1f2937);
+  color: var(--ls-primary-text-color, #f9fafb);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  margin-bottom: 8px;
+}
+
+span.inline-comment:hover::after {
+  opacity: 1;
+}
+
+/* 深色主题下的inline-comment样式 */
+[data-theme="dark"] span.inline-comment {
+  background: rgba(251, 191, 36, 0.15);
+}
+
+[data-theme="dark"] span.inline-comment:hover {
+  background: rgba(251, 191, 36, 0.3);
+}

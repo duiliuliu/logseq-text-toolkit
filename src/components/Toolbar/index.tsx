@@ -14,6 +14,7 @@ interface ToolbarProps {
   selectedData?: SelectedData
   hoverDelay?: number
   onTextProcessed?: (processedText: string) => void
+  onItemClick?: (item: any, selectedData: SelectedData) => void
   sponsorEnabled?: boolean
   language?: string
 }
@@ -29,7 +30,7 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '28px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false, language = 'zh-CN' }: ToolbarProps) {
+function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '28px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, onItemClick, sponsorEnabled = false, language = 'zh-CN' }: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -66,6 +67,14 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
 
   const groupRef = useRef<HTMLDivElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  
+  const handleItemClickInternal = (item: any) => {
+    if (onItemClick) {
+      onItemClick(item, selectedData)
+    } else {
+      handleItemClick(item, selectedData, onTextProcessed, language)
+    }
+  }
   
   const renderItem = (item: ToolbarItem | ToolbarGroup) => {
     // 判断是否为 group 元素：检查是否有 subItems 属性且长度大于 0
@@ -131,7 +140,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                   }}
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
-                  onClick={() => handleItemClick(subItem, selectedData, onTextProcessed, language)}
+                  onClick={() => handleItemClickInternal(subItem)}
                 >
                   <div className="ltt-toolbar-item-icon">
                     {renderIcon(subItem.icon)}
@@ -159,7 +168,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           }}
           onMouseEnter={() => setHoveredItem(toolbarItem)}
           onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleItemClick(toolbarItem, selectedData, onTextProcessed, language)}
+          onClick={() => handleItemClickInternal(toolbarItem)}
         >
           <div className="ltt-toolbar-item-icon">
             {renderIcon(toolbarItem.icon)}

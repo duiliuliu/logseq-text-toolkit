@@ -4,6 +4,8 @@ import { SelectedData } from '../Toolbar/textProcessor.ts'
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts'
 import { useSettingsContext } from '../../settings/useSettings.tsx'
 import { logseqAPI } from '../../logseq/index.ts'
+import { InlineCommentModal } from '../InlineComment/index';
+import { InlineComment } from '../../lib/inlineComment/index.ts'
 
 interface ToolbarPosition {
   x: number
@@ -26,6 +28,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' })
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 })
   const [showToolbar, setShowToolbar] = useState(false)
+  const [showInlineComment, setShowInlineComment] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const selectionRef = useRef<Selection | null>(null)
   
@@ -37,9 +40,65 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const hoverDelay = settings?.hoverDelay !== undefined ? settings.hoverDelay : 500
   const sponsorEnabled = settings?.sponsorEnabled !== undefined ? settings.sponsorEnabled : false
   
+  // 处理 inlineComment
+  const handleInlineComment = async () => {
+    setShowInlineComment(true)
+  }
+  
+  // 处理 inlineComment 保存
+  const handleInlineCommentSave = async (config: { selectedText: string, comment: string }) => {
+    const processedText = InlineComment.wrapText(config.selectedText, config.comment)
+    
+    try {
+      const block = await logseqAPI.Editor.getCurrentBlock()
+      if (!block || !block.content) {
+        console.warn('No block or block content')
+        setShowInlineComment(false)
+        return
+      }
+      
+      const originalContent = block.content
+      
+      // 使用精确的替换方法
+      const index = originalContent.indexOf(config.selectedText)
+      let newContent: string
+      
+      if (index === -1) {
+        console.warn('Selected text not found in block content')
+        newContent = originalContent.replace(config.selectedText, processedText)
+      } else {
+        newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + config.selectedText.length)
+      }
+      
+      await logseqAPI.Editor.updateBlock(block.uuid, newContent)
+    } catch (error) {
+      console.warn('Error updating block with inline comment:', error)
+    }
+    
+    setShowInlineComment(false)
+  }
+  
   // 处理文本处理完成后的回调
   const handleTextProcessed = async (processedText: string) => {
     console.log('Processed text:', processedText)
+  }
+  
+  // 重写 handleItemClick 来支持 inlineComment
+  const handleItemClick = async (item: any, selectedData: SelectedData) => {
+    if (item.funcmode === 'invoke' && item.clickfunc === 'inlineComment') {
+      handleInlineComment()
+      return
+    }
+    
+    // 其他处理逻辑保持原样
+    try {
+      const { processSelectedData } = await import('../Toolbar/textProcessor.ts')
+      const language = settings?.language || 'zh-CN'
+      const processedText = await processSelectedData(item, selectedData, language)
+      handleTextProcessed(processedText)
+    } catch (error) {
+      console.warn('Error processing item click:', error)
+    }
   }
 
   // 更新工具栏位置
@@ -160,7 +219,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
     const handleSelection = async (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
-      if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
+      if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown') || (e.target as HTMLElement).closest('.inline-comment-modal'))) {
         // 保持选中状态，不做任何处理
         return
       }
@@ -170,7 +229,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
     const handleMouseMove = (e: MouseEvent) => {
-      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
+      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown') || (e.target as HTMLElement).closest('.inline-comment-modal'))) {
         // 鼠标在toolbar内部，保持显示状态
         return
       }
@@ -241,8 +300,17 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
             hoverDelay={hoverDelay}
             sponsorEnabled={sponsorEnabled}
             onTextProcessed={handleTextProcessed}
+            onItemClick={handleItemClick}
           />
         </div>
+      )}
+      {showInlineComment && (
+        <InlineCommentModal 
+          isOpen={showInlineComment}
+          selectedText={selectedData.text}
+          onClose={() => setShowInlineComment(false)}
+          onSave={handleInlineCommentSave}
+        />
       )}
     </div>
   )

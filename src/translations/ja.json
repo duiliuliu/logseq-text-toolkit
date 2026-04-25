@@ -8,6 +8,11 @@
     "replaceFailed": "テキストの置換に失敗しました",
     "noBlockContent": "ブロックの内容を取得できません"
   },
+  "inlineComment": {
+    "placeholder": "コメントを追加...",
+    "save": "コメントを追加",
+    "title": "コメントを追加"
+  },
   "comment": {
     "title": "コメントを追加"
   },

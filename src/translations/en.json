@@ -8,6 +8,11 @@
     "replaceFailed": "Text replacement failed",
     "noBlockContent": "Unable to get block content"
   },
+  "inlineComment": {
+    "placeholder": "Add a comment...",
+    "save": "Add Comment",
+    "title": "Add Comment"
+  },
   "comment": {
     "title": "Add Comment"
   },
