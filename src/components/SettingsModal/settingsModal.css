@@ -551,9 +551,7 @@ input:checked + .ltt-switch-slider:before {
     max-width: 100% !important;
   }
   
-  .ltt-switch {
-    align-self: flex-start !important;
-  }
+
 }
 
 /* 针对更窄屏幕的调整 */

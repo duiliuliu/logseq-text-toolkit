@@ -21,9 +21,21 @@ interface RenderComponentProps {
   [key: string]: any
 }
 
+// 存储已创建的 root 实例
+const rootInstances = new Map<HTMLElement, ReactDOM.Root>();
+
 const renderComponent = (container: HTMLElement | null, Component: React.ComponentType<any>, props: RenderComponentProps = {}) => {
   if (container) {
-    ReactDOM.createRoot(container).render(
+    let root = rootInstances.get(container);
+    
+    if (!root) {
+      // 第一次调用，创建 root 实例
+      root = ReactDOM.createRoot(container);
+      rootInstances.set(container, root);
+    }
+    
+    // 使用现有的 root 实例进行渲染
+    root.render(
       <React.StrictMode>
         <SettingsProvider>
           <Component {...props} />

@@ -9,7 +9,12 @@ interface HiccupRendererProps {
 function parseHiccup(hiccup: string): React.ReactNode {
   try {
     // 尝试解析 hiccup 字符串
-    const parsed = eval(hiccup);
+    // 使用 JSON.parse 的变体来解析，更安全
+    const sanitizedHiccup = hiccup
+      .replace(/'/g, '"')
+      .replace(/\b([a-zA-Z_$][a-zA-Z0-9_$]*)\b(?=\s*:)/g, '"$1"');
+    
+    const parsed = JSON.parse(sanitizedHiccup);
     
     if (Array.isArray(parsed)) {
       return renderHiccupNode(parsed);
