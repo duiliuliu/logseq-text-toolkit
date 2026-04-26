@@ -6,7 +6,7 @@ import { getSelection, getDocument } from '../../logseq/utils.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
 import { SelectedData } from '../../components/Toolbar/textProcessor.ts';
-import { logger } from '../../utils/logger.ts';
+import { logger } from '../logger/logger.ts';
 
 /**
  * 更新块内容

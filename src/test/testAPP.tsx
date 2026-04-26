@@ -53,8 +53,22 @@ function TestApp() {
     </div>
   )
 
+  // 确定当前主题
+  const getCurrentTheme = () => {
+    if (!settings) return 'light';
+    
+    if (settings.theme === 'system') {
+      // 检测系统主题
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
+    return settings.theme;
+  };
+
+  const currentTheme = getCurrentTheme();
+
   return (
-    <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+    <div id="app-container" className={`app ${currentTheme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       {/* 右上角工具栏横幅 */}
       <div id="toolbar" className="toolbar-banner">
         <div className="toolbar-banner-content">

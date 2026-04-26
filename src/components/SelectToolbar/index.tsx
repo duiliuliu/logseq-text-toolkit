@@ -8,7 +8,7 @@ import {
   eventBus
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
-import { logger } from '../../utils/logger.ts';
+import { logger } from '../../lib/logger/logger.ts';
 
 interface ToolbarPosition {
   x: number;
