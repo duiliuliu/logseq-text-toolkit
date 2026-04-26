@@ -1,36 +1,79 @@
 import React, { useState, useEffect } from 'react';
-import { hut } from 'react-hut';
 import './styles.css';
 
 interface HiccupRendererProps {
   initialContent?: string;
 }
 
+// 简单的 hiccup 解析器
+function parseHiccup(hiccup: string): React.ReactNode {
+  try {
+    // 尝试解析 hiccup 字符串
+    const parsed = JSON.parse(
+      hiccup
+        .replace(/'/g, '"')
+        .replace(/\b([a-zA-Z_$][a-zA-Z0-9_$]*)\b(?=\s*:)/g, '"$1"')
+        .replace(/:([a-zA-Z_$][a-zA-Z0-9_$]*)/g, '"$1"')
+    );
+    
+    if (Array.isArray(parsed)) {
+      return renderHiccupNode(parsed);
+    }
+    return <span>{hiccup}</span>;
+  } catch (error) {
+    return <span style={{ color: 'red' }}>Invalid hiccup: {error.message}</span>;
+  }
+}
+
+// 渲染单个 hiccup 节点
+function renderHiccupNode(node: any): React.ReactNode {
+  if (typeof node === 'string') {
+    return node;
+  }
+  
+  if (Array.isArray(node)) {
+    const [tag, props, ...children] = node;
+    
+    // 处理空节点
+    if (!tag) {
+      return null;
+    }
+    
+    // 处理字符串标签
+    if (typeof tag === 'string') {
+      // 解析标签和类名
+      const [tagName, ...classNames] = tag.split('.');
+      const className = classNames.join(' ');
+      
+      // 合并类名
+      const mergedProps = {
+        ...(props || {}),
+        ...(className ? { className } : {})
+      };
+      
+      return React.createElement(
+        tagName,
+        mergedProps,
+        children.map((child, index) => (
+          <React.Fragment key={index}>
+            {renderHiccupNode(child)}
+          </React.Fragment>
+        ))
+      );
+    }
+  }
+  
+  return null;
+}
+
 function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRendererProps) {
   const [hiccupContent, setHiccupContent] = useState(initialContent);
-  const [renderedContent, setRenderedContent] = useState<React.ReactNode>(null);
+  const [renderedContent, setRenderedContent] = useState<React.ReactNode>(parseHiccup(initialContent));
 
   useEffect(() => {
     // 实时渲染 hiccup 内容
-    try {
-      const parsed = eval(hiccupContent);
-      const element = hut(parsed);
-      setRenderedContent(element);
-    } catch (error) {
-      setRenderedContent(<span style={{ color: 'red' }}>Invalid hiccup: {error.message}</span>);
-    }
+    setRenderedContent(parseHiccup(hiccupContent));
   }, [hiccupContent]);
-
-  // 初始渲染
-  useEffect(() => {
-    try {
-      const parsed = eval(initialContent);
-      const element = hut(parsed);
-      setRenderedContent(element);
-    } catch (error) {
-      setRenderedContent(<span style={{ color: 'red' }}>Invalid hiccup: {error.message}</span>);
-    }
-  }, []);
 
   return (
     <div className="hiccup-renderer">
