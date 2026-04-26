@@ -15,11 +15,12 @@ import './inlineComment.css';
 
 export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
   isOpen,
-  selectedText,
+  selectedData,
   onClose,
   onSave,
   buttons
 }) => {
+  const selectedText = selectedData.text;
   const [comment, setComment] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { settings } = useSettingsContext();
@@ -43,7 +44,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
       const processedText = InlineComment.wrapText(selectedText, comment);
       
       // 使用公共的 updateBlockContent 函数更新块内容
-      const success = await updateBlockContent({ text: selectedText, block: await logseqAPI.Editor.getCurrentBlock() }, processedText, currentLanguage);
+      const success = await updateBlockContent(selectedData, processedText, currentLanguage);
       
       if (success) {
         // 发布文本处理完成事件

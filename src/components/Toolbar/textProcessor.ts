@@ -2,6 +2,7 @@ import { ToolbarItem } from './types.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
 import { findAndReplaceText, replaceInSelectedElement, updateBlockContent } from '../../lib/textReplace/utils.ts';
+import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user';
 
 /**
  * 选中数据接口
@@ -13,7 +14,7 @@ export interface SelectedData {
   rect?: DOMRect;
   before?: string;
   after?: string;
-  block?: any; // 暂时使用 any 类型，实际应该使用 blockEntity 类型
+  block?: BlockEntity;
 }
 
 /**

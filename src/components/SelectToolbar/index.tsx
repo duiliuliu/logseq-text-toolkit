@@ -64,7 +64,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   // 设置弹窗显示控制
   useEffect(() => {
     setInlineCommentControl(
-      (selectedData: any) => {
+      (selectedData: SelectedData) => {
         setShowToolbar(false);
         setShowInlineComment(true);
       },
@@ -134,10 +134,50 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         
         if (block && block.content && selectedText) {
           const content = block.content;
-          const index = content.indexOf(selectedText);
-          if (index !== -1) {
-            before = content.substring(0, index);
-            after = content.substring(index + selectedText.length);
+          
+          // 尝试使用 Selection 对象获取更精确的位置
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            let currentNode = range.startContainer;
+            
+            // 向上查找，找到块元素
+            while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
+              currentNode = currentNode.parentNode;
+            }
+            
+            if (currentNode) {
+              // 计算当前选中位置在整个块内容中的偏移量
+              let offset = 0;
+              let tempNode = block.content?.[0];
+              
+              while (tempNode && tempNode !== currentNode) {
+                offset += tempNode.textContent?.length || 0;
+                tempNode = tempNode.nextSibling;
+              }
+              
+              // 加上当前节点内的偏移量
+              offset += range.startOffset;
+              
+              // 计算 before 和 after
+              if (offset >= 0 && offset + selectedText.length <= content.length) {
+                before = content.substring(0, offset);
+                after = content.substring(offset + selectedText.length);
+              } else {
+                // 回退：使用 indexOf
+                const index = content.indexOf(selectedText);
+                if (index !== -1) {
+                  before = content.substring(0, index);
+                  after = content.substring(index + selectedText.length);
+                }
+              }
+            }
+          } else {
+            // 回退：使用 indexOf
+            const index = content.indexOf(selectedText);
+            if (index !== -1) {
+              before = content.substring(0, index);
+              after = content.substring(index + selectedText.length);
+            }
           }
         }
         
@@ -205,10 +245,50 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       
       if (block && block.content && selectedText) {
         const content = block.content;
-        const index = content.indexOf(selectedText);
-        if (index !== -1) {
-          before = content.substring(0, index);
-          after = content.substring(index + selectedText.length);
+        
+        // 尝试使用 Selection 对象获取更精确的位置
+        if (selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          let currentNode = range.startContainer;
+          
+          // 向上查找，找到块元素
+          while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
+            currentNode = currentNode.parentNode;
+          }
+          
+          if (currentNode) {
+            // 计算当前选中位置在整个块内容中的偏移量
+            let offset = 0;
+            let tempNode = block.content?.[0];
+            
+            while (tempNode && tempNode !== currentNode) {
+              offset += tempNode.textContent?.length || 0;
+              tempNode = tempNode.nextSibling;
+            }
+            
+            // 加上当前节点内的偏移量
+            offset += range.startOffset;
+            
+            // 计算 before 和 after
+            if (offset >= 0 && offset + selectedText.length <= content.length) {
+              before = content.substring(0, offset);
+              after = content.substring(offset + selectedText.length);
+            } else {
+              // 回退：使用 indexOf
+              const index = content.indexOf(selectedText);
+              if (index !== -1) {
+                before = content.substring(0, index);
+                after = content.substring(index + selectedText.length);
+              }
+            }
+          }
+        } else {
+          // 回退：使用 indexOf
+          const index = content.indexOf(selectedText);
+          if (index !== -1) {
+            before = content.substring(0, index);
+            after = content.substring(index + selectedText.length);
+          }
         }
       }
       
@@ -350,7 +430,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       {showInlineComment && (
         <InlineCommentModal 
           isOpen={showInlineComment}
-          selectedText={selectedData.text}
+          selectedData={selectedData}
           onClose={() => setShowInlineComment(false)}
         />
       )}
