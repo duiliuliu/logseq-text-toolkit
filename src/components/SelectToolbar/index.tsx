@@ -53,8 +53,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           toolbarManager.initialize(settings);
         }
         toolbarManager.setLanguage(settings.language || 'zh-CN');
-        // 注册 inlineComment 执行器，使用完整的组合键
-        toolbarManager.registerCombinedAction('invoke', 'inlineComment', inlineCommentExecutor);
+        // 注册 inlineComment 执行器
+        toolbarManager.registerClickFuncAction('inlineComment', inlineCommentExecutor);
       } catch (error) {
         console.warn('Error initializing toolbar manager:', error);
       }

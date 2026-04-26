@@ -57,7 +57,6 @@ export interface ActionExecutor {
   execute(item: ToolbarItem, selectedData: SelectedData): Promise<string>;
   registerExecutor(mode: string, executor: ActionExecutorFn): void;
   registerClickFuncExecutor(clickFunc: string, executor: ActionExecutorFn): void;
-  registerCombinedExecutor(funcmode: string, clickfunc: string, executor: ActionExecutorFn): void;
   setLanguage(language: string): void;
 }
 
@@ -66,7 +65,6 @@ export interface ToolbarManager {
   initialize(config: any): void;
   registerAction(id: string, handler: ActionExecutorFn): void;
   registerClickFuncAction(clickFunc: string, handler: ActionExecutorFn): void;
-  registerCombinedAction(funcmode: string, clickfunc: string, handler: ActionExecutorFn): void;
   executeAction(item: ToolbarItem, selectedData: SelectedData): Promise<string>;
   getToolbarItems(): (ToolbarItem | ToolbarGroup)[];
   isReady(): boolean;

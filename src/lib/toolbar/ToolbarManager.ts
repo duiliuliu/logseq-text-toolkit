@@ -50,13 +50,6 @@ export class ToolbarManager implements IToolbarManager {
   }
 
   /**
-   * 注册功能（完整组合）
-   */
-  registerCombinedAction(funcmode: string, clickfunc: string, handler: ActionExecutorFn): void {
-    actionExecutor.registerCombinedExecutor(funcmode, clickfunc, handler);
-  }
-
-  /**
    * 执行功能
    */
   async executeAction(item: ToolbarItem, selectedData: SelectedData): Promise<string> {

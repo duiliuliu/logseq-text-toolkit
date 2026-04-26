@@ -4,12 +4,12 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { InlineCommentModalProps } from '../../lib/inlineComment/types.ts';
+import { InlineCommentModalProps } from './types.ts';
 import { t } from '../../translations/i18n.ts';
 import { logseqAPI } from '../../logseq/index.ts';
-import { InlineComment } from '../../lib/inlineComment/index.ts';
+import { InlineComment } from './index.ts';
 import { eventBus } from '../../lib/toolbar/index.ts';
-import { findAndReplaceText, replaceInSelectedElement } from '../../lib/textReplace/utils.ts';
+import { findAndReplaceText, replaceInSelectedElement, updateBlockContent } from '../../lib/textReplace/utils.ts';
 import './inlineComment.css';
 
 export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
