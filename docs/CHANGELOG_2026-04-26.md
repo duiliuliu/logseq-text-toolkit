@@ -29,3 +29,5 @@
 - 修改 `/workspace/src/lib/textReplace/utils.ts`，将 updateBlockContentWithLanguage 函数改名为 updateBlockContent，删除原来的 updateBlockContent 函数
 - 修改 `/workspace/src/components/Toolbar/textProcessor.ts`，更新导入和函数调用，使用新的 updateBlockContent 函数
 - 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，更新函数调用，使用新的 updateBlockContent 函数并传递语言参数
+- 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，添加国际化支持，从设置中获取语言信息
+- 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，更新文本标签和占位符，使用国际化

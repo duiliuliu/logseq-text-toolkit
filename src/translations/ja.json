@@ -9,6 +9,7 @@
     "noBlockContent": "ブロックの内容を取得できません"
   },
   "inlineComment": {
+    "text": "テキスト",
     "placeholder": "コメントを追加...",
     "save": "コメントを追加",
     "title": "コメントを追加"

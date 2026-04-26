@@ -10,16 +10,22 @@ import { logseqAPI } from '../../logseq/index.ts';
 import { InlineComment } from './index.ts';
 import { eventBus } from '../../lib/toolbar/index.ts';
 import { findAndReplaceText, replaceInSelectedElement, updateBlockContent } from '../../lib/textReplace/utils.ts';
+import { useSettingsContext } from '../../hooks/useSettings.tsx';
 import './inlineComment.css';
 
 export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
   isOpen,
   selectedText,
   onClose,
+  onSave,
   buttons
 }) => {
   const [comment, setComment] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { settings } = useSettingsContext();
+  
+  // 获取当前语言，默认为 zh-CN
+  const currentLanguage = settings?.language || 'zh-CN';
 
   useEffect(() => {
     if (isOpen) {
@@ -37,7 +43,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
       const processedText = InlineComment.wrapText(selectedText, comment);
       
       // 使用公共的 updateBlockContent 函数更新块内容
-      const success = await updateBlockContent(selectedText, processedText, 'zh-CN');
+      const success = await updateBlockContent(selectedText, processedText, currentLanguage);
       
       if (success) {
         // 发布文本处理完成事件
@@ -72,7 +78,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
         {/* 头部 */}
         <div className="inline-comment-modal-header">
           <div className="inline-comment-modal-title">
-            <span className="inline-comment-modal-title-text">文本</span>
+            <span className="inline-comment-modal-title-text">{t('inlineComment.text', currentLanguage)}</span>
             <span className="inline-comment-modal-title-selected">{selectedText}</span>
           </div>
           <button className="inline-comment-modal-close" onClick={onClose} aria-label="close">
@@ -89,7 +95,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
             className="inline-comment-modal-textarea"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder={t('inlineComment.placeholder', 'zh-CN')}
+            placeholder={t('inlineComment.placeholder', currentLanguage)}
           />
         </div>
 
@@ -110,7 +116,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
               className="inline-comment-modal-button primary"
               onClick={handleSave}
             >
-              {t('inlineComment.save', 'zh-CN')}
+              {t('inlineComment.save', currentLanguage)}
             </button>
           )}
         </div>

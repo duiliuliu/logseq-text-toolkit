@@ -9,6 +9,7 @@
     "noBlockContent": "Unable to get block content"
   },
   "inlineComment": {
+    "text": "Text",
     "placeholder": "Add a comment...",
     "save": "Add Comment",
     "title": "Add Comment"
