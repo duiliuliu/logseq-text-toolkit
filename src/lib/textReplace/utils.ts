@@ -21,7 +21,8 @@ export const findAndReplaceText = (originalContent: string, selectedText: string
       selectedText,
       processedText
     });
-    throw new Error('选中的文字在块内容中未找到');
+    // 找不到选中的文本时，返回原始内容，不抛出错误
+    return originalContent;
   }
   return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
 };
@@ -110,8 +111,13 @@ export const updateBlockContent = async (
     // 回退：使用indexOf找到第一个匹配项
     const newContent = findAndReplaceText(originalContent, selectedText, processedText);
     
-    // 更新block
-    return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
+    // 只有当内容确实发生变化时才更新block
+    if (newContent !== originalContent) {
+      return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
+    } else {
+      // 内容没有变化，返回false表示更新失败
+      return false;
+    }
   } catch (error) {
     console.warn('Error updating block content:', error);
     return false;
