@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import CommentManager from './InlineComment/CommentManager.tsx';
-import { SettingsProvider } from '../settings/useSettings.tsx';
+import CommentManager from './CommentManager.tsx';
+import { SettingsProvider } from '../../settings/useSettings.tsx';
 
 export function CommentApp() {
   return (

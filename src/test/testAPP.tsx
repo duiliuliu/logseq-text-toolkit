@@ -3,7 +3,7 @@ import './testApp.css'
 import TestLayout from './components/TestLayout/index.tsx'
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
-import CommentApp from '../components/CommentApp.tsx'
+import CommentApp from '../components/Comment/CommentApp.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
 

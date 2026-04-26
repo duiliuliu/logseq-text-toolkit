@@ -1,15 +1,15 @@
 /**
- * 行内注释功能模块
+ * 注释功能模块
  */
 
-import { InlineCommentConfig } from './types.ts';
+import { CommentConfig } from './types.ts';
 
 /**
- * 生成行内注释功能
+ * 生成注释功能
  */
-export const InlineComment = {
+export const Comment = {
   /**
-   * 将选中文本包装为行内注释
+   * 将选中文本包装为注释
    * @param selectedText 选中文本
    * @param comment 注释内容
    * @returns 包装后的文本
@@ -21,11 +21,11 @@ export const InlineComment = {
   },
 
   /**
-   * 从行内注释中提取原始文本和注释
-   * @param htmlText 行内注释 HTML
+   * 从注释中提取原始文本和注释
+   * @param htmlText 注释 HTML
    * @returns 原始文本和注释
    */
-  unwrapText: (htmlText: string): InlineCommentConfig => {
+  unwrapText: (htmlText: string): CommentConfig => {
     const regex = /\[:span\.inline-comment\s*\{:data-comment\s*"([^"]*)"\}\s*"([^"]*)"\]/i;
     const match = htmlText.match(regex);
     if (match) {
@@ -36,5 +36,5 @@ export const InlineComment = {
   }
 };
 
-export { InlineCommentModal } from './InlineCommentModal.tsx';
-export type { InlineCommentConfig, InlineCommentButtonConfig, InlineCommentModalProps } from './types.ts';
+export { CommentModal } from './CommentModal.tsx';
+export type { CommentConfig, CommentModalProps } from './types.ts';

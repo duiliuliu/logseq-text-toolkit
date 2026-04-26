@@ -63,6 +63,7 @@ export class ToolbarManager implements IToolbarManager {
       // 检查是否是 invoke 类型的功能，如果是，则通过事件总线触发
       if (item.invoke === 'invoke' && item.invokeParams) {
         switch (item.invokeParams) {
+          case 'inlineComment':
           case 'comment':
             this.eventBus.emit('ltt-invoke:comment', { selectedData });
             return selectedData.text;

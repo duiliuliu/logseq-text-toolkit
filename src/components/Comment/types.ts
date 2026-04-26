@@ -1,17 +1,17 @@
 /**
- * 行内注释功能类型定义
+ * 注释功能类型定义
  */
 
 import type { SelectedData } from '../Toolbar/textProcessor.ts';
 
-export interface InlineCommentConfig {
+export interface CommentConfig {
   selectedText: string;
   comment: string;
 }
 
-export interface InlineCommentModalProps {
+export interface CommentModalProps {
   isOpen: boolean;
   selectedData: SelectedData;
   onClose?: () => void;
-  onSave?: (config: InlineCommentConfig) => void;
+  onSave?: (config: CommentConfig) => void;
 }

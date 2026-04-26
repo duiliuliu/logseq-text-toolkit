@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { InlineCommentModal } from './InlineCommentModal.tsx';
-import { InlineComment } from './index.ts';
+import { CommentModal } from './CommentModal.tsx';
+import { Comment } from './index.ts';
 import { SelectedData } from '../Toolbar/textProcessor.ts';
 import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
@@ -54,7 +54,7 @@ export const CommentManager: React.FC = () => {
     }
 
     try {
-      const processedText = InlineComment.wrapText(data.selectedText, data.comment);
+      const processedText = Comment.wrapText(data.selectedText, data.comment);
       
       const success = await updateBlockContent(
         commentState.selectedData, processedText, currentLanguage
@@ -86,7 +86,7 @@ export const CommentManager: React.FC = () => {
   }
 
   return (
-    <InlineCommentModal
+    <CommentModal
       isOpen={commentState.isOpen}
       selectedData={commentState.selectedData}
       onClose={handleClose}

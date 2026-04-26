@@ -40,6 +40,7 @@ export interface Settings {
   height: string;
   hoverDelay: number;
   sponsorEnabled: boolean;
+  developerMode: boolean;
   
   // 工具栏元素配置
   ToolbarItems: Array<ToolbarItem | ToolbarGroup>;

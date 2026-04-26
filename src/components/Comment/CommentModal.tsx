@@ -4,12 +4,12 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { InlineCommentModalProps } from './types.ts';
+import { CommentModalProps } from './types.ts';
 import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
 import './inlineComment.css';
 
-export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
+export const CommentModal: React.FC<CommentModalProps> = ({
   isOpen,
   selectedData,
   onClose,
@@ -89,4 +89,4 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
   );
 };
 
-export default InlineCommentModal;
+export default CommentModal;

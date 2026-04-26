@@ -11,6 +11,7 @@
   "height": "28px",
   "hoverDelay": 500,
   "sponsorEnabled": false,
+  "developerMode": false,
   "ToolbarItems": [
     {
       "id": "group-custom",
