@@ -47,8 +47,8 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
       <div className="inline-comment-modal" onClick={(e) => e.stopPropagation()}>
         {/* 头部 */}
         <div className="inline-comment-modal-header">
-          <div className="inline-comment-modal-selected-text">
-            {selectedText}
+          <div className="inline-comment-modal-title">
+            {t('inlineComment.title', 'zh-CN')}
           </div>
           <button className="inline-comment-modal-close" onClick={onClose} aria-label="close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

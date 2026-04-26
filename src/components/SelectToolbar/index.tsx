@@ -109,6 +109,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const handleItemClick = useCallback(async (item: any, selectedData: SelectedData) => {
     // 特殊处理 inlineComment
     if (item.funcmode === 'invoke' && item.clickfunc === 'inlineComment') {
+      setShowToolbar(false) // 隐藏工具栏
       setShowInlineComment(true)
       return
     }

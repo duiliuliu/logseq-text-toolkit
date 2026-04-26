@@ -66,9 +66,9 @@
   border-bottom: 1px solid var(--ls-border-color, #e5e7eb);
 }
 
-.inline-comment-modal-selected-text {
-  font-size: 14px;
-  font-weight: 500;
+.inline-comment-modal-title {
+  font-size: 16px;
+  font-weight: 600;
   color: var(--ls-primary-text-color, #111827);
   flex: 1;
   overflow: hidden;
@@ -77,7 +77,7 @@
   padding-right: 12px;
 }
 
-[data-theme="dark"] .inline-comment-modal-selected-text {
+[data-theme="dark"] .inline-comment-modal-title {
   color: var(--ls-primary-text-color, #f3f4f6);
 }
 
