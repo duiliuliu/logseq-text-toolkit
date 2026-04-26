@@ -380,3 +380,26 @@
   --ls-hover-color-plugin: var(--hover-color-dark, #334155);
   --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);
 }
+
+/* 中间内容容器 */
+.center-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Hiccup 渲染器容器 */
+.hiccup-renderer-container {
+  margin-top: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .center-content {
+    gap: 15px;
+  }
+  
+  .hiccup-renderer-container {
+    margin-top: 15px;
+  }
+}

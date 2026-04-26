@@ -2,6 +2,7 @@ import '../main.css'
 import './testApp.css'
 import TestLayout from './components/TestLayout/index.tsx'
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
+import HiccupRenderer from './components/HiccupRenderer/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
 import CommentApp from '../components/Comment/CommentApp.tsx'
 import testConfig from './testConfig.ts'
@@ -42,8 +43,15 @@ function TestApp() {
     </div>
   )
 
-  // 中间内容区域 - 使用独立的 TextSelectionDemo 组件
-  const centerContent = <TextSelectionDemo />
+  // 中间内容区域 - 使用 HiccupRenderer 组件支持 hiccup 实时渲染
+  const centerContent = (
+    <div className="center-content">
+      <TextSelectionDemo />
+      <div className="hiccup-renderer-container">
+        <HiccupRenderer />
+      </div>
+    </div>
+  )
 
   return (
     <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
