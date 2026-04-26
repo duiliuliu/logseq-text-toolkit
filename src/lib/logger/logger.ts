@@ -3,7 +3,7 @@
  * 支持 debug 模式，通过设置中的开发者模式控制
  */
 
-import { getSettings } from '../settings/index.ts';
+import { getSettings } from '../../settings/index.ts';
 
 export interface Logger {
   /**
