@@ -2,6 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { serialize } from '@thi.ng/hiccup';
 import './styles.css';
 
+// 简单的 hiccup 解析器
+function parseHiccupString(str: string): any {
+  // 去除首尾空白
+  str = str.trim();
+  
+  // 检查是否是数组形式
+  if (!str.startsWith('[') || !str.endsWith(']')) {
+    throw new Error('Hiccup must be an array starting with [ and ending with ]');
+  }
+  
+  // 尝试使用 Function 构造函数来解析，比 eval 更安全一些
+  try {
+    return new Function(`return ${str}`)();
+  } catch (error) {
+    throw new Error(`Failed to parse hiccup: ${error.message}`);
+  }
+}
+
 interface HiccupRendererProps {
   initialContent?: string;
 }
@@ -10,24 +28,12 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
   const [hiccupContent, setHiccupContent] = useState(initialContent);
   const [renderedContent, setRenderedContent] = useState<React.ReactNode>(null);
 
-  useEffect(() => {
-    // 实时渲染 hiccup 内容
+  // 解析和渲染 hiccup 内容
+  const renderHiccup = (content: string) => {
     try {
-      console.log('解析 hiccup 内容:', hiccupContent);
-      // 尝试解析 hiccup 字符串
-      let parsed;
-      try {
-        parsed = eval(hiccupContent);
-      } catch (evalError) {
-        console.log('直接 eval 失败:', evalError.message);
-        // 如果直接 eval 失败，尝试添加括号
-        try {
-          parsed = eval(`(${hiccupContent})`);
-        } catch (bracketError) {
-          console.log('添加括号后 eval 失败:', bracketError.message);
-          throw new Error(`Syntax error: ${bracketError.message}`);
-        }
-      }
+      console.log('解析 hiccup 内容:', content);
+      // 解析 hiccup 字符串
+      const parsed = parseHiccupString(content);
       
       console.log('解析结果:', parsed);
       // 确保解析结果是数组
@@ -44,51 +50,20 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
       setRenderedContent(
         <div style={{ color: 'red' }}>
           <div>Invalid hiccup: {error.message}</div>
-          <div style={{ fontSize: '12px', marginTop: '8px' }}>解析内容: {hiccupContent}</div>
+          <div style={{ fontSize: '12px', marginTop: '8px' }}>解析内容: {content}</div>
         </div>
       );
     }
+  };
+
+  useEffect(() => {
+    renderHiccup(hiccupContent);
   }, [hiccupContent]);
 
   // 初始渲染
   useEffect(() => {
-    try {
-      console.log('解析初始 hiccup 内容:', initialContent);
-      // 尝试解析 hiccup 字符串
-      let parsed;
-      try {
-        parsed = eval(initialContent);
-      } catch (evalError) {
-        console.log('直接 eval 失败:', evalError.message);
-        // 如果直接 eval 失败，尝试添加括号
-        try {
-          parsed = eval(`(${initialContent})`);
-        } catch (bracketError) {
-          console.log('添加括号后 eval 失败:', bracketError.message);
-          throw new Error(`Syntax error: ${bracketError.message}`);
-        }
-      }
-      
-      console.log('解析结果:', parsed);
-      // 确保解析结果是数组
-      if (!Array.isArray(parsed)) {
-        throw new Error('Hiccup must be an array');
-      }
-      
-      // 序列化并渲染
-      const html = serialize(parsed);
-      console.log('序列化结果:', html);
-      setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
-    } catch (error) {
-      console.error('Hiccup 解析错误:', error);
-      setRenderedContent(
-        <div style={{ color: 'red' }}>
-          <div>Invalid hiccup: {error.message}</div>
-          <div style={{ fontSize: '12px', marginTop: '8px' }}>解析内容: {initialContent}</div>
-        </div>
-      );
-    }
-  }, []);
+    renderHiccup(initialContent);
+  }, [initialContent]);
 
   return (
     <div className="hiccup-renderer">
