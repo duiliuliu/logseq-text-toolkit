@@ -7,8 +7,8 @@ import { processSelectedData } from '../../components/Toolbar/textProcessor.ts';
  * 功能执行器实现
  */
 export class ActionExecutor implements IActionExecutor {
-  private modeExecutors: Map<string, ActionExecutorFn> = new Map();
-  private clickFuncExecutors: Map<string, ActionExecutorFn> = new Map();
+  // 使用 funcmode + clickfunc 组合作为键
+  private executors: Map<string, ActionExecutorFn> = new Map();
   private language: string = 'zh-CN';
 
   constructor(language: string = 'zh-CN') {
@@ -20,15 +20,12 @@ export class ActionExecutor implements IActionExecutor {
    * 执行功能
    */
   async execute(item: ToolbarItem, selectedData: SelectedData): Promise<string> {
-    // 先检查是否有 clickfunc 执行器
-    if (item.clickfunc && this.clickFuncExecutors.has(item.clickfunc)) {
-      const executor = this.clickFuncExecutors.get(item.clickfunc)!;
-      return await executor(item, selectedData);
-    }
-
-    // 再检查是否有 funcmode 执行器
-    if (this.modeExecutors.has(item.funcmode)) {
-      const executor = this.modeExecutors.get(item.funcmode)!;
+    // 生成组合键
+    const key = this.generateKey(item.funcmode, item.clickfunc);
+    
+    // 检查是否有对应的执行器
+    if (this.executors.has(key)) {
+      const executor = this.executors.get(key)!;
       return await executor(item, selectedData);
     }
 
@@ -37,17 +34,29 @@ export class ActionExecutor implements IActionExecutor {
   }
 
   /**
-   * 注册模式执行器
+   * 注册执行器（按 funcmode）
    */
   registerExecutor(mode: string, executor: ActionExecutorFn): void {
-    this.modeExecutors.set(mode, executor);
+    // 当只提供 funcmode 时，使用 funcmode 作为主要标识符
+    this.executors.set(mode, executor);
   }
 
   /**
-   * 注册 clickfunc 执行器
+   * 注册执行器（按 funcmode + clickfunc）
    */
   registerClickFuncExecutor(clickFunc: string, executor: ActionExecutorFn): void {
-    this.clickFuncExecutors.set(clickFunc, executor);
+    // 当提供 clickfunc 时，需要同时提供 funcmode
+    // 默认使用 'invoke' 作为 funcmode
+    const key = this.generateKey('invoke', clickFunc);
+    this.executors.set(key, executor);
+  }
+
+  /**
+   * 注册执行器（完整组合）
+   */
+  registerCombinedExecutor(funcmode: string, clickfunc: string, executor: ActionExecutorFn): void {
+    const key = this.generateKey(funcmode, clickfunc);
+    this.executors.set(key, executor);
   }
 
   /**
@@ -55,6 +64,16 @@ export class ActionExecutor implements IActionExecutor {
    */
   setLanguage(language: string): void {
     this.language = language;
+  }
+
+  /**
+   * 生成组合键
+   */
+  private generateKey(funcmode: string, clickfunc: any): string {
+    if (clickfunc) {
+      return `${funcmode}:${String(clickfunc)}`;
+    }
+    return funcmode;
   }
 
   /**

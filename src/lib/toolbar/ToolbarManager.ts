@@ -50,14 +50,27 @@ export class ToolbarManager implements IToolbarManager {
   }
 
   /**
+   * 注册功能（完整组合）
+   */
+  registerCombinedAction(funcmode: string, clickfunc: string, handler: ActionExecutorFn): void {
+    actionExecutor.registerCombinedExecutor(funcmode, clickfunc, handler);
+  }
+
+  /**
    * 执行功能
    */
   async executeAction(item: ToolbarItem, selectedData: SelectedData): Promise<string> {
     try {
+      // 发布项目点击事件
+      this.eventBus.emit('ltt-itemClick', {
+        item,
+        selectedData
+      });
+
       const processedText = await actionExecutor.execute(item, selectedData);
       
       // 发布文本处理完成事件
-      this.eventBus.emit('textProcessed', {
+      this.eventBus.emit('ltt-textProcessed', {
         processedText,
         originalItem: item
       });

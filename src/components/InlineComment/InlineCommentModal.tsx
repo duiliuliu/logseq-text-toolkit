@@ -58,7 +58,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
       await logseqAPI.Editor.updateBlock(block.uuid, newContent);
       
       // 发布文本处理完成事件
-      eventBus.emit('textProcessed', {
+      eventBus.emit('ltt-textProcessed', {
         processedText,
         originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
       });

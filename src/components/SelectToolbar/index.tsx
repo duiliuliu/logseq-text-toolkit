@@ -10,6 +10,7 @@ import {
   inlineCommentExecutor,
   setInlineCommentControl
 } from '../../lib/toolbar/index.ts';
+import { logseqAPI } from '../../logseq/index.ts';
 
 interface ToolbarPosition {
   x: number;
@@ -45,11 +46,18 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
   // 初始化工具栏管理器
   useEffect(() => {
-    if (settings && !toolbarManager.isReady()) {
-      toolbarManager.initialize(settings);
-      toolbarManager.setLanguage(settings.language || 'zh-CN');
-      // 注册 inlineComment 执行器
-      toolbarManager.registerClickFuncAction('inlineComment', inlineCommentExecutor);
+    if (settings) {
+      // 初始化管理器，不检查 isReady，确保能正常工作
+      try {
+        if (!toolbarManager.isReady()) {
+          toolbarManager.initialize(settings);
+        }
+        toolbarManager.setLanguage(settings.language || 'zh-CN');
+        // 注册 inlineComment 执行器，使用完整的组合键
+        toolbarManager.registerCombinedAction('invoke', 'inlineComment', inlineCommentExecutor);
+      } catch (error) {
+        console.warn('Error initializing toolbar manager:', error);
+      }
     }
   }, [settings]);
 
@@ -72,10 +80,10 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       console.log('Processed text:', data.processedText);
     };
 
-    eventBus.on('textProcessed', handleTextProcessedEvent);
+    eventBus.on('ltt-textProcessed', handleTextProcessedEvent);
 
     return () => {
-      eventBus.off('textProcessed', handleTextProcessedEvent);
+      eventBus.off('ltt-textProcessed', handleTextProcessedEvent);
     };
   }, []);
 
@@ -114,7 +122,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
     try {
       // 使用 logseqAPI 获取光标位置
-      const curPos = await window.logseq.Editor.getEditingCursorPosition();
+      const curPos = await logseqAPI.Editor.getEditingCursorPosition();
       if (curPos != null) {
         const newSelectedData: SelectedData = {
           text: selection.toString(),
@@ -124,7 +132,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         setSelectedData(newSelectedData);
 
         // 发布选择变化事件
-        eventBus.emit('selectionChange', { selectedData: newSelectedData });
+        eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
 
         let toolbarY = curPos.top + curPos.rect.y - 35;
         let toolbarX: number;
@@ -175,7 +183,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       setSelectedData(newSelectedData);
 
       // 发布选择变化事件
-      eventBus.emit('selectionChange', { selectedData: newSelectedData });
+      eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
 
       // 定位（紧贴选中文字，不飘）
       const toolbarHeight = 32;

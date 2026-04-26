@@ -3,11 +3,11 @@ import type { SelectedData } from '../../components/Toolbar/textProcessor.ts';
 
 // 事件类型定义
 export type EventType = 
-  | 'selectionChange'
-  | 'itemClick'
-  | 'textProcessed'
-  | 'showToolbar'
-  | 'hideToolbar';
+  | 'ltt-selectionChange'
+  | 'ltt-itemClick'
+  | 'ltt-textProcessed'
+  | 'ltt-showToolbar'
+  | 'ltt-hideToolbar';
 
 // 事件数据类型
 export interface EventData {
@@ -50,11 +50,14 @@ export interface EventBus {
   clear(): void;
 }
 
-// 功能执行器接口
+/**
+ * 功能执行器接口
+ */
 export interface ActionExecutor {
   execute(item: ToolbarItem, selectedData: SelectedData): Promise<string>;
   registerExecutor(mode: string, executor: ActionExecutorFn): void;
   registerClickFuncExecutor(clickFunc: string, executor: ActionExecutorFn): void;
+  registerCombinedExecutor(funcmode: string, clickfunc: string, executor: ActionExecutorFn): void;
   setLanguage(language: string): void;
 }
 
@@ -63,6 +66,7 @@ export interface ToolbarManager {
   initialize(config: any): void;
   registerAction(id: string, handler: ActionExecutorFn): void;
   registerClickFuncAction(clickFunc: string, handler: ActionExecutorFn): void;
+  registerCombinedAction(funcmode: string, clickfunc: string, handler: ActionExecutorFn): void;
   executeAction(item: ToolbarItem, selectedData: SelectedData): Promise<string>;
   getToolbarItems(): (ToolbarItem | ToolbarGroup)[];
   isReady(): boolean;
