@@ -13,9 +13,26 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
   useEffect(() => {
     // 实时渲染 hiccup 内容
     try {
-      const parsed = eval(hiccupContent);
+      // 尝试解析 hiccup 字符串
+      let parsed;
+      try {
+        parsed = eval(hiccupContent);
+      } catch (evalError) {
+        // 如果直接 eval 失败，尝试添加括号
+        try {
+          parsed = eval(`(${hiccupContent})`);
+        } catch (bracketError) {
+          throw new Error(`Syntax error: ${bracketError.message}`);
+        }
+      }
+      
+      // 确保解析结果是数组
+      if (!Array.isArray(parsed)) {
+        throw new Error('Hiccup must be an array');
+      }
+      
+      // 序列化并渲染
       const html = serialize(parsed);
-      // 使用 dangerouslySetInnerHTML 渲染生成的 HTML
       setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
       setRenderedContent(<span style={{ color: 'red' }}>Invalid hiccup: {error.message}</span>);
@@ -25,7 +42,25 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
   // 初始渲染
   useEffect(() => {
     try {
-      const parsed = eval(initialContent);
+      // 尝试解析 hiccup 字符串
+      let parsed;
+      try {
+        parsed = eval(initialContent);
+      } catch (evalError) {
+        // 如果直接 eval 失败，尝试添加括号
+        try {
+          parsed = eval(`(${initialContent})`);
+        } catch (bracketError) {
+          throw new Error(`Syntax error: ${bracketError.message}`);
+        }
+      }
+      
+      // 确保解析结果是数组
+      if (!Array.isArray(parsed)) {
+        throw new Error('Hiccup must be an array');
+      }
+      
+      // 序列化并渲染
       const html = serialize(parsed);
       setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
