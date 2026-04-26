@@ -50,6 +50,14 @@ export interface EventBus {
   clear(): void;
 }
 
+// 功能执行器接口
+export interface ActionExecutor {
+  execute(item: ToolbarItem, selectedData: SelectedData): Promise<string>;
+  registerExecutor(mode: string, executor: ActionExecutorFn): void;
+  registerClickFuncExecutor(clickFunc: string, executor: ActionExecutorFn): void;
+  setLanguage(language: string): void;
+}
+
 // 工具栏管理器接口
 export interface ToolbarManager {
   initialize(config: any): void;
