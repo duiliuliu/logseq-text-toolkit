@@ -43,13 +43,10 @@ function TestApp() {
     </div>
   )
 
-  // 中间内容区域 - 使用 HiccupRenderer 组件支持 hiccup 实时渲染
+  // 中间内容区域 - 整个区域都支持动态实时渲染 hiccup
   const centerContent = (
     <div className="center-content">
-      <TextSelectionDemo />
-      <div className="hiccup-renderer-container">
-        <HiccupRenderer />
-      </div>
+      <HiccupRenderer />
     </div>
   )
 
