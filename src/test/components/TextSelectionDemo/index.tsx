@@ -59,14 +59,14 @@ const TextSelectionDemo: React.FC = () => {
           <h3 className="demo-section-title">实际应用场景</h3>
           <p className="demo-text">
             在实际使用中，您可以：
-            <ul className="demo-list">
-              <li>快速格式化笔记内容</li>
-              <li>创建清晰的文档结构</li>
-              <li>突出显示重要信息</li>
-              <li>添加代码示例和技术说明</li>
-              <li>组织任务清单和项目计划</li>
-            </ul>
           </p>
+          <ul className="demo-list">
+            <li>快速格式化笔记内容</li>
+            <li>创建清晰的文档结构</li>
+            <li>突出显示重要信息</li>
+            <li>添加代码示例和技术说明</li>
+            <li>组织任务清单和项目计划</li>
+          </ul>
         </div>
       </div>
     </div>
