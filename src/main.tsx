@@ -76,6 +76,9 @@ const settingToggle = async () => {
 }
 
 const showCommentApp = async () => {
+  // 提供模态框样式
+  logseqAPI.provideStyle(modalCSS)
+
   logseqAPI.provideUI({
     key: COMMENT_APP_ID,
     path: '#app-container',

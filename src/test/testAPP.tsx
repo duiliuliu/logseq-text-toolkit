@@ -82,8 +82,7 @@ function TestApp() {
       {/* Toast 容器 */}
       <ToastContainer />
       
-      {/* CommentApp - 独立的 Comment 应用 */}
-      <CommentApp />
+
     </div>
   )
 }

@@ -23,8 +23,8 @@ export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => 
         const subItems: ToolbarItem[] = item.subItems.map((subItem: any) => ({
           id: subItem.id,
           label: subItem.label,
-          funcmode: subItem.funcmode || 'replace',
-          clickfunc: subItem.clickfunc || '',
+          invoke: subItem.invoke || subItem.funcmode || 'replace',
+          invokeParams: subItem.invokeParams || subItem.clickfunc || '',
           binding: subItem.binding,
           icon: subItem.icon,
           regex: subItem.regex,
@@ -36,8 +36,8 @@ export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => 
           result.push({
             id: item.id,
             label: item.label || item.id,
-            funcmode: item.funcmode || 'replace',
-            clickfunc: item.clickfunc || '',
+            invoke: item.invoke || item.funcmode || 'replace',
+            invokeParams: item.invokeParams || item.clickfunc || '',
             binding: item.binding,
             icon: item.icon,
             regex: item.regex,
@@ -51,8 +51,8 @@ export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => 
         result.push({
           id: item.id,
           label: item.label,
-          funcmode: item.funcmode || 'replace',
-          clickfunc: item.clickfunc || '',
+          invoke: item.invoke || item.funcmode || 'replace',
+          invokeParams: item.invokeParams || item.clickfunc || '',
           binding: item.binding,
           icon: item.icon,
           regex: item.regex,
@@ -70,7 +70,7 @@ export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => 
  * 处理工具栏项目点击
  */
 export const handleItemClick = async (item: ToolbarItem, selectedData: SelectedData, onTextProcessed?: (processedText: string) => void, language: string = 'zh-CN') => {
-  if (item.clickfunc && selectedData.text) {
+  if (item.invokeParams && selectedData.text) {
     const processedText = await processSelectedData(item, selectedData, language);
     if (onTextProcessed) {
       onTextProcessed(processedText);
