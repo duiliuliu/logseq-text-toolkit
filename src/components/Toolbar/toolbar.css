@@ -184,6 +184,9 @@
   height: 18px;
   fill: currentColor;
   color: inherit;
+  image-rendering: optimizeQuality;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 /* 确保工具栏图标在所有主题下都可见 */
