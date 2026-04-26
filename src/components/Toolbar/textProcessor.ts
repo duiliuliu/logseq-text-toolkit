@@ -13,7 +13,7 @@ export interface SelectedData {
   rect?: DOMRect;
   before?: string;
   after?: string;
-  block?: any;
+  block?: any; // 暂时使用 any 类型，实际应该使用 blockEntity 类型
 }
 
 /**

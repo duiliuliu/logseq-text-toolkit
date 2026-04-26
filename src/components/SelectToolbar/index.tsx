@@ -64,7 +64,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   // 设置弹窗显示控制
   useEffect(() => {
     setInlineCommentControl(
-      (selectedText: string) => {
+      (selectedData: any) => {
         setShowToolbar(false);
         setShowInlineComment(true);
       },

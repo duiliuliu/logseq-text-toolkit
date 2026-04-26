@@ -7,14 +7,16 @@ import type { ToolbarItem } from '../../../components/Toolbar/types.ts';
 import type { SelectedData } from '../../../components/Toolbar/textProcessor.ts';
 
 // 定义一个回调函数
-let onShowInlineComment: ((selectedText: string) => void) | null = null;
+import type { SelectedData } from '../../../components/Toolbar/textProcessor.ts';
+
+let onShowInlineComment: ((selectedData: SelectedData) => void) | null = null;
 let onHideInlineComment: (() => void) | null = null;
 
 /**
  * 设置弹窗显示控制回调
  */
 export function setInlineCommentControl(
-  onShow: (selectedText: string) => void,
+  onShow: (selectedData: SelectedData) => void,
   onHide: () => void
 ) {
   onShowInlineComment = onShow;
@@ -30,7 +32,7 @@ export const inlineCommentExecutor: ActionExecutorFn = async (
 ): Promise<string> => {
   // 显示弹窗
   if (onShowInlineComment) {
-    onShowInlineComment(selectedData.text);
+    onShowInlineComment(selectedData);
   }
 
   // 返回原始文本，因为实际处理是在弹窗中完成的
