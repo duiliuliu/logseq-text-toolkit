@@ -8,37 +8,13 @@ const Editor: any = {
     const selection = getSelection();
     const doc = getDocument();
 
-    // 尝试从 targetElement 中获取内容
-    const targetElement = doc.getElementById('main-content-container');
-    if (targetElement) {
-      // 生成一个基于元素路径的唯一ID
-      const blockId = generateBlockId(targetElement);
-      const content = targetElement.textContent || '';
-
-      return Promise.resolve({
-        uuid: blockId,
-        content: content,
-        properties: {}
-      });
-    }
-
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
       let currentElement: Node | null = range.commonAncestorContainer;
 
-      // 向上查找，找到一个合适的块元素，跳过评论模态框
+      // 向上查找，找到一个合适的块元素
       while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
         currentElement = currentElement.parentElement;
-      }
-
-      // 确保不是评论模态框
-      while (currentElement && currentElement instanceof HTMLElement) {
-        if (currentElement.classList && currentElement.classList.contains('inline-comment-modal')) {
-          // 如果是评论模态框，继续向上查找
-          currentElement = currentElement.parentElement;
-        } else {
-          break;
-        }
       }
 
       if (currentElement && currentElement instanceof HTMLElement) {
