@@ -35,7 +35,7 @@ export const processSelectedData = async (
   }
   
   let result = selectedText;
-  switch (item.funcmode) {
+  switch (item.invoke) {
     case 'replace':
     case 'regexReplace':
       result = await replaceSelectedText(item, selectedData, language);
@@ -74,7 +74,7 @@ export const replaceSelectedText = async (
     
     // 2. 对selectedData.text作文本处理
     let processedText: string;
-    if (item.funcmode === 'regexReplace') {
+    if (item.invoke === 'regexReplace') {
       processedText = regexReplaceText(item, selectedText);
     } else {
       processedText = replaceText(item, selectedText);
@@ -111,8 +111,8 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
   if (item.regex && item.replacement) {
     const regex = new RegExp(item.regex, 'g');
     return text.replace(regex, item.replacement);
-  } else if (item.clickfunc) {
-    return item.clickfunc.replace(/\${selectedText}/g, text);
+  } else if (item.invokeParams) {
+    return item.invokeParams.replace(/\${selectedText}/g, text);
   }
   return text;
 };
@@ -126,17 +126,17 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
  * @returns 替换后的文本
  */
 export const regexReplaceText = (item: ToolbarItem, text: string): string => {
-  if (item.clickfunc) {
+  if (item.invokeParams) {
     try {
-      // 处理对象格式的clickfunc（包含regex和replacement属性）
-      if (typeof item.clickfunc === 'object' && item.clickfunc.regex && item.clickfunc.replacement) {
-        const { regex: pattern, replacement, flags = 'g' } = item.clickfunc;
+      // 处理对象格式的invokeParams（包含regex和replacement属性）
+      if (typeof item.invokeParams === 'object' && item.invokeParams.regex && item.invokeParams.replacement) {
+        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
         const regex = new RegExp(pattern, flags);
         return text.replace(regex, replacement);
       }
-      // 处理字符串格式的clickfunc（格式示例: /pattern/replacement/flags）
-      else if (typeof item.clickfunc === 'string') {
-        const regexMatch = item.clickfunc.match(/\/(.*)\/(.*)\/(.*)/);
+      // 处理字符串格式的invokeParams（格式示例: /pattern/replacement/flags）
+      else if (typeof item.invokeParams === 'string') {
+        const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
         if (regexMatch) {
           const [, pattern, replacement, flags] = regexMatch;
           const regex = new RegExp(pattern, flags);
