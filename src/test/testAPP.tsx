@@ -6,76 +6,10 @@ import ToastContainer from '../components/Toast/Toast.tsx'
 import CommentApp from '../components/Comment/CommentApp.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
-import { useState } from 'react'
-
-// 简单的 hiccup 解析器
-function parseHiccup(hiccup: any): React.ReactNode {
-  if (typeof hiccup === 'string' || typeof hiccup === 'number') {
-    return hiccup
-  }
-  
-  if (Array.isArray(hiccup)) {
-    const [tag, ...rest] = hiccup
-    
-    if (typeof tag !== 'string') {
-      return null
-    }
-    
-    let props: any = {}
-    let children: React.ReactNode[] = []
-    
-    if (rest.length > 0 && typeof rest[0] === 'object' && !Array.isArray(rest[0])) {
-      props = rest[0]
-      children = rest.slice(1)
-    } else {
-      children = rest
-    }
-    
-    // 处理类名
-    if (props.class) {
-      props.className = props.class
-      delete props.class
-    }
-    
-    // 处理 data-* 属性
-    Object.keys(props).forEach(key => {
-      if (key.startsWith('data-')) {
-        props[key] = props[key]
-      }
-    })
-    
-    return React.createElement(
-      tag,
-      props,
-      ...children.map(child => parseHiccup(child))
-    )
-  }
-  
-  return null
-}
 
 function TestApp() {
   // 使用设置上下文
   const { settings } = useSettingsContext()
-  
-  // hiccup 内容状态
-  const [hiccupInput, setHiccupInput] = useState<string>('[:div {:class "container"} [:h1 "Hiccup 渲染演示"] [:p "这是一个段落"] [:ul [:li "项目 1"] [:li "项目 2"]]]')
-  const [parsedHiccup, setParsedHiccup] = useState<any>(null)
-  
-  // 解析 hiccup 内容
-  const handleHiccupChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value
-    setHiccupInput(value)
-    
-    try {
-      // 安全地评估 hiccup 内容
-      const parsed = eval(`(${value})`)
-      setParsedHiccup(parsed)
-    } catch (error) {
-      console.error('Hiccup 解析错误:', error)
-      setParsedHiccup(null)
-    }
-  }
 
   // 左侧面板内容
   const leftContent = (
@@ -108,34 +42,8 @@ function TestApp() {
     </div>
   )
 
-  // 中间内容区域 - 包含 TextSelectionDemo 和 Hiccup 渲染演示
-  const centerContent = (
-    <div className="center-content">
-      <TextSelectionDemo />
-      
-      {/* Hiccup 渲染演示 */}
-      <div className="hiccup-demo">
-        <h2>Hiccup 实时渲染</h2>
-        <div className="hiccup-input-container">
-          <label htmlFor="hiccup-input">输入 Hiccup 内容:</label>
-          <textarea
-            id="hiccup-input"
-            value={hiccupInput}
-            onChange={handleHiccupChange}
-            className="hiccup-input"
-            rows={6}
-            placeholder="例如: [:div {:class \"container\"} [:h1 \"Hello\"]]"
-          />
-        </div>
-        <div className="hiccup-output-container">
-          <h3>渲染结果:</h3>
-          <div className="hiccup-output">
-            {parsedHiccup ? parseHiccup(parsedHiccup) : <div className="error">解析错误</div>}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  // 中间内容区域 - 使用独立的 TextSelectionDemo 组件
+  const centerContent = <TextSelectionDemo />
 
   return (
     <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
