@@ -34,18 +34,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 从设置中获取配置
-  const getCurrentTheme = () => {
-    if (!settings) return 'light';
-    
-    if (settings.theme === 'system') {
-      // 检测系统主题
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    
-    return settings.theme;
-  };
-
-  const theme = getCurrentTheme();
+  const theme = settings?.theme || 'light';
   const showBorder = settings?.showBorder !== undefined ? settings.showBorder : true;
   const width = settings?.width || '110px';
   const height = settings?.height || '24px';
