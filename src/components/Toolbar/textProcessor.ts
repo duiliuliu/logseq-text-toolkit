@@ -1,8 +1,7 @@
 import { ToolbarItem } from './types.ts';
 import { logseqAPI } from '../../logseq/index.ts';
-import { getSelection, getDocument } from '../../logseq/utils.ts';
 import { t } from '../../translations/i18n.ts';
-import { findAndReplaceText, replaceInSelectedElement } from '../../lib/textReplace/utils.ts';
+import { findAndReplaceText, replaceInSelectedElement, updateBlockContentWithLanguage } from '../../lib/textReplace/utils.ts';
 
 /**
  * 选中数据接口
@@ -78,7 +77,7 @@ export const replaceSelectedText = async (
     }
     
     // 3. 用处理后的文本更新block content
-    const success = await updateBlockContent(selectedText, processedText, language);
+    const success = await updateBlockContentWithLanguage(selectedText, processedText, language);
     
     if (!success) {
       logseqAPI.UI.showMsg(t('toolbar.replaceFailed', language), { type: 'error' });
@@ -147,49 +146,7 @@ export const regexReplaceText = (item: ToolbarItem, text: string): string => {
   return text;
 };
 
-// ====================================================================================================
 
-/**
- * 更新 block 内容
- * @param selectedText 选中的文本
- * @param processedText 处理后的文本
- * @param language 语言代码
- * @returns 是否更新成功
- */
-const updateBlockContent = async (
-  selectedText: string, 
-  processedText: string,
-  language: string
-): Promise<boolean> => {
-  try {
-    // a. 获取block
-    const block = await logseqAPI.Editor.getCurrentBlock();
-    if (!block || !block.content) {
-      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
-      return false;
-    }
-    
-    const originalContent = block.content;
-    
-    // 实现精确的替换方法
-    let newContent: string;
-    
-    // 尝试在当前选中的元素中进行精确替换
-    const success = await replaceInSelectedElement(selectedText, processedText);
-    if (success) {
-      return true;
-    }
-    
-    // 回退：使用indexOf找到第一个匹配项
-    newContent = findAndReplaceText(originalContent, selectedText, processedText);
-    
-    // b. 更新block
-    return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
-  } catch (error) {
-    console.warn('Error updating block content:', error);
-    return false;
-  }
-};
 
 
 

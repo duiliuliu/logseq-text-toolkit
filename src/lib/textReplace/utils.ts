@@ -4,6 +4,7 @@
 
 import { getSelection, getDocument } from '../../logseq/utils.ts';
 import { logseqAPI } from '../../logseq/index.ts';
+import { t } from '../../translations/i18n.ts';
 
 /**
  * 回退：使用indexOf找到第一个匹配项的辅助函数
@@ -109,6 +110,33 @@ export const updateBlockContent = async (
     
     // 更新block
     return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
+  } catch (error) {
+    console.warn('Error updating block content:', error);
+    return false;
+  }
+};
+
+/**
+ * 更新块内容（带语言支持）
+ * @param selectedText 选中的文本
+ * @param processedText 处理后的文本
+ * @param language 语言代码
+ * @returns 是否更新成功
+ */
+export const updateBlockContentWithLanguage = async (
+  selectedText: string, 
+  processedText: string,
+  language: string
+): Promise<boolean> => {
+  try {
+    // 获取block
+    const block = await logseqAPI.Editor.getCurrentBlock();
+    if (!block || !block.content) {
+      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
+      return false;
+    }
+    
+    return await updateBlockContent(selectedText, processedText, block);
   } catch (error) {
     console.warn('Error updating block content:', error);
     return false;

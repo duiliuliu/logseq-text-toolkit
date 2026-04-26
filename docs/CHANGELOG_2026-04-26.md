@@ -23,3 +23,6 @@
 - 修改 `/workspace/src/lib/textReplace/utils.ts`，更新 updateBlockContent 函数，使其使用 logseqAPI.Editor.updateBlock 来更新块内容
 - 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，使用公共的 updateBlockContent 函数替代直接实现的逻辑
 - 将 `/workspace/docs/output/更新记录.md` 移动到 `/workspace/docs/CHANGELOG_2026-04-26.md`
+- 修改 `/workspace/src/lib/textReplace/utils.ts`，添加 updateBlockContentWithLanguage 函数，支持语言参数
+- 修改 `/workspace/src/components/Toolbar/textProcessor.ts`，使用公共的 updateBlockContentWithLanguage 函数替代直接实现的逻辑
+- 删除 `/workspace/src/components/Toolbar/textProcessor.ts` 中不再需要的 updateBlockContent 函数
