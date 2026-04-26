@@ -40,6 +40,10 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const height = settings?.height || '24px';
   const hoverDelay = settings?.hoverDelay !== undefined ? settings.hoverDelay : 500;
   const sponsorEnabled = settings?.sponsorEnabled !== undefined ? settings.sponsorEnabled : false;
+  
+  // 打印 theme 相关信息
+  console.log('SelectToolbar 从 context 获取的 settings:', settings);
+  console.log('SelectToolbar 使用的 theme:', theme);
 
   // 初始化工具栏管理器
   useEffect(() => {

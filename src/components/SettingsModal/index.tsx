@@ -34,6 +34,10 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     saveSettings 
   } = useSettingsContext()
   
+  // 打印 theme 相关信息
+  console.log('SettingsModal 接收到的 theme:', theme);
+  console.log('SettingsModal 从 context 获取的 settings:', loadedSettings);
+  
   const [settings, setSettings] = useState<Settings | null>(null)
   const [activeTab, setActiveTab] = useState('general')
 
