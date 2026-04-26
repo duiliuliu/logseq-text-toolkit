@@ -17,7 +17,7 @@ export interface InlineCommentButtonConfig {
 export interface InlineCommentModalProps {
   isOpen: boolean;
   selectedText: string;
-  onClose: () => void;
-  onSave: (config: InlineCommentConfig) => void;
+  onClose?: () => void;
+  onSave?: (config: InlineCommentConfig) => void;
   buttons?: InlineCommentButtonConfig[];
 }

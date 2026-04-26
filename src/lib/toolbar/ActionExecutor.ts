@@ -7,7 +7,8 @@ import { processSelectedData } from '../../components/Toolbar/textProcessor.ts';
  * 功能执行器实现
  */
 export class ActionExecutor implements IActionExecutor {
-  private executors: Map<string, ActionExecutorFn> = new Map();
+  private modeExecutors: Map<string, ActionExecutorFn> = new Map();
+  private clickFuncExecutors: Map<string, ActionExecutorFn> = new Map();
   private language: string = 'zh-CN';
 
   constructor(language: string = 'zh-CN') {
@@ -19,10 +20,16 @@ export class ActionExecutor implements IActionExecutor {
    * 执行功能
    */
   async execute(item: ToolbarItem, selectedData: SelectedData): Promise<string> {
-    // 先检查是否有自定义执行器
-    const customExecutor = this.executors.get(item.funcmode);
-    if (customExecutor) {
-      return await customExecutor(item, selectedData);
+    // 先检查是否有 clickfunc 执行器
+    if (item.clickfunc && this.clickFuncExecutors.has(item.clickfunc)) {
+      const executor = this.clickFuncExecutors.get(item.clickfunc)!;
+      return await executor(item, selectedData);
+    }
+
+    // 再检查是否有 funcmode 执行器
+    if (this.modeExecutors.has(item.funcmode)) {
+      const executor = this.modeExecutors.get(item.funcmode)!;
+      return await executor(item, selectedData);
     }
 
     // 使用默认处理逻辑
@@ -30,10 +37,17 @@ export class ActionExecutor implements IActionExecutor {
   }
 
   /**
-   * 注册执行器
+   * 注册模式执行器
    */
   registerExecutor(mode: string, executor: ActionExecutorFn): void {
-    this.executors.set(mode, executor);
+    this.modeExecutors.set(mode, executor);
+  }
+
+  /**
+   * 注册 clickfunc 执行器
+   */
+  registerClickFuncExecutor(clickFunc: string, executor: ActionExecutorFn): void {
+    this.clickFuncExecutors.set(clickFunc, executor);
   }
 
   /**

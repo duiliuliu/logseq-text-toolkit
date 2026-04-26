@@ -6,13 +6,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { InlineCommentModalProps } from '../../lib/inlineComment/types.ts';
 import { t } from '../../translations/i18n.ts';
+import { logseqAPI } from '../../logseq/index.ts';
+import { InlineComment } from '../../lib/inlineComment/index.ts';
+import { eventBus } from '../../lib/toolbar/index.ts';
 import './inlineComment.css';
 
 export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
   isOpen,
   selectedText,
   onClose,
-  onSave,
   buttons
 }) => {
   const [comment, setComment] = useState('');
@@ -25,16 +27,51 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
     }
   }, [isOpen]);
 
-  const handleSave = () => {
-    if (comment.trim()) {
-      onSave({ selectedText, comment });
-      onClose();
+  const handleSave = async () => {
+    if (!comment.trim()) {
+      return;
     }
+
+    try {
+      const processedText = InlineComment.wrapText(selectedText, comment);
+      const block = await logseqAPI.Editor.getCurrentBlock();
+      
+      if (!block || !block.content) {
+        console.warn('No block or block content');
+        onClose?.();
+        return;
+      }
+      
+      const originalContent = block.content;
+      
+      // 使用精确的替换方法
+      const index = originalContent.indexOf(selectedText);
+      let newContent: string;
+      
+      if (index === -1) {
+        console.warn('Selected text not found in block content');
+        newContent = originalContent.replace(selectedText, processedText);
+      } else {
+        newContent = originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
+      }
+      
+      await logseqAPI.Editor.updateBlock(block.uuid, newContent);
+      
+      // 发布文本处理完成事件
+      eventBus.emit('textProcessed', {
+        processedText,
+        originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
+      });
+    } catch (error) {
+      console.warn('Error updating block with inline comment:', error);
+    }
+    
+    onClose?.();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
-      onClose();
+      onClose?.();
     }
   };
 
