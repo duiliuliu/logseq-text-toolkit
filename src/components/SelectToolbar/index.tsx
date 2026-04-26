@@ -8,6 +8,7 @@ import {
   eventBus
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
+import { logger } from '../../utils/logger.ts';
 
 interface ToolbarPosition {
   x: number;
@@ -102,8 +103,12 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
 
     try {
+      logger.debug('开始更新工具栏位置');
+      
       // 使用 logseqAPI 获取光标位置
       const curPos = await logseqAPI.Editor.getEditingCursorPosition();
+      logger.debug('获取光标位置结果', { curPos });
+      
       if (curPos != null) {
         // 计算 before 和 after
         let before = '';
@@ -115,11 +120,18 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         
         if (block && block.content && selectedText) {
           const content = block.content;
+          logger.debug('获取到块内容', { content, selectedText });
           
           // 尝试使用 Selection 对象获取更精确的位置
           if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
             let currentNode = range.startContainer;
+            logger.debug('Selection 范围信息', {
+              rangeCount: selection.rangeCount,
+              startContainer: currentNode.nodeType,
+              startOffset: range.startOffset,
+              endOffset: range.endOffset
+            });
             
             // 向上查找，找到块元素
             while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
@@ -127,6 +139,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
             }
             
             if (currentNode) {
+              logger.debug('找到块元素', { currentNode: currentNode.nodeName });
               // 计算当前选中位置在整个块内容中的偏移量
               let offset = 0;
               let tempNode = block.content?.[0];
@@ -138,19 +151,26 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
               
               // 加上当前节点内的偏移量
               offset += range.startOffset;
+              logger.debug('计算偏移量', { offset });
               
               // 计算 before 和 after
               if (offset >= 0 && offset + selectedText.length <= content.length) {
                 before = content.substring(0, offset);
                 after = content.substring(offset + selectedText.length);
+                logger.debug('使用精确偏移量计算 before 和 after', { before, after });
               } else {
                 // 回退：使用 indexOf
                 const index = content.indexOf(selectedText);
                 if (index !== -1) {
                   before = content.substring(0, index);
                   after = content.substring(index + selectedText.length);
+                  logger.debug('使用 indexOf 回退计算 before 和 after', { index, before, after });
+                } else {
+                  logger.debug('未找到选中文本，无法计算 before 和 after');
                 }
               }
+            } else {
+              logger.debug('未找到块元素');
             }
           } else {
             // 回退：使用 indexOf
@@ -158,8 +178,13 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
             if (index !== -1) {
               before = content.substring(0, index);
               after = content.substring(index + selectedText.length);
+              logger.debug('使用 indexOf 计算 before 和 after', { index, before, after });
+            } else {
+              logger.debug('未找到选中文本，无法计算 before 和 after');
             }
           }
+        } else {
+          logger.debug('缺少块信息或选中文本', { block: !!block, hasContent: !!block?.content, hasSelectedText: !!selectedText });
         }
         
         const newSelectedData: SelectedData = {
@@ -170,18 +195,23 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           after,
           block
         };
+        logger.debug('生成新的选中数据', { selectedData: newSelectedData });
         setSelectedData(newSelectedData);
 
         // 发布选择变化事件
         eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
+        logger.debug('发布选择变化事件');
 
         let toolbarY = curPos.top + curPos.rect.y - 35;
         let toolbarX: number;
 
         // 边界不超出屏幕
         const viewportWidth = getWindow().innerWidth;
+        logger.debug('计算工具栏位置', { curPos, viewportWidth });
+        
         if (containerRef.current) {
           const w = containerRef.current.offsetWidth;
+          logger.debug('工具栏宽度', { width: w });
           if (curPos.left + curPos.rect.x + w <= viewportWidth) {
             toolbarX = curPos.left + curPos.rect.x;
           } else {
@@ -192,11 +222,14 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           toolbarX = curPos.left + curPos.rect.x;
         }
 
+        logger.debug('最终工具栏位置', { x: toolbarX, y: toolbarY });
         setToolbarPosition({ x: toolbarX, y: toolbarY });
         setShowToolbar(true);
+        logger.debug('显示工具栏');
+
       }
     } catch (error) {
-      console.error('Error getting cursor position:', error);
+      logger.error('获取光标位置失败，降级到备用方案', error);
       // 如果 logseqAPI 失败，降级到原来的实现
       // 核心：只获取一次正确位置
       let rect: DOMRect;
@@ -204,16 +237,20 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         if (selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
           rect = range.getBoundingClientRect();
+          logger.debug('获取选择范围的边界矩形', { rect });
 
           // 只有宽度为0时光标才兜底，不影响选中文本
           if (rect.width === 0 && focusNode?.parentElement) {
             rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect();
+            logger.debug('使用父元素的边界矩形', { rect });
           }
         } else {
           rect = targetElement.getBoundingClientRect();
+          logger.debug('使用目标元素的边界矩形', { rect });
         }
-      } catch {
+      } catch (e) {
         rect = targetElement.getBoundingClientRect();
+        logger.error('获取边界矩形失败，使用目标元素作为回退', e);
       }
 
       // 计算 before 和 after
@@ -223,14 +260,22 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       
       // 获取当前块
       const block = await logseqAPI.Editor.getCurrentBlock();
+      logger.debug('获取当前块', { block: !!block });
       
       if (block && block.content && selectedText) {
         const content = block.content;
+        logger.debug('获取到块内容', { content, selectedText });
         
         // 尝试使用 Selection 对象获取更精确的位置
         if (selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
           let currentNode = range.startContainer;
+          logger.debug('Selection 范围信息', {
+            rangeCount: selection.rangeCount,
+            startContainer: currentNode.nodeType,
+            startOffset: range.startOffset,
+            endOffset: range.endOffset
+          });
           
           // 向上查找，找到块元素
           while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
@@ -238,6 +283,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           }
           
           if (currentNode) {
+            logger.debug('找到块元素', { currentNode: currentNode.nodeName });
             // 计算当前选中位置在整个块内容中的偏移量
             let offset = 0;
             let tempNode = block.content?.[0];
@@ -249,19 +295,26 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
             
             // 加上当前节点内的偏移量
             offset += range.startOffset;
+            logger.debug('计算偏移量', { offset });
             
             // 计算 before 和 after
             if (offset >= 0 && offset + selectedText.length <= content.length) {
               before = content.substring(0, offset);
               after = content.substring(offset + selectedText.length);
+              logger.debug('使用精确偏移量计算 before 和 after', { before, after });
             } else {
               // 回退：使用 indexOf
               const index = content.indexOf(selectedText);
               if (index !== -1) {
                 before = content.substring(0, index);
                 after = content.substring(index + selectedText.length);
+                logger.debug('使用 indexOf 回退计算 before 和 after', { index, before, after });
+              } else {
+                logger.debug('未找到选中文本，无法计算 before 和 after');
               }
             }
+          } else {
+            logger.debug('未找到块元素');
           }
         } else {
           // 回退：使用 indexOf
@@ -269,8 +322,13 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           if (index !== -1) {
             before = content.substring(0, index);
             after = content.substring(index + selectedText.length);
+            logger.debug('使用 indexOf 计算 before 和 after', { index, before, after });
+          } else {
+            logger.debug('未找到选中文本，无法计算 before 和 after');
           }
         }
+      } else {
+        logger.debug('缺少块信息或选中文本', { block: !!block, hasContent: !!block?.content, hasSelectedText: !!selectedText });
       }
       
       const newSelectedData: SelectedData = {
@@ -281,10 +339,12 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         after,
         block
       };
+      logger.debug('生成新的选中数据（降级方案）', { selectedData: newSelectedData });
       setSelectedData(newSelectedData);
 
       // 发布选择变化事件
       eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
+      logger.debug('发布选择变化事件');
 
       // 定位（紧贴选中文字，不飘）
       const toolbarHeight = 32;
@@ -295,6 +355,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       // 上下位置判断
       const spaceAbove = rect.top;
       const spaceBelow = viewportHeight - rect.bottom;
+      logger.debug('计算空间', { spaceAbove, spaceBelow, toolbarHeight });
 
       if (spaceAbove > toolbarHeight + 10) {
         toolbarY = rect.top - toolbarHeight - padding;
@@ -307,14 +368,19 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
       // 边界不超出屏幕
       const viewportWidth = getWindow().innerWidth;
+      logger.debug('计算工具栏位置（降级方案）', { rect, viewportWidth });
+      
       if (containerRef.current) {
         const w = containerRef.current.offsetWidth;
+        logger.debug('工具栏宽度', { width: w });
         if (toolbarX < 0) toolbarX = 0;
         if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w;
       }
 
+      logger.debug('最终工具栏位置（降级方案）', { x: toolbarX, y: toolbarY });
       setToolbarPosition({ x: toolbarX, y: toolbarY });
       setShowToolbar(true);
+      logger.debug('显示工具栏（降级方案）');
     }
   };
 
