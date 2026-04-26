@@ -149,7 +149,6 @@
 .inline-comment-modal-textarea:focus {
   outline: none;
   border-color: #e5e7eb;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] .inline-comment-modal-textarea {
