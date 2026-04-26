@@ -62,7 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 8px 30px;
 }
 
 .inline-comment-modal-title {
@@ -105,15 +105,15 @@
 
 /* 内容 */
 .inline-comment-modal-content {
-  padding: 20px;
+  padding: 4px 14px;
 }
 
 .inline-comment-modal-textarea {
   width: 90%;
-  min-height: 120px;
-  border: 1px solid var(--ls-border-color, #e5e7eb);
+  min-height: 40px;
+  border: none;
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 2px 6px;
   font-size: 14px;
   line-height: 1.5;
   resize: vertical;
@@ -123,6 +123,11 @@
   transition: all 0.15s ease;
   margin: 0 auto;
   display: block;
+}
+
+.inline-comment-modal-textarea:hover {
+  background: var(--ls-primary-text-color, #111827);
+  color: white;
 }
 
 .inline-comment-modal-textarea:focus {
@@ -146,7 +151,7 @@
 }
 
 .inline-comment-modal-button {
-  padding: 8px 16px;
+  padding: 4px 8px;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
