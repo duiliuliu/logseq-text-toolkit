@@ -3,13 +3,16 @@ import type { ToolbarItem, ToolbarGroup } from '../../components/Toolbar/types.t
 import type { SelectedData } from '../../components/Toolbar/textProcessor.ts';
 import { configParser } from './ConfigParser.ts';
 import { eventBus } from './EventBus.ts';
-import { actionExecutor } from './ActionExecutor.ts';
+import { processSelectedData } from '../../components/Toolbar/textProcessor.ts';
 
 /**
  * 工具栏管理器实现
  */
 export class ToolbarManager implements IToolbarManager {
   private isInitialized: boolean = false;
+  private modeExecutors: Map<string, ActionExecutorFn> = new Map();
+  private clickFuncExecutors: Map<string, ActionExecutorFn> = new Map();
+  private language: string = 'zh-CN';
 
   /**
    * 事件总线
@@ -39,14 +42,14 @@ export class ToolbarManager implements IToolbarManager {
    * 注册功能（按 funcmode）
    */
   registerAction(id: string, handler: ActionExecutorFn): void {
-    actionExecutor.registerExecutor(id, handler);
+    this.modeExecutors.set(id, handler);
   }
 
   /**
    * 注册功能（按 clickfunc）
    */
   registerClickFuncAction(clickFunc: string, handler: ActionExecutorFn): void {
-    actionExecutor.registerClickFuncExecutor(clickFunc, handler);
+    this.clickFuncExecutors.set(clickFunc, handler);
   }
 
   /**
@@ -54,7 +57,22 @@ export class ToolbarManager implements IToolbarManager {
    */
   async executeAction(item: ToolbarItem, selectedData: SelectedData): Promise<string> {
     try {
-      const processedText = await actionExecutor.execute(item, selectedData);
+      let processedText: string;
+      
+      // 先检查是否有 clickfunc 执行器
+      if (item.clickfunc && this.clickFuncExecutors.has(item.clickfunc)) {
+        const executor = this.clickFuncExecutors.get(item.clickfunc)!;
+        processedText = await executor(item, selectedData);
+      } 
+      // 再检查是否有 funcmode 执行器
+      else if (this.modeExecutors.has(item.funcmode)) {
+        const executor = this.modeExecutors.get(item.funcmode)!;
+        processedText = await executor(item, selectedData);
+      }
+      // 使用默认处理逻辑
+      else {
+        processedText = await processSelectedData(item, selectedData, this.language);
+      }
       
       // 发布文本处理完成事件
       this.eventBus.emit('textProcessed', {
@@ -80,7 +98,7 @@ export class ToolbarManager implements IToolbarManager {
    * 设置语言
    */
   setLanguage(language: string): void {
-    actionExecutor.setLanguage(language);
+    this.language = language;
   }
 
   /**
@@ -95,6 +113,8 @@ export class ToolbarManager implements IToolbarManager {
    */
   reset(): void {
     this.isInitialized = false;
+    this.modeExecutors.clear();
+    this.clickFuncExecutors.clear();
     eventBus.clear();
   }
 }
