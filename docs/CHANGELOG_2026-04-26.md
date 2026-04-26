@@ -31,3 +31,27 @@
 - 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，更新函数调用，使用新的 updateBlockContent 函数并传递语言参数
 - 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，添加国际化支持，从设置中获取语言信息
 - 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，更新文本标签和占位符，使用国际化
+
+## 2026-04-26 16:30:00
+
+### 版本
+- 系统代码版本号：logseq-text-toolkit@0.11.7
+- Commit: d8e958e
+
+### 用户描述
+- 恢复 editor.ts 文件到之前的版本
+- 添加 Hiccup 实时渲染功能
+- 移动 logger 目录到 lib 下面
+- 修复主题设置未生效的问题
+
+### 更新内容
+
+#### 更新
+- 恢复 `/workspace/src/logseq/mock/editor.ts` 文件到之前的版本，简化 getCurrentBlock 方法实现
+- 创建 `/workspace/src/test/components/HiccupRenderer/index.tsx` 组件，支持 Hiccup 内容的实时渲染
+- 创建 `/workspace/src/test/components/HiccupRenderer/styles.css` 文件，为 HiccupRenderer 组件添加样式
+- 修改 `/workspace/src/test/testAPP.tsx` 文件，添加 HiccupRenderer 组件，支持 Hiccup 内容的实时渲染
+- 修改 `/workspace/src/test/testAPP.tsx` 文件，修复主题设置未生效的问题，正确处理 'system' 主题
+- 将 `/workspace/src/utils/logger.ts` 文件移动到 `/workspace/src/lib/logger/logger.ts`
+- 修改 `/workspace/src/lib/textReplace/utils.ts` 文件，更新 logger 导入路径
+- 修改 `/workspace/src/components/SelectToolbar/index.tsx` 文件，更新 logger 导入路径
