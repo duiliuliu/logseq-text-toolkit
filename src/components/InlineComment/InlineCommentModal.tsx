@@ -51,6 +51,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
           processedText,
           originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
         });
+        onSave?.({ selectedText, comment });
         onClose?.();
         return;
       }
@@ -64,6 +65,9 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
         processedText,
         originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
       });
+      
+      // 调用保存回调
+      onSave?.({ selectedText, comment });
     } catch (error) {
       console.warn('Error updating block with inline comment:', error);
     }
