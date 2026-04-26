@@ -10,7 +10,7 @@ import { logseqAPI } from '../../logseq/index.ts';
 import { InlineComment } from './index.ts';
 import { eventBus } from '../../lib/toolbar/index.ts';
 import { findAndReplaceText, replaceInSelectedElement, updateBlockContent } from '../../lib/textReplace/utils.ts';
-import { useSettingsContext } from '../../hooks/useSettings.tsx';
+import { useSettingsContext } from '../../settings/useSettings.tsx';
 import './inlineComment.css';
 
 export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
