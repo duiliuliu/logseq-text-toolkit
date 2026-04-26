@@ -3,6 +3,7 @@
  */
 
 import { getSelection, getDocument } from '../../logseq/utils.ts';
+import { logseqAPI } from '../../logseq/index.ts';
 
 /**
  * 回退：使用indexOf找到第一个匹配项的辅助函数
@@ -107,7 +108,7 @@ export const updateBlockContent = async (
     const newContent = findAndReplaceText(originalContent, selectedText, processedText);
     
     // 更新block
-    return true;
+    return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
   } catch (error) {
     console.warn('Error updating block content:', error);
     return false;

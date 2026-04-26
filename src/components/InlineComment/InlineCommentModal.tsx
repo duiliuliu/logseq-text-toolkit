@@ -43,31 +43,19 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
         return;
       }
       
-      // 尝试在当前选中的元素中进行精确替换
-      const success = await replaceInSelectedElement(selectedText, processedText);
+      // 使用公共的 updateBlockContent 函数更新块内容
+      const success = await updateBlockContent(selectedText, processedText, block);
+      
       if (success) {
         // 发布文本处理完成事件
         eventBus.emit('ltt-textProcessed', {
           processedText,
           originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
         });
+        
+        // 调用保存回调
         onSave?.({ selectedText, comment });
-        onClose?.();
-        return;
       }
-      
-      // 回退：使用indexOf找到第一个匹配项
-      const newContent = findAndReplaceText(block.content, selectedText, processedText);
-      await logseqAPI.Editor.updateBlock(block.uuid, newContent);
-      
-      // 发布文本处理完成事件
-      eventBus.emit('ltt-textProcessed', {
-        processedText,
-        originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
-      });
-      
-      // 调用保存回调
-      onSave?.({ selectedText, comment });
     } catch (error) {
       console.warn('Error updating block with inline comment:', error);
     }

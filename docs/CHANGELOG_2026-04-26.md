@@ -20,4 +20,6 @@
 - 修改 `/workspace/src/components/InlineComment/inlineComment.css`，调整深色主题下 textarea hover 和 focus 时的边框颜色为浅灰色
 - 修改 `/workspace/src/components/InlineComment/inlineComment.css`，去掉 textarea:focus 下的 box-shadow
 - 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，修复保存按钮不工作的问题，添加 onSave 回调调用
-- 重新创建 `/workspace/docs/output/更新记录.md`，按照 base_rules 格式记录今天的更新内容
+- 修改 `/workspace/src/lib/textReplace/utils.ts`，更新 updateBlockContent 函数，使其使用 logseqAPI.Editor.updateBlock 来更新块内容
+- 修改 `/workspace/src/components/InlineComment/InlineCommentModal.tsx`，使用公共的 updateBlockContent 函数替代直接实现的逻辑
+- 将 `/workspace/docs/output/更新记录.md` 移动到 `/workspace/docs/CHANGELOG_2026-04-26.md`
