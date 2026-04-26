@@ -1,7 +1,7 @@
 import { ToolbarItem } from './types.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
-import { findAndReplaceText, replaceInSelectedElement, updateBlockContentWithLanguage } from '../../lib/textReplace/utils.ts';
+import { findAndReplaceText, replaceInSelectedElement, updateBlockContent } from '../../lib/textReplace/utils.ts';
 
 /**
  * 选中数据接口
@@ -77,7 +77,7 @@ export const replaceSelectedText = async (
     }
     
     // 3. 用处理后的文本更新block content
-    const success = await updateBlockContentWithLanguage(selectedText, processedText, language);
+    const success = await updateBlockContent(selectedText, processedText, language);
     
     if (!success) {
       logseqAPI.UI.showMsg(t('toolbar.replaceFailed', language), { type: 'error' });

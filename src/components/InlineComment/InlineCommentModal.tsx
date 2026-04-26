@@ -35,16 +35,9 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
 
     try {
       const processedText = InlineComment.wrapText(selectedText, comment);
-      const block = await logseqAPI.Editor.getCurrentBlock();
-      
-      if (!block || !block.content) {
-        console.warn('No block or block content');
-        onClose?.();
-        return;
-      }
       
       // 使用公共的 updateBlockContent 函数更新块内容
-      const success = await updateBlockContent(selectedText, processedText, block);
+      const success = await updateBlockContent(selectedText, processedText, 'zh-CN');
       
       if (success) {
         // 发布文本处理完成事件

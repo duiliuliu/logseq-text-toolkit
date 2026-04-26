@@ -83,17 +83,19 @@ export const replaceInSelectedElement = async (selectedText: string, processedTe
  * 更新块内容
  * @param selectedText 选中的文本
  * @param processedText 处理后的文本
- * @param block 块对象
+ * @param language 语言代码
  * @returns 是否更新成功
  */
 export const updateBlockContent = async (
   selectedText: string, 
   processedText: string,
-  block: any
+  language: string
 ): Promise<boolean> => {
   try {
+    // 获取block
+    const block = await logseqAPI.Editor.getCurrentBlock();
     if (!block || !block.content) {
-      console.warn('No block or block content');
+      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
       return false;
     }
     
@@ -110,33 +112,6 @@ export const updateBlockContent = async (
     
     // 更新block
     return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
-  } catch (error) {
-    console.warn('Error updating block content:', error);
-    return false;
-  }
-};
-
-/**
- * 更新块内容（带语言支持）
- * @param selectedText 选中的文本
- * @param processedText 处理后的文本
- * @param language 语言代码
- * @returns 是否更新成功
- */
-export const updateBlockContentWithLanguage = async (
-  selectedText: string, 
-  processedText: string,
-  language: string
-): Promise<boolean> => {
-  try {
-    // 获取block
-    const block = await logseqAPI.Editor.getCurrentBlock();
-    if (!block || !block.content) {
-      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
-      return false;
-    }
-    
-    return await updateBlockContent(selectedText, processedText, block);
   } catch (error) {
     console.warn('Error updating block content:', error);
     return false;
