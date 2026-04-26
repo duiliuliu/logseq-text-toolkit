@@ -9,17 +9,9 @@ export interface InlineCommentConfig {
   comment: string;
 }
 
-export interface InlineCommentButtonConfig {
-  id: string;
-  label: string;
-  onClick: (config: InlineCommentConfig) => void;
-  primary?: boolean;
-}
-
 export interface InlineCommentModalProps {
   isOpen: boolean;
   selectedData: SelectedData;
   onClose?: () => void;
   onSave?: (config: InlineCommentConfig) => void;
-  buttons?: InlineCommentButtonConfig[];
 }

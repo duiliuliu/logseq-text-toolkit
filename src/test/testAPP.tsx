@@ -3,6 +3,7 @@ import './testApp.css'
 import TestLayout from './components/TestLayout/index.tsx'
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
+import CommentApp from '../components/CommentApp.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
 
@@ -80,6 +81,9 @@ function TestApp() {
       
       {/* Toast 容器 */}
       <ToastContainer />
+      
+      {/* CommentApp - 独立的 Comment 应用 */}
+      <CommentApp />
     </div>
   )
 }

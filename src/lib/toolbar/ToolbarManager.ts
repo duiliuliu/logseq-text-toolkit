@@ -60,6 +60,19 @@ export class ToolbarManager implements IToolbarManager {
         selectedData
       });
 
+      // 检查是否是 invoke 类型的功能，如果是，则通过事件总线触发
+      if (item.invoke === 'invoke' && item.invokeParams) {
+        switch (item.invokeParams) {
+          case 'comment':
+            this.eventBus.emit('ltt-invoke:comment', { selectedData });
+            return selectedData.text;
+          default:
+            console.warn(`Unknown invoke action: ${item.invokeParams}`);
+            return selectedData.text;
+        }
+      }
+
+      // 使用默认处理逻辑
       const processedText = await actionExecutor.execute(item, selectedData);
       
       // 发布文本处理完成事件

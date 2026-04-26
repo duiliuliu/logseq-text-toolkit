@@ -5,6 +5,7 @@ import './main.css'
 import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
+import CommentApp from './components/CommentApp.tsx'
 import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
@@ -14,6 +15,7 @@ import { settingsModalCSS, modalCSS, toolbarCSS, cssConfigCSS } from './styles/i
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
+const COMMENT_APP_ID = 'text-toolkit-comment-app'
 
 interface RenderComponentProps {
   [key: string]: any
@@ -73,6 +75,21 @@ const settingToggle = async () => {
   showSettingUI();
 }
 
+const showCommentApp = async () => {
+  logseqAPI.provideUI({
+    key: COMMENT_APP_ID,
+    path: '#app-container',
+    template: `<div id="${COMMENT_APP_ID}"></div>`,
+  })
+
+  setTimeout(() => {
+    const commentContainer = getDocument().getElementById(COMMENT_APP_ID)
+    if (commentContainer) {
+      renderComponent(commentContainer, CommentApp)
+    }
+  }, 1)
+}
+
 const showSelectToolbar = async () => {
   // 提供工具栏样式
   logseqAPI.provideStyle(toolbarCSS)
@@ -129,6 +146,7 @@ const main = async () => {
     })
 
     await showSelectToolbar()
+    await showCommentApp()
     console.log('Text Toolkit Plugin initialized successfully')
   } catch (error) {
     console.error('Failed to initialize Text Toolkit Plugin:', error)

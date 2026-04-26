@@ -3,12 +3,9 @@ import Toolbar from '../Toolbar';
 import { SelectedData } from '../Toolbar/textProcessor.ts';
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
-import { InlineCommentModal } from '../InlineComment/index';
 import { 
   toolbarManager, 
-  eventBus,
-  inlineCommentExecutor,
-  setInlineCommentControl
+  eventBus
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 
@@ -33,7 +30,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' });
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 });
   const [showToolbar, setShowToolbar] = useState(false);
-  const [showInlineComment, setShowInlineComment] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 从设置中获取配置
@@ -53,26 +49,11 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           toolbarManager.initialize(settings);
         }
         toolbarManager.setLanguage(settings.language || 'zh-CN');
-        // 注册 inlineComment 执行器
-        toolbarManager.registerClickFuncAction('inlineComment', inlineCommentExecutor);
       } catch (error) {
         console.warn('Error initializing toolbar manager:', error);
       }
     }
   }, [settings]);
-
-  // 设置弹窗显示控制
-  useEffect(() => {
-    setInlineCommentControl(
-      (selectedData: SelectedData) => {
-        setShowToolbar(false);
-        setShowInlineComment(true);
-      },
-      () => {
-        setShowInlineComment(false);
-      }
-    );
-  }, []);
 
   // 订阅文本处理完成事件
   useEffect(() => {
@@ -343,7 +324,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
     const handleSelection = async (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
-      if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown') || (e.target as HTMLElement).closest('.inline-comment-modal'))) {
+      if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
         // 保持选中状态，不做任何处理
         return;
       }
@@ -353,7 +334,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
     const handleMouseMove = (e: MouseEvent) => {
-      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown') || (e.target as HTMLElement).closest('.inline-comment-modal'))) {
+      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
         // 鼠标在toolbar内部，保持显示状态
         return;
       }
@@ -426,13 +407,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
             onItemClick={handleItemClick}
           />
         </div>
-      )}
-      {showInlineComment && (
-        <InlineCommentModal 
-          isOpen={showInlineComment}
-          selectedData={selectedData}
-          onClose={() => setShowInlineComment(false)}
-        />
       )}
     </div>
   );

@@ -7,7 +7,9 @@ export type EventType =
   | 'ltt-itemClick'
   | 'ltt-textProcessed'
   | 'ltt-showToolbar'
-  | 'ltt-hideToolbar';
+  | 'ltt-hideToolbar'
+  | 'ltt-invoke:comment'
+  | 'ltt-comment:completed';
 
 // 事件数据类型
 export interface EventData {
@@ -29,6 +31,18 @@ export interface ItemClickEvent extends EventData {
 export interface TextProcessedEvent extends EventData {
   processedText: string;
   originalItem: ToolbarItem;
+}
+
+// 评论调用事件数据
+export interface InvokeCommentEvent extends EventData {
+  selectedData: SelectedData;
+}
+
+// 评论完成事件数据
+export interface CommentCompletedEvent extends EventData {
+  blockId: string;
+  comment: string;
+  success: boolean;
 }
 
 // 功能执行器类型

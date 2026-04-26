@@ -6,10 +6,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { InlineCommentModalProps } from './types.ts';
 import { t } from '../../translations/i18n.ts';
-import { logseqAPI } from '../../logseq/index.ts';
-import { InlineComment } from './index.ts';
-import { eventBus } from '../../lib/toolbar/index.ts';
-import { findAndReplaceText, replaceInSelectedElement, updateBlockContent } from '../../lib/textReplace/utils.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
 import './inlineComment.css';
 
@@ -17,8 +13,7 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
   isOpen,
   selectedData,
   onClose,
-  onSave,
-  buttons
+  onSave
 }) => {
   const selectedText = selectedData.text;
   const [comment, setComment] = useState('');
@@ -35,31 +30,11 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
     }
   }, [isOpen]);
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!comment.trim()) {
       return;
     }
-
-    try {
-      const processedText = InlineComment.wrapText(selectedText, comment);
-      
-      // 使用公共的 updateBlockContent 函数更新块内容
-      const success = await updateBlockContent(selectedData, processedText, currentLanguage);
-      
-      if (success) {
-        // 发布文本处理完成事件
-        eventBus.emit('ltt-textProcessed', {
-          processedText,
-          originalItem: { id: 'wrap-inline-comment', label: 'Inline Comment', funcmode: 'invoke', clickfunc: 'inlineComment' } as any
-        });
-        
-        // 调用保存回调
-        onSave?.({ selectedText, comment });
-      }
-    } catch (error) {
-      console.warn('Error updating block with inline comment:', error);
-    }
-    
+    onSave?.({ selectedText, comment });
     onClose?.();
   };
 
@@ -102,24 +77,12 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
 
         {/* 底部按钮 */}
         <div className="inline-comment-modal-footer">
-          {buttons ? (
-            buttons.map((button) => (
-              <button
-                key={button.id}
-                className={`inline-comment-modal-button ${button.primary ? 'primary' : ''}`}
-                onClick={() => button.onClick({ selectedText, comment })}
-              >
-                {button.label}
-              </button>
-            ))
-          ) : (
-            <button
-              className="inline-comment-modal-button primary"
-              onClick={handleSave}
-            >
-              {t('inlineComment.save', currentLanguage)}
-            </button>
-          )}
+          <button
+            className="inline-comment-modal-button primary"
+            onClick={handleSave}
+          >
+            {t('inlineComment.save', currentLanguage)}
+          </button>
         </div>
       </div>
     </div>
