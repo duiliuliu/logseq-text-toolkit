@@ -31,7 +31,7 @@ export const updateBlockContent = async (
     const selectedText = selectedData.text;
     
     // 尝试在当前选中的元素中进行精确替换
-    const success = await replaceInSelectedElement(selectedText, processedText);
+    const success = await replaceInSelectedElement(selectedData, processedText);
     if (success) {
       return true;
     }
@@ -77,11 +77,11 @@ export const findAndReplaceText = (originalContent: string, selectedText: string
 
 /**
  * 在当前选中的元素中进行精确替换
- * @param selectedText 选中的文本
+ * @param selectedData 选中的数据
  * @param processedText 处理后的文本
  * @returns 是否替换成功
  */
-export const replaceInSelectedElement = async (selectedText: string, processedText: string): Promise<boolean> => {
+export const replaceInSelectedElement = async (selectedData: SelectedData, processedText: string): Promise<boolean> => {
   try {
     // 获取当前选择
     const selection = getSelection();
@@ -102,11 +102,9 @@ export const replaceInSelectedElement = async (selectedText: string, processedTe
       
       // 验证选中的文本是否匹配
       const actualSelectedText = textNode.textContent?.substring(startOffset, endOffset);
-      if (actualSelectedText === selectedText) {
+      if (actualSelectedText === selectedData.text) {
         // 执行精确替换
-        const before = textNode.textContent?.substring(0, startOffset) || '';
-        const after = textNode.textContent?.substring(endOffset) || '';
-        const newText = before + processedText + after;
+        const newText = selectedData.before + processedText + selectedData.after;
         
         textNode.textContent = newText;
         
