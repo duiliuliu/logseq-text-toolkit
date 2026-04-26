@@ -48,7 +48,8 @@ export const InlineCommentModal: React.FC<InlineCommentModalProps> = ({
         {/* 头部 */}
         <div className="inline-comment-modal-header">
           <div className="inline-comment-modal-title">
-            {selectedText}
+            <span className="inline-comment-modal-title-text">文本</span>
+            <span className="inline-comment-modal-title-selected">{selectedText}</span>
           </div>
           <button className="inline-comment-modal-close" onClick={onClose} aria-label="close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

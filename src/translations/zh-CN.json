@@ -9,8 +9,8 @@
     "noBlockContent": "无法获取块内容"
   },
   "inlineComment": {
-    "placeholder": "添加注释...",
-    "save": "添加注释",
+    "placeholder": "输入你的评论或注释...",
+    "save": "行内注释",
     "title": "添加注释"
   },
   "comment": {

@@ -68,15 +68,31 @@
 .inline-comment-modal-title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--ls-primary-text-color, #111827);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-[data-theme="dark"] .inline-comment-modal-title {
+.inline-comment-modal-title-text {
+  color: #999;
+  font-weight: 400;
+}
+
+.inline-comment-modal-title-selected {
+  color: var(--ls-primary-text-color, #111827);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .inline-comment-modal-title-text {
+  color: #666;
+}
+
+[data-theme="dark"] .inline-comment-modal-title-selected {
   color: var(--ls-primary-text-color, #f3f4f6);
 }
 
