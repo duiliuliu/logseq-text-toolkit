@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { hut } from 'react-hut';
+import { serialize } from '@thi.ng/hiccup';
 import './styles.css';
 
 interface HiccupRendererProps {
@@ -14,8 +14,9 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
     // 实时渲染 hiccup 内容
     try {
       const parsed = eval(hiccupContent);
-      const element = hut(parsed);
-      setRenderedContent(element);
+      const html = serialize(parsed);
+      // 使用 dangerouslySetInnerHTML 渲染生成的 HTML
+      setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
       setRenderedContent(<span style={{ color: 'red' }}>Invalid hiccup: {error.message}</span>);
     }
@@ -25,8 +26,8 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
   useEffect(() => {
     try {
       const parsed = eval(initialContent);
-      const element = hut(parsed);
-      setRenderedContent(element);
+      const html = serialize(parsed);
+      setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
       setRenderedContent(<span style={{ color: 'red' }}>Invalid hiccup: {error.message}</span>);
     }
