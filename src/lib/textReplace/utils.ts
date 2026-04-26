@@ -5,6 +5,54 @@
 import { getSelection, getDocument } from '../../logseq/utils.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
+import { SelectedData } from '../../components/Toolbar/textProcessor.ts';
+
+/**
+ * 更新块内容
+ * @param selectedData 选中的数据
+ * @param processedText 处理后的文本
+ * @param language 语言代码
+ * @returns 是否更新成功
+ */
+export const updateBlockContent = async (
+  selectedData: SelectedData, 
+  processedText: string,
+  language: string
+): Promise<boolean> => {
+  try {
+    // 从selectedData获取block
+    const block = selectedData.block;
+    if (!block || !block.content) {
+      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
+      return false;
+    }
+    
+    const originalContent = block.content;
+    const selectedText = selectedData.text;
+    
+    // 尝试在当前选中的元素中进行精确替换
+    const success = await replaceInSelectedElement(selectedText, processedText);
+    if (success) {
+      return true;
+    }
+    
+    // 回退：使用indexOf找到第一个匹配项
+    const newContent = findAndReplaceText(originalContent, selectedText, processedText);
+    
+    // 只有当内容确实发生变化时才更新block
+    if (newContent !== originalContent) {
+      return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
+    } else {
+      // 内容没有变化，返回false表示更新失败
+      return false;
+    }
+  } catch (error) {
+    console.warn('Error updating block content:', error);
+    return false;
+  }
+};
+
+=======
 
 /**
  * 回退：使用indexOf找到第一个匹配项的辅助函数
@@ -76,50 +124,6 @@ export const replaceInSelectedElement = async (selectedText: string, processedTe
     return false;
   } catch (error) {
     console.warn('Error in replaceInSelectedElement:', error);
-    return false;
-  }
-};
-
-/**
- * 更新块内容
- * @param selectedText 选中的文本
- * @param processedText 处理后的文本
- * @param language 语言代码
- * @returns 是否更新成功
- */
-export const updateBlockContent = async (
-  selectedText: string, 
-  processedText: string,
-  language: string
-): Promise<boolean> => {
-  try {
-    // 获取block
-    const block = await logseqAPI.Editor.getCurrentBlock();
-    if (!block || !block.content) {
-      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
-      return false;
-    }
-    
-    const originalContent = block.content;
-    
-    // 尝试在当前选中的元素中进行精确替换
-    const success = await replaceInSelectedElement(selectedText, processedText);
-    if (success) {
-      return true;
-    }
-    
-    // 回退：使用indexOf找到第一个匹配项
-    const newContent = findAndReplaceText(originalContent, selectedText, processedText);
-    
-    // 只有当内容确实发生变化时才更新block
-    if (newContent !== originalContent) {
-      return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
-    } else {
-      // 内容没有变化，返回false表示更新失败
-      return false;
-    }
-  } catch (error) {
-    console.warn('Error updating block content:', error);
     return false;
   }
 };

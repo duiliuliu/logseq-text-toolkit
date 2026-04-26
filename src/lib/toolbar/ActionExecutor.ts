@@ -24,15 +24,15 @@ export class ActionExecutor implements IActionExecutor {
    * 执行功能
    */
   async execute(item: ToolbarItem, selectedData: SelectedData): Promise<string> {
-    // 先检查是否有 clickfunc 执行器
-    if (item.clickfunc && this.clickFuncExecutors.has(item.clickfunc)) {
-      const executor = this.clickFuncExecutors.get(item.clickfunc)!;
+    // 先检查是否有 funcmode 执行器
+    if (this.modeExecutors.has(item.funcmode)) {
+      const executor = this.modeExecutors.get(item.funcmode)!;
       return await executor(item, selectedData);
     }
 
-    // 再检查是否有 funcmode 执行器
-    if (this.modeExecutors.has(item.funcmode)) {
-      const executor = this.modeExecutors.get(item.funcmode)!;
+    // 再检查是否有 clickfunc 执行器
+    if (item.clickfunc && this.clickFuncExecutors.has(item.clickfunc)) {
+      const executor = this.clickFuncExecutors.get(item.clickfunc)!;
       return await executor(item, selectedData);
     }
 

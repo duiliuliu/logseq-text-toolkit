@@ -11,6 +11,9 @@ export interface SelectedData {
   timestamp?: string;
   range?: Range;
   rect?: DOMRect;
+  before?: string;
+  after?: string;
+  block?: any;
 }
 
 /**
@@ -77,7 +80,7 @@ export const replaceSelectedText = async (
     }
     
     // 3. 用处理后的文本更新block content
-    const success = await updateBlockContent(selectedText, processedText, language);
+    const success = await updateBlockContent(selectedData, processedText, language);
     
     if (!success) {
       logseqAPI.UI.showMsg(t('toolbar.replaceFailed', language), { type: 'error' });

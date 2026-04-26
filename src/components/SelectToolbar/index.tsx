@@ -124,10 +124,30 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       // 使用 logseqAPI 获取光标位置
       const curPos = await logseqAPI.Editor.getEditingCursorPosition();
       if (curPos != null) {
+        // 计算 before 和 after
+        let before = '';
+        let after = '';
+        const selectedText = selection.toString();
+        
+        // 获取当前块
+        const block = await logseqAPI.Editor.getCurrentBlock();
+        
+        if (block && block.content && selectedText) {
+          const content = block.content;
+          const index = content.indexOf(selectedText);
+          if (index !== -1) {
+            before = content.substring(0, index);
+            after = content.substring(index + selectedText.length);
+          }
+        }
+        
         const newSelectedData: SelectedData = {
-          text: selection.toString(),
+          text: selectedText,
           timestamp: new Date().toISOString(),
-          rect: curPos.rect
+          rect: curPos.rect,
+          before,
+          after,
+          block
         };
         setSelectedData(newSelectedData);
 
@@ -175,10 +195,30 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         rect = targetElement.getBoundingClientRect();
       }
 
+      // 计算 before 和 after
+      let before = '';
+      let after = '';
+      const selectedText = selection.toString();
+      
+      // 获取当前块
+      const block = await logseqAPI.Editor.getCurrentBlock();
+      
+      if (block && block.content && selectedText) {
+        const content = block.content;
+        const index = content.indexOf(selectedText);
+        if (index !== -1) {
+          before = content.substring(0, index);
+          after = content.substring(index + selectedText.length);
+        }
+      }
+      
       const newSelectedData: SelectedData = {
-        text: selection.toString(),
+        text: selectedText,
         timestamp: new Date().toISOString(),
-        rect
+        rect,
+        before,
+        after,
+        block
       };
       setSelectedData(newSelectedData);
 
