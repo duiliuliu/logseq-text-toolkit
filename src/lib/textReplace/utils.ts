@@ -98,25 +98,20 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
     if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
       const textNode = startContainer as Text;
       const startOffset = range.startOffset;
-      const endOffset = range.endOffset;
       
-      // 验证选中的文本是否匹配
-      const actualSelectedText = textNode.textContent?.substring(startOffset, endOffset);
-      if (actualSelectedText === selectedData.text) {
-        // 执行精确替换
-        const newText = selectedData.before + processedText + selectedData.after;
-        
-        textNode.textContent = newText;
-        
-        // 重新设置选择范围
-        const newRange = doc.createRange();
-        newRange.setStart(textNode, startOffset);
-        newRange.setEnd(textNode, startOffset + processedText.length);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
-        
-        return true;
-      }
+      // 执行精确替换
+      const newText = selectedData.before + processedText + selectedData.after;
+      
+      textNode.textContent = newText;
+      
+      // 重新设置选择范围
+      const newRange = doc.createRange();
+      newRange.setStart(textNode, startOffset);
+      newRange.setEnd(textNode, startOffset + processedText.length);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
+      
+      return true;
     }
     
     return false;
