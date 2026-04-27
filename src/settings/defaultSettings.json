@@ -242,7 +242,7 @@
       "id": "wrap-inline-comment",
       "label": "Inline Comment",
       "binding": "",
-      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\"><path d=\"M3 5.2c0-.9.9-1.5 2-1.5h6c1.1 0 2 .6 2 1.5v3.4c0 .9-.9 1.5-2 1.5H8.6l-2 1.4v-1.4H5c-1.1 0-2-.6-2-1.5z\" stroke=\"currentColor\" stroke-opacity=\"0.25\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"5.8\" cy=\"7.9\" r=\"0.7\" fill=\"currentColor\"/><circle cx=\"8\" cy=\"7.9\" r=\"0.7\" fill=\"currentColor\"/><circle cx=\"10.2\" cy=\"7.9\" r=\"0.7\" fill=\"currentColor\"/></svg>",
+      "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 -2 20 20\" fill=\"none\"><path d=\"M3 5.2c0-.9.9-1.5 2-1.5h6c1.1 0 2 .6 2 1.5v3.4c0 .9-.9 1.5-2 1.5H8.6l-2 1.4v-1.4H5c-1.1 0-2-.6-2-1.5z\" stroke=\"currentColor\" stroke-opacity=\"0.25\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><circle cx=\"5.8\" cy=\"8.2\" r=\"0.7\" fill=\"currentColor\"></circle><circle cx=\"8\" cy=\"8.2\" r=\"0.7\" fill=\"currentColor\"></circle><circle cx=\"10.2\" cy=\"8.2\" r=\"0.7\" fill=\"currentColor\"></circle></svg>",
       "invoke": "invoke",
       "invokeParams": "inlineComment",
       "hidden": false
