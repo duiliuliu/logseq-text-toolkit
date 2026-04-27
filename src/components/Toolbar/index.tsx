@@ -81,8 +81,6 @@ function Toolbar({
   const handleItemClickInternal = (item: any) => {
     if (onItemClick) {
       onItemClick(item, selectedData)
-    } else {
-      handleItemClick(item, selectedData, undefined, language)
     }
   }
   

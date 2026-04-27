@@ -1,5 +1,5 @@
 import { ToolbarItem, ToolbarGroup } from './types.ts';
-import { processSelectedData, SelectedData } from './textProcessor.ts';
+import { SelectedData } from './textProcessor.ts';
 
 export type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu';
 
@@ -66,17 +66,7 @@ export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => 
   return result;
 };
 
-/**
- * 处理工具栏项目点击
- */
-export const handleItemClick = async (item: ToolbarItem, selectedData: SelectedData, onTextProcessed?: (processedText: string) => void, language: string = 'zh-CN') => {
-  if (item.invokeParams && selectedData.text) {
-    const processedText = await processSelectedData(item, selectedData, language);
-    if (onTextProcessed) {
-      onTextProcessed(processedText);
-    }
-  }
-};
+
 
 /**
  * 过滤工具栏项目

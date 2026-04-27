@@ -43,12 +43,7 @@ export class ToolbarManager implements IToolbarManager {
     actionExecutor.registerExecutor(id, handler);
   }
 
-  /**
-   * 注册功能（按 invokeParams）
-   */
-  registerClickFuncAction(clickFunc: string, handler: ActionExecutorFn): void {
-    actionExecutor.registerClickFuncExecutor(clickFunc, handler);
-  }
+
 
   /**
    * 执行功能

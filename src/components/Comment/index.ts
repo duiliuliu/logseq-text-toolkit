@@ -3,6 +3,11 @@
  */
 
 import { CommentConfig } from './types.ts';
+import { updateBlockContent } from '../../lib/textReplace/utils.ts';
+import type { SelectedData } from '../Toolbar/textProcessor.ts';
+import { logseqAPI } from '../../logseq/index.ts';
+import { t } from '../../translations/i18n.ts';
+import { logger } from '../../lib/logger/logger.ts';
 
 /**
  * 生成注释功能
@@ -33,6 +38,37 @@ export const Comment = {
         selectedText: match[2], comment: match[1] };
     }
     return { selectedText: '', comment: '' };
+  },
+
+  /**
+   * 创建并保存注释
+   * @param selectedData 选中的数据
+   * @param comment 注释内容
+   * @param language 语言代码
+   * @returns 是否保存成功
+   */
+  createComment: async (selectedData: SelectedData, comment: string, language: string = 'zh-CN'): Promise<boolean> => {
+    if (!selectedData || !selectedData.text) {
+      return false;
+    }
+
+    try {
+      const processedText = Comment.wrapText(selectedData.text, comment);
+      
+      const success = await updateBlockContent(
+        selectedData, processedText, language
+      );
+      
+      return success;
+    } catch (error) {
+      logger.error('Error creating comment:', error);
+      try {
+        logseqAPI.UI.showMsg(`${t('toolbar.commentFailed', language)}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
+      } catch (uiError) {
+        logger.error('Error showing message:', uiError);
+      }
+      return false;
+    }
   }
 };
 
