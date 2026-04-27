@@ -11,7 +11,7 @@ import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument, getWindow } from './logseq/utils.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS, cssConfigCSS } from './styles/index.ts'
+import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS } from './styles/index.ts'
 import { logger } from './lib/logger/logger.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
@@ -74,6 +74,8 @@ const settingToggle = async () => {
 const showCommentApp = async () => {
   // 提供模态框样式
   logseqAPI.provideStyle(modalCSS)
+  // 提供行内评论样式
+  logseqAPI.provideStyle(inlineCommentCSS)
 
   logseqAPI.provideUI({
     key: COMMENT_APP_ID,

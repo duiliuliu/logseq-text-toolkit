@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CommentModalProps } from './types.ts';
 import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
+import { logseqAPI } from '../../logseq/index.ts';
 import './inlineComment.css';
 
 export const CommentModal: React.FC<CommentModalProps> = ({
@@ -17,7 +18,9 @@ export const CommentModal: React.FC<CommentModalProps> = ({
 }) => {
   const selectedText = selectedData.text;
   const [comment, setComment] = useState('');
+  const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const { settings } = useSettingsContext();
   
   // 获取当前语言，默认为 zh-CN
@@ -26,9 +29,33 @@ export const CommentModal: React.FC<CommentModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setComment('');
+      // 获取光标位置并设置弹窗位置
+      updateModalPosition();
       textareaRef.current?.focus();
     }
   }, [isOpen]);
+
+  // 更新弹窗位置
+  const updateModalPosition = async () => {
+    try {
+      // 使用Logseq API获取编辑光标位置
+      const cursorPosition = await logseqAPI.Editor.getEditingCursorPosition();
+      if (cursorPosition && cursorPosition.rect) {
+        // 计算弹窗位置，使其显示在光标下方
+        const { top, left, height } = cursorPosition.rect;
+        setPosition({
+          top: top + height + 10, // 10px 间距
+          left: left
+        });
+      } else {
+        // 如果无法获取光标位置，使用默认居中位置
+        setPosition(null);
+      }
+    } catch (error) {
+      console.warn('Error getting cursor position:', error);
+      setPosition(null);
+    }
+  };
 
   const handleSave = () => {
     if (!comment.trim()) {
@@ -49,15 +76,28 @@ export const CommentModal: React.FC<CommentModalProps> = ({
   }
 
   return (
-    <div className="inline-comment-modal-overlay" onClick={onClose} onKeyDown={handleKeyDown}>
-      <div className="inline-comment-modal" onClick={(e) => e.stopPropagation()}>
+    <div className="ltt-inline-comment-modal-overlay" onClick={onClose} onKeyDown={handleKeyDown}>
+      <div 
+        ref={modalRef}
+        className="ltt-inline-comment-modal" 
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: position ? 'fixed' : 'relative',
+          top: position ? `${position.top}px` : 'auto',
+          left: position ? `${position.left}px` : 'auto',
+          margin: position ? 0 : '20px',
+          transform: position ? 'none' : 'translateY(0)',
+          maxWidth: '420px',
+          width: '90%'
+        }}
+      >
         {/* 头部 */}
-        <div className="inline-comment-modal-header">
-          <div className="inline-comment-modal-title">
-            <span className="inline-comment-modal-title-text">{t('inlineComment.text', currentLanguage)}</span>
-            <span className="inline-comment-modal-title-selected">{selectedText}</span>
+        <div className="ltt-inline-comment-modal-header">
+          <div className="ltt-inline-comment-modal-title">
+            <span className="ltt-inline-comment-modal-title-text">{t('inlineComment.text', currentLanguage)}</span>
+            <span className="ltt-inline-comment-modal-title-selected">{selectedText}</span>
           </div>
-          <button className="inline-comment-modal-close" onClick={onClose} aria-label="close">
+          <button className="ltt-inline-comment-modal-close" onClick={onClose} aria-label="close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
@@ -65,10 +105,10 @@ export const CommentModal: React.FC<CommentModalProps> = ({
         </div>
 
         {/* 内容 */}
-        <div className="inline-comment-modal-content">
+        <div className="ltt-inline-comment-modal-content">
           <textarea
             ref={textareaRef}
-            className="inline-comment-modal-textarea"
+            className="ltt-inline-comment-modal-textarea"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder={t('inlineComment.placeholder', currentLanguage)}
@@ -76,9 +116,9 @@ export const CommentModal: React.FC<CommentModalProps> = ({
         </div>
 
         {/* 底部按钮 */}
-        <div className="inline-comment-modal-footer">
+        <div className="ltt-inline-comment-modal-footer">
           <button
-            className="inline-comment-modal-button primary"
+            className="ltt-inline-comment-modal-button ltt-primary"
             onClick={handleSave}
           >
             {t('inlineComment.save', currentLanguage)}
