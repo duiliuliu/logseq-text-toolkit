@@ -61,8 +61,18 @@ function hiccupToHtml(hiccup: any): string {
   return `<${tag}${attrStr ? " " + attrStr : ""}>${innerHtml}</${tag}>`;
 }
 
+// 解析字符串形式的 hiccup 为数组
+function parseHiccupArray(str: string): any {
+  // 尝试使用 Function 构造函数来解析，比 eval 更安全一些
+  try {
+    return new Function(`return ${str}`)();
+  } catch (error) {
+    throw new Error(`Failed to parse hiccup: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
 // 简单的 hiccup 解析器
-function parseHiccupString(str: string): any {
+function parseHiccupString(str: string): string {
   // 去除首尾空白
   str = str.trim();
   
@@ -71,12 +81,8 @@ function parseHiccupString(str: string): any {
     throw new Error('Hiccup must be an array starting with [ and ending with ]');
   }
   
-  // 尝试使用 Function 构造函数来解析，比 eval 更安全一些
-  try {
-    return new Function(`return ${str}`)();
-  } catch (error) {
-    throw new Error(`Failed to parse hiccup: ${error instanceof Error ? error.message : 'Unknown error'}`);
-  }
+  // 直接返回字符串形式的 hiccup
+  return str;
 }
 
 interface HiccupRendererProps {
@@ -92,7 +98,10 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
     try {
       console.log('解析 hiccup 内容:', content);
       // 解析 hiccup 字符串
-      const parsed = parseHiccupString(content);
+      const hiccupStr = parseHiccupString(content);
+      
+      // 解析为数组
+      const parsed = parseHiccupArray(hiccupStr);
       
       console.log('解析结果:', parsed);
       // 确保解析结果是数组
