@@ -11,6 +11,7 @@ import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument, getWindow } from './logseq/utils.ts'
 import { logger } from './lib/logger/logger.ts'
+import { initI18n } from './translations/i18n.ts'
 
 // 动态加载CSS文件
 const loadCSS = async () => {
@@ -169,6 +170,10 @@ const main = async () => {
   try {
     // 动态加载CSS文件
     await loadCSS()
+
+    // 初始化国际化
+    await initI18n()
+    logger.info('I18n initialized successfully')
 
     // 先提供设置切换函数
     logseqAPI.provideModel({ settingToggle })

@@ -12,6 +12,29 @@
   "hoverDelay": 500,
   "sponsorEnabled": false,
   "developerMode": false,
+  "meta": {
+    "language": {
+      "languages": [
+        {
+          "code": "zh-CN",
+          "name": "中文",
+          "path": "translations/zh-CN.json",
+          "isDefault": true
+        },
+        {
+          "code": "en",
+          "name": "English",
+          "path": "translations/en.json"
+        },
+        {
+          "code": "ja",
+          "name": "日本語",
+          "path": "translations/ja.json"
+        }
+      ],
+      "fallbackLanguage": "zh-CN"
+    }
+  },
   "ToolbarItems": [
     {
       "id": "group-custom",
