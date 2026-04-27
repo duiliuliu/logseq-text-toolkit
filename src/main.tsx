@@ -16,7 +16,19 @@ import { initI18n } from './translations/i18n.ts'
 // 动态加载CSS文件
 const loadCSS = async () => {
   try {
-    // 尝试加载插件根目录的CSS文件
+    // 测试模式下直接导入CSS文件
+    if (import.meta.env.MODE === 'test') {
+      logger.info('Test mode: loading CSS files directly');
+      // 直接导入CSS文件，让Vite处理
+      import('./components/SettingsModal/settingsModal.css');
+      import('./components/Modal/modal.css');
+      import('./components/Toolbar/toolbar.css');
+      import('./components/Comment/inlineComment.css');
+      import('./styles/customsToolbarItems.css');
+      return;
+    }
+
+    // 非测试模式下，尝试加载插件根目录的CSS文件
     const cssFiles = [
       'settingsModal.css',
       'modal.css',
