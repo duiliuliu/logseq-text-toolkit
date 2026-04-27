@@ -141,6 +141,8 @@ npm run test
 - `src/test/` - 测试目录
   - `testAPP.tsx` - 测试应用
   - `testData.ts` - 测试数据
+  - `components/` - 测试组件
+    - `HiccupRenderer/` - Hiccup 渲染器组件
 
 ## 配置说明
 

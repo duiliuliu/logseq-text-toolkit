@@ -278,6 +278,19 @@ import { Bold } from 'lucide-react'
 
 测试模式使用模拟的 Logseq API，适合快速功能验证。
 
+### 7.1 Hiccup 渲染器测试
+
+测试页面中包含了 Hiccup 渲染器，可以测试以下功能：
+
+- **基础 Hiccup 语法**：如 `[:p "Hello, Hiccup!"]`
+- **带类名的元素**：如 `[:span.bold.red "粗体红色文本"]`
+- **带属性的元素**：如 `[:span.inline-comment {:data-comment "评论"} "支持"]`
+- **嵌套元素**：如 `[:div [:h1 "标题"] [:p "段落"]]`
+- **混合文本**：如 `前[:u.red "Logseq"]  后面`
+- **多行文本**：支持换行处理
+
+在测试文本框中输入 Hiccup 语法，会实时显示渲染结果。
+
 ## 8. 常见问题
 
 ### Q: 工具栏没有显示？
