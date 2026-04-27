@@ -16,19 +16,7 @@ import { initI18n } from './translations/i18n.ts'
 // 动态加载CSS文件
 const loadCSS = async () => {
   try {
-    // 测试模式下直接导入CSS文件
-    if (import.meta.env.MODE === 'test') {
-      logger.info('Test mode: loading CSS files directly');
-      // 直接导入CSS文件，让Vite处理
-      import('./components/SettingsModal/settingsModal.css');
-      import('./components/Modal/modal.css');
-      import('./components/Toolbar/toolbar.css');
-      import('./components/Comment/inlineComment.css');
-      import('./styles/customsToolbarItems.css');
-      return;
-    }
-
-    // 非测试模式下，尝试加载插件根目录的CSS文件
+    // 尝试加载插件根目录的CSS文件
     const cssFiles = [
       'settingsModal.css',
       'modal.css',
@@ -59,9 +47,16 @@ const loadCSS = async () => {
           logger.info(`CSS file not found, using built-in CSS: ${cssFile}`);
           const loader = builtInCSSMap[cssFile];
           if (loader) {
-            const builtInCSS = await loader();
-            if (builtInCSS.default) {
-              logseqAPI.provideStyle(builtInCSS.default);
+            try {
+              const builtInCSS = await loader();
+              // 确保正确处理import()返回值
+              const cssContent = builtInCSS.default || builtInCSS;
+              if (cssContent) {
+                logseqAPI.provideStyle(cssContent);
+                logger.info(`Loaded built-in CSS for ${cssFile}`);
+              }
+            } catch (e) {
+              logger.error(`Failed to load built-in CSS for ${cssFile}:`, e);
             }
           }
         }
@@ -72,8 +67,11 @@ const loadCSS = async () => {
           const loader = builtInCSSMap[cssFile];
           if (loader) {
             const builtInCSS = await loader();
-            if (builtInCSS.default) {
-              logseqAPI.provideStyle(builtInCSS.default);
+            // 确保正确处理import()返回值
+            const cssContent = builtInCSS.default || builtInCSS;
+            if (cssContent) {
+              logseqAPI.provideStyle(cssContent);
+              logger.info(`Loaded built-in CSS for ${cssFile} (fallback)`);
             }
           }
         } catch (e) {
