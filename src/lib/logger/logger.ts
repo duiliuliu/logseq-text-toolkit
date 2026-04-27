@@ -11,6 +11,10 @@ export interface Logger {
    */
   log: (message: string, ...args: any[]) => void;
   /**
+   * 信息级别
+   */
+  info: (message: string, ...args: any[]) => void;
+  /**
    * 警告级别
    */
   warn: (message: string, ...args: any[]) => void;
@@ -39,6 +43,10 @@ class LoggerImpl implements Logger {
 
   log(message: string, ...args: any[]): void {
     console.log(`[Text Toolkit] ${message}`, ...args);
+  }
+
+  info(message: string, ...args: any[]): void {
+    console.info(`[Text Toolkit] ${message}`, ...args);
   }
 
   warn(message: string, ...args: any[]): void {
