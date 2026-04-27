@@ -31,14 +31,25 @@ const loadCSS = async () => {
         // 优先尝试加载插件根目录下的CSS文件
         const response = await fetch(`./${cssFile.name}`);
         if (response.ok) {
-          const cssContent = await response.text();
-          // 检查CSS内容是否为空
-          if (cssContent.trim()) {
-            logseqAPI.provideStyle(cssContent);
-            logger.info(`Loaded CSS file from root: ${cssFile.name}`);
+          // 检查返回的内容类型是否为CSS
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('text/css')) {
+            const cssContent = await response.text();
+            // 检查CSS内容是否为空
+            if (cssContent.trim()) {
+              logseqAPI.provideStyle(cssContent);
+              logger.info(`Loaded CSS file from root: ${cssFile.name}`);
+            } else {
+              // 如果CSS内容为空，使用内置CSS作为兜底
+              logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
+              if (cssFile.content) {
+                logseqAPI.provideStyle(cssFile.content);
+                logger.info(`Loaded built-in CSS for ${cssFile.name}`);
+              }
+            }
           } else {
-            // 如果CSS内容为空，使用内置CSS作为兜底
-            logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
+            // 如果返回的内容不是CSS（可能是HTML），使用内置CSS作为兜底
+            logger.info(`Response is not CSS, using built-in CSS: ${cssFile.name}`);
             if (cssFile.content) {
               logseqAPI.provideStyle(cssFile.content);
               logger.info(`Loaded built-in CSS for ${cssFile.name}`);
