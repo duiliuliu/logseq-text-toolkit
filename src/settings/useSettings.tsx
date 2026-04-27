@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, createContext, useContext, ReactNode 
 import { Settings, SettingsContextType, ThemeType, LanguageType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'
 import { logseqAPI } from '../logseq/index.ts'
+import { logger } from '../lib/logger/logger.ts'
 
 // 创建设置上下文
 const SettingsContext = createContext<SettingsContextType | null>(null)
@@ -171,7 +172,7 @@ const useSettings = (): SettingsContextType => {
   useEffect(() => {
     if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
       const unsubscribe = (logseqAPI as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
-        console.log('Settings changed:', { newSettings, oldSettings })
+        logger.debug('Settings changed:', { newSettings, oldSettings })
         // 确保类型正确
         let mergedSettings: Settings = {
           ...defaultSettings,

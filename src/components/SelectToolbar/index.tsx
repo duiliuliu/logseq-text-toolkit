@@ -42,8 +42,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const sponsorEnabled = settings?.sponsorEnabled !== undefined ? settings.sponsorEnabled : false;
   
   // 打印 theme 相关信息
-  console.log('SelectToolbar 从 context 获取的 settings:', settings);
-  console.log('SelectToolbar 使用的 theme:', theme);
+  logger.debug('SelectToolbar 从 context 获取的 settings:', settings);
+  logger.debug('SelectToolbar 使用的 theme:', theme);
 
   // 初始化工具栏管理器
   useEffect(() => {
@@ -63,7 +63,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   // 订阅文本处理完成事件
   useEffect(() => {
     const handleTextProcessedEvent = (data: any) => {
-      console.log('Processed text:', data.processedText);
+      logger.debug('Processed text:', data.processedText);
     };
 
     eventBus.on('ltt-textProcessed', handleTextProcessedEvent);

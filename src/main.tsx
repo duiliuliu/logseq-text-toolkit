@@ -12,6 +12,7 @@ import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument, getWindow } from './logseq/utils.ts'
 import { settingsModalCSS, modalCSS, toolbarCSS, cssConfigCSS } from './styles/index.ts'
+import { logger } from './lib/logger/logger.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -37,7 +38,7 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
 let settingsModalOpen = false;
 
 const showSettingUI = async () => {
-  console.log('Showing settings UI with isOpen:', settingsModalOpen)
+  logger.debug('Showing settings UI with isOpen:', settingsModalOpen)
   
   // 提供设置模态框样式
   logseqAPI.provideStyle(settingsModalCSS)
@@ -70,7 +71,7 @@ const showSettingUI = async () => {
 }
 
 const settingToggle = async () => {
-  console.log('Toggling settings modal')
+  logger.debug('Toggling settings modal')
   settingsModalOpen = !settingsModalOpen;
   showSettingUI();
 }
@@ -124,14 +125,14 @@ const showSelectToolbar = async () => {
 
 const main = async () => {
   try {
-    console.log('Initializing Text Toolkit Plugin')
-    console.log('Logseq API ready')
+    logger.debug('Initializing Text Toolkit Plugin')
+    logger.debug('Logseq API ready')
 
     // 提供CSS配置
     logseqAPI.provideStyle(cssConfigCSS)
 
     // 先提供设置切换函数
-    console.log('About to call provideModel with settingToggle:', typeof settingToggle)
+    logger.debug('About to call provideModel with settingToggle:', typeof settingToggle)
     logseqAPI.provideModel({ settingToggle })
 
     // 初始渲染设置组件（默认隐藏）
@@ -150,9 +151,9 @@ const main = async () => {
 
     await showSelectToolbar()
     await showCommentApp()
-    console.log('Text Toolkit Plugin initialized successfully')
+    logger.debug('Text Toolkit Plugin initialized successfully')
   } catch (error) {
-    console.error('Failed to initialize Text Toolkit Plugin:', error)
+    logger.error('Failed to initialize Text Toolkit Plugin:', error)
   }
 }
 
