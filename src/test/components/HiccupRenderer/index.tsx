@@ -92,8 +92,13 @@ function parseHiccupArray(str: string): any {
         if (objectDepth === 0) {
           inObject = false;
           try {
-            // 简单的对象解析
-            const obj = JSON.parse(token.replace(/'/g, '"'));
+            // 简单的对象解析，处理 Logseq 风格的关键字（如 :data-comment）
+            let objStr = token;
+            // 将 :key 替换为 "key"
+            objStr = objStr.replace(/:([a-zA-Z0-9_-]+)/g, '"$1"');
+            // 确保字符串使用双引号
+            objStr = objStr.replace(/'/g, '"');
+            const obj = JSON.parse(objStr);
             current.push(obj);
           } catch (error) {
             throw new Error(`Failed to parse object: ${token}`);
