@@ -164,24 +164,48 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
   const [hiccupContent, setHiccupContent] = useState(initialContent);
   const [renderedContent, setRenderedContent] = useState<React.ReactNode>(null);
 
+  // 处理混合文本（包含普通文本和 hiccup）
+  const processMixedContent = (content: string): string => {
+    // 按换行分割
+    const lines = content.split('\n');
+    
+    // 处理每一行
+    const processedLines = lines.map(line => {
+      // 匹配 hiccup 模式：以 [: 开始，以 ] 结束
+      const hiccupRegex = /\[:[^\]]+\]/g;
+      
+      // 处理匹配到的 hiccup
+      const processedLine = line.replace(hiccupRegex, (match) => {
+        try {
+          // 解析为数组
+          const parsed = parseHiccupArray(match);
+          
+          // 确保解析结果是数组
+          if (Array.isArray(parsed)) {
+            // 序列化并返回
+            return hiccupToHtml(parsed);
+          }
+          return match;
+        } catch (error) {
+          console.error('Hiccup 解析错误:', error);
+          return match;
+        }
+      });
+      
+      return processedLine;
+    });
+    
+    // 重新组合行，保持换行
+    return processedLines.join('<br>');
+  };
+
   // 解析和渲染 hiccup 内容
   const renderHiccup = (content: string) => {
     try {
       console.log('解析 hiccup 内容:', content);
-      // 解析 hiccup 字符串
-      const hiccupStr = parseHiccupString(content);
       
-      // 解析为数组
-      const parsed = parseHiccupArray(hiccupStr);
-      
-      console.log('解析结果:', parsed);
-      // 确保解析结果是数组
-      if (!Array.isArray(parsed)) {
-        throw new Error('Hiccup must be an array');
-      }
-      
-      // 序列化并渲染
-      const html = hiccupToHtml(parsed);
+      // 处理混合文本
+      const html = processMixedContent(content);
       console.log('序列化结果:', html);
       setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
@@ -246,6 +270,12 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
           </button>
           <button onClick={() => setHiccupContent('[:mark.highlight "高亮文字"]')}>
             高亮文字
+          </button>
+          <button onClick={() => setHiccupContent('前[:u.red "Logseq"]  后面')}>
+            混合文本
+          </button>
+          <button onClick={() => setHiccupContent('第一行\n[:p "第二行"]\n第三行')}>
+            多行文本
           </button>
         </div>
       </div>
