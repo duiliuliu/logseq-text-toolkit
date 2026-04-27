@@ -183,8 +183,16 @@ const main = async () => {
 
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
-  renderComponent(rootElement, TestApp)
-  logseqAPI.ready(main).catch(console.error)
+  // 先加载CSS，然后再渲染组件
+  loadCSS().then(() => {
+    renderComponent(rootElement, TestApp)
+    logseqAPI.ready(main).catch(console.error)
+  }).catch(error => {
+    console.error('Error loading CSS in test mode:', error)
+    // 即使CSS加载失败，也渲染组件
+    renderComponent(rootElement, TestApp)
+    logseqAPI.ready(main).catch(console.error)
+  })
 } else { 
   logseqAPI.ready(main).catch(console.error)
 }
