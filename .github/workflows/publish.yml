@@ -89,6 +89,7 @@ jobs:
 
       - name: Create Release
         id: create_release
+        if: steps.check_tag.outputs.TAG_EXISTS == 'false'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -99,6 +100,7 @@ jobs:
           prerelease: false
 
       - name: Upload zip file
+        if: steps.check_tag.outputs.TAG_EXISTS == 'false'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
