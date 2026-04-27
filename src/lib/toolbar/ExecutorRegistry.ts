@@ -3,7 +3,7 @@
  */
 
 import { actionExecutor } from './ActionExecutor.ts';
-import { commentExecutor, inlineCommentExecutor } from './executors/CommentExecutor.ts';
+import { inlineCommentExecutor } from './executors/CommentExecutor.ts';
 import { replaceExecutor, regexReplaceExecutor } from './executors/TextProcessorExecutor.ts';
 import { externalPluginExecutor } from './executors/ExternalPluginExecutor.ts';
 
@@ -12,8 +12,7 @@ import { externalPluginExecutor } from './executors/ExternalPluginExecutor.ts';
  */
 export const registerExecutors = (): void => {
   // 注册评论执行器
-  actionExecutor.registerExecutor('comment', commentExecutor);
-  actionExecutor.registerExecutor('inlineComment', commentExecutor);
+  actionExecutor.registerExecutor('inlineComment', inlineCommentExecutor);
   actionExecutor.registerExecutor('invokeInlineComment', inlineCommentExecutor);
   
   // 注册文本处理执行器

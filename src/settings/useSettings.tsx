@@ -88,6 +88,7 @@ const useSettings = (): SettingsContextType => {
       setSettings(defaultSettings)
       return defaultSettings
     } catch (err) {
+      logger.error('Failed to load settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
       return null
     } finally {
@@ -132,6 +133,7 @@ const useSettings = (): SettingsContextType => {
       }
       return false
     } catch (err) {
+      logger.error('Failed to save settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
       return false
     } finally {
@@ -151,6 +153,7 @@ const useSettings = (): SettingsContextType => {
       }
       return false
     } catch (err) {
+      logger.error('Failed to save settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
       return false
     } finally {

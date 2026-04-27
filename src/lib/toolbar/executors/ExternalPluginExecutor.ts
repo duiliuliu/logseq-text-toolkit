@@ -7,6 +7,7 @@ import type { ToolbarItem } from '../../../components/Toolbar/types.ts';
 import type { SelectedData } from '../../../components/Toolbar/textProcessor.ts';
 import { logseqAPI } from '../../../logseq/index.ts';
 import { t } from '../../../translations/i18n.ts';
+import { logger } from '../../logger/logger.ts';
 
 /**
  * 外部插件执行器
@@ -40,7 +41,7 @@ export const externalPluginExecutor: ActionExecutorFn = async (item: ToolbarItem
     try {
       logseqAPI.UI.showMsg(`${t('toolbar.pluginCommandFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
     } catch (uiError) {
-      console.warn('Error showing message:', uiError);
+      logger.error('Error showing message:', uiError);
     }
     return selectedData.text;
   }

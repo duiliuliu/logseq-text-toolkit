@@ -6,6 +6,7 @@ import { getSelection, getDocument } from '../../logseq/utils.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
 import { SelectedData } from '../../components/Toolbar/textProcessor.ts';
+import { ToolbarItem } from '../../components/Toolbar/types.ts';
 import { logger } from '../logger/logger.ts';
 
 /**
@@ -48,7 +49,7 @@ export const updateBlockContent = async (
       return false;
     }
   } catch (error) {
-    console.warn('Error updating block content:', error);
+    logger.error('Error updating block content:', error);
     return false;
   }
 };
@@ -135,4 +136,51 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
     logger.error('替换选中元素时出错', error);
     return false;
   }
+};
+
+/**
+ * 替换文本
+ * @param item 工具栏项目
+ * @param text 原始文本
+ * @returns 替换后的文本
+ */
+export const replaceText = (item: ToolbarItem, text: string): string => {
+  if (item.regex && item.replacement) {
+    const regex = new RegExp(item.regex, 'g');
+    return text.replace(regex, item.replacement);
+  } else if (item.invokeParams) {
+    return item.invokeParams.replace(/\${selectedText}/g, text);
+  }
+  return text;
+};
+
+/**
+ * 正则替换文本
+ * @param item 工具栏项目
+ * @param text 原始文本
+ * @returns 替换后的文本
+ */
+export const regexReplaceText = (item: ToolbarItem, text: string): string => {
+  if (item.invokeParams) {
+    try {
+      // 处理对象格式的invokeParams（包含regex和replacement属性）
+      if (typeof item.invokeParams === 'object' && item.invokeParams.regex && item.invokeParams.replacement) {
+        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+        const regex = new RegExp(pattern, flags);
+        return text.replace(regex, replacement);
+      }
+      // 处理字符串格式的invokeParams（格式示例: /pattern/replacement/flags）
+      else if (typeof item.invokeParams === 'string') {
+        const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
+        if (regexMatch) {
+          const [, pattern, replacement, flags] = regexMatch;
+          const regex = new RegExp(pattern, flags);
+          return text.replace(regex, replacement);
+        }
+      }
+    } catch (error) {
+      logger.error('Error parsing regex:', error);
+    }
+  }
+  return text;
 };

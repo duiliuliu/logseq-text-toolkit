@@ -53,7 +53,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         }
         toolbarManager.setLanguage(settings.language || 'zh-CN');
       } catch (error) {
-        console.warn('Error initializing toolbar manager:', error);
+        logger.error('Error initializing toolbar manager:', error);
       }
     }
   }, [settings]);
@@ -77,7 +77,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     try {
       await toolbarManager.executeAction(item, selectedData);
     } catch (error) {
-      console.warn('Error executing action:', error);
+      logger.error('Error executing action:', error);
     }
   };
 
