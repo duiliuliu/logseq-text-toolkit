@@ -34,7 +34,13 @@ jobs:
       - name: Get version from package.json
         id: get_version
         run: |
-          VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d ' ')
+          # 使用 jq 更可靠地获取版本号
+          if command -v jq &> /dev/null; then
+            VERSION=$(jq -r '.version' package.json)
+          else
+            # 回退到使用 awk/sed 方式
+            VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d ' ')
+          fi
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Tagging version $VERSION"
 
@@ -43,8 +49,10 @@ jobs:
         run: |
           if git tag -l v${{ steps.get_version.outputs.VERSION }}; then
             echo "TAG_EXISTS=true" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.get_version.outputs.VERSION }} already exists"
           else
             echo "TAG_EXISTS=false" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.get_version.outputs.VERSION }} does not exist, will create it"
           fi
 
       - name: Create tag
@@ -54,21 +62,33 @@ jobs:
           git config user.email "actions@github.com"
           git tag -a v${{ steps.get_version.outputs.VERSION }} -m "Release v${{ steps.get_version.outputs.VERSION }}"
           git push origin v${{ steps.get_version.outputs.VERSION }}
+          echo "Created and pushed tag v${{ steps.get_version.outputs.VERSION }}"
 
       - name: Build
         env:
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
           YARN_REGISTRY: https://registry.npmjs.org/
         run: |
+          echo "Installing dependencies..."
           # 使用 npm 代替 yarn 以避免镜像源问题
           npm install --no-lockfile --legacy-peer-deps
+          
+          echo "Building plugin..."
           npm run build:plugin
-          mkdir ${{ env.PLUGIN_NAME }}
+          
+          echo "Preparing release package..."
+          mkdir -p ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}
+          
+          echo "Creating zip file..."
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
+          
+          echo "Build completed successfully!"
+          ls -la ${{ env.PLUGIN_NAME }}.zip
 
       - name: Create Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -93,3 +113,4 @@ jobs:
         with:
           name: ${{ env.PLUGIN_NAME }}
           path: ./${{ env.PLUGIN_NAME }}.zip
+          retention-days: 7
