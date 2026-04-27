@@ -38,8 +38,6 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
 let settingsModalOpen = false;
 
 const showSettingUI = async () => {
-  logger.debug('Showing settings UI with isOpen:', settingsModalOpen)
-  
   // 提供设置模态框样式
   logseqAPI.provideStyle(settingsModalCSS)
   
@@ -64,14 +62,11 @@ const showSettingUI = async () => {
         },
         theme: currentSettings.theme,
       })
-    } else {
-      console.error('Settings container not found!')
     }
   }, 1)
 }
 
 const settingToggle = async () => {
-  logger.debug('Toggling settings modal')
   settingsModalOpen = !settingsModalOpen;
   showSettingUI();
 }
@@ -125,14 +120,10 @@ const showSelectToolbar = async () => {
 
 const main = async () => {
   try {
-    logger.debug('Initializing Text Toolkit Plugin')
-    logger.debug('Logseq API ready')
-
     // 提供CSS配置
     logseqAPI.provideStyle(cssConfigCSS)
 
     // 先提供设置切换函数
-    logger.debug('About to call provideModel with settingToggle:', typeof settingToggle)
     logseqAPI.provideModel({ settingToggle })
 
     // 初始渲染设置组件（默认隐藏）
@@ -151,7 +142,6 @@ const main = async () => {
 
     await showSelectToolbar()
     await showCommentApp()
-    logger.debug('Text Toolkit Plugin initialized successfully')
   } catch (error) {
     logger.error('Failed to initialize Text Toolkit Plugin:', error)
   }

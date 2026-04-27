@@ -84,12 +84,7 @@ export const findAndReplaceText = (originalContent: string, selectedText: string
  */
 export const replaceInSelectedElement = async (selectedData: SelectedData, processedText: string): Promise<boolean> => {
   try {
-    logger.debug('开始替换选中元素内容', {
-      selectedText: selectedData.text,
-      before: selectedData.before,
-      after: selectedData.after,
-      processedText
-    });
+
     
     // 获取当前选择
     const selection = getSelection();

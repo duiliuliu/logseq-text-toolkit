@@ -83,15 +83,21 @@
 
 ### 2.4 扩展机制
 
-#### 插件系统
-- 实现 `PluginSystem` 类，支持：
-  - 注册新功能
-  - 扩展工具栏项目类型
-  - 自定义事件处理
+#### 执行器系统
+- 实现了 `ActionExecutor` 类，支持：
+  - 注册不同类型的执行器
+  - 管理自定义功能
+  - 提供统一的执行接口
+
+#### 执行器实现
+- **Comment 执行器**：处理评论相关功能
+- **TextProcessor 执行器**：处理文本替换和正则替换
+- **ExternalPlugin 执行器**：调用外部插件功能
 
 #### 功能注册
-- 提供 `registerAction` 方法，允许动态注册新功能
-- 支持 `funcmode` 扩展
+- 提供 `registerExecutor` 方法，允许动态注册新功能
+- 支持 `invoke` 类型扩展
+- 实现了 `ExecutorRegistry` 类，集中管理所有执行器的注册
 
 ### 2.5 代码组织建议
 
@@ -101,25 +107,39 @@ src/
 ├── components/
 │   ├── Toolbar/
 │   │   ├── index.tsx          # 主工具栏组件
-│   │   ├── ToolbarItem.tsx    # 单个工具栏项目
-│   │   ├── ToolbarGroup.tsx   # 工具栏分组
 │   │   ├── types.ts           # 类型定义
+│   │   ├── ToolbarLogic.ts    # 工具栏逻辑
+│   │   ├── textProcessor.ts   # 文本处理
 │   │   └── toolbar.css        # 样式
 │   ├── SelectToolbar/
 │   │   ├── index.tsx          # 选择工具栏
 │   │   └── selectToolbar.css  # 样式
-│   └── ToolbarManager/
-│       ├── index.tsx          # 工具栏管理器
-│       ├── ConfigParser.ts    # 配置解析器
-│       ├── EventBus.ts        # 事件总线
-│       └── ActionExecutor.ts  # 功能执行器
+│   └── Comment/
+│       ├── CommentApp.tsx     # 评论应用
+│       ├── CommentModal.tsx   # 评论模态框
+│       └── types.ts           # 评论类型定义
 ├── settings/
 │   ├── defaultSettings.json   # 默认配置
 │   └── useSettings.tsx        # 配置 hook
 └── lib/
-    └── toolbar/
-        ├── types.ts           # 核心类型
-        └── utils.ts           # 工具函数
+    ├── toolbar/
+    │   ├── types.ts           # 核心类型
+    │   ├── EventBus.ts        # 事件总线
+    │   ├── ConfigParser.ts    # 配置解析器
+    │   ├── ActionExecutor.ts  # 功能执行器
+    │   ├── ToolbarManager.ts  # 工具栏管理器
+    │   ├── ExecutorRegistry.ts # 执行器注册器
+    │   └── executors/         # 执行器实现
+    │       ├── CommentExecutor.ts       # 评论执行器
+    │       ├── TextProcessorExecutor.ts # 文本处理执行器
+    │       └── ExternalPluginExecutor.ts # 外部插件执行器
+    ├── textReplace/
+    │   └── utils.ts           # 文本替换工具
+    ├── logger/
+    │   └── logger.ts          # 日志系统
+    └── logseq/
+        ├── index.ts            # Logseq API 封装
+        └── utils.ts           # Logseq 工具函数
 ```
 
 ## 3. 实现细节
@@ -129,10 +149,14 @@ src/
 #### ToolbarManager
 - **职责**：管理整个工具栏系统
 - **方法**：
-  - `initialize(config)`：初始化配置
+  - `initialize(config)`：初始化配置，注册执行器
   - `registerAction(id, handler)`：注册新功能
+  - `registerClickFuncAction(clickFunc, handler)`：注册点击函数执行器
   - `executeAction(item, selectedData)`：执行功能
   - `getToolbarItems()`：获取处理后的工具栏项目
+  - `isReady()`：检查是否已初始化
+  - `setLanguage(language)`：设置语言
+  - `reset()`：重置状态
 
 #### ConfigParser
 - **职责**：解析和验证配置
@@ -140,6 +164,8 @@ src/
   - `parse(config)`：解析配置
   - `validate(config)`：验证配置结构
   - `getItem(id)`：获取指定项目
+  - `getItems()`：获取所有项目
+  - `buildItemMap(items)`：构建项目映射
 
 #### EventBus
 - **职责**：处理组件间通信
@@ -147,12 +173,21 @@ src/
   - `on(event, handler)`：订阅事件
   - `emit(event, data)`：发布事件
   - `off(event, handler)`：取消订阅
+  - `clear()`：清除所有事件监听器
 
 #### ActionExecutor
 - **职责**：执行工具栏功能
 - **方法**：
   - `execute(item, selectedData)`：执行功能
   - `registerExecutor(mode, executor)`：注册模式执行器
+  - `registerClickFuncExecutor(clickFunc, executor)`：注册点击函数执行器
+  - `setLanguage(language)`：设置语言
+  - `registerDefaultExecutors()`：注册默认执行器
+
+#### ExecutorRegistry
+- **职责**：集中管理执行器注册
+- **方法**：
+  - `registerExecutors()`：注册所有执行器
 
 ### 3.2 组件设计
 
@@ -160,7 +195,13 @@ src/
 - **职责**：处理文本选择和工具栏定位
 - **Props**：
   - `targetElement`：目标元素
-  - `onSelectionChange`：选择变化回调
+  - `items`：工具栏项目
+  - `theme`：主题
+  - `showBorder`：是否显示边框
+  - `width`：宽度
+  - `height`：高度
+  - `hoverDelay`：悬停延迟
+  - `sponsorEnabled`：是否启用赞助商
 - **内部状态**：
   - `selectedData`：选中数据
   - `toolbarPosition`：工具栏位置
@@ -171,26 +212,102 @@ src/
 - **Props**：
   - `items`：工具栏项目
   - `theme`：主题
+  - `showBorder`：是否显示边框
+  - `width`：宽度
+  - `height`：高度
+  - `selectedData`：选中数据
+  - `hoverDelay`：悬停延迟
   - `onItemClick`：项目点击回调（可选，优先使用 EventBus）
+  - `sponsorEnabled`：是否启用赞助商
+  - `language`：语言
 - **内部状态**：
   - `hoveredItem`： hover 项目
-  - `expandedGroups`：展开的分组
+  - `mouseOverGroup`：悬停的分组
+  - `moreExpanded`：是否展开更多项目
 
-### 3.3 数据流设计
+### 3.3 执行器实现
+
+#### Comment 执行器
+- **功能**：处理评论相关功能
+- **支持的 invoke 类型**：`comment`、`inlineComment`、`invokeInlineComment`
+- **实现**：
+  - 发布评论调用事件 `ltt-invoke:comment`
+  - 传递选中数据和模板参数
+
+#### TextProcessor 执行器
+- **功能**：处理文本替换和正则替换
+- **支持的 invoke 类型**：`replace`、`regexReplace`
+- **实现**：
+  - `replace`：普通文本替换
+  - `regexReplace`：正则表达式替换
+  - 调用 `updateBlockContent` 更新块内容
+
+#### ExternalPlugin 执行器
+- **功能**：调用外部插件功能
+- **支持的 invoke 类型**：`invokeExternalPlugin`
+- **实现**：
+  - 解析插件命令 `pluginId.command`
+  - 检查插件是否安装且启用
+  - 调用 `logseq.App.invokeExternalPlugin`
+  - 处理返回结果
+
+### 3.4 配置示例
+
+#### 基本配置
+```json
+{
+  "id": "wrap-bold",
+  "label": "Bold",
+  "icon": "<svg>...</svg>",
+  "invoke": "replace",
+  "invokeParams": "**${selectedText}**",
+  "binding": "mod+b"
+}
+```
+
+#### 评论配置
+```json
+{
+  "id": "wrap-inline-comment",
+  "label": "Inline Comment",
+  "icon": "<svg>...</svg>",
+  "invoke": "invokeInlineComment",
+  "invokeParams": "[:span.inline-comment {:data-comment ${comment}} ${selectedText}]"
+}
+```
+
+#### 外部插件配置
+```json
+{
+  "id": "invoke-external-plugin",
+  "label": "External Plugin",
+  "icon": "<svg>...</svg>",
+  "invoke": "invokeExternalPlugin",
+  "invokeParams": "pluginId.command"
+}
+```
+
+### 3.5 数据流设计
 
 1. **配置加载**：
    - 从 `defaultSettings.json` 加载配置
    - `ConfigParser` 解析和验证配置
-   - `ToolbarManager` 初始化
+   - `ToolbarManager` 初始化，注册执行器
 
 2. **事件流程**：
-   - 用户选择文本 → `SelectToolbar` 触发 `selectionChange` 事件
-   - `ToolbarManager` 接收事件 → 计算工具栏位置
-   - `SelectToolbar` 显示工具栏
-   - 用户点击工具栏项目 → `Toolbar` 触发 `itemClick` 事件
-   - `ToolbarManager` 接收事件 → 执行对应功能
-   - 功能执行完成 → 触发 `textProcessed` 事件
+   - 用户选择文本 → `SelectToolbar` 触发 `ltt-selectionChange` 事件
+   - `SelectToolbar` 计算工具栏位置并显示
+   - 用户点击工具栏项目 → `Toolbar` 调用 `handleItemClick`
+   - `SelectToolbar` 调用 `toolbarManager.executeAction`
+   - `ToolbarManager` 执行对应功能
+   - 功能执行完成 → 触发 `ltt-textProcessed` 事件
    - 相关组件响应事件
+
+3. **执行器流程**：
+   - `ToolbarManager` 调用 `actionExecutor.execute`
+   - `ActionExecutor` 根据 `item.invoke` 找到对应的执行器
+   - 执行器执行具体功能
+   - 返回处理结果
 
 ## 4. 优势与收益
 

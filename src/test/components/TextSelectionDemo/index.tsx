@@ -43,13 +43,13 @@ const TextSelectionDemo: React.FC = () => {
           <p className="demo-text">
             插件支持 Hiccup 语法，以下是一些示例：
           </p>
-          <HiccupRenderer initialContent="前[:u.red Logseq]  后面
+          <HiccupRenderer initialContent='前[:u.red Logseq]  后面
 [:span.inline-comment {:data-comment "评论内容"} "带评论的文本"]
 [:mark.red "红色高亮"]
 [:span.blue "蓝色文本"]
 [:sub 下标文本]
 [:sup 上标文本]
-`代码块`" />
+`代码块`' />
         </div>
         
         <div className="demo-section">
