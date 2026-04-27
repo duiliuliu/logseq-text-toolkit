@@ -12,11 +12,11 @@ import '@logseq/libs'
  * @returns {any} Logseq API实例
  */
 export const getLogseqAPI = (): ILSPluginUser => {
-  // 检查是否在测试模式或开发模式下
-  const isTestMode = import.meta.env.MODE === 'test' || import.meta.env.MODE === 'development';
+  // 检查是否在测试模式下
+  const isTestMode = import.meta.env.MODE === 'test';
   
   if (isTestMode) {
-    console.log('Using mock Logseq API (test/development mode)');
+    console.log('Using mock Logseq API (test mode)');
     // 使用导入的mockLogseq
     return mockLogseq;
   } else {

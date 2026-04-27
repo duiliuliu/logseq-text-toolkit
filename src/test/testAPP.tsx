@@ -4,13 +4,9 @@ import TestLayout from './components/TestLayout/index.tsx'
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import HiccupRenderer from './components/HiccupRenderer/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
+import CommentApp from '../components/Comment/CommentApp.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
-
-// 强制使用 mock Logseq API
-import mockLogseq from '../logseq/mock/index.ts'
-globalThis.logseq = mockLogseq
-console.log('TestApp: Using mock Logseq API')
 
 function TestApp() {
   // 使用设置上下文
