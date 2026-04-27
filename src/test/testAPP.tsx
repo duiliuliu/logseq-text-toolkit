@@ -5,8 +5,6 @@ import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import HiccupRenderer from './components/HiccupRenderer/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
 import CommentApp from '../components/Comment/CommentApp.tsx'
-import SelectToolbar from '../components/SelectToolbar'
-import { toolbarItems } from './testData.ts'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
 
@@ -92,11 +90,7 @@ function TestApp() {
       {/* Toast 容器 */}
       <ToastContainer />
       
-      {/* 选择工具栏 */}
-      <SelectToolbar 
-        targetElement={document.getElementById('app-container')} 
-        items={toolbarItems} 
-      />
+
 
     </div>
   )
