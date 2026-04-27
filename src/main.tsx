@@ -26,19 +26,32 @@ const loadCSS = async () => {
       { name: 'customsToolbarItems.css', content: cssConfigCSS }
     ];
 
+    // 在测试模式下直接使用内置CSS
+    if (import.meta.env.MODE === 'test') {
+      logger.info('Running in test mode, using built-in CSS');
+      for (const cssFile of cssFiles) {
+        if (cssFile.content) {
+          logseqAPI.provideStyle(cssFile.content);
+          logger.info(`Loaded built-in CSS for ${cssFile.name}`);
+        }
+      }
+      return;
+    }
+
+    // 在非测试模式下，优先尝试加载插件根目录下的CSS文件
     for (const cssFile of cssFiles) {
       try {
         // 优先尝试加载插件根目录下的CSS文件
         const response = await fetch(`./${cssFile.name}`);
         if (response.ok) {
           const cssContent = await response.text();
-          // 检查CSS内容是否为空
-          if (cssContent.trim()) {
+          // 检查CSS内容是否为空，并且不是HTML
+          if (cssContent.trim() && !cssContent.startsWith('<!DOCTYPE html>')) {
             logseqAPI.provideStyle(cssContent);
             logger.info(`Loaded CSS file from root: ${cssFile.name}`);
           } else {
-            // 如果CSS内容为空，使用内置CSS作为兜底
-            logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
+            // 如果CSS内容为空或为HTML，使用内置CSS作为兜底
+            logger.info(`CSS file is empty or invalid in root, using built-in CSS: ${cssFile.name}`);
             if (cssFile.content) {
               logseqAPI.provideStyle(cssFile.content);
               logger.info(`Loaded built-in CSS for ${cssFile.name}`);
