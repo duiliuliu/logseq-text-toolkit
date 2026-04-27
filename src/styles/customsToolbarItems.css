@@ -300,21 +300,30 @@ span.inline-comment::after {
   left: 50%;
   bottom: 100%;
   transform: translateX(-50%);
-  background: var(--ls-primary-background-color, #1f2937);
-  color: var(--ls-primary-text-color, #f9fafb);
-  padding: 8px 12px;
+  background: var(--ls-primary-background-color, #ffffff);
+  color: var(--ls-primary-text-color, #1f2937);
+  padding: 6px 10px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 12px;
   white-space: nowrap;
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 深色主题下的气泡样式 */
+[data-theme="dark"] span.inline-comment::after {
+  background: var(--ls-primary-background-color, #1f2937);
+  color: var(--ls-primary-text-color, #f9fafb);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 span.inline-comment:hover::after {
