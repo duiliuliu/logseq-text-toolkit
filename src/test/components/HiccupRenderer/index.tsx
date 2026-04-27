@@ -109,8 +109,8 @@ function parseHiccupArray(str: string): any {
             objectDepth = 1;
             token = '{';
           } else {
-            // 处理普通标签或其他值
-            current.push(token);
+            // 处理普通标签或其他值，去除可能的冒号前缀
+            current.push(token.replace(/^:/, ''));
           }
           token = '';
         }
