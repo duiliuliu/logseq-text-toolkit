@@ -17,7 +17,7 @@ import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS 
 // 加载CSS文件
 const loadCSS = async () => {
   try {
-    // 使用导入的CSS变量加载CSS
+    // CSS文件列表
     const cssFiles = [
       { name: 'settingsModal.css', content: settingsModalCSS },
       { name: 'modal.css', content: modalCSS },
@@ -28,14 +28,27 @@ const loadCSS = async () => {
 
     for (const cssFile of cssFiles) {
       try {
-        if (cssFile.content) {
-          logseqAPI.provideStyle(cssFile.content);
-          logger.info(`Loaded CSS file: ${cssFile.name}`);
+        // 优先尝试加载插件根目录下的CSS文件
+        const response = await fetch(`./${cssFile.name}`);
+        if (response.ok) {
+          const cssContent = await response.text();
+          logseqAPI.provideStyle(cssContent);
+          logger.info(`Loaded CSS file from root: ${cssFile.name}`);
         } else {
-          logger.warn(`CSS content is empty for ${cssFile.name}`);
+          // 如果根目录下的CSS文件不存在，使用内置CSS作为兜底
+          logger.info(`CSS file not found in root, using built-in CSS: ${cssFile.name}`);
+          if (cssFile.content) {
+            logseqAPI.provideStyle(cssFile.content);
+            logger.info(`Loaded built-in CSS for ${cssFile.name}`);
+          }
         }
       } catch (error) {
-        logger.error(`Failed to load CSS file ${cssFile.name}:`, error);
+        // 加载失败时使用内置CSS作为兜底
+        logger.warn(`Error loading CSS file from root ${cssFile.name}:`, error);
+        if (cssFile.content) {
+          logseqAPI.provideStyle(cssFile.content);
+          logger.info(`Loaded built-in CSS for ${cssFile.name} (fallback)`);
+        }
       }
     }
   } catch (error) {
