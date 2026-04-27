@@ -12,71 +12,30 @@ import { getSettings } from './settings/index.ts'
 import { getDocument, getWindow } from './logseq/utils.ts'
 import { logger } from './lib/logger/logger.ts'
 import { initI18n } from './translations/i18n.ts'
+import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS } from './styles/index.ts'
 
-// 动态加载CSS文件
+// 加载CSS文件
 const loadCSS = async () => {
   try {
-    // 尝试加载插件根目录的CSS文件
+    // 使用导入的CSS变量加载CSS
     const cssFiles = [
-      'settingsModal.css',
-      'modal.css',
-      'toolbar.css',
-      'inlineComment.css',
-      'customsToolbarItems.css'
+      { name: 'settingsModal.css', content: settingsModalCSS },
+      { name: 'modal.css', content: modalCSS },
+      { name: 'toolbar.css', content: toolbarCSS },
+      { name: 'inlineComment.css', content: inlineCommentCSS },
+      { name: 'customsToolbarItems.css', content: cssConfigCSS }
     ];
-
-    // 内置CSS映射
-    const builtInCSSMap = {
-      'settingsModal.css': () => import('./components/SettingsModal/settingsModal.css?raw'),
-      'modal.css': () => import('./components/Modal/modal.css?raw'),
-      'toolbar.css': () => import('./components/Toolbar/toolbar.css?raw'),
-      'inlineComment.css': () => import('./components/Comment/inlineComment.css?raw'),
-      'customsToolbarItems.css': () => import('./styles/customsToolbarItems.css?raw')
-    };
 
     for (const cssFile of cssFiles) {
       try {
-        // 尝试加载CSS文件
-        const response = await fetch(`./${cssFile}`);
-        if (response.ok) {
-          const cssContent = await response.text();
-          logseqAPI.provideStyle(cssContent);
-          logger.info(`Loaded CSS file: ${cssFile}`);
+        if (cssFile.content) {
+          logseqAPI.provideStyle(cssFile.content);
+          logger.info(`Loaded CSS file: ${cssFile.name}`);
         } else {
-          // 如果文件不存在，使用内置的CSS
-          logger.info(`CSS file not found, using built-in CSS: ${cssFile}`);
-          const loader = builtInCSSMap[cssFile];
-          if (loader) {
-            try {
-              const builtInCSS = await loader();
-              // 确保正确处理import()返回值
-              const cssContent = builtInCSS.default || builtInCSS;
-              if (cssContent) {
-                logseqAPI.provideStyle(cssContent);
-                logger.info(`Loaded built-in CSS for ${cssFile}`);
-              }
-            } catch (e) {
-              logger.error(`Failed to load built-in CSS for ${cssFile}:`, e);
-            }
-          }
+          logger.warn(`CSS content is empty for ${cssFile.name}`);
         }
       } catch (error) {
-        logger.warn(`Error loading CSS file ${cssFile}:`, error);
-        // 加载失败时使用内置CSS
-        try {
-          const loader = builtInCSSMap[cssFile];
-          if (loader) {
-            const builtInCSS = await loader();
-            // 确保正确处理import()返回值
-            const cssContent = builtInCSS.default || builtInCSS;
-            if (cssContent) {
-              logseqAPI.provideStyle(cssContent);
-              logger.info(`Loaded built-in CSS for ${cssFile} (fallback)`);
-            }
-          }
-        } catch (e) {
-          logger.error(`Failed to load built-in CSS for ${cssFile}:`, e);
-        }
+        logger.error(`Failed to load CSS file ${cssFile.name}:`, error);
       }
     }
   } catch (error) {
