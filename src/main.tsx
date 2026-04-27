@@ -32,8 +32,18 @@ const loadCSS = async () => {
         const response = await fetch(`./${cssFile.name}`);
         if (response.ok) {
           const cssContent = await response.text();
-          logseqAPI.provideStyle(cssContent);
-          logger.info(`Loaded CSS file from root: ${cssFile.name}`);
+          // 检查CSS内容是否为空
+          if (cssContent.trim()) {
+            logseqAPI.provideStyle(cssContent);
+            logger.info(`Loaded CSS file from root: ${cssFile.name}`);
+          } else {
+            // 如果CSS内容为空，使用内置CSS作为兜底
+            logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
+            if (cssFile.content) {
+              logseqAPI.provideStyle(cssFile.content);
+              logger.info(`Loaded built-in CSS for ${cssFile.name}`);
+            }
+          }
         } else {
           // 如果根目录下的CSS文件不存在，使用内置CSS作为兜底
           logger.info(`CSS file not found in root, using built-in CSS: ${cssFile.name}`);
