@@ -1,0 +1,80 @@
+{
+  "toolbar": {
+    "bold": "加粗",
+    "highlight": "高亮",
+    "fileLink": "文件链接",
+    "comment": "评论",
+    "noSelection": "请选择要处理的文本",
+    "replaceFailed": "文本替换失败",
+    "noBlockContent": "无法获取块内容"
+  },
+  "inlineComment": {
+    "text": "文本",
+    "placeholder": "输入你的评论或注释...",
+    "save": "行内注释",
+    "title": "添加注释"
+  },
+  "comment": {
+    "title": "添加评论"
+  },
+  "modal": {
+    "placeholder": "请输入内容"
+  },
+  "settings": {
+    "title": "设置",
+    "tabs": {
+    "general": "⚙️ 通用设置",
+    "toolbar": "🛠️ 工具栏设置",
+    "advanced": "⚡ 其他设置"
+  },
+    "saveSuccessRestart": "保存成功，请重启应用生效",
+    "generalSettings": "通用设置",
+    "theme": "主题",
+    "themeFollowSystem": "跟随系统",
+    "language": "语言",
+    "languageFollowSystem": "跟随系统",
+    "toolbarSettings": "工具栏设置",
+    "enabled": "启用",
+    "disabled": "禁用",
+    "showBorder": "显示边框",
+    "width": "宽度",
+    "height": "高度",
+    "hoverDelay": "悬停延迟（毫秒）",
+    "toolbarShortcut": "工具栏快捷键",
+    "toolbarShortcutPlaceholder": "请输入快捷键",
+    "sponsorEnabled": "赞助栏",
+    "developerMode": "开发者模式",
+    "toolbarElements": "工具栏元素",
+    "addNewItem": "添加新项目",
+    "addItem": "添加项目",
+    "label": "标签",
+    "icon": "图标",
+    "funcmode": "功能模式",
+    "confirmDeleteItem": "确定要删除此工具栏项目吗？",
+    "jsonSettings": "JSON设置",
+    "applyJson": "应用JSON",
+    "resetToDefault": "重置为默认值",
+    "cancel": "取消",
+    "save": "保存",
+    "saving": "保存中...",
+    "loading": "加载设置中...",
+    "error": "加载设置失败",
+    "confirmReset": "确定要将所有设置重置为默认值吗？",
+    "confirmResetItems": "确定要将工具栏元素重置为默认值吗？",
+    "subtitle": "管理应用程序的各项配置，每个区域可独立保存",
+    "generalSettingsDescription": "配置应用的主题和语言",
+    "toolbarSettingsDescription": "配置工具栏的显示和行为",
+    "advancedSettings": "高级设置",
+    "advancedSettingsDescription": "待添加的高级功能配置",
+    "lightTheme": "浅色",
+    "darkTheme": "深色",
+    "chinese": "简体中文",
+    "english": "English",
+    "japanese": "日本語",
+    "saveGeneralSettings": "保存通用设置",
+    "saveToolbarSettings": "保存工具栏设置",
+    "saveSuccess": "保存成功！",
+    "settingsNotConfigured": "此设置区域暂未配置",
+    "comingSoon": "敬请期待更多功能..."
+  }
+}
