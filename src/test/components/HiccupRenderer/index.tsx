@@ -47,9 +47,11 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
       setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
       console.error('Hiccup 解析错误:', error);
+      // 改进错误处理，确保即使错误对象没有 message 属性，也能显示有意义的错误信息
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setRenderedContent(
         <div style={{ color: 'red' }}>
-          <div>Invalid hiccup: {error.message}</div>
+          <div>Invalid hiccup: {errorMessage}</div>
           <div style={{ fontSize: '12px', marginTop: '8px' }}>解析内容: {content}</div>
         </div>
       );
