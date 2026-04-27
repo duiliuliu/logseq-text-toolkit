@@ -5,7 +5,7 @@ import { logseqAPI } from '../logseq'
 export function getSettings(): Settings {
   try {
     const logseqSettings = logseqAPI.settings || {}
-    return {
+    const settings = {
       ...defaultSettings,
       ...logseqSettings,
       // 确保类型正确
@@ -17,6 +17,28 @@ export function getSettings(): Settings {
       disabled: Boolean(logseqSettings.disabled),
       toolbarShortcut: logseqSettings.toolbarShortcut || '',
     }
+    
+    // 兼容旧版本的 funcmode 和 clickfunc
+    if (settings.ToolbarItems) {
+      settings.ToolbarItems = settings.ToolbarItems.map(item => {
+        if ('funcmode' in item && 'clickfunc' in item && !('invoke' in item)) {
+          item.invoke = item.funcmode
+          item.invokeParams = item.clickfunc
+        }
+        if ('subItems' in item && item.subItems) {
+          item.subItems = item.subItems.map(subItem => {
+            if ('funcmode' in subItem && 'clickfunc' in subItem && !('invoke' in subItem)) {
+              subItem.invoke = subItem.funcmode
+              subItem.invokeParams = subItem.clickfunc
+            }
+            return subItem
+          })
+        }
+        return item
+      })
+    }
+    
+    return settings
   } catch (error) {
     console.error('Error getting settings:', error)
     return defaultSettings

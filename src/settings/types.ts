@@ -10,9 +10,12 @@ export interface ToolbarItem {
   label: string;
   icon: string;
   binding?: string;
-  funcmode: string;
-  clickfunc: string;
+  invoke: string;
+  invokeParams: string;
   hidden?: boolean;
+  // 兼容旧版本
+  funcmode?: string;
+  clickfunc?: string;
 }
 
 // Toolbar group type
@@ -37,6 +40,7 @@ export interface Settings {
   height: string;
   hoverDelay: number;
   sponsorEnabled: boolean;
+  developerMode: boolean;
   
   // 工具栏元素配置
   ToolbarItems: Array<ToolbarItem | ToolbarGroup>;

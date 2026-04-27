@@ -3,7 +3,16 @@
     "bold": "太字",
     "highlight": "ハイライト",
     "fileLink": "ファイルリンク",
-    "comment": "コメント"
+    "comment": "コメント",
+    "noSelection": "処理するテキストを選択してください",
+    "replaceFailed": "テキストの置換に失敗しました",
+    "noBlockContent": "ブロックの内容を取得できません"
+  },
+  "inlineComment": {
+    "text": "テキスト",
+    "placeholder": "コメントを追加...",
+    "save": "コメントを追加",
+    "title": "コメントを追加"
   },
   "comment": {
     "title": "コメントを追加"
@@ -18,6 +27,7 @@
     "toolbar": "🛠️ ツールバー設定",
     "advanced": "⚡ その他の設定"
   },
+    "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
     "generalSettings": "一般設定",
     "theme": "テーマ",
     "themeFollowSystem": "システムに追従",
@@ -33,6 +43,7 @@
     "toolbarShortcut": "ツールバーショートカット",
     "toolbarShortcutPlaceholder": "ショートカットを入力",
     "sponsorEnabled": "スポンサーバー",
+    "developerMode": "開発者モード",
     "toolbarElements": "ツールバー要素",
     "addNewItem": "新しいアイテムを追加",
     "addItem": "アイテムを追加",

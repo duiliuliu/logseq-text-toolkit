@@ -3,7 +3,16 @@
     "bold": "加粗",
     "highlight": "高亮",
     "fileLink": "文件链接",
-    "comment": "评论"
+    "comment": "评论",
+    "noSelection": "请选择要处理的文本",
+    "replaceFailed": "文本替换失败",
+    "noBlockContent": "无法获取块内容"
+  },
+  "inlineComment": {
+    "text": "文本",
+    "placeholder": "输入你的评论或注释...",
+    "save": "行内注释",
+    "title": "添加注释"
   },
   "comment": {
     "title": "添加评论"
@@ -18,6 +27,7 @@
     "toolbar": "🛠️ 工具栏设置",
     "advanced": "⚡ 其他设置"
   },
+    "saveSuccessRestart": "保存成功，请重启应用生效",
     "generalSettings": "通用设置",
     "theme": "主题",
     "themeFollowSystem": "跟随系统",
@@ -33,6 +43,7 @@
     "toolbarShortcut": "工具栏快捷键",
     "toolbarShortcutPlaceholder": "请输入快捷键",
     "sponsorEnabled": "赞助栏",
+    "developerMode": "开发者模式",
     "toolbarElements": "工具栏元素",
     "addNewItem": "添加新项目",
     "addItem": "添加项目",

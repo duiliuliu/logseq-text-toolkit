@@ -4,11 +4,14 @@ export interface ToolbarItem {
   label: string;
   binding?: string;
   icon?: string | React.ReactNode;
-  funcmode: string;
-  clickfunc: string;
+  invoke: string;
+  invokeParams: string;
   regex?: string;
   replacement?: string;
   hidden?: boolean;
+  // 兼容旧版本
+  funcmode?: string;
+  clickfunc?: string;
 }
 
 // Toolbar 组类型

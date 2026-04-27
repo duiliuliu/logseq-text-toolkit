@@ -3,7 +3,16 @@
     "bold": "Bold",
     "highlight": "Highlight",
     "fileLink": "File Link",
-    "comment": "Comment"
+    "comment": "Comment",
+    "noSelection": "Please select text to process",
+    "replaceFailed": "Text replacement failed",
+    "noBlockContent": "Unable to get block content"
+  },
+  "inlineComment": {
+    "text": "Text",
+    "placeholder": "Add a comment...",
+    "save": "Add Comment",
+    "title": "Add Comment"
   },
   "comment": {
     "title": "Add Comment"
@@ -18,6 +27,7 @@
     "toolbar": "🛠️ Toolbar Settings",
     "advanced": "⚡ Other Settings"
   },
+    "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
     "generalSettings": "General Settings",
     "theme": "Theme",
     "themeFollowSystem": "Follow System",
@@ -33,6 +43,7 @@
     "toolbarShortcut": "Toolbar Shortcut",
     "toolbarShortcutPlaceholder": "Enter shortcut",
     "sponsorEnabled": "Sponsor Bar",
+    "developerMode": "Developer Mode",
     "toolbarElements": "Toolbar Elements",
     "addNewItem": "Add New Item",
     "addItem": "Add Item",

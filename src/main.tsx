@@ -5,6 +5,7 @@ import './main.css'
 import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
+import CommentApp from './components/Comment/CommentApp.tsx'
 import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
@@ -14,6 +15,7 @@ import { settingsModalCSS, modalCSS, toolbarCSS, cssConfigCSS } from './styles/i
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
+const COMMENT_APP_ID = 'text-toolkit-comment-app'
 
 interface RenderComponentProps {
   [key: string]: any
@@ -73,6 +75,24 @@ const settingToggle = async () => {
   showSettingUI();
 }
 
+const showCommentApp = async () => {
+  // 提供模态框样式
+  logseqAPI.provideStyle(modalCSS)
+
+  logseqAPI.provideUI({
+    key: COMMENT_APP_ID,
+    path: '#app-container',
+    template: `<div id="${COMMENT_APP_ID}"></div>`,
+  })
+
+  setTimeout(() => {
+    const commentContainer = getDocument().getElementById(COMMENT_APP_ID)
+    if (commentContainer) {
+      renderComponent(commentContainer, CommentApp)
+    }
+  }, 1)
+}
+
 const showSelectToolbar = async () => {
   // 提供工具栏样式
   logseqAPI.provideStyle(toolbarCSS)
@@ -123,16 +143,13 @@ const main = async () => {
         <a class="button" id="ltt-settings-button"
         data-on-click="settingToggle"
         data-rect>
-         <svg width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="18" stroke="#000" stroke-width="12" fill="none" stroke-linejoin="round"></rect>
-  <path d="M32 16 L44 28 V44 L32 32 L20 44 V28 Z" stroke="#000" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
-  <path d="M32 24 L38 30 H26 Z" stroke="#000" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"></path>
-</svg>
+         <i class="ti ti-text-wrap"></i>
         </a>
       `,
     })
 
     await showSelectToolbar()
+    await showCommentApp()
     console.log('Text Toolkit Plugin initialized successfully')
   } catch (error) {
     console.error('Failed to initialize Text Toolkit Plugin:', error)

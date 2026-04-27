@@ -13,7 +13,7 @@ interface ToolbarProps {
   height?: string
   selectedData?: SelectedData
   hoverDelay?: number
-  onTextProcessed?: (processedText: string) => void
+  onItemClick?: (item: any, selectedData: SelectedData) => void
   sponsorEnabled?: boolean
   language?: string
 }
@@ -29,7 +29,18 @@ const iconMap: Record<IconName, React.ElementType> = {
   menu: Menu
 }
 
-function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', height = '28px', selectedData = { text: '' }, hoverDelay = 500, onTextProcessed, sponsorEnabled = false, language = 'zh-CN' }: ToolbarProps) {
+function Toolbar({ 
+  items, 
+  theme = 'light', 
+  showBorder = true, 
+  width = '110px', 
+  height = '28px', 
+  selectedData = { text: '' }, 
+  hoverDelay = 500, 
+  onItemClick, 
+  sponsorEnabled = false, 
+  language = 'zh-CN' 
+}: ToolbarProps) {
   const [hoveredItem, setHoveredItem] = useState<ToolbarItem | ToolbarGroup | null>(null)
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
@@ -55,12 +66,25 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
       return <div className="ltt-toolbar-icon" dangerouslySetInnerHTML={{ __html: icon }} />
     }
     
+    // 处理 tabler 图标类名
+    if (typeof icon === 'string' && icon.startsWith('ti ti-')) {
+      return <i className={`ltt-toolbar-icon ${icon}`}></i>
+    }
+    
     // 处理其他情况
     return <span className="ltt-toolbar-icon">{icon}</span>
   }
 
   const groupRef = useRef<HTMLDivElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  
+  const handleItemClickInternal = (item: any) => {
+    if (onItemClick) {
+      onItemClick(item, selectedData)
+    } else {
+      handleItemClick(item, selectedData, undefined, language)
+    }
+  }
   
   const renderItem = (item: ToolbarItem | ToolbarGroup) => {
     // 判断是否为 group 元素：检查是否有 subItems 属性且长度大于 0
@@ -126,7 +150,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
                   }}
                   onMouseEnter={() => setHoveredItem(subItem)}
                   onMouseLeave={() => setHoveredItem(item)}
-                  onClick={() => handleItemClick(subItem, selectedData, onTextProcessed, language)}
+                  onClick={() => handleItemClickInternal(subItem)}
                 >
                   <div className="ltt-toolbar-item-icon">
                     {renderIcon(subItem.icon)}
@@ -154,7 +178,7 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
           }}
           onMouseEnter={() => setHoveredItem(toolbarItem)}
           onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleItemClick(toolbarItem, selectedData, onTextProcessed, language)}
+          onClick={() => handleItemClickInternal(toolbarItem)}
         >
           <div className="ltt-toolbar-item-icon">
             {renderIcon(toolbarItem.icon)}
@@ -203,10 +227,24 @@ function Toolbar({ items, theme = 'light', showBorder = true, width = '110px', h
               e.stopPropagation()
             }}
             onClick={toggleMore}
-            onMouseEnter={() => setHoveredItem({ label: moreExpanded ? 'Collapse' : 'More', id: 'more', funcmode: 'console', clickfunc: 'more' })}
+            onMouseEnter={() => setHoveredItem({ label: moreExpanded ? 'Collapse' : 'More', id: 'more', invoke: 'console', invokeParams: 'more' })}
             onMouseLeave={() => setHoveredItem(null)}
           >
-            <div className="ltt-toolbar-item-icon">{moreExpanded ? '−' : '⋮'}</div>
+            <div className="ltt-toolbar-item-icon">
+              <div className="ltt-toolbar-icon">
+                {moreExpanded ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.4" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" strokeWidth="1.5"/>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.4" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="7" r="1.1" fill="currentColor"></circle>
+                    <circle cx="12" cy="12" r="1.1" fill="currentColor"></circle>
+                    <circle cx="12" cy="17" r="1.1" fill="currentColor"></circle>
+                  </svg>
+                )}
+              </div>
+            </div>
             {hoveredItem && hoveredItem.id === 'more' && hoveredItem.label && (
               <div className="ltt-toolbar-tooltip">
                 {hoveredItem.label}
