@@ -6,15 +6,15 @@
 /**
  * 获取正确的document对象
  * 在Logseq中，插件是按照iframe加载的，使用parent.document
- * 在测试环境中，使用当前document
+ * 在测试或开发环境中，使用当前document
  * @returns {Document} 正确的document对象
  */
 export const getDocument = (): Document => {
-  // 检测是否在测试模式
-  const isTestMode = import.meta.env.MODE === 'test';
+  // 检测是否在测试或开发模式
+  const isTestMode = import.meta.env.MODE === 'test' || import.meta.env.MODE === 'development';
   
   if (isTestMode) {
-    // 测试模式，使用当前document
+    // 测试或开发模式，使用当前document
     return document;
   } else {
     // 非测试模式，使用parent.document（添加安全检查）

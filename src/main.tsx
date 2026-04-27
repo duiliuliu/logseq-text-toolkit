@@ -157,9 +157,9 @@ const main = async () => {
 }
 
 if (import.meta.env.MODE === 'test') {
-  const rootElement = getDocument().getElementById('root')
-  renderComponent(rootElement, TestApp)
-  logseqAPI.ready(main).catch(console.error)
+  console.log('Test mode: rendering simple HiccupRenderer test')
+  // 直接渲染 HiccupRenderer 组件
+  import('./test/simpleTest.tsx')
 } else { 
   logseqAPI.ready(main).catch(console.error)
 }

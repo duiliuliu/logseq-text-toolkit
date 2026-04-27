@@ -179,8 +179,13 @@ const mockLogseq = Object.assign(new EventEmitter(), {
       if (!container) {
         container = doc.createElement('div');
         container.id = containerId;
-        container.style.position = 'fixed';
-        container.style.zIndex = '9999';
+        // 检查是否在测试模式下
+        const isTestMode = import.meta.env.MODE === 'test';
+        if (!isTestMode) {
+          // 只在非测试模式下设置固定定位
+          container.style.position = 'fixed';
+          container.style.zIndex = '9999';
+        }
         // 移除默认的display:none，让SelectToolbar能够正常显示
         targetElement.appendChild(container);
         console.log('Created container:', container);
