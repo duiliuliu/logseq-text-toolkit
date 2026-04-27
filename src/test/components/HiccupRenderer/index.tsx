@@ -63,90 +63,119 @@ function hiccupToHtml(hiccup: any): string {
 
 // 解析字符串形式的 hiccup 为数组
 function parseHiccupArray(str: string): any {
-  // 简单的 hiccup 解析器，使用空格分割并处理嵌套结构
-  let result: any[] = [];
-  let current = result;
-  let stack: any[] = [];
-  let token = '';
-  let inString = false;
-  let stringChar = '';
-  let inObject = false;
-  let objectDepth = 0;
+  // 使用递归下降解析法
+  let pos = 0;
   
-  for (let i = 0; i < str.length; i++) {
-    const char = str[i];
-    
-    if (inString) {
-      token += char;
-      if (char === stringChar && str[i-1] !== '\\') {
-        inString = false;
-        // 去除引号
-        current.push(token.substring(1, token.length - 1));
-        token = '';
-      }
-    } else if (inObject) {
-      token += char;
-      if (char === '{') objectDepth++;
-      if (char === '}') {
-        objectDepth--;
-        if (objectDepth === 0) {
-          inObject = false;
-          try {
-            // 简单的对象解析，处理 Logseq 风格的关键字（如 :data-comment）
-            let objStr = token;
-            // 将 :key 替换为 "key":
-            objStr = objStr.replace(/:([a-zA-Z0-9_-]+)/g, '"$1":');
-            // 确保字符串使用双引号
-            objStr = objStr.replace(/'/g, '"');
-            const obj = JSON.parse(objStr);
-            current.push(obj);
-          } catch (error) {
-            console.error('Failed to parse object:', token, error);
-            // 解析失败时，将原始对象字符串作为普通文本处理
-            current.push(token);
-          }
-          token = '';
-        }
-      }
-    } else {
-      if (char === '[' || char === ']' || char === ' ' || char === ',') {
-        if (token.trim()) {
-          if (token === '{') {
-            inObject = true;
-            objectDepth = 1;
-            token = '{';
-          } else {
-            // 处理普通标签或其他值，去除可能的冒号前缀
-            current.push(token.replace(/^:/, ''));
-          }
-          token = '';
-        }
-        
-        if (char === '[') {
-          // 开始新的数组
-          const newArray: any[] = [];
-          current.push(newArray);
-          stack.push(current);
-          current = newArray;
-        } else if (char === ']') {
-          // 结束当前数组
-          if (stack.length === 0) {
-            throw new Error('Mismatched brackets');
-          }
-          current = stack.pop()!;
-        }
-      } else if (char === '"' || char === "'") {
-        // 开始字符串
-        inString = true;
-        stringChar = char;
-        token = char;
-      } else {
-        token += char;
-      }
+  function skipWhitespace() {
+    while (pos < str.length && /\s/.test(str[pos])) {
+      pos++;
     }
   }
   
-  return result[0];
+  function parseString(): string {
+    const quote = str[pos];
+    pos++;
+    let result = '';
+    while (pos < str.length && str[pos] !== quote) {
+      if (str[pos] === '\\' && pos + 1 < str.length) {
+        pos++;
+        result += str[pos];
+      } else {
+        result += str[pos];
+      }
+      pos++;
+    }
+    pos++; // 跳过结束引号
+    return result;
+  }
+  
+  function parseObject(): Record<string, any> {
+    const obj: Record<string, any> = {};
+    pos++; // 跳过 {
+    skipWhitespace();
+    
+    while (pos < str.length && str[pos] !== '}') {
+      skipWhitespace();
+      
+      // 解析 key
+      if (str[pos] === ':') {
+        pos++;
+        let key = '';
+        while (pos < str.length && /[a-zA-Z0-9_-]/.test(str[pos])) {
+          key += str[pos];
+          pos++;
+        }
+        
+        skipWhitespace();
+        
+        // 解析 value
+        let value: any;
+        if (str[pos] === '"' || str[pos] === "'") {
+          value = parseString();
+        } else if (str[pos] === '{') {
+          value = parseObject();
+        } else if (str[pos] === '[') {
+          value = parseArray();
+        } else {
+          // 简单值
+          let simpleValue = '';
+          while (pos < str.length && !/\s|}|]/.test(str[pos])) {
+            simpleValue += str[pos];
+            pos++;
+          }
+          value = simpleValue;
+        }
+        
+        obj[key] = value;
+      }
+      
+      skipWhitespace();
+    }
+    
+    pos++; // 跳过 }
+    return obj;
+  }
+  
+  function parseArray(): any[] {
+    const arr: any[] = [];
+    pos++; // 跳过 [
+    skipWhitespace();
+    
+    while (pos < str.length && str[pos] !== ']') {
+      skipWhitespace();
+      
+      if (str[pos] === '"' || str[pos] === "'") {
+        arr.push(parseString());
+      } else if (str[pos] === '{') {
+        arr.push(parseObject());
+      } else if (str[pos] === '[') {
+        arr.push(parseArray());
+      } else {
+        // 简单 token
+        let token = '';
+        while (pos < str.length && !/\s|}|]/.test(str[pos])) {
+          token += str[pos];
+          pos++;
+        }
+        if (token.trim()) {
+          // 去除可能的冒号前缀
+          arr.push(token.replace(/^:/, ''));
+        }
+      }
+      
+      skipWhitespace();
+    }
+    
+    pos++; // 跳过 ]
+    return arr;
+  }
+  
+  skipWhitespace();
+  if (str[pos] !== '[') {
+    throw new Error('Hiccup must start with [');
+  }
+  
+  return parseArray();
 }
 
 // 简单的 hiccup 解析器
