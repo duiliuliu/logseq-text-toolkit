@@ -63,12 +63,83 @@ function hiccupToHtml(hiccup: any): string {
 
 // 解析字符串形式的 hiccup 为数组
 function parseHiccupArray(str: string): any {
-  // 尝试使用 Function 构造函数来解析，比 eval 更安全一些
-  try {
-    return new Function(`return ${str}`)();
-  } catch (error) {
-    throw new Error(`Failed to parse hiccup: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  // 简单的 hiccup 解析器，使用空格分割并处理嵌套结构
+  let result: any[] = [];
+  let current = result;
+  let stack: any[] = [];
+  let token = '';
+  let inString = false;
+  let stringChar = '';
+  let inObject = false;
+  let objectDepth = 0;
+  
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    
+    if (inString) {
+      token += char;
+      if (char === stringChar && str[i-1] !== '\\') {
+        inString = false;
+        // 去除引号
+        current.push(token.substring(1, token.length - 1));
+        token = '';
+      }
+    } else if (inObject) {
+      token += char;
+      if (char === '{') objectDepth++;
+      if (char === '}') {
+        objectDepth--;
+        if (objectDepth === 0) {
+          inObject = false;
+          try {
+            // 简单的对象解析
+            const obj = JSON.parse(token.replace(/'/g, '"'));
+            current.push(obj);
+          } catch (error) {
+            throw new Error(`Failed to parse object: ${token}`);
+          }
+          token = '';
+        }
+      }
+    } else {
+      if (char === '[' || char === ']' || char === ' ' || char === ',') {
+        if (token.trim()) {
+          if (token === '{') {
+            inObject = true;
+            objectDepth = 1;
+            token = '{';
+          } else {
+            // 处理普通标签或其他值
+            current.push(token);
+          }
+          token = '';
+        }
+        
+        if (char === '[') {
+          // 开始新的数组
+          const newArray: any[] = [];
+          current.push(newArray);
+          stack.push(current);
+          current = newArray;
+        } else if (char === ']') {
+          // 结束当前数组
+          if (stack.length === 0) {
+            throw new Error('Mismatched brackets');
+          }
+          current = stack.pop()!;
+        }
+      } else if (char === '"' || char === "'") {
+        // 开始字符串
+        inString = true;
+        stringChar = char;
+        token = char;
+      } else {
+        token += char;
+      }
+    }
   }
+  
+  return result[0];
 }
 
 // 简单的 hiccup 解析器
