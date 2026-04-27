@@ -94,14 +94,16 @@ function parseHiccupArray(str: string): any {
           try {
             // 简单的对象解析，处理 Logseq 风格的关键字（如 :data-comment）
             let objStr = token;
-            // 将 :key 替换为 "key"
-            objStr = objStr.replace(/:([a-zA-Z0-9_-]+)/g, '"$1"');
+            // 将 :key 替换为 "key":
+            objStr = objStr.replace(/:([a-zA-Z0-9_-]+)/g, '"$1":');
             // 确保字符串使用双引号
             objStr = objStr.replace(/'/g, '"');
             const obj = JSON.parse(objStr);
             current.push(obj);
           } catch (error) {
-            throw new Error(`Failed to parse object: ${token}`);
+            console.error('Failed to parse object:', token, error);
+            // 解析失败时，将原始对象字符串作为普通文本处理
+            current.push(token);
           }
           token = '';
         }
