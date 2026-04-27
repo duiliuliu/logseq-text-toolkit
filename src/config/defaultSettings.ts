@@ -31,7 +31,7 @@ const defaultSettings: Settings = {
       ],
       fallbackLanguage: 'zh-CN'
     }
-  }
+  },
   
   // Toolbar 全局设置
   toolbar: {
