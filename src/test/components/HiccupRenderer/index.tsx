@@ -238,14 +238,14 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
   // 解析和渲染 hiccup 内容
   const renderHiccup = (content: string) => {
     try {
-      console.log('解析 hiccup 内容:', content);
+      logger.debug('解析 hiccup 内容:', content);
       
       // 处理混合文本
       const html = processMixedContent(content);
-      console.log('序列化结果:', html);
+      logger.debug('序列化结果:', html);
       setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
-      console.error('Hiccup 解析错误:', error);
+      logger.error('Hiccup 解析错误:', error);
       // 改进错误处理，确保即使错误对象没有 message 属性，也能显示有意义的错误信息
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setRenderedContent(
