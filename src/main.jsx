@@ -10,6 +10,7 @@ import { SettingsProvider } from './hooks/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import defaultSettings from './config/defaultSettings.ts'
+import { initI18n } from './translations/i18n.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -86,6 +87,10 @@ const main = async () => {
     console.log('Initializing Text Toolkit Plugin')
     await logseqAPI.ready()
     console.log('Logseq API ready')
+
+    // 初始化国际化
+    await initI18n()
+    console.log('I18n initialized')
 
     logseqAPI.provideModel({ showSettingUI })
 

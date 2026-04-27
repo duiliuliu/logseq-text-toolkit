@@ -37,11 +37,27 @@ export interface ToolbarConfig {
   items: Record<string, ToolbarItem | ToolbarGroup>;
 }
 
+// 语言配置类型
+export interface LanguageConfig {
+  code: string;       // 语言代码，如 zh-CN, en, ja
+  name: string;       // 语言名称，如 "中文", "English", "日本語"
+  path: string;       // 语言文件路径，相对于插件根目录
+  isDefault?: boolean; // 是否为默认语言
+}
+
+export interface LanguageMeta {
+  languages: LanguageConfig[];  // 语言列表
+  fallbackLanguage: string;     // 降级语言代码
+}
+
 // 全局设置类型
 export interface Settings {
   theme: ThemeType;
   language: LanguageType;
   toolbar: ToolbarConfig;
+  meta?: {
+    language?: LanguageMeta;
+  };
 }
 
 // Settings Context 类型

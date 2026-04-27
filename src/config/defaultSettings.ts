@@ -8,6 +8,31 @@ const defaultSettings: Settings = {
   // 语言设置
   language: 'zh-CN', // zh-CN, en, ja
   
+  // 元数据设置
+  meta: {
+    language: {
+      languages: [
+        {
+          code: 'zh-CN',
+          name: '中文',
+          path: 'translations/zh-CN.json',
+          isDefault: true
+        },
+        {
+          code: 'en',
+          name: 'English',
+          path: 'translations/en.json'
+        },
+        {
+          code: 'ja',
+          name: '日本語',
+          path: 'translations/ja.json'
+        }
+      ],
+      fallbackLanguage: 'zh-CN'
+    }
+  }
+  
   // Toolbar 全局设置
   toolbar: {
     enabled: true, // Toolbar 功能开关
