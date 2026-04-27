@@ -24,7 +24,7 @@ const useSettings = (): SettingsContextType => {
       // 使用logseqAPI
       if (logseqAPI && logseqAPI.settings) {
         // 确保所有必需字段都有值
-        const data: Settings = {
+        let data: Settings = {
           ...defaultSettings,
           ...logseqAPI.settings,
           // 确保类型正确
@@ -39,6 +39,26 @@ const useSettings = (): SettingsContextType => {
           sponsorEnabled: Boolean(logseqAPI.settings.sponsorEnabled),
           // 确保数值类型正确
           hoverDelay: parseInt(logseqAPI.settings.hoverDelay) || 500
+        }
+        
+        // 兼容旧版本的 funcmode 和 clickfunc
+        if (data.ToolbarItems) {
+          data.ToolbarItems = data.ToolbarItems.map(item => {
+            if ('funcmode' in item && 'clickfunc' in item && !('invoke' in item)) {
+              item.invoke = item.funcmode
+              item.invokeParams = item.clickfunc
+            }
+            if ('subItems' in item && item.subItems) {
+              item.subItems = item.subItems.map(subItem => {
+                if ('funcmode' in subItem && 'clickfunc' in subItem && !('invoke' in subItem)) {
+                  subItem.invoke = subItem.funcmode
+                  subItem.invokeParams = subItem.clickfunc
+                }
+                return subItem
+              })
+            }
+            return item
+          })
         }
         
         // 如果设置了使用系统配置，从logseq获取系统配置
@@ -153,7 +173,7 @@ const useSettings = (): SettingsContextType => {
       const unsubscribe = (logseqAPI as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
         console.log('Settings changed:', { newSettings, oldSettings })
         // 确保类型正确
-        const mergedSettings: Settings = {
+        let mergedSettings: Settings = {
           ...defaultSettings,
           ...newSettings,
           theme: (newSettings.theme || 'light') as ThemeType,
@@ -167,6 +187,26 @@ const useSettings = (): SettingsContextType => {
           sponsorEnabled: Boolean(newSettings.sponsorEnabled),
           // 确保数值类型正确
           hoverDelay: parseInt(newSettings.hoverDelay) || 500
+        }
+        
+        // 兼容旧版本的 funcmode 和 clickfunc
+        if (mergedSettings.ToolbarItems) {
+          mergedSettings.ToolbarItems = mergedSettings.ToolbarItems.map(item => {
+            if ('funcmode' in item && 'clickfunc' in item && !('invoke' in item)) {
+              item.invoke = item.funcmode
+              item.invokeParams = item.clickfunc
+            }
+            if ('subItems' in item && item.subItems) {
+              item.subItems = item.subItems.map(subItem => {
+                if ('funcmode' in subItem && 'clickfunc' in subItem && !('invoke' in subItem)) {
+                  subItem.invoke = subItem.funcmode
+                  subItem.invokeParams = subItem.clickfunc
+                }
+                return subItem
+              })
+            }
+            return item
+          })
         }
         setSettings(mergedSettings)
       })

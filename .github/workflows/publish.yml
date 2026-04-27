@@ -1,6 +1,4 @@
-name: Build plugin
-# This is a basic workflow to help you get started with Actions
- 
+name: Build and Release plugin
 
 env:
   PLUGIN_NAME: logseq-text-toolkit
@@ -16,60 +14,78 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  build-and-release:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
         with:
-          node-version: '16.x'
-          # 移除 cache 配置以避免缓存错误
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
           # 新增：强制指定 npm 镜像源
           registry-url: https://registry.npmjs.org/
 
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d ' ')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Tagging version $VERSION"
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git tag -l v${{ steps.get_version.outputs.VERSION }}; then
+            echo "TAG_EXISTS=true" >> $GITHUB_OUTPUT
+          else
+            echo "TAG_EXISTS=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create tag
+        if: steps.check_tag.outputs.TAG_EXISTS == 'false'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a v${{ steps.get_version.outputs.VERSION }} -m "Release v${{ steps.get_version.outputs.VERSION }}"
+          git push origin v${{ steps.get_version.outputs.VERSION }}
+
       - name: Build
-        id: build
         env:
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
           YARN_REGISTRY: https://registry.npmjs.org/
         run: |
           # 使用 npm 代替 yarn 以避免镜像源问题
-          npm install
+          npm install --no-lockfile --legacy-peer-deps
           npm run build:plugin
           mkdir ${{ env.PLUGIN_NAME }}
           cp README.md package.json icon.png ${{ env.PLUGIN_NAME }}
           mv dist ${{ env.PLUGIN_NAME }}
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
-          ls
-          echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
 
       - name: Create Release
-        id: create_release
-        if: startsWith(github.ref, 'refs/tags/')
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ github.ref }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: v${{ steps.get_version.outputs.VERSION }}
+          release_name: Release v${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: false
 
       - name: Upload zip file
-        id: upload_zip
-        if: startsWith(github.ref, 'refs/tags/')
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./${{ env.PLUGIN_NAME }}.zip
-          asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag_name }}.zip
+          asset_name: ${{ env.PLUGIN_NAME }}-v${{ steps.get_version.outputs.VERSION }}.zip
           asset_content_type: application/zip
 
       - name: Upload build artifact
