@@ -3,7 +3,7 @@ import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { SelectedData } from './textProcessor.ts'
 import { ToolbarItem, ToolbarGroup } from './types.ts'
-import { parseItems, handleItemClick, filterToolbarItems, IconName } from './ToolbarLogic.ts'
+import { parseItems, filterToolbarItems, IconName } from './ToolbarLogic.ts'
 
 interface ToolbarProps {
   items: Array<ToolbarItem | ToolbarGroup>
