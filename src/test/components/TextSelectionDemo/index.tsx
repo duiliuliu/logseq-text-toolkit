@@ -1,4 +1,5 @@
 import React from 'react';
+import HiccupRenderer from '../HiccupRenderer/index.tsx';
 
 const TextSelectionDemo: React.FC = () => {
   return (
@@ -17,6 +18,38 @@ const TextSelectionDemo: React.FC = () => {
             <del>删除线文字</del>、<mark>高亮文字</mark>等。
             无论您是在记笔记、写文档，还是在进行知识管理，这个工具都能帮助您提高效率。
           </p>
+        </div>
+        
+        <div className="demo-section">
+          <h3 className="demo-section-title">产品功能枚举</h3>
+          <p className="demo-text">
+            插件支持以下核心功能：
+          </p>
+          <ul className="demo-list">
+            <li>文本格式化（加粗、斜体、删除线等）</li>
+            <li>多种颜色的背景高亮</li>
+            <li>自定义文本颜色</li>
+            <li>彩色下划线</li>
+            <li>标注功能</li>
+            <li>页面和日记评论功能</li>
+            <li>支持自定义配置</li>
+            <li>支持 light/dark 主题</li>
+            <li>支持多语言国际化</li>
+          </ul>
+        </div>
+        
+        <div className="demo-section">
+          <h3 className="demo-section-title">Hiccup 语法渲染</h3>
+          <p className="demo-text">
+            插件支持 Hiccup 语法，以下是一些示例：
+          </p>
+          <HiccupRenderer initialContent="前[:u.red Logseq]  后面
+[:span.inline-comment {:data-comment "评论内容"} "带评论的文本"]
+[:mark.red "红色高亮"]
+[:span.blue "蓝色文本"]
+[:sub 下标文本]
+[:sup 上标文本]
+`代码块`" />
         </div>
         
         <div className="demo-section">
