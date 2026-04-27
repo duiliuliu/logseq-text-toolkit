@@ -1,7 +1,6 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './main.css'
 import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
@@ -11,8 +10,68 @@ import { logseqAPI } from './logseq/index.ts'
 import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument, getWindow } from './logseq/utils.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS } from './styles/index.ts'
 import { logger } from './lib/logger/logger.ts'
+
+// 动态加载CSS文件
+const loadCSS = async () => {
+  try {
+    // 尝试加载插件根目录的CSS文件
+    const cssFiles = [
+      'settingsModal.css',
+      'modal.css',
+      'toolbar.css',
+      'inlineComment.css',
+      'customsToolbarItems.css'
+    ];
+
+    // 内置CSS映射
+    const builtInCSSMap = {
+      'settingsModal.css': () => import('./components/SettingsModal/settingsModal.css?raw'),
+      'modal.css': () => import('./components/Modal/modal.css?raw'),
+      'toolbar.css': () => import('./components/Toolbar/toolbar.css?raw'),
+      'inlineComment.css': () => import('./components/Comment/inlineComment.css?raw'),
+      'customsToolbarItems.css': () => import('./styles/customsToolbarItems.css?raw')
+    };
+
+    for (const cssFile of cssFiles) {
+      try {
+        // 尝试加载CSS文件
+        const response = await fetch(`./${cssFile}`);
+        if (response.ok) {
+          const cssContent = await response.text();
+          logseqAPI.provideStyle(cssContent);
+          logger.info(`Loaded CSS file: ${cssFile}`);
+        } else {
+          // 如果文件不存在，使用内置的CSS
+          logger.info(`CSS file not found, using built-in CSS: ${cssFile}`);
+          const loader = builtInCSSMap[cssFile];
+          if (loader) {
+            const builtInCSS = await loader();
+            if (builtInCSS.default) {
+              logseqAPI.provideStyle(builtInCSS.default);
+            }
+          }
+        }
+      } catch (error) {
+        logger.warn(`Error loading CSS file ${cssFile}:`, error);
+        // 加载失败时使用内置CSS
+        try {
+          const loader = builtInCSSMap[cssFile];
+          if (loader) {
+            const builtInCSS = await loader();
+            if (builtInCSS.default) {
+              logseqAPI.provideStyle(builtInCSS.default);
+            }
+          }
+        } catch (e) {
+          logger.error(`Failed to load built-in CSS for ${cssFile}:`, e);
+        }
+      }
+    }
+  } catch (error) {
+    logger.error('Error in loadCSS:', error);
+  }
+};
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -38,12 +97,6 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
 let settingsModalOpen = false;
 
 const showSettingUI = async () => {
-  // 提供设置模态框样式
-  logseqAPI.provideStyle(settingsModalCSS)
-  
-  // 提供模态框基础样式
-  logseqAPI.provideStyle(modalCSS)
-  
   logseqAPI.provideUI({
     key: SETTINGS_ID,
     path: '#app-container',
@@ -72,11 +125,6 @@ const settingToggle = async () => {
 }
 
 const showCommentApp = async () => {
-  // 提供模态框样式
-  logseqAPI.provideStyle(modalCSS)
-  // 提供行内评论样式
-  logseqAPI.provideStyle(inlineCommentCSS)
-
   logseqAPI.provideUI({
     key: COMMENT_APP_ID,
     path: '#app-container',
@@ -92,9 +140,6 @@ const showCommentApp = async () => {
 }
 
 const showSelectToolbar = async () => {
-  // 提供工具栏样式
-  logseqAPI.provideStyle(toolbarCSS)
-
   const currentSettings = getSettings()
   if (currentSettings.toolbar) {
     logseqAPI.provideUI({
@@ -122,8 +167,8 @@ const showSelectToolbar = async () => {
 
 const main = async () => {
   try {
-    // 提供CSS配置
-    logseqAPI.provideStyle(cssConfigCSS)
+    // 动态加载CSS文件
+    await loadCSS()
 
     // 先提供设置切换函数
     logseqAPI.provideModel({ settingToggle })

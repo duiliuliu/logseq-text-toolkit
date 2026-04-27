@@ -17,9 +17,10 @@
   "scripts": {
     "dev": "vite",
     "test": "vite --mode test",
-    "build": "vite build --mode test",
-    "build:plugin": "vite build",
-    "preview": "vite preview"
+    "build": "vite build --mode test && npm run copy-css",
+    "build:plugin": "vite build && npm run copy-css",
+    "preview": "vite preview",
+    "copy-css": "mkdir -p dist && cp -f src/components/SettingsModal/settingsModal.css dist/ && cp -f src/components/Modal/modal.css dist/ && cp -f src/components/Toolbar/toolbar.css dist/ && cp -f src/components/Comment/inlineComment.css dist/ && cp -f src/styles/customsToolbarItems.css dist/"
   },
   "dependencies": {
     "@logseq/libs": "^0.2.12",
