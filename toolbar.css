@@ -1,0 +1,308 @@
+.ltt-toolbar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  max-width: none;
+  width: auto;
+}
+
+.ltt-toolbar-main {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  border-radius: 8px;
+  padding: 4px 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 1000;
+  white-space: nowrap;
+  overflow: visible !important;
+  justify-content: flex-start;
+  width: auto !important;
+  min-width: 60px !important;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+
+.ltt-toolbar-main-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1001;
+  flex-shrink: 0;
+}
+.ltt-toolbar-main-item:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+  transform: scale(1.05);
+}
+
+.ltt-toolbar-group {
+  position: relative;
+  z-index: 1002;
+}
+
+.ltt-toolbar-group-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 2.5px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1004;
+  min-width: auto;
+  white-space: nowrap;
+  padding: 2px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  /* 确保下拉菜单不会超出Toolbar的左右边界 */
+  max-width: none;
+}
+.ltt-toolbar-group-dropdown.ltt-no-border {
+  border: none;
+}
+
+.ltt-toolbar-group-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.ltt-toolbar-group-item:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+}
+
+
+.ltt-toolbar-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+.ltt-toolbar-more:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+}
+
+.ltt-toolbar-more-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ltt-toolbar-more-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1004;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  gap: 4px;
+  padding: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  overflow: visible;
+  min-width: max-content;
+  width: auto;
+  max-width: none;
+}
+
+.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {
+  position: static;
+}
+
+.ltt-toolbar-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: var(--ls-primary-background-color-plugin, #333);
+  color: var(--ls-primary-text-color-plugin, #fff);
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1003;
+  margin-bottom: 4px;
+}
+.ltt-toolbar-tooltip-sub {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: auto;
+  margin: 0 0 0 4px;
+}
+.ltt-toolbar-tooltip-sub-horizontal {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: auto;
+  margin: 4px 0 0;
+}
+
+.ltt-toolbar-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+}
+
+
+/* 确保工具栏图标在所有主题下都可见 */
+.ltt-toolbar-container .ltt-toolbar-item-icon,
+.ltt-toolbar-container .ltt-toolbar-icon {
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+/* 深色主题下，工具栏使用亮色时图标颜色调整 */
+.ltt-toolbar-container .ltt-toolbar-main {
+  color: var(--ls-primary-text-color-plugin, #333);
+}
+
+/* 确保图标在深色工具栏主题下可见 */
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+/* 确保分组图标在深色主题下可见 */
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+/* ================= DARK ================= */
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {
+  background: var(--ls-primary-background-color-plugin, #1e1e1e);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border: 1px solid var(--ls-border-color-plugin, #333333);
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {
+  background: var(--ls-secondary-background-color-plugin, #2a2a2a);
+  border-radius: 6px;
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {
+  background: var(--ls-primary-background-color-plugin, #1e1e1e);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  border-color: var(--ls-border-color-plugin, #333333);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 6px;
+  gap: 4px;
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {
+  background: var(--ls-secondary-background-color-plugin, #2a2a2a);
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {
+  border-radius: 6px;
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {
+  background: var(--ls-secondary-background-color-plugin, #2a2a2a);
+}
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {
+  background: var(--ls-primary-background-color-plugin, #1a1a1a);
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* 赞助栏样式 */
+.ltt-toolbar-sponsor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 999;
+  overflow: visible;
+  min-width: 120px;
+  max-width: 300px;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.ltt-toolbar-sponsor-iframe {
+  width: 100%;
+  height: 36px;
+  border: none;
+  display: block;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  min-width: 120px;
+  max-width: 300px;
+}
+
+/* 当工具栏展开时，赞助栏也自适应宽度 */
+.ltt-toolbar-container .ltt-toolbar-sponsor {
+  transition: width 0.2s ease;
+}
+
+/* 确保赞助栏在不同尺寸下都能合理显示 */
+@media (max-width: 480px) {
+  .ltt-toolbar-sponsor {
+    min-width: 100px;
+    max-width: 200px;
+  }
+  .ltt-toolbar-sponsor-iframe {
+    min-width: 100px;
+    max-width: 200px;
+  }
+}
+
+/* 深色主题下的赞助栏样式 */
+.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {
+  background: var(--ls-primary-background-color-plugin, #1e1e1e);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border: 1px solid var(--ls-border-color-plugin, #333333);
+  border-radius: 8px;
+}
