@@ -295,14 +295,14 @@ span.inline-comment:hover {
 }
 
 span.inline-comment::after {
-  content: attr(data-comment);
+  content: '';
   position: absolute;
   left: 50%;
   bottom: 100%;
   transform: translateX(-50%);
   background: var(--ls-primary-background-color, #ffffff);
   color: var(--ls-primary-text-color, #1f2937);
-  padding: 6px 10px;
+  padding: 6px 12px 6px 32px;
   border-radius: 6px;
   font-size: 12px;
   white-space: nowrap;
@@ -316,6 +316,19 @@ span.inline-comment::after {
   transition: opacity 0.15s ease;
   margin-bottom: 4px;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+}
+
+span.inline-comment::after {
+  content: attr(data-comment);
+}
+
+span.inline-comment::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2386efac' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3C/svg%3E");
+  background-size: 14px 14px;
+  background-repeat: no-repeat;
+  background-position: 8px center;
 }
 
 /* 深色主题下的气泡样式 */
