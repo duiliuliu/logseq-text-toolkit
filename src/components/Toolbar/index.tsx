@@ -126,10 +126,11 @@ function Toolbar({
               <motion.div
                 ref={dropdownRef}
                 className={`ltt-toolbar-group-dropdown ${!showBorder ? 'ltt-no-border' : ''}`}
-                initial={{ opacity: 0, y: -5, scaleY: 0.9 }}
-                animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                exit={{ opacity: 0, y: -5, scaleY: 0.9 }}
-                transition={{ duration: 0.1, ease: 'easeOut' }}
+                initial={{ opacity: 0, y: -3 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -3 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                style={{ transform: 'translateX(-50%)' }}
                 onMouseEnter={() => {
                   if (hoverTimerRef.current) {
                     clearTimeout(hoverTimerRef.current)
