@@ -36,7 +36,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 10px 18px 8px 18px;
 }
 
 .ltt-inline-comment-modal-title {
@@ -74,7 +74,7 @@
 }
 
 .ltt-inline-comment-modal-selected {
-  padding: 0 16px 8px;
+  padding: 0 16px 4px;
 }
 
 .ltt-inline-comment-modal-selected-text {
@@ -85,7 +85,7 @@
   padding: 12px 18px 2px 20px;
   border-radius: 6px;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1;
   word-break: break-word;
 }
 
@@ -96,16 +96,18 @@
 
 .ltt-inline-comment-modal-content {
   padding: 0 16px 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .ltt-inline-comment-modal-content :deep(textarea) {
-  width: 100%;
+  width: 90%;
   height: 34px;
   min-height: 34px;
   max-height: 100px;
   border: none;
-  border-radius: 8px;
-  padding: 8px 10px;
+  border-radius: 6px;
+  padding: 12px 18px 2px 20px;
   font-size: 13px;
   line-height: 1.4;
   resize: vertical;
