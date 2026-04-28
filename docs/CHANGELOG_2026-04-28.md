@@ -74,8 +74,69 @@
 
 ---
 
+### 优化：CommentModal 组件样式调整
+
+**修改文件**：
+- `/workspace/src/components/Comment/CommentModal.tsx`
+- `/workspace/src/components/Comment/inlineComment.css`
+
+**修改内容**：
+
+1. **弹窗宽度**：设置最大宽度为 `320px`
+
+2. **Header 样式**：`padding: 10px 18px 2px 18px`
+
+3. **选中文本区域**：
+   - `.ltt-inline-comment-modal-selected`: `padding: 0 16px 4px`
+   - `.ltt-inline-comment-modal-selected-text`: `padding: 6px 10px; font-size: 9px; line-height: 1`
+
+4. **textarea 样式**：
+   - 初始高度 `34px`，可在 `34px-150px` 范围内调整
+   - 宽度 `90%`，居中对齐
+   - 聚焦和激活时边框高亮色为黑色
+
+5. **按钮**：仅保留注释按钮，注释掉评论按钮
+
+---
+
+### 修改：Comment 模块转义处理增强
+
+**修改文件**：`/workspace/src/components/Comment/index.ts`
+
+**修改内容**：
+- 在 `wrapText` 函数中添加了对换行符 `\n`、回车符 `\r`、制表符 `\t` 和反斜杠 `\` 的转义处理
+
+---
+
+### 修改：textarea 组件样式优化
+
+**修改文件**：`/workspace/src/components/ui/textarea.css`
+
+**修改内容**：
+- `min-height`: 从 `80px` 调整为 `30px`
+- `ring-offset-width`: 从 `2px` 调整为 `0px`
+- `ring-color`: 浅色模式下为亮黑色 `#333333`，深色模式下为亮浅色 `#cccccc`
+
+---
+
+### 删除：移除无用文件
+
+**删除文件**：`/workspace/src/components/Toolbar/textProcessor.ts`
+
+---
+
+### 修改：正则表达式更新
+
+**修改文件**：`/workspace/src/settings/defaultSettings.json`
+
+**修改内容**：
+- 更新了 `remove-formatting` 的正则表达式，支持清理 `[:span.inline-comment {:data-comment "评论"} "文字"]` 格式
+
+---
+
 **测试验证**：
 - 测试服务启动正常：http://localhost:3007/
 - 所有组件动画效果正常
 - 设置模态框样式正常
 - 响应式样式生效
+- 注释功能测试通过
