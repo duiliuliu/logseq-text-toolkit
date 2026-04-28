@@ -1,6 +1,6 @@
 /**
  * 行内注释弹窗组件
- * 参考 shadn 和 notion 极简风格设计
+ * 极简紧凑设计风格
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -9,6 +9,7 @@ import { CommentModalProps } from './types.ts';
 import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
 import { logseqAPI } from '../../logseq/index.ts';
+import { Textarea } from '../ui/textarea.tsx';
 import './inlineComment.css';
 
 export const CommentModal: React.FC<CommentModalProps> = ({
@@ -24,7 +25,6 @@ export const CommentModal: React.FC<CommentModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const { settings } = useSettingsContext();
   
-  // 获取当前语言，默认为 zh-CN
   const currentLanguage = settings?.language || 'zh-CN';
 
   useEffect(() => {
@@ -74,16 +74,16 @@ export const CommentModal: React.FC<CommentModalProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.15 }}
           className="ltt-inline-comment-modal-overlay"
           onClick={onClose}
           onKeyDown={handleKeyDown}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.95, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25, duration: 0.2 }}
+            exit={{ opacity: 0, scale: 0.95, y: 8 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 25, duration: 0.18 }}
             ref={modalRef}
             className="ltt-inline-comment-modal"
             onClick={(e) => e.stopPropagation()}
@@ -93,33 +93,48 @@ export const CommentModal: React.FC<CommentModalProps> = ({
               left: position ? `${position.left}px` : 'auto',
               margin: position ? 0 : '20px',
               transform: position ? 'none' : 'translateY(0)',
-              maxWidth: '420px',
+              maxWidth: '400px',
               width: '90%'
             }}
           >
             <div className="ltt-inline-comment-modal-header">
-              <div className="ltt-inline-comment-modal-title">
-                <span className="ltt-inline-comment-modal-title-text">{t('inlineComment.text', currentLanguage)}</span>
-                <span className="ltt-inline-comment-modal-title-selected">{selectedText}</span>
-              </div>
+              <span className="ltt-inline-comment-modal-title">{t('inlineComment.addComment', currentLanguage)}</span>
               <button className="ltt-inline-comment-modal-close" onClick={onClose} aria-label="close">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
             </div>
+
+            {selectedText && (
+              <div className="ltt-inline-comment-modal-selected">
+                <span className="ltt-inline-comment-modal-selected-label">{t('inlineComment.selectedText', currentLanguage)}</span>
+                <span className="ltt-inline-comment-modal-selected-text">"{selectedText}"</span>
+              </div>
+            )}
+
             <div className="ltt-inline-comment-modal-content">
-              <textarea
+              <Textarea
                 ref={textareaRef}
-                className="ltt-inline-comment-modal-textarea"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder={t('inlineComment.placeholder', currentLanguage)}
+                rows={2}
               />
             </div>
+
             <div className="ltt-inline-comment-modal-footer">
-              <button className="ltt-inline-comment-modal-button ltt-primary" onClick={handleSave}>
-                {t('inlineComment.save', currentLanguage)}
+              <button className="ltt-inline-comment-modal-btn ltt-btn-outline" onClick={handleSave}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                <span>{t('inlineComment.annotate', currentLanguage)}</span>
+              </button>
+              <button className="ltt-inline-comment-modal-btn ltt-btn-primary" onClick={handleSave}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                <span>{t('inlineComment.comment', currentLanguage)}</span>
               </button>
             </div>
           </motion.div>
