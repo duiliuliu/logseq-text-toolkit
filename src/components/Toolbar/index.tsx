@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { SelectedData } from './textProcessor.ts'
@@ -120,24 +121,27 @@ function Toolbar({
               {hoveredItem.label}
             </div>
           )}
-          {mouseOverGroup === item.id && (
-            <div 
-              ref={dropdownRef}
-              className={`ltt-toolbar-group-dropdown ${!showBorder ? 'ltt-no-border' : ''}`}
-              onMouseEnter={() => {
-                // 清除之前的定时器
-                if (hoverTimerRef.current) {
-                  clearTimeout(hoverTimerRef.current)
-                }
-                setMouseOverGroup(item.id)
-              }}
-              onMouseLeave={() => {
-                // 设置延时隐藏下拉子元素
-                hoverTimerRef.current = setTimeout(() => {
-                  setMouseOverGroup(null)
-                }, hoverDelay)
-              }}
-            >
+          <AnimatePresence>
+            {mouseOverGroup === item.id && (
+              <motion.div
+                ref={dropdownRef}
+                className={`ltt-toolbar-group-dropdown ${!showBorder ? 'ltt-no-border' : ''}`}
+                initial={{ opacity: 0, y: -5, scaleY: 0.9 }}
+                animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                exit={{ opacity: 0, y: -5, scaleY: 0.9 }}
+                transition={{ duration: 0.1, ease: 'easeOut' }}
+                onMouseEnter={() => {
+                  if (hoverTimerRef.current) {
+                    clearTimeout(hoverTimerRef.current)
+                  }
+                  setMouseOverGroup(item.id)
+                }}
+                onMouseLeave={() => {
+                  hoverTimerRef.current = setTimeout(() => {
+                    setMouseOverGroup(null)
+                  }, hoverDelay)
+                }}
+              >
               {item.subItems.map((subItem) => (
                 <div 
                   key={subItem.id}
@@ -160,16 +164,20 @@ function Toolbar({
                   )}
                 </div>
               ))}
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )
     } else {
       const toolbarItem = item as ToolbarItem;
       return (
-        <div 
+        <motion.div 
           key={toolbarItem.id} 
           className="ltt-toolbar-main-item"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.1 }}
           onMouseDown={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -186,7 +194,7 @@ function Toolbar({
               {hoveredItem.label}
             </div>
           )}
-        </div>
+          </motion.div>
       )
     }
   }
