@@ -204,8 +204,14 @@ const main = async () => {
 
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
-  renderComponent(rootElement, TestApp)
-  logseqAPI.ready(main).catch(console.error)
+  // 测试模式下只渲染TestApp，不初始化logseqAPI相关功能
+  ReactDOM.createRoot(rootElement!).render(
+    <React.StrictMode>
+      <SettingsProvider>
+        <TestApp />
+      </SettingsProvider>
+    </React.StrictMode>
+  )
 } else { 
   logseqAPI.ready(main).catch(console.error)
 }
