@@ -84,6 +84,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     // 使用 ToolbarManager 执行功能
     try {
       await toolbarManager.executeAction(item, selectedData);
+      setShowToolbar(false);
     } catch (error) {
       logger.error('Error executing action:', error);
     }

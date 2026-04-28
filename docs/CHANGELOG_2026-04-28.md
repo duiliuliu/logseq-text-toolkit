@@ -134,9 +134,59 @@
 
 ---
 
+### 修改：发布工作流优化
+
+**修改文件**：`/workspace/.github/workflows/publish.yml`
+
+**修改内容**：
+- 删除现有标签和 Release 的逻辑，确保覆盖发布
+- 使用 `git tag -d` 删除本地标签，`git push origin :tag` 删除远程标签
+- 使用 GitHub API 删除现有 Release
+- 移除条件判断，确保每次都能创建新的 Release
+
+---
+
+### 修改：默认设置调整
+
+**修改文件**：`/workspace/src/settings/defaultSettings.json`
+
+**修改内容**：
+- `sponsorEnabled`: 默认值从 `false` 改为 `true`
+- `developerMode`: 默认值从 `false` 改为 `true`
+
+---
+
+### 修改：textarea 组件最小高度
+
+**修改文件**：`/workspace/src/components/ui/textarea.tsx`
+
+**修改内容**：
+- `min-height`: 从 `80px` 调整为 `30px`
+
+---
+
+### 修改：SelectToolbar 点击后隐藏
+
+**修改文件**：`/workspace/src/components/SelectToolbar/index.tsx`
+
+**修改内容**：
+- 在 `handleItemClick` 函数中添加 `setShowToolbar(false)`，点击工具栏项目后自动隐藏工具栏
+
+---
+
+### 修改：CommentModal 自动聚焦移除
+
+**修改文件**：`/workspace/src/components/Comment/CommentModal.tsx`
+
+**修改内容**：
+- 移除 `textareaRef.current?.focus()` 调用，弹窗打开时 textarea 默认不聚焦
+
+---
+
 **测试验证**：
 - 测试服务启动正常：http://localhost:3007/
 - 所有组件动画效果正常
 - 设置模态框样式正常
 - 响应式样式生效
 - 注释功能测试通过
+- 发布工作流覆盖发布功能正常
