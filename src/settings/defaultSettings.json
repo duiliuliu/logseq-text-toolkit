@@ -263,7 +263,7 @@
     },
     {
       "id": "wrap-inline-comment",
-      "label": "Inline Comment",
+      "label": "Comment",
       "binding": "",
       "icon": "<svg stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"currentColor\" fill=\"none\" viewBox=\"0 0 18 18\" height=\"16\" width=\"16\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-3 2v-2H5a2 2 0 0 1-2-2z\"></path></svg>",
       "invoke": "invoke",
