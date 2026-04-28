@@ -40,7 +40,7 @@
 }
 
 .ltt-inline-comment-modal-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--ls-primary-text-color, #1a1a1a);
   letter-spacing: -0.2px;
@@ -81,8 +81,8 @@
   display: block;
   background: var(--ls-secondary-background-color, #f8f8f8);
   color: var(--ls-secondary-text-color, #666);
-  font-size: 11px;
-  padding: 6px 10px;
+  font-size: 9px;
+  padding: 12px 18px 2px 20px;
   border-radius: 6px;
   font-weight: 400;
   line-height: 1.4;

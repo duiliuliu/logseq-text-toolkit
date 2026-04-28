@@ -1,4 +1,4 @@
-import { testRegexReplace } from './textProcessor.ts';
+import { testRegexReplace } from './testRegexReplaceSimple.ts';
 
 // 运行测试
 const result = testRegexReplace();

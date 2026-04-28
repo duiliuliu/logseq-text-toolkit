@@ -119,6 +119,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                 onChange={(e) => setComment(e.target.value)}
                 placeholder={t('inlineComment.placeholder', currentLanguage)}
                 rows={2}
+                style={{ width: '340px' }}
               />
             </div>
 

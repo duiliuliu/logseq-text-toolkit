@@ -203,6 +203,21 @@ function testRegexReplace() {
       name: 'Complex case 5: Mixed mark types',
       input: '[:mark.red red] [:span.blue blue] [:u.green green]',
       expected: 'red blue green'
+    },
+    {
+      name: 'Inline comment format',
+      input: '[:span.inline-comment {:data-comment "评论"} "文字"]',
+      expected: '文字'
+    },
+    {
+      name: 'Inline comment with special characters',
+      input: '[:span.inline-comment {:data-comment "test comment"} "text with special chars !@#$"]',
+      expected: 'text with special chars !@#$'
+    },
+    {
+      name: 'Mixed formats with inline comment',
+      input: '**bold** and [:span.inline-comment {:data-comment "note"} "commented text"]',
+      expected: 'bold and commented text'
     }
   ];
   
@@ -211,8 +226,8 @@ function testRegexReplace() {
     id: 'remove-formatting',
     funcmode: 'regexReplace',
     clickfunc: {
-      regex: '\\[:(?:mark|span|u)\\.(?:red|blue|yellow|green|purple)\\s+([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`',
-      replacement: '$1$2$3$4$5$6'
+      regex: '\\[:span\\.inline-comment\\s*\\{[^}]*\\}\\s*"([^"]*)"\\]|\\[:(?:mark|span|u)\\.(?:red|blue|yellow|green|purple)\\s+([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`',
+      replacement: '$1$2$3$4$5$6$7'
     }
   } as ToolbarItem;
   
