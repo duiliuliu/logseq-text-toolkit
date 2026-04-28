@@ -295,27 +295,40 @@ span.inline-comment:hover {
 }
 
 span.inline-comment::after {
-  content: attr(data-comment);
+  content: '';
   position: absolute;
   left: 50%;
   bottom: 100%;
   transform: translateX(-50%);
   background: var(--ls-primary-background-color, #ffffff);
-  color: var(--ls-primary-text-color, #1f2937);
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 12px;
+  color: var(--ls-secondary-text-color, #666);
+  padding: 4px 10px 4px 22px;
+  border-radius: 16px;
+  font-size: 11px;
   white-space: nowrap;
-  max-width: 300px;
+  max-width: 250px;
   overflow: hidden;
   text-overflow: ellipsis;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
   margin-bottom: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: inline-flex;
+  align-items: center;
+}
+
+span.inline-comment::after {
+  content: attr(data-comment);
+}
+
+span.inline-comment::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23a3e635' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1'/%3E%3C/svg%3E");
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  background-position: 6px center;
 }
 
 /* 深色主题下的气泡样式 */

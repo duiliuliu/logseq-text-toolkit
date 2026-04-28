@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react'
+import { motion } from 'framer-motion'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { SelectedData } from './textProcessor.ts'
 import { ToolbarItem, ToolbarGroup } from './types.ts'
-import { parseItems, handleItemClick, filterToolbarItems, IconName } from './ToolbarLogic.ts'
+import { parseItems, filterToolbarItems, IconName } from './ToolbarLogic.ts'
 
 interface ToolbarProps {
   items: Array<ToolbarItem | ToolbarGroup>
@@ -81,8 +82,6 @@ function Toolbar({
   const handleItemClickInternal = (item: any) => {
     if (onItemClick) {
       onItemClick(item, selectedData)
-    } else {
-      handleItemClick(item, selectedData, undefined, language)
     }
   }
   
@@ -203,7 +202,17 @@ function Toolbar({
   }
 
   return (
-    <div className={`ltt-toolbar-container ltt-toolbar-${theme} ${theme === 'dark' ? 'ltt-dark-mode' : 'ltt-light-mode'}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 20, scale: 0.95 }}
+      transition={{ 
+        type: 'spring', 
+        stiffness: 300, 
+        damping: 20,
+        duration: 0.2 
+      }}
+      className={`ltt-toolbar-container ltt-toolbar-${theme} ${theme === 'dark' ? 'ltt-dark-mode' : 'ltt-light-mode'}`}>
       {sponsorEnabled && (
         <div className="ltt-toolbar-sponsor" style={{ width: width, height }}>
           <iframe 
@@ -253,7 +262,7 @@ function Toolbar({
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

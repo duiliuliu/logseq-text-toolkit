@@ -1,4 +1,5 @@
 import React from 'react';
+import HiccupRenderer from '../HiccupRenderer/index.tsx';
 
 const TextSelectionDemo: React.FC = () => {
   return (
@@ -12,11 +13,34 @@ const TextSelectionDemo: React.FC = () => {
         <div className="demo-section">
           <h3 className="demo-section-title">基础文本格式化</h3>
           <p className="demo-text">
-            Logseq Text Toolkit 是一款强大的文字格式化工具，支持多种格式转换，包括：
-            <strong>粗体文字</strong>、<em>斜体文字</em>、<u>下划线文字</u>、
+            Logseq Text Toolkit 是一款为 Logseq 提供强大文本格式化功能的插件，支持多种文本样式、高亮、颜色和注释功能。
+            主要功能包括：<strong>粗体文字</strong>、<em>斜体文字</em>、<u>下划线文字</u>、
             <del>删除线文字</del>、<mark>高亮文字</mark>等。
+            插件支持多种颜色的背景高亮、自定义文本颜色、彩色下划线、标注功能、页面和日记评论功能，
+            以及支持自定义配置、light/dark 主题和多语言国际化（英文、日文、中文）。
             无论您是在记笔记、写文档，还是在进行知识管理，这个工具都能帮助您提高效率。
           </p>
+        </div>
+        
+        <div className="demo-section">
+          <h3 className="demo-section-title">产品功能枚举</h3>
+          <p className="demo-text">
+            插件支持以下核心功能：
+          </p>
+          <ul className="demo-list">
+            <li>文本格式化（加粗、斜体、删除线、下标、上标、代码块等）</li>
+            <li>多种颜色的背景高亮（红色、黄色、蓝色、绿色、紫色）</li>
+            <li>自定义文本颜色（红色、黄色、蓝色、绿色、紫色）</li>
+            <li>彩色下划线（红色、黄色、蓝色、绿色、紫色）</li>
+            <li>标注功能（在页面尾部添加标注）</li>
+            <li>页面和日记评论功能</li>
+            <li>文件链接功能</li>
+            <li>支持自定义配置和快捷键</li>
+            <li>支持 light/dark 主题</li>
+            <li>支持多语言国际化</li>
+            <li>智能工具栏定位和滚动跟踪</li>
+            <li>延迟隐藏功能，改善用户体验</li>
+          </ul>
         </div>
         
         <div className="demo-section">

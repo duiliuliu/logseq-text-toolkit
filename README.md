@@ -176,6 +176,79 @@ npm run test
 }
 ```
 
+## 自定义样式
+
+### CSS文件替换
+
+Logseq Text Toolkit 支持通过修改CSS文件来自定义插件样式。插件会在启动时尝试加载以下CSS文件：
+
+- `settingsModal.css` - 设置模态框样式
+- `modal.css` - 基础模态框样式
+- `toolbar.css` - 工具栏样式
+- `inlineComment.css` - 行内评论样式
+- `customsToolbarItems.css` - 自定义工具栏项目样式
+
+### 使用方法
+
+1. 在插件目录（通常是 `logseq-text-toolkit` 目录）中找到上述CSS文件
+2. 修改CSS文件来自定义样式
+3. 在Logseq中重新加载插件
+4. 插件重新加载后，新的样式立即生效
+
+### 注意事项
+
+- 如果CSS文件不存在，插件会使用内置的CSS样式作为fallback
+- 修改CSS文件时，建议保留原始文件的结构和类名，只修改样式属性
+- 重新加载插件后，新的样式会立即应用，无需重新构建插件
+
+## 自定义语言
+
+### 语言文件管理
+
+Logseq Text Toolkit 支持通过修改语言文件来自定义和添加新语言。插件会在启动时尝试加载以下语言文件：
+
+- `translations/zh-CN.json` - 中文语言文件
+- `translations/en.json` - 英文语言文件
+- `translations/ja.json` - 日文语言文件
+
+### 添加新语言
+
+1. 在 `dist/translations/` 目录中创建新的语言文件，如 `fr.json`
+2. 修改 `settings.json` 文件，在 `meta.language.languages` 中添加新语言配置：
+
+```json
+{
+  "meta": {
+    "language": {
+      "languages": [
+        // 现有语言...
+        {
+          "code": "fr",
+          "name": "Français",
+          "path": "translations/fr.json"
+        }
+      ],
+      "fallbackLanguage": "zh-CN"
+    }
+  }
+}
+```
+
+3. 在 Logseq 中重新加载插件
+4. 新语言将出现在设置的语言下拉选项中
+
+### 自定义语言文件
+
+1. 编辑 `dist/translations/` 目录中的语言文件
+2. 在 Logseq 中重新加载插件
+3. 新的翻译将立即生效
+
+### 注意事项
+
+- 如果语言文件不存在，插件会使用内置的语言文件作为fallback
+- 新添加的语言文件必须包含所有必要的翻译键
+- 语言文件路径必须是相对于插件根目录的相对路径
+
 ## 贡献
 
 欢迎贡献！请随时提交 Pull Request。

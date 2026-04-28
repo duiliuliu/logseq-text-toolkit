@@ -4,6 +4,8 @@ import type { SelectedData } from '../../components/Toolbar/textProcessor.ts';
 import { configParser } from './ConfigParser.ts';
 import { eventBus } from './EventBus.ts';
 import { actionExecutor } from './ActionExecutor.ts';
+import { registerExecutors } from './ExecutorRegistry.ts';
+import { logger } from '../logger/logger.ts';
 
 /**
  * 工具栏管理器实现
@@ -21,17 +23,16 @@ export class ToolbarManager implements IToolbarManager {
    */
   initialize(config: any): void {
     if (this.isInitialized) {
-      console.warn('ToolbarManager already initialized');
       return;
     }
+
+    // 注册执行器
+    registerExecutors();
 
     // 验证并解析配置
     if (configParser.validate(config)) {
       configParser.parse(config);
       this.isInitialized = true;
-      console.log('ToolbarManager initialized successfully');
-    } else {
-      console.error('Invalid toolbar config');
     }
   }
 
@@ -42,12 +43,7 @@ export class ToolbarManager implements IToolbarManager {
     actionExecutor.registerExecutor(id, handler);
   }
 
-  /**
-   * 注册功能（按 invokeParams）
-   */
-  registerClickFuncAction(clickFunc: string, handler: ActionExecutorFn): void {
-    actionExecutor.registerClickFuncExecutor(clickFunc, handler);
-  }
+
 
   /**
    * 执行功能
@@ -68,7 +64,6 @@ export class ToolbarManager implements IToolbarManager {
             this.eventBus.emit('ltt-invoke:comment', { selectedData });
             return selectedData.text;
           default:
-            console.warn(`Unknown invoke action: ${item.invokeParams}`);
             return selectedData.text;
         }
       }
@@ -84,7 +79,7 @@ export class ToolbarManager implements IToolbarManager {
 
       return processedText;
     } catch (error) {
-      console.error('Error executing action:', error);
+      logger.error('Error executing action:', error);
       throw error;
     }
   }

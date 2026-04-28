@@ -12,6 +12,29 @@
   "hoverDelay": 500,
   "sponsorEnabled": false,
   "developerMode": false,
+  "meta": {
+    "language": {
+      "languages": [
+        {
+          "code": "zh-CN",
+          "name": "中文",
+          "path": "translations/zh-CN.json",
+          "isDefault": true
+        },
+        {
+          "code": "en",
+          "name": "English",
+          "path": "translations/en.json"
+        },
+        {
+          "code": "ja",
+          "name": "日本語",
+          "path": "translations/ja.json"
+        }
+      ],
+      "fallbackLanguage": "zh-CN"
+    }
+  },
   "ToolbarItems": [
     {
       "id": "group-custom",
@@ -233,8 +256,8 @@
       "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 5L5 19M5 5l14 14\"/><path d=\"M9 3h6v2H9zM9 19h6v2H9z\"/></svg>",
       "invoke": "regexReplace",
       "invokeParams": {
-        "regex": "\\[:(?:mark|span|u)\\.(?:red|blue|yellow|green|purple)\\s+([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`",
-        "replacement": "$1$2$3$4$5$6"
+        "regex": "\\[:span\\.inline-comment\\s*\\{[^}]*\\}\\s*\"([^\"]*)\"\\]|\\[:(?:mark|span|u)\\.(?:red|blue|yellow|green|purple)\\s+([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`",
+        "replacement": "$1$2$3$4$5$6$7"
       },
       "hidden": true
     },

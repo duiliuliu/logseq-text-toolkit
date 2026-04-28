@@ -527,7 +527,7 @@ input:checked + .ltt-switch-slider:before {
   }
   
   .ltt-setting-item > label {
-    width: 100% !important;
+    width: 36px !important;
     text-align: left !important;
   }
   

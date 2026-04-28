@@ -180,6 +180,12 @@
   height: 20px;
 }
 
+.ltt-toolbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 /* 确保工具栏图标在所有主题下都可见 */
 .ltt-toolbar-container .ltt-toolbar-item-icon,

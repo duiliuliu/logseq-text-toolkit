@@ -75,8 +75,7 @@ const useSettings = (): SettingsContextType => {
               setSettings(updatedSettings)
               return updatedSettings
             }
-          } catch (configErr) {
-            console.error('Failed to get user configs:', configErr)
+          } catch {
             setSettings(data)
             return data
           }
@@ -89,7 +88,7 @@ const useSettings = (): SettingsContextType => {
       setSettings(defaultSettings)
       return defaultSettings
     } catch (err) {
-      console.error('Failed to load settings:', err)
+      logger.error('Failed to load settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
       return null
     } finally {
@@ -124,8 +123,7 @@ const useSettings = (): SettingsContextType => {
               }
               setSettings(updatedSettings)
             }
-          } catch (configErr) {
-            console.error('Failed to get user configs:', configErr)
+          } catch {
             setSettings(settingsToSave)
           }
         } else {
@@ -135,7 +133,7 @@ const useSettings = (): SettingsContextType => {
       }
       return false
     } catch (err) {
-      console.error('Failed to save settings:', err)
+      logger.error('Failed to save settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
       return false
     } finally {
@@ -155,7 +153,7 @@ const useSettings = (): SettingsContextType => {
       }
       return false
     } catch (err) {
-      console.error('Failed to reset settings:', err)
+      logger.error('Failed to save settings:', err)
       setError(err instanceof Error ? err : new Error(String(err)))
       return false
     } finally {
@@ -172,7 +170,6 @@ const useSettings = (): SettingsContextType => {
   useEffect(() => {
     if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
       const unsubscribe = (logseqAPI as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
-        logger.debug('Settings changed:', { newSettings, oldSettings })
         // 确保类型正确
         let mergedSettings: Settings = {
           ...defaultSettings,

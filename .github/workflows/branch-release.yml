@@ -34,7 +34,8 @@ jobs:
       - name: Get current version
         id: get-version
         run: |
-          VERSION=$(jq -r '.version' package.json)
+          # 使用 grep 和 sed 代替 jq 来获取版本号，避免依赖外部工具
+          VERSION=$(grep -oP '"version":\s*"\K[^"]+' package.json)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Build

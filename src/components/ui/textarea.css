@@ -60,11 +60,15 @@
 }
 
 .focus-visible\:ring-ring:focus-visible {
-  --tw-ring-color: #3b82f6;
+  --tw-ring-color: #333333;
+}
+
+[data-theme="dark"] .focus-visible\:ring-ring:focus-visible {
+  --tw-ring-color: #cccccc;
 }
 
 .focus-visible\:ring-offset-2:focus-visible {
-  --tw-ring-offset-width: 2px;
+  --tw-ring-offset-width: 0px;
 }
 
 .disabled\:cursor-not-allowed:disabled {
@@ -79,6 +83,6 @@
   resize: vertical;
 }
 
-.min-h-\[80px\] {
-  min-height: 80px;
+.min-h-\[30px\] {
+  min-height: 30px;
 }
