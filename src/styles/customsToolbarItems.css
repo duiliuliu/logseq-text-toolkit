@@ -280,14 +280,29 @@ span.cloze::after {
    10. Inline Comment 样式
    ============================================== */
 span.inline-comment {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   background: rgba(251, 191, 36, 0.2);
   border-bottom: 2px dashed #fbbf24;
-  padding: 1px 4px;
+  padding: 1px 6px 1px 24px;
   margin: 0 2px;
-  position: relative;
   cursor: pointer;
   border-radius: 3px;
   transition: all 0.15s ease;
+}
+
+span.inline-comment::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 span.inline-comment:hover {
@@ -318,7 +333,6 @@ span.inline-comment::after {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* 深色主题下的气泡样式 */
 [data-theme="dark"] span.inline-comment::after {
   background: var(--ls-primary-background-color, #1f2937);
   color: var(--ls-primary-text-color, #f9fafb);
@@ -330,7 +344,6 @@ span.inline-comment:hover::after {
   opacity: 1;
 }
 
-/* 深色主题下的inline-comment样式 */
 [data-theme="dark"] span.inline-comment {
   background: rgba(251, 191, 36, 0.15);
 }
@@ -338,3 +351,14 @@ span.inline-comment:hover::after {
 [data-theme="dark"] span.inline-comment:hover {
   background: rgba(251, 191, 36, 0.3);
 }
+
+/* 旧版样式兼容 */
+span.inline-comment.no-icon {
+  padding: 1px 4px;
+}
+
+span.inline-comment.no-icon::before {
+  display: none;
+}
+
+

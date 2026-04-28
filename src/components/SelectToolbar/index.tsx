@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Toolbar from '../Toolbar';
 import { SelectedData } from '../Toolbar/textProcessor.ts';
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts';
@@ -9,6 +10,15 @@ import {
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { logger } from '../../lib/logger/logger.ts';
+
+// 防抖函数
+const debounce = <T extends (...args: any[]) => any>(fn: T, delay: number): ((...args: Parameters<T>) => void) => {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  return (...args: Parameters<T>) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
 
 interface ToolbarPosition {
   x: number;
@@ -328,6 +338,9 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   useEffect(() => {
     if (!targetElement) return;
 
+    // 使用防抖处理选择事件
+    const debouncedUpdateToolbarPosition = useCallback(debounce(updateToolbarPosition, 50), [updateToolbarPosition]);
+    
     const handleSelection = async (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
       if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
@@ -335,7 +348,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         return;
       }
 
-      await updateToolbarPosition();
+      debouncedUpdateToolbarPosition();
     };
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
@@ -390,30 +403,41 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
   return (
     <div ref={containerRef}>
-      {showToolbar && (
-        <div 
-          className="ltt-floating-toolbar"
-          style={{
-            position: 'fixed',
-            left: toolbarPosition.x,
-            top: toolbarPosition.y,
-            transform: 'translateX(-50%)',
-            zIndex: 10000
-          }}
-        >
-          <Toolbar 
-            items={ToolbarItems} 
-            theme={theme} 
-            showBorder={showBorder}
-            width={width}
-            height={height}
-            selectedData={selectedData}
-            hoverDelay={hoverDelay}
-            sponsorEnabled={sponsorEnabled}
-            onItemClick={handleItemClick}
-          />
-        </div>
-      )}
+      <AnimatePresence>
+        {showToolbar && (
+          <motion.div 
+            className="ltt-floating-toolbar"
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -5, scale: 0.98 }}
+            transition={{ 
+              type: 'spring',
+              stiffness: 500,
+              damping: 30,
+              duration: 0.15
+            }}
+            style={{
+              position: 'fixed',
+              left: toolbarPosition.x,
+              top: toolbarPosition.y,
+              transform: 'translateX(-50%)',
+              zIndex: 10000
+            }}
+          >
+            <Toolbar 
+              items={ToolbarItems} 
+              theme={theme} 
+              showBorder={showBorder}
+              width={width}
+              height={height}
+              selectedData={selectedData}
+              hoverDelay={hoverDelay}
+              sponsorEnabled={sponsorEnabled}
+              onItemClick={handleItemClick}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
