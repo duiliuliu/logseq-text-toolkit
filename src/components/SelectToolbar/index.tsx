@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Toolbar from '../Toolbar';
 import { SelectedData } from '../Toolbar/textProcessor.ts';
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts';
@@ -14,6 +14,14 @@ interface ToolbarPosition {
   x: number;
   y: number;
 }
+
+const debounce = <T extends (...args: Parameters<T>) => ReturnType<T>>(fn: T, delay: number) => {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  return (...args: Parameters<T>) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
 
 interface SelectToolbarProps {
   targetElement: HTMLElement | null;
@@ -324,6 +332,11 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
   };
 
+  // 创建防抖版本的 updateToolbarPosition
+  const debouncedUpdateToolbarPosition = useMemo(() => {
+    return debounce(updateToolbarPosition, 50);
+  }, [updateToolbarPosition]);
+
   // 处理文本选择
   useEffect(() => {
     if (!targetElement) return;
@@ -335,7 +348,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         return;
       }
 
-      await updateToolbarPosition();
+      debouncedUpdateToolbarPosition();
     };
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
@@ -347,9 +360,9 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     };
 
     // 处理滚动事件，更新toolbar位置
-    const handleScroll = async () => {
+    const handleScroll = () => {
       if (showToolbar) {
-        await updateToolbarPosition();
+        debouncedUpdateToolbarPosition();
       }
     };
 
