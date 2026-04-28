@@ -44,22 +44,16 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Tagging version $VERSION"
 
-      - name: Check if tag exists
-        id: check_tag
-        run: |
-          if git tag -l v${{ steps.get_version.outputs.VERSION }}; then
-            echo "TAG_EXISTS=true" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get_version.outputs.VERSION }} already exists"
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_OUTPUT
-            echo "Tag v${{ steps.get_version.outputs.VERSION }} does not exist, will create it"
-          fi
-
-      - name: Create tag
-        if: steps.check_tag.outputs.TAG_EXISTS == 'false'
+      - name: Delete existing tag if exists
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git tag -d v${{ steps.get_version.outputs.VERSION }} 2>/dev/null || true
+          git push origin :v${{ steps.get_version.outputs.VERSION }} 2>/dev/null || true
+          echo "Deleted existing tag v${{ steps.get_version.outputs.VERSION }} if it existed"
+
+      - name: Create and push tag
+        run: |
           git tag -a v${{ steps.get_version.outputs.VERSION }} -m "Release v${{ steps.get_version.outputs.VERSION }}"
           git push origin v${{ steps.get_version.outputs.VERSION }}
           echo "Created and pushed tag v${{ steps.get_version.outputs.VERSION }}"
@@ -87,9 +81,23 @@ jobs:
           echo "Build completed successfully!"
           ls -la ${{ env.PLUGIN_NAME }}.zip
 
+      - name: Delete existing release if exists
+        run: |
+          # Use GitHub API to delete release if exists
+          RELEASE_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/v${{ steps.get_version.outputs.VERSION }}" \
+            | jq -r '.id')
+          
+          if [ "$RELEASE_ID" != "null" ]; then
+            curl -s -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID"
+            echo "Deleted existing release v${{ steps.get_version.outputs.VERSION }}"
+          else
+            echo "No existing release to delete"
+          fi
+
       - name: Create Release
         id: create_release
-        if: steps.check_tag.outputs.TAG_EXISTS == 'false'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -100,7 +108,6 @@ jobs:
           prerelease: false
 
       - name: Upload zip file
-        if: steps.check_tag.outputs.TAG_EXISTS == 'false'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
