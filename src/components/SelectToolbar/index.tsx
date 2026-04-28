@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import Toolbar from '../Toolbar';
 import { SelectedData } from '../Toolbar/textProcessor.ts';
 import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts';
@@ -82,10 +81,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
   };
 
-  const debounceRef = useRef<number | null>(null);
-
-  // 更新工具栏位置（带防抖）
-  const updateToolbarPosition = useCallback(async () => {
+  // 更新工具栏位置
+  const updateToolbarPosition = async () => {
     if (!targetElement) {
       setShowToolbar(false);
       return;
@@ -97,6 +94,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       return;
     }
 
+    // 检查是否在目标元素内
     const anchorNode = selection.anchorNode;
     const focusNode = selection.focusNode;
     const shouldShowToolbar = targetElement.contains(anchorNode) || targetElement.contains(focusNode);
@@ -107,27 +105,33 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
 
     try {
+      // 使用 logseqAPI 获取光标位置
       const curPos = await logseqAPI.Editor.getEditingCursorPosition();
       
       if (curPos != null) {
+        // 计算 before 和 after
         let before = '';
         let after = '';
         const selectedText = selection.toString();
         
+        // 获取当前块
         const block = await logseqAPI.Editor.getCurrentBlock();
         
         if (block && block.content && selectedText) {
           const content = block.content;
           
+          // 尝试使用 Selection 对象获取更精确的位置
           if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
             let currentNode = range.startContainer;
             
+            // 向上查找，找到块元素
             while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
               currentNode = currentNode.parentNode;
             }
             
             if (currentNode) {
+              // 计算当前选中位置在整个块内容中的偏移量
               let offset = 0;
               let tempNode = block.content?.[0];
               
@@ -136,12 +140,15 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
                 tempNode = tempNode.nextSibling;
               }
               
+              // 加上当前节点内的偏移量
               offset += range.startOffset;
               
+              // 计算 before 和 after
               if (offset >= 0 && offset + selectedText.length <= content.length) {
                 before = content.substring(0, offset);
                 after = content.substring(offset + selectedText.length);
               } else {
+                // 回退：使用 indexOf
                 const index = content.indexOf(selectedText);
                 if (index !== -1) {
                   before = content.substring(0, index);
@@ -150,6 +157,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
               }
             }
           } else {
+            // 回退：使用 indexOf
             const index = content.indexOf(selectedText);
             if (index !== -1) {
               before = content.substring(0, index);
@@ -167,11 +175,14 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
           block
         };
         setSelectedData(newSelectedData);
+
+        // 发布选择变化事件
         eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
 
         let toolbarY = curPos.top + curPos.rect.y - 35;
         let toolbarX: number;
 
+        // 边界不超出屏幕
         const viewportWidth = getWindow().innerWidth;
         
         if (containerRef.current) {
@@ -188,14 +199,18 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
 
         setToolbarPosition({ x: toolbarX, y: toolbarY });
         setShowToolbar(true);
+
       }
     } catch (error) {
+      // 如果 logseqAPI 失败，降级到原来的实现
+      // 核心：只获取一次正确位置
       let rect: DOMRect;
       try {
         if (selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
           rect = range.getBoundingClientRect();
 
+          // 只有宽度为0时光标才兜底，不影响选中文本
           if (rect.width === 0 && focusNode?.parentElement) {
             rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect();
           }
@@ -206,24 +221,29 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         rect = targetElement.getBoundingClientRect();
       }
 
+      // 计算 before 和 after
       let before = '';
       let after = '';
       const selectedText = selection.toString();
       
+      // 获取当前块
       const block = await logseqAPI.Editor.getCurrentBlock();
       
       if (block && block.content && selectedText) {
         const content = block.content;
         
+        // 尝试使用 Selection 对象获取更精确的位置
         if (selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
           let currentNode = range.startContainer;
           
+          // 向上查找，找到块元素
           while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
             currentNode = currentNode.parentNode;
           }
           
           if (currentNode) {
+            // 计算当前选中位置在整个块内容中的偏移量
             let offset = 0;
             let tempNode = block.content?.[0];
             
@@ -232,12 +252,15 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
               tempNode = tempNode.nextSibling;
             }
             
+            // 加上当前节点内的偏移量
             offset += range.startOffset;
             
+            // 计算 before 和 after
             if (offset >= 0 && offset + selectedText.length <= content.length) {
               before = content.substring(0, offset);
               after = content.substring(offset + selectedText.length);
             } else {
+              // 回退：使用 indexOf
               const index = content.indexOf(selectedText);
               if (index !== -1) {
                 before = content.substring(0, index);
@@ -246,6 +269,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
             }
           }
         } else {
+          // 回退：使用 indexOf
           const index = content.indexOf(selectedText);
           if (index !== -1) {
             before = content.substring(0, index);
@@ -263,13 +287,17 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         block
       };
       setSelectedData(newSelectedData);
+
+      // 发布选择变化事件
       eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
 
+      // 定位（紧贴选中文字，不飘）
       const toolbarHeight = 32;
-      const padding = 3;
+      const padding = 3; // 贴文字距离
       const viewportHeight = getWindow().innerHeight;
       let toolbarY: number;
 
+      // 上下位置判断
       const spaceAbove = rect.top;
       const spaceBelow = viewportHeight - rect.bottom;
 
@@ -279,7 +307,10 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         toolbarY = rect.bottom + padding;
       }
 
+      // 左侧对齐（与选中文字左侧对齐）
       let toolbarX = rect.left;
+
+      // 边界不超出屏幕
       const viewportWidth = getWindow().innerWidth;
       
       if (containerRef.current) {
@@ -291,104 +322,98 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       setToolbarPosition({ x: toolbarX, y: toolbarY });
       setShowToolbar(true);
     }
-  }, [targetElement]);
-
-  // 防抖包装的更新函数
-  const debouncedUpdateToolbarPosition = useCallback(() => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-    debounceRef.current = window.setTimeout(updateToolbarPosition, 50);
-  }, [updateToolbarPosition]);
+  };
 
   // 处理文本选择
   useEffect(() => {
     if (!targetElement) return;
 
-    const handleSelection = (e: MouseEvent) => {
+    const handleSelection = async (e: MouseEvent) => {
+      // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
       if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
+        // 保持选中状态，不做任何处理
         return;
       }
-      debouncedUpdateToolbarPosition();
+
+      await updateToolbarPosition();
     };
 
+    // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
     const handleMouseMove = (e: MouseEvent) => {
       if (showToolbar && e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
+        // 鼠标在toolbar内部，保持显示状态
         return;
       }
     };
 
-    const handleScroll = () => {
+    // 处理滚动事件，更新toolbar位置
+    const handleScroll = async () => {
       if (showToolbar) {
-        debouncedUpdateToolbarPosition();
+        await updateToolbarPosition();
       }
     };
 
+    // 绑定到targetElement及其所有父元素
     targetElement.addEventListener('mouseup', handleSelection);
     targetElement.addEventListener('mousemove', handleMouseMove);
     targetElement.addEventListener('scroll', handleScroll, true);
 
+    // 绑定到所有可能的滚动容器
     let currentElement: HTMLElement | null = targetElement.parentElement;
     while (currentElement) {
       currentElement.addEventListener('scroll', handleScroll, true);
       currentElement = currentElement.parentElement;
     }
 
+    // 绑定到document以捕获整个页面的滚动
     const doc = getDocument();
     doc.addEventListener('scroll', handleScroll, true);
 
     return () => {
+      // 移除事件监听器
       targetElement.removeEventListener('mouseup', handleSelection);
       targetElement.removeEventListener('mousemove', handleMouseMove);
       targetElement.removeEventListener('scroll', handleScroll, true);
 
+      // 移除父元素的事件监听器
       currentElement = targetElement.parentElement;
       while (currentElement) {
         currentElement.removeEventListener('scroll', handleScroll, true);
         currentElement = currentElement.parentElement;
       }
 
+      // 移除document的事件监听器
       const doc = getDocument();
       doc.removeEventListener('scroll', handleScroll, true);
-
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
     };
-  }, [showToolbar, targetElement, debouncedUpdateToolbarPosition]);
+  }, [showToolbar, targetElement]);
 
   return (
     <div ref={containerRef}>
-      <AnimatePresence>
-        {showToolbar && (
-          <motion.div 
-            className="ltt-floating-toolbar"
-            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: -5 }}
-            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: 'fixed',
-              left: toolbarPosition.x,
-              top: toolbarPosition.y,
-              transform: 'translateX(-50%)',
-              zIndex: 10000
-            }}
-          >
-            <Toolbar 
-              items={ToolbarItems} 
-              theme={theme} 
-              showBorder={showBorder}
-              width={width}
-              height={height}
-              selectedData={selectedData}
-              hoverDelay={hoverDelay}
-              sponsorEnabled={sponsorEnabled}
-              onItemClick={handleItemClick}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showToolbar && (
+        <div 
+          className="ltt-floating-toolbar"
+          style={{
+            position: 'fixed',
+            left: toolbarPosition.x,
+            top: toolbarPosition.y,
+            transform: 'translateX(-50%)',
+            zIndex: 10000
+          }}
+        >
+          <Toolbar 
+            items={ToolbarItems} 
+            theme={theme} 
+            showBorder={showBorder}
+            width={width}
+            height={height}
+            selectedData={selectedData}
+            hoverDelay={hoverDelay}
+            sponsorEnabled={sponsorEnabled}
+            onItemClick={handleItemClick}
+          />
+        </div>
+      )}
     </div>
   );
 }

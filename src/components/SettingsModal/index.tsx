@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Modal from '../Modal/index.tsx'
 import { useSettingsContext } from '../../settings/useSettings.tsx'
 import GeneralSettings from './tabs/GeneralSettings.tsx'

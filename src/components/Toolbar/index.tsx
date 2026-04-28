@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
 import { SelectedData } from './textProcessor.ts'
@@ -121,53 +120,48 @@ function Toolbar({
               {hoveredItem.label}
             </div>
           )}
-          <AnimatePresence>
-            {mouseOverGroup === item.id && (
-              <motion.div 
-                ref={dropdownRef}
-                className={`ltt-toolbar-group-dropdown ${!showBorder ? 'ltt-no-border' : ''}`}
-                initial={{ opacity: 0, y: -5, scaleY: 0.9 }}
-                animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                exit={{ opacity: 0, y: -5, scaleY: 0.9 }}
-                transition={{ duration: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                style={{ transformOrigin: 'top center' }}
-                onMouseEnter={() => {
-                  if (hoverTimerRef.current) {
-                    clearTimeout(hoverTimerRef.current)
-                  }
-                  setMouseOverGroup(item.id)
-                }}
-                onMouseLeave={() => {
-                  hoverTimerRef.current = setTimeout(() => {
-                    setMouseOverGroup(null)
-                  }, hoverDelay)
-                }}
-              >
-                {item.subItems.map((subItem) => (
-                  <div 
-                    key={subItem.id}
-                    className="ltt-toolbar-group-item"
-                    onMouseDown={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                    }}
-                    onMouseEnter={() => setHoveredItem(subItem)}
-                    onMouseLeave={() => setHoveredItem(item)}
-                    onClick={() => handleItemClickInternal(subItem)}
-                  >
-                    <div className="ltt-toolbar-item-icon">
-                      {renderIcon(subItem.icon)}
-                    </div>
-                    {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
-                      <div className="ltt-toolbar-tooltip ltt-toolbar-tooltip-sub">
-                        {hoveredItem.label}
-                      </div>
-                    )}
+          {mouseOverGroup === item.id && (
+            <div 
+              ref={dropdownRef}
+              className={`ltt-toolbar-group-dropdown ${!showBorder ? 'ltt-no-border' : ''}`}
+              onMouseEnter={() => {
+                // 清除之前的定时器
+                if (hoverTimerRef.current) {
+                  clearTimeout(hoverTimerRef.current)
+                }
+                setMouseOverGroup(item.id)
+              }}
+              onMouseLeave={() => {
+                // 设置延时隐藏下拉子元素
+                hoverTimerRef.current = setTimeout(() => {
+                  setMouseOverGroup(null)
+                }, hoverDelay)
+              }}
+            >
+              {item.subItems.map((subItem) => (
+                <div 
+                  key={subItem.id}
+                  className="ltt-toolbar-group-item"
+                  onMouseDown={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                  }}
+                  onMouseEnter={() => setHoveredItem(subItem)}
+                  onMouseLeave={() => setHoveredItem(item)}
+                  onClick={() => handleItemClickInternal(subItem)}
+                >
+                  <div className="ltt-toolbar-item-icon">
+                    {renderIcon(subItem.icon)}
                   </div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
+                    <div className="ltt-toolbar-tooltip ltt-toolbar-tooltip-sub">
+                      {hoveredItem.label}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )
     } else {
