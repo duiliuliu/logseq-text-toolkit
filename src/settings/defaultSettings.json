@@ -3,15 +3,12 @@
   "theme": "light",
   "language": "zh-CN",
   "toolbar": true,
-  "toolbarShortcut": "",
   "useSystemTheme": false,
   "useSystemLanguage": false,
   "showBorder": false,
   "width": "110px",
   "height": "28px",
   "hoverDelay": 500,
-  "sponsorEnabled": true,
-  "developerMode": true,
   "meta": {
     "language": {
       "languages": [

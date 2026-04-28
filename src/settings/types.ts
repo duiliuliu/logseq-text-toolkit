@@ -47,13 +47,13 @@ export interface Settings {
   // 工具栏设置
   toolbar: boolean;
   disabled: boolean;
-  toolbarShortcut: string;
+  toolbarShortcut?: string;
   showBorder: boolean;
   width: string;
   height: string;
   hoverDelay: number;
-  sponsorEnabled: boolean;
-  developerMode: boolean;
+  sponsorEnabled?: boolean;
+  developerMode?: boolean;
   
   // 工具栏元素配置
   ToolbarItems: Array<ToolbarItem | ToolbarGroup>;
