@@ -31,7 +31,6 @@ export const CommentModal: React.FC<CommentModalProps> = ({
     if (isOpen) {
       setComment('');
       updateModalPosition();
-      textareaRef.current?.focus();
     }
   }, [isOpen]);
 
