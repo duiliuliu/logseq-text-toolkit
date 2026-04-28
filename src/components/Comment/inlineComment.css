@@ -36,11 +36,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 8px 16px;
 }
 
 .ltt-inline-comment-modal-title {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--ls-primary-text-color, #1a1a1a);
   letter-spacing: -0.2px;
@@ -104,19 +104,17 @@
 }
 
 .ltt-inline-comment-modal-content {
-  padding: 0 16px 12px;
+  padding: 0 16px 6px;
+  display: flex;
+  justify-content: center;
 }
 
 .ltt-inline-comment-modal-content :deep(textarea) {
-  width: 100%;
-  min-height: 60px;
-  max-height: 180px;
   border: none;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
-  line-height: 1.5;
-  resize: vertical;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  line-height: 1.4;
   background: var(--ls-secondary-background-color, #f8f8f8);
   color: var(--ls-primary-text-color, #1a1a1a);
   font-family: inherit;
@@ -157,16 +155,16 @@
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  padding: 10px 16px 14px;
+  padding: 8px 16px 8px;
 }
 
 .ltt-inline-comment-modal-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
+  gap: 2px;
+  padding: 6px 10px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
