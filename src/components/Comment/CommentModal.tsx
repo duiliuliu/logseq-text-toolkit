@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { CommentModalProps } from './types.ts';
 import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
@@ -72,73 +71,61 @@ export const CommentModal: React.FC<CommentModalProps> = ({
     }
   };
 
+  if (!isOpen) {
+    return null;
+  }
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="ltt-inline-comment-modal-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
-          onClick={onClose}
-          onKeyDown={handleKeyDown}
-        >
-          <motion.div
-            ref={modalRef}
-            className="ltt-inline-comment-modal"
-            initial={{ opacity: 0, scale: 0.9, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: -10 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              position: position ? 'fixed' : 'relative',
-              top: position ? `${position.top}px` : 'auto',
-              left: position ? `${position.left}px` : 'auto',
-              margin: position ? 0 : '20px',
-              transform: position ? 'none' : 'translateY(0)',
-              maxWidth: '420px',
-              width: '90%'
-            }}
+    <div className="ltt-inline-comment-modal-overlay" onClick={onClose} onKeyDown={handleKeyDown}>
+      <div 
+        ref={modalRef}
+        className="ltt-inline-comment-modal" 
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: position ? 'fixed' : 'relative',
+          top: position ? `${position.top}px` : 'auto',
+          left: position ? `${position.left}px` : 'auto',
+          margin: position ? 0 : '20px',
+          transform: position ? 'none' : 'translateY(0)',
+          maxWidth: '420px',
+          width: '90%'
+        }}
+      >
+        {/* 头部 */}
+        <div className="ltt-inline-comment-modal-header">
+          <div className="ltt-inline-comment-modal-title">
+            <span className="ltt-inline-comment-modal-title-text">{t('inlineComment.text', currentLanguage)}</span>
+            <span className="ltt-inline-comment-modal-title-selected">{selectedText}</span>
+          </div>
+          <button className="ltt-inline-comment-modal-close" onClick={onClose} aria-label="close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* 内容 */}
+        <div className="ltt-inline-comment-modal-content">
+          <textarea
+            ref={textareaRef}
+            className="ltt-inline-comment-modal-textarea"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder={t('inlineComment.placeholder', currentLanguage)}
+          />
+        </div>
+
+        {/* 底部按钮 */}
+        <div className="ltt-inline-comment-modal-footer">
+          <button
+            className="ltt-inline-comment-modal-button ltt-primary"
+            onClick={handleSave}
           >
-            {/* 头部 */}
-            <div className="ltt-inline-comment-modal-header">
-              <div className="ltt-inline-comment-modal-title">
-                <span className="ltt-inline-comment-modal-title-text">{t('inlineComment.text', currentLanguage)}</span>
-                <span className="ltt-inline-comment-modal-title-selected">{selectedText}</span>
-              </div>
-              <button className="ltt-inline-comment-modal-close" onClick={onClose} aria-label="close">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            {/* 内容 */}
-            <div className="ltt-inline-comment-modal-content">
-              <textarea
-                ref={textareaRef}
-                className="ltt-inline-comment-modal-textarea"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder={t('inlineComment.placeholder', currentLanguage)}
-              />
-            </div>
-
-            {/* 底部按钮 */}
-            <div className="ltt-inline-comment-modal-footer">
-              <button
-                className="ltt-inline-comment-modal-button ltt-primary"
-                onClick={handleSave}
-              >
-                {t('inlineComment.save', currentLanguage)}
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-      </AnimatePresence>
+            {t('inlineComment.save', currentLanguage)}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
