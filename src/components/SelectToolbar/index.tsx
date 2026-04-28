@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Toolbar from '../Toolbar';
 import { SelectedData } from '../Toolbar/textProcessor.ts';
@@ -10,15 +10,6 @@ import {
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { logger } from '../../lib/logger/logger.ts';
-
-// 防抖函数
-const debounce = <T extends (...args: any[]) => any>(fn: T, delay: number): ((...args: Parameters<T>) => void) => {
-  let timer: ReturnType<typeof setTimeout> | null = null;
-  return (...args: Parameters<T>) => {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), delay);
-  };
-};
 
 interface ToolbarPosition {
   x: number;
@@ -338,8 +329,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   useEffect(() => {
     if (!targetElement) return;
 
-    // 使用防抖处理选择事件
-    const debouncedUpdateToolbarPosition = useCallback(debounce(updateToolbarPosition, 50), [updateToolbarPosition]);
+    // 防抖处理
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
     
     const handleSelection = async (e: MouseEvent) => {
       // 点击toolbar内部时，不隐藏toolbar，包括展开的下拉菜单
@@ -348,7 +339,10 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         return;
       }
 
-      debouncedUpdateToolbarPosition();
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(async () => {
+        await updateToolbarPosition();
+      }, 50);
     };
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
@@ -383,6 +377,9 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     doc.addEventListener('scroll', handleScroll, true);
 
     return () => {
+      // 清除防抖定时器
+      if (debounceTimer) clearTimeout(debounceTimer);
+      
       // 移除事件监听器
       targetElement.removeEventListener('mouseup', handleSelection);
       targetElement.removeEventListener('mousemove', handleMouseMove);
