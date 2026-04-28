@@ -15,8 +15,22 @@ export const Comment = {
    * @returns 包装后的文本
    */
   wrapText: (selectedText: string, comment: string): string => {
-    const escapedText = selectedText.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const escapedComment = comment.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const escapedText = selectedText
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/\t/g, '\\t');
+    const escapedComment = comment
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/\t/g, '\\t');
     return `[:span.inline-comment {:data-comment "${escapedComment}"} "${escapedText}"]`;
   },
 

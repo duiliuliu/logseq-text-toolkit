@@ -93,7 +93,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
               left: position ? `${position.left}px` : 'auto',
               margin: position ? 0 : '20px',
               transform: position ? 'none' : 'translateY(0)',
-              maxWidth: '400px',
+              maxWidth: '320px',
               width: '90%'
             }}
           >
@@ -118,8 +118,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder={t('inlineComment.placeholder', currentLanguage)}
-                rows={2}
-                style={{ width: '340px' }}
+                rows={1}
               />
             </div>
 
