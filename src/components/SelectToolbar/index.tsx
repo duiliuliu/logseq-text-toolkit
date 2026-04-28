@@ -23,6 +23,15 @@ const debounce = <T extends (...args: Parameters<T>) => ReturnType<T>>(fn: T, de
   };
 };
 
+interface DebouncedUpdateState {
+  lastSelectionTime: number;
+  lastSelectedText: string;
+  pendingTimer: ReturnType<typeof setTimeout> | null;
+}
+
+const DOUBLE_CLICK_THRESHOLD = 300;
+const SELECTION_DELAY = 200;
+
 interface SelectToolbarProps {
   targetElement: HTMLElement | null;
   items: Array<any>;
@@ -40,6 +49,12 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 });
   const [showToolbar, setShowToolbar] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  const selectionStateRef = useRef<DebouncedUpdateState>({
+    lastSelectionTime: 0,
+    lastSelectedText: '',
+    pendingTimer: null
+  });
 
   // 从设置中获取配置
   const theme = settings?.theme || 'light';
@@ -333,9 +348,26 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
   };
 
-  // 创建防抖版本的 updateToolbarPosition
-  const debouncedUpdateToolbarPosition = useMemo(() => {
-    return debounce(updateToolbarPosition, 50);
+  // 处理文本选择的防抖逻辑
+  const handleDelayedSelection = useCallback(() => {
+    const state = selectionStateRef.current;
+    
+    // 检查是否是快速连续选择（短时间内多次选择）
+    const now = Date.now();
+    const timeSinceLastSelection = now - state.lastSelectionTime;
+    
+    // 如果上次选择时间太近，认为是快速划选，不展示工具栏
+    if (timeSinceLastSelection < DOUBLE_CLICK_THRESHOLD) {
+      // 记录这次选择，但不展示工具栏
+      state.lastSelectionTime = now;
+      return;
+    }
+    
+    // 更新上次选择时间
+    state.lastSelectionTime = now;
+    
+    // 执行实际的工具栏更新
+    updateToolbarPosition();
   }, [updateToolbarPosition]);
 
   // 处理文本选择
@@ -349,7 +381,19 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         return;
       }
 
-      debouncedUpdateToolbarPosition();
+      const state = selectionStateRef.current;
+      
+      // 清除之前的延迟定时器
+      if (state.pendingTimer) {
+        clearTimeout(state.pendingTimer);
+        state.pendingTimer = null;
+      }
+      
+      // 设置延迟定时器，延迟后再处理选择
+      state.pendingTimer = setTimeout(() => {
+        handleDelayedSelection();
+        state.pendingTimer = null;
+      }, SELECTION_DELAY);
     };
 
     // 处理鼠标移动事件，确保鼠标在toolbar内部时不隐藏
@@ -363,7 +407,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     // 处理滚动事件，更新toolbar位置
     const handleScroll = () => {
       if (showToolbar) {
-        debouncedUpdateToolbarPosition();
+        updateToolbarPosition();
       }
     };
 
@@ -384,6 +428,13 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     doc.addEventListener('scroll', handleScroll, true);
 
     return () => {
+      // 清除延迟定时器
+      const state = selectionStateRef.current;
+      if (state.pendingTimer) {
+        clearTimeout(state.pendingTimer);
+        state.pendingTimer = null;
+      }
+      
       // 移除事件监听器
       targetElement.removeEventListener('mouseup', handleSelection);
       targetElement.removeEventListener('mousemove', handleMouseMove);
@@ -400,7 +451,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
       const doc = getDocument();
       doc.removeEventListener('scroll', handleScroll, true);
     };
-  }, [showToolbar, targetElement]);
+  }, [showToolbar, targetElement, handleDelayedSelection, updateToolbarPosition]);
 
   return (
     <div ref={containerRef}>
