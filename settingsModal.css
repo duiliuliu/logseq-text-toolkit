@@ -398,14 +398,6 @@ input:checked + .ltt-switch-slider:before {
   border-bottom-color: var(--ls-border-color-plugin, #333333);
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .ltt-setting-item > label {
-    width: 36px !important;
-    text-align: left !important;
-  }
-}
-
 [data-theme="dark"] .ltt-settings-tab {
   background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);
   color: var(--ls-primary-text-color-plugin, #e0e0e0);
@@ -535,7 +527,7 @@ input:checked + .ltt-switch-slider:before {
   }
   
   .ltt-setting-item > label {
-    width: 100% !important;
+    width: 36px !important;
     text-align: left !important;
   }
   
