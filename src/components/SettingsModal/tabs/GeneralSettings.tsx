@@ -63,15 +63,14 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
 
       <div className="ltt-setting-item">
         <label>{t('settings.developerMode', language)}</label>
-        <div className="ltt-setting-toggle">
+        <label className="ltt-switch">
           <input
             type="checkbox"
-            id="developerMode"
             checked={settings.developerMode || false}
             onChange={(e) => handleSettingChange('developerMode', e.target.checked)}
           />
-          <label htmlFor="developerMode" className="ltt-toggle-slider"></label>
-        </div>
+          <span className="ltt-switch-slider"></span>
+        </label>
       </div>
 
       <div className="ltt-settings-actions">
