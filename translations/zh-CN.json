@@ -12,7 +12,11 @@
     "text": "文本",
     "placeholder": "输入你的评论或注释...",
     "save": "行内注释",
-    "title": "添加注释"
+    "title": "添加注释",
+    "addComment": "添加评论",
+    "selectedText": "选中文本",
+    "annotation": "注释",
+    "comment": "评论"
   },
   "comment": {
     "title": "添加评论"
