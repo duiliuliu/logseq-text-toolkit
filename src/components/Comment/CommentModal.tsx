@@ -108,7 +108,6 @@ export const CommentModal: React.FC<CommentModalProps> = ({
 
             {selectedText && (
               <div className="ltt-inline-comment-modal-selected">
-                <span className="ltt-inline-comment-modal-selected-label">{t('inlineComment.selectedText', currentLanguage)}</span>
                 <span className="ltt-inline-comment-modal-selected-text">"{selectedText}"</span>
               </div>
             )}
@@ -124,14 +123,14 @@ export const CommentModal: React.FC<CommentModalProps> = ({
             </div>
 
             <div className="ltt-inline-comment-modal-footer">
-              <button className="ltt-inline-comment-modal-btn ltt-btn-outline" onClick={handleSave}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <button className="ltt-inline-comment-modal-btn ltt-btn-primary" onClick={handleSave}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
                 <span>{t('inlineComment.annotate', currentLanguage)}</span>
               </button>
               <button className="ltt-inline-comment-modal-btn ltt-btn-primary" onClick={handleSave}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                 </svg>
                 <span>{t('inlineComment.comment', currentLanguage)}</span>
