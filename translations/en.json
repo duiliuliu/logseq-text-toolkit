@@ -10,13 +10,9 @@
   },
   "inlineComment": {
     "text": "Text",
-    "placeholder": "Add a comment or annotation...",
+    "placeholder": "Add a comment...",
     "save": "Add Comment",
-    "title": "Add Comment",
-    "addComment": "Add Comment",
-    "selectedText": "Selected Text",
-    "annotation": "Annotation",
-    "comment": "Comment"
+    "title": "Add Comment"
   },
   "comment": {
     "title": "Add Comment"
