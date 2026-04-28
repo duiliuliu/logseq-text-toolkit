@@ -10,13 +10,9 @@
   },
   "inlineComment": {
     "text": "テキスト",
-    "placeholder": "コメントまたは注釈を追加...",
+    "placeholder": "コメントを追加...",
     "save": "コメントを追加",
-    "title": "コメントを追加",
-    "addComment": "コメントを追加",
-    "selectedText": "選択したテキスト",
-    "annotation": "注釈",
-    "comment": "コメント"
+    "title": "コメントを追加"
   },
   "comment": {
     "title": "コメントを追加"

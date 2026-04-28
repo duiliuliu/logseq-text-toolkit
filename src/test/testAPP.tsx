@@ -5,17 +5,12 @@ import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import HiccupRenderer from './components/HiccupRenderer/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
 import CommentApp from '../components/Comment/CommentApp.tsx'
-import SelectToolbar from '../components/SelectToolbar'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
-import { useRef, useEffect } from 'react'
 
 function TestApp() {
   // 使用设置上下文
   const { settings } = useSettingsContext()
-  
-  // 内容容器 ref，用于绑定工具栏
-  const contentRef = useRef<HTMLDivElement>(null)
 
   // 左侧面板内容
   const leftContent = (
@@ -50,7 +45,7 @@ function TestApp() {
 
   // 中间内容区域 - 使用 HiccupRenderer 组件支持 hiccup 实时渲染
   const centerContent = (
-    <div ref={contentRef} className="center-content">
+    <div className="center-content">
       <TextSelectionDemo />
       <div className="hiccup-renderer-container">
         <HiccupRenderer />
@@ -92,19 +87,10 @@ function TestApp() {
         rightContent={rightContent}
       />
       
-      {/* 浮动工具栏 */}
-      {contentRef.current && (
-        <SelectToolbar 
-          targetElement={contentRef.current} 
-          items={settings?.ToolbarItems || []}
-        />
-      )}
-      
       {/* Toast 容器 */}
       <ToastContainer />
       
-      {/* 评论组件 */}
-      <CommentApp />
+
 
     </div>
   )
