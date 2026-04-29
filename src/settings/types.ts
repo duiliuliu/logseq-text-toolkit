@@ -41,13 +41,11 @@ export interface Settings {
   // 主题和语言设置
   theme: ThemeType;
   language: LanguageType;
-  useSystemTheme: boolean;
   useSystemLanguage: boolean;
   
   // 工具栏设置
   toolbar: boolean;
   disabled: boolean;
-  toolbarShortcut: string;
   showBorder: boolean;
   width: string;
   height: string;
