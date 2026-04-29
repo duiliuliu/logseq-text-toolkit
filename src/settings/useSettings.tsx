@@ -31,6 +31,7 @@ const useSettings = (): SettingsContextType => {
           // 确保类型正确
           theme: (logseqAPI.settings.theme || 'light') as ThemeType,
           language: (logseqAPI.settings.language || 'zh-CN') as LanguageType,
+          useSystemTheme: Boolean(logseqAPI.settings.useSystemTheme),
           useSystemLanguage: Boolean(logseqAPI.settings.useSystemLanguage),
           // 确保工具栏相关字段类型正确
           toolbar: Boolean(logseqAPI.settings.toolbar),
@@ -62,12 +63,13 @@ const useSettings = (): SettingsContextType => {
         }
         
         // 如果设置了使用系统配置，从logseq获取系统配置
-        if (data.useSystemLanguage) {
+        if (data.useSystemTheme || data.useSystemLanguage) {
           try {
             const userConfigs = await logseqAPI.App.getUserConfigs()
             if (userConfigs) {
               const updatedSettings: Settings = {
                 ...data,
+                theme: data.useSystemTheme ? (userConfigs.preferredThemeMode as ThemeType) : data.theme,
                 language: data.useSystemLanguage ? (userConfigs.preferredLanguage as LanguageType) : data.language
               }
               setSettings(updatedSettings)
@@ -103,18 +105,20 @@ const useSettings = (): SettingsContextType => {
         // 处理系统设置标记
         const settingsToSave: Settings = {
           ...newSettings,
+          useSystemTheme: newSettings.theme === 'system',
           useSystemLanguage: newSettings.language === 'system'
         }
         
         await logseqAPI.updateSettings(settingsToSave as unknown as Record<string, any>)
         
         // 如果设置为系统值，立即从logseq获取系统配置
-        if (settingsToSave.useSystemLanguage) {
+        if (settingsToSave.useSystemTheme || settingsToSave.useSystemLanguage) {
           try {
             const userConfigs = await logseqAPI.App.getUserConfigs()
             if (userConfigs) {
               const updatedSettings: Settings = {
                 ...settingsToSave,
+                theme: settingsToSave.useSystemTheme ? (userConfigs.preferredThemeMode as ThemeType) : settingsToSave.theme,
                 language: settingsToSave.useSystemLanguage ? (userConfigs.preferredLanguage as LanguageType) : settingsToSave.language
               }
               setSettings(updatedSettings)
@@ -172,6 +176,7 @@ const useSettings = (): SettingsContextType => {
           ...newSettings,
           theme: (newSettings.theme || 'light') as ThemeType,
           language: (newSettings.language || 'zh-CN') as LanguageType,
+          useSystemTheme: Boolean(newSettings.useSystemTheme),
           useSystemLanguage: Boolean(newSettings.useSystemLanguage),
           // 确保工具栏相关字段类型正确
           toolbar: Boolean(newSettings.toolbar),

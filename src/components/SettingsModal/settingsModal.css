@@ -217,19 +217,6 @@ input:checked + .ltt-switch-slider:before {
   outline: none;
 }
 
-.ltt-setting-item input[type="text"]:disabled,
-.ltt-setting-item input[type="number"]:disabled {
-  background-color: #f5f5f5;
-  color: #999;
-  cursor: not-allowed;
-}
-
-[data-theme="dark"] .ltt-setting-item input[type="text"]:disabled,
-[data-theme="dark"] .ltt-setting-item input[type="number"]:disabled {
-  background-color: #2a2a2a;
-  color: #666;
-}
-
 /* 确保工具栏配置在窄屏模式下正常显示 */
 #ltt-toolbar-settings .ltt-settings-tab-content {
   overflow-x: hidden;
