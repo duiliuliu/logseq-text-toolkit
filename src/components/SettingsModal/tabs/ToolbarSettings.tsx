@@ -8,8 +8,10 @@ import '../../ui/textarea.css'
 function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const [jsonError, setJsonError] = useState('')
   
+  // 直接使用 settings.ToolbarItems 作为工具栏配置
   const [jsonInput, setJsonInput] = useState(JSON.stringify(settings.ToolbarItems || [], null, 2))
   
+  // 仅在 settings 从外部变化时更新 jsonInput
   useEffect(() => {
     const currentJson = JSON.stringify(settings.ToolbarItems || [], null, 2)
     if (jsonInput !== currentJson) {
@@ -50,6 +52,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
       
+      {/* Switch 类型的设置项 */}
       <div className="ltt-setting-item">
         <label>{t('settings.enabled', language)}</label>
         <label className="ltt-switch">
@@ -84,6 +87,17 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
           />
           <span className="ltt-switch-slider"></span>
         </label>
+      </div>
+
+      {/* Input 类型的设置项 */}
+      <div className="ltt-setting-item">
+        <label>{t('settings.toolbarShortcut', language)}</label>
+        <input 
+          type="text" 
+          value={settings.toolbarShortcut} 
+          onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
+          placeholder={t('settings.toolbarShortcutPlaceholder', language)}
+        />
       </div>
 
       <div className="ltt-setting-item">
