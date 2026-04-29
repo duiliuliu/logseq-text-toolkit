@@ -15,7 +15,7 @@ export function getSettings(): Settings {
       useSystemLanguage: Boolean(logseqSettings.useSystemLanguage),
       toolbar: Boolean(logseqSettings.toolbar),
       disabled: Boolean(logseqSettings.disabled),
-      toolbarShortcut: String(logseqSettings.toolbarShortcut || ''),
+      toolbarShortcut: logseqSettings.toolbarShortcut || '',
     }
     
     // 兼容旧版本的 funcmode 和 clickfunc

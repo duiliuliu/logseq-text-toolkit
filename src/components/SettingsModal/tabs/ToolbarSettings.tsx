@@ -89,15 +89,14 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         </label>
       </div>
 
-      {/* Input 类型的设置项 - toolbarShortcut 暂时禁止修改 */}
+      {/* Input 类型的设置项 */}
       <div className="ltt-setting-item">
         <label>{t('settings.toolbarShortcut', language)}</label>
         <input 
           type="text" 
-          value={settings.toolbarShortcut || ''} 
-          disabled
+          value={settings.toolbarShortcut} 
+          onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
           placeholder={t('settings.toolbarShortcutPlaceholder', language)}
-          style={{ opacity: 0.6, cursor: 'not-allowed' }}
         />
       </div>
 
