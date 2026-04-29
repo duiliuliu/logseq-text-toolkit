@@ -37,10 +37,7 @@ const useSettings = (): SettingsContextType => {
           toolbar: Boolean(logseqAPI.settings.toolbar),
           disabled: Boolean(logseqAPI.settings.disabled),
           showBorder: Boolean(logseqAPI.settings.showBorder),
-          // 可选字段，提供默认值
-          toolbarShortcut: logseqAPI.settings.toolbarShortcut || '',
           sponsorEnabled: Boolean(logseqAPI.settings.sponsorEnabled),
-          developerMode: Boolean(logseqAPI.settings.developerMode),
           // 确保数值类型正确
           hoverDelay: parseInt(logseqAPI.settings.hoverDelay) || 500
         }
@@ -185,10 +182,7 @@ const useSettings = (): SettingsContextType => {
           toolbar: Boolean(newSettings.toolbar),
           disabled: Boolean(newSettings.disabled),
           showBorder: Boolean(newSettings.showBorder),
-          // 可选字段，提供默认值
-          toolbarShortcut: newSettings.toolbarShortcut || '',
           sponsorEnabled: Boolean(newSettings.sponsorEnabled),
-          developerMode: Boolean(newSettings.developerMode),
           // 确保数值类型正确
           hoverDelay: parseInt(newSettings.hoverDelay) || 500
         }

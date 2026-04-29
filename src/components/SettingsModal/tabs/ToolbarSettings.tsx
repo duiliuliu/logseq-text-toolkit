@@ -77,17 +77,26 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         </label>
       </div>
 
-      {/* 暂时隐藏 sponsorEnabled 配置项 */}
+      <div className="ltt-setting-item">
+        <label>{t('settings.sponsorEnabled', language)}</label>
+        <label className="ltt-switch">
+          <input 
+            type="checkbox" 
+            checked={settings.sponsorEnabled} 
+            onChange={(e) => handleSettingChange('sponsorEnabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
 
       {/* Input 类型的设置项 */}
       <div className="ltt-setting-item">
         <label>{t('settings.toolbarShortcut', language)}</label>
         <input 
           type="text" 
-          value={settings.toolbarShortcut || ''} 
-          disabled
+          value={settings.toolbarShortcut} 
+          onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
           placeholder={t('settings.toolbarShortcutPlaceholder', language)}
-          style={{ opacity: 0.6, cursor: 'not-allowed' }}
         />
       </div>
 

@@ -61,7 +61,17 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      {/* 暂时隐藏 developerMode 配置项 */}
+      <div className="ltt-setting-item">
+        <label>{t('settings.developerMode', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.developerMode || false}
+            onChange={(e) => handleSettingChange('developerMode', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
 
       <div className="ltt-settings-actions">
         <button 
