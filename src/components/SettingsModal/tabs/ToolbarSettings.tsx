@@ -14,11 +14,9 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
   // 仅在 settings 从外部变化时更新 jsonInput
   useEffect(() => {
     const currentJson = JSON.stringify(settings.ToolbarItems || [], null, 2)
-    // 只有当 jsonInput 与当前值不同时才更新，避免覆盖用户正在编辑的内容
     if (jsonInput !== currentJson) {
       setJsonInput(currentJson)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings.ToolbarItems])
   
   const handleSettingChange = (key: string, value: any) => {
@@ -99,7 +97,6 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
           value={settings.toolbarShortcut} 
           onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
           placeholder={t('settings.toolbarShortcutPlaceholder', language)}
-          disabled
         />
       </div>
 
