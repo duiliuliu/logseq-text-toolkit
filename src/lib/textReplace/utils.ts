@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
  * 文本替换工具
  */
 
@@ -22,7 +25,6 @@ export const updateBlockContent = async (
   language: string
 ): Promise<boolean> => {
   try {
-    // 从selectedData获取block
     const block = selectedData.block;
     if (!block || !block.content) {
       logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
@@ -32,20 +34,16 @@ export const updateBlockContent = async (
     const originalContent = block.content;
     const selectedText = selectedData.text;
     
-    // 尝试在当前选中的元素中进行精确替换
     const success = await replaceInSelectedElement(selectedData, processedText);
     if (success) {
       return true;
     }
     
-    // 回退：使用indexOf找到第一个匹配项
     const newContent = findAndReplaceText(originalContent, selectedText, processedText);
     
-    // 只有当内容确实发生变化时才更新block
     if (newContent !== originalContent) {
       return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
     } else {
-      // 内容没有变化，返回false表示更新失败
       return false;
     }
   } catch (error) {
@@ -53,8 +51,6 @@ export const updateBlockContent = async (
     return false;
   }
 };
-
-// ====================================================================================================
 
 /**
  * 回退：使用indexOf找到第一个匹配项的辅助函数
@@ -66,12 +62,11 @@ export const updateBlockContent = async (
 export const findAndReplaceText = (originalContent: string, selectedText: string, processedText: string): string => {
   const index = originalContent.indexOf(selectedText);
   if (index === -1) {
-    console.warn('Selected text not found in block content:', {
+    logger.warn('Selected text not found in block content:', {
       originalContent,
       selectedText,
       processedText
     });
-    // 找不到选中的文本时，返回原始内容，不抛出错误
     return originalContent;
   }
   return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
@@ -85,9 +80,6 @@ export const findAndReplaceText = (originalContent: string, selectedText: string
  */
 export const replaceInSelectedElement = async (selectedData: SelectedData, processedText: string): Promise<boolean> => {
   try {
-
-    
-    // 获取当前选择
     const selection = getSelection();
     const doc = getDocument();
     if (!selection || selection.rangeCount === 0) {
@@ -99,7 +91,6 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
     const startContainer = range.startContainer;
     const endContainer = range.endContainer;
     
-    // 检查是否在同一个文本节点中
     if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
       const textNode = startContainer as Text;
       const startOffset = range.startOffset;
@@ -110,13 +101,11 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
         endOffset: range.endOffset
       });
       
-      // 执行精确替换
       const newText = selectedData.before + processedText + selectedData.after;
       logger.debug('生成新文本', { newText });
       
       textNode.textContent = newText;
       
-      // 重新设置选择范围
       const newRange = doc.createRange();
       newRange.setStart(textNode, startOffset);
       newRange.setEnd(textNode, startOffset + processedText.length);
@@ -163,13 +152,11 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
 export const regexReplaceText = (item: ToolbarItem, text: string): string => {
   if (item.invokeParams) {
     try {
-      // 处理对象格式的invokeParams（包含regex和replacement属性）
       if (typeof item.invokeParams === 'object' && item.invokeParams.regex && item.invokeParams.replacement) {
         const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
         const regex = new RegExp(pattern, flags);
         return text.replace(regex, replacement);
       }
-      // 处理字符串格式的invokeParams（格式示例: /pattern/replacement/flags）
       else if (typeof item.invokeParams === 'string') {
         const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
         if (regexMatch) {

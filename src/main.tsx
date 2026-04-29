@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
+ * 插件入口文件
+ */
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -7,17 +13,14 @@ import SelectToolbar from './components/SelectToolbar'
 import CommentApp from './components/Comment/CommentApp.tsx'
 import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
-import { toolbarItems as defaultToolbarItems } from './test/testData.ts'
 import { getSettings } from './settings/index.ts'
-import { getDocument, getWindow } from './logseq/utils.ts'
+import { getDocument } from './logseq/utils.ts'
 import { logger } from './lib/logger/logger.ts'
 import { initI18n } from './translations/i18n.ts'
 import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS } from './styles/index.ts'
 
-// 加载CSS文件
 const loadCSS = async () => {
   try {
-    // CSS文件列表
     const cssFiles = [
       { name: 'settingsModal.css', content: settingsModalCSS },
       { name: 'modal.css', content: modalCSS },
@@ -28,19 +31,15 @@ const loadCSS = async () => {
 
     for (const cssFile of cssFiles) {
       try {
-        // 优先尝试加载插件根目录下的CSS文件
         const response = await fetch(`./${cssFile.name}`);
         if (response.ok) {
-          // 检查返回的内容类型是否为CSS
           const contentType = response.headers.get('content-type');
           if (contentType && contentType.includes('text/css')) {
             const cssContent = await response.text();
-            // 检查CSS内容是否为空
             if (cssContent.trim()) {
               logseqAPI.provideStyle(cssContent);
               logger.info(`Loaded CSS file from root: ${cssFile.name}`);
             } else {
-              // 如果CSS内容为空，使用内置CSS作为兜底
               logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
               if (cssFile.content) {
                 logseqAPI.provideStyle(cssFile.content);
@@ -48,7 +47,6 @@ const loadCSS = async () => {
               }
             }
           } else {
-            // 如果返回的内容不是CSS（可能是HTML），使用内置CSS作为兜底
             logger.info(`Response is not CSS, using built-in CSS: ${cssFile.name}`);
             if (cssFile.content) {
               logseqAPI.provideStyle(cssFile.content);
@@ -56,7 +54,6 @@ const loadCSS = async () => {
             }
           }
         } else {
-          // 如果根目录下的CSS文件不存在，使用内置CSS作为兜底
           logger.info(`CSS file not found in root, using built-in CSS: ${cssFile.name}`);
           if (cssFile.content) {
             logseqAPI.provideStyle(cssFile.content);
@@ -64,7 +61,6 @@ const loadCSS = async () => {
           }
         }
       } catch (error) {
-        // 加载失败时使用内置CSS作为兜底
         logger.warn(`Error loading CSS file from root ${cssFile.name}:`, error);
         if (cssFile.content) {
           logseqAPI.provideStyle(cssFile.content);
@@ -97,7 +93,6 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
   }
 }
 
-// 存储设置面板的显示状态
 let settingsModalOpen = false;
 
 const showSettingUI = async () => {
@@ -112,10 +107,10 @@ const showSettingUI = async () => {
     if (container) {
       const currentSettings = getSettings()
       renderComponent(container, SettingsModal, {
-        isOpen: settingsModalOpen, // 根据 settingsModalOpen 的值决定是否显示
+        isOpen: settingsModalOpen,
         onClose: () => {
           settingsModalOpen = false;
-          showSettingUI(); // 关闭后重新渲染以更新状态
+          showSettingUI();
         },
         theme: currentSettings.theme,
       })
@@ -157,7 +152,6 @@ const showSelectToolbar = async () => {
       const mainContentContainer = getDocument().getElementById('main-content-container')
       if (toolbarContainer && mainContentContainer) {
         const currentSettings = getSettings()
-        // 使用ToolbarItems作为工具栏配置
         const toolbarItems = currentSettings.ToolbarItems || []
         
         renderComponent(toolbarContainer, SelectToolbar, {
@@ -171,17 +165,13 @@ const showSelectToolbar = async () => {
 
 const main = async () => {
   try {
-    // 动态加载CSS文件
     await loadCSS()
 
-    // 初始化国际化
     await initI18n()
     logger.info('I18n initialized successfully')
 
-    // 先提供设置切换函数
     logseqAPI.provideModel({ settingToggle })
 
-    // 初始渲染设置组件（默认隐藏）
     await showSettingUI()
 
     logseqAPI.App.registerUIItem('toolbar', {
@@ -205,7 +195,7 @@ const main = async () => {
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
-  logseqAPI.ready(main).catch(console.error)
+  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
 } else { 
-  logseqAPI.ready(main).catch(console.error)
+  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
 }
