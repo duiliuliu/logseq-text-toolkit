@@ -94,9 +94,10 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label>{t('settings.toolbarShortcut', language)}</label>
         <input 
           type="text" 
-          value={settings.toolbarShortcut} 
+          value={settings.toolbarShortcut ?? ''} 
           onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
           placeholder={t('settings.toolbarShortcutPlaceholder', language)}
+          disabled
         />
       </div>
 
@@ -129,7 +130,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
               <li><strong>分组格式</strong>：包含 subItems 数组的对象</li>
               <li><strong>单个元素</strong>：直接定义元素，需要 id, label, icon, invoke, invokeParams</li>
               <li><strong>隐藏元素</strong>：添加 "hidden": true 可隐藏按钮</li>
-              <li><strong>绑定快捷键</strong>：添加 "binding" 字段设置快捷键</li>
+              <li><strong>绑定快捷键</strong>：添加 "binding" 字段设置快捷键（功能暂未实现）</li>
             </ul>
           </div>
           <Textarea 
