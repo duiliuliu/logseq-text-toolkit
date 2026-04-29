@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 // Toolbar 项目类型
 export interface ToolbarItem {
   id: string;

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import type { EventBus as IEventBus, EventType, EventData } from './types.ts';
 
 /**

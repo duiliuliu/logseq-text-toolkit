@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import './toolbar.css'

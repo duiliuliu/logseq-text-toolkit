@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
  * Logseq 工具函数
  * 提供跨环境（iframe/非iframe）的工具函数
  */

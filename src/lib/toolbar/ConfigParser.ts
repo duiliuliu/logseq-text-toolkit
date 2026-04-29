@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import type { ConfigParser as IConfigParser } from './types.ts';
 import type { ToolbarItem, ToolbarGroup } from '../../components/Toolbar/types.ts';
 import { parseItems } from '../../components/Toolbar/ToolbarLogic.ts';

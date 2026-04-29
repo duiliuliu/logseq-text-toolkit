@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import type { ToolbarItem, ToolbarGroup } from '../../components/Toolbar/types.ts';
 import type { SelectedData } from '../../components/Toolbar/textProcessor.ts';
 
