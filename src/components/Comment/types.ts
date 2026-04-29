@@ -5,7 +5,7 @@
  * 注释功能类型定义
  */
 
-import type { SelectedData } from '../Toolbar/textProcessor.ts';
+import type { SelectedData } from '../Toolbar/types.ts';
 
 export interface CommentConfig {
   selectedText: string;

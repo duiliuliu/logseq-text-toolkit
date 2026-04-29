@@ -7,7 +7,7 @@
 
 import type { ActionExecutor as IActionExecutor, ActionExecutorFn } from './types.ts';
 import type { ToolbarItem } from '../../components/Toolbar/types.ts';
-import type { SelectedData } from '../../components/Toolbar/textProcessor.ts';
+import type { SelectedData } from '../../components/Toolbar/types.ts';
 import { replaceText, regexReplaceText, updateBlockContent } from '../../lib/textReplace/utils.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';

@@ -4,7 +4,7 @@
 
 import type { ActionExecutorFn } from '../types.ts';
 import type { ToolbarItem } from '../../../components/Toolbar/types.ts';
-import type { SelectedData } from '../../../components/Toolbar/textProcessor.ts';
+import type { SelectedData } from '../../../components/Toolbar/types.ts';
 import { eventBus } from '../EventBus.ts';
 
 /**

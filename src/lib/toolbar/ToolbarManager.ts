@@ -5,7 +5,7 @@
 
 import type { ToolbarManager as IToolbarManager, ActionExecutorFn } from './types.ts';
 import type { ToolbarItem, ToolbarGroup } from '../../components/Toolbar/types.ts';
-import type { SelectedData } from '../../components/Toolbar/textProcessor.ts';
+import type { SelectedData } from '../../components/Toolbar/types.ts';
 import { configParser } from './ConfigParser.ts';
 import { eventBus } from './EventBus.ts';
 import { actionExecutor } from './ActionExecutor.ts';

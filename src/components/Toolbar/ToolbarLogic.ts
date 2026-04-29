@@ -4,7 +4,7 @@
  */
 
 import { ToolbarItem, ToolbarGroup } from './types.ts';
-import { SelectedData } from './textProcessor.ts';
+import { SelectedData } from './types.ts';
 
 export type IconName = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'highlighter' | 'type' | 'x' | 'menu';
 
