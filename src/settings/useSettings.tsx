@@ -39,7 +39,12 @@ const useSettings = (): SettingsContextType => {
           showBorder: Boolean(logseqAPI.settings.showBorder),
           sponsorEnabled: Boolean(logseqAPI.settings.sponsorEnabled),
           // 确保数值类型正确
-          hoverDelay: parseInt(logseqAPI.settings.hoverDelay) || 500
+          hoverDelay: parseInt(logseqAPI.settings.hoverDelay) || 500,
+          // 确保字符串字段有默认值
+          toolbarShortcut: String(logseqAPI.settings.toolbarShortcut || ''),
+          width: String(logseqAPI.settings.width || '110px'),
+          height: String(logseqAPI.settings.height || '28px'),
+          developerMode: Boolean(logseqAPI.settings.developerMode),
         }
         
         // 兼容旧版本的 funcmode 和 clickfunc
@@ -106,7 +111,11 @@ const useSettings = (): SettingsContextType => {
         const settingsToSave: Settings = {
           ...newSettings,
           useSystemTheme: newSettings.theme === 'system',
-          useSystemLanguage: newSettings.language === 'system'
+          useSystemLanguage: newSettings.language === 'system',
+          // 确保所有字符串字段都有默认值
+          toolbarShortcut: String(newSettings.toolbarShortcut || ''),
+          width: String(newSettings.width || '110px'),
+          height: String(newSettings.height || '28px'),
         }
         
         await logseqAPI.updateSettings(settingsToSave as unknown as Record<string, any>)
@@ -184,7 +193,12 @@ const useSettings = (): SettingsContextType => {
           showBorder: Boolean(newSettings.showBorder),
           sponsorEnabled: Boolean(newSettings.sponsorEnabled),
           // 确保数值类型正确
-          hoverDelay: parseInt(newSettings.hoverDelay) || 500
+          hoverDelay: parseInt(newSettings.hoverDelay) || 500,
+          // 确保字符串字段有默认值
+          toolbarShortcut: String(newSettings.toolbarShortcut || ''),
+          width: String(newSettings.width || '110px'),
+          height: String(newSettings.height || '28px'),
+          developerMode: Boolean(newSettings.developerMode),
         }
         
         // 兼容旧版本的 funcmode 和 clickfunc
