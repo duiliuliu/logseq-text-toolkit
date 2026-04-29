@@ -5,24 +5,17 @@
  * 文本处理相关类型定义
  */
 
+import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
+
+/**
+ * 选中数据接口
+ */
 export interface SelectedData {
   text: string;
   timestamp?: string;
-  rect?: DOMRect | { 
-    x: number; 
-    y: number; 
-    width: number; 
-    height: number; 
-    top: number; 
-    right: number; 
-    bottom: number; 
-    left: number; 
-  };
+  range?: Range;
+  rect?: DOMRect;
   before?: string;
   after?: string;
-  block?: {
-    uuid: string;
-    content?: string;
-    properties?: Record<string, any>;
-  };
+  block?: BlockEntity;
 }
