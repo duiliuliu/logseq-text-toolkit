@@ -94,10 +94,9 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label>{t('settings.toolbarShortcut', language)}</label>
         <input 
           type="text" 
-          value={settings.toolbarShortcut || ''} 
+          value={settings.toolbarShortcut} 
           onChange={(e) => handleSettingChange('toolbarShortcut', e.target.value)}
           placeholder={t('settings.toolbarShortcutPlaceholder', language)}
-          disabled
         />
       </div>
 

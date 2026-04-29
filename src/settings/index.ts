@@ -12,8 +12,10 @@ export function getSettings(): Settings {
       theme: (logseqSettings.theme || 'light') as ThemeType,
       language: (logseqSettings.language || 'zh-CN') as LanguageType,
       useSystemTheme: Boolean(logseqSettings.useSystemTheme),
+      useSystemLanguage: Boolean(logseqSettings.useSystemLanguage),
       toolbar: Boolean(logseqSettings.toolbar),
       disabled: Boolean(logseqSettings.disabled),
+      toolbarShortcut: logseqSettings.toolbarShortcut || '',
     }
     
     // 兼容旧版本的 funcmode 和 clickfunc
