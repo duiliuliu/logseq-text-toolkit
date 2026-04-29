@@ -47,6 +47,7 @@ export interface Settings {
   // 工具栏设置
   toolbar: boolean;
   disabled: boolean;
+  toolbarShortcut: string;
   showBorder: boolean;
   width: string;
   height: string;
