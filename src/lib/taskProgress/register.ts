@@ -65,7 +65,7 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
           config: { ...config, showLabel, labelFormat },
         })
       }
-    }, 1)
+    }, 10)
     
     return true
   } catch (err) {
