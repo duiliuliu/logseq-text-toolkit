@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import '../main.css'
 import './testApp.css'
 import TestLayout from './components/TestLayout/index.tsx'
@@ -9,8 +10,71 @@ import ToastContainer from '../components/Toast/Toast.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
 
+interface TaskItem {
+  id: string
+  content: string
+  status: string
+}
+
+const statusOptions = [
+  { value: 'todo', label: '● Todo', color: '#f59e0b' },
+  { value: 'doing', label: '○ Doing', color: '#3b82f6' },
+  { value: 'in-review', label: '⊛ In Review', color: '#06b6d4' },
+  { value: 'done', label: '✓ Done', color: '#10b981' },
+  { value: 'waiting', label: '◐ Waiting', color: '#8b5cf6' },
+  { value: 'canceled', label: '✗ Canceled', color: '#ef4444' },
+]
+
 function TestApp() {
   const { settings } = useSettingsContext()
+  
+  const [tasks, setTasks] = useState<TaskItem[]>([
+    { id: 'task-child-1', content: 'Design the UI', status: 'done' },
+    { id: 'task-child-2', content: 'Setup project', status: 'done' },
+    { id: 'task-child-3', content: 'Implement the logic', status: 'doing' },
+    { id: 'task-child-4', content: 'Write documentation', status: 'todo' },
+    { id: 'task-child-5', content: 'Create examples', status: 'todo' },
+    { id: 'task-child-6', content: 'Write tests', status: 'waiting' },
+  ])
+  
+  const [newTaskContent, setNewTaskContent] = useState('')
+  const [newTaskStatus, setNewTaskStatus] = useState('todo')
+  const [taskCounter, setTaskCounter] = useState(7)
+
+  const addTask = () => {
+    if (!newTaskContent.trim()) return
+    
+    const newTask: TaskItem = {
+      id: `task-child-${taskCounter}`,
+      content: newTaskContent.trim(),
+      status: newTaskStatus,
+    }
+    
+    setTasks(prev => [...prev, newTask])
+    setTaskCounter(prev => prev + 1)
+    setNewTaskContent('')
+    setNewTaskStatus('todo')
+  }
+
+  const removeTask = (taskId: string) => {
+    setTasks(prev => prev.filter(task => task.id !== taskId))
+  }
+
+  const updateTaskStatus = (taskId: string, newStatus: string) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId ? { ...task, status: newStatus } : task
+    ))
+  }
+
+  const getStatusIcon = (status: string) => {
+    const option = statusOptions.find(o => o.value === status)
+    return option?.label?.charAt(0) || '●'
+  }
+
+  const getStatusColor = (status: string) => {
+    const option = statusOptions.find(o => o.value === status)
+    return option?.color || '#6b7280'
+  }
 
   const leftContent = (
     <div className="left-panel">
@@ -58,30 +122,111 @@ function TestApp() {
             content="My Project Tasks {{renderer :taskprogress}}"
             properties={{}}
           />
-          <div className="block" data-block-id="task-child-1" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'done' })}>
-            <span style={{ color: '#10b981' }}>✓</span> Design the UI (done)
-          </div>
-          <div className="block" data-block-id="task-child-2" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'done' })}>
-            <span style={{ color: '#10b981' }}>✓</span> Setup project (done)
-          </div>
-          <div className="block" data-block-id="task-child-3" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'doing' })}>
-            <span style={{ color: '#3b82f6' }}>○</span> Implement the logic (doing)
-          </div>
-          <div className="block" data-block-id="task-child-4" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'todo' })}>
-            <span style={{ color: '#f59e0b' }}>●</span> Write documentation (todo)
-          </div>
-          <div className="block" data-block-id="task-child-5" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'todo' })}>
-            <span style={{ color: '#f59e0b' }}>●</span> Create examples (todo)
-          </div>
-          <div className="block" data-block-id="task-child-6" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'waiting' })}>
-            <span style={{ color: '#8b5cf6' }}>◐</span> Write tests (waiting)
-          </div>
+          
+          {tasks.map(task => {
+            const icon = getStatusIcon(task.status)
+            const color = getStatusColor(task.status)
+            
+            return (
+              <div key={task.id} className="block" data-block-id={task.id} 
+                style={{ 
+                  padding: '8px', 
+                  marginBottom: '4px', 
+                  backgroundColor: '#fff', 
+                  borderRadius: '4px', 
+                  marginLeft: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                data-properties={JSON.stringify({ status: task.status })}>
+                <span style={{ color }}>{icon}</span>
+                <span style={{ flex: 1 }}>{task.content} ({task.status})</span>
+                <select 
+                  value={task.status}
+                  onChange={(e) => updateTaskStatus(task.id, e.target.value)}
+                  style={{ 
+                    padding: '2px 6px', 
+                    fontSize: '12px',
+                    borderRadius: '4px',
+                    border: '1px solid #ddd'
+                  }}>
+                  {statusOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <button 
+                  onClick={() => removeTask(task.id)}
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    color: '#ef4444',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    padding: '0 4px'
+                  }}>
+                  ×
+                </button>
+              </div>
+            )
+          })}
+        </div>
+        
+        {/* 添加任务表单 */}
+        <div style={{ 
+          marginTop: '16px', 
+          padding: '12px', 
+          backgroundColor: '#fff', 
+          borderRadius: '8px',
+          display: 'flex',
+          gap: '8px',
+          alignItems: 'center'
+        }}>
+          <input
+            type="text"
+            placeholder="任务内容"
+            value={newTaskContent}
+            onChange={(e) => setNewTaskContent(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && addTask()}
+            style={{ 
+              flex: 1,
+              padding: '6px 10px',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              fontSize: '13px'
+            }}
+          />
+          <select 
+            value={newTaskStatus}
+            onChange={(e) => setNewTaskStatus(e.target.value)}
+            style={{ 
+              padding: '6px 10px', 
+              fontSize: '13px',
+              borderRadius: '4px',
+              border: '1px solid #ddd'
+            }}>
+            {statusOptions.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <button 
+            onClick={addTask}
+            disabled={!newTaskContent.trim()}
+            style={{ 
+              padding: '6px 16px', 
+              backgroundColor: '#3b82f6',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '13px'
+            }}>
+            + 添加任务
+          </button>
         </div>
       </div>
       

@@ -41,6 +41,20 @@ export interface ToolbarGroup extends ToolbarItem {
   subItems: ToolbarItem[];
 }
 
+// 任务状态颜色配置
+export interface TaskStatusConfig {
+  status: string;      // 状态名称
+  color: string;       // 颜色值
+  icon?: string;       // 图标（可选）
+  label?: string;      // 显示标签（可选）
+}
+
+// 任务进度元数据
+export interface TaskProgressMeta {
+  statusColors: Record<string, string>;  // 状态到颜色的映射
+  customStatuses?: TaskStatusConfig[];   // 自定义状态列表
+}
+
 // 全局设置类型
 export interface Settings {
   // 主题和语言设置
@@ -70,12 +84,12 @@ export interface Settings {
     displayOptions?: {
       [key: string]: Record<string, any>;
     };
-    statusColors?: Record<string, string>;
   };
   
   // 元数据设置
   meta?: {
     language?: LanguageMeta;
+    taskProgress?: TaskProgressMeta;  // 任务进度元数据（存储动态状态颜色）
   };
   
   [key: string]: any;

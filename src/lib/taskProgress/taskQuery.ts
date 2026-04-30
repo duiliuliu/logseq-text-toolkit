@@ -11,7 +11,7 @@ import { getSettings } from '../../settings'
 
 function getStatusColor(status: string): string {
   const settings = getSettings()
-  return settings?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
+  return settings?.meta?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
 }
 
 export async function getDirectTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
