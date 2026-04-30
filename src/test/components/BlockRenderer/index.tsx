@@ -18,7 +18,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({
   content,
   properties = {},
   blockId,
-  className = 'block'
+  className = 'block-renderer'
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [rendered, setRendered] = useState(false)

@@ -55,23 +55,29 @@ const Editor: any = {
     const doc = getDocument();
     
     const parentElement = findElementByBlockId(blockId, doc);
+    console.log('Parent element found:', parentElement);
+    
     if (!parentElement) {
       return Promise.resolve([]);
     }
     
     const children: any[] = [];
     Array.from(parentElement.children).forEach(child => {
+      console.log('Checking child:', child.className, child.hasAttribute('data-block-id'), (child as HTMLElement).dataset.properties);
       if (child.classList.contains('block') || child.hasAttribute('data-block-id')) {
         const id = generateBlockId(child as HTMLElement);
+        const props = JSON.parse((child as HTMLElement).dataset.properties || '{}');
+        console.log('Found block child:', id, props);
         children.push({
           id,
           uuid: id,
           content: child.textContent || '',
-          properties: JSON.parse((child as HTMLElement).dataset.properties || '{}')
+          properties: props
         });
       }
     });
     
+    console.log('Returning children:', children);
     return Promise.resolve(children);
   },
 

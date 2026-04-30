@@ -16,18 +16,22 @@ function getStatusColor(status: string): string {
 
 export async function getDirectTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
   try {
+    console.log('[TaskProgress] getDirectTaskChildren called with:', parentBlockId)
     const children = await logseqAPI.Editor.getBlockChildren(parentBlockId)
+    
+    console.log('[TaskProgress] getBlockChildren result:', children)
     
     if (!children || !Array.isArray(children)) {
       return []
     }
     
-    return children
+    const filtered = children
       .filter(child => {
         const content = child.content || ''
         const hasStatusProp = child.properties?.status !== undefined
         const hasTaskTag = content.includes('#task')
         const hasTaskTracking = child.properties?.task_tracking === true
+        console.log('[TaskProgress] Filter child:', { content, hasStatusProp, hasTaskTag, hasTaskTracking, properties: child.properties })
         return (hasStatusProp || hasTaskTag) && hasTaskTracking
       })
       .map(child => ({
@@ -38,6 +42,9 @@ export async function getDirectTaskChildren(parentBlockId: string): Promise<Task
         taskTrackingEnabled: child.properties?.task_tracking === true,
         properties: child.properties,
       }))
+    
+    console.log('[TaskProgress] Filtered tasks:', filtered)
+    return filtered
   } catch (error) {
     console.error('[TaskProgress] getDirectTaskChildren error:', error)
     return []
