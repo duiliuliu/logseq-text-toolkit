@@ -42,10 +42,31 @@ const TaskProgressDemo: React.FC = () => {
       
       {progressData ? (
         <>
-          <div className="progress-info" style={{ marginBottom: '16px' }}>
-            <p>总任务数: {progressData.totalTasks}</p>
-            <p>已完成: {progressData.completedTasks}</p>
-            <p>进度: {progressData.progress}%</p>
+          <div className="progress-info" style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#f0f9ff', borderRadius: '8px' }}>
+            <p style={{ margin: '4px 0' }}><strong>总任务数:</strong> {progressData.totalTasks}</p>
+            <p style={{ margin: '4px 0' }}><strong>已完成:</strong> {progressData.completedTasks}</p>
+            <p style={{ margin: '4px 0' }}><strong>进度:</strong> {progressData.progress}%</p>
+            <div style={{ marginTop: '8px', borderTop: '1px solid #ddd', paddingTop: '8px' }}>
+              <strong>状态明细:</strong>
+              {progressData.statusStats.map(stat => (
+                <div key={stat.status} style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '8px',
+                  margin: '4px 0',
+                  fontSize: '13px'
+                }}>
+                  <span style={{ 
+                    width: '12px', 
+                    height: '12px', 
+                    borderRadius: '50%', 
+                    backgroundColor: stat.color 
+                  }} />
+                  <span style={{ minWidth: '60px' }}>{stat.status}:</span>
+                  <span style={{ fontWeight: 'bold' }}>{stat.count}</span>
+                </div>
+              ))}
+            </div>
           </div>
           
           <div className="all-display-types">

@@ -60,19 +60,27 @@ function TestApp() {
           />
           <div className="block" data-block-id="task-child-1" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
             data-properties={JSON.stringify({ status: 'done', task_tracking: true })}>
-            <span style={{ color: '#10b981' }}>✓</span> Design the UI
+            <span style={{ color: '#10b981' }}>✓</span> Design the UI (done)
           </div>
           <div className="block" data-block-id="task-child-2" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'doing', task_tracking: true })}>
-            <span style={{ color: '#3b82f6' }}>○</span> Implement the logic
+            data-properties={JSON.stringify({ status: 'done', task_tracking: true })}>
+            <span style={{ color: '#10b981' }}>✓</span> Setup project (done)
           </div>
           <div className="block" data-block-id="task-child-3" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
-            data-properties={JSON.stringify({ status: 'todo', task_tracking: true })}>
-            <span style={{ color: '#f59e0b' }}>●</span> Write documentation
+            data-properties={JSON.stringify({ status: 'doing', task_tracking: true })}>
+            <span style={{ color: '#3b82f6' }}>○</span> Implement the logic (doing)
           </div>
           <div className="block" data-block-id="task-child-4" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
+            data-properties={JSON.stringify({ status: 'todo', task_tracking: true })}>
+            <span style={{ color: '#f59e0b' }}>●</span> Write documentation (todo)
+          </div>
+          <div className="block" data-block-id="task-child-5" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
+            data-properties={JSON.stringify({ status: 'todo', task_tracking: true })}>
+            <span style={{ color: '#f59e0b' }}>●</span> Create examples (todo)
+          </div>
+          <div className="block" data-block-id="task-child-6" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px', marginLeft: '20px' }}
             data-properties={JSON.stringify({ status: 'waiting', task_tracking: true })}>
-            <span style={{ color: '#8b5cf6' }}>◐</span> Write tests
+            <span style={{ color: '#8b5cf6' }}>◐</span> Write tests (waiting)
           </div>
         </div>
       </div>
