@@ -631,14 +631,12 @@ input:checked + .ltt-switch-slider:before {
   align-items: center;
   gap: 12px;
   padding: 10px 14px;
-  background-color: #f8f9fa;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   transition: all 0.2s ease;
 }
 
 .ltt-status-color-row:hover {
-  background-color: #f0f4f8;
   border-color: #cbd5e1;
 }
 
@@ -672,12 +670,10 @@ input:checked + .ltt-switch-slider:before {
 }
 
 [data-theme="dark"] .ltt-status-color-row {
-  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);
   border-color: var(--ls-border-color-plugin, #333333);
 }
 
 [data-theme="dark"] .ltt-status-color-row:hover {
-  background-color: #333333;
   border-color: #444444;
 }
 

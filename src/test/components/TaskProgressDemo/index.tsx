@@ -79,7 +79,11 @@ const TaskProgressDemo: React.FC = () => {
                 <TaskProgress
                   progressData={progressData}
                   displayType={type}
-                  config={settings?.taskProgress?.displayOptions?.[type]}
+                  config={{
+                    ...settings?.taskProgress?.displayOptions?.[type],
+                    showLabel: settings?.taskProgress?.showLabel ?? true,
+                    labelFormat: settings?.taskProgress?.labelFormat || 'fraction'
+                  }}
                   lang={currentLang}
                 />
               </div>
