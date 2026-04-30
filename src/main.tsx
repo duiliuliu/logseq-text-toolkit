@@ -19,6 +19,7 @@ import { getDocument } from './logseq/utils.ts'
 import { logger } from './lib/logger/logger.ts'
 import { initI18n } from './translations/i18n.ts'
 import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register.ts'
+import { renderComponent } from './lib/utils/renderComponent'
 import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS, taskProgressCSS } from './styles/index.ts'
 
 const loadCSS = async () => {
@@ -79,22 +80,6 @@ const loadCSS = async () => {
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
 const COMMENT_APP_ID = 'text-toolkit-comment-app'
-
-interface RenderComponentProps {
-  [key: string]: any
-}
-
-const renderComponent = (container: HTMLElement | null, Component: React.ComponentType<any>, props: RenderComponentProps = {}) => {
-  if (container) {
-    ReactDOM.createRoot(container).render(
-      <React.StrictMode>
-        <SettingsProvider>
-          <Component {...props} />
-        </SettingsProvider>
-      </React.StrictMode>
-    )
-  }
-}
 
 let settingsModalOpen = false;
 
