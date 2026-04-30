@@ -8,24 +8,50 @@
 import React, { useEffect, useState } from 'react'
 import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { calculateTaskProgress } from '../../../lib/taskProgress/taskQuery'
-import { getSettings } from '../../../settings'
-import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../lib/taskProgress/types'
+import { ProgressDisplayType } from '../../../lib/taskProgress/types'
+
+const defaultConfig = {
+  taskProgress: {
+    displayOptions: {
+      'mini-circle': { size: 'small', showLabel: true, labelFormat: 'fraction' },
+      'dot-matrix': { maxDots: 10, size: 'small' }
+    }
+  }
+}
 
 const TaskProgressDemo: React.FC = () => {
-  const [progressData, setProgressData] = useState<TaskProgressType | null>(null)
-  const settings = getSettings()
+  const [progressData, setProgressData] = useState(null)
+  const [config, setConfig] = useState(defaultConfig)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const loadProgress = async () => {
-      const data = await calculateTaskProgress('#task-parent-block')
-      setProgressData(data)
+    try {
+      const loadProgress = async () => {
+        try {
+          const data = await calculateTaskProgress('#task-parent-block')
+          setProgressData(data)
+          setError(null)
+        } catch (err) {
+          console.error('[TaskProgressDemo] calculateTaskProgress error:', err)
+          setError(String(err))
+        }
+      }
+      loadProgress()
+    } catch (err) {
+      console.error('[TaskProgressDemo] useEffect error:', err)
+      setError(String(err))
     }
-    loadProgress()
   }, [])
 
   const refreshProgress = async () => {
-    const data = await calculateTaskProgress('#task-parent-block')
-    setProgressData(data)
+    try {
+      const data = await calculateTaskProgress('#task-parent-block')
+      setProgressData(data)
+      setError(null)
+    } catch (err) {
+      console.error('[TaskProgressDemo] refresh error:', err)
+      setError(String(err))
+    }
   }
 
   const displayTypes: { type: ProgressDisplayType; label: string }[] = [
@@ -35,6 +61,20 @@ const TaskProgressDemo: React.FC = () => {
     { type: 'progress-capsule', label: '进度胶囊' },
     { type: 'step-progress', label: '阶梯进度' }
   ]
+
+  if (error) {
+    return (
+      <div className="task-progress-demo">
+        <h3>任务进度演示</h3>
+        <div style={{ padding: '20px', color: '#e74c3c' }}>
+          <p>发生错误:</p>
+          <pre style={{ fontSize: '12px', background: '#f5f5f5', padding: '8px', borderRadius: '4px' }}>
+            {error}
+          </pre>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="task-progress-demo">
@@ -55,7 +95,7 @@ const TaskProgressDemo: React.FC = () => {
                 <TaskProgress
                   progressData={progressData}
                   displayType={type}
-                  config={settings?.taskProgress?.displayOptions?.[type]}
+                  config={config?.taskProgress?.displayOptions?.[type]}
                 />
               </div>
             ))}
