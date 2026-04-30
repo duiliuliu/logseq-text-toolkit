@@ -30,7 +30,8 @@
       "doing": "#3b82f6",
       "done": "#10b981",
       "waiting": "#8b5cf6",
-      "canceled": "#6b7280"
+      "canceled": "#6b7280",
+      "in-review": "#f97316"
     }
   },
   "meta": {

@@ -78,7 +78,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
 
   const statusColors = {
     ...defaultStatusColors,
-    ...settings.meta?.taskProgress?.statusColors
+    ...settings.taskProgress?.statusColors
   }
 
   return (
