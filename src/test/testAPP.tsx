@@ -1,22 +1,16 @@
-/**
- * Copyright (c) 2026 duiliuliu
- * License: MIT
- * 
- * 测试应用入口
- */
-
 import '../main.css'
 import './testApp.css'
-import React, { useState, useEffect } from 'react'
 import TestLayout from './components/TestLayout/index.tsx'
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import HiccupRenderer from './components/HiccupRenderer/index.tsx'
+import BlockRenderer from './components/BlockRenderer/index.tsx'
 import TaskProgressDemo from './components/TaskProgressDemo/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
 import testConfig from './testConfig.ts'
+import { useSettingsContext } from '../settings/useSettings.tsx'
 
-const TestApp: React.FC = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+function TestApp() {
+  const { settings } = useSettingsContext()
 
   const leftContent = (
     <div className="left-panel">
@@ -90,7 +84,7 @@ const TestApp: React.FC = () => {
   )
 
   return (
-    <div id="app-container" className={`app ${theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
+    <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div id="toolbar" className="toolbar-banner">
         <div className="toolbar-banner-content">
           <span className="toolbar-banner-text">工具栏演示</span>

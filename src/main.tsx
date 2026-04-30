@@ -202,13 +202,7 @@ const main = async () => {
 
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
-  if (rootElement) {
-    ReactDOM.createRoot(rootElement).render(
-      <React.StrictMode>
-        <TestApp />
-      </React.StrictMode>
-    )
-  }
+  renderComponent(rootElement, TestApp)
   logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
 } else { 
   logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
