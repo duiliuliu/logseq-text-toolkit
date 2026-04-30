@@ -91,10 +91,15 @@ const Tooltip: React.FC<TooltipProps> = ({
       onMouseLeave={handleMouseLeave}
     >
       {children}
+      {/* 移除 CSS hover 控制的 opacity，只使用 React state 控制显示 */}
       {visible && (
         <div 
           ref={tooltipRef}
           className={`task-progress-tooltip ${position}`}
+          style={{
+            opacity: 1,
+            transform: 'translateX(-50%) translateY(0)'
+          }}
         >
           {renderContent()}
         </div>

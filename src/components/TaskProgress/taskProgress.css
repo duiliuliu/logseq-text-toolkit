@@ -92,9 +92,7 @@
   font-size: 12px;
   min-width: 140px;
   pointer-events: none;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  /* 移除初始 opacity 和 transition，让 React state 控制 */
 }
 
 .task-progress-tooltip.top {
@@ -109,10 +107,7 @@
   transform: translateX(-50%) translateY(4px);
 }
 
-.task-progress-tooltip-wrapper:hover .task-progress-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+/* 移除 CSS hover 控制的 tooltip 显示，只使用 React state 控制 */
 
 .task-progress-tooltip-wrapper.hover-bounce .task-progress-mini-circle,
 .task-progress-tooltip-wrapper.hover-bounce .task-progress-dot-matrix,

@@ -11,7 +11,12 @@ import { getSettings } from '../../settings'
 
 function getStatusColor(status: string): string {
   const settings = getSettings()
-  return settings?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
+  const normalizedStatus = status.toLowerCase()
+  return settings?.taskProgress?.statusColors?.[normalizedStatus] || 
+         settings?.taskProgress?.statusColors?.[status] || 
+         STATUS_COLORS[normalizedStatus] || 
+         STATUS_COLORS[status] || 
+         '#6b7280'
 }
 
 export async function calculateTaskProgress(parentBlockId: string): Promise<TaskProgress | null> {
