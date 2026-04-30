@@ -1,6 +1,6 @@
 {
   "name": "logseq-text-toolkit",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A toolkit for text formatting and manipulation in Logseq",
   "author": "duiliuliu",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "build:plugin": "vite build && npm run copy-assets",
     "preview": "vite preview",
     "copy-assets": "mkdir -p dist/translations && cp -f src/translations/*.json dist/translations/ && npm run copy-css",
-    "copy-css": "mkdir -p dist && cp -f src/components/SettingsModal/settingsModal.css dist/ && cp -f src/components/Modal/modal.css dist/ && cp -f src/components/Toolbar/toolbar.css dist/ && cp -f src/components/Comment/inlineComment.css dist/ && cp -f src/styles/customsToolbarItems.css dist/"
+    "copy-css": "mkdir -p dist && cp -f src/components/SettingsModal/settingsModal.css dist/ && cp -f src/components/Modal/modal.css dist/ && cp -f src/components/Toolbar/toolbar.css dist/ && cp -f src/components/Comment/inlineComment.css dist/ && cp -f src/styles/customsToolbarItems.css dist/ && cp -f src/components/TaskProgress/taskProgress.css dist/"
   },
   "dependencies": {
     "@logseq/libs": "^0.2.12",

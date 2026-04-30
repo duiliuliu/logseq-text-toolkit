@@ -18,7 +18,7 @@ interface ProgressCapsuleProps {
   lang?: SupportedLanguage
   animationClass?: string
   showLabel?: boolean
-  labelFormat?: 'fraction' | 'percentage' | 'both'
+  labelFormat?: 'fraction' | 'percentage'
 }
 
 const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
@@ -45,9 +45,6 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
         break
       case 'percentage':
         label = `${progress}%`
-        break
-      case 'both':
-        label = `${completedTasks}/${totalTasks}`
         break
     }
     

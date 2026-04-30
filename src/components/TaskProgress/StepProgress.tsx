@@ -18,7 +18,7 @@ interface StepProgressProps {
   lang?: SupportedLanguage
   animationClass?: string
   showLabel?: boolean
-  labelFormat?: 'fraction' | 'percentage' | 'both'
+  labelFormat?: 'fraction' | 'percentage'
 }
 
 const StepProgress: React.FC<StepProgressProps> = ({
@@ -50,9 +50,6 @@ const StepProgress: React.FC<StepProgressProps> = ({
         break
       case 'percentage':
         label = `${progress}%`
-        break
-      case 'both':
-        label = `${completedTasks}/${totalTasks}`
         break
     }
     

@@ -17,7 +17,7 @@ interface MiniCircleProgressProps {
   totalTasks: number
   size?: 'small' | 'medium' | 'large'
   showLabel?: boolean
-  labelFormat?: 'fraction' | 'percentage' | 'both'
+  labelFormat?: 'fraction' | 'percentage'
   lang?: SupportedLanguage
   animationClass?: string
 }
@@ -60,9 +60,6 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
         break
       case 'percentage':
         label = `${progress}%`
-        break
-      case 'both':
-        label = `${completedTasks}/${totalTasks}`
         break
     }
     

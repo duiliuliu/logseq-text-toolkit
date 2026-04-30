@@ -20,7 +20,7 @@ interface DotMatrixProgressProps {
   lang?: SupportedLanguage
   animationClass?: string
   showLabel?: boolean
-  labelFormat?: 'fraction' | 'percentage' | 'both'
+  labelFormat?: 'fraction' | 'percentage'
 }
 
 const DOT_SIZE_MAP = {
@@ -68,9 +68,6 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
         break
       case 'percentage':
         label = `${progress}%`
-        break
-      case 'both':
-        label = hasMore ? `+${totalTasks - maxDots}` : `${completedTasks}/${totalTasks}`
         break
     }
     

@@ -67,8 +67,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
 
   const labelFormatOptions = [
     { value: 'fraction', label: t('settings.taskProgress.labelFraction', language) },
-    { value: 'percentage', label: t('settings.taskProgress.labelPercentage', language) },
-    { value: 'both', label: t('settings.taskProgress.labelBoth', language) }
+    { value: 'percentage', label: t('settings.taskProgress.labelPercentage', language) }
   ]
 
   const taskProgress = settings.taskProgress || {

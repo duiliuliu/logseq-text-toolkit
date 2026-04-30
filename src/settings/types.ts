@@ -82,7 +82,7 @@ export interface Settings {
     enabled: boolean;
     defaultDisplayType: 'mini-circle' | 'dot-matrix' | 'status-cursor' | 'progress-capsule' | 'step-progress';
     showLabel?: boolean;
-    labelFormat?: 'fraction' | 'percentage' | 'both';
+    labelFormat?: 'fraction' | 'percentage';
     displayOptions?: {
       [key: string]: Record<string, any>;
     };

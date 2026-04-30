@@ -32,7 +32,7 @@ export type ProgressDisplayType =
 export interface ProgressDisplayConfig {
   type: ProgressDisplayType;
   showLabel: boolean;
-  labelFormat: 'fraction' | 'percentage' | 'both';
+  labelFormat: 'fraction' | 'percentage';
   size: 'small' | 'medium' | 'large';
   colors?: {
     todo: string;
