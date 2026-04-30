@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react'
-import { getStatusName } from '../../translations/i18n'
+import { getStatusName, t } from '../../translations/i18n'
 import { StatusStat } from '../../lib/taskProgress/types'
 import { SupportedLanguage } from '../../translations/translations'
 
@@ -58,7 +58,7 @@ const Tooltip: React.FC<TooltipProps> = ({
       <div className="task-progress-tooltip-content">
         <div className="tooltip-header">
           <span className="tooltip-progress-label">
-            {getStatusName('done', lang)}
+            {t('settings.taskProgress.tooltip.progress', lang)}
           </span>
           <span className="tooltip-progress-value">{progress}%</span>
         </div>
@@ -77,7 +77,7 @@ const Tooltip: React.FC<TooltipProps> = ({
           ))}
         </div>
         <div className="tooltip-footer">
-          <span>{totalTasks}</span>
+          <span>{t('settings.taskProgress.tooltip.total', lang)}: {totalTasks}</span>
         </div>
       </div>
     )
