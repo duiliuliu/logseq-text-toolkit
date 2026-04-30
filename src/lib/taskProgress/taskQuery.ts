@@ -11,74 +11,70 @@ import { getSettings } from '../../settings'
 
 function getStatusColor(status: string): string {
   const settings = getSettings()
-  return settings?.meta?.taskProgress?.statusColors?.[status] || settings?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
+  return settings?.meta?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
+}
+
+export async function getDirectTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
+  try {
+    const children = await logseqAPI.Editor.getBlockChildren(parentBlockId)
+    
+    if (!children || !Array.isArray(children)) {
+      return []
+    }
+    
+    return children
+      .filter(child => {
+        const content = child.content || ''
+        const hasStatusProp = child.properties?.status !== undefined
+        const hasTaskTag = content.includes('#task')
+        return hasStatusProp || hasTaskTag
+      })
+      .map(child => ({
+        id: child.id || child.uuid,
+        content: child.content || '',
+        status: child.properties?.status as string,
+        isTask: true,
+        properties: child.properties,
+      }))
+  } catch (error) {
+    console.error('[TaskProgress] getDirectTaskChildren error:', error)
+    return []
+  }
 }
 
 export async function calculateTaskProgress(parentBlockId: string): Promise<TaskProgress | null> {
-  try {
-    // 使用 datascriptQuery 直接查询统计结果：状态 + 数量
-    const results = await logseqAPI.DB.datascriptQuery(
-      `[:find ?status-title (count ?b)
-        :in $ ?parent
-        :where
-        [?p :block/uuid #uuid ?parent]
-        [?b :block/parent ?p]
-        [?b :block/tags ?t]
-        [?t :block/title "task"]
-        [?b :logseq.property/status ?status]
-        [?status :block/title ?status-title]]`,
-      parentBlockId
-    )
-
-    if (!results || !Array.isArray(results)) {
-      return {
-        blockId: parentBlockId,
-        parentBlockId: parentBlockId,
-        totalTasks: 0,
-        completedTasks: 0,
-        statusStats: [],
-        progress: 0,
-      }
-    }
-
-    const statusStats: StatusStat[] = []
-    let totalTasks = 0
-    let completedTasks = 0
-
-    // 处理统计结果
-    results.forEach((result: any) => {
-      if (Array.isArray(result) && result.length >= 2) {
-        const statusTitle = result[0] as string
-        const count = result[1] as number
-
-        totalTasks += count
-
-        // 将状态标题转为小写用于匹配颜色
-        const normalizedStatus = statusTitle.toLowerCase()
-        if (normalizedStatus === 'done') {
-          completedTasks += count
-        }
-
-        statusStats.push({
-          status: normalizedStatus,
-          count,
-          color: getStatusColor(normalizedStatus),
-        })
-      }
-    })
-
-    const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
-
-    return {
-      blockId: parentBlockId,
-      parentBlockId: parentBlockId,
-      totalTasks,
-      completedTasks,
-      statusStats,
-      progress,
-    }
-  } catch (error) {
-    console.error('[TaskProgress] calculateTaskProgress error:', error)
+  const tasks = await getDirectTaskChildren(parentBlockId)
+  
+  if (tasks.length === 0) {
     return null
+  }
+  
+  const statusStats: StatusStat[] = []
+  const statusCountMap = new Map<string, number>()
+  
+  tasks.forEach(task => {
+    const status = task.status || 'todo'
+    statusCountMap.set(status, (statusCountMap.get(status) || 0) + 1)
+  })
+  
+  statusCountMap.forEach((count, status) => {
+    statusStats.push({ 
+      status, 
+      count, 
+      color: getStatusColor(status) 
+    })
+  })
+  
+  const totalTasks = tasks.length
+  const completedTasks = statusCountMap.get('done') || 0
+  const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
+  
+  return {
+    blockId: parentBlockId,
+    parentBlockId: parentBlockId,
+    totalTasks,
+    completedTasks,
+    statusStats,
+    progress,
   }
 }
