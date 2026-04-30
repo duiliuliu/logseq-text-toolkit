@@ -14,10 +14,12 @@ interface DotMatrixProgressProps {
   stats: StatusStat[]
   progress: number
   totalTasks: number
+  completedTasks: number
   maxDots?: number
   size?: 'small' | 'medium' | 'large'
   lang?: SupportedLanguage
   animationClass?: string
+  showLabel?: boolean
 }
 
 const DOT_SIZE_MAP = {
@@ -30,10 +32,12 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
   stats,
   progress,
   totalTasks,
+  completedTasks,
   maxDots = 10,
   size = 'small',
   lang = 'zh-CN',
   animationClass = '',
+  showLabel = true,
 }) => {
   const dotSize = DOT_SIZE_MAP[size]
 
@@ -73,9 +77,9 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
             }}
           />
         ))}
-        {hasMore && (
+        {showLabel && (
           <span className="task-progress-label" style={{ fontSize: '10px' }}>
-            +{totalTasks - maxDots}
+            {hasMore ? `+${totalTasks - maxDots}` : `${completedTasks}/${totalTasks}`}
           </span>
         )}
       </div>

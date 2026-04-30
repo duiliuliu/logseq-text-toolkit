@@ -14,11 +14,11 @@
   "taskProgress": {
     "enabled": true,
     "defaultDisplayType": "mini-circle",
+    "showLabel": true,
+    "labelFormat": "fraction",
     "displayOptions": {
       "mini-circle": {
-        "size": "small",
-        "showLabel": true,
-        "labelFormat": "fraction"
+        "size": "small"
       },
       "dot-matrix": {
         "maxDots": 10,

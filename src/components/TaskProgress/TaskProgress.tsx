@@ -39,6 +39,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
       progress: progressData.progress,
       lang,
       animationClass,
+      showLabel: config?.showLabel ?? true,
     }
     
     switch (displayType) {
@@ -56,6 +57,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
           <DotMatrixProgress
             {...commonProps}
             totalTasks={progressData.totalTasks}
+            completedTasks={progressData.completedTasks}
             {...config}
           />
         )
@@ -71,7 +73,14 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
           />
         )
       case 'step-progress':
-        return <StepProgress {...commonProps} {...config} />
+        return (
+          <StepProgress
+            {...commonProps}
+            totalTasks={progressData.totalTasks}
+            completedTasks={progressData.completedTasks}
+            {...config}
+          />
+        )
       default:
         return null
     }

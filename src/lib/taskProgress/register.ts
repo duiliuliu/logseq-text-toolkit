@@ -39,6 +39,8 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
     const settings = getSettings()
     const displayType: ProgressDisplayType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
     const config = settings?.taskProgress?.displayOptions?.[displayType]
+    const showLabel = settings?.taskProgress?.showLabel ?? true
+    const labelFormat = settings?.taskProgress?.labelFormat || 'fraction'
     
     if (!TaskProgressComponent) {
       logger.warn('[TaskProgress] Component not registered')
@@ -49,7 +51,7 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
       React.createElement(TaskProgressComponent, {
         progressData,
         displayType,
-        config,
+        config: { ...config, showLabel, labelFormat },
       })
     )
     

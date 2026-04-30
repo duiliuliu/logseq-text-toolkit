@@ -81,6 +81,8 @@ export interface Settings {
   taskProgress?: {
     enabled: boolean;
     defaultDisplayType: 'mini-circle' | 'dot-matrix' | 'status-cursor' | 'progress-capsule' | 'step-progress';
+    showLabel?: boolean;
+    labelFormat?: 'fraction' | 'percentage' | 'both';
     displayOptions?: {
       [key: string]: Record<string, any>;
     };

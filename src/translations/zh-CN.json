@@ -99,6 +99,7 @@
       "labelFraction": "分数 (10/20)",
       "labelPercentage": "百分比 (50%)",
       "labelBoth": "两者 (10/20 50%)",
+      "statusColors": "状态颜色",
       "statusNames": {
         "todo": "待办",
         "doing": "进行中",

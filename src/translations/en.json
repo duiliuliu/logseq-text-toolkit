@@ -99,6 +99,7 @@
       "labelFraction": "Fraction (10/20)",
       "labelPercentage": "Percentage (50%)",
       "labelBoth": "Both (10/20 50%)",
+      "statusColors": "Status Colors",
       "statusNames": {
         "todo": "To Do",
         "doing": "In Progress",

@@ -13,21 +13,26 @@ import { SupportedLanguage } from '../../translations/translations'
 interface StepProgressProps {
   stats: StatusStat[]
   progress: number
+  totalTasks: number
+  completedTasks: number
   lang?: SupportedLanguage
   animationClass?: string
+  showLabel?: boolean
 }
 
 const StepProgress: React.FC<StepProgressProps> = ({
   stats,
   progress,
+  totalTasks,
+  completedTasks,
   lang = 'zh-CN',
   animationClass = '',
+  showLabel = true,
 }) => {
   if (stats.length === 0) {
     return null
   }
 
-  const totalTasks = stats.reduce((sum, s) => sum + s.count, 0)
   const maxHeight = 16
   const segmentWidth = 8
 
@@ -58,6 +63,11 @@ const StepProgress: React.FC<StepProgressProps> = ({
             />
           )
         })}
+        {showLabel && (
+          <span className="task-progress-label" style={{ fontSize: '10px', marginLeft: '4px' }}>
+            {completedTasks}/{totalTasks}
+          </span>
+        )}
       </div>
     </Tooltip>
   )

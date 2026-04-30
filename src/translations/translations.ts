@@ -31,6 +31,7 @@ export interface TaskProgressTranslation {
   labelFraction: string;
   labelPercentage: string;
   labelBoth: string;
+  statusColors: string;
   statusNames: TaskProgressStatusNames;
   tooltip: TaskProgressTooltip;
 }

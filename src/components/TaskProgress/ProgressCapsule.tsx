@@ -17,6 +17,7 @@ interface ProgressCapsuleProps {
   totalTasks: number
   lang?: SupportedLanguage
   animationClass?: string
+  showLabel?: boolean
 }
 
 const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
@@ -26,6 +27,7 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
   totalTasks,
   lang = 'zh-CN',
   animationClass = '',
+  showLabel = true,
 }) => {
   if (stats.length === 0 || totalTasks === 0) {
     return null
@@ -56,9 +58,11 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
             )
           })}
         </div>
-        <span className="task-progress-label">
-          {completedTasks}/{totalTasks}
-        </span>
+        {showLabel && (
+          <span className="task-progress-label">
+            {completedTasks}/{totalTasks}
+          </span>
+        )}
       </div>
     </Tooltip>
   )

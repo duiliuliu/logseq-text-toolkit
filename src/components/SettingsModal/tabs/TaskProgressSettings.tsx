@@ -5,7 +5,7 @@
  * 任务进度设置 Tab
  */
 
-import { t } from '../../../translations/i18n.ts'
+import { t, getStatusName } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
@@ -123,8 +123,8 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
         <label className="ltt-switch">
           <input
             type="checkbox"
-            checked={taskProgress.displayOptions?.['mini-circle']?.showLabel ?? true}
-            onChange={(e) => handleSettingChange('taskProgress.displayOptions.mini-circle.showLabel', e.target.checked)}
+            checked={taskProgress.showLabel ?? true}
+            onChange={(e) => handleSettingChange('taskProgress.showLabel', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>
@@ -134,8 +134,8 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
         <label>{t('settings.taskProgress.labelFormat', language)}</label>
         <CustomSelect
           options={labelFormatOptions}
-          value={taskProgress.displayOptions?.['mini-circle']?.labelFormat || 'fraction'}
-          onChange={(value) => handleSettingChange('taskProgress.displayOptions.mini-circle.labelFormat', value)}
+          value={taskProgress.labelFormat || 'fraction'}
+          onChange={(value) => handleSettingChange('taskProgress.labelFormat', value)}
         />
       </div>
 
@@ -154,7 +154,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
                 onChange={(e) => handleStatusColorChange(status, e.target.value)}
                 className="ltt-color-input"
               />
-              <span className="ltt-status-label">{status}</span>
+              <span className="ltt-status-label">{getStatusName(status, language)}</span>
             </div>
           ))}
         </div>

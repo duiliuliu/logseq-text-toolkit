@@ -95,6 +95,7 @@
       "labelFraction": "分数 (10/20)",
       "labelPercentage": "パーセント (50%)",
       "labelBoth": "両方 (10/20 50%)",
+      "statusColors": "ステータス色",
       "statusNames": {
         "todo": "未着手",
         "doing": "進行中",
