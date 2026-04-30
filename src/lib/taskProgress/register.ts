@@ -11,6 +11,7 @@ import { calculateTaskProgress } from './taskQuery'
 import { ProgressDisplayType } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
+import { SettingsProvider } from '../../settings/useSettings'
 import { logger } from '../logger/logger'
 
 const MACRO_PREFIX = ':taskprogress'
@@ -48,11 +49,13 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
     }
     
     const template = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(TaskProgressComponent, {
-        progressData,
-        displayType,
-        config: { ...config, showLabel, labelFormat },
-      })
+      React.createElement(SettingsProvider, null,
+        React.createElement(TaskProgressComponent, {
+          progressData,
+          displayType,
+          config: { ...config, showLabel, labelFormat },
+        })
+      )
     )
     
     logseqAPI.provideUI({
