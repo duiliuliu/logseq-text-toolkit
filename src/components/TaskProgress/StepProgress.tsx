@@ -18,6 +18,7 @@ interface StepProgressProps {
   lang?: SupportedLanguage
   animationClass?: string
   showLabel?: boolean
+  labelFormat?: 'fraction' | 'percentage' | 'both'
 }
 
 const StepProgress: React.FC<StepProgressProps> = ({
@@ -28,9 +29,21 @@ const StepProgress: React.FC<StepProgressProps> = ({
   lang = 'zh-CN',
   animationClass = '',
   showLabel = true,
+  labelFormat = 'fraction',
 }) => {
   if (stats.length === 0) {
     return null
+  }
+
+  const formatLabel = () => {
+    switch (labelFormat) {
+      case 'percentage':
+        return `${progress}%`
+      case 'both':
+        return `${completedTasks}/${totalTasks} (${progress}%)`
+      default:
+        return `${completedTasks}/${totalTasks}`
+    }
   }
 
   const maxHeight = 16
@@ -65,7 +78,7 @@ const StepProgress: React.FC<StepProgressProps> = ({
         })}
         {showLabel && (
           <span className="task-progress-label" style={{ fontSize: '10px', marginLeft: '4px' }}>
-            {completedTasks}/{totalTasks}
+            {formatLabel()}
           </span>
         )}
       </div>
