@@ -660,171 +660,165 @@ const loadCSS = async () => {
 
 ## 6. Mock Logseq 实现
 
-### 6.1 Mock DB 扩展
+**设计原则**：
+- 直接使用 Logseq API 类型，不自定义重复类型
+- Block ID 使用 JS 路径（CSS 选择器路径），可直接在 DOM 中定位元素
+- 子节点通过 DOM `children` 获取，而非 Map 存储
+- 支持 `{{renderer ...}}` 宏渲染，类似 HiccupRenderer 实时渲染能力
 
-**文件位置**：[src/logseq/mock/index.ts](file:///workspace/src/logseq/mock/index.ts)
-
-```typescript
-// Mock Logseq DB API
-interface MockBlock {
-  id: string;
-  content: string;
-  properties?: {
-    status?: string;
-    task_tracking?: boolean;
-    [key: string]: unknown;
-  };
-  children?: MockBlock[];
-}
-
-const mockBlocks: Map<string, MockBlock> = new Map();
-
-export function addMockBlock(block: MockBlock) {
-  mockBlocks.set(block.id, block);
-}
-
-export function clearMockBlocks() {
-  mockBlocks.clear();
-}
-
-const mockLogseq = {
-  // ... 现有 mock 实现 ...
-  
-  DB: {
-    datascriptQuery: async (query: string) => {
-      console.log('Mock DB datascriptQuery called:', query);
-      // 简单实现：返回匹配的 mock blocks
-      const results: [MockBlock][] = [];
-      mockBlocks.forEach(block => {
-        if (block.properties?.task_tracking === true) {
-          results.push([block]);
-        }
-      });
-      return results;
-    },
-    q: () => Promise.resolve([]),
-    customQuery: () => Promise.resolve([]),
-    onChanged: () => () => {}
-  }
-};
-```
-
-### 6.2 Mock Editor 扩展
+### 6.1 Mock Editor 实现
 
 **文件位置**：[src/logseq/mock/editor.ts](file:///workspace/src/logseq/mock/editor.ts)
 
 ```typescript
-import { getDocument } from '../utils.ts';
+import { getDocument, getSelection } from '../utils';
+import type { IBlock } from '@logseq/libs/dist/LSPlugin.user';
 
-interface MockBlock {
-  id: string;
-  uuid: string;
-  content: string;
-  properties?: {
-    status?: string;
-    task_tracking?: boolean;
-    [key: string]: unknown;
-  };
-  children?: MockBlock[];
-  parentId?: string;
-}
-
-const mockBlocks: Map<string, MockBlock> = new Map();
-
-export function addMockBlock(block: MockBlock) {
-  mockBlocks.set(block.id, block);
-  mockBlocks.set(block.uuid, block);
-}
-
-export function clearMockBlocks() {
-  mockBlocks.clear();
+function generateBlockId(element: HTMLElement): string {
+  const path: string[] = [];
+  let current: Element | null = element;
+  
+  while (current) {
+    let selector = current.tagName.toLowerCase();
+    if (current.id) {
+      selector = `#${current.id}`;
+    } else if (current.classList.length > 0) {
+      selector += `.${Array.from(current.classList).join('.')}`;
+    } else {
+      const index = Array.from(current.parentNode?.children || []).indexOf(current as Element);
+      if (index >= 0) {
+        selector += `:nth-child(${index + 1})`;
+      }
+    }
+    path.unshift(selector);
+    current = current.parentElement;
+  }
+  
+  return path.join(' > ');
 }
 
 const Editor: any = {
-  // ... 现有 mock Editor API ...
-  
-  getBlock: async (blockId: string) => {
-    console.log('Mock Editor.getBlock called:', blockId);
-    return mockBlocks.get(blockId) || null;
-  },
-  
-  getBlockChildren: async (blockId: string) => {
-    console.log('Mock Editor.getBlockChildren called:', blockId);
-    const parentBlock = mockBlocks.get(blockId);
-    if (parentBlock?.children) {
-      return parentBlock.children;
+  getBlock: async (blockId: string): Promise<IBlock | null> => {
+    const doc = getDocument();
+    const element = doc.querySelector(blockId);
+    if (element) {
+      return {
+        id: blockId,
+        uuid: blockId,
+        content: element.textContent || '',
+        properties: JSON.parse(element.dataset.properties || '{}')
+      };
     }
-    // 查找所有以该 block 为父节点的子节点
-    const children: MockBlock[] = [];
-    mockBlocks.forEach(block => {
-      if (block.parentId === blockId) {
-        children.push(block);
+    return null;
+  },
+
+  getBlockChildren: async (blockId: string): Promise<IBlock[]> => {
+    const doc = getDocument();
+    const parentElement = doc.querySelector(blockId);
+    if (!parentElement) return [];
+    
+    const children: IBlock[] = [];
+    Array.from(parentElement.children).forEach(child => {
+      if (child.classList.contains('block')) {
+        const id = generateBlockId(child as HTMLElement);
+        children.push({
+          id,
+          uuid: id,
+          content: child.textContent || '',
+          properties: JSON.parse(child.dataset.properties || '{}')
+        });
       }
     });
+    
     return children;
   },
-  
-  updateBlock: async (blockId: string, content: string, properties?: any) => {
-    console.log('Mock Editor.updateBlock called:', blockId, content, properties);
-    const block = mockBlocks.get(blockId);
-    if (block) {
-      if (content) block.content = content;
-      if (properties) block.properties = { ...block.properties, ...properties };
+
+  getCurrentBlock: async (): Promise<IBlock | null> => {
+    const selection = getSelection();
+    if (!selection || selection.rangeCount === 0) return null;
+    
+    let element = selection.commonAncestorContainer;
+    while (element && !(element instanceof HTMLElement && element.classList.contains('block'))) {
+      element = element.parentElement;
     }
-    return true;
-  },
-  
-  getCurrentBlock: async () => {
-    console.log('Mock Editor.getCurrentBlock called');
-    const blocks = Array.from(mockBlocks.values());
-    if (blocks.length > 0) {
-      return blocks[0];
+    
+    if (element) {
+      const id = generateBlockId(element);
+      return {
+        id,
+        uuid: id,
+        content: element.textContent || '',
+        properties: JSON.parse(element.dataset.properties || '{}')
+      };
     }
-    return {
-      uuid: 'default-block',
-      content: 'Default block content',
-      properties: {}
-    };
+    
+    return null;
   },
-  
-  insertAtEditingCursor: async (text: string) => {
-    console.log('Mock Editor.insertAtEditingCursor called:', text);
-    return true;
+
+  insertAtEditingCursor: async (text: string): Promise<void> => {
+    const selection = getSelection();
+    const doc = getDocument();
+    
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      
+      const textNode = doc.createTextNode(text);
+      range.insertNode(textNode);
+      range.collapse(false);
+      
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
   },
-  
+
   registerSlashCommand: (name: string, callback: Function) => {
     console.log('Mock Editor.registerSlashCommand called:', name);
-    globalThis[name] = callback;
+    globalThis.logseqSlashCommands = globalThis.logseqSlashCommands || {};
+    globalThis.logseqSlashCommands[name] = callback;
+  },
+
+  updateBlock: async (blockId: string, content: string, properties?: Record<string, unknown>) => {
+    const doc = getDocument();
+    const element = doc.querySelector(blockId);
+    if (element) {
+      if (content !== undefined) {
+        element.textContent = content;
+      }
+      if (properties) {
+        element.dataset.properties = JSON.stringify(properties);
+      }
+    }
+    return true;
   }
 };
 
 export default Editor;
 ```
 
-### 6.3 Mock App 扩展
+### 6.2 Mock App 实现
 
 **文件位置**：[src/logseq/mock/app.ts](file:///workspace/src/logseq/mock/app.ts)
 
 ```typescript
-import { getDocument } from '../utils.ts';
+import { getDocument } from '../utils';
 
 const App: any = {
-  // ... 现有 mock App API ...
-  
   onMacroRendererSlotted: (callback: Function) => {
     console.log('Mock App.onMacroRendererSlotted registered');
     globalThis.logseqMacroRendererCallback = callback;
   },
-  
+
   registerUIItem: (slot: string, config: any) => {
-    console.log('Mock App.registerUIItem called:', slot, config);
     const doc = getDocument();
     const toolbarElement = doc.getElementById('toolbar');
+    
     if (toolbarElement) {
       const existingElement = doc.getElementById(config.key);
       if (existingElement) {
         existingElement.remove();
       }
+      
       const element = doc.createElement('div');
       element.id = config.key;
       element.innerHTML = config.template;
@@ -837,16 +831,227 @@ const App: any = {
           e.stopPropagation();
           const functionName = clickable.getAttribute('data-on-click');
           if (functionName && typeof (globalThis as any)[functionName] === 'function') {
-            console.log('Calling function:', functionName);
             (globalThis as any)[functionName]();
           }
         });
       });
     }
-  }
+  },
+
+  getUserConfigs: () => Promise.resolve({
+    preferredThemeMode: 'light',
+    preferredLanguage: 'zh-CN'
+  })
 };
 
 export default App;
+```
+
+### 6.3 Mock Logseq 完整整合
+
+**文件位置**：[src/logseq/mock/index.ts](file:///workspace/src/logseq/mock/index.ts)
+
+```typescript
+import App from './app';
+import Editor from './editor';
+import UI from './ui';
+import { getDocument } from '../utils';
+import { getSettings, updateSettings, onSettingsChanged } from './settings';
+
+class EventEmitter {
+  private events: Map<string, Array<(...args: any[]) => void>> = new Map();
+
+  on(event: string, listener: (...args: any[]) => void) {
+    if (!this.events.has(event)) {
+      this.events.set(event, []);
+    }
+    this.events.get(event)?.push(listener);
+    return this;
+  }
+
+  off(event: string, listener?: (...args: any[]) => void) {
+    if (!listener) {
+      this.events.delete(event);
+    } else {
+      const listeners = this.events.get(event);
+      if (listeners) {
+        const index = listeners.indexOf(listener);
+        if (index !== -1) {
+          listeners.splice(index, 1);
+        }
+      }
+    }
+    return this;
+  }
+
+  emit(event: string, ...args: any[]) {
+    const listeners = this.events.get(event);
+    listeners?.forEach(listener => listener(...args));
+    return true;
+  }
+}
+
+const mockLogseq = Object.assign(new EventEmitter(), {
+  connected: true,
+  version: '0.2.12',
+  isMainUIVisible: false,
+
+  ready: (modelOrCallback?: any, callback?: any) => {
+    const promise = Promise.resolve();
+    if (typeof modelOrCallback === 'function') {
+      promise.then(modelOrCallback);
+    } else if (typeof callback === 'function') {
+      promise.then(callback);
+      if (modelOrCallback) {
+        mockLogseq.provideModel(modelOrCallback);
+      }
+    } else if (modelOrCallback) {
+      mockLogseq.provideModel(modelOrCallback);
+    }
+    return promise;
+  },
+
+  provideModel: (model: Record<string, any>) => {
+    Object.assign(globalThis, model);
+    Object.assign(mockLogseq, model);
+    return mockLogseq;
+  },
+
+  provideStyle: (style: any) => {
+    const doc = getDocument();
+    const styleElement = doc.createElement('style');
+    styleElement.type = 'text/css';
+    
+    if (typeof style === 'string') {
+      styleElement.textContent = style;
+    } else if (typeof style === 'object' && style.content) {
+      styleElement.textContent = style.content;
+    }
+    
+    const head = doc.head || doc.getElementsByTagName('head')[0];
+    if (head) {
+      head.appendChild(styleElement);
+    }
+    return mockLogseq;
+  },
+
+  provideUI: (config: any) => {
+    const doc = getDocument();
+    const targetPath = config.path || 'body';
+    let targetElement: HTMLElement | null = doc.querySelector(targetPath) || doc.body;
+
+    if (config.slot) {
+      let slotElement = doc.getElementById(config.key);
+      if (!slotElement) {
+        slotElement = doc.createElement('div');
+        slotElement.id = config.key;
+        slotElement.className = `logseq-macro-slot ${config.slot}`;
+        targetElement.appendChild(slotElement);
+      }
+      if (config.template) {
+        slotElement.innerHTML = config.template;
+      }
+    } else {
+      const containerId = config.key;
+      let container = doc.getElementById(containerId);
+      
+      if (config.template) {
+        if (!container) {
+          container = doc.createElement('div');
+          container.id = containerId;
+          container.style.cssText = 'position: fixed; z-index: 9999;';
+          targetElement.appendChild(container);
+        }
+        container.innerHTML = config.template;
+      } else {
+        if (container) container.remove();
+      }
+    }
+    return mockLogseq;
+  },
+
+  App,
+  Editor,
+  UI,
+
+  DB: {
+    datascriptQuery: async (query: string) => {
+      console.log('Mock DB datascriptQuery called:', query);
+      return [];
+    },
+    q: () => Promise.resolve([]),
+    customQuery: () => Promise.resolve([]),
+    onChanged: () => () => {}
+  }
+} as any);
+
+globalThis.logseq = mockLogseq;
+
+export default mockLogseq;
+```
+
+### 6.4 BlockRenderer 组件 - 支持 {{renderer ...}} 渲染
+
+**文件位置**：[src/test/components/BlockRenderer/index.tsx](file:///workspace/src/test/components/BlockRenderer/index.tsx)
+
+```typescript
+import React, { useEffect, useRef, useState } from 'react';
+
+interface BlockRendererProps {
+  content: string;
+  properties?: Record<string, unknown>;
+  blockId?: string;
+}
+
+const BlockRenderer: React.FC<BlockRendererProps> = ({ content, properties, blockId }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    if (containerRef.current && !rendered) {
+      const hasMacroRenderer = content.includes('{{renderer');
+      
+      if (hasMacroRenderer && globalThis.logseqMacroRendererCallback) {
+        const macroRegex = /\{\{renderer\s+([^}]+)\}\}/g;
+        const matches = [...content.matchAll(macroRegex)];
+        
+        matches.forEach(match => {
+          const slotId = `logseq-macro-slot-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+          const macroArgs = match[1].split(' ');
+          
+          const payload = {
+            uuid: blockId || 'mock-block-uuid',
+            arguments: macroArgs
+          };
+          
+          const slotElement = document.createElement('div');
+          slotElement.id = slotId;
+          slotElement.className = 'logseq-macro-slot';
+          containerRef.current?.appendChild(slotElement);
+          
+          globalThis.logseqMacroRendererCallback({ payload, slot: slotId });
+        });
+      }
+      
+      setRendered(true);
+    }
+  }, [content, blockId, rendered]);
+
+  const displayContent = content.replace(/\{\{renderer\s+[^}]+\}\}/g, '');
+
+  return (
+    <div 
+      ref={containerRef}
+      className="block-renderer"
+      data-block-id={blockId}
+      data-properties={JSON.stringify(properties || {})}
+    >
+      <div className="block-content">{displayContent}</div>
+    </div>
+  );
+};
+
+export default BlockRenderer;
 ```
 
 ---
@@ -863,76 +1068,15 @@ import './testApp.css';
 import TestLayout from './components/TestLayout/index.tsx';
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx';
 import HiccupRenderer from './components/HiccupRenderer/index.tsx';
+import BlockRenderer from './components/BlockRenderer/index.tsx';
 import ToastContainer from '../components/Toast/Toast.tsx';
-import CommentApp from '../components/Comment/CommentApp.tsx';
 import TaskProgressDemo from './components/TaskProgressDemo/index.tsx';
 import testConfig from './testConfig.ts';
 import { useSettingsContext } from '../settings/useSettings.tsx';
-import { useEffect } from 'react';
-import { addMockBlock, clearMockBlocks } from '../logseq/mock/editor.ts';
 
 function TestApp() {
   const { settings } = useSettingsContext();
 
-  useEffect(() => {
-    // 初始化 mock 数据
-    clearMockBlocks();
-    
-    // 添加父任务块
-    addMockBlock({
-      id: 'parent-1',
-      uuid: 'parent-1',
-      content: 'My Project Tasks {{renderer :taskprogress}}',
-      properties: {}
-    });
-    
-    // 添加子任务块
-    addMockBlock({
-      id: 'child-1',
-      uuid: 'child-1',
-      content: 'Design the UI',
-      properties: {
-        status: 'done',
-        task_tracking: true
-      },
-      parentId: 'parent-1'
-    });
-    
-    addMockBlock({
-      id: 'child-2',
-      uuid: 'child-2',
-      content: 'Implement the logic',
-      properties: {
-        status: 'doing',
-        task_tracking: true
-      },
-      parentId: 'parent-1'
-    });
-    
-    addMockBlock({
-      id: 'child-3',
-      uuid: 'child-3',
-      content: 'Write documentation',
-      properties: {
-        status: 'todo',
-        task_tracking: true
-      },
-      parentId: 'parent-1'
-    });
-    
-    addMockBlock({
-      id: 'child-4',
-      uuid: 'child-4',
-      content: 'Write tests',
-      properties: {
-        status: 'waiting',
-        task_tracking: true
-      },
-      parentId: 'parent-1'
-    });
-  }, []);
-
-  // 左侧面板内容
   const leftContent = (
     <div className="left-panel">
       <h3>{testConfig.leftPanel.title}</h3>
@@ -949,7 +1093,6 @@ function TestApp() {
     </div>
   );
 
-  // 右侧面板内容
   const rightContent = (
     <div className="right-panel">
       <h3>{testConfig.rightPanel.title}</h3>
@@ -963,20 +1106,67 @@ function TestApp() {
     </div>
   );
 
-  // 中间内容区域
   const centerContent = (
     <div className="center-content">
       <TextSelectionDemo />
+      
       <div className="hiccup-renderer-container">
         <HiccupRenderer />
       </div>
+      
+      <div className="block-demo-container">
+        <h3>Block 渲染演示</h3>
+        
+        {/* 父任务块 - 包含 {{renderer :taskprogress}} */}
+        <BlockRenderer
+          blockId="#task-parent-block"
+          content="My Project Tasks {{renderer :taskprogress}}"
+          properties={{}}
+        />
+        
+        {/* 子任务块列表 - 通过 DOM children 获取 */}
+        <div className="block-list">
+          <BlockRenderer
+            blockId="#task-child-1"
+            content="Design the UI"
+            properties={{
+              status: 'done',
+              task_tracking: true
+            }}
+          />
+          <BlockRenderer
+            blockId="#task-child-2"
+            content="Implement the logic"
+            properties={{
+              status: 'doing',
+              task_tracking: true
+            }}
+          />
+          <BlockRenderer
+            blockId="#task-child-3"
+            content="Write documentation"
+            properties={{
+              status: 'todo',
+              task_tracking: true
+            }}
+          />
+          <BlockRenderer
+            blockId="#task-child-4"
+            content="Write tests"
+            properties={{
+              status: 'waiting',
+              task_tracking: true
+            }}
+          />
+        </div>
+      </div>
+      
       <TaskProgressDemo />
     </div>
   );
 
   return (
     <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-      {/* 右上角工具栏横幅 */}
       <div id="toolbar" className="toolbar-banner">
         <div className="toolbar-banner-content">
           <span className="toolbar-banner-text">工具栏演示</span>
@@ -994,21 +1184,18 @@ function TestApp() {
         </div>
       </div>
       
-      {/* 顶部区域 */}
       <div id="head" className="top-toolbar">
         <div className="toolbar-content">
           <h1>Text Toolkit Plugin (Test Mode)</h1>
         </div>
       </div>
       
-      {/* 使用TestLayout布局 */}
       <TestLayout 
         leftContent={leftContent}
         centerContent={centerContent}
         rightContent={rightContent}
       />
       
-      {/* Toast 容器 */}
       <ToastContainer />
     </div>
   );
@@ -1364,8 +1551,9 @@ if (import.meta.env.MODE === 'test') {
 | [src/components/SettingsModal/tabs/TaskProgressSettings.tsx](file:///workspace/src/components/SettingsModal/tabs/TaskProgressSettings.tsx) | 设置 Tab | ⏳ 未实现 |
 | [src/settings/types.ts](file:///workspace/src/settings/types.ts) | 设置类型 | 需扩展 |
 | [src/settings/defaultSettings.json](file:///workspace/src/settings/defaultSettings.json) | 默认配置 | 需扩展 |
-| [src/logseq/mock/app.ts](file:///workspace/src/logseq/mock/app.ts) | Mock App | 需扩展 |
-| [src/logseq/mock/editor.ts](file:///workspace/src/logseq/mock/editor.ts) | Mock Editor | 需扩展 |
-| [src/logseq/mock/index.ts](file:///workspace/src/logseq/mock/index.ts) | Mock DB | 需扩展 |
+| [src/logseq/mock/editor.ts](file:///workspace/src/logseq/mock/editor.ts) | Mock Editor（使用 DOM） | 需实现 |
+| [src/logseq/mock/app.ts](file:///workspace/src/logseq/mock/app.ts) | Mock App | 需实现 |
+| [src/logseq/mock/index.ts](file:///workspace/src/logseq/mock/index.ts) | Mock Logseq 整合 | 需实现 |
+| [src/test/components/BlockRenderer/index.tsx](file:///workspace/src/test/components/BlockRenderer/index.tsx) | Block 渲染器（支持 {{renderer}}） | ⏳ 未实现 |
 | [src/test/testAPP.tsx](file:///workspace/src/test/testAPP.tsx) | TestApp | 需扩展 |
 | [src/main.tsx](file:///workspace/src/main.tsx) | 入口文件 | 需扩展 |
