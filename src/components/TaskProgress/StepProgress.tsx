@@ -18,6 +18,7 @@ interface StepProgressProps {
   lang?: SupportedLanguage
   animationClass?: string
   showLabel?: boolean
+  labelFormat?: 'fraction' | 'percentage' | 'both'
 }
 
 const StepProgress: React.FC<StepProgressProps> = ({
@@ -28,6 +29,7 @@ const StepProgress: React.FC<StepProgressProps> = ({
   lang = 'zh-CN',
   animationClass = '',
   showLabel = true,
+  labelFormat = 'fraction',
 }) => {
   if (stats.length === 0) {
     return null
@@ -37,6 +39,29 @@ const StepProgress: React.FC<StepProgressProps> = ({
   const segmentWidth = 8
 
   const maxCount = Math.max(...stats.map(s => s.count))
+
+  const renderLabel = () => {
+    if (!showLabel) return null
+    
+    let label = ''
+    switch (labelFormat) {
+      case 'fraction':
+        label = `${completedTasks}/${totalTasks}`
+        break
+      case 'percentage':
+        label = `${progress}%`
+        break
+      case 'both':
+        label = `${completedTasks}/${totalTasks}`
+        break
+    }
+    
+    return (
+      <span className="task-progress-label" style={{ fontSize: '10px', marginLeft: '4px' }}>
+        {label}
+      </span>
+    )
+  }
 
   return (
     <Tooltip 
@@ -63,11 +88,7 @@ const StepProgress: React.FC<StepProgressProps> = ({
             />
           )
         })}
-        {showLabel && (
-          <span className="task-progress-label" style={{ fontSize: '10px', marginLeft: '4px' }}>
-            {completedTasks}/{totalTasks}
-          </span>
-        )}
+        {renderLabel()}
       </div>
     </Tooltip>
   )

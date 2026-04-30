@@ -20,6 +20,7 @@ interface DotMatrixProgressProps {
   lang?: SupportedLanguage
   animationClass?: string
   showLabel?: boolean
+  labelFormat?: 'fraction' | 'percentage' | 'both'
 }
 
 const DOT_SIZE_MAP = {
@@ -38,6 +39,7 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
   lang = 'zh-CN',
   animationClass = '',
   showLabel = true,
+  labelFormat = 'fraction',
 }) => {
   const dotSize = DOT_SIZE_MAP[size]
 
@@ -55,6 +57,29 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
   })
 
   const hasMore = totalTasks > maxDots
+
+  const renderLabel = () => {
+    if (!showLabel) return null
+    
+    let label = ''
+    switch (labelFormat) {
+      case 'fraction':
+        label = hasMore ? `+${totalTasks - maxDots}` : `${completedTasks}/${totalTasks}`
+        break
+      case 'percentage':
+        label = `${progress}%`
+        break
+      case 'both':
+        label = hasMore ? `+${totalTasks - maxDots}` : `${completedTasks}/${totalTasks}`
+        break
+    }
+    
+    return (
+      <span className="task-progress-label" style={{ fontSize: '10px' }}>
+        {label}
+      </span>
+    )
+  }
 
   return (
     <Tooltip 
@@ -77,11 +102,7 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
             }}
           />
         ))}
-        {showLabel && (
-          <span className="task-progress-label" style={{ fontSize: '10px' }}>
-            {hasMore ? `+${totalTasks - maxDots}` : `${completedTasks}/${totalTasks}`}
-          </span>
-        )}
+        {renderLabel()}
       </div>
     </Tooltip>
   )

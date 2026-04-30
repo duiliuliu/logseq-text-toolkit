@@ -18,6 +18,7 @@ interface ProgressCapsuleProps {
   lang?: SupportedLanguage
   animationClass?: string
   showLabel?: boolean
+  labelFormat?: 'fraction' | 'percentage' | 'both'
 }
 
 const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
@@ -28,9 +29,33 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
   lang = 'zh-CN',
   animationClass = '',
   showLabel = true,
+  labelFormat = 'fraction',
 }) => {
   if (stats.length === 0 || totalTasks === 0) {
     return null
+  }
+
+  const renderLabel = () => {
+    if (!showLabel) return null
+    
+    let label = ''
+    switch (labelFormat) {
+      case 'fraction':
+        label = `${completedTasks}/${totalTasks}`
+        break
+      case 'percentage':
+        label = `${progress}%`
+        break
+      case 'both':
+        label = `${completedTasks}/${totalTasks}`
+        break
+    }
+    
+    return (
+      <span className="task-progress-label">
+        {label}
+      </span>
+    )
   }
 
   return (
@@ -58,11 +83,7 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
             )
           })}
         </div>
-        {showLabel && (
-          <span className="task-progress-label">
-            {completedTasks}/{totalTasks}
-          </span>
-        )}
+        {renderLabel()}
       </div>
     </Tooltip>
   )
