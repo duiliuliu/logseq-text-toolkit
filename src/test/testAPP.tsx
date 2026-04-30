@@ -52,30 +52,29 @@ function TestApp() {
       <div className="block-demo-container" style={{ marginTop: '24px', padding: '16px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
         <h3>Block 渲染演示</h3>
         
-        <div id="task-parent-block" className="block" data-block-id="task-parent-block" style={{ marginBottom: '12px' }}>
-          <BlockRenderer
-            blockId="#task-parent-block"
-            content="My Project Tasks {{renderer :taskprogress}}"
-            properties={{}}
-          />
-        </div>
-        
-        <div className="block-list" style={{ marginLeft: '20px' }}>
-          <div className="block" data-block-id="task-child-1" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
-            data-properties={JSON.stringify({ status: 'done', task_tracking: true })}>
-            <span style={{ color: '#10b981' }}>✓</span> Design the UI
-          </div>
-          <div className="block" data-block-id="task-child-2" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
-            data-properties={JSON.stringify({ status: 'doing', task_tracking: true })}>
-            <span style={{ color: '#3b82f6' }}>○</span> Implement the logic
-          </div>
-          <div className="block" data-block-id="task-child-3" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
-            data-properties={JSON.stringify({ status: 'todo', task_tracking: true })}>
-            <span style={{ color: '#f59e0b' }}>●</span> Write documentation
-          </div>
-          <div className="block" data-block-id="task-child-4" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
-            data-properties={JSON.stringify({ status: 'waiting', task_tracking: true })}>
-            <span style={{ color: '#8b5cf6' }}>◐</span> Write tests
+        <div className="block" style={{ marginBottom: '12px' }}>
+          <div id="task-parent-block">My Project Tasks {{renderer :taskprogress}}</div>
+          <div className="block-list" style={{ marginLeft: '20px' }}>
+            <div className="block" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+              data-block-id="task-child-1"
+              data-properties={JSON.stringify({ status: 'done', task_tracking: true })}>
+              <span style={{ color: '#10b981' }}>✓</span> Design the UI
+            </div>
+            <div className="block" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+              data-block-id="task-child-2"
+              data-properties={JSON.stringify({ status: 'doing', task_tracking: true })}>
+              <span style={{ color: '#3b82f6' }}>○</span> Implement the logic
+            </div>
+            <div className="block" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+              data-block-id="task-child-3"
+              data-properties={JSON.stringify({ status: 'todo', task_tracking: true })}>
+              <span style={{ color: '#f59e0b' }}>●</span> Write documentation
+            </div>
+            <div className="block" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+              data-block-id="task-child-4"
+              data-properties={JSON.stringify({ status: 'waiting', task_tracking: true })}>
+              <span style={{ color: '#8b5cf6' }}>◐</span> Write tests
+            </div>
           </div>
         </div>
       </div>
