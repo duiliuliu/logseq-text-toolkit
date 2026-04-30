@@ -369,7 +369,8 @@ A: 插件要求 Logseq API 版本 0.2.12+。
 
 ## 10. 参考资源
 
-- **Logseq 插件 API 文档**: https://logseq.github.io/plugins/
+- **Logseq 插件 API 文档**: https://plugins-doc.logseq.com/
+- **Logseq 官方库文档**: https://github.com/logseq/logseq/tree/master/libs/guides
 - **Logseq DB 插件 API Skill**: https://github.com/kerim/logseq-db-plugin-api-skill
 - **Logseq Files Manager 插件**: https://github.com/duiliuliu/logseq-plugin-files-manager/blob/main/src/main.tsx
 - **项目仓库**: https://github.com/duiliuliu/logseq-text-toolkit
@@ -377,15 +378,15 @@ A: 插件要求 Logseq API 版本 0.2.12+。
 
 ## 11. AI 开发指引
 
-### Logseq 官方库 AI 指引
+### Logseq 官方库开发指引
 
-Logseq 官方提供了关于 AI 开发的详细指引，建议开发者参考：
+Logseq 官方提供了关于插件开发的详细指引，建议开发者参考：
 
-- **Logseq 官方库 AI 指引**: [@logseq/libs/development-notes/AGENTS.md](https://github.com/logseq/logseq/blob/master/libs/development-notes/AGENTS.md)
+- **Logseq 官方库文档**: https://github.com/logseq/logseq/tree/master/libs/guides
 
 该文档提供了：
-- AI 相关开发的最佳实践
-- 插件与 AI 集成的方法
+- 插件开发的最佳实践
+- API 使用方法
 - 性能优化建议
 - 安全性考虑
 

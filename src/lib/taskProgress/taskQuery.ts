@@ -11,31 +11,45 @@ import { getSettings } from '../../settings'
 
 function getStatusColor(status: string): string {
   const settings = getSettings()
-  return settings?.meta?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
+  return settings?.meta?.taskProgress?.statusColors?.[status] || settings?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
 }
 
 export async function getDirectTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
   try {
-    const children = await logseqAPI.Editor.getBlockChildren(parentBlockId)
-    
-    if (!children || !Array.isArray(children)) {
+    // 使用 datascriptQuery 查询块及其子块
+    const results = await logseqAPI.DB.datascriptQuery(
+      `[:find (pull ?b [*])
+        :in $ ?parent
+        :where
+        [?p :block/uuid ?parent]
+        [?b :block/parent ?p]]`,
+      parentBlockId
+    )
+
+    if (!results || !Array.isArray(results)) {
       return []
     }
-    
-    return children
-      .filter(child => {
-        const content = child.content || ''
-        const hasStatusProp = child.properties?.status !== undefined
+
+    return results
+      .map((result: any) => {
+        const block = result[0]
+        if (!block) return null
+
+        const content = block.content || ''
+        const hasStatusProp = block.properties?.status !== undefined
         const hasTaskTag = content.includes('#task')
-        return hasStatusProp || hasTaskTag
+
+        if (!hasStatusProp && !hasTaskTag) return null
+
+        return {
+          id: block.uuid,
+          content: content,
+          status: block.properties?.status as string,
+          isTask: true,
+          properties: block.properties,
+        }
       })
-      .map(child => ({
-        id: child.id || child.uuid,
-        content: child.content || '',
-        status: child.properties?.status as string,
-        isTask: true,
-        properties: child.properties,
-      }))
+      .filter(Boolean) as TaskBlock[]
   } catch (error) {
     console.error('[TaskProgress] getDirectTaskChildren error:', error)
     return []

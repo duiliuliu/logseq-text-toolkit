@@ -277,7 +277,36 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   DB: {
     q: () => Promise.resolve([]),
     customQuery: () => Promise.resolve([]),
-    datascriptQuery: () => Promise.resolve([]),
+    datascriptQuery: (query: string, ...inputs: any[]) => {
+      console.log('datascriptQuery called with:', query, inputs);
+      
+      // 模拟任务数据用于测试
+      const mockTasks = [
+        [
+          {
+            uuid: 'task-1',
+            content: 'Task 1 #task',
+            properties: { status: 'done' }
+          }
+        ],
+        [
+          {
+            uuid: 'task-2',
+            content: 'Task 2 #task',
+            properties: { status: 'doing' }
+          }
+        ],
+        [
+          {
+            uuid: 'task-3',
+            content: 'Task 3 #task',
+            properties: { status: 'todo' }
+          }
+        ]
+      ];
+      
+      return Promise.resolve(mockTasks);
+    },
     onChanged: () => () => {}
   },
   Git: {
