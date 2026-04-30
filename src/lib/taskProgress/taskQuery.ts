@@ -16,13 +16,15 @@ function getStatusColor(status: string): string {
 
 export async function getDirectTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
   try {
-    // 使用 datascriptQuery 查询块及其子块
+    // 使用 datascriptQuery 直接查询带有 #task 标签的子块
     const results = await logseqAPI.DB.datascriptQuery(
       `[:find (pull ?b [*])
         :in $ ?parent
         :where
         [?p :block/uuid ?parent]
-        [?b :block/parent ?p]]`,
+        [?b :block/parent ?p]
+        [?b :block/tags ?t]
+        [?t :block/title "task"]]`,
       parentBlockId
     )
 
