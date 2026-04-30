@@ -12,6 +12,7 @@ import { ProgressDisplayType } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
 import { logger } from '../logger/logger'
+import { SupportedLanguage } from '../../translations/translations'
 
 const MACRO_PREFIX = ':taskprogress'
 const PLUGIN_ID = 'text-toolkit-taskprogress'
@@ -42,6 +43,23 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
     const showLabel = settings?.taskProgress?.showLabel ?? true
     const labelFormat = settings?.taskProgress?.labelFormat || 'fraction'
     
+    // 处理语言设置
+    let lang: SupportedLanguage = 'zh-CN'
+    const settingsLang = settings?.language
+    if (settingsLang === 'en' || settingsLang === 'ja' || settingsLang === 'zh-CN') {
+      lang = settingsLang
+    } else if (settingsLang === 'system') {
+      // 如果是系统语言，使用浏览器语言或默认中文
+      const browserLang = navigator.language
+      if (browserLang.startsWith('ja')) {
+        lang = 'ja'
+      } else if (browserLang.startsWith('en')) {
+        lang = 'en'
+      } else {
+        lang = 'zh-CN'
+      }
+    }
+    
     if (!TaskProgressComponent) {
       logger.warn('[TaskProgress] Component not registered')
       return false
@@ -52,6 +70,7 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
         progressData,
         displayType,
         config: { ...config, showLabel, labelFormat },
+        lang,
       })
     )
     
