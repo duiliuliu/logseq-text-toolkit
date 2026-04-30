@@ -25,6 +25,7 @@
     "tabs": {
     "general": "⚙️ 一般設定",
     "toolbar": "🛠️ ツールバー設定",
+    "taskProgress": "📊 タスク進捗",
     "advanced": "⚡ その他の設定"
   },
     "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
@@ -75,6 +76,39 @@
     "saveToolbarSettings": "ツールバー設定を保存",
     "saveSuccess": "保存しました！",
     "settingsNotConfigured": "この設定エリアはまだ設定されていません",
-    "comingSoon": "近日追加予定..."
+    "comingSoon": "近日追加予定...",
+    "taskProgressDescription": "タスク進捗追跡機能の表示と動作を設定します。",
+    "taskProgress": {
+      "enabled": "タスク進捗機能を有効化",
+      "defaultDisplayType": "デフォルト表示タイプ",
+      "miniCircle": "ミニサークル",
+      "dotMatrix": "ドットマトリックス",
+      "statusCursor": "ステータスカーソル",
+      "progressCapsule": "進捗カプセル",
+      "stepProgress": "ステップ進捗",
+      "size": "コンポーネントサイズ",
+      "sizeSmall": "小",
+      "sizeMedium": "中",
+      "sizeLarge": "大",
+      "showLabel": "ラベルを表示",
+      "labelFormat": "ラベル形式",
+      "labelFraction": "分数 (10/20)",
+      "labelPercentage": "パーセント (50%)",
+      "labelBoth": "両方 (10/20 50%)",
+      "statusColors": "ステータス色",
+      "statusNames": {
+        "todo": "未着手",
+        "doing": "進行中",
+        "in-review": "レビュー中",
+        "done": "完了",
+        "waiting": "待機中",
+        "canceled": "キャンセル"
+      },
+      "tooltip": {
+        "progress": "進捗",
+        "total": "合計"
+      }
+    },
+    "saveTaskProgressSettings": "タスク進捗設定を保存"
   }
 }
