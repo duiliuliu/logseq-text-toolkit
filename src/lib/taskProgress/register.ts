@@ -5,13 +5,13 @@
  * Logseq API 注册 - 宏渲染器和斜杠命令
  */
 
+import ReactDOMServer from 'react-dom/server'
 import React from 'react'
 import { calculateTaskProgress } from './taskQuery'
 import { ProgressDisplayType } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
 import { logger } from '../logger/logger'
-import { renderComponent } from '../utils/renderComponent'
 
 const MACRO_PREFIX = ':taskprogress'
 const PLUGIN_ID = 'text-toolkit-taskprogress'
@@ -47,25 +47,20 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
       return false
     }
     
-    const containerId = `${PLUGIN_ID}-${slot}-container`
+    const template = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(TaskProgressComponent, {
+        progressData,
+        displayType,
+        config: { ...config, showLabel, labelFormat },
+      })
+    )
     
     logseqAPI.provideUI({
       key: PLUGIN_ID + '__' + slot,
       slot,
       reset: true,
-      template: `<div id="${containerId}"></div>`,
+      template,
     })
-    
-    setTimeout(() => {
-      const container = document.getElementById(containerId)
-      if (container) {
-        renderComponent(container, TaskProgressComponent, {
-          progressData,
-          displayType,
-          config: { ...config, showLabel, labelFormat },
-        })
-      }
-    }, 10)
     
     return true
   } catch (err) {
