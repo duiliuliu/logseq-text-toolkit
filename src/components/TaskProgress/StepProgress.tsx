@@ -7,15 +7,21 @@
 
 import React from 'react'
 import { StatusStat } from '../../lib/taskProgress/types'
+import Tooltip from './Tooltip'
+import { SupportedLanguage } from '../../translations/translations'
 
 interface StepProgressProps {
   stats: StatusStat[]
   progress: number
+  lang?: SupportedLanguage
+  animationClass?: string
 }
 
 const StepProgress: React.FC<StepProgressProps> = ({
   stats,
   progress,
+  lang = 'zh-CN',
+  animationClass = '',
 }) => {
   if (stats.length === 0) {
     return null
@@ -26,31 +32,34 @@ const StepProgress: React.FC<StepProgressProps> = ({
   const segmentWidth = 8
 
   const maxCount = Math.max(...stats.map(s => s.count))
-  
-  const tooltip = stats.map(s => `${s.status}: ${s.count}`).join(' | ')
 
   return (
-    <div 
-      className="task-progress-step"
-      title={tooltip}
-      style={{ cursor: 'pointer' }}
+    <Tooltip 
+      content={{ stats, totalTasks, progress }}
+      lang={lang}
+      animationClass={animationClass}
     >
-      {stats.map((stat) => {
-        const height = maxCount > 0 ? Math.max(4, (stat.count / maxCount) * maxHeight) : 4
-        
-        return (
-          <div
-            key={stat.status}
-            className="task-progress-step-segment"
-            style={{
-              width: `${segmentWidth}px`,
-              height: `${height}px`,
-              backgroundColor: stat.color || '#6b7280',
-            }}
-          />
-        )
-      })}
-    </div>
+      <div 
+        className="task-progress-step"
+        style={{ cursor: 'pointer' }}
+      >
+        {stats.map((stat) => {
+          const height = maxCount > 0 ? Math.max(4, (stat.count / maxCount) * maxHeight) : 4
+          
+          return (
+            <div
+              key={stat.status}
+              className="task-progress-step-segment"
+              style={{
+                width: `${segmentWidth}px`,
+                height: `${height}px`,
+                backgroundColor: stat.color || '#6b7280',
+              }}
+            />
+          )
+        })}
+      </div>
+    </Tooltip>
   )
 }
 

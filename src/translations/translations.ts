@@ -1,5 +1,40 @@
 // 翻译类型定义
 
+export interface TaskProgressStatusNames {
+  todo: string;
+  doing: string;
+  'in-review': string;
+  done: string;
+  waiting: string;
+  canceled: string;
+}
+
+export interface TaskProgressTooltip {
+  progress: string;
+  total: string;
+}
+
+export interface TaskProgressTranslation {
+  enabled: string;
+  defaultDisplayType: string;
+  miniCircle: string;
+  dotMatrix: string;
+  statusCursor: string;
+  progressCapsule: string;
+  stepProgress: string;
+  size: string;
+  sizeSmall: string;
+  sizeMedium: string;
+  sizeLarge: string;
+  showLabel: string;
+  labelFormat: string;
+  labelFraction: string;
+  labelPercentage: string;
+  labelBoth: string;
+  statusNames: TaskProgressStatusNames;
+  tooltip: TaskProgressTooltip;
+}
+
 export interface TranslationKeys {
   toolbar: {
     bold: string;
@@ -18,6 +53,7 @@ export interface TranslationKeys {
     tabs: {
       general: string;
       toolbar: string;
+      taskProgress: string;
       advanced: string;
     };
     generalSettings: string;
@@ -63,6 +99,9 @@ export interface TranslationKeys {
     saveSuccess: string;
     settingsNotConfigured: string;
     comingSoon: string;
+    taskProgressDescription: string;
+    taskProgress: TaskProgressTranslation;
+    saveTaskProgressSettings: string;
   };
 }
 

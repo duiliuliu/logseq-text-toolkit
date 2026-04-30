@@ -7,10 +7,14 @@
 
 import React from 'react'
 import { StatusStat } from '../../lib/taskProgress/types'
+import Tooltip from './Tooltip'
+import { SupportedLanguage } from '../../translations/translations'
 
 interface StatusCursorProgressProps {
   stats: StatusStat[]
   progress: number
+  lang?: SupportedLanguage
+  animationClass?: string
 }
 
 const STATUS_ICONS: Record<string, string> = {
@@ -27,14 +31,12 @@ const STATUS_ORDER = ['done', 'doing', 'in-review', 'todo', 'waiting', 'canceled
 const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
   stats,
   progress,
+  lang = 'zh-CN',
+  animationClass = '',
 }) => {
   if (stats.length === 0) {
     return null
   }
-
-  const tooltip = stats
-    .map(s => `${s.status}: ${s.count}`)
-    .join(' | ')
 
   const sortedStats = [...stats].sort((a, b) => {
     const indexA = STATUS_ORDER.indexOf(a.status)
@@ -46,23 +48,28 @@ const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
   })
 
   return (
-    <span 
-      className="task-progress-cursor"
-      title={tooltip}
-      style={{ cursor: 'pointer' }}
+    <Tooltip 
+      content={{ stats, totalTasks: stats.reduce((sum, s) => sum + s.count, 0), progress }}
+      lang={lang}
+      animationClass={animationClass}
     >
-      {sortedStats.map(stat => {
-        const icon = STATUS_ICONS[stat.status] || '●'
-        return (
-          <span 
-            key={stat.status}
-            style={{ color: stat.color || '#6b7280', marginRight: '2px' }}
-          >
-            {icon}{stat.count}
-          </span>
-        )
-      })}
-    </span>
+      <span 
+        className="task-progress-cursor"
+        style={{ cursor: 'pointer' }}
+      >
+        {sortedStats.map(stat => {
+          const icon = STATUS_ICONS[stat.status] || '●'
+          return (
+            <span 
+              key={stat.status}
+              style={{ color: stat.color || '#6b7280', marginRight: '2px' }}
+            >
+              {icon}{stat.count}
+            </span>
+          )
+        })}
+      </span>
+    </Tooltip>
   )
 }
 

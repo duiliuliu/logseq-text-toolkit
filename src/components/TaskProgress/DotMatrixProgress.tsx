@@ -7,6 +7,8 @@
 
 import React from 'react'
 import { StatusStat } from '../../lib/taskProgress/types'
+import Tooltip from './Tooltip'
+import { SupportedLanguage } from '../../translations/translations'
 
 interface DotMatrixProgressProps {
   stats: StatusStat[]
@@ -14,6 +16,8 @@ interface DotMatrixProgressProps {
   totalTasks: number
   maxDots?: number
   size?: 'small' | 'medium' | 'large'
+  lang?: SupportedLanguage
+  animationClass?: string
 }
 
 const DOT_SIZE_MAP = {
@@ -28,6 +32,8 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
   totalTasks,
   maxDots = 10,
   size = 'small',
+  lang = 'zh-CN',
+  animationClass = '',
 }) => {
   const dotSize = DOT_SIZE_MAP[size]
 
@@ -44,34 +50,36 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
     }
   })
 
-  const remaining = maxDots - dots.length
   const hasMore = totalTasks > maxDots
 
-  const tooltip = stats.map(s => `${s.status}: ${s.count}`).join(' | ')
-
   return (
-    <div 
-      className="task-progress-dot-matrix"
-      title={tooltip}
-      style={{ cursor: 'pointer' }}
+    <Tooltip 
+      content={{ stats, totalTasks, progress }}
+      lang={lang}
+      animationClass={animationClass}
     >
-      {dots.map((dot, index) => (
-        <div
-          key={index}
-          className="task-progress-dot"
-          style={{
-            width: dotSize,
-            height: dotSize,
-            backgroundColor: dot.color,
-          }}
-        />
-      ))}
-      {hasMore && (
-        <span className="task-progress-label" style={{ fontSize: '10px' }}>
-          +{totalTasks - maxDots}
-        </span>
-      )}
-    </div>
+      <div 
+        className="task-progress-dot-matrix"
+        style={{ cursor: 'pointer' }}
+      >
+        {dots.map((dot, index) => (
+          <div
+            key={index}
+            className="task-progress-dot"
+            style={{
+              width: dotSize,
+              height: dotSize,
+              backgroundColor: dot.color,
+            }}
+          />
+        ))}
+        {hasMore && (
+          <span className="task-progress-label" style={{ fontSize: '10px' }}>
+            +{totalTasks - maxDots}
+          </span>
+        )}
+      </div>
+    </Tooltip>
   )
 }
 

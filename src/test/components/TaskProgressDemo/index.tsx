@@ -10,10 +10,13 @@ import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { calculateTaskProgress } from '../../../lib/taskProgress/taskQuery'
 import { getSettings } from '../../../settings'
 import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../lib/taskProgress/types'
+import { getStatusName } from '../../../translations/i18n'
+import { SupportedLanguage } from '../../../translations/translations'
 
 const TaskProgressDemo: React.FC = () => {
   const [progressData, setProgressData] = useState<TaskProgressType | null>(null)
   const settings = getSettings()
+  const currentLang: SupportedLanguage = 'zh-CN'
 
   useEffect(() => {
     const loadProgress = async () => {
@@ -62,7 +65,7 @@ const TaskProgressDemo: React.FC = () => {
                     borderRadius: '50%', 
                     backgroundColor: stat.color 
                   }} />
-                  <span style={{ minWidth: '60px' }}>{stat.status}:</span>
+                  <span style={{ minWidth: '60px' }}>{getStatusName(stat.status, currentLang)}:</span>
                   <span style={{ fontWeight: 'bold' }}>{stat.count}</span>
                 </div>
               ))}
@@ -77,6 +80,7 @@ const TaskProgressDemo: React.FC = () => {
                   progressData={progressData}
                   displayType={type}
                   config={settings?.taskProgress?.displayOptions?.[type]}
+                  lang={currentLang}
                 />
               </div>
             ))}

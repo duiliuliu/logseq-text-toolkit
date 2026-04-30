@@ -98,7 +98,19 @@
       "labelFormat": "Label Format",
       "labelFraction": "Fraction (10/20)",
       "labelPercentage": "Percentage (50%)",
-      "labelBoth": "Both (10/20 50%)"
+      "labelBoth": "Both (10/20 50%)",
+      "statusNames": {
+        "todo": "To Do",
+        "doing": "In Progress",
+        "in-review": "In Review",
+        "done": "Done",
+        "waiting": "Waiting",
+        "canceled": "Canceled"
+      },
+      "tooltip": {
+        "progress": "Progress",
+        "total": "Total"
+      }
     },
     "saveTaskProgressSettings": "Save Task Progress Settings"
   }

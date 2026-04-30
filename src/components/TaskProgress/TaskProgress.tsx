@@ -12,17 +12,22 @@ import DotMatrixProgress from './DotMatrixProgress'
 import StatusCursorProgress from './StatusCursorProgress'
 import ProgressCapsule from './ProgressCapsule'
 import StepProgress from './StepProgress'
+import { SupportedLanguage } from '../../translations/translations'
 
 interface TaskProgressProps {
   progressData: TaskProgressType | null
   displayType: ProgressDisplayType
   config?: Record<string, any>
+  lang?: SupportedLanguage
+  animationClass?: string
 }
 
 const TaskProgress: React.FC<TaskProgressProps> = ({ 
   progressData, 
   displayType,
-  config 
+  config,
+  lang = 'zh-CN',
+  animationClass = '',
 }) => {
   if (!progressData) {
     return null
@@ -32,6 +37,8 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
     const commonProps = {
       stats: progressData.statusStats,
       progress: progressData.progress,
+      lang,
+      animationClass,
     }
     
     switch (displayType) {

@@ -7,6 +7,8 @@
 
 import React from 'react'
 import { StatusStat } from '../../lib/taskProgress/types'
+import Tooltip from './Tooltip'
+import { SupportedLanguage } from '../../translations/translations'
 
 interface MiniCircleProgressProps {
   stats: StatusStat[]
@@ -16,6 +18,8 @@ interface MiniCircleProgressProps {
   size?: 'small' | 'medium' | 'large'
   showLabel?: boolean
   labelFormat?: 'fraction' | 'percentage' | 'both'
+  lang?: SupportedLanguage
+  animationClass?: string
 }
 
 const SIZE_MAP = {
@@ -38,11 +42,12 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
   size = 'small',
   showLabel = true,
   labelFormat = 'fraction',
+  lang = 'zh-CN',
+  animationClass = '',
 }) => {
   const svgSize = SIZE_MAP[size]
   const strokeWidth = STROKE_WIDTH_MAP[size]
   const radius = (svgSize - strokeWidth) / 2
-  const circumference = 2 * Math.PI * radius
   const center = svgSize / 2
 
   const renderLabel = () => {
@@ -66,10 +71,6 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
         {label}
       </span>
     )
-  }
-
-  const getTooltipContent = () => {
-    return stats.map(stat => `${stat.status}: ${stat.count}`).join(' | ')
   }
 
   if (stats.length === 0 || totalTasks === 0) {
@@ -109,16 +110,21 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
   })
 
   return (
-    <div 
-      className="task-progress-mini-circle" 
-      title={getTooltipContent()}
-      style={{ cursor: 'pointer' }}
+    <Tooltip 
+      content={{ stats, totalTasks, progress }}
+      lang={lang}
+      animationClass={animationClass}
     >
-      <svg width={svgSize} height={svgSize} viewBox={`0 0 ${svgSize} ${svgSize}`}>
-        {segments}
-      </svg>
-      {renderLabel()}
-    </div>
+      <div 
+        className="task-progress-mini-circle" 
+        style={{ cursor: 'pointer' }}
+      >
+        <svg width={svgSize} height={svgSize} viewBox={`0 0 ${svgSize} ${svgSize}`}>
+          {segments}
+        </svg>
+        {renderLabel()}
+      </div>
+    </Tooltip>
   )
 }
 

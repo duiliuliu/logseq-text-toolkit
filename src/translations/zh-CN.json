@@ -98,7 +98,19 @@
       "labelFormat": "标签格式",
       "labelFraction": "分数 (10/20)",
       "labelPercentage": "百分比 (50%)",
-      "labelBoth": "两者 (10/20 50%)"
+      "labelBoth": "两者 (10/20 50%)",
+      "statusNames": {
+        "todo": "待办",
+        "doing": "进行中",
+        "in-review": "审核中",
+        "done": "已完成",
+        "waiting": "等待中",
+        "canceled": "已取消"
+      },
+      "tooltip": {
+        "progress": "进度",
+        "total": "总计"
+      }
     },
     "saveTaskProgressSettings": "保存任务进度设置"
   }
