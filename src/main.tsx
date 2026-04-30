@@ -11,13 +11,15 @@ import TestApp from './test/testAPP.tsx'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
 import CommentApp from './components/Comment/CommentApp.tsx'
+import TaskProgress from './components/TaskProgress/TaskProgress.tsx'
 import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
 import { logger } from './lib/logger/logger.ts'
 import { initI18n } from './translations/i18n.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS } from './styles/index.ts'
+import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register.ts'
+import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS, taskProgressCSS } from './styles/index.ts'
 
 const loadCSS = async () => {
   try {
@@ -26,7 +28,8 @@ const loadCSS = async () => {
       { name: 'modal.css', content: modalCSS },
       { name: 'toolbar.css', content: toolbarCSS },
       { name: 'inlineComment.css', content: inlineCommentCSS },
-      { name: 'customsToolbarItems.css', content: cssConfigCSS }
+      { name: 'customsToolbarItems.css', content: cssConfigCSS },
+      { name: 'taskProgress.css', content: taskProgressCSS }
     ];
 
     for (const cssFile of cssFiles) {
@@ -187,6 +190,11 @@ const main = async () => {
 
     await showSelectToolbar()
     await showCommentApp()
+    
+    // 注册任务进度功能
+    setTaskProgressComponent(TaskProgress)
+    registerTaskProgress()
+    logger.info('Task progress registered successfully')
   } catch (error) {
     logger.error('Failed to initialize Text Toolkit Plugin:', error)
   }

@@ -11,6 +11,7 @@ on:
   push:
     branches:
       - dev-text-tool
+      - trae/solo-agent-NO07mF
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

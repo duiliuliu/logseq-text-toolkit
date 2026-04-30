@@ -29,6 +29,7 @@
     "tabs": {
     "general": "⚙️ General Settings",
     "toolbar": "🛠️ Toolbar Settings",
+    "taskProgress": "📊 Task Progress",
     "advanced": "⚡ Other Settings"
   },
     "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
@@ -79,6 +80,39 @@
     "saveToolbarSettings": "Save Toolbar Settings",
     "saveSuccess": "Saved successfully!",
     "settingsNotConfigured": "This settings area is not configured yet",
-    "comingSoon": "More features coming soon..."
+    "comingSoon": "More features coming soon...",
+    "taskProgressDescription": "Configure task progress tracking display and behavior.",
+    "taskProgress": {
+      "enabled": "Enable Task Progress",
+      "defaultDisplayType": "Default Display Type",
+      "miniCircle": "Mini Circle",
+      "dotMatrix": "Dot Matrix",
+      "statusCursor": "Status Cursor",
+      "progressCapsule": "Progress Capsule",
+      "stepProgress": "Step Progress",
+      "size": "Component Size",
+      "sizeSmall": "Small",
+      "sizeMedium": "Medium",
+      "sizeLarge": "Large",
+      "showLabel": "Show Label",
+      "labelFormat": "Label Format",
+      "labelFraction": "Fraction (10/20)",
+      "labelPercentage": "Percentage (50%)",
+      "labelBoth": "Both (10/20 50%)",
+      "statusColors": "Status Colors",
+      "statusNames": {
+        "todo": "To Do",
+        "doing": "In Progress",
+        "in-review": "In Review",
+        "done": "Done",
+        "waiting": "Waiting",
+        "canceled": "Canceled"
+      },
+      "tooltip": {
+        "progress": "Progress",
+        "total": "Total"
+      }
+    },
+    "saveTaskProgressSettings": "Save Task Progress Settings"
   }
 }

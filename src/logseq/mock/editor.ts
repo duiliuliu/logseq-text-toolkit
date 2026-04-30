@@ -1,7 +1,6 @@
 import { getSelection, getDocument } from '../utils.ts';
 
 const Editor: any = {
-  // 获取当前块
   getCurrentBlock: () => {
     console.log('Get current block');
 
@@ -12,25 +11,22 @@ const Editor: any = {
       const range = selection.getRangeAt(0);
       let currentElement: Node | null = range.commonAncestorContainer;
 
-      // 向上查找，找到一个合适的块元素
       while (currentElement && currentElement.nodeType === Node.TEXT_NODE) {
         currentElement = currentElement.parentElement;
       }
 
       if (currentElement && currentElement instanceof HTMLElement) {
-        // 生成一个基于元素路径的唯一ID
         const blockId = generateBlockId(currentElement);
         const content = currentElement.textContent || '';
 
         return Promise.resolve({
           uuid: blockId,
           content: content,
-          properties: {}
+          properties: JSON.parse(currentElement.dataset.properties || '{}')
         });
       }
     }
 
-    // 没有选中内容时，返回默认块
     return Promise.resolve({
       uuid: 'default-block',
       content: 'Default block content',
@@ -38,7 +34,48 @@ const Editor: any = {
     });
   },
 
-  // 获取编辑光标位置
+  getBlock: (blockId: string) => {
+    console.log('Get block:', blockId);
+    const doc = getDocument();
+    
+    const element = findElementByBlockId(blockId, doc);
+    if (element) {
+      return Promise.resolve({
+        id: blockId,
+        uuid: blockId,
+        content: element.textContent || '',
+        properties: JSON.parse(element.dataset.properties || '{}')
+      });
+    }
+    return Promise.resolve(null);
+  },
+
+  getBlockChildren: (blockId: string) => {
+    const doc = getDocument();
+    
+    const parentElement = findElementByBlockId(blockId, doc);
+    
+    if (!parentElement) {
+      return Promise.resolve([]);
+    }
+    
+    const children: any[] = [];
+    Array.from(parentElement.children).forEach(child => {
+      if (child.classList.contains('block') || child.hasAttribute('data-block-id')) {
+        const id = generateBlockId(child as HTMLElement);
+        const props = JSON.parse((child as HTMLElement).dataset.properties || '{}');
+        children.push({
+          id,
+          uuid: id,
+          content: child.textContent || '',
+          properties: props
+        });
+      }
+    });
+    
+    return Promise.resolve(children);
+  },
+
   getEditingCursorPosition: () => {
     console.log('Get editing cursor position');
 
@@ -53,19 +90,16 @@ const Editor: any = {
         rect = range.getBoundingClientRect();
         const focusNode = selection.focusNode;
 
-        // 只有宽度为0时光标才兜底，不影响选中文本
         if (rect.width === 0 && focusNode?.parentElement) {
           rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect();
         }
       } else {
-        // 如果没有range，尝试找到编辑区域
         const mainContentContainer = doc.getElementById('main-content-container');
         if (mainContentContainer) {
           rect = mainContentContainer.getBoundingClientRect();
         }
       }
     } catch {
-      // 如果出错，使用默认值
       const mainContentContainer = doc.getElementById('main-content-container');
       if (mainContentContainer) {
         rect = mainContentContainer.getBoundingClientRect();
@@ -74,8 +108,8 @@ const Editor: any = {
 
     if (rect) {
       return Promise.resolve({
-        top: 0, // 相对偏移
-        left: 0, // 相对偏移
+        top: 0,
+        left: 0,
         rect: {
           x: rect.x,
           y: rect.y,
@@ -92,21 +126,48 @@ const Editor: any = {
     return Promise.resolve(null);
   },
 
-  // 更新块内容
-  updateBlock: (blockId: string, content: string) => {
-    console.log('Update block:', blockId, content);
+  updateBlock: (blockId: string, content: string, properties?: any) => {
+    console.log('Update block:', blockId, content, properties);
 
     const doc = getDocument();
-
-    // 根据blockId找到对应的元素
     const element = findElementByBlockId(blockId, doc);
 
     if (element) {
-      element.textContent = content;
+      if (content !== undefined) {
+        element.textContent = content;
+      }
+      if (properties) {
+        (element as HTMLElement).dataset.properties = JSON.stringify(properties);
+      }
       return Promise.resolve(true);
     }
 
     return Promise.resolve(false);
+  },
+
+  insertAtEditingCursor: (text: string) => {
+    console.log('Insert at editing cursor:', text);
+    const selection = getSelection();
+    const doc = getDocument();
+    
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      
+      const textNode = doc.createTextNode(text);
+      range.insertNode(textNode);
+      range.collapse(false);
+      
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+    return Promise.resolve();
+  },
+
+  registerSlashCommand: (name: string, callback: Function) => {
+    console.log('Register slash command:', name);
+    globalThis.logseqSlashCommands = globalThis.logseqSlashCommands || {};
+    globalThis.logseqSlashCommands[name] = callback;
   }
 };
 

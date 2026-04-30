@@ -617,3 +617,66 @@ input:checked + .ltt-switch-slider:before {
   padding: 16px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
+
+/* 状态颜色网格样式 */
+.ltt-status-colors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.ltt-status-color-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.ltt-status-color-row:hover {
+  border-color: #cbd5e1;
+}
+
+.ltt-color-input {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ltt-color-input:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.ltt-status-label {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+  flex: 1;
+}
+
+/* 深色主题下的状态颜色行 */
+[data-theme="dark"] .ltt-status-colors-grid {
+  gap: 12px;
+}
+
+[data-theme="dark"] .ltt-status-color-row {
+  border-color: var(--ls-border-color-plugin, #333333);
+}
+
+[data-theme="dark"] .ltt-status-color-row:hover {
+  border-color: #444444;
+}
+
+[data-theme="dark"] .ltt-status-label {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}

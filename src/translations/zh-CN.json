@@ -29,6 +29,7 @@
     "tabs": {
     "general": "⚙️ 通用设置",
     "toolbar": "🛠️ 工具栏设置",
+    "taskProgress": "📊 任务进度",
     "advanced": "⚡ 其他设置"
   },
     "saveSuccessRestart": "保存成功，请重启应用生效",
@@ -79,6 +80,39 @@
     "saveToolbarSettings": "保存工具栏设置",
     "saveSuccess": "保存成功！",
     "settingsNotConfigured": "此设置区域暂未配置",
-    "comingSoon": "敬请期待更多功能..."
+    "comingSoon": "敬请期待更多功能...",
+    "taskProgressDescription": "配置任务进度追踪功能的展示方式和行为。",
+    "taskProgress": {
+      "enabled": "启用任务进度功能",
+      "defaultDisplayType": "默认展示方式",
+      "miniCircle": "微型圆环",
+      "dotMatrix": "点阵进度",
+      "statusCursor": "状态光标",
+      "progressCapsule": "进度胶囊",
+      "stepProgress": "阶梯进度",
+      "size": "组件尺寸",
+      "sizeSmall": "小",
+      "sizeMedium": "中",
+      "sizeLarge": "大",
+      "showLabel": "显示标签",
+      "labelFormat": "标签格式",
+      "labelFraction": "分数 (10/20)",
+      "labelPercentage": "百分比 (50%)",
+      "labelBoth": "两者 (10/20 50%)",
+      "statusColors": "状态颜色",
+      "statusNames": {
+        "todo": "待办",
+        "doing": "进行中",
+        "in-review": "审核中",
+        "done": "已完成",
+        "waiting": "等待中",
+        "canceled": "已取消"
+      },
+      "tooltip": {
+        "progress": "进度",
+        "total": "总计"
+      }
+    },
+    "saveTaskProgressSettings": "保存任务进度设置"
   }
 }
