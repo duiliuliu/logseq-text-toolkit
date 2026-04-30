@@ -5,28 +5,35 @@
  * 任务进度演示组件
  */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { calculateTaskProgress } from '../../../lib/taskProgress/taskQuery'
-import { getSettings } from '../../../settings'
 import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../lib/taskProgress/types'
 
 const TaskProgressDemo: React.FC = () => {
   const [progressData, setProgressData] = useState<TaskProgressType | null>(null)
-  const settings = getSettings()
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const loadProgress = async () => {
+  const loadProgress = useCallback(async () => {
+    try {
+      setError(null)
+      setLoading(true)
+      console.log('[TaskProgressDemo] Loading progress...')
       const data = await calculateTaskProgress('#task-parent-block')
+      console.log('[TaskProgressDemo] Progress data:', data)
       setProgressData(data)
+    } catch (e) {
+      console.error('[TaskProgressDemo] Error loading progress:', e)
+      setError(String(e))
+    } finally {
+      setLoading(false)
     }
-    loadProgress()
   }, [])
 
-  const refreshProgress = async () => {
-    const data = await calculateTaskProgress('#task-parent-block')
-    setProgressData(data)
-  }
+  useEffect(() => {
+    loadProgress()
+  }, [loadProgress])
 
   const displayTypes: { type: ProgressDisplayType; label: string }[] = [
     { type: 'mini-circle', label: '微型圆环' },
@@ -36,11 +43,27 @@ const TaskProgressDemo: React.FC = () => {
     { type: 'step-progress', label: '阶梯进度' }
   ]
 
+  if (error) {
+    return (
+      <div className="task-progress-demo">
+        <h3>任务进度演示</h3>
+        <div style={{ padding: '20px', color: '#ef4444' }}>
+          <p>错误: {error}</p>
+          <button onClick={loadProgress}>重试</button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="task-progress-demo">
       <h3>任务进度演示</h3>
       
-      {progressData ? (
+      {loading ? (
+        <div style={{ padding: '20px', color: '#666' }}>
+          <p>加载中...</p>
+        </div>
+      ) : progressData ? (
         <>
           <div className="progress-info" style={{ marginBottom: '16px' }}>
             <p>总任务数: {progressData.totalTasks}</p>
@@ -55,7 +78,7 @@ const TaskProgressDemo: React.FC = () => {
                 <TaskProgress
                   progressData={progressData}
                   displayType={type}
-                  config={settings?.taskProgress?.displayOptions?.[type]}
+                  config={{}}
                 />
               </div>
             ))}
@@ -63,7 +86,7 @@ const TaskProgressDemo: React.FC = () => {
           
           <button 
             className="refresh-btn"
-            onClick={refreshProgress}
+            onClick={loadProgress}
             style={{
               marginTop: '16px',
               padding: '8px 16px',
@@ -80,9 +103,7 @@ const TaskProgressDemo: React.FC = () => {
       ) : (
         <div style={{ padding: '20px', color: '#666' }}>
           <p>未找到任务数据</p>
-          <p style={{ fontSize: '12px', marginTop: '8px' }}>
-            请确保页面中有带有 task_tracking 属性的子任务块
-          </p>
+          <button onClick={loadProgress}>重试</button>
         </div>
       )}
     </div>
