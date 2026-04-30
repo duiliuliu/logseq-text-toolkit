@@ -348,6 +348,127 @@ export function registerTaskProgress() {
 
 ### 4.2 任务查询与统计逻辑
 
+任务查询使用 Logseq 的 `DB.datascriptQuery` API 执行 Datascript 查询，直接返回状态统计结果，避免使用已废弃的 `getBlockChildren` API。
+
+#### 4.2.1 查询逻辑
+
+**文件位置**：[src/lib/taskProgress/taskQuery.ts](file:///workspace/src/lib/taskProgress/taskQuery.ts)
+
+```typescript
+import { TaskProgress, StatusStat, STATUS_COLORS } from './types'
+import { logseqAPI } from '../../logseq'
+import { getSettings } from '../../settings'
+
+function getStatusColor(status: string): string {
+  const settings = getSettings()
+  return settings?.taskProgress?.statusColors?.[status] || STATUS_COLORS[status] || '#6b7280'
+}
+
+export async function calculateTaskProgress(parentBlockId: string): Promise<TaskProgress | null> {
+  try {
+    const query = `
+      [:find ?status-title (count ?b)
+       :where
+       [?p :block/uuid #uuid "${parentBlockId}"]
+       [?b :block/parent ?p]
+       [?b :block/tags ?t]
+       [?t :block/title "Task"]
+       [?b :logseq.property/status ?status]
+       [?status :block/title ?status-title]]
+    `
+
+    const results = await logseqAPI.DB.datascriptQuery(query)
+
+    if (!results || results.length === 0) {
+      return null
+    }
+
+    const statusStats: StatusStat[] = []
+    let totalTasks = 0
+
+    results.forEach((result: [string, number]) => {
+      if (result && result.length === 2) {
+        const status = result[0]
+        const count = result[1]
+        totalTasks += count
+        statusStats.push({
+          status,
+          count,
+          color: getStatusColor(status)
+        })
+      }
+    })
+
+    if (totalTasks === 0) {
+      return null
+    }
+
+    const completedTasks = statusStats.find(s => s.status.toLowerCase() === 'done')?.count || 0
+    const progress = Math.round((completedTasks / totalTasks) * 100)
+
+    return {
+      blockId: parentBlockId,
+      parentBlockId: parentBlockId,
+      totalTasks,
+      completedTasks,
+      statusStats,
+      progress,
+    }
+  } catch (error) {
+    console.error('[TaskProgress] calculateTaskProgress error:', error)
+    return null
+  }
+}
+```
+
+#### 4.2.2 Mock 实现
+
+**文件位置**：[src/logseq/mock/index.ts](file:///workspace/src/logseq/mock/index.ts)
+
+在测试模式下，Mock 实现模拟 `DB.datascriptQuery` 返回预定义的任务统计数据：
+
+```typescript
+DB: {
+  datascriptQuery: (query: string) => {
+    console.log('Mock DB datascriptQuery called:', query);
+    
+    const mockTaskData: Record<string, Array<[string, number]>> = {
+      'parent-1': [
+        ['Todo', 2],
+        ['Doing', 1],
+        ['Done', 1]
+      ],
+      'test-parent': [
+        ['Todo', 3],
+        ['Done', 2]
+      ],
+      '69f2d4d8-6bb9-4d53-9fce-70deefcd1ba5': [
+        ['Todo', 5],
+        ['Doing', 2],
+        ['Done', 3],
+        ['In Review', 1]
+      ]
+    };
+    
+    const uuidMatch = query.match(/#uuid\s+"([^"]+)"/);
+    if (uuidMatch) {
+      const blockId = uuidMatch[1];
+      const data = mockTaskData[blockId];
+      if (data) {
+        return Promise.resolve(data);
+      }
+    }
+    
+    if (mockTaskData['parent-1']) {
+      return Promise.resolve(mockTaskData['parent-1']);
+    }
+    
+    return Promise.resolve([]);
+  },
+  onChanged: () => () => {}
+}
+```
+
 ### 4.3 时序图
 
 #### 4.3.1 渲染时序图

@@ -370,7 +370,9 @@ A: 插件要求 Logseq API 版本 0.2.12+。
 ## 10. 参考资源
 
 - **Logseq 插件 API 文档**: https://logseq.github.io/plugins/
+- **Logseq 插件文档**: https://plugins-doc.logseq.com/
 - **Logseq DB 插件 API Skill**: https://github.com/kerim/logseq-db-plugin-api-skill
+- **Logseq 插件 SDK**: https://github.com/logseq/logseq/tree/master/libs/guides
 - **Logseq Files Manager 插件**: https://github.com/duiliuliu/logseq-plugin-files-manager/blob/main/src/main.tsx
 - **项目仓库**: https://github.com/duiliuliu/logseq-text-toolkit
 - **用户指南**: [USER_GUIDE.md](file:///workspace/docs/USER_GUIDE.md)

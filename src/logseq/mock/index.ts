@@ -277,7 +277,42 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   DB: {
     q: () => Promise.resolve([]),
     customQuery: () => Promise.resolve([]),
-    datascriptQuery: () => Promise.resolve([]),
+    datascriptQuery: (query: string) => {
+      console.log('Mock DB datascriptQuery called:', query);
+      
+      const mockTaskData: Record<string, Array<[string, number]>> = {
+        'parent-1': [
+          ['Todo', 2],
+          ['Doing', 1],
+          ['Done', 1]
+        ],
+        'test-parent': [
+          ['Todo', 3],
+          ['Done', 2]
+        ],
+        '69f2d4d8-6bb9-4d53-9fce-70deefcd1ba5': [
+          ['Todo', 5],
+          ['Doing', 2],
+          ['Done', 3],
+          ['In Review', 1]
+        ]
+      };
+      
+      const uuidMatch = query.match(/#uuid\s+"([^"]+)"/);
+      if (uuidMatch) {
+        const blockId = uuidMatch[1];
+        const data = mockTaskData[blockId];
+        if (data) {
+          return Promise.resolve(data);
+        }
+      }
+      
+      if (mockTaskData['parent-1']) {
+        return Promise.resolve(mockTaskData['parent-1']);
+      }
+      
+      return Promise.resolve([]);
+    },
     onChanged: () => () => {}
   },
   Git: {
