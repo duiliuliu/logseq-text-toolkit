@@ -63,6 +63,16 @@ export interface Settings {
   // 工具栏元素配置
   ToolbarItems: Array<ToolbarItem | ToolbarGroup>;
   
+  // 任务进度设置
+  taskProgress?: {
+    enabled: boolean;
+    defaultDisplayType: 'mini-circle' | 'dot-matrix' | 'status-cursor' | 'progress-capsule' | 'step-progress';
+    displayOptions?: {
+      [key: string]: Record<string, any>;
+    };
+    statusColors?: Record<string, string>;
+  };
+  
   // 元数据设置
   meta?: {
     language?: LanguageMeta;

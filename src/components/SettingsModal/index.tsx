@@ -5,6 +5,7 @@ import { useSettingsContext } from '../../settings/useSettings.tsx'
 import GeneralSettings from './tabs/GeneralSettings.tsx'
 import ToolbarSettings from './tabs/ToolbarSettings.tsx'
 import AdvancedSettings from './tabs/AdvancedSettings.tsx'
+import TaskProgressSettings from './tabs/TaskProgressSettings.tsx'
 import { t } from '../../translations/i18n.ts'
 import { ThemeType, Settings } from '../../settings/types.ts'
 import { logseqAPI } from '../../logseq/index.ts'
@@ -92,6 +93,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   const tabs: Tab[] = [
     { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language) },
     { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language) },
+    { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language) },
     { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language) }
   ]
 

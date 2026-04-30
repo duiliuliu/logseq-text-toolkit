@@ -11,6 +11,28 @@
   "hoverDelay": 500,
   "sponsorEnabled": true,
   "developerMode": true,
+  "taskProgress": {
+    "enabled": true,
+    "defaultDisplayType": "mini-circle",
+    "displayOptions": {
+      "mini-circle": {
+        "size": "small",
+        "showLabel": true,
+        "labelFormat": "fraction"
+      },
+      "dot-matrix": {
+        "maxDots": 10,
+        "size": "small"
+      }
+    },
+    "statusColors": {
+      "todo": "#f59e0b",
+      "doing": "#3b82f6",
+      "done": "#10b981",
+      "waiting": "#8b5cf6",
+      "canceled": "#6b7280"
+    }
+  },
   "meta": {
     "language": {
       "languages": [

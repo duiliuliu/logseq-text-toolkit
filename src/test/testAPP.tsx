@@ -3,16 +3,15 @@ import './testApp.css'
 import TestLayout from './components/TestLayout/index.tsx'
 import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import HiccupRenderer from './components/HiccupRenderer/index.tsx'
+import BlockRenderer from './components/BlockRenderer/index.tsx'
+import TaskProgressDemo from './components/TaskProgressDemo/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
-import CommentApp from '../components/Comment/CommentApp.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
 
 function TestApp() {
-  // 使用设置上下文
   const { settings } = useSettingsContext()
 
-  // 左侧面板内容
   const leftContent = (
     <div className="left-panel">
       <h3>{testConfig.leftPanel.title}</h3>
@@ -29,7 +28,6 @@ function TestApp() {
     </div>
   )
 
-  // 右侧面板内容
   const rightContent = (
     <div className="right-panel">
       <h3>{testConfig.rightPanel.title}</h3>
@@ -43,19 +41,51 @@ function TestApp() {
     </div>
   )
 
-  // 中间内容区域 - 使用 HiccupRenderer 组件支持 hiccup 实时渲染
   const centerContent = (
     <div className="center-content">
       <TextSelectionDemo />
+      
       <div className="hiccup-renderer-container">
         <HiccupRenderer />
       </div>
+      
+      <div className="block-demo-container" style={{ marginTop: '24px', padding: '16px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+        <h3>Block 渲染演示</h3>
+        
+        <div id="task-parent-block" className="block" data-block-id="task-parent-block" style={{ marginBottom: '12px' }}>
+          <BlockRenderer
+            blockId="#task-parent-block"
+            content="My Project Tasks {{renderer :taskprogress}}"
+            properties={{}}
+          />
+        </div>
+        
+        <div className="block-list" style={{ marginLeft: '20px' }}>
+          <div className="block" data-block-id="task-child-1" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+            data-properties={JSON.stringify({ status: 'done', task_tracking: true })}>
+            <span style={{ color: '#10b981' }}>✓</span> Design the UI
+          </div>
+          <div className="block" data-block-id="task-child-2" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+            data-properties={JSON.stringify({ status: 'doing', task_tracking: true })}>
+            <span style={{ color: '#3b82f6' }}>○</span> Implement the logic
+          </div>
+          <div className="block" data-block-id="task-child-3" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+            data-properties={JSON.stringify({ status: 'todo', task_tracking: true })}>
+            <span style={{ color: '#f59e0b' }}>●</span> Write documentation
+          </div>
+          <div className="block" data-block-id="task-child-4" style={{ padding: '8px', marginBottom: '4px', backgroundColor: '#fff', borderRadius: '4px' }}
+            data-properties={JSON.stringify({ status: 'waiting', task_tracking: true })}>
+            <span style={{ color: '#8b5cf6' }}>◐</span> Write tests
+          </div>
+        </div>
+      </div>
+      
+      <TaskProgressDemo />
     </div>
   )
 
   return (
     <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-      {/* 右上角工具栏横幅 */}
       <div id="toolbar" className="toolbar-banner">
         <div className="toolbar-banner-content">
           <span className="toolbar-banner-text">工具栏演示</span>
@@ -73,25 +103,19 @@ function TestApp() {
         </div>
       </div>
       
-      {/* 顶部区域 */}
       <div id="head" className="top-toolbar">
         <div className="toolbar-content">
           <h1>Text Toolkit Plugin (Test Mode)</h1>
         </div>
       </div>
       
-      {/* 使用TestLayout布局 */}
       <TestLayout 
         leftContent={leftContent}
         centerContent={centerContent}
         rightContent={rightContent}
       />
       
-      {/* Toast 容器 */}
       <ToastContainer />
-      
-
-
     </div>
   )
 }

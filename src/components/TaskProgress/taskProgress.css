@@ -1,0 +1,77 @@
+.task-progress {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.task-progress-mini-circle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-progress-mini-circle svg {
+  transform: rotate(-90deg);
+}
+
+.task-progress-mini-circle .center-text {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.task-progress-dot-matrix {
+  display: flex;
+  gap: 2px;
+}
+
+.task-progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.task-progress-capsule {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background-color: var(--ls-secondary-background-color);
+}
+
+.task-progress-capsule-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.task-progress-capsule-segment {
+  height: 100%;
+  float: left;
+}
+
+.task-progress-cursor {
+  font-size: 14px;
+  cursor: help;
+}
+
+.task-progress-step {
+  display: flex;
+  align-items: flex-end;
+  height: 16px;
+  gap: 1px;
+}
+
+.task-progress-step-segment {
+  width: 8px;
+  border-radius: 2px 2px 0 0;
+}
+
+.task-progress-label {
+  margin-left: 4px;
+  font-size: 10px;
+  font-weight: 500;
+}
