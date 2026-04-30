@@ -47,8 +47,14 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
   const remaining = maxDots - dots.length
   const hasMore = totalTasks > maxDots
 
+  const tooltip = stats.map(s => `${s.status}: ${s.count}`).join(' | ')
+
   return (
-    <div className="task-progress-dot-matrix">
+    <div 
+      className="task-progress-dot-matrix"
+      title={tooltip}
+      style={{ cursor: 'pointer' }}
+    >
       {dots.map((dot, index) => (
         <div
           key={index}
@@ -58,7 +64,6 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
             height: dotSize,
             backgroundColor: dot.color,
           }}
-          title={`${dot.status}: ${stats.find(s => s.status === dot.status)?.count || 0}`}
         />
       ))}
       {hasMore && (

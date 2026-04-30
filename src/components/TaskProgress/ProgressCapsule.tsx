@@ -25,10 +25,16 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
     return null
   }
 
+  const tooltip = stats.map(s => `${s.status}: ${s.count}`).join(' | ')
+
   return (
-    <div className="task-progress-capsule">
+    <div 
+      className="task-progress-capsule"
+      title={tooltip}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="task-progress-capsule-bar" style={{ width: '60px' }}>
-        {stats.map((stat, index) => {
+        {stats.map((stat) => {
           const width = (stat.count / totalTasks) * 100
           return (
             <div
@@ -38,7 +44,6 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
                 width: `${width}%`,
                 backgroundColor: stat.color || '#6b7280',
               }}
-              title={`${stat.status}: ${stat.count}`}
             />
           )
         })}

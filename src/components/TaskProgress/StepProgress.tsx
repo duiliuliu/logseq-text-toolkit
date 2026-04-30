@@ -26,9 +26,15 @@ const StepProgress: React.FC<StepProgressProps> = ({
   const segmentWidth = 8
 
   const maxCount = Math.max(...stats.map(s => s.count))
+  
+  const tooltip = stats.map(s => `${s.status}: ${s.count}`).join(' | ')
 
   return (
-    <div className="task-progress-step">
+    <div 
+      className="task-progress-step"
+      title={tooltip}
+      style={{ cursor: 'pointer' }}
+    >
       {stats.map((stat) => {
         const height = maxCount > 0 ? Math.max(4, (stat.count / maxCount) * maxHeight) : 4
         
@@ -41,7 +47,6 @@ const StepProgress: React.FC<StepProgressProps> = ({
               height: `${height}px`,
               backgroundColor: stat.color || '#6b7280',
             }}
-            title={`${stat.status}: ${stat.count}`}
           />
         )
       })}

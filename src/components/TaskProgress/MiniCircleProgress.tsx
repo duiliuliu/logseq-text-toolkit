@@ -68,36 +68,52 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
     )
   }
 
+  const getTooltipContent = () => {
+    return stats.map(stat => `${stat.status}: ${stat.count}`).join(' | ')
+  }
+
   if (stats.length === 0 || totalTasks === 0) {
     return null
   }
 
-  let currentOffset = 0
-  const segments = stats.map((stat, index) => {
+  let currentAngle = -90
+
+  const segments = stats.map((stat) => {
     const percentage = stat.count / totalTasks
-    const segmentLength = circumference * percentage
-    const offset = circumference - currentOffset
+    const angle = percentage * 360
+    const startAngle = currentAngle
+    const endAngle = currentAngle + angle
     
-    currentOffset += segmentLength
-    
+    currentAngle = endAngle
+
+    const startRad = (startAngle * Math.PI) / 180
+    const endRad = (endAngle * Math.PI) / 180
+
+    const x1 = center + radius * Math.cos(startRad)
+    const y1 = center + radius * Math.sin(startRad)
+    const x2 = center + radius * Math.cos(endRad)
+    const y2 = center + radius * Math.sin(endRad)
+
+    const largeArcFlag = angle > 180 ? 1 : 0
+
     return (
-      <circle
+      <path
         key={stat.status}
-        cx={center}
-        cy={center}
-        r={radius}
+        d={`M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`}
         fill="none"
         stroke={stat.color || '#6b7280'}
         strokeWidth={strokeWidth}
-        strokeDasharray={`${segmentLength} ${circumference}`}
-        strokeDashoffset={offset}
-        style={{ transition: 'stroke-dashoffset 0.3s ease' }}
+        strokeLinecap="butt"
       />
     )
   })
 
   return (
-    <div className="task-progress-mini-circle">
+    <div 
+      className="task-progress-mini-circle" 
+      title={getTooltipContent()}
+      style={{ cursor: 'pointer' }}
+    >
       <svg width={svgSize} height={svgSize} viewBox={`0 0 ${svgSize} ${svgSize}`}>
         {segments}
       </svg>

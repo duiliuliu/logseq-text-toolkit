@@ -13,6 +13,17 @@ interface StatusCursorProgressProps {
   progress: number
 }
 
+const STATUS_ICONS: Record<string, string> = {
+  'todo': '●',
+  'doing': '○',
+  'in-review': '⊛',
+  'done': '✓',
+  'waiting': '◐',
+  'canceled': '✗',
+}
+
+const STATUS_ORDER = ['done', 'doing', 'in-review', 'todo', 'waiting', 'canceled']
+
 const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
   stats,
   progress,
@@ -21,30 +32,36 @@ const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
     return null
   }
 
-  const todoStat = stats.find(s => s.status === 'todo')
-  const doingStat = stats.find(s => s.status === 'doing')
-  const doneStat = stats.find(s => s.status === 'done')
-
   const tooltip = stats
     .map(s => `${s.status}: ${s.count}`)
     .join(' | ')
 
-  let mainColor = '#6b7280'
-  if (progress === 100) {
-    mainColor = doneStat?.color || '#10b981'
-  } else if (doingStat && doingStat.count > 0) {
-    mainColor = doingStat.color || '#3b82f6'
-  } else if (todoStat && todoStat.count > 0) {
-    mainColor = todoStat.color || '#f59e0b'
-  }
+  const sortedStats = [...stats].sort((a, b) => {
+    const indexA = STATUS_ORDER.indexOf(a.status)
+    const indexB = STATUS_ORDER.indexOf(b.status)
+    if (indexA === -1 && indexB === -1) return a.status.localeCompare(b.status)
+    if (indexA === -1) return 1
+    if (indexB === -1) return -1
+    return indexA - indexB
+  })
 
   return (
     <span 
       className="task-progress-cursor"
-      style={{ color: mainColor }}
       title={tooltip}
+      style={{ cursor: 'pointer' }}
     >
-      ✓{doneStat?.count || 0} ○{doingStat?.count || 0} ●{todoStat?.count || 0}
+      {sortedStats.map(stat => {
+        const icon = STATUS_ICONS[stat.status] || '●'
+        return (
+          <span 
+            key={stat.status}
+            style={{ color: stat.color || '#6b7280', marginRight: '2px' }}
+          >
+            {icon}{stat.count}
+          </span>
+        )
+      })}
     </span>
   )
 }

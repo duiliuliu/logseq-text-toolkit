@@ -5,14 +5,11 @@
  * 任务进度设置 Tab
  */
 
-import { useState } from 'react'
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
-import { ProgressDisplayType } from '../../../lib/taskProgress/types.ts'
 
-// 默认状态颜色配置
 const defaultStatusColors: Record<string, string> = {
   'todo': '#f59e0b',
   'doing': '#3b82f6',
@@ -23,9 +20,6 @@ const defaultStatusColors: Record<string, string> = {
 }
 
 function TaskProgressSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
-  const [newStatusName, setNewStatusName] = useState('')
-  const [newStatusColor, setNewStatusColor] = useState('#6b7280')
-
   const handleSettingChange = (path: string, value: any) => {
     setSettings(prev => {
       if (!prev) return prev
@@ -53,34 +47,6 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
       if (!newSettings.meta.taskProgress) newSettings.meta.taskProgress = { statusColors: {} }
       if (!newSettings.meta.taskProgress.statusColors) newSettings.meta.taskProgress.statusColors = {}
       newSettings.meta.taskProgress.statusColors[status] = color
-      return newSettings
-    })
-  }
-
-  const handleAddStatus = () => {
-    if (!newStatusName.trim()) return
-    
-    setSettings(prev => {
-      if (!prev) return prev
-      const newSettings = JSON.parse(JSON.stringify(prev))
-      if (!newSettings.meta) newSettings.meta = {}
-      if (!newSettings.meta.taskProgress) newSettings.meta.taskProgress = { statusColors: {} }
-      if (!newSettings.meta.taskProgress.statusColors) newSettings.meta.taskProgress.statusColors = {}
-      newSettings.meta.taskProgress.statusColors[newStatusName.trim().toLowerCase()] = newStatusColor
-      return newSettings
-    })
-    
-    setNewStatusName('')
-    setNewStatusColor('#6b7280')
-  }
-
-  const handleRemoveStatus = (status: string) => {
-    setSettings(prev => {
-      if (!prev) return prev
-      const newSettings = JSON.parse(JSON.stringify(prev))
-      if (newSettings.meta?.taskProgress?.statusColors) {
-        delete newSettings.meta.taskProgress.statusColors[status]
-      }
       return newSettings
     })
   }
@@ -173,52 +139,24 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
         />
       </div>
 
-      {/* 状态颜色配置 */}
       <div className="ltt-settings-section">
         <h4>{t('settings.taskProgress.statusColors', language)}</h4>
+        <p className="ltt-section-hint" style={{ fontSize: '12px', color: '#666', margin: '4px 0 12px' }}>
+          点击色块修改颜色，更多状态请在 settings.json 中配置
+        </p>
         
-        <div className="ltt-status-colors-container">
+        <div className="ltt-status-colors-grid">
           {Object.entries(statusColors).map(([status, color]) => (
-            <div key={status} className="ltt-status-color-item">
+            <div key={status} className="ltt-status-color-row">
               <input
                 type="color"
                 value={color}
                 onChange={(e) => handleStatusColorChange(status, e.target.value)}
-                className="ltt-color-picker"
+                className="ltt-color-input"
               />
-              <span className="ltt-status-name">{status}</span>
-              <button 
-                className="ltt-remove-status-btn"
-                onClick={() => handleRemoveStatus(status)}
-              >
-                ×
-              </button>
+              <span className="ltt-status-label">{status}</span>
             </div>
           ))}
-        </div>
-
-        {/* 添加新状态 */}
-        <div className="ltt-add-status-container">
-          <input
-            type="text"
-            placeholder={t('settings.taskProgress.newStatusPlaceholder', language)}
-            value={newStatusName}
-            onChange={(e) => setNewStatusName(e.target.value)}
-            className="ltt-status-input"
-          />
-          <input
-            type="color"
-            value={newStatusColor}
-            onChange={(e) => setNewStatusColor(e.target.value)}
-            className="ltt-color-picker-small"
-          />
-          <button 
-            className="ltt-add-status-btn"
-            onClick={handleAddStatus}
-            disabled={!newStatusName.trim()}
-          >
-            +
-          </button>
         </div>
       </div>
 
