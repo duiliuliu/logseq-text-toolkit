@@ -56,80 +56,22 @@ const Editor: any = {
     
     const parentElement = findElementByBlockId(blockId, doc);
     if (!parentElement) {
-      console.log('[MockEditor] Parent element not found for:', blockId);
       return Promise.resolve([]);
     }
     
     const children: any[] = [];
-    
-    // 查找 blockList 容器
-    const blockList = parentElement.querySelector('.block-list');
-    const searchRoot = blockList || parentElement;
-    
-    // 查找所有带有 data-block-id 的 block 子元素
-    const blockElements = searchRoot.querySelectorAll('.block[data-block-id]');
-    console.log('[MockEditor] Found block elements:', blockElements.length);
-    
-    blockElements.forEach((child: Element) => {
-      const htmlEl = child as HTMLElement;
-      const dataProps = htmlEl.dataset.properties;
-      let properties = {};
-      
-      if (dataProps) {
-        try {
-          properties = JSON.parse(dataProps);
-          // 确保 task_tracking 是布尔值
-          if (properties.task_tracking === 'true') {
-            properties.task_tracking = true;
-          }
-          if (properties.task_tracking === 'false') {
-            properties.task_tracking = false;
-          }
-        } catch (e) {
-          console.error('[MockEditor] Error parsing properties:', e);
-        }
+    Array.from(parentElement.children).forEach(child => {
+      if (child.classList.contains('block') || child.hasAttribute('data-block-id')) {
+        const id = generateBlockId(child as HTMLElement);
+        children.push({
+          id,
+          uuid: id,
+          content: child.textContent || '',
+          properties: JSON.parse((child as HTMLElement).dataset.properties || '{}')
+        });
       }
-      
-      const id = htmlEl.dataset.blockId || generateBlockId(htmlEl);
-      children.push({
-        id,
-        uuid: id,
-        content: child.textContent || '',
-        properties
-      });
     });
     
-    // 如果没有找到，检查直接子元素
-    if (children.length === 0) {
-      Array.from(parentElement.children).forEach(child => {
-        if (child.classList.contains('block') || child.hasAttribute('data-block-id')) {
-          const htmlEl = child as HTMLElement;
-          const id = htmlEl.dataset.blockId || generateBlockId(htmlEl);
-          const dataProps = htmlEl.dataset.properties;
-          let properties = {};
-          
-          if (dataProps) {
-            try {
-              properties = JSON.parse(dataProps);
-              if (properties.task_tracking === 'true') {
-                properties.task_tracking = true;
-              }
-            } catch (e) {
-              console.error('[MockEditor] Error parsing properties:', e);
-            }
-          }
-          
-          children.push({
-            id,
-            uuid: id,
-            content: child.textContent || '',
-            properties
-          });
-        }
-      });
-    }
-    
-    console.log('[MockEditor] Returning children:', children.length);
     return Promise.resolve(children);
   },
 

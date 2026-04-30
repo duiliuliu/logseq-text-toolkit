@@ -17,31 +17,18 @@ function getStatusColor(status: string): string {
 export async function getDirectTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
   try {
     const children = await logseqAPI.Editor.getBlockChildren(parentBlockId)
-    console.log('[TaskProgress] getDirectTaskChildren called with:', parentBlockId)
-    console.log('[TaskProgress] Raw children:', children)
     
     if (!children || !Array.isArray(children)) {
-      console.log('[TaskProgress] No children found or not an array')
       return []
     }
     
-    const filtered = children
+    return children
       .filter(child => {
         const content = child.content || ''
-        const properties = child.properties || {}
-        const hasStatusProp = properties.status !== undefined
+        const hasStatusProp = child.properties?.status !== undefined
         const hasTaskTag = content.includes('#task')
-        const hasTaskTracking = properties.task_tracking === true
-        const shouldInclude = hasTaskTracking && (hasStatusProp || hasTaskTag)
-        console.log('[TaskProgress] Filtering child:', {
-          content: content.substring(0, 50),
-          properties,
-          hasStatusProp,
-          hasTaskTag,
-          hasTaskTracking,
-          shouldInclude
-        })
-        return shouldInclude
+        const hasTaskTracking = child.properties?.task_tracking === true
+        return (hasStatusProp || hasTaskTag) && hasTaskTracking
       })
       .map(child => ({
         id: child.id || child.uuid,
@@ -51,9 +38,6 @@ export async function getDirectTaskChildren(parentBlockId: string): Promise<Task
         taskTrackingEnabled: child.properties?.task_tracking === true,
         properties: child.properties,
       }))
-    
-    console.log('[TaskProgress] Filtered tasks:', filtered.length)
-    return filtered
   } catch (error) {
     console.error('[TaskProgress] getDirectTaskChildren error:', error)
     return []
