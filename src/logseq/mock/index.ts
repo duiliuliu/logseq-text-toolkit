@@ -277,41 +277,52 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   DB: {
     q: () => Promise.resolve([]),
     customQuery: () => Promise.resolve([]),
-    datascriptQuery: (query: string) => {
+    datascriptQuery: async (query: string) => {
       console.log('Mock DB datascriptQuery called:', query);
       
-      const mockTaskData: Record<string, Array<[string, number]>> = {
-        'parent-1': [
-          ['Todo', 2],
-          ['Doing', 1],
-          ['Done', 1]
-        ],
-        'test-parent': [
-          ['Todo', 3],
-          ['Done', 2]
-        ],
-        '69f2d4d8-6bb9-4d53-9fce-70deefcd1ba5': [
-          ['Todo', 5],
-          ['Doing', 2],
-          ['Done', 3],
-          ['In Review', 1]
-        ]
-      };
-      
-      const uuidMatch = query.match(/#uuid\s+"([^"]+)"/);
-      if (uuidMatch) {
-        const blockId = uuidMatch[1];
-        const data = mockTaskData[blockId];
-        if (data) {
-          return Promise.resolve(data);
+      try {
+        // 从查询中解析 parentBlockId
+        const uuidMatch = query.match(/#uuid\s+"([^"]+)"/);
+        if (!uuidMatch) {
+          return Promise.resolve([]);
         }
+        
+        const parentBlockId = uuidMatch[1];
+        
+        // 使用 getBlockChildren 获取子块
+        const children = await Editor.getBlockChildren(parentBlockId);
+        
+        if (!children || !Array.isArray(children)) {
+          return [];
+        }
+        
+        // 过滤有效的任务块（原来的 getDirectTaskChildren 逻辑）
+        const tasks = children
+          .filter(child => {
+            const content = child.content || '';
+            const hasStatusProp = child.properties?.status !== undefined;
+            const hasTaskTag = content.includes('#task');
+            return hasStatusProp || hasTaskTag;
+          });
+        
+        // 统计状态
+        const statusCountMap = new Map<string, number>();
+        tasks.forEach(task => {
+          const status = (task.properties?.status as string) || 'Todo';
+          statusCountMap.set(status, (statusCountMap.get(status) || 0) + 1);
+        });
+        
+        // 转换成 [["状态名", 数量], ...] 格式
+        const results: Array<[string, number]> = [];
+        statusCountMap.forEach((count, status) => {
+          results.push([status, count]);
+        });
+        
+        return results;
+      } catch (error) {
+        console.error('[Mock DB] datascriptQuery error:', error);
+        return [];
       }
-      
-      if (mockTaskData['parent-1']) {
-        return Promise.resolve(mockTaskData['parent-1']);
-      }
-      
-      return Promise.resolve([]);
     },
     onChanged: () => () => {}
   },
