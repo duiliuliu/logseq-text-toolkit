@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
  * 注释功能模块
  */
 

@@ -1,8 +1,13 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
-import { SelectedData } from './textProcessor.ts'
+import { SelectedData } from './types.ts'
 import { ToolbarItem, ToolbarGroup } from './types.ts'
 import { parseItems, filterToolbarItems, IconName } from './ToolbarLogic.ts'
 

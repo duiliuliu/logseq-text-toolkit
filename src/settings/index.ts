@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import { Settings, ThemeType, LanguageType } from './types'
 import defaultSettings from './defaultSettings'
 import { logseqAPI } from '../logseq'

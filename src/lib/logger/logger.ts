@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
  * 日志系统
  * 支持 debug 模式，通过设置中的开发者模式控制
  */

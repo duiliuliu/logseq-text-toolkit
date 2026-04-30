@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
  * Logseq API 统一接口
  * 根据环境提供一致的Logseq API接口
  */

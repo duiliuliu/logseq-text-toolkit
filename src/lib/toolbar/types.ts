@@ -1,5 +1,10 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import type { ToolbarItem, ToolbarGroup } from '../../components/Toolbar/types.ts';
-import type { SelectedData } from '../../components/Toolbar/textProcessor.ts';
+import type { SelectedData } from '../../components/Toolbar/types.ts';
 
 // 事件类型定义
 export type EventType = 

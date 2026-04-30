@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
  * 行内注释弹窗组件
  * 极简紧凑设计风格
  */

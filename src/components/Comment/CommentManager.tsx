@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CommentModal } from './CommentModal.tsx';
 import { Comment } from './index.ts';
-import { SelectedData } from '../Toolbar/textProcessor.ts';
+import { SelectedData } from '../Toolbar/types.ts';
 import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
 import { eventBus } from '../../lib/toolbar/index.ts';

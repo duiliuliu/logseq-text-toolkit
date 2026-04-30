@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 // 主题类型
 export type ThemeType = 'light' | 'dark' | 'system';
 

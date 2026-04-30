@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
 import { Settings, SettingsContextType, ThemeType, LanguageType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'

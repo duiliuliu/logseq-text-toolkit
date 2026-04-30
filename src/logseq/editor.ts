@@ -1,4 +1,7 @@
 /**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
  * Logseq编辑器服务
  * 提供与Logseq编辑器相关的操作，如获取当前块和更新块内容
  */

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ */
+
 import en from './en.json'
 import ja from './ja.json'
 import zhCN from './zh-CN.json'
