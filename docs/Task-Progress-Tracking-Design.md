@@ -45,6 +45,11 @@ Text Toolkit Plugin (项目根目录)
 │   │   ├── Modal/                    (已实现)
 │   │   ├── SelectToolbar/            (已实现 - 选择工具栏)
 │   │   ├── SettingsModal/            (已实现 - 设置面板)
+│   │   │   └── tabs/
+│   │   │       ├── GeneralSettings.tsx    (已实现)
+│   │   │       ├── ToolbarSettings.tsx    (已实现)
+│   │   │       ├── AdvancedSettings.tsx   (已实现)
+│   │   │       └── TaskProgressSettings.tsx (未实现 - 任务进度设置 [本方案])
 │   │   ├── Toast/                    (已实现)
 │   │   ├── Toolbar/                  (已实现 - 工具栏)
 │   │   ├── ToolbarItem/              (已实现)
@@ -77,7 +82,88 @@ Text Toolkit Plugin (项目根目录)
 - ✅ 已实现：现有功能模块
 - ⏳ 未实现：任务进度追踪模块（本方案设计内容）
 
-### 2.2 当前模块架构（Task Progress Tracking）
+### 2.2 架构图
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              Text Toolkit Plugin                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────┐   │
+│  │                          main.tsx (入口文件)                              │   │
+│  │                           ┌───────────────┐                              │   │
+│  │                           │  Logseq API   │                              │   │
+│  │                           │  初始化注册    │                              │   │
+│  │                           └───────┬───────┘                              │   │
+│  └───────────────────────────────────┼─────────────────────────────────────┘   │
+│                                      │                                          │
+│          ┌───────────────────────────┼───────────────────────────┐             │
+│          │                           │                           │             │
+│          ▼                           ▼                           ▼             │
+│  ┌───────────────┐          ┌───────────────┐          ┌───────────────┐      │
+│  │   Toolbar     │          │    Comment    │          │ TaskProgress  │      │
+│  │   Module      │          │    Module     │          │   Module      │      │
+│  │  (已实现)     │          │   (已实现)    │          │  (未实现)     │      │
+│  └───────┬───────┘          └───────────────┘          └───────┬───────┘      │
+│          │                                                      │             │
+│          │                                                      │             │
+│  ┌───────┴───────────────────────────────────────────────────────┴───────┐    │
+│  │                        Task Progress Module Detail                     │    │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │    │
+│  │  │                     应用层 (Application Layer)                   │  │    │
+│  │  │  ┌─────────────────────────────────────────────────────────┐    │  │    │
+│  │  │  │              TaskProgressRenderer (渲染器)               │    │  │    │
+│  │  │  │  - registerMacroRenderer()  注册宏渲染器                 │    │  │    │
+│  │  │  │  - registerSlashCommand()   注册斜杠命令                 │    │  │    │
+│  │  │  └─────────────────────────────────────────────────────────┘    │  │    │
+│  │  │  ┌─────────────────────────────────────────────────────────┐    │  │    │
+│  │  │  │              UI Components (进度展示组件)                │    │  │    │
+│  │  │  │  MiniCircle | DotMatrix | StatusCursor | Capsule | Step │    │  │    │
+│  │  │  └─────────────────────────────────────────────────────────┘    │  │    │
+│  │  └─────────────────────────────────────────────────────────────────┘  │    │
+│  │                              │                                        │    │
+│  │  ┌───────────────────────────┴───────────────────────────────────┐   │    │
+│  │  │                   业务逻辑层 (Business Logic)                  │   │    │
+│  │  │  ┌──────────────────────────────────────────────────────────┐ │   │    │
+│  │  │  │              TaskProgressManager (进度管理器)             │ │   │    │
+│  │  │  │  - initialize()      初始化                              │ │   │    │
+│  │  │  │  - getProgress()     获取进度数据                        │ │   │    │
+│  │  │  │  - subscribe()       订阅更新                            │ │   │    │
+│  │  │  └──────────────────────────────────────────────────────────┘ │   │    │
+│  │  │  ┌──────────────────┐ ┌──────────────────┐ ┌───────────────┐  │ │   │    │
+│  │  │  │ TaskQueryService │ │ StatsCalculator  │ │ EventListener │  │ │   │    │
+│  │  │  │    任务查询       │ │    统计计算      │ │   事件监听    │  │ │   │    │
+│  │  │  └──────────────────┘ └──────────────────┘ └───────────────┘  │ │   │    │
+│  │  └──────────────────────────────────────────────────────────────┘   │    │
+│  │                              │                                        │    │
+│  │  ┌───────────────────────────┴───────────────────────────────────┐   │    │
+│  │  │                   数据访问层 (Data Access)                     │   │    │
+│  │  │  ┌──────────────────────────────────────────────────────────┐ │   │    │
+│  │  │  │              Logseq API Wrapper (API 封装)                │ │   │    │
+│  │  │  │  - Editor.getBlock()        获取块                       │ │   │    │
+│  │  │  │  - Editor.getBlockChildren() 获取子块                    │ │   │    │
+│  │  │  │  - DB.datascriptQuery()     执行查询                     │ │   │    │
+│  │  │  │  - App.onBlockChanged()     监听块变更                   │ │   │    │
+│  │  │  │  - provideUI()              提供UI渲染                   │ │   │    │
+│  │  │  │  - provideStyle()           提供样式                     │ │   │    │
+│  │  │  └──────────────────────────────────────────────────────────┘ │   │    │
+│  │  └──────────────────────────────────────────────────────────────┘   │    │
+│  │                              │                                        │    │
+│  │  ┌───────────────────────────┴───────────────────────────────────┐   │    │
+│  │  │                   配置层 (Configuration)                       │   │    │
+│  │  │  ┌──────────────────────────────────────────────────────────┐ │   │    │
+│  │  │  │           TaskProgressSettings (设置面板 Tab)             │ │   │    │
+│  │  │  │  - 启用/禁用开关                                          │ │   │    │
+│  │  │  │  - 展示方式选择                                           │ │   │    │
+│  │  │  │  - 状态颜色配置                                           │ │   │    │
+│  │  │  └──────────────────────────────────────────────────────────┘ │   │    │
+│  │  └──────────────────────────────────────────────────────────────┘   │    │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2.3 当前模块架构（Task Progress Tracking）
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -117,21 +203,22 @@ Text Toolkit Plugin (项目根目录)
 ├───────────────────────────────────────────────────────────────────┤
 │               配置与设置层 (Configuration Layer)                  │
 │  ┌──────────────────────────────────────────────────────────────┐│
-│  │  taskProgress Settings (任务进度设置)                        ││
-│  │  (集成到现有 Settings 模块)                                  ││
+│  │  TaskProgressSettings Tab (任务进度设置面板)                ││
+│  │  (独立 Tab，与 GeneralSettings 同级)                        ││
 │  └──────────────────────────────────────────────────────────────┘│
 └───────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.3 模块划分与文件位置
+### 2.4 模块划分与文件位置
 
 | 模块 | 职责 | 文件位置 | 状态 |
 | :--- | :--- | :--- | :--- |
 | `components/TaskProgress/` | 进度展示组件集合 | [src/components/TaskProgress/](file:///workspace/src/components/TaskProgress/) | ⏳ 未实现 |
 | `lib/taskProgress/` | 任务进度核心逻辑 | [src/lib/taskProgress/](file:///workspace/src/lib/taskProgress/) | ⏳ 未实现 |
+| `lib/taskProgress/register.ts` | Logseq API 注册 | [src/lib/taskProgress/register.ts](file:///workspace/src/lib/taskProgress/register.ts) | ⏳ 未实现 |
+| `components/SettingsModal/tabs/TaskProgressSettings.tsx` | 任务进度设置 Tab | [src/components/SettingsModal/tabs/TaskProgressSettings.tsx](file:///workspace/src/components/SettingsModal/tabs/TaskProgressSettings.tsx) | ⏳ 未实现 |
 | `settings/types.ts` | 任务进度类型定义 | [src/settings/types.ts](file:///workspace/src/settings/types.ts) | 需扩展 |
 | `settings/defaultSettings.json` | 默认配置 | [src/settings/defaultSettings.json](file:///workspace/src/settings/defaultSettings.json) | 需扩展 |
-| `settings/SettingsModal/` | 设置面板集成 | [src/components/SettingsModal/](file:///workspace/src/components/SettingsModal/) | 需扩展 |
 | `logseq/` | Logseq API 封装扩展 | [src/logseq/](file:///workspace/src/logseq/) | 需扩展 |
 
 ---
@@ -164,7 +251,7 @@ export interface TaskBlock {
   content: string;
   status?: string;
   isTask: boolean;
-  taskTrackingEnabled: boolean; // task_tracking 属性
+  taskTrackingEnabled: boolean;
   properties?: Record<string, unknown>;
   children?: TaskBlock[];
 }
@@ -201,11 +288,9 @@ export interface ProgressDisplayConfig {
 **文件位置**：[src/settings/types.ts](file:///workspace/src/settings/types.ts)
 
 ```typescript
-// 扩展现有 Settings 接口
 export interface Settings {
   // ... 现有设置 ...
   
-  // 新增：任务进度追踪设置
   taskProgress?: {
     enabled: boolean;
     defaultDisplayType: ProgressDisplayType;
@@ -222,27 +307,137 @@ export interface Settings {
 
 ## 4. 核心功能设计
 
-### 4.1 任务查询逻辑
+### 4.1 Logseq 插件初始化与注册
+
+**文件位置**：[src/lib/taskProgress/register.ts](file:///workspace/src/lib/taskProgress/register.ts)
+
+参考 [logseq-plugin-todo-master](https://github.com/pengx17/logseq-plugin-todo-master) 的实现方式，使用 Logseq 的 Macro Renderer 和 Slash Command 机制：
+
+```typescript
+import ReactDOMServer from 'react-dom/server';
+import { TaskProgressManager } from './manager';
+import { TaskProgress } from '../components/TaskProgress/TaskProgress';
+import { getSettings } from '../../settings';
+import taskProgressStyle from './style.css?raw';
+
+const MACRO_PREFIX = ':taskprogress';
+const PLUGIN_ID = 'text-toolkit-taskprogress';
+
+const rendering = new Map<string, { blockId: string; template: string }>();
+
+function slotExists(slot: string): Promise<boolean> {
+  return Promise.race([
+    Promise.resolve(logseq.App.queryElementById(slot)),
+    new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 1000)),
+  ]);
+}
+
+async function renderProgress(blockId: string, slot: string, counter: number) {
+  try {
+    if (rendering.get(slot)?.blockId !== blockId) {
+      return;
+    }
+    
+    const manager = TaskProgressManager.getInstance();
+    const progressData = await manager.getOrCalculateProgress(blockId);
+    
+    if (rendering.get(slot)?.blockId !== blockId) {
+      return;
+    }
+    
+    const settings = getSettings();
+    const displayType = settings?.taskProgress?.defaultDisplayType || 'mini-circle';
+    
+    const template = ReactDOMServer.renderToStaticMarkup(
+      <TaskProgress 
+        progressData={progressData} 
+        displayType={displayType}
+        config={settings?.taskProgress?.displayOptions?.[displayType]}
+      />
+    );
+    
+    if (counter === 0 || (await slotExists(slot))) {
+      if (rendering.get(slot)?.template === template) {
+        return true;
+      }
+      rendering.get(slot)!.template = template;
+      
+      logseq.provideUI({
+        key: PLUGIN_ID + '__' + slot,
+        slot,
+        reset: true,
+        template,
+      });
+      return true;
+    }
+  } catch (err) {
+    console.error('[TaskProgress] Render error:', err);
+  }
+}
+
+async function startRendering(blockId: string, slot: string) {
+  rendering.set(slot, { blockId, template: '' });
+  let counter = 0;
+  
+  const intervalId = setInterval(async () => {
+    await renderProgress(blockId, slot, counter++);
+    const exist = await slotExists(slot);
+    if (!exist) {
+      rendering.delete(slot);
+      clearInterval(intervalId);
+    }
+  }, 5000);
+  
+  await renderProgress(blockId, slot, counter);
+}
+
+export function registerTaskProgress() {
+  logseq.provideStyle({ key: PLUGIN_ID, style: taskProgressStyle });
+  
+  logseq.App.onMacroRendererSlotted(async ({ payload, slot }) => {
+    const [type] = payload.arguments;
+    if (!type?.startsWith(MACRO_PREFIX)) {
+      return;
+    }
+    
+    logseq.provideStyle({
+      key: slot,
+      style: `#${slot} {display: inline-flex;}`,
+    });
+    
+    let blockId = null;
+    if (type === MACRO_PREFIX) {
+      blockId = payload.uuid;
+    } else {
+      blockId = type.substring(MACRO_PREFIX.length + 1);
+    }
+    
+    if (blockId) {
+      await startRendering(blockId, slot);
+    }
+  });
+  
+  logseq.Editor.registerSlashCommand(
+    '[Text Toolkit] Insert Task Progress',
+    async () => {
+      const block = await logseq.Editor.getCurrentBlock();
+      if (block?.uuid) {
+        await logseq.Editor.insertAtEditingCursor(
+          `{{renderer ${MACRO_PREFIX}}}`
+        );
+      }
+    }
+  );
+}
+```
+
+### 4.2 任务查询逻辑
 
 **文件位置**：[src/lib/taskProgress/taskQuery.ts](file:///workspace/src/lib/taskProgress/taskQuery.ts)
-
-#### 4.1.1 查询条件
-
-| 条件 | 描述 |
-| :--- | :--- |
-| **标签条件** | `#task` 标签 |
-| **属性条件** | 包含 `status` 属性 |
-| **层级条件** | 仅查询直接子节点（深度为1） |
-| **追踪条件** | 子节点属性 `task_tracking = true` |
-
-#### 4.1.2 查询实现方案
 
 ```typescript
 import { TaskBlock } from './types';
 
-/**
- * 查询父节点下的一级子任务（过滤带有 task_tracking=true 的子任务）
- */
 export async function queryTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
   const query = `
     [:find (pull ?block [*])
@@ -261,19 +456,14 @@ export async function queryTaskChildren(parentBlockId: string): Promise<TaskBloc
   return results.map(row => row[0]);
 }
 
-/**
- * 获取一级子节点（忽略深层嵌套）
- */
 export async function getDirectTaskChildren(parentBlockId: string): Promise<TaskBlock[]> {
   const children = await logseq.Editor.getBlockChildren(parentBlockId);
   
   return children
     .filter(child => {
       const content = child.content || '';
-      // 判断是否为 task 块：包含 status 属性或 #task 标签
       const hasStatusProp = child.properties?.status !== undefined;
       const hasTaskTag = content.includes('#task');
-      // 检查 task_tracking 属性
       const hasTaskTracking = child.properties?.task_tracking === true;
       return (hasStatusProp || hasTaskTag) && hasTaskTracking;
     })
@@ -288,7 +478,7 @@ export async function getDirectTaskChildren(parentBlockId: string): Promise<Task
 }
 ```
 
-### 4.2 统计聚合逻辑
+### 4.3 统计聚合逻辑
 
 **文件位置**：[src/lib/taskProgress/statsCalculator.ts](file:///workspace/src/lib/taskProgress/statsCalculator.ts)
 
@@ -311,13 +501,11 @@ export function aggregateTaskStats(tasks: TaskBlock[]): TaskProgress {
   const statusStats: StatusStat[] = [];
   const statusCountMap = new Map<string, number>();
   
-  // 统计各状态数量
   tasks.forEach(task => {
     const status = task.status || 'todo';
     statusCountMap.set(status, (statusCountMap.get(status) || 0) + 1);
   });
   
-  // 转换为数组
   statusCountMap.forEach((count, status) => {
     statusStats.push({ status, count, color: getStatusColor(status) });
   });
@@ -338,45 +526,37 @@ export function aggregateTaskStats(tasks: TaskBlock[]): TaskProgress {
 }
 ```
 
-### 4.3 事件监听机制
+### 4.4 事件监听机制
 
 **文件位置**：[src/lib/taskProgress/eventListener.ts](file:///workspace/src/lib/taskProgress/eventListener.ts)
-
-根据 Logseq 插件 API，监听块变更事件，通过 `task_tracking` 属性快速过滤：
 
 ```typescript
 import type { IBlock } from '@logseq/libs/dist/LSPlugin';
 
 export class TaskProgressEventListener {
   private listeners: Map<string, () => void> = new Map();
-  private parentBlockCache: Map<string, string> = new Map(); // 缓存子节点->父节点映射
+  private parentBlockCache: Map<string, string> = new Map();
   
   startListening() {
-    // 监听块内容变更
     logseq.App.onBlockChanged((block) => {
       this.handleBlockChange(block);
     });
     
-    // 监听块删除
     logseq.App.onBlockRemoved((blockId) => {
       this.handleBlockRemove(blockId);
     });
   }
   
   private async handleBlockChange(block: IBlock) {
-    // 快速过滤：先检查 task_tracking 属性
     if (block.properties?.task_tracking !== true) return;
     
-    // 获取父节点
     const parentBlockId = block.parentId;
     if (!parentBlockId) return;
     
-    // 触发更新
     this.notifyUpdate(parentBlockId);
   }
   
   private async handleBlockRemove(blockId: string) {
-    // 查找是否在缓存中
     const parentBlockId = this.parentBlockCache.get(blockId);
     if (parentBlockId) {
       this.notifyUpdate(parentBlockId);
@@ -397,14 +577,13 @@ export class TaskProgressEventListener {
     this.listeners.delete(parentBlockId);
   }
   
-  // 缓存子节点和父节点的映射关系
   cacheChildParentMapping(childBlockId: string, parentBlockId: string) {
     this.parentBlockCache.set(childBlockId, parentBlockId);
   }
 }
 ```
 
-### 4.4 进度管理器
+### 4.5 进度管理器
 
 **文件位置**：[src/lib/taskProgress/manager.ts](file:///workspace/src/lib/taskProgress/manager.ts)
 
@@ -415,11 +594,19 @@ import { aggregateTaskStats } from './statsCalculator';
 import { TaskProgressEventListener } from './eventListener';
 
 export class TaskProgressManager {
+  private static instance: TaskProgressManager;
   private eventListener: TaskProgressEventListener;
   private progressCache: Map<string, TaskProgress> = new Map();
   
-  constructor() {
+  private constructor() {
     this.eventListener = new TaskProgressEventListener();
+  }
+  
+  public static getInstance(): TaskProgressManager {
+    if (!TaskProgressManager.instance) {
+      TaskProgressManager.instance = new TaskProgressManager();
+    }
+    return TaskProgressManager.instance;
   }
   
   initialize() {
@@ -427,13 +614,11 @@ export class TaskProgressManager {
   }
   
   async getOrCalculateProgress(parentBlockId: string): Promise<TaskProgress | null> {
-    // 检查缓存
     const cached = this.progressCache.get(parentBlockId);
     if (cached && Date.now() - cached.lastUpdated < 5000) {
       return cached;
     }
     
-    // 计算新数据
     const tasks = await getDirectTaskChildren(parentBlockId);
     if (tasks.length === 0) return null;
     
@@ -441,7 +626,6 @@ export class TaskProgressManager {
     progress.blockId = parentBlockId;
     progress.parentBlockId = parentBlockId;
     
-    // 缓存并建立子节点映射
     this.progressCache.set(parentBlockId, progress);
     tasks.forEach(task => {
       this.eventListener.cacheChildParentMapping(task.id, parentBlockId);
@@ -652,82 +836,6 @@ interface StepProgressProps {
 }
 ```
 
-### 5.4 主组件
-
-**文件位置**：[src/components/TaskProgress/TaskProgress.tsx](file:///workspace/src/components/TaskProgress/TaskProgress.tsx)
-
-```typescript
-import React from 'react';
-import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types';
-import MiniCircleProgress from './MiniCircleProgress';
-import DotMatrixProgress from './DotMatrixProgress';
-import StatusCursorProgress from './StatusCursorProgress';
-import ProgressCapsule from './ProgressCapsule';
-import StepProgress from './StepProgress';
-import './taskProgress.css';
-
-interface TaskProgressProps {
-  progressData: TaskProgressType;
-  displayType: ProgressDisplayType;
-  config?: any;
-}
-
-export const TaskProgress: React.FC<TaskProgressProps> = ({ 
-  progressData, 
-  displayType,
-  config 
-}) => {
-  const renderComponent = () => {
-    const commonProps = {
-      stats: progressData.statusStats,
-      progress: progressData.progress,
-    };
-    
-    switch (displayType) {
-      case 'mini-circle':
-        return (
-          <MiniCircleProgress
-            {...commonProps}
-            completedTasks={progressData.completedTasks}
-            totalTasks={progressData.totalTasks}
-            {...config}
-          />
-        );
-      case 'dot-matrix':
-        return (
-          <DotMatrixProgress
-            {...commonProps}
-            totalTasks={progressData.totalTasks}
-            {...config}
-          />
-        );
-      case 'status-cursor':
-        return <StatusCursorProgress {...commonProps} />;
-      case 'progress-capsule':
-        return (
-          <ProgressCapsule
-            {...commonProps}
-            completedTasks={progressData.completedTasks}
-            totalTasks={progressData.totalTasks}
-          />
-        );
-      case 'step-progress':
-        return <StepProgress {...commonProps} />;
-      default:
-        return null;
-    }
-  };
-  
-  return (
-    <div className="task-progress">
-      {renderComponent()}
-    </div>
-  );
-};
-
-export default TaskProgress;
-```
-
 ---
 
 ## 6. 配置设计
@@ -738,9 +846,6 @@ export default TaskProgress;
 
 ```json
 {
-  // ... 现有配置 ...
-  
-  // 新增：任务进度追踪配置
   "taskProgress": {
     "enabled": true,
     "defaultDisplayType": "mini-circle",
@@ -772,26 +877,165 @@ export default TaskProgress;
 
 ### 6.2 配置项说明
 
-| 配置项 | 类型 | 说明 | 位置 |
-| :--- | :--- | :--- | :--- |
-| `taskProgress.enabled` | boolean | 是否启用任务进度功能 | defaultSettings.json |
-| `taskProgress.defaultDisplayType` | string | 默认展示类型 | defaultSettings.json |
-| `taskProgress.displayOptions.*.size` | string | 组件尺寸 | defaultSettings.json |
-| `taskProgress.displayOptions.mini-circle.showLabel` | boolean | 是否显示标签 | defaultSettings.json |
-| `taskProgress.displayOptions.mini-circle.labelFormat` | string | 标签格式 | defaultSettings.json |
-| `taskProgress.displayOptions.dot-matrix.maxDots` | number | 最大显示点数 | defaultSettings.json |
-| `taskProgress.statusColors` | object | 状态颜色映射 | defaultSettings.json |
-| `taskProgress.updateInterval` | number | 更新间隔（毫秒） | defaultSettings.json |
+| 配置项 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| `taskProgress.enabled` | boolean | 是否启用任务进度功能 |
+| `taskProgress.defaultDisplayType` | string | 默认展示类型 |
+| `taskProgress.displayOptions.*.size` | string | 组件尺寸 |
+| `taskProgress.displayOptions.mini-circle.showLabel` | boolean | 是否显示标签 |
+| `taskProgress.displayOptions.mini-circle.labelFormat` | string | 标签格式 |
+| `taskProgress.displayOptions.dot-matrix.maxDots` | number | 最大显示点数 |
+| `taskProgress.statusColors` | object | 状态颜色映射 |
+| `taskProgress.updateInterval` | number | 更新间隔（毫秒） |
 
-### 6.3 设置面板集成
+### 6.3 设置面板独立 Tab
 
-**文件位置**：[src/components/SettingsModal/tabs/GeneralSettings.tsx](file:///workspace/src/components/SettingsModal/tabs/GeneralSettings.tsx)（或新建单独的设置页）
+**文件位置**：[src/components/SettingsModal/tabs/TaskProgressSettings.tsx](file:///workspace/src/components/SettingsModal/tabs/TaskProgressSettings.tsx)
 
-需添加以下设置项：
-- 启用/禁用任务进度功能开关
-- 默认展示方式选择（下拉菜单）
-- 状态颜色自定义设置
-- 高级设置（更新间隔等）
+创建独立的设置 Tab，与 GeneralSettings、ToolbarSettings、AdvancedSettings 同级：
+
+```typescript
+import { t } from '../../../translations/i18n.ts'
+import CustomSelect from '../../CustomSelect/index.tsx'
+import { Settings } from '../../../settings/types.ts'
+import { TabComponentProps } from '../index.tsx'
+import { ProgressDisplayType } from '../../../lib/taskProgress/types'
+
+function TaskProgressSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
+  const handleSettingChange = (path: string, value: any) => {
+    setSettings(prev => {
+      if (!prev) return prev
+      const newSettings = JSON.parse(JSON.stringify(prev))
+      const keys = path.split('.')
+      let current = newSettings
+      
+      for (let i = 0; i < keys.length - 1; i++) {
+        current = current[keys[i]]
+      }
+      
+      current[keys[keys.length - 1]] = value
+      return newSettings
+    })
+  }
+
+  const displayTypeOptions = [
+    { value: 'mini-circle', label: t('settings.taskProgress.miniCircle', language) },
+    { value: 'dot-matrix', label: t('settings.taskProgress.dotMatrix', language) },
+    { value: 'status-cursor', label: t('settings.taskProgress.statusCursor', language) },
+    { value: 'progress-capsule', label: t('settings.taskProgress.progressCapsule', language) },
+    { value: 'step-progress', label: t('settings.taskProgress.stepProgress', language) }
+  ]
+
+  const sizeOptions = [
+    { value: 'small', label: t('settings.taskProgress.sizeSmall', language) },
+    { value: 'medium', label: t('settings.taskProgress.sizeMedium', language) },
+    { value: 'large', label: t('settings.taskProgress.sizeLarge', language) }
+  ]
+
+  const labelFormatOptions = [
+    { value: 'fraction', label: t('settings.taskProgress.labelFraction', language) },
+    { value: 'percentage', label: t('settings.taskProgress.labelPercentage', language) },
+    { value: 'both', label: t('settings.taskProgress.labelBoth', language) }
+  ]
+
+  const taskProgress = settings.taskProgress || {
+    enabled: true,
+    defaultDisplayType: 'mini-circle',
+    displayOptions: {},
+    statusColors: {},
+    updateInterval: 1000
+  }
+
+  return (
+    <div className="ltt-settings-tab-content">
+      <p className="ltt-tab-section-description-small">
+        {t('settings.taskProgressDescription', language)}
+      </p>
+      
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.enabled', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={taskProgress.enabled || false}
+            onChange={(e) => handleSettingChange('taskProgress.enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.defaultDisplayType', language)}</label>
+        <CustomSelect
+          options={displayTypeOptions}
+          value={taskProgress.defaultDisplayType || 'mini-circle'}
+          onChange={(value) => handleSettingChange('taskProgress.defaultDisplayType', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.size', language)}</label>
+        <CustomSelect
+          options={sizeOptions}
+          value={taskProgress.displayOptions?.['mini-circle']?.size || 'small'}
+          onChange={(value) => handleSettingChange('taskProgress.displayOptions.mini-circle.size', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.showLabel', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={taskProgress.displayOptions?.['mini-circle']?.showLabel ?? true}
+            onChange={(e) => handleSettingChange('taskProgress.displayOptions.mini-circle.showLabel', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.labelFormat', language)}</label>
+        <CustomSelect
+          options={labelFormatOptions}
+          value={taskProgress.displayOptions?.['mini-circle']?.labelFormat || 'fraction'}
+          onChange={(value) => handleSettingChange('taskProgress.displayOptions.mini-circle.labelFormat', value)}
+        />
+      </div>
+
+      <div className="ltt-settings-actions">
+        <button 
+          className="ltt-settings-btn ltt-settings-btn-save"
+          onClick={onSave}
+          disabled={isSaving}
+        >
+          {isSaving ? t('settings.saving', language) : t('settings.saveTaskProgressSettings', language)}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default TaskProgressSettings
+```
+
+### 6.4 SettingsModal 集成
+
+**文件位置**：[src/components/SettingsModal/index.tsx](file:///workspace/src/components/SettingsModal/index.tsx)
+
+在现有的 tabs 数组中添加 TaskProgressSettings：
+
+```typescript
+import TaskProgressSettings from './tabs/TaskProgressSettings.tsx'
+
+// 在 tabs 数组中添加
+const tabs: Tab[] = [
+  { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language) },
+  { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language) },
+  { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language) },
+  { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language) }
+]
+```
 
 ---
 
@@ -800,93 +1044,82 @@ export default TaskProgress;
 ### 7.1 初始化流程
 
 ```
-插件加载 → 初始化 TaskProgressManager → 开始监听事件
-用户打开页面 → 渲染块 → 查询子任务（task_tracking=true）→ 计算统计 → 渲染进度组件
+插件加载 (main.tsx)
+    │
+    ├── registerTaskProgress()  注册宏渲染器和斜杠命令
+    │       │
+    │       ├── logseq.provideStyle()        提供样式
+    │       ├── logseq.App.onMacroRendererSlotted()  注册宏渲染器
+    │       └── logseq.Editor.registerSlashCommand() 注册斜杠命令
+    │
+    └── TaskProgressManager.initialize()  初始化管理器
+            │
+            └── eventListener.startListening()  开始监听事件
 ```
 
-### 7.2 更新流程
+### 7.2 渲染流程
 
 ```
-子任务变更 → onBlockChanged 事件 → 检查 task_tracking 属性 → 
-查找父节点 → 查询更新 → 重新计算统计 → 更新组件
+用户输入 {{renderer :taskprogress}}
+    │
+    ├── onMacroRendererSlotted 触发
+    │       │
+    │       ├── 解析参数获取 blockId
+    │       └── startRendering(blockId, slot)
+    │
+    ├── getOrCalculateProgress(blockId)
+    │       │
+    │       ├── 检查缓存
+    │       ├── getDirectTaskChildren(blockId)  查询子任务
+    │       └── aggregateTaskStats(tasks)       计算统计
+    │
+    ├── ReactDOMServer.renderToStaticMarkup()  生成 HTML
+    │
+    └── logseq.provideUI()  渲染到 slot
 ```
 
-### 7.3 核心数据流
+### 7.3 更新流程
 
-**文件位置**：[src/lib/taskProgress/manager.ts](file:///workspace/src/lib/taskProgress/manager.ts)
-
-```typescript
-// 初始化
-async function initTaskProgress(blockId: string) {
-  const tasks = await getDirectTaskChildren(blockId);
-  if (tasks.length === 0) return;
-  
-  const stats = aggregateTaskStats(tasks);
-  
-  // 渲染组件
-  renderProgressComponent(blockId, stats);
-  
-  // 订阅更新
-  eventListener.subscribe(blockId, () => {
-    refreshTaskProgress(blockId);
-  });
-  
-  // 缓存子节点映射
-  tasks.forEach(task => {
-    eventListener.cacheChildParentMapping(task.id, blockId);
-  });
-}
-
-// 刷新
-async function refreshTaskProgress(blockId: string) {
-  const tasks = await getDirectTaskChildren(blockId);
-  const stats = aggregateTaskStats(tasks);
-  updateProgressComponent(blockId, stats);
-}
+```
+子任务变更
+    │
+    ├── onBlockChanged 事件触发
+    │       │
+    │       ├── 检查 task_tracking 属性
+    │       ├── 获取父节点 ID
+    │       └── notifyUpdate(parentBlockId)
+    │
+    └── 重新渲染进度组件
 ```
 
 ---
 
 ## 8. Logseq API 使用参考
 
-### 8.1 查询 API
+### 8.1 核心 API
 
 | API | 用途 | 文档参考 |
 | :--- | :--- | :--- |
-| `logseq.Editor.getBlock(blockId)` | 获取块详情 | db_query_guide.md |
-| `logseq.Editor.getBlockChildren(blockId)` | 获取子块列表 | db_query_guide.md |
-| `logseq.DB.datascriptQuery(query)` | 执行复杂查询 | db_query_guide.md |
+| `logseq.provideStyle()` | 提供自定义样式 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.provideUI()` | 提供自定义 UI | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.App.onMacroRendererSlotted()` | 注册宏渲染器 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.Editor.registerSlashCommand()` | 注册斜杠命令 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.Editor.getBlock()` | 获取块详情 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.Editor.getBlockChildren()` | 获取子块列表 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.DB.datascriptQuery()` | 执行复杂查询 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.App.onBlockChanged()` | 监听块变更 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
+| `logseq.App.queryElementById()` | 查询 DOM 元素 | [plugins-doc.logseq.com](https://plugins-doc.logseq.com/) |
 
-### 8.2 事件 API
+### 8.2 参考实现
 
-| API | 用途 | 触发时机 |
-| :--- | :--- | :--- |
-| `logseq.App.onBlockChanged(callback)` | 监听块变更 | 块内容或属性修改 |
-| `logseq.App.onBlockRemoved(callback)` | 监听块删除 | 块被删除时 |
-| `logseq.App.onPageChanged(callback)` | 监听页面切换 | 页面切换时 |
-
-### 8.3 查询示例
-
-```typescript
-// 查询所有带有 task_tracking=true 的块
-const query = `
-  [:find (pull ?block [*])
-   :where
-   [?block :block/properties ?props]
-   [(get ?props :task_tracking)]
-   [(= % true)]
-  ]
-`;
-const result = await logseq.DB.datascriptQuery(query);
-```
+- [logseq-plugin-todo-master](https://github.com/pengx17/logseq-plugin-todo-master) - 任务进度条实现
+- [Logseq Plugin Docs](https://plugins-doc.logseq.com/) - 官方插件文档
 
 ---
 
 ## 9. 性能优化考虑
 
 ### 9.1 缓存策略
-
-**文件位置**：[src/lib/taskProgress/manager.ts](file:///workspace/src/lib/taskProgress/manager.ts)
 
 - **结果缓存**：缓存查询结果，避免重复查询
 - **过期机制**：设置缓存过期时间，在事件触发时失效
@@ -898,10 +1131,11 @@ const result = await logseq.DB.datascriptQuery(query);
 - **合并更新**：短时间内多个子任务变更合并为一次更新
 - **防抖处理**：使用 debounce 减少频繁更新
 
-### 9.3 懒加载
+### 9.3 渲染优化
 
-- **按需渲染**：只渲染可见区域的进度组件
-- **延迟加载**：页面加载时延迟一段时间再初始化
+- **模板比对**：渲染前比对模板，相同则跳过
+- **slot 存在检测**：检测 slot 是否存在，避免无效渲染
+- **定时刷新**：使用 interval 定时刷新，而非频繁事件触发
 
 ---
 
@@ -933,8 +1167,8 @@ const result = await logseq.DB.datascriptQuery(query);
 | :--- | :--- | :--- | :--- |
 | 阶段一 | 核心逻辑实现（查询、统计、事件监听） | lib/taskProgress/ | 3-4 天 |
 | 阶段二 | UI 组件实现（5种展示方式） | components/TaskProgress/ | 4-5 天 |
-| 阶段三 | 配置系统集成 | settings/、SettingsModal/ | 2 天 |
-| 阶段四 | Logseq 集成与事件监听 | 集成代码 | 1-2 天 |
+| 阶段三 | Logseq API 注册与渲染 | lib/taskProgress/register.ts | 2 天 |
+| 阶段四 | 设置面板独立 Tab | SettingsModal/tabs/ | 1 天 |
 | 阶段五 | 测试与优化 | test/ | 2-3 天 |
 | 阶段六 | 文档完善 | docs/ | 1 天 |
 
@@ -963,6 +1197,42 @@ const result = await logseq.DB.datascriptQuery(query);
 | [src/lib/taskProgress/statsCalculator.ts](file:///workspace/src/lib/taskProgress/statsCalculator.ts) | 统计计算 | ⏳ 未实现 |
 | [src/lib/taskProgress/eventListener.ts](file:///workspace/src/lib/taskProgress/eventListener.ts) | 事件监听 | ⏳ 未实现 |
 | [src/lib/taskProgress/manager.ts](file:///workspace/src/lib/taskProgress/manager.ts) | 进度管理器 | ⏳ 未实现 |
+| [src/lib/taskProgress/register.ts](file:///workspace/src/lib/taskProgress/register.ts) | Logseq API 注册 | ⏳ 未实现 |
 | [src/components/TaskProgress/](file:///workspace/src/components/TaskProgress/) | UI 组件目录 | ⏳ 未实现 |
+| [src/components/SettingsModal/tabs/TaskProgressSettings.tsx](file:///workspace/src/components/SettingsModal/tabs/TaskProgressSettings.tsx) | 设置 Tab | ⏳ 未实现 |
 | [src/settings/types.ts](file:///workspace/src/settings/types.ts) | 设置类型（需扩展） | ✅ 需修改 |
 | [src/settings/defaultSettings.json](file:///workspace/src/settings/defaultSettings.json) | 默认配置（需扩展） | ✅ 需修改 |
+
+### B. 国际化配置
+
+**文件位置**：[src/translations/zh-CN.json](file:///workspace/src/translations/zh-CN.json)
+
+```json
+{
+  "settings": {
+    "tabs": {
+      "taskProgress": "任务进度"
+    },
+    "taskProgress": {
+      "enabled": "启用任务进度功能",
+      "defaultDisplayType": "默认展示方式",
+      "miniCircle": "微型圆环",
+      "dotMatrix": "点阵进度",
+      "statusCursor": "状态光标",
+      "progressCapsule": "进度胶囊",
+      "stepProgress": "阶梯进度",
+      "size": "组件尺寸",
+      "sizeSmall": "小",
+      "sizeMedium": "中",
+      "sizeLarge": "大",
+      "showLabel": "显示标签",
+      "labelFormat": "标签格式",
+      "labelFraction": "分数 (10/20)",
+      "labelPercentage": "百分比 (50%)",
+      "labelBoth": "两者 (10/20 50%)"
+    },
+    "taskProgressDescription": "配置任务进度追踪功能的展示方式和行为。",
+    "saveTaskProgressSettings": "保存任务进度设置"
+  }
+}
+```
