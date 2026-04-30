@@ -16,7 +16,7 @@ import { SupportedLanguage } from '../../../translations/translations'
 const TaskProgressDemo: React.FC = () => {
   const [progressData, setProgressData] = useState<TaskProgressType | null>(null)
   const settings = getSettings()
-  const currentLang: SupportedLanguage = 'zh-CN'
+  const currentLang: SupportedLanguage = (settings?.language || 'zh-CN') as SupportedLanguage
 
   useEffect(() => {
     const loadProgress = async () => {
