@@ -2,6 +2,8 @@
 
 一个功能强大、灵活的Logseq插件，旨在增强文本编辑和格式化能力，为您的笔记添加丰富的样式和功能。
 
+[English Version](README.en.md) | 中文版本
+
 👉 [在线预览页面](https://duiliuliu.github.io/logseq-text-toolkit/)
 
 ## 插件概述
