@@ -1,6 +1,6 @@
 # Logseq Text Toolkit
 
-一个功能强大、灵活的Logseq插件，旨在增强文本编辑和格式化能力，为您的笔记添加丰富的样式和功能。
+一个功能强大、灵活的 Logseq 插件，旨在增强文本编辑和格式化能力，为您的笔记添加丰富的样式和功能。
 
 [English Version](README.en.md) | 中文版本
 
