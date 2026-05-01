@@ -2,6 +2,8 @@
 
 A powerful and flexible Logseq plugin designed to enhance text editing and formatting capabilities, adding rich styles and features to your notes.
 
+English Version | [中文版本](README.md)
+
 👉 [Online Preview](https://duiliuliu.github.io/logseq-text-toolkit/)
 
 ## Plugin Overview
