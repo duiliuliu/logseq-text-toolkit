@@ -295,7 +295,7 @@ function TestApp() {
               fontWeight: 'bold'
             }}
             data-properties={JSON.stringify({ status: 'doing' })}>
-            🎯 Nested Tasks V2 Demo {{renderer :taskprogress}}
+            🎯 Nested Tasks V2 Demo
           </div>
           
           {/* 渲染 Level 1 任务 */}
