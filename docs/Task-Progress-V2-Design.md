@@ -671,9 +671,44 @@ export interface TaskProgressSettings {
 | `src/components/TaskProgress/TaskProgress.tsx` | 接收 `nestingLevel`、`showNestingIndicator` 等新参数，集成层级指示器 |
 | `src/components/TaskProgress/*` | 其他组件可能需要相应更新 |
 
-## 9. 测试计划
+### 8.6 注册逻辑
 
-### 8.1 单元测试
+| 文件 | 修改内容 |
+| :--- | :--- |
+| `src/lib/taskProgress/register.ts` | 修改 `renderProgress` 函数，传递新的配置参数 |
+
+## 9. 逻辑评估：修改的文件
+
+### 9.1 必需修改的核心文件
+
+| 文件 | 影响 | 优先级 | 说明 |
+| :--- | :--- | :--- | :--- |
+| `src/lib/taskProgress/taskQuery.ts` | 核心逻辑变更 | P0 | 重写查询函数，这是最大的变更点 |
+| `src/settings/types.ts` | 类型扩展 | P0 | 添加新的类型定义 |
+| `src/settings/defaultSettings.ts` | 默认配置 | P0 | 添加默认值 |
+| `src/components/SettingsModal/tabs/TaskProgressSettings.tsx` | UI 变更 | P1 | 添加新的配置项 |
+| `src/lib/taskProgress/register.ts` | 参数传递 | P1 | 需要传递新的配置 |
+| `src/components/TaskProgress/TaskProgress.tsx` | 组件扩展 | P1 | 添加层级指示器 |
+
+### 9.2 修改评估
+
+| 评估项 | 评估结果 |
+| :--- | :--- |
+| **向后兼容性** | ✅ 好，默认配置与 V1 一致 |
+| **修改范围** | 中等，核心逻辑需要重写，其他是增量 |
+| **测试覆盖** | 需要新增测试用例验证嵌套查询 |
+| **风险等级** | 低-Medium，主要是查询逻辑变更 |
+
+### 9.3 开发建议
+
+1. **先实现查询逻辑**：先修改 `taskQuery.ts`，确保查询正确
+2. **再添加配置 UI**：添加设置面板，修改默认配置
+3. **最后完善 UI 增强**：添加层级指示器等视觉元素
+4. **保持 V1 行为默认**：所有新增功能默认关闭，用户需要手动开启
+
+## 10. 测试计划
+
+### 10.1 单元测试
 
 ```typescript
 describe('queryNestedTasks', () => {
