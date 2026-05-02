@@ -20,6 +20,9 @@ interface TaskProgressProps {
   config?: Record<string, any>
   lang?: SupportedLanguage
   animationClass?: string
+  nestingLevel?: number | 'all'
+  onlyLeaves?: boolean
+  showNestingIndicator?: boolean
 }
 
 const TaskProgress: React.FC<TaskProgressProps> = ({ 
@@ -28,9 +31,35 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   config,
   lang = 'zh-CN',
   animationClass = '',
+  nestingLevel,
+  onlyLeaves,
+  showNestingIndicator,
 }) => {
   if (!progressData) {
     return null
+  }
+
+  const renderNestingIndicator = () => {
+    if (!showNestingIndicator) return null
+    
+    const levelMap: Record<number | string, string> = {
+      1: '1',
+      2: '1-2',
+      3: '1-3',
+      'all': '1-N'
+    }
+    
+    const levelText = levelMap[nestingLevel as number | string] || '1'
+    const leafText = onlyLeaves ? ' ◈' : ''
+    
+    return (
+      <span 
+        className="nesting-indicator"
+        title={`${lang === 'zh-CN' ? '嵌套层级' : lang === 'ja' ? 'ネストレベル' : 'Nesting Level'}: ${levelText}${leafText}`}
+      >
+        {levelText}{leafText}
+      </span>
+    )
   }
 
   const renderComponent = () => {
@@ -88,6 +117,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   
   return (
     <div className="task-progress">
+      {renderNestingIndicator()}
       {renderComponent()}
     </div>
   )
