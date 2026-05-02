@@ -15,8 +15,6 @@ interface TooltipContent {
   stats: StatusStat[]
   totalTasks: number
   progress: number
-  nestingLevel?: number | 'all'
-  leafTasksOnly?: boolean
 }
 
 interface TooltipProps {
@@ -32,7 +30,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   lang = 'zh-CN',
   animationClass = '',
 }) => {
-  const { stats, totalTasks, progress, nestingLevel, leafTasksOnly } = content
+  const { stats, totalTasks, progress } = content
 
   return (
     <div className={`task-progress-tooltip-wrapper ${animationClass}`}>
@@ -46,15 +44,6 @@ const Tooltip: React.FC<TooltipProps> = ({
             </span>
             <span className="tooltip-progress-value">{progress}%</span>
           </div>
-          {nestingLevel !== undefined && nestingLevel !== 1 && (
-            <div className="tooltip-nesting-info">
-              <span className="tooltip-nesting-label">🔍</span>
-              <span className="tooltip-nesting-text">
-                {nestingLevel === 'all' ? '全部层级' : `${nestingLevel} 层`}
-                {leafTasksOnly && '（仅叶子节点）'}
-              </span>
-            </div>
-          )}
           <div className="tooltip-stats">
             {stats.map(stat => (
               <div key={stat.status} className="tooltip-stat-row">

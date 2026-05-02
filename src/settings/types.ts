@@ -97,41 +97,6 @@ export interface Settings {
   [key: string]: any;
 }
 
-// 任务进度展示类型
-export type ProgressDisplayType = 
-  | 'mini-circle'  // 微型三色圆环
-  | 'dot-matrix'   // 点阵进度
-  | 'status-cursor' // 状态光标
-  | 'progress-capsule' // 进度胶囊
-  | 'stair-progress' // 阶梯进度
-
-// 嵌套层级类型
-export type NestingLevel = 1 | 2 | 3 | 'all'
-
-// 任务块实体
-export interface TaskBlock {
-  id: string
-  uuid: string
-  content: string
-  status?: string
-  isTask: boolean
-  parentId: string | null
-  depth: number  // 深度层级
-  children: TaskBlock[]  // 子任务列表
-}
-
-// 任务进度数据
-export interface TaskProgress {
-  blockId: string
-  parentBlockId: string
-  totalTasks: number
-  completedTasks: number
-  statusStats: StatusStat[]
-  progress: number
-  nestingLevel: number | 'all'  // 使用的嵌套层级
-  leafTasksOnly: boolean  // 是否仅统计叶子节点
-}
-
 // Settings Context 类型
 export interface SettingsContextType {
   settings: Settings | null;

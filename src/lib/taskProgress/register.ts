@@ -42,7 +42,6 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
     const config = settings?.taskProgress?.displayOptions?.[displayType]
     const showLabel = settings?.taskProgress?.showLabel ?? true
     const labelFormat = settings?.taskProgress?.labelFormat || 'fraction'
-    const showNestingIndicator = settings?.taskProgress?.showNestingIndicator ?? false
     
     // 处理语言设置
     let lang: SupportedLanguage = 'zh-CN'
@@ -70,7 +69,7 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
       React.createElement(TaskProgressComponent, {
         progressData,
         displayType,
-        config: { ...config, showLabel, labelFormat, showNestingIndicator },
+        config: { ...config, showLabel, labelFormat },
         lang,
       })
     )
