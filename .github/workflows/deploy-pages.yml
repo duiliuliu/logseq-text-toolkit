@@ -38,74 +38,22 @@ jobs:
 
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "Deploying main branch to root /"
-            # 直接复制构建内容到根目录
             cp -r ./dist/* ./gh-pages-build/
-
-            # 创建简单的导航页
-            cat > ./gh-pages-build/index.html << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Logseq Text Toolkit</title>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 4rem auto; padding: 0 1rem; }
-    h1 { color: #1f2937; }
-    a { color: #3b82f6; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.5rem; margin: 1rem 0; }
-  </style>
-</head>
-<body>
-  <h1>Logseq Text Toolkit</h1>
-  <p>这是稳定版本。</p>
-</body>
-</html>
-EOF
           else
             echo "Deploying dev branch to /dev"
             # 首先尝试拉取现有 gh-pages 内容
-            git fetch origin gh-pages || true
+            git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} /tmp/gh-pages 2>/dev/null || true
 
-            if git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} /tmp/gh-pages 2>/dev/null; then
+            if [ -d /tmp/gh-pages ] && [ "$(ls -A /tmp/gh-pages)" ]; then
               # 复制现有内容，保持根目录（main）的内容
-              cp -r /tmp/gh-pages/* ./gh-pages-build/
-              rm -rf ./gh-pages-build/.git
-              rm -rf ./gh-pages-build/dev
+              cp -r /tmp/gh-pages/* ./gh-pages-build/ 2>/dev/null || true
+              rm -rf ./gh-pages-build/.git 2>/dev/null || true
+              rm -rf ./gh-pages-build/dev 2>/dev/null || true
             fi
 
             # 将新构建内容复制到 dev 子目录
             mkdir -p ./gh-pages-build/dev
             cp -r ./dist/* ./gh-pages-build/dev/
-
-            # 更新导航页
-            cat > ./gh-pages-build/index.html << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Logseq Text Toolkit</title>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 4rem auto; padding: 0 1rem; }
-    h1 { color: #1f2937; }
-    a { color: #3b82f6; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.5rem; margin: 1rem 0; }
-  </style>
-</head>
-<body>
-  <h1>Logseq Text Toolkit</h1>
-  <div class="card">
-    <h2>稳定版本</h2>
-    <p><a href="/">查看稳定版本 →</a></p>
-  </div>
-  <div class="card">
-    <h2>开发版本</h2>
-    <p><a href="/dev/">查看开发版本 →</a></p>
-  </div>
-</body>
-</html>
-EOF
           fi
 
       - name: Deploy to GitHub Pages
