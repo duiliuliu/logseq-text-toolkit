@@ -4,7 +4,7 @@
 
 [English Version](README.en.md) | 中文版本
 
-👉 [在线预览页面](https://duiliuliu.github.io/logseq-text-toolkit/)
+👉 [在线预览页面](https://duiliuliu.github.io/logseq-text-toolkit/) | [实验页面](https://duiliuliu.github.io/logseq-text-toolkit/dev/)
 
 ## 插件概述
 
