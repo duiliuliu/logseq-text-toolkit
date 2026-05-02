@@ -4,6 +4,7 @@ import toolbarCSSRaw from '../components/Toolbar/toolbar.css?raw'
 import inlineCommentCSSRaw from '../components/Comment/inlineComment.css?raw'
 import cssConfigCSSRaw from './customsToolbarItems.css?raw'
 import taskProgressCSSRaw from '../components/TaskProgress/taskProgress.css?raw'
+import tabularViewCSSRaw from './tabularView.css?raw'
 
 export const settingsModalCSS = settingsModalCSSRaw
 export const modalCSS = modalCSSRaw
@@ -11,3 +12,4 @@ export const toolbarCSS = toolbarCSSRaw
 export const inlineCommentCSS = inlineCommentCSSRaw
 export const cssConfigCSS = cssConfigCSSRaw
 export const taskProgressCSS = taskProgressCSSRaw
+export const tabularViewCSS = tabularViewCSSRaw

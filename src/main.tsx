@@ -19,7 +19,8 @@ import { getDocument } from './logseq/utils.ts'
 import { logger } from './lib/logger/logger.ts'
 import { initI18n } from './translations/i18n.ts'
 import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS, taskProgressCSS } from './styles/index.ts'
+import { registerTabularView } from './lib/tabularView/register.ts'
+import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS, taskProgressCSS, tabularViewCSS } from './styles/index.ts'
 
 const loadCSS = async () => {
   try {
@@ -29,7 +30,8 @@ const loadCSS = async () => {
       { name: 'toolbar.css', content: toolbarCSS },
       { name: 'inlineComment.css', content: inlineCommentCSS },
       { name: 'customsToolbarItems.css', content: cssConfigCSS },
-      { name: 'taskProgress.css', content: taskProgressCSS }
+      { name: 'taskProgress.css', content: taskProgressCSS },
+      { name: 'tabularView.css', content: tabularViewCSS }
     ];
 
     for (const cssFile of cssFiles) {
@@ -195,6 +197,10 @@ const main = async () => {
     setTaskProgressComponent(TaskProgress)
     registerTaskProgress()
     logger.info('Task progress registered successfully')
+
+    // 注册表格视图功能
+    registerTabularView()
+    logger.info('Tabular view registered successfully')
   } catch (error) {
     logger.error('Failed to initialize Text Toolkit Plugin:', error)
   }
