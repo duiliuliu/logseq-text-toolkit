@@ -277,47 +277,42 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   DB: {
     q: () => Promise.resolve([]),
     customQuery: () => Promise.resolve([]),
-    datascriptQuery: async (query: string) => {
-      console.log('Mock DB datascriptQuery called:', query);
+    datascriptQuery: async (query: string, ...inputs: any[]) => {
+      console.log('Mock DB datascriptQuery called:', query, inputs);
       
       try {
-        // 从查询中解析 parentBlockId
-        const uuidMatch = query.match(/#uuid\s+"([^"]+)"/);
-        if (!uuidMatch) {
+        // 解析 parentBlockId（检查 inputs 或者从查询中提取）
+        let parentBlockId: string | null = null;
+        
+        // 首先检查 inputs
+        if (inputs && inputs.length > 0) {
+          const firstInput = inputs[0];
+          if (typeof firstInput === 'string' && firstInput.startsWith('#uuid')) {
+            parentBlockId = firstInput.replace(/#uuid\s+"([^"]+)"/, '$1');
+          }
+        }
+        
+        // 如果 inputs 没有找到，从查询中提取
+        if (!parentBlockId) {
+          const uuidMatch = query.match(/#uuid\s+"([^"]+)"/);
+          if (uuidMatch) {
+            parentBlockId = uuidMatch[1];
+          }
+        }
+        
+        if (!parentBlockId) {
           return Promise.resolve([]);
         }
         
-        const parentBlockId = uuidMatch[1];
-        
-        // 使用 getBlockChildren 获取子块
+        // 使用 getBlockChildren 获取子块 - V2 格式返回完整的块对象
         const children = await Editor.getBlockChildren(parentBlockId);
         
         if (!children || !Array.isArray(children)) {
           return [];
         }
         
-        // 过滤有效的任务块（原来的 getDirectTaskChildren 逻辑）
-        const tasks = children
-          .filter(child => {
-            const content = child.content || '';
-            const hasStatusProp = child.properties?.status !== undefined;
-            const hasTaskTag = content.includes('#task');
-            return hasStatusProp || hasTaskTag;
-          });
-        
-        // 统计状态
-        const statusCountMap = new Map<string, number>();
-        tasks.forEach(task => {
-          const status = (task.properties?.status as string) || 'Todo';
-          statusCountMap.set(status, (statusCountMap.get(status) || 0) + 1);
-        });
-        
-        // 转换成 [["状态名", 数量], ...] 格式
-        const results: Array<[string, number]> = [];
-        statusCountMap.forEach((count, status) => {
-          results.push([status, count]);
-        });
-        
+        // V2 查询格式：返回 [[块对象], [块对象], ...]
+        const results = children.map(child => [child]);
         return results;
       } catch (error) {
         console.error('[Mock DB] datascriptQuery error:', error);
