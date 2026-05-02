@@ -493,7 +493,12 @@ async function setExcludeForChildTasks(
 
 ### 4.4 排除任务视觉提示
 
-当一个任务块被设置为排除时，在 Logseq 界面中显示提示：
+当一个任务块被设置了 `exclude-from-progress` 属性时，在 Logseq 界面中显示提示：
+
+**说明：**
+- 这里的"排除任务"就是指通过 `exclude-from-progress` 属性标记的任务
+- 这个属性的功能就是：让特定任务不参与进度统计
+- 用户可以自定义这个属性的名称（如配置所示）
 
 **设计草图**
 
