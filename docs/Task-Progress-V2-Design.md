@@ -631,32 +631,47 @@ export interface TaskProgressSettings {
 2. **排除状态显示**
    - 在 Logseq 界面中显示排除标记
 
-## 7. 向后兼容性
+## 7. 默认行为
 
-### 7.1 V1 配置迁移
-
-```typescript
-function migrateV1ToV2(oldSettings: V1Settings): V2Settings {
-  return {
-    ...oldSettings,
-    // V2 新增配置使用默认值
-    nestingLevel: 1,  // 默认为1层，保持V1行为
-    onlyLeaves: false,
-    excludeConfig: {
-      enabled: true,
-      excludeProperty: 'exclude-from-progress'
-    }
-  }
-}
-```
-
-### 7.2 默认行为
-
-- **默认嵌套层级**：1层
+- **默认嵌套层级**：1层（与 V1 行为一致）
 - **默认排除设置**：启用，排除属性名 `exclude-from-progress`
+- **默认显示层级指示器**：false（不显示）
 - **现有用户**：无需修改配置，自动使用 V1 行为
 
-## 8. 测试计划
+## 8. 需要修改的文件
+
+### 8.1 类型定义
+
+| 文件 | 修改内容 |
+| :--- | :--- |
+| `src/settings/types.ts` | 添加 `NestingLevel` 类型、`TaskExcludeConfig` 接口，扩展 `TaskProgressSettings` |
+
+### 8.2 设置文件
+
+| 文件 | 修改内容 |
+| :--- | :--- |
+| `src/settings/defaultSettings.ts` | 添加 V2 相关默认配置 |
+
+### 8.3 核心逻辑
+
+| 文件 | 修改内容 |
+| :--- | :--- |
+| `src/lib/taskProgress/taskQuery.ts` | 重写 `getDirectTaskChildren` 为 `queryNestedTasks`，支持多层查询和排除逻辑 |
+
+### 8.4 设置面板
+
+| 文件 | 修改内容 |
+| :--- | :--- |
+| `src/components/SettingsModal/tabs/TaskProgressSettings.tsx` | 添加嵌套层级、排除属性等配置项 |
+
+### 8.5 任务进度组件
+
+| 文件 | 修改内容 |
+| :--- | :--- |
+| `src/components/TaskProgress/TaskProgress.tsx` | 接收 `nestingLevel`、`showNestingIndicator` 等新参数，集成层级指示器 |
+| `src/components/TaskProgress/*` | 其他组件可能需要相应更新 |
+
+## 9. 测试计划
 
 ### 8.1 单元测试
 
