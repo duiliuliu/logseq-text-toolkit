@@ -16,6 +16,9 @@
     "defaultDisplayType": "mini-circle",
     "showLabel": true,
     "labelFormat": "fraction",
+    "nestingLevel": 1,
+    "onlyLeaves": false,
+    "showNestingIndicator": false,
     "displayOptions": {
       "mini-circle": {
         "size": "small"

@@ -77,6 +77,39 @@
   font-weight: 500;
 }
 
+/* 层级指示器样式 */
+.task-progress-nesting-indicator {
+  margin-left: 4px;
+  font-size: 10px;
+  color: var(--ls-secondary-text-color, #6b7280);
+  cursor: help;
+  opacity: 0.8;
+}
+
+.task-progress-nesting-indicator:hover {
+  opacity: 1;
+}
+
+/* Tooltip 嵌套信息样式 */
+.tooltip-nesting-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  margin-bottom: 6px;
+  border-bottom: 1px dashed var(--ls-border-color, #e5e7eb);
+  font-size: 11px;
+  color: var(--ls-secondary-text-color, #6b7280);
+}
+
+.tooltip-nesting-label {
+  font-size: 12px;
+}
+
+.tooltip-nesting-text {
+  font-weight: 500;
+}
+
 /* Tooltip 样式 - 使用纯 CSS hover 控制 */
 .task-progress-tooltip-wrapper {
   position: relative;
