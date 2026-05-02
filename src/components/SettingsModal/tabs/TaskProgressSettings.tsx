@@ -70,10 +70,20 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
     { value: 'percentage', label: t('settings.taskProgress.labelPercentage', language) }
   ]
 
+  const nestingLevelOptions = [
+    { value: 1, label: t('settings.taskProgress.nestingLevel1', language) },
+    { value: 2, label: t('settings.taskProgress.nestingLevel2', language) },
+    { value: 3, label: t('settings.taskProgress.nestingLevel3', language) },
+    { value: 'all', label: t('settings.taskProgress.nestingLevelAll', language) }
+  ]
+
   const taskProgress = settings.taskProgress || {
     enabled: true,
     defaultDisplayType: 'mini-circle',
     displayOptions: {},
+    nestingLevel: 1,
+    onlyLeaves: false,
+    showNestingIndicator: false,
   }
 
   const statusColors = {
@@ -136,6 +146,43 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
           value={taskProgress.labelFormat || 'fraction'}
           onChange={(value) => handleSettingChange('taskProgress.labelFormat', value)}
         />
+      </div>
+
+      <div className="ltt-settings-section">
+        <h4>{t('settings.taskProgress.nestingSettings', language)}</h4>
+        
+        <div className="ltt-setting-item">
+          <label>{t('settings.taskProgress.nestingLevel', language)}</label>
+          <CustomSelect
+            options={nestingLevelOptions}
+            value={taskProgress.nestingLevel ?? 1}
+            onChange={(value) => handleSettingChange('taskProgress.nestingLevel', value)}
+          />
+        </div>
+
+        <div className="ltt-setting-item">
+          <label>{t('settings.taskProgress.onlyLeaves', language)}</label>
+          <label className="ltt-switch">
+            <input
+              type="checkbox"
+              checked={taskProgress.onlyLeaves ?? false}
+              onChange={(e) => handleSettingChange('taskProgress.onlyLeaves', e.target.checked)}
+            />
+            <span className="ltt-switch-slider"></span>
+          </label>
+        </div>
+
+        <div className="ltt-setting-item">
+          <label>{t('settings.taskProgress.showNestingIndicator', language)}</label>
+          <label className="ltt-switch">
+            <input
+              type="checkbox"
+              checked={taskProgress.showNestingIndicator ?? false}
+              onChange={(e) => handleSettingChange('taskProgress.showNestingIndicator', e.target.checked)}
+            />
+            <span className="ltt-switch-slider"></span>
+          </label>
+        </div>
       </div>
 
       <div className="ltt-settings-section">

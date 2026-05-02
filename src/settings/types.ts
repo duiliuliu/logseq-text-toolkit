@@ -6,6 +6,9 @@
 // 主题类型
 export type ThemeType = 'light' | 'dark' | 'system';
 
+// 嵌套层级类型
+export type NestingLevel = 1 | 2 | 3 | 'all';
+
 // 语言类型
 export type LanguageType = 'zh-CN' | 'en' | 'ja' | 'system';
 
@@ -86,6 +89,10 @@ export interface Settings {
     displayOptions?: {
       [key: string]: Record<string, any>;
     };
+    // V2 嵌套层级配置
+    nestingLevel?: NestingLevel;
+    onlyLeaves?: boolean;
+    showNestingIndicator?: boolean;
   };
   
   // 元数据设置

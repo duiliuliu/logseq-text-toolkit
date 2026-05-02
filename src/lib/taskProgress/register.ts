@@ -25,7 +25,16 @@ export function setTaskProgressComponent(component: React.FC<any>) {
 
 async function renderProgress(blockId: string, slot: string): Promise<boolean> {
   try {
-    const progressData = await calculateTaskProgress(blockId)
+    const settings = getSettings()
+    const displayType: ProgressDisplayType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
+    const config = settings?.taskProgress?.displayOptions?.[displayType]
+    const showLabel = settings?.taskProgress?.showLabel ?? true
+    const labelFormat = settings?.taskProgress?.labelFormat || 'fraction'
+    const nestingLevel = settings?.taskProgress?.nestingLevel ?? 1
+    const onlyLeaves = settings?.taskProgress?.onlyLeaves ?? false
+    const showNestingIndicator = settings?.taskProgress?.showNestingIndicator ?? false
+    
+    const progressData = await calculateTaskProgress(blockId, { nestingLevel, onlyLeaves })
     
     if (!progressData) {
       logseqAPI.provideUI({
@@ -37,19 +46,11 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
       return false
     }
     
-    const settings = getSettings()
-    const displayType: ProgressDisplayType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
-    const config = settings?.taskProgress?.displayOptions?.[displayType]
-    const showLabel = settings?.taskProgress?.showLabel ?? true
-    const labelFormat = settings?.taskProgress?.labelFormat || 'fraction'
-    
-    // 处理语言设置
     let lang: SupportedLanguage = 'zh-CN'
     const settingsLang = settings?.language
     if (settingsLang === 'en' || settingsLang === 'ja' || settingsLang === 'zh-CN') {
       lang = settingsLang
     } else if (settingsLang === 'system') {
-      // 如果是系统语言，使用浏览器语言或默认中文
       const browserLang = navigator.language
       if (browserLang.startsWith('ja')) {
         lang = 'ja'
@@ -71,6 +72,9 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
         displayType,
         config: { ...config, showLabel, labelFormat },
         lang,
+        nestingLevel,
+        onlyLeaves,
+        showNestingIndicator,
       })
     )
     

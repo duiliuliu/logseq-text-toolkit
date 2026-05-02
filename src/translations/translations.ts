@@ -34,6 +34,14 @@ export interface TaskProgressTranslation {
   statusColors: string;
   statusNames: TaskProgressStatusNames;
   tooltip: TaskProgressTooltip;
+  nestingSettings: string;
+  nestingLevel: string;
+  nestingLevel1: string;
+  nestingLevel2: string;
+  nestingLevel3: string;
+  nestingLevelAll: string;
+  onlyLeaves: string;
+  showNestingIndicator: string;
 }
 
 export interface TranslationKeys {
