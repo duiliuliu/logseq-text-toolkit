@@ -3,6 +3,9 @@
  * License: MIT
  *
  * Tabular View - CSS 样式文件
+ * 支持两种模式：
+ *   1. Properties 模式: #.tabular (logseq13-missing-commands 兼容)
+ *   2. Tags 模式: #tabular (更友好的标签方式)
  * 基于 Logseq 的 block 结构实现表格化展示
  */
 
@@ -36,11 +39,15 @@
 }
 
 /* ============================================
-   2. 表格容器样式 - 针对带有 #.tabular 标签的块
+   2. 表格容器样式
+   支持两种模式：
+   - data-refs-self*='".tabular"' = property 模式
+   - data-refs-self*='"tabular"' = tag 模式
    ============================================ */
 
 /* 表格容器的子块容器 - 使用 flex 布局实现表格行 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children {
   display: flex !important;
   flex-direction: column !important;
   border-left: none !important;
@@ -49,7 +56,8 @@
 }
 
 /* 表格行 - 水平排列 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block {
   display: flex !important;
   flex-direction: row !important;
   flex-grow: 1 !important;
@@ -63,7 +71,8 @@
 }
 
 /* 表格行 - 第一行顶部边框 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child {
   border-top: 1px solid var(--tabular-border-color) !important;
 }
 
@@ -72,7 +81,8 @@
    ============================================ */
 
 /* 表格单元格主容器 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container {
   display: flex !important;
   align-items: center !important;
   padding: var(--tabular-cell-padding) !important;
@@ -83,14 +93,16 @@
 }
 
 /* 单元格内容区域 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container > .block-content-wrapper {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container > .block-content-wrapper,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container > .block-content-wrapper {
   width: 100% !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
 
 /* 单元格文本 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container .block-content {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container .block-content,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container .block-content {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -102,7 +114,8 @@
    ============================================ */
 
 /* 子列容器 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container {
   margin-left: 0 !important;
   padding-left: 0 !important;
   flex-grow: 1 !important;
@@ -112,7 +125,8 @@
 }
 
 /* 子列行 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children {
   display: flex !important;
   flex-direction: row !important;
   flex-grow: 1 !important;
@@ -120,7 +134,8 @@
 }
 
 /* 子单元格 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block {
   display: flex !important;
   min-width: var(--tabular-col-min-width) !important;
   max-width: var(--tabular-col-max-width) !important;
@@ -129,7 +144,8 @@
   border-bottom: none !important;
 }
 
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
   padding: var(--tabular-cell-padding) !important;
   min-width: var(--tabular-col-min-width) !important;
   max-width: var(--tabular-col-max-width) !important;
@@ -143,27 +159,34 @@
    ============================================ */
 
 /* 表头行 - 第一行加粗 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child {
   background-color: var(--tabular-header-bg) !important;
   font-weight: 600 !important;
 }
 
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-content-inner,
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-body {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-body,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-content-inner,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-body {
   font-weight: 600 !important;
 }
 
-/* 隐藏表头标签样式 - 使用 #.tabular0 时隐藏标签显示 */
-.ls-block[data-refs-self*='".tabular0"'] > .block-main-container {
+/* 隐藏表头标签样式 - 使用 #.tabular0 或 #tabular0 */
+.ls-block[data-refs-self*='".tabular0"'] > .block-main-container,
+.ls-block[data-refs-self*='"tabular0"'] > .block-main-container {
   display: none !important;
 }
 
-.ls-block[data-refs-self*='".tabular0"'] > .block-children-container {
+.ls-block[data-refs-self*='".tabular0"'] > .block-children-container,
+.ls-block[data-refs-self*='"tabular0"'] > .block-children-container {
   margin-left: 0 !important;
 }
 
 .ls-block[data-refs-self*='".tabular0"'].selected > .block-main-container,
-.ls-block[data-refs-self*='".tabular0"'] > .block-main-container:hover {
+.ls-block[data-refs-self*='".tabular0"'] > .block-main-container:hover,
+.ls-block[data-refs-self*='"tabular0"'].selected > .block-main-container,
+.ls-block[data-refs-self*='"tabular0"'] > .block-main-container:hover {
   display: flex !important;
 }
 
@@ -172,13 +195,16 @@
    ============================================ */
 
 /* 行悬停效果 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:hover {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:hover,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:hover {
   background-color: var(--tabular-row-hover) !important;
 }
 
 /* 选中行效果 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block.selected,
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block.selected:hover {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block.selected:hover,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block.selected,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block.selected:hover {
   background-color: var(--tabular-selected-bg) !important;
 }
 
@@ -187,7 +213,8 @@
    ============================================ */
 
 /* 编辑中的块 - 保持正常编辑体验 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:has(.editor-wrapper.is-editing) {
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:has(.editor-wrapper.is-editing),
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:has(.editor-wrapper.is-editing) {
   background-color: transparent !important;
   border: 2px solid var(--ls-primary-color, #3b82f6) !important;
   z-index: 100 !important;
@@ -195,7 +222,8 @@
 }
 
 /* 编辑器内 textarea */
-.ls-block[data-refs-self*='".tabular"'] .editor-wrapper textarea {
+.ls-block[data-refs-self*='".tabular"'] .editor-wrapper textarea,
+.ls-block[data-refs-self*='"tabular"'] .editor-wrapper textarea {
   min-width: var(--tabular-col-min-width) !important;
   font-family: inherit !important;
   font-size: inherit !important;
@@ -211,12 +239,14 @@
    ============================================ */
 
 /* 隐藏方括号 */
-.ls-block[data-refs-self*='".tabular"'] .page-reference .bracket {
+.ls-block[data-refs-self*='".tabular"'] .page-reference .bracket,
+.ls-block[data-refs-self*='"tabular"'] .page-reference .bracket {
   display: none !important;
 }
 
 /* 标签样式调整 */
-.ls-block[data-refs-self*='".tabular"'] .tag {
+.ls-block[data-refs-self*='".tabular"'] .tag,
+.ls-block[data-refs-self*='"tabular"'] .tag {
   background-color: transparent !important;
   color: var(--ls-link-text-color, #3b82f6) !important;
   padding: 0 4px !important;
@@ -228,12 +258,18 @@
    ============================================ */
 
 /* 嵌套表格容器 */
-.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='".tabular"'] {
+.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='".tabular"'],
+.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='"tabular"'],
+.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='".tabular"'],
+.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='"tabular"'] {
   margin-left: 0 !important;
 }
 
 /* 嵌套表格行 */
-.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children {
+.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children,
+.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children,
+.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children,
+.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children {
   border-left: 1px solid var(--tabular-border-color) !important;
 }
 
@@ -241,16 +277,20 @@
    10. 对齐方式变体
    ============================================ */
 
-/* 居中对齐 - 使用 data-refs-self*='".tabular-center"' */
+/* 居中对齐 - 使用 data-refs-self*='".tabular-center"' 或 data-refs-self*='"tabular-center"' */
 .ls-block[data-refs-self*='".tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='".tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
+.ls-block[data-refs-self*='".tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
   justify-content: center !important;
   text-align: center !important;
 }
 
-/* 右对齐 - 使用 data-refs-self*='".tabular-right"' */
+/* 右对齐 - 使用 data-refs-self*='".tabular-right"' 或 data-refs-self*='"tabular-right"' */
 .ls-block[data-refs-self*='".tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='".tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
+.ls-block[data-refs-self*='".tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
   justify-content: flex-end !important;
   text-align: right !important;
 }
@@ -259,13 +299,16 @@
    11. 紧凑模式
    ============================================ */
 
-/* 紧凑模式 - 使用 data-refs-self*='".tabular-compact"' */
-.ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block {
+/* 紧凑模式 - 使用 data-refs-self*='".tabular-compact"' 或 data-refs-self*='"tabular-compact"' */
+.ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block,
+.ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block {
   min-height: 24px !important;
 }
 
 .ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
+.ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
+.ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
   padding: 2px 4px !important;
   min-width: 100px !important;
   max-width: 200px !important;

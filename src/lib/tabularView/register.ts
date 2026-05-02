@@ -3,6 +3,9 @@
  * License: MIT
  *
  * Tabular View 注册逻辑
+ * 支持两种标签模式：
+ *   1. Tags 模式: #tabular (更友好)
+ *   2. Properties 模式: #.tabular (logseq13-missing-commands 兼容)
  * 支持多种触发方式：斜杠命令、快捷键、右键菜单
  */
 
@@ -11,11 +14,23 @@ import { logger } from '../logger/logger'
 
 const PLUGIN_ID = 'text-toolkit-tabularview'
 
-export const TABULAR_TAG = '#.tabular'
-export const TABULAR_COMPACT_TAG = '#.tabular-compact'
-export const TABULAR_NOCOL_HEADER_TAG = '#.tabular0'
-export const TABULAR_CENTER_TAG = '#.tabular-center'
-export const TABULAR_RIGHT_TAG = '#.tabular-right'
+/* ============================================
+   标签常量 - 支持两种模式
+   Tags 模式: #tabular, #tabular-compact, #tabular0 等
+   Properties 模式: #.tabular, #.tabular-compact 等 (logseq13-missing-commands 兼容)
+   ============================================ */
+
+export const TABULAR_TAG = '#tabular'
+export const TABULAR_COMPACT_TAG = '#tabular-compact'
+export const TABULAR_NOCOL_HEADER_TAG = '#tabular0'
+export const TABULAR_CENTER_TAG = '#tabular-center'
+export const TABULAR_RIGHT_TAG = '#tabular-right'
+
+export const TABULAR_PROP_TAG = '#.tabular'
+export const TABULAR_COMPACT_PROP_TAG = '#.tabular-compact'
+export const TABULAR_NOCOL_HEADER_PROP_TAG = '#.tabular0'
+export const TABULAR_CENTER_PROP_TAG = '#.tabular-center'
+export const TABULAR_RIGHT_PROP_TAG = '#.tabular-right'
 
 export interface TabularViewOptions {
   mode?: 'default' | 'compact' | 'nocursor' | 'center' | 'right'
@@ -36,6 +51,16 @@ function registerSlashCommands(): void {
       const block = await logseqAPI.Editor.getCurrentBlock()
       if (block?.uuid) {
         await logseqAPI.Editor.insertAtEditingCursor(`\n${TABULAR_TAG}\n`)
+      }
+    }
+  )
+
+  logseqAPI.Editor.registerSlashCommand(
+    'Insert Tabular View (Property)',
+    async () => {
+      const block = await logseqAPI.Editor.getCurrentBlock()
+      if (block?.uuid) {
+        await logseqAPI.Editor.insertAtEditingCursor(`\n${TABULAR_PROP_TAG}\n`)
       }
     }
   )
@@ -66,12 +91,8 @@ function registerSlashCommands(): void {
       const block = await logseqAPI.Editor.getCurrentBlock()
       if (block?.uuid && block.content) {
         let newContent = block.content
-        if (newContent.includes(TABULAR_TAG)) {
-          newContent = newContent.replace(TABULAR_TAG, '')
-          newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-          newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-          newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-          newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
+        if (hasAnyTabularTag(newContent)) {
+          newContent = removeAllTabularTags(newContent)
         } else {
           newContent = newContent + `\n${TABULAR_TAG}`
         }
@@ -90,12 +111,8 @@ function registerBlockContextMenu(): void {
       const block = await logseqAPI.Editor.getBlock(uuid)
       if (block?.content) {
         let newContent = block.content
-        if (newContent.includes(TABULAR_TAG)) {
-          newContent = newContent.replace(TABULAR_TAG, '')
-          newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-          newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-          newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-          newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
+        if (hasAnyTabularTag(newContent)) {
+          newContent = removeAllTabularTags(newContent)
         } else {
           newContent = newContent + `\n${TABULAR_TAG}`
         }
@@ -109,12 +126,7 @@ function registerBlockContextMenu(): void {
     async ({ uuid }) => {
       const block = await logseqAPI.Editor.getBlock(uuid)
       if (block?.content) {
-        let newContent = block.content
-        newContent = newContent.replace(TABULAR_TAG, '')
-        newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-        newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-        newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-        newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
+        let newContent = removeAllTabularTags(block.content)
         newContent = newContent + `\n${TABULAR_COMPACT_TAG}`
         await logseqAPI.Editor.updateBlock(uuid, newContent.trim())
       }
@@ -126,12 +138,7 @@ function registerBlockContextMenu(): void {
     async ({ uuid }) => {
       const block = await logseqAPI.Editor.getBlock(uuid)
       if (block?.content) {
-        let newContent = block.content
-        newContent = newContent.replace(TABULAR_TAG, '')
-        newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-        newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-        newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-        newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
+        let newContent = removeAllTabularTags(block.content)
         newContent = newContent + `\n${TABULAR_NOCOL_HEADER_TAG}`
         await logseqAPI.Editor.updateBlock(uuid, newContent.trim())
       }
@@ -151,12 +158,8 @@ function registerKeyboardShortcuts(): void {
       const block = await logseqAPI.Editor.getCurrentBlock()
       if (block?.uuid && block.content) {
         let newContent = block.content
-        if (newContent.includes(TABULAR_TAG)) {
-          newContent = newContent.replace(TABULAR_TAG, '')
-          newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-          newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-          newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-          newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
+        if (hasAnyTabularTag(newContent)) {
+          newContent = removeAllTabularTags(newContent)
         } else {
           newContent = newContent + `\n${TABULAR_TAG}`
         }
@@ -168,24 +171,48 @@ function registerKeyboardShortcuts(): void {
   logger.info('[TabularView] Keyboard shortcuts registered')
 }
 
+/* ============================================
+   辅助函数
+   ============================================ */
+
+function hasAnyTabularTag(content: string): boolean {
+  return content.includes(TABULAR_TAG) ||
+         content.includes(TABULAR_COMPACT_TAG) ||
+         content.includes(TABULAR_NOCOL_HEADER_TAG) ||
+         content.includes(TABULAR_CENTER_TAG) ||
+         content.includes(TABULAR_RIGHT_TAG) ||
+         content.includes(TABULAR_PROP_TAG) ||
+         content.includes(TABULAR_COMPACT_PROP_TAG) ||
+         content.includes(TABULAR_NOCOL_HEADER_PROP_TAG) ||
+         content.includes(TABULAR_CENTER_PROP_TAG) ||
+         content.includes(TABULAR_RIGHT_PROP_TAG)
+}
+
+function removeAllTabularTags(content: string): string {
+  let newContent = content
+  // Remove tags
+  newContent = newContent.replace(TABULAR_TAG, '')
+  newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
+  newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
+  newContent = newContent.replace(TABULAR_CENTER_TAG, '')
+  newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
+  // Remove properties
+  newContent = newContent.replace(TABULAR_PROP_TAG, '')
+  newContent = newContent.replace(TABULAR_COMPACT_PROP_TAG, '')
+  newContent = newContent.replace(TABULAR_NOCOL_HEADER_PROP_TAG, '')
+  newContent = newContent.replace(TABULAR_CENTER_PROP_TAG, '')
+  newContent = newContent.replace(TABULAR_RIGHT_PROP_TAG, '')
+  return newContent
+}
+
 export async function toggleTabularView(blockUuid: string): Promise<boolean> {
   try {
     const block = await logseqAPI.Editor.getBlock(blockUuid)
     if (!block?.content) return false
 
     let newContent = block.content
-    const hasTag = newContent.includes(TABULAR_TAG) ||
-                   newContent.includes(TABULAR_COMPACT_TAG) ||
-                   newContent.includes(TABULAR_NOCOL_HEADER_TAG) ||
-                   newContent.includes(TABULAR_CENTER_TAG) ||
-                   newContent.includes(TABULAR_RIGHT_TAG)
-
-    if (hasTag) {
-      newContent = newContent.replace(TABULAR_TAG, '')
-      newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-      newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-      newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-      newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
+    if (hasAnyTabularTag(newContent)) {
+      newContent = removeAllTabularTags(newContent)
     } else {
       newContent = newContent + `\n${TABULAR_TAG}`
     }
@@ -203,18 +230,12 @@ export async function setTabularMode(blockUuid: string, mode: TabularViewOptions
     const block = await logseqAPI.Editor.getBlock(blockUuid)
     if (!block?.content) return false
 
-    let newContent = block.content
-    newContent = newContent.replace(TABULAR_TAG, '')
-    newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-    newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-    newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-    newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
-
+    let newContent = removeAllTabularTags(block.content)
     const tag = mode === 'compact' ? TABULAR_COMPACT_TAG :
-                mode === 'nocursor' ? TABULAR_NOCOL_HEADER_TAG :
-                mode === 'center' ? TABULAR_CENTER_TAG :
-                mode === 'right' ? TABULAR_RIGHT_TAG :
-                TABULAR_TAG
+               mode === 'nocursor' ? TABULAR_NOCOL_HEADER_TAG :
+               mode === 'center' ? TABULAR_CENTER_TAG :
+               mode === 'right' ? TABULAR_RIGHT_TAG :
+               TABULAR_TAG
 
     newContent = newContent + `\n${tag}`
     await logseqAPI.Editor.updateBlock(blockUuid, newContent.trim())
