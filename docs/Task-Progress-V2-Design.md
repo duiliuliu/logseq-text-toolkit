@@ -301,73 +301,76 @@ function filterLeafTasks(tasks: BlockEntity[]): BlockEntity[] {
 }
 ```
 
-### 2.3 性能优化策略
-
-#### 2.3.1 缓存机制
+### 2.3 配置模型
 
 ```typescript
-interface TaskProgressCache {
-  parentBlockId: string
-  nestingLevel: number
-  tasks: BlockEntity[]
-  timestamp: number
-  ttl: number  // 缓存生存时间（毫秒）
-}
-
-const cache = new Map<string, TaskProgressCache>()
-const DEFAULT_TTL = 5000  // 5秒缓存
-
-/**
- * 获取缓存的任务进度
- */
-function getCachedProgress(parentBlockId: string, nestingLevel: number): TaskProgress | null {
-  const key = `${parentBlockId}:${nestingLevel}`
-  const cached = cache.get(key)
-  
-  if (cached && Date.now() - cached.timestamp < cached.ttl) {
-    return calculateProgressFromTasks(cached.tasks)
+// 任务进度设置（扩展）
+export interface TaskProgressSettings {
+  enabled: boolean
+  defaultDisplayType: ProgressDisplayType
+  showLabel?: boolean
+  labelFormat?: 'fraction' | 'percentage'
+  displayOptions?: {
+    [key: string]: Record<string, any>
   }
-  
-  return null
-}
-
-/**
- * 设置任务进度缓存
- */
-function setCachedProgress(
-  parentBlockId: string, 
-  nestingLevel: number, 
-  tasks: BlockEntity[]
-): void {
-  const key = `${parentBlockId}:${nestingLevel}`
-  cache.set(key, {
-    parentBlockId,
-    nestingLevel,
-    tasks,
-    timestamp: Date.now(),
-    ttl: DEFAULT_TTL
-  })
+  // V2 嵌套层级配置
+  nestingLevel: NestingLevel           // 查询深度：1/2/3/all
+  onlyLeaves?: boolean               // 是否只统计叶子节点（无子任务的任务）
+  // V2 排除属性配置
+  excludeConfig?: TaskExcludeConfig
 }
 ```
 
-#### 2.3.2 增量更新
+### 2.4 查询逻辑
 
 ```typescript
-// 监听块变化事件
-logseq.DB.onBlockChanged((block, txData) => {
-  // 找到受影响的父块
-  const affectedParents = findAffectedParentBlocks(block)
+/**
+ * 查询嵌套任务
+ */
+async function queryNestedTasks(
+  parentBlockId: string,
+  nestingLevel: number,     // 1/2/3 或 -1 表示全部
+  onlyLeaves: boolean        // 是否只统计叶子节点
+): Promise<TaskBlock[]> {
+  const allTasks: TaskBlock[] = []
   
-  // 清除相关缓存
-  for (const parentId of affectedParents) {
-    clearCacheForBlock(parentId)
+  // 1. 获取直接子块
+  const directChildren = await queryDirectChildren(parentBlockId)
+  
+  // 2. 过滤出任务块并标记深度
+  const directTasks = directChildren.map(block => ({
+    ...block,
+    depth: 1
+  }))
+  allTasks.push(...directTasks)
+  
+  // 3. 如果需要更深层级，递归查询
+  if (nestingLevel !== 1) {
+    const remaining = nestingLevel === -1 ? -1 : nestingLevel - 1
+    for (const task of directTasks) {
+      const children = await queryNestedTasks(task.uuid, remaining, false)
+      children.forEach(child => {
+        child.depth = child.depth + 1
+      })
+      allTasks.push(...children)
+    }
   }
-})
+  
+  // 4. 如果只统计叶子节点，过滤掉有子任务的
+  if (onlyLeaves) {
+    const taskIds = new Set(allTasks.map(t => t.uuid))
+    return allTasks.filter(task => {
+      // 检查是否有其他任务的 parent 指向这个任务
+      const hasChildren = allTasks.some(t => t.parentId === task.uuid)
+      return !hasChildren
+    })
+  }
+  
+  return allTasks
+}
 ```
 
-### 2.4 用户交互设计
-
-#### 2.4.1 嵌套层级选择器
+### 2.5 任务排除属性功能（功能2）
 
 ```tsx
 const NestingLevelSelector: React.FC = () => {
@@ -851,63 +854,21 @@ export interface TaskProgressSettings {
 }
 ```
 
-## 4. 实现计划
+## 3. 实现计划
 
-### 4.1 阶段一：基础扩展（功能1 - 嵌套层级）
+### 3.1 阶段一：嵌套层级功能
 
-1. **扩展类型定义**
-   - 添加 `NestingLevel` 类型
-   - 扩展 `TaskProgressSettings` 接口
+1. 添加 `NestingLevel` 类型
+2. 实现 `queryNestedTasks` 函数
+3. 设置界面添加层级选择器
 
-2. **修改查询逻辑**
-   - 实现 `queryNestedTasks` 函数
-   - 支持指定深度的任务查询
+### 3.2 阶段二：任务排除功能
 
-3. **更新设置界面**
-   - 添加嵌套层级选择器
-   - 添加最大深度和叶子节点选项
+1. 添加 `TaskExcludeConfig` 配置
+2. 在查询中过滤排除的任务
+3. 设置界面添加排除属性配置
 
-### 4.2 阶段二：功能扩展（功能2 - 任务排除）
-
-1. **添加排除属性配置**
-   - 扩展 `TaskExcludeConfig` 类型
-   - 添加默认配置
-
-2. **修改过滤逻辑**
-   - 在 `filterTaskBlocks` 中添加排除检查
-   - 实现 `shouldExclude` 函数
-
-3. **添加批量设置功能**
-   - 实现 `setExcludeForChildTasks` 函数
-   - 注册斜杠命令
-
-4. **更新设置界面**
-   - 添加排除属性配置面板
-   - 添加视觉提示
-
-### 4.3 阶段三：性能优化
-
-1. **实现缓存机制**
-   - 添加任务进度缓存
-   - 实现缓存失效逻辑
-
-2. **优化查询性能**
-   - 批量查询优化
-   - 异步并行查询
-
-### 4.4 阶段四：UI/UX 增强
-
-1. **嵌套层级指示器**
-   - 在进度组件旁显示层级信息
-   - 悬浮提示显示详细嵌套结构
-
-2. **实时预览**
-   - 设置页面实时预览不同层级的效果
-
-3. **排除状态指示器**
-   - 在设置页面显示排除的任务数量
-
-## 5. 向后兼容性
+## 4. 向后兼容性
 
 ### 5.1 V1 配置迁移
 
