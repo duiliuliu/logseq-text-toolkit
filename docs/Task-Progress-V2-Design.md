@@ -13,6 +13,7 @@
 | REQ-005 | 支持多种展示方式可配置：微型三色圆环、点阵进度、状态光标、进度胶囊、阶梯进度 | V1 |
 | REQ-006 | 每次 block 渲染时按需获取子任务数据并计算进度 | V1 |
 | REQ-007 | **新增**：支持配置查询嵌套层级（1层、2层、3层、无限制） | V2 新增 |
+| REQ-008 | **新增**：支持配置排除属性，被设置该属性的任务块将从统计中排除 | V2 新增 |
 
 ### 1.2 功能概述
 
@@ -458,6 +459,335 @@ const NestingLevelIndicator: React.FC<{ maxDepth: number }> = ({ maxDepth }) => 
 }
 ```
 
+## 2.5 任务排除属性功能（功能2）
+
+### 2.5.1 功能背景与设计目标
+
+在实际使用场景中，用户可能希望对特定的任务块进行排除，不将其纳入进度统计。例如，主任务下有多个子任务，其中某些子任务可能是独立的子项目，不应计入主任务的进度统计。
+
+### 2.5.2 Logseq 属性系统分析
+
+根据 Logseq 官方文档，属性可以设置在两个层面：
+
+**Block 级别（块属性）**
+
+- 直接设置在块上，通过 `properties` 属性存储
+- 使用 `Editor.upsertBlockProperty` API 进行设置
+- 每个块可以有自己的属性值
+
+**Tag 级别（标签属性/类属性）**
+
+- 设置在标签（Tag）上，标签下的所有块自动继承该属性
+- 使用 `Editor.addTagProperty` API 进行设置
+- 需要使用 DB Graph 模式
+
+### 2.5.3 推荐方案：Block 级别属性
+
+考虑到以下因素，推荐使用 **Block 级别属性**：
+
+- **兼容性**：File Graph 和 DB Graph 都支持
+- **灵活性**：可以精确控制每个块的排除状态
+- **易用性**：用户只需在特定块上添加属性即可
+
+### 2.5.4 配置项设计
+
+```typescript
+// 排除属性配置
+export interface TaskExcludeConfig {
+  enabled: boolean                      // 是否启用排除功能
+  excludeProperty: string               // 排除属性名（默认：exclude-from-progress）
+  excludeValue?: string                // 排除属性值（可选，设置了属性即排除）
+}
+```
+
+**默认配置**
+
+```json
+{
+  "taskProgress": {
+    "excludeConfig": {
+      "enabled": true,
+      "excludeProperty": "exclude-from-progress",
+      "excludeValue": "true"
+    }
+  }
+}
+```
+
+### 2.5.5 用户使用流程
+
+**设置排除属性**
+
+用户在 Logseq 中可以直接设置属性来排除任务：
+
+```
+- 主任务 {{renderer :taskprogress}}
+  - 子任务1 #task status:: todo
+  - 子任务2 #task status:: doing exclude-from-progress:: true  ;; 此任务不计入统计
+  - 子任务3 #task status:: done
+```
+
+当 `exclude-from-progress:: true` 被设置后，该任务块将不会出现在进度统计中。
+
+### 2.5.6 查询逻辑修改
+
+```typescript
+interface TaskQueryOptions {
+  parentBlockId: string
+  maxDepth: number
+  onlyLeaves: boolean
+  excludeConfig: TaskExcludeConfig
+}
+
+/**
+ * 过滤任务块（包含排除逻辑）
+ */
+function filterTaskBlocks(
+  blocks: BlockEntity[], 
+  excludeConfig: TaskExcludeConfig
+): BlockEntity[] {
+  return blocks.filter(block => {
+    // 检查排除属性
+    if (excludeConfig.enabled && shouldExclude(block, excludeConfig)) {
+      return false
+    }
+    
+    // 检查是否为任务块
+    const hasTaskTag = block.tags?.some(
+      tag => tag?.title?.toLowerCase() === 'task'
+    )
+    const hasStatus = block.properties?.status !== undefined
+    
+    return hasTaskTag || hasStatus
+  })
+}
+
+/**
+ * 判断是否应该排除该块
+ */
+function shouldExclude(
+  block: BlockEntity, 
+  config: TaskExcludeConfig
+): boolean {
+  if (!config.enabled) return false
+  
+  const propValue = block.properties?.[config.excludeProperty]
+  
+  // 如果配置了 excludeValue，则需要属性值匹配
+  if (config.excludeValue !== undefined) {
+    return propValue === config.excludeValue
+  }
+  
+  // 否则只要属性存在就排除
+  return propValue !== undefined
+}
+```
+
+### 2.5.7 批量设置排除属性功能
+
+用户可能需要批量设置多个子任务的排除属性，提供以下辅助功能：
+
+**API 设计**
+
+```typescript
+/**
+ * 为指定父块下的所有直接子任务设置排除属性
+ */
+async function setExcludeForChildTasks(
+  parentBlockId: string,
+  excludeProperty: string,
+  excludeValue: string = 'true'
+): Promise<number> {
+  // 1. 获取所有直接子块
+  const children = await queryDirectChildren(parentBlockId)
+  
+  // 2. 过滤出任务块
+  const taskBlocks = children.filter(block => {
+    const hasTaskTag = block.tags?.some(
+      tag => tag?.title?.toLowerCase() === 'task'
+    )
+    const hasStatus = block.properties?.status !== undefined
+    return hasTaskTag || hasStatus
+  })
+  
+  // 3. 批量设置排除属性
+  let count = 0
+  for (const block of taskBlocks) {
+    await logseq.Editor.upsertBlockProperty(
+      block.uuid,
+      excludeProperty,
+      excludeValue
+    )
+    count++
+  }
+  
+  return count
+}
+```
+
+**使用场景**
+
+用户选中一个父任务块后，可以通过斜杠命令快速将所有子任务设置为排除状态：
+
+```
+/Set All Children as Excluded
+```
+
+### 2.5.8 设置界面设计
+
+在任务进度设置面板中添加排除属性配置：
+
+```tsx
+const ExcludePropertySettings: React.FC = () => {
+  const { settings, updateSettings } = useSettings()
+  const excludeConfig = settings.taskProgress?.excludeConfig ?? {
+    enabled: true,
+    excludeProperty: 'exclude-from-progress'
+  }
+  
+  return (
+    <div className="task-progress-exclude-settings">
+      <h3>任务排除设置</h3>
+      
+      <div className="setting-item">
+        <label>
+          <input 
+            type="checkbox"
+            checked={excludeConfig.enabled}
+            onChange={(e) => {
+              updateSettings({
+                taskProgress: {
+                  ...settings.taskProgress,
+                  excludeConfig: {
+                    ...excludeConfig,
+                    enabled: e.target.checked
+                  }
+                }
+              })
+            }}
+          />
+          启用任务排除功能
+        </label>
+        <p className="setting-description">
+          启用后，设置了排除属性的任务块将不参与进度统计
+        </p>
+      </div>
+      
+      <div className="setting-item">
+        <label>排除属性名</label>
+        <input 
+          type="text"
+          value={excludeConfig.excludeProperty}
+          onChange={(e) => {
+            updateSettings({
+              taskProgress: {
+                ...settings.taskProgress,
+                excludeConfig: {
+                  ...excludeConfig,
+                  excludeProperty: e.target.value
+                }
+              }
+            })
+          }}
+        />
+        <p className="setting-description">
+          在 Logseq 中为任务块设置此属性即可排除该任务
+        </p>
+      </div>
+      
+      <div className="setting-item">
+        <label>属性值（可选）</label>
+        <input 
+          type="text"
+          value={excludeConfig.excludeValue || ''}
+          placeholder="留空表示只要设置属性即排除"
+          onChange={(e) => {
+            updateSettings({
+              taskProgress: {
+                ...settings.taskProgress,
+                excludeConfig: {
+                  ...excludeConfig,
+                  excludeValue: e.target.value || undefined
+                }
+              }
+            })
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+```
+
+### 2.5.9 视觉提示设计
+
+当一个任务块被设置为排除时，在界面上显示提示：
+
+```tsx
+const TaskBlockWithExcludeHint: React.FC<{
+  block: BlockEntity,
+  excludeProperty: string
+}> = ({ block, excludeProperty }) => {
+  const isExcluded = block.properties?.[excludeProperty] !== undefined
+  
+  return (
+    <div className={`task-block ${isExcluded ? 'excluded' : ''}`}>
+      {/* 任务内容 */}
+      <span className="task-content">{block.content}</span>
+      
+      {/* 排除状态指示器 */}
+      {isExcluded && (
+        <span 
+          className="exclude-badge" 
+          title={`此任务已排除（${excludeProperty}）`}
+        >
+          ⏭️
+        </span>
+      )}
+    </div>
+  )
+}
+```
+
+### 2.5.10 与嵌套层级的结合
+
+排除功能与嵌套层级配置配合使用时：
+
+1. **嵌套查询时进行排除**：在递归查询过程中，每个层级的任务都会检查排除属性
+2. **排除后不再递归**：如果一个任务块被排除，其下的所有子任务也会被间接排除（因为父任务不计入统计）
+
+```typescript
+async function queryNestedTasks(options: TaskQueryOptions): Promise<BlockEntity[]> {
+  const { parentBlockId, maxDepth, onlyLeaves, excludeConfig } = options
+  const allTasks: BlockEntity[] = []
+  
+  const directChildren = await queryDirectChildren(parentBlockId)
+  
+  // 过滤时包含排除逻辑
+  const directTasks = filterTaskBlocks(directChildren, excludeConfig)
+  
+  // 排除的任务块不会被递归查询其子节点
+  // 因为这些块本身就不参与统计
+  for (const task of directTasks) {
+    if (maxDepth !== 1) {
+      const descendants = await queryNestedTasks({
+        parentBlockId: task.uuid,
+        maxDepth: maxDepth - 1,
+        onlyLeaves: false,
+        excludeConfig
+      })
+      allTasks.push(...descendants)
+    }
+  }
+  
+  if (onlyLeaves) {
+    return filterLeafTasks(allTasks)
+  }
+  
+  return allTasks
+}
+```
+
 ## 3. 数据模型设计
 
 ### 3.1 扩展类型定义
@@ -465,6 +795,13 @@ const NestingLevelIndicator: React.FC<{ maxDepth: number }> = ({ maxDepth }) => 
 ```typescript
 // 嵌套层级类型
 export type NestingLevel = 1 | 2 | 3 | 'all'
+
+// 排除属性配置
+export interface TaskExcludeConfig {
+  enabled: boolean
+  excludeProperty: string
+  excludeValue?: string
+}
 
 // 任务块实体
 export interface TaskBlock {
@@ -476,6 +813,7 @@ export interface TaskBlock {
   parentId: string | null
   depth: number  // 新增：深度层级
   children: TaskBlock[]  // 新增：子任务列表
+  isExcluded?: boolean  // 新增：是否被排除
 }
 
 // 任务进度数据（扩展）
@@ -488,6 +826,7 @@ export interface TaskProgress {
   progress: number
   nestingLevel: number  // 使用的嵌套层级
   leafTasksOnly: boolean  // 是否仅统计叶子节点
+  excludedCount: number  // 被排除的任务数量
 }
 ```
 
@@ -503,16 +842,18 @@ export interface TaskProgressSettings {
   displayOptions?: {
     [key: string]: Record<string, any>
   }
-  // V2 新增配置
+  // V2 嵌套层级配置
   nestingLevel: NestingLevel
   maxDepth?: number
   onlyLeaves?: boolean
+  // V2 排除属性配置
+  excludeConfig?: TaskExcludeConfig
 }
 ```
 
 ## 4. 实现计划
 
-### 4.1 阶段一：基础扩展
+### 4.1 阶段一：基础扩展（功能1 - 嵌套层级）
 
 1. **扩展类型定义**
    - 添加 `NestingLevel` 类型
@@ -526,7 +867,25 @@ export interface TaskProgressSettings {
    - 添加嵌套层级选择器
    - 添加最大深度和叶子节点选项
 
-### 4.2 阶段二：性能优化
+### 4.2 阶段二：功能扩展（功能2 - 任务排除）
+
+1. **添加排除属性配置**
+   - 扩展 `TaskExcludeConfig` 类型
+   - 添加默认配置
+
+2. **修改过滤逻辑**
+   - 在 `filterTaskBlocks` 中添加排除检查
+   - 实现 `shouldExclude` 函数
+
+3. **添加批量设置功能**
+   - 实现 `setExcludeForChildTasks` 函数
+   - 注册斜杠命令
+
+4. **更新设置界面**
+   - 添加排除属性配置面板
+   - 添加视觉提示
+
+### 4.3 阶段三：性能优化
 
 1. **实现缓存机制**
    - 添加任务进度缓存
@@ -536,7 +895,7 @@ export interface TaskProgressSettings {
    - 批量查询优化
    - 异步并行查询
 
-### 4.3 阶段三：UI/UX 增强
+### 4.4 阶段四：UI/UX 增强
 
 1. **嵌套层级指示器**
    - 在进度组件旁显示层级信息
@@ -544,6 +903,9 @@ export interface TaskProgressSettings {
 
 2. **实时预览**
    - 设置页面实时预览不同层级的效果
+
+3. **排除状态指示器**
+   - 在设置页面显示排除的任务数量
 
 ## 5. 向后兼容性
 
