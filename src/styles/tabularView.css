@@ -2,315 +2,232 @@
  * Copyright (c) 2026 duiliuliu
  * License: MIT
  *
- * Tabular View - CSS 样式文件
- * 支持两种模式：
- *   1. Properties 模式: #.tabular (logseq13-missing-commands 兼容)
- *   2. Tags 模式: #tabular (更友好的标签方式)
- * 基于 Logseq 的 block 结构实现表格化展示
+ * Tabular View - CSS 样式
+ *
+ * 支持两种方案：
+ * 1. 纯 CSS 模式 - 使用属性选择器
+ * 2. Experiments API 模式 - 自定义类名
  */
 
 /* ============================================
-   1. 基础变量定义
+   1. 基础变量
    ============================================ */
 
 :root {
-  /* 表格边框颜色 - 适配 Logseq 主题 */
   --tabular-border-color: var(--ls-guideline-color, #e0e0e0);
   --tabular-header-bg: var(--ls-secondary-background-color, #f5f5f5);
   --tabular-row-hover: var(--ls-hover-background-color, #f0f0f0);
   --tabular-selected-bg: var(--ls-active-secondary-color, #e3f2fd);
-  --tabular-text-primary: var(--ls-primary-text-color, #333333);
-  --tabular-text-secondary: var(--ls-secondary-text-color, #666666);
-
-  /* 列宽配置 */
-  --tabular-col-min-width: 150px;
-  --tabular-col-max-width: 250px;
   --tabular-cell-padding: 4px 8px;
 }
 
-/* 深色主题适配 */
 [data-theme='dark'] {
   --tabular-border-color: #3c3c3c;
   --tabular-header-bg: #252525;
   --tabular-row-hover: #2a2a2a;
   --tabular-selected-bg: #264f78;
-  --tabular-text-primary: #e0e0e0;
-  --tabular-text-secondary: #a0a0a0;
 }
 
 /* ============================================
-   2. 表格容器样式
-   支持两种模式：
-   - data-refs-self*='".tabular"' = property 模式
-   - data-refs-self*='"tabular"' = tag 模式
+   2. Experiments API 模式 - 类名样式
    ============================================ */
 
-/* 表格容器的子块容器 - 使用 flex 布局实现表格行 */
+/* 表格容器 */
+.tabular-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid var(--tabular-border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* 表格行 */
+.tabular-row {
+  display: flex;
+  flex-direction: row;
+  min-height: 32px;
+  border-bottom: 1px solid var(--tabular-border-color);
+}
+
+.tabular-row:last-child {
+  border-bottom: none;
+}
+
+/* 表头行 */
+.tabular-header {
+  background-color: var(--tabular-header-bg);
+  font-weight: 600;
+}
+
+/* 单元格 */
+.tabular-cell {
+  padding: var(--tabular-cell-padding);
+  min-width: 150px;
+  max-width: 250px;
+  border-right: 1px solid var(--tabular-border-color);
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabular-cell:last-child {
+  border-right: none;
+}
+
+/* 行标题单元格（更强调） */
+.tabular-title-cell {
+  min-width: 180px;
+  font-weight: 500;
+}
+
+/* 行悬停效果 */
+.tabular-row:hover {
+  background-color: var(--tabular-row-hover);
+}
+
+/* ============================================
+   3. 纯 CSS 模式 - 属性选择器（向后兼容）
+   ============================================ */
+
+/* 表格容器 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children {
-  display: flex !important;
-  flex-direction: column !important;
-  border-left: none !important;
-  margin-left: 0 !important;
-  padding-left: 0 !important;
+  display: flex;
+  flex-direction: column;
+  border-left: none;
+  margin-left: 0;
+  padding-left: 0;
 }
 
-/* 表格行 - 水平排列 */
+/* 表格行 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-grow: 1 !important;
-  width: 100% !important;
-  border-bottom: 1px solid var(--tabular-border-color) !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border-left: none !important;
-  min-height: 32px !important;
-  align-items: stretch !important;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  width: 100%;
+  border-bottom: 1px solid var(--tabular-border-color);
+  padding: 0;
+  margin: 0;
+  border-left: none;
+  min-height: 32px;
+  align-items: stretch;
 }
 
-/* 表格行 - 第一行顶部边框 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child {
-  border-top: 1px solid var(--tabular-border-color) !important;
+  border-top: 1px solid var(--tabular-border-color);
 }
 
-/* ============================================
-   3. 单元格（主内容）样式
-   ============================================ */
+/* 行悬停 */
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:hover,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:hover {
+  background-color: var(--tabular-row-hover);
+}
 
-/* 表格单元格主容器 */
+/* 单元格 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container {
-  display: flex !important;
-  align-items: center !important;
-  padding: var(--tabular-cell-padding) !important;
-  min-width: var(--tabular-col-min-width) !important;
-  max-width: var(--tabular-col-max-width) !important;
-  flex-shrink: 0 !important;
-  border-right: 1px solid var(--tabular-border-color) !important;
+  display: flex;
+  align-items: center;
+  padding: var(--tabular-cell-padding);
+  min-width: 150px;
+  max-width: 250px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--tabular-border-color);
 }
 
-/* 单元格内容区域 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container > .block-content-wrapper,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container > .block-content-wrapper {
-  width: 100% !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-/* 单元格文本 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container .block-content,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container .block-content {
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  display: block !important;
-}
-
-/* ============================================
-   4. 子列（孙块）样式
-   ============================================ */
-
-/* 子列容器 */
+/* 子列 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  flex-grow: 1 !important;
-  width: auto !important;
-  display: flex !important;
-  flex-direction: row !important;
+  margin-left: 0;
+  padding-left: 0;
+  flex-grow: 1;
+  width: auto;
+  display: flex;
+  flex-direction: row;
 }
 
-/* 子列行 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-grow: 1 !important;
-  border-left: none !important;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  border-left: none;
 }
 
-/* 子单元格 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block {
-  display: flex !important;
-  min-width: var(--tabular-col-min-width) !important;
-  max-width: var(--tabular-col-max-width) !important;
-  flex-shrink: 0 !important;
-  border-right: 1px solid var(--tabular-border-color) !important;
-  border-bottom: none !important;
+  display: flex;
+  min-width: 150px;
+  max-width: 250px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--tabular-border-color);
+  border-bottom: none;
 }
 
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
-  padding: var(--tabular-cell-padding) !important;
-  min-width: var(--tabular-col-min-width) !important;
-  max-width: var(--tabular-col-max-width) !important;
-  flex-shrink: 0 !important;
-  display: flex !important;
-  align-items: center !important;
+  padding: var(--tabular-cell-padding);
+  min-width: 150px;
+  max-width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
-/* ============================================
-   5. 表头行样式
-   ============================================ */
-
-/* 表头行 - 第一行加粗 */
+/* 表头样式 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child {
-  background-color: var(--tabular-header-bg) !important;
-  font-weight: 600 !important;
+  background-color: var(--tabular-header-bg);
+  font-weight: 600;
 }
 
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-content-inner,
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-body,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-content-inner,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-body {
-  font-weight: 600 !important;
+  font-weight: 600;
 }
 
-/* 隐藏表头标签样式 - 使用 #.tabular0 或 #tabular0 */
+/* 无表头模式 */
 .ls-block[data-refs-self*='".tabular0"'] > .block-main-container,
 .ls-block[data-refs-self*='"tabular0"'] > .block-main-container {
-  display: none !important;
+  display: none;
 }
 
 .ls-block[data-refs-self*='".tabular0"'] > .block-children-container,
 .ls-block[data-refs-self*='"tabular0"'] > .block-children-container {
-  margin-left: 0 !important;
+  margin-left: 0;
 }
 
 .ls-block[data-refs-self*='".tabular0"'].selected > .block-main-container,
 .ls-block[data-refs-self*='".tabular0"'] > .block-main-container:hover,
 .ls-block[data-refs-self*='"tabular0"'].selected > .block-main-container,
 .ls-block[data-refs-self*='"tabular0"'] > .block-main-container:hover {
-  display: flex !important;
+  display: flex;
 }
-
-/* ============================================
-   6. 悬停和选中效果
-   ============================================ */
-
-/* 行悬停效果 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:hover,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:hover {
-  background-color: var(--tabular-row-hover) !important;
-}
-
-/* 选中行效果 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block.selected,
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block.selected:hover,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block.selected,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block.selected:hover {
-  background-color: var(--tabular-selected-bg) !important;
-}
-
-/* ============================================
-   7. 编辑状态处理
-   ============================================ */
-
-/* 编辑中的块 - 保持正常编辑体验 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:has(.editor-wrapper.is-editing),
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:has(.editor-wrapper.is-editing) {
-  background-color: transparent !important;
-  border: 2px solid var(--ls-primary-color, #3b82f6) !important;
-  z-index: 100 !important;
-  position: relative !important;
-}
-
-/* 编辑器内 textarea */
-.ls-block[data-refs-self*='".tabular"'] .editor-wrapper textarea,
-.ls-block[data-refs-self*='"tabular"'] .editor-wrapper textarea {
-  min-width: var(--tabular-col-min-width) !important;
-  font-family: inherit !important;
-  font-size: inherit !important;
-  line-height: inherit !important;
-  padding: var(--tabular-cell-padding) !important;
-  border: 1px solid var(--ls-border-color, #ccc) !important;
-  border-radius: 4px !important;
-  background-color: var(--ls-primary-background-color, #fff) !important;
-}
-
-/* ============================================
-   8. 标签和引用样式
-   ============================================ */
 
 /* 隐藏方括号 */
 .ls-block[data-refs-self*='".tabular"'] .page-reference .bracket,
 .ls-block[data-refs-self*='"tabular"'] .page-reference .bracket {
-  display: none !important;
+  display: none;
 }
 
-/* 标签样式调整 */
-.ls-block[data-refs-self*='".tabular"'] .tag,
-.ls-block[data-refs-self*='"tabular"'] .tag {
-  background-color: transparent !important;
-  color: var(--ls-link-text-color, #3b82f6) !important;
-  padding: 0 4px !important;
-  border-radius: 2px !important;
-}
-
-/* ============================================
-   9. 嵌套表格样式
-   ============================================ */
-
-/* 嵌套表格容器 */
-.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='".tabular"'],
-.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='"tabular"'],
-.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='".tabular"'],
-.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='"tabular"'] {
-  margin-left: 0 !important;
-}
-
-/* 嵌套表格行 */
-.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children,
-.ls-block[data-refs-self*='".tabular"'] .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children,
-.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children,
-.ls-block[data-refs-self*='"tabular"'] .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children {
-  border-left: 1px solid var(--tabular-border-color) !important;
-}
-
-/* ============================================
-   10. 对齐方式变体
-   ============================================ */
-
-/* 居中对齐 - 使用 data-refs-self*='".tabular-center"' 或 data-refs-self*='"tabular-center"' */
-.ls-block[data-refs-self*='".tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='".tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='"tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='"tabular-center"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
-  justify-content: center !important;
-  text-align: center !important;
-}
-
-/* 右对齐 - 使用 data-refs-self*='".tabular-right"' 或 data-refs-self*='"tabular-right"' */
-.ls-block[data-refs-self*='".tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='".tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='"tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='"tabular-right"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
-  justify-content: flex-end !important;
-  text-align: right !important;
-}
-
-/* ============================================
-   11. 紧凑模式
-   ============================================ */
-
-/* 紧凑模式 - 使用 data-refs-self*='".tabular-compact"' 或 data-refs-self*='"tabular-compact"' */
+/* 紧凑模式 */
 .ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block,
 .ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block {
-  min-height: 24px !important;
+  min-height: 24px;
 }
 
 .ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
 .ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
 .ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
 .ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
-  padding: 2px 4px !important;
-  min-width: 100px !important;
-  max-width: 200px !important;
-  font-size: 13px !important;
+  padding: 2px 4px;
+  min-width: 100px;
+  max-width: 200px;
+  font-size: 13px;
 }

@@ -2,11 +2,11 @@
  * Copyright (c) 2026 duiliuliu
  * License: MIT
  *
- * Tabular View 注册逻辑
- * 支持两种标签模式：
- *   1. Tags 模式: #tabular (更友好)
- *   2. Properties 模式: #.tabular (logseq13-missing-commands 兼容)
- * 支持多种触发方式：斜杠命令、快捷键、右键菜单
+ * Tabular View - 使用 Logseq Experiments API 实现
+ *
+ * 两种实现方案：
+ * 1. 纯 CSS 方案（向后兼容）- 当前实现
+ * 2. Experiments API 方案（推荐）
  */
 
 import { logseqAPI } from '../../logseq'
@@ -14,37 +14,136 @@ import { logger } from '../logger/logger'
 
 const PLUGIN_ID = 'text-toolkit-tabularview'
 
-/* ============================================
-   标签常量 - 支持两种模式
-   Tags 模式: #tabular, #tabular-compact, #tabular0 等
-   Properties 模式: #.tabular, #.tabular-compact 等 (logseq13-missing-commands 兼容)
-   ============================================ */
-
+// 标签常量
 export const TABULAR_TAG = '#tabular'
+export const TABULAR_PROP_TAG = '#.tabular'
 export const TABULAR_COMPACT_TAG = '#tabular-compact'
 export const TABULAR_NOCOL_HEADER_TAG = '#tabular0'
-export const TABULAR_CENTER_TAG = '#tabular-center'
-export const TABULAR_RIGHT_TAG = '#tabular-right'
 
-export const TABULAR_PROP_TAG = '#.tabular'
-export const TABULAR_COMPACT_PROP_TAG = '#.tabular-compact'
-export const TABULAR_NOCOL_HEADER_PROP_TAG = '#.tabular0'
-export const TABULAR_CENTER_PROP_TAG = '#.tabular-center'
-export const TABULAR_RIGHT_PROP_TAG = '#.tabular-right'
-
-export interface TabularViewOptions {
-  mode?: 'default' | 'compact' | 'nocursor' | 'center' | 'right'
-  columnWidth?: number
+/**
+ * 检查是否有 Experiments API 支持
+ */
+function hasExperimentsApi(): boolean {
+  try {
+    return typeof (logseqAPI as any)?.Experiments?.registerBlockRenderer === 'function'
+  } catch (e) {
+    return false
+  }
 }
 
+/**
+ * 使用 Experiments API 注册表格渲染器
+ */
+function registerWithExperiments(): void {
+  try {
+    const Experiments = (logseqAPI as any)?.Experiments
+    if (!Experiments?.registerBlockRenderer) {
+      logger.info('[TabularView] Experiments API not available, falling back to CSS mode')
+      return
+    }
+
+    // 注册表格块渲染器
+    Experiments.registerBlockRenderer('tabular-view', {
+      // 条件：块有 tabular 标签/属性
+      when: ({ properties, content }: any) => {
+        return (content?.includes(TABULAR_TAG) || 
+                content?.includes(TABULAR_PROP_TAG) ||
+                properties?.view === 'tabular')
+      },
+      includeChildren: true, // 包括子块数据
+      priority: 20,
+      render: renderTableView
+    })
+
+    logger.info('[TabularView] Registered with Experiments API (block renderer)')
+  } catch (error) {
+    logger.error('[TabularView] Failed to register with Experiments:', error)
+  }
+}
+
+/**
+ * 表格视图渲染器
+ */
+function renderTableView(props: {
+  blockId: string
+  content: string
+  children: Array<any>
+  properties: Record<string, any>
+}) {
+  const React = (logseqAPI as any).Experiments.React
+
+  const { children = [] } = props
+
+  // 表头行（第一行子块）
+  const headerRow = children[0]
+  const dataRows = children.slice(1)
+
+  // 渲染表头列
+  const renderRow = (row: any, isHeader: boolean) => {
+    if (!row) return null
+
+    // 获取子块作为列
+    const columns = row.children || []
+
+    // 第一列是行标题
+    const rowTitle = row.content || row.title || ''
+
+    const cells = [
+      // 行标题单元格
+      React.createElement('div', { 
+        key: 'title', 
+        className: 'tabular-cell tabular-title-cell'
+      }, rowTitle)
+    ]
+
+    // 列单元格
+    columns.forEach((col: any, index: number) => {
+      cells.push(
+        React.createElement('div', { 
+          key: index, 
+          className: 'tabular-cell'
+        }, col.content || col.title || '')
+      )
+    })
+
+    return React.createElement('div', { 
+      className: `tabular-row ${isHeader ? 'tabular-header' : ''}`
+    }, cells)
+  }
+
+  // 主表格
+  const rows = [
+    // 渲染表头
+    headerRow && renderRow(headerRow, true),
+    // 渲染数据行
+    ...dataRows.map((row, index) => renderRow(row, false))
+  ].filter(Boolean)
+
+  return React.createElement('div', { 
+    className: 'tabular-container'
+  }, rows)
+}
+
+/**
+ * 注册入口
+ */
 export function registerTabularView(): void {
-  registerSlashCommands()
-  registerBlockContextMenu()
-  registerKeyboardShortcuts()
+  // 尝试使用 Experiments API
+  if (hasExperimentsApi()) {
+    registerWithExperiments()
+  }
+
+  // 仍然保留 CSS 方案用于向后兼容
+  registerCssMode()
+
   logger.info('[TabularView] Registered successfully')
 }
 
-function registerSlashCommands(): void {
+/**
+ * CSS 模式（向后兼容）
+ */
+function registerCssMode(): void {
+  // 斜杠命令
   logseqAPI.Editor.registerSlashCommand(
     'Insert Tabular View',
     async () => {
@@ -55,100 +154,24 @@ function registerSlashCommands(): void {
     }
   )
 
-  logseqAPI.Editor.registerSlashCommand(
-    'Insert Tabular View (Property)',
-    async () => {
-      const block = await logseqAPI.Editor.getCurrentBlock()
-      if (block?.uuid) {
-        await logseqAPI.Editor.insertAtEditingCursor(`\n${TABULAR_PROP_TAG}\n`)
-      }
-    }
-  )
-
-  logseqAPI.Editor.registerSlashCommand(
-    'Insert Compact Table',
-    async () => {
-      const block = await logseqAPI.Editor.getCurrentBlock()
-      if (block?.uuid) {
-        await logseqAPI.Editor.insertAtEditingCursor(`\n${TABULAR_COMPACT_TAG}\n`)
-      }
-    }
-  )
-
-  logseqAPI.Editor.registerSlashCommand(
-    'Insert Data Table (No Header)',
-    async () => {
-      const block = await logseqAPI.Editor.getCurrentBlock()
-      if (block?.uuid) {
-        await logseqAPI.Editor.insertAtEditingCursor(`\n${TABULAR_NOCOL_HEADER_TAG}\n`)
-      }
-    }
-  )
-
-  logseqAPI.Editor.registerSlashCommand(
-    'Toggle Tabular View',
-    async () => {
-      const block = await logseqAPI.Editor.getCurrentBlock()
-      if (block?.uuid && block.content) {
-        let newContent = block.content
-        if (hasAnyTabularTag(newContent)) {
-          newContent = removeAllTabularTags(newContent)
-        } else {
-          newContent = newContent + `\n${TABULAR_TAG}`
-        }
-        await logseqAPI.Editor.updateBlock(block.uuid, newContent.trim())
-      }
-    }
-  )
-
-  logger.info('[TabularView] Slash commands registered')
-}
-
-function registerBlockContextMenu(): void {
+  // 右键菜单
   logseqAPI.Editor.registerBlockContextMenuItem(
     'Toggle Tabular View',
     async ({ uuid }) => {
       const block = await logseqAPI.Editor.getBlock(uuid)
       if (block?.content) {
         let newContent = block.content
-        if (hasAnyTabularTag(newContent)) {
-          newContent = removeAllTabularTags(newContent)
+        if (newContent.includes(TABULAR_TAG)) {
+          newContent = newContent.replace(TABULAR_TAG, '')
         } else {
-          newContent = newContent + `\n${TABULAR_TAG}`
+          newContent += `\n${TABULAR_TAG}`
         }
         await logseqAPI.Editor.updateBlock(uuid, newContent.trim())
       }
     }
   )
 
-  logseqAPI.Editor.registerBlockContextMenuItem(
-    'Apply: Compact Table',
-    async ({ uuid }) => {
-      const block = await logseqAPI.Editor.getBlock(uuid)
-      if (block?.content) {
-        let newContent = removeAllTabularTags(block.content)
-        newContent = newContent + `\n${TABULAR_COMPACT_TAG}`
-        await logseqAPI.Editor.updateBlock(uuid, newContent.trim())
-      }
-    }
-  )
-
-  logseqAPI.Editor.registerBlockContextMenuItem(
-    'Apply: No Header Table',
-    async ({ uuid }) => {
-      const block = await logseqAPI.Editor.getBlock(uuid)
-      if (block?.content) {
-        let newContent = removeAllTabularTags(block.content)
-        newContent = newContent + `\n${TABULAR_NOCOL_HEADER_TAG}`
-        await logseqAPI.Editor.updateBlock(uuid, newContent.trim())
-      }
-    }
-  )
-
-  logger.info('[TabularView] Block context menu registered')
-}
-
-function registerKeyboardShortcuts(): void {
+  // 快捷键
   logseqAPI.App.registerCommandShortcut(
     {
       binding: 'mod+shift+t',
@@ -158,90 +181,13 @@ function registerKeyboardShortcuts(): void {
       const block = await logseqAPI.Editor.getCurrentBlock()
       if (block?.uuid && block.content) {
         let newContent = block.content
-        if (hasAnyTabularTag(newContent)) {
-          newContent = removeAllTabularTags(newContent)
+        if (newContent.includes(TABULAR_TAG)) {
+          newContent = newContent.replace(TABULAR_TAG, '')
         } else {
-          newContent = newContent + `\n${TABULAR_TAG}`
+          newContent += `\n${TABULAR_TAG}`
         }
         await logseqAPI.Editor.updateBlock(block.uuid, newContent.trim())
       }
     }
   )
-
-  logger.info('[TabularView] Keyboard shortcuts registered')
-}
-
-/* ============================================
-   辅助函数
-   ============================================ */
-
-function hasAnyTabularTag(content: string): boolean {
-  return content.includes(TABULAR_TAG) ||
-         content.includes(TABULAR_COMPACT_TAG) ||
-         content.includes(TABULAR_NOCOL_HEADER_TAG) ||
-         content.includes(TABULAR_CENTER_TAG) ||
-         content.includes(TABULAR_RIGHT_TAG) ||
-         content.includes(TABULAR_PROP_TAG) ||
-         content.includes(TABULAR_COMPACT_PROP_TAG) ||
-         content.includes(TABULAR_NOCOL_HEADER_PROP_TAG) ||
-         content.includes(TABULAR_CENTER_PROP_TAG) ||
-         content.includes(TABULAR_RIGHT_PROP_TAG)
-}
-
-function removeAllTabularTags(content: string): string {
-  let newContent = content
-  // Remove tags
-  newContent = newContent.replace(TABULAR_TAG, '')
-  newContent = newContent.replace(TABULAR_COMPACT_TAG, '')
-  newContent = newContent.replace(TABULAR_NOCOL_HEADER_TAG, '')
-  newContent = newContent.replace(TABULAR_CENTER_TAG, '')
-  newContent = newContent.replace(TABULAR_RIGHT_TAG, '')
-  // Remove properties
-  newContent = newContent.replace(TABULAR_PROP_TAG, '')
-  newContent = newContent.replace(TABULAR_COMPACT_PROP_TAG, '')
-  newContent = newContent.replace(TABULAR_NOCOL_HEADER_PROP_TAG, '')
-  newContent = newContent.replace(TABULAR_CENTER_PROP_TAG, '')
-  newContent = newContent.replace(TABULAR_RIGHT_PROP_TAG, '')
-  return newContent
-}
-
-export async function toggleTabularView(blockUuid: string): Promise<boolean> {
-  try {
-    const block = await logseqAPI.Editor.getBlock(blockUuid)
-    if (!block?.content) return false
-
-    let newContent = block.content
-    if (hasAnyTabularTag(newContent)) {
-      newContent = removeAllTabularTags(newContent)
-    } else {
-      newContent = newContent + `\n${TABULAR_TAG}`
-    }
-
-    await logseqAPI.Editor.updateBlock(blockUuid, newContent.trim())
-    return true
-  } catch (error) {
-    logger.error('[TabularView] Toggle error:', error)
-    return false
-  }
-}
-
-export async function setTabularMode(blockUuid: string, mode: TabularViewOptions['mode']): Promise<boolean> {
-  try {
-    const block = await logseqAPI.Editor.getBlock(blockUuid)
-    if (!block?.content) return false
-
-    let newContent = removeAllTabularTags(block.content)
-    const tag = mode === 'compact' ? TABULAR_COMPACT_TAG :
-               mode === 'nocursor' ? TABULAR_NOCOL_HEADER_TAG :
-               mode === 'center' ? TABULAR_CENTER_TAG :
-               mode === 'right' ? TABULAR_RIGHT_TAG :
-               TABULAR_TAG
-
-    newContent = newContent + `\n${tag}`
-    await logseqAPI.Editor.updateBlock(blockUuid, newContent.trim())
-    return true
-  } catch (error) {
-    logger.error('[TabularView] Set mode error:', error)
-    return false
-  }
 }
