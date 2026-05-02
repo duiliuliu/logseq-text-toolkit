@@ -4,9 +4,7 @@
  *
  * Tabular View - 使用 Logseq Experiments API 实现
  *
- * 两种实现方案：
- * 1. 纯 CSS 方案（向后兼容）- 当前实现
- * 2. Experiments API 方案（推荐）
+ * 仅推荐使用 Experiments API 模式，向后兼容性 CSS 模式保留
  */
 
 import { logseqAPI } from '../../logseq'
@@ -20,12 +18,19 @@ export const TABULAR_PROP_TAG = '#.tabular'
 export const TABULAR_COMPACT_TAG = '#tabular-compact'
 export const TABULAR_NOCOL_HEADER_TAG = '#tabular0'
 
+// ---------------------------------------------------------------------------
+// 核心：使用 Experiments API 注册表格渲染器
+// ---------------------------------------------------------------------------
+
 /**
  * 检查是否有 Experiments API 支持
  */
 function hasExperimentsApi(): boolean {
   try {
-    return typeof (logseqAPI as any)?.Experiments?.registerBlockRenderer === 'function'
+    return (
+      typeof (logseqAPI as any)?.Experiments?.registerBlockRenderer === 'function' &&
+      typeof (logseqAPI as any)?.Experiments?.React !== 'undefined'
+    )
   } catch (e) {
     return false
   }
@@ -38,20 +43,27 @@ function registerWithExperiments(): void {
   try {
     const Experiments = (logseqAPI as any)?.Experiments
     if (!Experiments?.registerBlockRenderer) {
-      logger.info('[TabularView] Experiments API not available, falling back to CSS mode')
+      logger.info('[TabularView] Experiments API not available, skipping')
       return
     }
 
     // 注册表格块渲染器
     Experiments.registerBlockRenderer('tabular-view', {
-      // 条件：块有 tabular 标签/属性
+      // 触发条件
       when: ({ properties, content }: any) => {
-        return (content?.includes(TABULAR_TAG) || 
-                content?.includes(TABULAR_PROP_TAG) ||
-                properties?.view === 'tabular')
+        return (
+          content?.includes(TABULAR_TAG) || 
+          content?.includes(TABULAR_PROP_TAG) ||
+          content?.includes(TABULAR_COMPACT_TAG) ||
+          content?.includes(TABULAR_NOCOL_HEADER_TAG) ||
+          properties?.view === 'tabular' ||
+          properties?.tabular === true
+        )
       },
-      includeChildren: true, // 包括子块数据
-      priority: 20,
+      includeChildren: true, // 获取子块树形结构
+      priority: 20, // 较高优先级，覆盖部分其他渲染器
+      
+      // 自定义渲染函数
       render: renderTableView
     })
 
@@ -61,8 +73,14 @@ function registerWithExperiments(): void {
   }
 }
 
+// ---------------------------------------------------------------------------
+// React 渲染器：构建表格 UI
+// ---------------------------------------------------------------------------
+
 /**
  * 表格视图渲染器
+ * 
+ * 使用宿主 React，通过 logseq.Experiments.React 获取
  */
 function renderTableView(props: {
   blockId: string
@@ -71,79 +89,100 @@ function renderTableView(props: {
   properties: Record<string, any>
 }) {
   const React = (logseqAPI as any).Experiments.React
+  const { children = [], properties = {} } = props
 
-  const { children = [] } = props
+  // 判断模式
+  const isCompactMode = props.content?.includes(TABULAR_COMPACT_TAG) || properties.mode === 'compact'
+  const isNoHeaderMode = props.content?.includes(TABULAR_NOCOL_HEADER_TAG) || properties.mode === 'no-header'
 
-  // 表头行（第一行子块）
-  const headerRow = children[0]
-  const dataRows = children.slice(1)
+  // 表头数据（第一行）
+  const headerRow = isNoHeaderMode ? null : children[0]
+  const dataRows = isNoHeaderMode ? children : children.slice(1)
 
-  // 渲染表头列
-  const renderRow = (row: any, isHeader: boolean) => {
+  // 渲染一行表格
+  const renderRow = (row: any, isHeader: boolean, rowIndex: number) => {
     if (!row) return null
 
-    // 获取子块作为列
     const columns = row.children || []
-
-    // 第一列是行标题
     const rowTitle = row.content || row.title || ''
-
+    
+    // 构建单元格数组
     const cells = [
-      // 行标题单元格
+      // 第一列：行标题
       React.createElement('div', { 
-        key: 'title', 
+        key: `row-${rowIndex}-title`, 
         className: 'tabular-cell tabular-title-cell'
       }, rowTitle)
     ]
 
-    // 列单元格
-    columns.forEach((col: any, index: number) => {
+    // 子列单元格
+    columns.forEach((col: any, colIndex: number) => {
       cells.push(
         React.createElement('div', { 
-          key: index, 
+          key: `row-${rowIndex}-col-${colIndex}`, 
           className: 'tabular-cell'
-        }, col.content || col.title || '')
+        }, 
+          col.content || col.title || col.page || '')
       )
     })
 
     return React.createElement('div', { 
-      className: `tabular-row ${isHeader ? 'tabular-header' : ''}`
+      key: `row-${rowIndex}`,
+      className: `tabular-row ${isHeader ? 'tabular-header' : ''} ${isCompactMode ? 'tabular-compact' : ''}`
     }, cells)
   }
 
-  // 主表格
-  const rows = [
-    // 渲染表头
-    headerRow && renderRow(headerRow, true),
-    // 渲染数据行
-    ...dataRows.map((row, index) => renderRow(row, false))
-  ].filter(Boolean)
+  // 构建所有行
+  const rows: any[] = []
+  if (headerRow) {
+    rows.push(renderRow(headerRow, true, 0))
+  }
+  dataRows.forEach((row: any, index: number) => {
+    rows.push(renderRow(row, false, index + (headerRow ? 1 : 0)))
+  })
 
-  return React.createElement('div', { 
-    className: 'tabular-container'
-  }, rows)
-}
-
-/**
- * 注册入口
- */
-export function registerTabularView(): void {
-  // 尝试使用 Experiments API
-  if (hasExperimentsApi()) {
-    registerWithExperiments()
+  // 空状态
+  if (rows.length === 0) {
+    return React.createElement('div', { 
+      className: 'tabular-empty' 
+    }, '没有数据，添加子块来显示表格')
   }
 
-  // 仍然保留 CSS 方案用于向后兼容
-  registerCssMode()
-
-  logger.info('[TabularView] Registered successfully')
+  // 主表格容器
+  return React.createElement('div', { 
+    className: `tabular-container ${isCompactMode ? 'tabular-compact' : ''}`
+  }, 
+    // 标题
+    !isNoHeaderMode && props.content && React.createElement('div', { 
+      className: 'tabular-title',
+      key: 'header'
+    }, cleanTabularTags(props.content)),
+    // 表格行
+    rows
+  )
 }
 
+// ---------------------------------------------------------------------------
+// 辅助工具函数
+// ---------------------------------------------------------------------------
+
 /**
- * CSS 模式（向后兼容）
+ * 清理标签，用于显示标题
  */
-function registerCssMode(): void {
-  // 斜杠命令
+function cleanTabularTags(content: string): string {
+  return content
+    .replace(TABULAR_TAG, '')
+    .replace(TABULAR_PROP_TAG, '')
+    .replace(TABULAR_COMPACT_TAG, '')
+    .replace(TABULAR_NOCOL_HEADER_TAG, '')
+    .trim()
+}
+
+// ---------------------------------------------------------------------------
+// 触发器：斜杠命令、右键菜单、快捷键
+// ---------------------------------------------------------------------------
+
+function registerSlashCommands(): void {
   logseqAPI.Editor.registerSlashCommand(
     'Insert Tabular View',
     async () => {
@@ -154,24 +193,41 @@ function registerCssMode(): void {
     }
   )
 
-  // 右键菜单
+  logseqAPI.Editor.registerSlashCommand(
+    'Insert Tabular View (Compact)',
+    async () => {
+      const block = await logseqAPI.Editor.getCurrentBlock()
+      if (block?.uuid) {
+        await logseqAPI.Editor.insertAtEditingCursor(`\n${TABULAR_COMPACT_TAG}\n`)
+      }
+    }
+  )
+}
+
+function registerBlockContextMenu(): void {
   logseqAPI.Editor.registerBlockContextMenuItem(
     'Toggle Tabular View',
     async ({ uuid }) => {
       const block = await logseqAPI.Editor.getBlock(uuid)
       if (block?.content) {
         let newContent = block.content
-        if (newContent.includes(TABULAR_TAG)) {
+        const hasTag = newContent.includes(TABULAR_TAG) || 
+                       newContent.includes(TABULAR_PROP_TAG)
+        
+        if (hasTag) {
           newContent = newContent.replace(TABULAR_TAG, '')
+          newContent = newContent.replace(TABULAR_PROP_TAG, '')
         } else {
           newContent += `\n${TABULAR_TAG}`
         }
+        
         await logseqAPI.Editor.updateBlock(uuid, newContent.trim())
       }
     }
   )
+}
 
-  // 快捷键
+function registerKeyboardShortcuts(): void {
   logseqAPI.App.registerCommandShortcut(
     {
       binding: 'mod+shift+t',
@@ -181,13 +237,38 @@ function registerCssMode(): void {
       const block = await logseqAPI.Editor.getCurrentBlock()
       if (block?.uuid && block.content) {
         let newContent = block.content
-        if (newContent.includes(TABULAR_TAG)) {
+        const hasTag = newContent.includes(TABULAR_TAG) || 
+                       newContent.includes(TABULAR_PROP_TAG)
+        
+        if (hasTag) {
           newContent = newContent.replace(TABULAR_TAG, '')
+          newContent = newContent.replace(TABULAR_PROP_TAG, '')
         } else {
           newContent += `\n${TABULAR_TAG}`
         }
+        
         await logseqAPI.Editor.updateBlock(block.uuid, newContent.trim())
       }
     }
   )
+}
+
+// ---------------------------------------------------------------------------
+// 主入口
+// ---------------------------------------------------------------------------
+
+export function registerTabularView(): void {
+  // 优先使用 Experiments API
+  if (hasExperimentsApi()) {
+    registerWithExperiments()
+  } else {
+    logger.info('[TabularView] Experiments API not available, tabular view skipped')
+  }
+
+  // 无论如何都注册触发器（斜杠命令等）
+  registerSlashCommands()
+  registerBlockContextMenu()
+  registerKeyboardShortcuts()
+
+  logger.info('[TabularView] Registration complete')
 }

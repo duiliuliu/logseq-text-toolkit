@@ -2,96 +2,134 @@
  * Copyright (c) 2026 duiliuliu
  * License: MIT
  *
- * Tabular View - CSS 样式
- *
- * 支持两种方案：
- * 1. 纯 CSS 模式 - 使用属性选择器
- * 2. Experiments API 模式 - 自定义类名
+ * Tabular View - 主要用于 Experiments API 模式的样式
+ * 同时保留对纯 CSS 模式的兼容
  */
 
-/* ============================================
-   1. 基础变量
-   ============================================ */
-
 :root {
+  /* 表格基础变量 */
   --tabular-border-color: var(--ls-guideline-color, #e0e0e0);
   --tabular-header-bg: var(--ls-secondary-background-color, #f5f5f5);
   --tabular-row-hover: var(--ls-hover-background-color, #f0f0f0);
-  --tabular-selected-bg: var(--ls-active-secondary-color, #e3f2fd);
-  --tabular-cell-padding: 4px 8px;
+  --tabular-text-primary: var(--ls-primary-text-color, #333333);
+  --tabular-text-secondary: var(--ls-secondary-text-color, #666666);
+  --tabular-cell-padding: 8px 12px;
+  --tabular-cell-min-width: 140px;
+  --tabular-cell-max-width: 260px;
 }
 
 [data-theme='dark'] {
   --tabular-border-color: #3c3c3c;
   --tabular-header-bg: #252525;
   --tabular-row-hover: #2a2a2a;
-  --tabular-selected-bg: #264f78;
+  --tabular-text-primary: #e0e0e0;
+  --tabular-text-secondary: #a0a0a0;
 }
 
 /* ============================================
-   2. Experiments API 模式 - 类名样式
+   1. Experiments API 模式 - 主要使用
    ============================================ */
 
-/* 表格容器 */
+/* 表格主容器 */
 .tabular-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   border: 1px solid var(--tabular-border-color);
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
+  margin: 8px 0;
+}
+
+/* 表格标题 */
+.tabular-title {
+  font-weight: 600;
+  padding: 12px 16px;
+  background: var(--ls-secondary-background-color);
+  border-bottom: 1px solid var(--tabular-border-color);
+  font-size: 14px;
+  color: var(--tabular-text-primary);
 }
 
 /* 表格行 */
 .tabular-row {
   display: flex;
   flex-direction: row;
-  min-height: 32px;
+  min-height: 40px;
+  align-items: center;
   border-bottom: 1px solid var(--tabular-border-color);
+  transition: background-color 0.15s ease;
 }
 
 .tabular-row:last-child {
   border-bottom: none;
 }
 
-/* 表头行 */
+/* 表头行样式 */
 .tabular-header {
-  background-color: var(--tabular-header-bg);
+  background: var(--tabular-header-bg);
   font-weight: 600;
+  color: var(--tabular-text-primary);
 }
 
 /* 单元格 */
 .tabular-cell {
   padding: var(--tabular-cell-padding);
-  min-width: 150px;
-  max-width: 250px;
-  border-right: 1px solid var(--tabular-border-color);
+  min-width: var(--tabular-cell-min-width);
+  max-width: var(--tabular-cell-max-width);
   flex-shrink: 0;
+  border-right: 1px solid var(--tabular-border-color);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 13px;
+  color: var(--tabular-text-primary);
 }
 
 .tabular-cell:last-child {
   border-right: none;
 }
 
-/* 行标题单元格（更强调） */
+/* 行标题单元格（更突出） */
 .tabular-title-cell {
-  min-width: 180px;
+  min-width: 160px;
   font-weight: 500;
+  background: var(--ls-tertiary-background-color);
 }
 
 /* 行悬停效果 */
 .tabular-row:hover {
-  background-color: var(--tabular-row-hover);
+  background: var(--tabular-row-hover);
+}
+
+/* 紧凑模式 */
+.tabular-compact {
+  --tabular-cell-padding: 4px 8px;
+  --tabular-cell-min-width: 100px;
+  --tabular-cell-max-width: 200px;
+}
+
+.tabular-row.tabular-compact {
+  min-height: 32px;
+}
+
+.tabular-container.tabular-compact {
+  margin: 4px 0;
+}
+
+/* 空状态 */
+.tabular-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--tabular-text-secondary);
+  font-size: 13px;
 }
 
 /* ============================================
-   3. 纯 CSS 模式 - 属性选择器（向后兼容）
+   2. 纯 CSS 模式（兼容性）
    ============================================ */
 
-/* 表格容器 */
+/* 兼容旧版实现 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children {
   display: flex;
@@ -101,7 +139,6 @@
   padding-left: 0;
 }
 
-/* 表格行 */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block {
   display: flex;
@@ -112,7 +149,7 @@
   padding: 0;
   margin: 0;
   border-left: none;
-  min-height: 32px;
+  min-height: 40px;
   align-items: stretch;
 }
 
@@ -121,113 +158,19 @@
   border-top: 1px solid var(--tabular-border-color);
 }
 
-/* 行悬停 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:hover,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:hover {
-  background-color: var(--tabular-row-hover);
-}
-
-/* 单元格 */
+/* 单元格（CSS 模式） */
 .ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
 .ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-main-container {
   display: flex;
   align-items: center;
   padding: var(--tabular-cell-padding);
-  min-width: 150px;
-  max-width: 250px;
+  min-width: var(--tabular-cell-min-width);
+  max-width: var(--tabular-cell-max-width);
   flex-shrink: 0;
   border-right: 1px solid var(--tabular-border-color);
 }
 
-/* 子列 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container {
-  margin-left: 0;
-  padding-left: 0;
-  flex-grow: 1;
-  width: auto;
-  display: flex;
-  flex-direction: row;
-}
-
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  border-left: none;
-}
-
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block {
-  display: flex;
-  min-width: 150px;
-  max-width: 250px;
-  flex-shrink: 0;
-  border-right: 1px solid var(--tabular-border-color);
-  border-bottom: none;
-}
-
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
-  padding: var(--tabular-cell-padding);
-  min-width: 150px;
-  max-width: 250px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
-
-/* 表头样式 */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child {
-  background-color: var(--tabular-header-bg);
-  font-weight: 600;
-}
-
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-content-inner,
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-body,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-content-inner,
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:first-child .block-body {
-  font-weight: 600;
-}
-
-/* 无表头模式 */
-.ls-block[data-refs-self*='".tabular0"'] > .block-main-container,
-.ls-block[data-refs-self*='"tabular0"'] > .block-main-container {
-  display: none;
-}
-
-.ls-block[data-refs-self*='".tabular0"'] > .block-children-container,
-.ls-block[data-refs-self*='"tabular0"'] > .block-children-container {
-  margin-left: 0;
-}
-
-.ls-block[data-refs-self*='".tabular0"'].selected > .block-main-container,
-.ls-block[data-refs-self*='".tabular0"'] > .block-main-container:hover,
-.ls-block[data-refs-self*='"tabular0"'].selected > .block-main-container,
-.ls-block[data-refs-self*='"tabular0"'] > .block-main-container:hover {
-  display: flex;
-}
-
-/* 隐藏方括号 */
-.ls-block[data-refs-self*='".tabular"'] .page-reference .bracket,
-.ls-block[data-refs-self*='"tabular"'] .page-reference .bracket {
-  display: none;
-}
-
-/* 紧凑模式 */
-.ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block,
-.ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block {
-  min-height: 24px;
-}
-
-.ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='".tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-main-container,
-.ls-block[data-refs-self*='"tabular-compact"'] > .block-children-container > .block-children > .ls-block > .block-children-container > .block-children > .ls-block > .block-main-container {
-  padding: 2px 4px;
-  min-width: 100px;
-  max-width: 200px;
-  font-size: 13px;
+.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children > .ls-block:hover,
+.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children > .ls-block:hover {
+  background: var(--tabular-row-hover);
 }

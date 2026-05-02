@@ -1,62 +1,97 @@
-# Tabular View 表格视图插件设计方案
+# Tabular View - Logseq Experiments API 设计方案
 
-## 一、概述
+## 📋 概述
 
-本插件为 Logseq 提供轻量级的表格视图展示功能。支持两种实现方案：
+本方案基于 Logseq Experiments API 的 `registerBlockRenderer` 实现表格视图功能。使用宿主 React，完全自定义块渲染。
 
-### 核心特点
+### 核心特性
 
-1. **两种实现模式：**
-   - **Experiments API 模式（推荐）** - 使用官方 `logseq.Experiments.registerBlockRenderer`，更强大
-   - **纯 CSS 模式（向后兼容）** - 使用属性选择器，兼容性更好
-
-2. **两种标签模式：**
-   - Tags 模式: `#tabular` - 更友好
-   - Properties 模式: `#.tabular` - logseq13-missing-commands 兼容
-
-3. **多种表格模式：**
-   - 标准表格
-   - 紧凑表格
-   - 无表头表格
-   - 支持深色/浅色主题
+- ✨ **纯 Experiments API 实现** - 使用官方支持的 API
+- 📝 **标签支持两种模式** - `#tabular` (Tags) 和 `#.tabular` (Properties)
+- 🎯 **三种表格模式** - 标准、紧凑、无表头
+- 🎨 **主题兼容** - 自动适配深色/浅色主题
+- 🔄 **原生切换** - 用户可以切换回原生视图
 
 ---
 
-## 二、技术实现方案对比
+## 🏗️ 架构设计
 
-### 方案 A: Experiments API 模式（推荐）
+### 文件结构
 
-**使用 `logseq.Experiments.registerBlockRenderer` API**
+```
+src/
+├── lib/
+│   └── tabularView/
+│       └── register.ts          # 核心注册逻辑（已创建）
+├── styles/
+│   └── tabularView.css          # 表格样式（已创建）
+└── test/
+    └── components/
+        └── TabularViewDemo/     # 测试组件（已创建）
+docs/
+└── Tabular-View-Design.md       # 本文档
+```
 
-| 特点 | 描述 |
-|------|------|
-| **渲染方式** | 完全替换块主体，用 React 自定义渲染 |
-| **数据获取** | 通过 `includeChildren: true` 获得完整的子块树形结构 |
-| **条件判断** | `when` 函数决定何时应用此渲染器 |
-| **用户体验** | 支持切换回原生大纲视图 |
+### 核心流程
 
-**核心代码示例：**
+```
+1. 用户输入块内容（包含 #tabular）
+   ↓
+2. Logseq 检测到标签，检查注册的 block renderer
+   ↓
+3. 执行 when() 条件判断
+   ↓
+4. 条件满足，调用 render() 函数
+   ↓
+5. 获得完整子块树形结构（includeChildren: true）
+   ↓
+6. 使用宿主 React 构建自定义表格 UI
+   ↓
+7. 用户可以切换回原生视图
+```
+
+---
+
+## 🔧 核心 API 使用
+
+### registerBlockRenderer
+
+主要 API 调用位置：[register.ts:42-73](file:///workspace/src/lib/tabularView/register.ts#L42-L73)
 
 ```typescript
-// 1. 注册渲染器
-logseq.Experiments.registerBlockRenderer('tabular-view', {
-  // 触发条件：内容包含 #tabular 标签
-  when: ({ properties, content }) => {
-    return (content?.includes('#tabular') || 
-            content?.includes('#.tabular') ||
-            properties?.view === 'tabular')
-  },
-  includeChildren: true, // 包括子块数据
-  priority: 20,
-  
-  // 2. 自定义渲染函数
-  render: renderTableView
-})
+logseq.Experiments.registerBlockRenderer(
+  'tabular-view',
+  {
+    // 1. 触发条件
+    when: ({ properties, content }) => {
+      return (
+        content?.includes('#tabular') || 
+        content?.includes('#.tabular') ||
+        properties?.view === 'tabular'
+      )
+    },
+    
+    // 2. 获取子块数据
+    includeChildren: true,
+    
+    // 3. 优先级设置
+    priority: 20,
+    
+    // 4. 自定义渲染函数
+    render: renderTableView
+  }
+)
+```
 
-// 3. React 渲染函数
+### React 渲染函数
+
+渲染实现位置：[register.ts:85-163](file:///workspace/src/lib/tabularView/register.ts#L85-L163)
+
+```typescript
 function renderTableView(props) {
-  const React = logseq.Experiments.React
-  const { children = [] } = props
+  const React = logseq.Experiments.React // 使用宿主 React
+  
+  const { children = [] } = props // 获得子块数据
   
   // 构建表格 UI
   return React.createElement(...)
@@ -65,46 +100,28 @@ function renderTableView(props) {
 
 ---
 
-### 方案 B: 纯 CSS 模式（向后兼容）
+## 📝 使用方式
 
-**使用 CSS 属性选择器和 Flexbox 布局**
+### 1. 斜杠命令触发
 
-| 特点 | 描述 |
-|------|------|
-| **渲染方式** | 通过 CSS 改变布局，不修改 DOM 结构 |
-| **数据获取** | 不直接获取，纯视觉布局 |
-| **条件判断** | 通过 `data-refs-self` 属性选择器匹配 |
-| **兼容性** | 最好，完全不依赖实验 API |
+输入 `/` 然后选择：
 
-**核心选择器示例：**
+- `Insert Tabular View` - 插入标准表格
+- `Insert Tabular View (Compact)` - 插入紧凑表格
 
-```css
-/* 使用 #tabular 标签 (TAG 模式) */
-.ls-block[data-refs-self*='"tabular"'] > .block-children-container > .block-children {
-  display: flex;
-  flex-direction: column;
-}
+### 2. 快捷键触发
 
-/* 使用 #.tabular 标签 (PROPERTY 模式) */
-.ls-block[data-refs-self*='".tabular"'] > .block-children-container > .block-children {
-  display: flex;
-  flex-direction: column;
-}
-```
+- `Mod + Shift + T` - 切换当前块的表格视图
+
+### 3. 右键菜单触发
+
+在块上右键点击，选择 `Toggle Tabular View`
 
 ---
 
-## 三、标签和使用方式
+## 📊 三种表格模式
 
-### 3.1 标签列表
-
-| Tags 模式 | Properties 模式 | 功能 |
-|----------|----------------|------|
-| `#tabular` | `#.tabular` | 标准表格视图 |
-| `#tabular-compact` | `#.tabular-compact` | 紧凑表格视图 |
-| `#tabular0` | `#.tabular0` | 无表头表格视图 |
-
-### 3.2 使用示例
+### 模式 1: 标准表格 - `#tabular`
 
 ```
 项目管理 #tabular
@@ -112,112 +129,159 @@ function renderTableView(props) {
 - 设计文档
   - 状态: 已完成
   - 负责人: 张三
-  - 截止日期: 2024-01-15
-  
+  - 截止: 2024-01-15
+
 - 开发代码
   - 状态: 进行中
   - 负责人: 李四
-  - 截止日期: 2024-02-01
-  
-- 测试用例
-  - 状态: 待开始
-  - 负责人: 王五
-  - 截止日期: 2024-02-15
+  - 截止: 2024-02-01
 ```
 
-子块 → 表格行，孙块 → 列单元格
-
----
-
-## 四、文件说明
-
-| 文件路径 | 说明 |
-|---------|------|
-| [src/lib/tabularView/register.ts](file:///workspace/src/lib/tabularView/register.ts) | 注册逻辑（两种方案）|
-| [src/styles/tabularView.css](file:///workspace/src/styles/tabularView.css) | CSS 样式 |
-| [src/styles/index.ts](file:///workspace/src/styles/index.ts) | 样式导出 |
-| [src/main.tsx](file:///workspace/src/main.tsx) | 主入口 |
-
----
-
-## 五、核心实现原理
-
-### Experiments API 流程
+### 模式 2: 紧凑表格 - `#tabular-compact`
 
 ```
-1. 用户输入块内容 (#tabular 标签)
-2. Logseq 检测到标签
-3. 检查注册的 block renderer（when 条件）
-4. 条件匹配 → 使用 render 函数渲染
-5. 获得子块树形结构（includeChildren）
-6. 渲染自定义表格 UI
+数据监控 #tabular-compact
+
+- Server-01
+  - CPU: 45%
+  - Mem: 68%
+
+- Server-02
+  - CPU: 78%
+  - Mem: 82%
 ```
 
-### 纯 CSS 流程
+### 模式 3: 无表头表格 - `#tabular0`
 
 ```
-1. 用户输入块内容
-2. 块的 data-refs-self 属性包含 "tabular"
-3. CSS 选择器匹配成功
-4. 通过 flexbox 改变布局为表格状
+快速统计 #tabular0
+
+- 总用户: 15,420
+- 日活跃: 4,321
+- 月付费: 2,105
 ```
 
 ---
 
-## 六、关键 API 说明
+## 🎨 样式设计
 
-### `registerBlockRenderer`
+### CSS 架构
+
+样式文件位置：[tabularView.css](file:///workspace/src/styles/tabularView.css)
+
+```css
+/* 1. 变量定义（主题适配） */
+:root {
+  --tabular-border-color: var(--ls-guideline-color, #e0e0e0);
+  /* ... */
+}
+
+/* 2. Experiments API 模式样式 */
+.tabular-container { /* ... */ }
+.tabular-row { /* ... */ }
+.tabular-cell { /* ... */ }
+
+/* 3. 兼容性 CSS 模式（可选） */
+.ls-block[data-refs-self*='".tabular"'] { /* ... */ }
+```
+
+### 响应式设计
+
+- 支持深色/浅色主题自动切换
+- 使用 CSS 变量适配 Logseq 主题系统
+- 悬停效果、边框样式符合 Logseq UI
+
+---
+
+## 💡 数据结构说明
+
+### 子块树形结构
+
+当设置 `includeChildren: true` 时，`render()` 函数会收到这样的数据：
 
 ```typescript
-logseq.Experiments.registerBlockRenderer(
-  key: string,
-  opts: {
-    when?: (props: { blockId, properties, content, children }) => boolean
-    includeChildren?: boolean
-    priority?: number
-    render: (props: { blockId, properties, content, children }) => ReactElement
-  }
-)
+{
+  blockId: "xxx",
+  content: "标题 #tabular",
+  children: [
+    {
+      content: "行标题",
+      children: [
+        { content: "列数据 1" },
+        { content: "列数据 2" },
+        { content: "列数据 3" }
+      ]
+    }
+  ]
+}
 ```
 
-| 参数 | 说明 |
-|------|------|
-| `when` | 同步的条件判断函数 |
-| `includeChildren` | 是否传入子块树形结构 |
-| `priority` | 优先级，最高者生效 |
-| `render` | React 渲染函数 |
+---
 
-### `logseq.Experiments.React`
+## 🔌 与现有系统集成
 
-获取 Logseq 宿主的 React 实例，避免重复打包。
+### 注册点
+
+在 [main.tsx](file:///workspace/src/main.tsx) 中已集成：
+
+```typescript
+// 注册表格视图功能
+registerTabularView()
+```
+
+### 样式导出
+
+在 [styles/index.ts](file:///workspace/src/styles/index.ts) 中已导出：
+
+```typescript
+export { default as tabularViewCSS } from './tabularView.css?raw'
+```
 
 ---
 
-## 七、触发方式
+## 🧪 测试
 
-| 方式 | 操作 |
-|------|------|
-| 斜杠命令 | `/` → "Insert Tabular View" 等 |
-| 右键菜单 | 右键点击块 → "Toggle Tabular View" 等 |
-| 快捷键 | `mod + shift + T` |
+### 演示组件
 
----
+测试组件位置：[TabularViewDemo/index.tsx](file:///workspace/src/test/components/TabularViewDemo/index.tsx)
 
-## 八、最佳实践
+该组件提供不依赖 Logseq 环境的演示。
 
-1. **优先稳定 API**，只在必要时使用实验功能
-2. **使用宿主 React**，不要重复打包
-3. **条件保持同步**，`when` 不异步操作
-4. **用 `before` 预加载依赖**
-5. **渲染保持轻量**，避免影响性能
-6. **防错处理**，对用户输入做防御性检查
-7. **文档说明实验性**，让用户理解风险
+### 本地测试建议
+
+1. 启动 Logseq（版本 >= 0.9）
+2. 加载插件开发模式
+3. 尝试输入带 `#tabular` 的块
+4. 验证表格渲染、切换功能
 
 ---
 
-## 九、参考来源
+## 📚 参考资源
 
-- [logseq13-missing-commands](https://github.com/stdword/logseq13-missing-commands)
 - [Logseq Experiments API Guide](https://github.com/logseq/logseq/blob/master/libs/guides/experiments_api_guide.md)
-- [Starter Guide](https://github.com/logseq/logseq/blob/master/libs/guides/starter_guide.md)
-- [Plugin Documentation](https://plugins-doc.logseq.com/)
+- [logseq13-missing-commands 参考实现](https://github.com/stdword/logseq13-missing-commands/blob/main/src/css/tabular_view.css)
+
+---
+
+## ⚠️ 注意事项
+
+1. **实验性 API** - `logseq.Experiments` 可能变更
+2. **版本兼容** - 需要 Logseq 较新版本（>= 0.9）
+3. **优先级设置** - `priority: 20` 可能需要调整
+4. **性能优化** - 大型块树可能影响渲染
+
+---
+
+## 📋 完整文件索引
+
+| 文件 | 路径 | 状态 |
+|------|------|------|
+| 注册逻辑 | [src/lib/tabularView/register.ts](file:///workspace/src/lib/tabularView/register.ts) | ✅ 已创建 |
+| CSS 样式 | [src/styles/tabularView.css](file:///workspace/src/styles/tabularView.css) | ✅ 已创建 |
+| 测试组件 | [src/test/components/TabularViewDemo/index.tsx](file:///workspace/src/test/components/TabularViewDemo/index.tsx) | ✅ 已创建 |
+| 演示 CSS | [src/test/components/TabularViewDemo/tabularViewDemo.css](file:///workspace/src/test/components/TabularViewDemo/tabularViewDemo.css) | ✅ 已创建 |
+| 设计文档 | [docs/Tabular-View-Design.md](file:///workspace/docs/Tabular-View-Design.md) | ✅ 本文档 |
+
+---
+
+**设计完成!** 这就是完整的 Logseq Experiments API 表格视图方案。

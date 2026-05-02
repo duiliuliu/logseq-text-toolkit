@@ -1,0 +1,50 @@
+/**
+ * Tabular View Demo - 测试页面样式
+ */
+
+.tabular-demo-container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.demo-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.demo-header h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: var(--ls-primary-text-color);
+}
+
+.demo-header p {
+  font-size: 14px;
+  color: var(--ls-secondary-text-color);
+}
+
+.demo-section {
+  margin-bottom: 40px;
+}
+
+.demo-section h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--ls-primary-text-color);
+}
+
+.demo-section p {
+  font-size: 13px;
+  color: var(--ls-secondary-text-color);
+  margin-bottom: 16px;
+}
+
+.demo-section ul {
+  margin-top: 16px;
+  padding-left: 20px;
+}
+
+.demo-section li {
+  margin-bottom: 8px;
+}
