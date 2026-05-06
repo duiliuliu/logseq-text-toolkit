@@ -15,7 +15,6 @@ export type PluginLogLevel = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR'
 
 // 完全对齐 Logseq 官方 PluginLogger 接口
 export interface Logger {
-  log: (message: string, ...args: any[]) => void;
   info: (message: string, ...args: any[]) => void;
   warn: (message: string, ...args: any[]) => void;
   error: (message: string, ...args: any[]) => void;
