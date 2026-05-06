@@ -6,7 +6,7 @@
  * 在测试模式使用 Mock PluginLogger，在生产模式使用 Logseq 官方 PluginLogger
  */
 import { getSettings } from '../settings/index.ts';
-import { PluginLogger } from "@logseq/libs/dist/common";
+// import { PluginLogger } from "@logseq/libs/dist/common";
 import { Logger, MockPluginLogger } from './mock/logger.ts';
 
 
@@ -21,7 +21,7 @@ const getLogger = (): Logger => {
     return new MockPluginLogger('Plugin-Text-Toolkit', { console: debug });
   } else {
     // 生产模式使用 Logseq 官方 PluginLogger
-    return new PluginLogger("Plugin-Text-Toolkit", {
+    return new MockPluginLogger("Plugin-Text-Toolkit", {
       console: debug
     }) as Logger
   }
