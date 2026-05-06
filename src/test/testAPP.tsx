@@ -6,6 +6,7 @@ import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
 import HiccupRenderer from './components/HiccupRenderer/index.tsx'
 import BlockRenderer from './components/BlockRenderer/index.tsx'
 import TaskProgressDemo from './components/TaskProgressDemo/index.tsx'
+import APIQueryDemo from './components/APIQueryDemo/index.tsx'
 import ToastContainer from '../components/Toast/Toast.tsx'
 import testConfig from './testConfig.ts'
 import { useSettingsContext } from '../settings/useSettings.tsx'
@@ -231,6 +232,8 @@ function TestApp() {
       </div>
       
       <TaskProgressDemo />
+
+      <APIQueryDemo />
     </div>
   )
 
