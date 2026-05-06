@@ -14,18 +14,18 @@ import type { NestingLevel } from '../../settings/types'
 function getStatusColor(status: string): string {
   const settings = getSettings()
   const normalizedStatus = status.toLowerCase()
-  return settings?.taskProgress?.statusColors?.[normalizedStatus] || 
-         settings?.taskProgress?.statusColors?.[status] || 
-         STATUS_COLORS[normalizedStatus] || 
-         STATUS_COLORS[status] || 
-         '#6b7280'
+  return settings?.taskProgress?.statusColors?.[normalizedStatus] ||
+    settings?.taskProgress?.statusColors?.[status] ||
+    STATUS_COLORS[normalizedStatus] ||
+    STATUS_COLORS[status] ||
+    '#6b7280'
 }
 
 function buildNestingQuery(parentBlockId: string, nestingLevel: NestingLevel): string {
   const parentClause = `[?p :block/uuid #uuid "${parentBlockId}"]`
-  
+
   let nestingClauses = ''
-  
+
   switch (nestingLevel) {
     case 1:
       nestingClauses = `[?b :block/parent ?p]`
@@ -61,7 +61,7 @@ function buildNestingQuery(parentBlockId: string, nestingLevel: NestingLevel): s
       `
       break
   }
-  
+
   return `${parentClause}\n${nestingClauses}`
 }
 
@@ -77,9 +77,6 @@ function buildTaskFilter(): string {
            [?t :block/title "Task"])
       (or-join [?b]
         [?b :logseq.property/status ?status]
-        ;; 兼容旧的属性名称
-        [?b :block/properties ?props]
-        [(get ?props :status)]
       )
     )
   `
@@ -98,7 +95,7 @@ export async function calculateTaskProgress(
     const nestingClauses = buildNestingQuery(parentBlockId, nestingLevel)
     const leafClause = onlyLeaves ? buildLeafOnlyClause() : ''
     const taskFilterClause = buildTaskFilter()
-    
+
     const query = `
       [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags :logseq.property/status])
        :where
@@ -111,9 +108,9 @@ export async function calculateTaskProgress(
     // 执行查询
     logger.info('[TaskProgress] 开始查询任务进度', { parentBlockId, nestingLevel, onlyLeaves })
     logger.info('[TaskProgress] 查询语句', query)
-    
+
     const results = await logseqAPI.DB.datascriptQuery(query)
-    
+
     logger.info('[TaskProgress] 查询结果摘要', {
       总结果数: results?.length || 0,
       结果详情: results?.map((r: any[], i: number) => ({
@@ -123,7 +120,7 @@ export async function calculateTaskProgress(
         status: r[0]?.properties?.status || r[0]?.['logseq.property/status'] || r[0]?.['block/properties']?.status
       }))
     })
-    
+
     if (!results || results.length === 0) {
       logger.info('[TaskProgress] 没有找到任务数据')
       return null
@@ -135,12 +132,12 @@ export async function calculateTaskProgress(
 
     for (const block of blocks) {
       // 从多个可能的位置获取 status
-      let status = 
+      let status =
         block['logseq.property/status'] ||
-        block.properties?.status || 
+        block.properties?.status ||
         block['block/properties']?.status ||
         'todo'
-      
+
       statusCounts[status] = (statusCounts[status] || 0) + 1
     }
 
@@ -174,7 +171,7 @@ export async function calculateTaskProgress(
       nestingLevel: nestingLevel,
       leafTasksOnly: onlyLeaves
     }
-    
+
     logger.info('[TaskProgress] 计算完成', result)
 
     return result

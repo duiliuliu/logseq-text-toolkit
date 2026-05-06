@@ -9,7 +9,6 @@ import { getSettings } from '../settings/index.ts';
 // import { PluginLogger } from "@logseq/libs/dist/common";
 import { Logger, MockPluginLogger } from './mock/logger.ts';
 
-
 // 获取当前环境的 Logger 实例
 const getLogger = (): Logger => {
   const isTestMode = import.meta.env.MODE === 'test';
