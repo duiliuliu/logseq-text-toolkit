@@ -300,9 +300,20 @@ const mockLogseq = Object.assign(new EventEmitter(), {
           }
         }
         
+        // 如果还是没有找到，尝试从查询中提取不带 #uuid 格式的块 ID
+        if (!parentBlockId) {
+          const blockIdMatch = query.match(/["']([^"']+task-parent[^"']+)["']/);
+          if (blockIdMatch) {
+            parentBlockId = blockIdMatch[1];
+          }
+        }
+        
         if (!parentBlockId) {
           return Promise.resolve([]);
         }
+        
+        // 移除可能的 # 前缀
+        const cleanBlockId = parentBlockId.startsWith('#') ? parentBlockId.slice(1) : parentBlockId;
         
         // 分析查询，确定嵌套级别和是否只查询叶子节点
         let maxDepth = 1;
@@ -332,7 +343,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
         }
         
         // 使用 getAllNestedChildren 获取嵌套子块
-        const children = await Editor.getAllNestedChildren(parentBlockId, maxDepth);
+        const children = await Editor.getAllNestedChildren(cleanBlockId, maxDepth);
         
         if (!children || !Array.isArray(children)) {
           return [];
@@ -342,10 +353,9 @@ const mockLogseq = Object.assign(new EventEmitter(), {
         let filteredBlocks = children;
         if (onlyLeaves) {
           const doc = getDocument();
-          const blockIds = new Set(children.map(b => b.uuid));
           
           filteredBlocks = children.filter(block => {
-            // 检查这个块是否有子节点（在查询结果中）
+            // 检查这个块是否有子节点
             const element = findElementByBlockId(block.uuid, doc);
             if (!element) {
               return true;

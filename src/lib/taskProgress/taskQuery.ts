@@ -61,7 +61,7 @@ function buildNestingQuery(parentBlockId: string, nestingLevel: NestingLevel): s
       break
   }
   
-  return nestingClauses
+  return `${parentClause}\n${nestingClauses}`
 }
 
 function buildLeafOnlyClause(): string {

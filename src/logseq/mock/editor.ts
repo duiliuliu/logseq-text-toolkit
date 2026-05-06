@@ -261,15 +261,28 @@ function findElementByBlockId(blockId: string, doc: Document): HTMLElement | nul
     return doc.getElementById('main-content-container');
   }
 
-  // 尝试解析blockId为选择器路径
-  try {
-    // 简单实现：尝试直接使用blockId作为选择器
-    const elements = doc.querySelectorAll(blockId);
-    if (elements.length > 0) {
-      return elements[0] as HTMLElement;
+  // 首先尝试直接使用 ID 查找
+  const byId = doc.getElementById(blockId);
+  if (byId) {
+    return byId;
+  }
+
+  // 尝试使用 data-block-id 属性查找
+  const byDataBlockId = doc.querySelector(`[data-block-id="${blockId}"]`);
+  if (byDataBlockId) {
+    return byDataBlockId as HTMLElement;
+  }
+
+  // 如果 blockId 已经包含 #，尝试作为选择器
+  if (blockId.startsWith('#')) {
+    try {
+      const elements = doc.querySelectorAll(blockId);
+      if (elements.length > 0) {
+        return elements[0] as HTMLElement;
+      }
+    } catch (error) {
+      console.error('Error finding element by selector:', error);
     }
-  } catch (error) {
-    console.error('Error finding element by blockId:', error);
   }
 
   // 回退：查找包含blockId的元素
