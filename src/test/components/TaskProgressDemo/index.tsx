@@ -10,14 +10,14 @@ import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { calculateTaskProgress } from '../../../lib/taskProgress/taskQuery'
 import { getSettings } from '../../../settings'
 import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../lib/taskProgress/types'
-import { getStatusName } from '../../../translations/i18n'
+import { getStatusName, getCurrentLanguage } from '../../../translations/i18n'
 import { SupportedLanguage } from '../../../translations/translations'
 
 const TaskProgressDemo: React.FC = () => {
   const [progressData, setProgressData] = useState<TaskProgressType | null>(null)
   const [nestedProgressData, setNestedProgressData] = useState<TaskProgressType | null>(null)
   const settings = getSettings()
-  const currentLang: SupportedLanguage = (settings?.language || 'zh-CN') as SupportedLanguage
+  const currentLang = getCurrentLanguage()
   
   // 添加嵌套层级测试选项
   const [testNestingLevel, setTestNestingLevel] = useState<number | 'all'>(1)
