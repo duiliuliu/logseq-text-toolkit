@@ -16,65 +16,8 @@ import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
-import { logger } from './logseq/logger'
-import { initI18n } from './translations/i18n.ts'
-import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS, taskProgressCSS } from './styles/index.ts'
-
-const loadCSS = async () => {
-  try {
-    const cssFiles = [
-      { name: 'settingsModal.css', content: settingsModalCSS },
-      { name: 'modal.css', content: modalCSS },
-      { name: 'toolbar.css', content: toolbarCSS },
-      { name: 'inlineComment.css', content: inlineCommentCSS },
-      { name: 'customsToolbarItems.css', content: cssConfigCSS },
-      { name: 'taskProgress.css', content: taskProgressCSS }
-    ];
-
-    for (const cssFile of cssFiles) {
-      try {
-        const response = await fetch(`./${cssFile.name}`);
-        if (response.ok) {
-          const contentType = response.headers.get('content-type');
-          if (contentType && contentType.includes('text/css')) {
-            const cssContent = await response.text();
-            if (cssContent.trim()) {
-              logseqAPI.provideStyle(cssContent);
-              logger.info(`Loaded CSS file from root: ${cssFile.name}`);
-            } else {
-              logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
-              if (cssFile.content) {
-                logseqAPI.provideStyle(cssFile.content);
-                logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-              }
-            }
-          } else {
-            logger.info(`Response is not CSS, using built-in CSS: ${cssFile.name}`);
-            if (cssFile.content) {
-              logseqAPI.provideStyle(cssFile.content);
-              logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-            }
-          }
-        } else {
-          logger.info(`CSS file not found in root, using built-in CSS: ${cssFile.name}`);
-          if (cssFile.content) {
-            logseqAPI.provideStyle(cssFile.content);
-            logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-          }
-        }
-      } catch (error) {
-        logger.warn(`Error loading CSS file from root ${cssFile.name}:`, error);
-        if (cssFile.content) {
-          logseqAPI.provideStyle(cssFile.content);
-          logger.info(`Loaded built-in CSS for ${cssFile.name} (fallback)`);
-        }
-      }
-    }
-  } catch (error) {
-    logger.error('Error in loadCSS:', error);
-  }
-};
+import { getLogger } from './lib/logger/index.ts'
+import { initializePlugin, cleanupPlugin } from './lib/initializer.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -167,16 +110,19 @@ const showSelectToolbar = async () => {
 }
 
 const main = async () => {
+  const logger = getLogger();
+  
   try {
-    await loadCSS()
+    // 使用统一的初始化管理器
+    await initializePlugin();
 
-    await initI18n()
-    logger.info('I18n initialized successfully')
-
+    // 注册 UI 模型
     logseqAPI.provideModel({ settingToggle })
 
+    // 显示设置 UI
     await showSettingUI()
 
+    // 注册工具栏按钮
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
@@ -188,13 +134,10 @@ const main = async () => {
       `,
     })
 
+    // 显示其他 UI
     await showSelectToolbar()
     await showCommentApp()
     
-    // 注册任务进度功能
-    setTaskProgressComponent(TaskProgress)
-    registerTaskProgress()
-    logger.info('Task progress registered successfully')
   } catch (error) {
     logger.error('Failed to initialize Text Toolkit Plugin:', error)
   }
@@ -203,7 +146,16 @@ const main = async () => {
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
-  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
+  logseqAPI.ready(main).catch((err) => {
+    const logger = getLogger();
+    logger.error('Plugin ready error:', err);
+  })
 } else { 
-  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
+  logseqAPI.ready(main).catch((err) => {
+    const logger = getLogger();
+    logger.error('Plugin ready error:', err);
+  })
 }
+
+// 导出清理函数供需要时使用
+export { cleanupPlugin };

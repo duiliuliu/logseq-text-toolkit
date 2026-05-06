@@ -8,7 +8,7 @@
 import { TaskProgress, StatusStat, STATUS_COLORS } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
-import { logger } from '../../logseq/logger'
+import { getLogger } from '../../lib/logger/index.ts'
 import type { NestingLevel } from '../../settings/types'
 
 function getStatusColor(status: string): string {
@@ -86,6 +86,7 @@ export async function calculateTaskProgress(
   parentBlockId: string,
   options?: { nestingLevel?: NestingLevel; onlyLeaves?: boolean }
 ): Promise<TaskProgress | null> {
+  const logger = getLogger(); // 在函数内部获取 logger
   try {
     const settings = getSettings()
     const nestingLevel = options?.nestingLevel ?? settings?.taskProgress?.nestingLevel ?? 1

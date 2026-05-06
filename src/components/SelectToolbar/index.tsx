@@ -15,7 +15,7 @@ import {
   eventBus
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
-import { logger } from '../../logseq/logger';
+import { getLogger } from '../../lib/logger/index.ts';
 import { getSettings } from '../../settings/index.ts';
 
 interface ToolbarPosition {
@@ -52,6 +52,7 @@ interface SelectToolbarProps {
 }
 
 function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProps) {
+  const logger = getLogger(); // 在组件内部获取 logger
   const { settings } = useSettingsContext();
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' });
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 });

@@ -8,7 +8,7 @@ import type { SelectedData } from '../../../components/Toolbar/types.ts';
 import { replaceText, regexReplaceText, updateBlockContent } from '../../../lib/textReplace/utils.ts';
 import { logseqAPI } from '../../../logseq/index.ts';
 import { t } from '../../../translations/i18n.ts';
-import { logger } from '../../../logseq/logger';
+import { getLogger } from '../../logger/index.ts';
 
 /**
  * 替换执行器
@@ -33,6 +33,7 @@ export const replaceExecutor: ActionExecutorFn = async (item: ToolbarItem, selec
     try {
       logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
     } catch (uiError) {
+      const logger = getLogger();
       logger.error('Error showing message:', uiError);
     }
     return selectedData.text;
@@ -62,6 +63,7 @@ export const regexReplaceExecutor: ActionExecutorFn = async (item: ToolbarItem, 
     try {
       logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
     } catch (uiError) {
+      const logger = getLogger();
       logger.error('Error showing message:', uiError);
     }
     return selectedData.text;

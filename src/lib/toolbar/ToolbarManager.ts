@@ -10,7 +10,7 @@ import { configParser } from './ConfigParser.ts';
 import { eventBus } from './EventBus.ts';
 import { actionExecutor } from './ActionExecutor.ts';
 import { registerExecutors } from './ExecutorRegistry.ts';
-import { logger } from '../../logseq/logger';
+import { getLogger } from '../logger/index.ts';
 
 /**
  * 工具栏管理器实现
@@ -84,6 +84,7 @@ export class ToolbarManager implements IToolbarManager {
 
       return processedText;
     } catch (error) {
+      const logger = getLogger();
       logger.error('Error executing action:', error);
       throw error;
     }

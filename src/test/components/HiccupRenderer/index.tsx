@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
-import { logger } from '../../../logseq/logger';
+import { getLogger } from '../../../lib/logger/index.ts';
 
 // HTML 转义，防止 xss & 特殊字符
 function escapeHtml(str: string): string {
@@ -238,6 +238,7 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
 
   // 解析和渲染 hiccup 内容
   const renderHiccup = (content: string) => {
+    const logger = getLogger();
     try {
       logger.info('解析 hiccup 内容:', content);
       

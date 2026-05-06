@@ -8,7 +8,7 @@ import { Settings, SettingsContextType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'
 import { processSettings, updateSettings as updateSettingsInIndex } from './index.ts'
 import { logseqAPI } from '../logseq/index.ts'
-import { logger } from '../logseq/logger'
+import { getLogger } from '../lib/logger/index.ts'
 
 // 创建设置上下文
 const SettingsContext = createContext<SettingsContextType | null>(null)
@@ -18,6 +18,7 @@ const SettingsContext = createContext<SettingsContextType | null>(null)
  * @returns {SettingsContextType} 设置相关的状态和方法
  */
 const useSettings = (): SettingsContextType => {
+  const logger = getLogger(); // 在组件内部获取 logger
   const [settings, setSettings] = useState<Settings | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
