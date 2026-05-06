@@ -55,20 +55,42 @@ class LogseqAPI {
       })
 
       if (response.status === 401) {
-        throw new Error('Invalid API token. Check your token in Logseq settings.')
+        let errorMessage = 'Invalid API token. Check your token in Logseq settings.'
+        try {
+          const errorData = await response.json()
+          if (errorData && errorData.message) {
+            errorMessage = `${errorMessage} (${errorData.message})`
+          }
+        } catch {
+          // ignore JSON parse error
+        }
+        throw new Error(errorMessage)
       }
 
       if (!response.ok) {
-        const text = await response.text()
-        throw new Error(text || `API error: ${response.status}`)
+        let errorMessage = `API error: ${response.status}`
+        try {
+          const text = await response.text()
+          if (text) {
+            errorMessage = text
+          } else {
+            const errorData = await response.json()
+            if (errorData && errorData.message) {
+              errorMessage = errorData.message
+            }
+          }
+        } catch {
+          // ignore JSON parse error
+        }
+        throw new Error(errorMessage)
       }
 
       return await response.json()
     } catch (error: any) {
-      if (error.message.includes('Invalid API token')) {
+      if (error.message && error.message.includes('Invalid API token')) {
         throw error
       }
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      if (error.name === 'TypeError' && error.message && error.message.includes('fetch')) {
         throw new Error('Cannot connect to Logseq. Make sure the API server is enabled in Logseq settings.')
       }
       throw error
@@ -98,12 +120,18 @@ class LogseqAPI {
     try {
       const result = await this._callAPI('logseq.App.getCurrentGraph', [])
       if (result && (result.name || result.url)) {
-        const graphName = result.name || result.url.split('/').pop()
+        let graphName = 'Unknown'
+        if (result.name) {
+          graphName = result.name
+        } else if (result.url && typeof result.url === 'string') {
+          const urlParts = result.url.split('/')
+          graphName = urlParts[urlParts.length - 1] || 'Unknown'
+        }
         return { connected: true, graphName, error: null }
       }
       return { connected: true, graphName: 'Unknown', error: null }
     } catch (error: any) {
-      const msg = error.message || ''
+      const msg = error?.message || ''
       if (msg.includes('Invalid API token')) {
         return { connected: false, graphName: null, error: 'invalid_token' }
       }
@@ -201,12 +229,22 @@ class LogseqAPI {
 
     const result = await this.executeQuery(query)
 
-    return result.data.map((item: any) => ({
-      uuid: item['block/uuid'] || item.uuid,
-      title: item['block/title'] || item.title || '',
-      status: item['logseq.property/status'] || item['block/properties']?.status || item.status || 'todo',
-      properties: item['block/properties'] || item.properties || {}
-    }))
+    return (result.data || []).map((item: any) => {
+      if (!item) {
+        return {
+          uuid: '',
+          title: '',
+          status: 'todo',
+          properties: {}
+        }
+      }
+      return {
+        uuid: item['block/uuid'] || item.uuid || '',
+        title: item['block/title'] || item.title || '',
+        status: item['logseq.property/status'] || item['block/properties']?.status || item.status || 'todo',
+        properties: item['block/properties'] || item.properties || {}
+      }
+    })
   }
 
   async queryBlockByUuid(blockUuid: string): Promise<any> {
@@ -218,7 +256,7 @@ class LogseqAPI {
     `
 
     const result = await this.executeQuery(query)
-    if (result.data.length > 0) {
+    if (result.data && result.data.length > 0) {
       return this._normalizeKeys(result.data[0])
     }
     return null
