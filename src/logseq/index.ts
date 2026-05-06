@@ -9,7 +9,6 @@
 import { ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import mockLogseq from './mock/index.ts';
 import '@logseq/libs'
-import logger from './logger.ts';
 
 /**
  * 获取Logseq API实例
@@ -20,11 +19,11 @@ export const getLogseqAPI = (): ILSPluginUser => {
   const isTestMode = import.meta.env.MODE === 'test';
   
   if (isTestMode) {
-    logger.info('Using mock Logseq API (test mode)');
+    console.log('Using mock Logseq API (test mode)');
     // 使用导入的mockLogseq
     return mockLogseq;
   } else {
-    logger.info('Using official Logseq API (production mode)');
+    console.log('Using official Logseq API (production mode)');
     // 直接返回官方的logseq对象
     return logseq;
   }

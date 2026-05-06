@@ -1,15 +1,14 @@
 import { getDocument } from '../utils.ts';
-import logger from './logger.ts';
 
 const eventListeners: Map<string, Array<(...args: any[]) => void>> = new Map();
 
 const App: any = {
   registerCommand: (command: any) => {
-    logger.info('Registered command:', command);
+    console.log('Registered command:', command);
   },
   
   on: (event: string, callback: (...args: any[]) => void) => {
-    logger.info('Registered event listener:', event);
+    console.log('Registered event listener:', event);
     
     if (!eventListeners.has(event)) {
       eventListeners.set(event, []);
@@ -42,7 +41,7 @@ const App: any = {
   },
   
   off: (event: string, callback?: (...args: any[]) => void) => {
-    logger.info('Unregistered event listener:', event);
+    console.log('Unregistered event listener:', event);
     
     if (callback && eventListeners.has(event)) {
       const listeners = eventListeners.get(event);
@@ -58,7 +57,7 @@ const App: any = {
   },
   
   getUserConfigs: () => {
-    logger.info('Get user configs');
+    console.log('Get user configs');
     return Promise.resolve({
       preferredThemeMode: 'light',
       preferredFormat: 'markdown',
@@ -74,7 +73,7 @@ const App: any = {
   },
   
   getAppInfo: () => {
-    logger.info('Get app info');
+    console.log('Get app info');
     return Promise.resolve({
       preferredLanguage: 'zh-CN',
       version: '0.10.0'
@@ -82,7 +81,7 @@ const App: any = {
   },
   
   registerUIItem: (slot: string, config: any) => {
-    logger.info('Registered UI item:', slot, config);
+    console.log('Registered UI item:', slot, config);
     
     const tryAddUIItem = () => {
       const doc = getDocument();
@@ -97,7 +96,7 @@ const App: any = {
         element.id = config.key;
         element.innerHTML = config.template;
         toolbarElement.appendChild(element);
-        logger.info('Added UI item to toolbar:', config.key);
+        console.log('Added UI item to toolbar:', config.key);
         
         const clickableElements = element.querySelectorAll('[data-on-click]');
         clickableElements.forEach(clickable => {
@@ -106,7 +105,7 @@ const App: any = {
             e.stopPropagation();
             const functionName = clickable.getAttribute('data-on-click');
             if (functionName && typeof (globalThis as any)[functionName] === 'function') {
-              logger.info('Calling function:', functionName);
+              console.log('Calling function:', functionName);
               (globalThis as any)[functionName]();
             } else {
               console.warn('Function not found:', functionName);
@@ -140,12 +139,12 @@ const App: any = {
   },
 
   onMacroRendererSlotted: (callback: Function) => {
-    logger.info('Mock App.onMacroRendererSlotted registered');
+    console.log('Mock App.onMacroRendererSlotted registered');
     globalThis.logseqMacroRendererCallback = callback;
   },
   
   trigger: (event: string, ...args: any[]) => {
-    logger.info('Trigger event:', event, args);
+    console.log('Trigger event:', event, args);
     const listeners = eventListeners.get(event);
     listeners?.forEach(callback => callback(...args));
   }

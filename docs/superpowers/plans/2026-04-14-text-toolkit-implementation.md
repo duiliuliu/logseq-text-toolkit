@@ -324,7 +324,7 @@ export const registerCommands = () => {
           if (selectedText) {
             const result = commands[commandId].execute(selectedText);
             // 这里需要实现替换选中文本的逻辑
-            logger.info(`执行命令 ${commandId}，结果: ${result}`);
+            console.log(`执行命令 ${commandId}，结果: ${result}`);
           }
         }
       });
@@ -531,7 +531,7 @@ function App() {
     const initPlugin = async () => {
       try {
         await logseq.ready();
-        logger.info('Logseq plugin ready');
+        console.log('Logseq plugin ready');
         
         // 注册命令
         registerCommands();
@@ -589,7 +589,7 @@ function App() {
         const result = executeCommand(itemId);
         if (result) {
           // 这里需要实现替换选中文本的逻辑
-          logger.info('Command result:', result);
+          console.log('Command result:', result);
         }
         break;
       case 'comment':

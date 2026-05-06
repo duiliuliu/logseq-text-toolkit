@@ -430,7 +430,7 @@ export async function calculateTaskProgress(parentBlockId: string): Promise<Task
 ```typescript
 DB: {
   datascriptQuery: (query: string) => {
-    logger.info('Mock DB datascriptQuery called:', query);
+    console.log('Mock DB datascriptQuery called:', query);
     
     const mockTaskData: Record<string, Array<[string, number]>> = {
       'parent-1': [
@@ -1191,7 +1191,7 @@ const Editor: any = {
   },
 
   registerSlashCommand: (name: string, callback: Function) => {
-    logger.info('Mock Editor.registerSlashCommand called:', name);
+    console.log('Mock Editor.registerSlashCommand called:', name);
     globalThis.logseqSlashCommands = globalThis.logseqSlashCommands || {};
     globalThis.logseqSlashCommands[name] = callback;
   },
@@ -1223,7 +1223,7 @@ import { getDocument } from '../utils';
 
 const App: any = {
   onMacroRendererSlotted: (callback: Function) => {
-    logger.info('Mock App.onMacroRendererSlotted registered');
+    console.log('Mock App.onMacroRendererSlotted registered');
     globalThis.logseqMacroRendererCallback = callback;
   },
 
@@ -1394,7 +1394,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
 
   DB: {
     datascriptQuery: async (query: string) => {
-      logger.info('Mock DB datascriptQuery called:', query);
+      console.log('Mock DB datascriptQuery called:', query);
       return [];
     },
     q: () => Promise.resolve([]),

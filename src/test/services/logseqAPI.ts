@@ -185,8 +185,6 @@ class LogseqAPI {
              [?t :block/title "Task"])
         (or-join [?b]
           [?b :logseq.property/status ?status]
-          [?b :block/properties ?props]
-          [(get ?props :status)]
         )
       )
     `

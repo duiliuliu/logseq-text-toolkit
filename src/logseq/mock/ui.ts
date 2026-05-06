@@ -1,5 +1,4 @@
 import { getDocument } from '../utils.ts';
-import logger from './logger.ts';
 
 const UI: any = {
   // 显示消息
@@ -7,7 +6,7 @@ const UI: any = {
     type?: 'info' | 'success' | 'error' | 'warning';
     timeout?: number;
   }) => {
-    logger.info('Show message:', msg, opts);
+    console.log('Show message:', msg, opts);
 
     // 使用 Toast 组件显示消息
     const type = opts?.type || 'info';

@@ -1,5 +1,4 @@
 import defaultSettings from '../../settings/defaultSettings.ts';
-import logger from './logger.ts';
 
 const SETTINGS_KEY = 'text-toolkit-settings';
 const settingsChangeHandlers: Array<(newSettings: any, oldSettings: any) => void> = [];
@@ -38,7 +37,7 @@ export const getSettings = (): Record<string, any> => {
 
 // 更新设置
 export const updateSettings = async (newSettings: Record<string, any>): Promise<void> => {
-  logger.info('Updated settings:', newSettings);
+  console.log('Updated settings:', newSettings);
   const oldSettings = { ...currentSettings };
   Object.assign(currentSettings, newSettings);
   saveSettings(currentSettings);
@@ -47,7 +46,7 @@ export const updateSettings = async (newSettings: Record<string, any>): Promise<
 
 // 监听设置变化
 export const onSettingsChanged = <T = any>(cb: (a: T, b: T) => void): (() => void) => {
-  logger.info('Registered settings change handler');
+  console.log('Registered settings change handler');
   settingsChangeHandlers.push(cb as any);
   return () => {
     const index = settingsChangeHandlers.indexOf(cb as any);
