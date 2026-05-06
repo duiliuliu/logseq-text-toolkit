@@ -148,13 +148,24 @@ const APIQueryDemo: React.FC = () => {
     { value: 'canceled', label: '✗ Canceled', color: '#ef4444' },
   ]
 
+  const normalizeStatus = (status: string) => {
+    if (!status) return 'todo'
+    const strStatus = String(status).toLowerCase()
+    if (statusOptions.some(o => o.value === strStatus)) {
+      return strStatus
+    }
+    return 'todo'
+  }
+
   const getStatusIcon = (status: string) => {
-    const option = statusOptions.find(o => o.value === status)
+    const normalizedStatus = normalizeStatus(status)
+    const option = statusOptions.find(o => o.value === normalizedStatus)
     return option?.label?.charAt(0) || '●'
   }
 
   const getStatusColor = (status: string) => {
-    const option = statusOptions.find(o => o.value === status)
+    const normalizedStatus = normalizeStatus(status)
+    const option = statusOptions.find(o => o.value === normalizedStatus)
     return option?.color || '#6b7280'
   }
 

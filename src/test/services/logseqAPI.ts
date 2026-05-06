@@ -167,7 +167,6 @@ class LogseqAPI {
   }
 
   async queryTasksByBlockUuid(blockUuid: string, nestingLevel: number = 1, onlyLeaves: boolean = false): Promise<TaskProgressData[]> {
-    // 构建嵌套查询
     const parentClause = `[?p :block/uuid #uuid "${blockUuid}"]`
     
     let nestingClauses = ''
@@ -207,44 +206,49 @@ class LogseqAPI {
 
     const leafClause = onlyLeaves ? `(not [?child :block/parent ?b])` : ''
 
-    const taskFilterClause = `
-      (or-join [?b]
-        (and [?b :block/tags ?t]
-             [?t :block/title "Task"])
-        (or-join [?b]
-          [?b :logseq.property/status ?status]
-        )
-      )
-    `
-
     const query = `
-      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags :logseq.property/status])
+      [:find (pull ?b [:block/uuid :block/title :block/properties :block/content])
        :where
        ${parentClause}
        ${nestingClauses}
        ${leafClause}
-       ${taskFilterClause}
+       (or [?b :logseq.property/status ?status] [?b :block/properties ?props])
       ]
     `
 
     const result = await this.executeQuery(query)
 
-    return (result.data || []).map((item: any) => {
-      if (!item) {
-        return {
-          uuid: '',
-          title: '',
-          status: 'todo',
-          properties: {}
+    const tasks: TaskProgressData[] = []
+    
+    for (const item of (result.data || [])) {
+      if (!item || !Array.isArray(item)) continue
+      
+      const block = item[0]
+      if (!block || typeof block !== 'object') continue
+
+      let status = 'todo'
+      
+      if (block.properties && typeof block.properties === 'object') {
+        const statusProp = block.properties.status
+        if (statusProp) {
+          status = typeof statusProp === 'object' ? String(statusProp.id) : String(statusProp)
+        }
+      } else if (block['block/properties'] && typeof block['block/properties'] === 'object') {
+        const statusProp = block['block/properties'].status
+        if (statusProp) {
+          status = typeof statusProp === 'object' ? String(statusProp.id) : String(statusProp)
         }
       }
-      return {
-        uuid: item['block/uuid'] || item.uuid || '',
-        title: item['block/title'] || item.title || '',
-        status: item['logseq.property/status'] || item['block/properties']?.status || item.status || 'todo',
-        properties: item['block/properties'] || item.properties || {}
-      }
-    })
+
+      tasks.push({
+        uuid: block['block/uuid'] || block.uuid || '',
+        title: block['block/title'] || block.title || block.content || '',
+        status: status,
+        properties: block['block/properties'] || block.properties || {}
+      })
+    }
+
+    return tasks
   }
 
   async queryBlockByUuid(blockUuid: string): Promise<any> {
