@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * 任务查询和统计逻辑
  */
 
@@ -20,107 +20,111 @@ function getStatusColor(status: string): string {
          '#6b7280'
 }
 
-interface NestedTaskQueryOptions {
-  parentBlockId: string
-  maxDepth: number
-  onlyLeaves: boolean
-}
-
-async function queryDirectChildren(parentBlockId: string): Promise<any[]> {
-  const query = `
-    [:find (pull ?b [*])
-     :in $ ?parent-uuid
-     :where
-     [?p :block/uuid ?parent-uuid]
-     [?b :block/parent ?p]]
-  `
+function buildNestingQuery(parentBlockId: string, nestingLevel: NestingLevel): string {
+  const parentClause = `[?p :block/uuid #uuid "${parentBlockId}"]`
   
-  const results = await logseqAPI.DB.datascriptQuery(query, `#uuid "${parentBlockId}"`)
-  return (results || []).flat()
-}
-
-function filterTaskBlocks(blocks: any[]): any[] {
-  return blocks.filter(block => {
-    const hasTaskTag = block.tags?.some(
-      (tag: any) => tag?.title?.toLowerCase() === 'task'
-    )
-    const hasStatus = block.properties?.status !== undefined
-    return hasTaskTag || hasStatus
-  })
-}
-
-function filterLeafTasks(tasks: any[], allBlocks: any[]): any[] {
-  const taskIds = new Set(tasks.map(t => t.uuid))
+  let nestingClauses = ''
   
-  return tasks.filter(task => {
-    const hasChildren = allBlocks.some(
-      block => block.parent && block.parent.uuid === task.uuid
-    )
-    return !hasChildren
-  })
-}
-
-async function queryNestedTasks(options: NestedTaskQueryOptions): Promise<any[]> {
-  const { parentBlockId, maxDepth, onlyLeaves } = options
-  const allTasks: any[] = []
-  const allBlocks: any[] = []
-  
-  async function queryLevel(parentId: string, currentDepth: number, maxD: number): Promise<void> {
-    if (maxD !== -1 && currentDepth > maxD) return
-    
-    const children = await queryDirectChildren(parentId)
-    allBlocks.push(...children)
-    
-    const tasks = filterTaskBlocks(children)
-    if (!onlyLeaves) {
-      allTasks.push(...tasks)
-    }
-    
-    if (maxD === -1 || currentDepth < maxD) {
-      for (const task of tasks) {
-        await queryLevel(task.uuid, currentDepth + 1, maxD)
-      }
-    }
+  switch (nestingLevel) {
+    case 1:
+      nestingClauses = `[?b :block/parent ?p]`
+      break
+    case 2:
+      nestingClauses = `
+        (or-join [?p ?b]
+          [?b :block/parent ?p]
+          (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+        )
+      `
+      break
+    case 3:
+      nestingClauses = `
+        (or-join [?p ?b]
+          [?b :block/parent ?p]
+          (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?b :block/parent ?m2])
+        )
+      `
+      break
+    case 'all':
+    default:
+      // 对于 "all"，我们使用 5 层嵌套作为合理的限制
+      nestingClauses = `
+        (or-join [?p ?b]
+          [?b :block/parent ?p]
+          (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?b :block/parent ?m2])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?m3 :block/parent ?m2] [?b :block/parent ?m3])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?m3 :block/parent ?m2] [?m4 :block/parent ?m3] [?b :block/parent ?m4])
+        )
+      `
+      break
   }
   
-  await queryLevel(parentBlockId, 1, maxDepth)
-  
-  if (onlyLeaves) {
-    return filterLeafTasks(allBlocks, allBlocks)
-  }
-  
-  return allTasks
+  return nestingClauses
+}
+
+function buildLeafOnlyClause(): string {
+  return `(not [?child :block/parent ?b])`
+}
+
+function buildTaskFilter(): string {
+  // 任务识别条件：有 #task 标签 或 有 status 属性
+  // 这里我们使用 pull 查询获取所有 block 数据，然后在客户端过滤
+  return ''
 }
 
 export async function calculateTaskProgress(
   parentBlockId: string,
-  options?: { nestingLevel?: number | 'all'; onlyLeaves?: boolean }
+  options?: { nestingLevel?: NestingLevel; onlyLeaves?: boolean }
 ): Promise<TaskProgress | null> {
   try {
     const settings = getSettings()
     const nestingLevel = options?.nestingLevel ?? settings?.taskProgress?.nestingLevel ?? 1
     const onlyLeaves = options?.onlyLeaves ?? settings?.taskProgress?.onlyLeaves ?? false
+
+    // 构建查询
+    const nestingClauses = buildNestingQuery(parentBlockId, nestingLevel)
+    const leafClause = onlyLeaves ? buildLeafOnlyClause() : ''
     
-    const maxDepth = nestingLevel === 'all' ? -1 : nestingLevel
-    
-    const tasks = await queryNestedTasks({
-      parentBlockId,
-      maxDepth,
-      onlyLeaves
-    })
-    
+    const query = `
+      [:find (pull ?b [*])
+       :where
+       ${nestingClauses}
+       ${leafClause}
+      ]
+    `
+
+    // 执行查询
+    const results = await logseqAPI.DB.datascriptQuery(query)
+    if (!results || results.length === 0) {
+      return null
+    }
+
+    // 过滤出任务块并统计
     const statusCounts: Record<string, number> = {}
-    
-    for (const task of tasks) {
-      const status = task.properties?.status
-      if (status) {
+    const blocks = results.flat()
+
+    for (const block of blocks) {
+      // 检查是否是任务块
+      const hasTaskTag = block.tags?.some(
+        (tag: any) => tag?.title?.toLowerCase() === 'task'
+      )
+      const hasStatus = block.properties?.status !== undefined
+      
+      if (hasTaskTag || hasStatus) {
+        const status = block.properties?.status || 'todo'
         statusCounts[status] = (statusCounts[status] || 0) + 1
       }
     }
-    
+
+    if (Object.keys(statusCounts).length === 0) {
+      return null
+    }
+
     const statusStats: StatusStat[] = []
     let totalTasks = 0
-    
+
     for (const [status, count] of Object.entries(statusCounts)) {
       totalTasks += count
       statusStats.push({
@@ -129,14 +133,10 @@ export async function calculateTaskProgress(
         color: getStatusColor(status)
       })
     }
-    
-    if (totalTasks === 0) {
-      return null
-    }
-    
+
     const completedTasks = statusStats.find(s => s.status.toLowerCase() === 'done')?.count || 0
     const progress = Math.round((completedTasks / totalTasks) * 100)
-    
+
     return {
       blockId: parentBlockId,
       parentBlockId: parentBlockId,

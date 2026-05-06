@@ -10,14 +10,14 @@ import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { calculateTaskProgress } from '../../../lib/taskProgress/taskQuery'
 import { getSettings } from '../../../settings'
 import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../lib/taskProgress/types'
-import { getStatusName, getCurrentLanguage } from '../../../translations/i18n'
+import { t } from '../../../translations/i18n'
 import { SupportedLanguage } from '../../../translations/translations'
 
 const TaskProgressDemo: React.FC = () => {
   const [progressData, setProgressData] = useState<TaskProgressType | null>(null)
   const [nestedProgressData, setNestedProgressData] = useState<TaskProgressType | null>(null)
   const settings = getSettings()
-  const currentLang = getCurrentLanguage()
+  const currentLang = settings?.language || 'zh-CN'
   
   // 添加嵌套层级测试选项
   const [testNestingLevel, setTestNestingLevel] = useState<number | 'all'>(1)
@@ -84,7 +84,7 @@ const TaskProgressDemo: React.FC = () => {
                     borderRadius: '50%', 
                     backgroundColor: stat.color 
                   }} />
-                  <span style={{ minWidth: '60px' }}>{getStatusName(stat.status, currentLang)}:</span>
+                  <span style={{ minWidth: '60px' }}>{t(`settings.taskProgress.statusNames.${stat.status}`, currentLang)}:</span>
                   <span style={{ fontWeight: 'bold' }}>{stat.count}</span>
                 </div>
               ))}
@@ -205,7 +205,7 @@ const TaskProgressDemo: React.FC = () => {
                       borderRadius: '50%', 
                       backgroundColor: stat.color 
                     }} />
-                    <span style={{ minWidth: '60px' }}>{getStatusName(stat.status, currentLang)}:</span>
+                    <span style={{ minWidth: '60px' }}>{t(`settings.taskProgress.statusNames.${stat.status}`, currentLang)}:</span>
                     <span style={{ fontWeight: 'bold' }}>{stat.count}</span>
                   </div>
                 ))}

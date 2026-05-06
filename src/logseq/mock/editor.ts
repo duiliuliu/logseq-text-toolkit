@@ -76,6 +76,52 @@ const Editor: any = {
     return Promise.resolve(children);
   },
 
+  // 获取指定深度的所有嵌套子块
+  getAllNestedChildren: (blockId: string, maxDepth: number = 5) => {
+    const doc = getDocument();
+    
+    const results: any[] = [];
+    
+    const traverse = (currentId: string, currentDepth: number) => {
+      if (maxDepth !== -1 && currentDepth > maxDepth) {
+        return;
+      }
+      
+      const parentElement = findElementByBlockId(currentId, doc);
+      if (!parentElement) {
+        return;
+      }
+      
+      Array.from(parentElement.children).forEach(child => {
+        if (child.classList.contains('block') || child.hasAttribute('data-block-id')) {
+          const id = generateBlockId(child as HTMLElement);
+          const props = JSON.parse((child as HTMLElement).dataset.properties || '{}');
+          
+          // 创建完整的块对象，模拟 pull ?b [*] 的结果
+          const block = {
+            id,
+            uuid: id,
+            content: child.textContent || '',
+            properties: props,
+            // 添加 tags 属性来支持 #task 标签检测
+            tags: (child as HTMLElement).textContent?.includes('#task') ? [{ title: 'task' }] : undefined
+          };
+          
+          results.push(block);
+          
+          // 递归遍历更深层
+          if (maxDepth === -1 || currentDepth < maxDepth) {
+            traverse(id, currentDepth + 1);
+          }
+        }
+      });
+    };
+    
+    traverse(blockId, 1);
+    
+    return Promise.resolve(results);
+  },
+
   getEditingCursorPosition: () => {
     console.log('Get editing cursor position');
 
@@ -238,3 +284,4 @@ function findElementByBlockId(blockId: string, doc: Document): HTMLElement | nul
 }
 
 export default Editor;
+export { findElementByBlockId };

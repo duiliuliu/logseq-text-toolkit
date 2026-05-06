@@ -5,7 +5,7 @@
  * 任务进度设置 Tab
  */
 
-import { t, getStatusName } from '../../../translations/i18n.ts'
+import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
@@ -200,7 +200,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
                 onChange={(e) => handleStatusColorChange(status, e.target.value)}
                 className="ltt-color-input"
               />
-              <span className="ltt-status-label">{getStatusName(status, language)}</span>
+              <span className="ltt-status-label">{t(`settings.taskProgress.statusNames.${status}`, language)}</span>
             </div>
           ))}
         </div>

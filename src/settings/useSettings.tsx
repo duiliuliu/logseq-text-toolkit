@@ -4,8 +4,9 @@
  */
 
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
-import { Settings, SettingsContextType, ThemeType, LanguageType } from './types.ts'
+import { Settings, SettingsContextType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'
+import { processSettings, updateSettings as updateSettingsInIndex } from './index.ts'
 import { logseqAPI } from '../logseq/index.ts'
 import { logger } from '../lib/logger/logger.ts'
 
@@ -27,69 +28,18 @@ const useSettings = (): SettingsContextType => {
     setIsLoading(true)
     setError(null)
     try {
-      // 使用logseqAPI
       if (logseqAPI && logseqAPI.settings) {
-        // 确保所有必需字段都有值
-        let data: Settings = {
-          ...defaultSettings,
-          ...logseqAPI.settings,
-          // 确保类型正确
-          theme: (logseqAPI.settings.theme || 'light') as ThemeType,
-          language: (logseqAPI.settings.language || 'zh-CN') as LanguageType,
-          useSystemTheme: Boolean(logseqAPI.settings.useSystemTheme),
-          useSystemLanguage: Boolean(logseqAPI.settings.useSystemLanguage),
-          // 确保工具栏相关字段类型正确
-          toolbar: Boolean(logseqAPI.settings.toolbar),
-          disabled: Boolean(logseqAPI.settings.disabled),
-          showBorder: Boolean(logseqAPI.settings.showBorder),
-          sponsorEnabled: Boolean(logseqAPI.settings.sponsorEnabled),
-          // 确保数值类型正确
-          hoverDelay: parseInt(logseqAPI.settings.hoverDelay) || 500
+        let userConfigs: any = null
+        try {
+          userConfigs = await logseqAPI.App.getUserConfigs()
+        } catch {
+          // 忽略获取失败的情况
         }
-        
-        // 兼容旧版本的 funcmode 和 clickfunc
-        if (data.ToolbarItems) {
-          data.ToolbarItems = data.ToolbarItems.map(item => {
-            if ('funcmode' in item && 'clickfunc' in item && !('invoke' in item)) {
-              item.invoke = item.funcmode
-              item.invokeParams = item.clickfunc
-            }
-            if ('subItems' in item && item.subItems) {
-              item.subItems = item.subItems.map(subItem => {
-                if ('funcmode' in subItem && 'clickfunc' in subItem && !('invoke' in subItem)) {
-                  subItem.invoke = subItem.funcmode
-                  subItem.invokeParams = subItem.clickfunc
-                }
-                return subItem
-              })
-            }
-            return item
-          })
-        }
-        
-        // 如果设置了使用系统配置，从logseq获取系统配置
-        if (data.useSystemTheme || data.useSystemLanguage) {
-          try {
-            const userConfigs = await logseqAPI.App.getUserConfigs()
-            if (userConfigs) {
-              const updatedSettings: Settings = {
-                ...data,
-                theme: data.useSystemTheme ? (userConfigs.preferredThemeMode as ThemeType) : data.theme,
-                language: data.useSystemLanguage ? (userConfigs.preferredLanguage as LanguageType) : data.language
-              }
-              setSettings(updatedSettings)
-              return updatedSettings
-            }
-          } catch {
-            setSettings(data)
-            return data
-          }
-        }
-        
+
+        const data = processSettings(logseqAPI.settings, userConfigs)
         setSettings(data)
         return data
       }
-      // 如果没有logseqAPI，返回默认设置
       setSettings(defaultSettings)
       return defaultSettings
     } catch (err) {
@@ -107,33 +57,17 @@ const useSettings = (): SettingsContextType => {
     setError(null)
     try {
       if (logseqAPI) {
-        // 处理系统设置标记
-        const settingsToSave: Settings = {
-          ...newSettings,
-          useSystemTheme: newSettings.theme === 'system',
-          useSystemLanguage: newSettings.language === 'system'
+        updateSettingsInIndex(newSettings)
+
+        let userConfigs: any = null
+        try {
+          userConfigs = await logseqAPI.App.getUserConfigs()
+        } catch {
+          // 忽略获取失败的情况
         }
-        
-        await logseqAPI.updateSettings(settingsToSave as unknown as Record<string, any>)
-        
-        // 如果设置为系统值，立即从logseq获取系统配置
-        if (settingsToSave.useSystemTheme || settingsToSave.useSystemLanguage) {
-          try {
-            const userConfigs = await logseqAPI.App.getUserConfigs()
-            if (userConfigs) {
-              const updatedSettings: Settings = {
-                ...settingsToSave,
-                theme: settingsToSave.useSystemTheme ? (userConfigs.preferredThemeMode as ThemeType) : settingsToSave.theme,
-                language: settingsToSave.useSystemLanguage ? (userConfigs.preferredLanguage as LanguageType) : settingsToSave.language
-              }
-              setSettings(updatedSettings)
-            }
-          } catch {
-            setSettings(settingsToSave)
-          }
-        } else {
-          setSettings(settingsToSave)
-        }
+
+        const updatedSettings = processSettings(newSettings, userConfigs)
+        setSettings(updatedSettings)
         return true
       }
       return false
@@ -153,7 +87,8 @@ const useSettings = (): SettingsContextType => {
     try {
       if (logseqAPI) {
         await logseqAPI.updateSettings(defaultSettings as unknown as Record<string, any>)
-        setSettings(defaultSettings)
+        const data = processSettings(defaultSettings)
+        setSettings(data)
         return true
       }
       return false
@@ -174,43 +109,15 @@ const useSettings = (): SettingsContextType => {
   // 监听设置变化
   useEffect(() => {
     if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
-      const unsubscribe = (logseqAPI as any).onSettingsChanged((newSettings: any, oldSettings: any) => {
-        // 确保类型正确
-        let mergedSettings: Settings = {
-          ...defaultSettings,
-          ...newSettings,
-          theme: (newSettings.theme || 'light') as ThemeType,
-          language: (newSettings.language || 'zh-CN') as LanguageType,
-          useSystemTheme: Boolean(newSettings.useSystemTheme),
-          useSystemLanguage: Boolean(newSettings.useSystemLanguage),
-          // 确保工具栏相关字段类型正确
-          toolbar: Boolean(newSettings.toolbar),
-          disabled: Boolean(newSettings.disabled),
-          showBorder: Boolean(newSettings.showBorder),
-          sponsorEnabled: Boolean(newSettings.sponsorEnabled),
-          // 确保数值类型正确
-          hoverDelay: parseInt(newSettings.hoverDelay) || 500
+      const unsubscribe = (logseqAPI as any).onSettingsChanged(async (newSettings: any, oldSettings: any) => {
+        let userConfigs: any = null
+        try {
+          userConfigs = await logseqAPI.App.getUserConfigs()
+        } catch {
+          // 忽略获取失败的情况
         }
-        
-        // 兼容旧版本的 funcmode 和 clickfunc
-        if (mergedSettings.ToolbarItems) {
-          mergedSettings.ToolbarItems = mergedSettings.ToolbarItems.map(item => {
-            if ('funcmode' in item && 'clickfunc' in item && !('invoke' in item)) {
-              item.invoke = item.funcmode
-              item.invokeParams = item.clickfunc
-            }
-            if ('subItems' in item && item.subItems) {
-              item.subItems = item.subItems.map(subItem => {
-                if ('funcmode' in subItem && 'clickfunc' in subItem && !('invoke' in subItem)) {
-                  subItem.invoke = subItem.funcmode
-                  subItem.invokeParams = subItem.clickfunc
-                }
-                return subItem
-              })
-            }
-            return item
-          })
-        }
+
+        const mergedSettings = processSettings(newSettings, userConfigs)
         setSettings(mergedSettings)
       })
       return unsubscribe

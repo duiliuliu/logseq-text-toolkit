@@ -1,6 +1,6 @@
 // Mock Logseq API
 import App from './app.ts';
-import Editor from './editor.ts';
+import Editor, { findElementByBlockId } from './editor.ts';
 import UI from './ui.ts';
 import { getSettings, updateSettings, onSettingsChanged } from './settings.ts';
 import { getDocument } from '../utils.ts';
@@ -304,15 +304,74 @@ const mockLogseq = Object.assign(new EventEmitter(), {
           return Promise.resolve([]);
         }
         
-        // 使用 getBlockChildren 获取子块 - V2 格式返回完整的块对象
-        const children = await Editor.getBlockChildren(parentBlockId);
+        // 分析查询，确定嵌套级别和是否只查询叶子节点
+        let maxDepth = 1;
+        let onlyLeaves = false;
+        
+        // 检查是否有 or-join，判断嵌套级别
+        if (query.includes('or-join')) {
+          // 计算嵌套级别：看有多少个 m1, m2, m3 变量
+          const m2Match = query.match(/m2/);
+          const m3Match = query.match(/m3/);
+          const m4Match = query.match(/m4/);
+          
+          if (m4Match) {
+            maxDepth = 5; // 支持 5 层
+          } else if (m3Match) {
+            maxDepth = 3;
+          } else if (m2Match) {
+            maxDepth = 2;
+          } else {
+            maxDepth = 2;
+          }
+        }
+        
+        // 检查是否有叶子节点过滤
+        if (query.includes('not')) {
+          onlyLeaves = true;
+        }
+        
+        // 使用 getAllNestedChildren 获取嵌套子块
+        const children = await Editor.getAllNestedChildren(parentBlockId, maxDepth);
         
         if (!children || !Array.isArray(children)) {
           return [];
         }
         
+        // 如果只需要叶子节点，进行过滤
+        let filteredBlocks = children;
+        if (onlyLeaves) {
+          const doc = getDocument();
+          const blockIds = new Set(children.map(b => b.uuid));
+          
+          filteredBlocks = children.filter(block => {
+            // 检查这个块是否有子节点（在查询结果中）
+            const element = findElementByBlockId(block.uuid, doc);
+            if (!element) {
+              return true;
+            }
+            
+            // 检查是否有子块
+            const hasChildren = Array.from(element.children).some(child => 
+              child.classList.contains('block') || child.hasAttribute('data-block-id')
+            );
+            
+            return !hasChildren;
+          });
+        }
+        
+        // 为叶子节点过滤补充 parent 信息
+        // 为每个块添加 parent 引用（简单处理）
+        const blocksWithParent = filteredBlocks.map(block => {
+          // 模拟 parent 属性
+          return {
+            ...block,
+            // 这里我们不需要真正的 parent，因为 leaf 过滤已经完成
+          };
+        });
+        
         // V2 查询格式：返回 [[块对象], [块对象], ...]
-        const results = children.map(child => [child]);
+        const results = blocksWithParent.map(child => [child]);
         return results;
       } catch (error) {
         console.error('[Mock DB] datascriptQuery error:', error);

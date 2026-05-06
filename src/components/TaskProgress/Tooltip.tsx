@@ -7,7 +7,7 @@
  */
 
 import React from 'react'
-import { getStatusName, t } from '../../translations/i18n'
+import { t } from '../../translations/i18n'
 import { StatusStat } from '../../lib/taskProgress/types'
 import { SupportedLanguage } from '../../translations/translations'
 
@@ -52,7 +52,7 @@ const Tooltip: React.FC<TooltipProps> = ({
                   style={{ backgroundColor: stat.color || '#6b7280' }} 
                 />
                 <span className="tooltip-stat-name">
-                  {getStatusName(stat.status, lang)}
+                  {t(`settings.taskProgress.statusNames.${stat.status}`, lang)}
                 </span>
                 <span className="tooltip-stat-count">{stat.count}</span>
               </div>

@@ -12,7 +12,7 @@ import { ProgressDisplayType } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
 import { logger } from '../logger/logger'
-import { getCurrentLanguage } from '../../translations/i18n'
+
 
 const MACRO_PREFIX = ':taskprogress'
 const PLUGIN_ID = 'text-toolkit-taskprogress'
@@ -46,7 +46,7 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
       return false
     }
     
-    const lang = getCurrentLanguage()
+    const lang = settings?.language || 'zh-CN'
     
     if (!TaskProgressComponent) {
       logger.warn('[TaskProgress] Component not registered')

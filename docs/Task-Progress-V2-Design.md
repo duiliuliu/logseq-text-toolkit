@@ -19,6 +19,7 @@
 V2 版本在 V1 基础上进行扩展：
 
 - **核心变更**：从单一的一层嵌套查询，扩展为可配置的嵌套层级查询
+- **查询优化**：使用单个 Datalog 查询配合 `or-join` 替代原来的迭代查询，提高性能
 - **配置灵活性**：用户可选择只查询直接子节点，或查询所有层级的嵌套任务
 - **向后兼容**：保持 V1 的默认行为（一层嵌套），确保现有用户无感知升级
 
@@ -41,12 +42,12 @@ export type NestingLevel =
   | 1        // 只查询直接子节点（一层）
   | 2        // 查询两层嵌套
   | 3        // 查询三层嵌套
-  | 'all'    // 查询所有层级（无限制）
+  | 'all'    // 查询所有层级（最多支持5层）
 
 // V2 配置扩展
 export interface TaskProgressNestingConfig {
   nestingLevel: NestingLevel  // 嵌套层级配置
-  excludeParents?: boolean    // 是否排除父级任务节点（只统计叶子节点）
+  onlyLeaves?: boolean        // 是否只统计叶子节点
 }
 ```
 
@@ -62,95 +63,96 @@ export interface TaskProgressNestingConfig {
 
 ### 2.2 查询逻辑实现
 
-#### 2.2.1 推荐方案：多次查询 + 客户端聚合
+#### 2.2.1 推荐方案：单个 Datalog 查询 + `or-join`
 
-考虑到 Logseq Datalog 的限制，采用可靠的迭代方案：
+使用单个 Datalog 查询配合 `or-join` 来实现嵌套层级查询：
 
 ```typescript
-interface NestedTaskQueryOptions {
-  parentBlockId: string
-  maxDepth: number           // 1 = 直接子节点, 2 = 两层, 3 = 三层, -1 = 全部
-  onlyLeaves: boolean       // true = 只统计叶子节点
-}
-
-/**
- * 分层获取嵌套任务
- */
-async function queryNestedTasks(options: NestedTaskQueryOptions): Promise<BlockEntity[]> {
-  const { parentBlockId, maxDepth, onlyLeaves } = options
-  const allTasks: BlockEntity[] = []
-
-  // 获取直接子块
-  const directChildren = await queryDirectChildren(parentBlockId)
-
-  // 过滤出任务块
-  const directTasks = filterTaskBlocks(directChildren)
-  allTasks.push(...directTasks)
-
-  // 递归获取更深层级
-  if (maxDepth !== 1) {
-    const remainingDepth = maxDepth === -1 ? -1 : maxDepth - 1
-    for (const task of directTasks) {
-      const descendants = await queryNestedTasks({
-        parentBlockId: task.uuid,
-        maxDepth: remainingDepth,
-        onlyLeaves: false
-      })
-      allTasks.push(...descendants)
-    }
+function buildNestingQuery(parentBlockId: string, nestingLevel: NestingLevel): string {
+  const parentClause = `[?p :block/uuid #uuid "${parentBlockId}"]`
+  
+  let nestingClauses = ''
+  
+  switch (nestingLevel) {
+    case 1:
+      nestingClauses = `[?b :block/parent ?p]`
+      break
+    case 2:
+      nestingClauses = `
+        (or-join [?p ?b]
+          [?b :block/parent ?p]
+          (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+        )
+      `
+      break
+    case 3:
+      nestingClauses = `
+        (or-join [?p ?b]
+          [?b :block/parent ?p]
+          (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?b :block/parent ?m2])
+        )
+      `
+      break
+    case 'all':
+    default:
+      // 对于 "all"，使用 5 层嵌套作为合理限制
+      nestingClauses = `
+        (or-join [?p ?b]
+          [?b :block/parent ?p]
+          (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?b :block/parent ?m2])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?m3 :block/parent ?m2] [?b :block/parent ?m3])
+          (and [?m1 :block/parent ?p] [?m2 :block/parent ?m1] [?m3 :block/parent ?m2] [?m4 :block/parent ?m3] [?b :block/parent ?m4])
+        )
+      `
+      break
   }
-
-  // 如果只统计叶子节点，排除有子任务的块
-  if (onlyLeaves) {
-    const leafTasks = filterLeafTasks(allTasks)
-    return leafTasks
-  }
-
-  return allTasks
+  
+  return nestingClauses
 }
 
-/**
- * 获取直接子块
- */
-async function queryDirectChildren(parentBlockId: string): Promise<BlockEntity[]> {
-  const query = `
-    [:find (pull ?b [*])
-     :in $ ?parent-uuid
-     :where
-     [?p :block/uuid ?parent-uuid]
-     [?b :block/parent ?p]]
-  `
-
-  const results = await logseq.DB.datascriptQuery(query, `#uuid "${parentBlockId}"`)
-  return (results || []).flat()
+function buildLeafOnlyClause(): string {
+  return `(not [?child :block/parent ?b])`
 }
+```
 
-/**
- * 过滤任务块
- */
-function filterTaskBlocks(blocks: BlockEntity[]): BlockEntity[] {
-  return blocks.filter(block => {
-    const hasTaskTag = block.tags?.some(
-      tag => tag?.title?.toLowerCase() === 'task'
-    )
-    const hasStatus = block.properties?.status !== undefined
-    return hasTaskTag || hasStatus
-  })
-}
+#### 2.2.2 查询示例
 
-/**
- * 过滤叶子节点（没有子任务的块）
- */
-function filterLeafTasks(tasks: BlockEntity[]): BlockEntity[] {
-  const taskIds = new Set(tasks.map(t => t.uuid))
+```typescript
+// 查询1层
+const query1 = `
+  [:find (pull ?b [*])
+   :where
+   [?p :block/uuid #uuid "PARENT_UUID"]
+   [?b :block/parent ?p]
+  ]
+`
 
-  return tasks.filter(task => {
-    const hasChildren = tasks.some(
-      other => other.properties?.parent === task.uuid
-    )
-    return !hasChildren
-  })
-}
+// 查询2层
+const query2 = `
+  [:find (pull ?b [*])
+   :where
+   [?p :block/uuid #uuid "PARENT_UUID"]
+   (or-join [?p ?b]
+     [?b :block/parent ?p]
+     (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+   )
+  ]
+`
+
+// 查询叶子节点（2层）
+const query2Leaves = `
+  [:find (pull ?b [*])
+   :where
+   [?p :block/uuid #uuid "PARENT_UUID"]
+   (or-join [?p ?b]
+     [?b :block/parent ?p]
+     (and [?m1 :block/parent ?p] [?b :block/parent ?m1])
+   )
+   (not [?child :block/parent ?b])
+  ]
+`
 ```
 
 ### 2.3 叶子节点设置说明
@@ -259,10 +261,10 @@ function filterLeafTasks(tasks: BlockEntity[]): BlockEntity[] {
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│   我的项目 ✓25% 🔍 2层                   │
-│   ↑      ↑    ↑                         │
-│   进度   进度   层级指示器（可点击查看详情）│
-│   组件   数字                             │
+│  我的项目 ✓25% 🔍 2层                   │
+│  ↑      ↑    ↑                         │
+│  进度   进度   层级指示器（可点击查看详情）│
+│  组件   数字                             │
 │                                         │
 └─────────────────────────────────────────┘
 ```
@@ -293,7 +295,7 @@ function filterLeafTasks(tasks: BlockEntity[]): BlockEntity[] {
 ### 4.1 扩展类型定义
 
 ```typescript
-// 嵌套层级类型
+// 嵌套层级枚举
 export type NestingLevel = 1 | 2 | 3 | 'all'
 
 // 任务块实体
@@ -316,7 +318,7 @@ export interface TaskProgress {
   completedTasks: number
   statusStats: StatusStat[]
   progress: number
-  nestingLevel: number  // 使用的嵌套层级
+  nestingLevel: NestingLevel  // 使用的嵌套层级
   leafTasksOnly: boolean  // 是否仅统计叶子节点
 }
 ```
@@ -346,11 +348,10 @@ export interface TaskProgressSettings {
 
 1. **扩展类型定义**
    - 添加 `NestingLevel` 类型
-
 2. **修改查询逻辑**
-   - 实现 `queryNestedTasks` 函数
-   - 支持指定深度的任务查询
-
+   - 重写 `calculateTaskProgress` 使用单个 Datalog 查询
+   - 使用 `or-join` 实现嵌套层级查询
+   - 支持 `not` 子句实现叶子节点过滤
 3. **更新设置界面**
    - 添加嵌套层级选择器
    - 添加叶子节点选项
@@ -380,13 +381,15 @@ export interface TaskProgressSettings {
 
 | 文件 | 修改内容 |
 | :--- | :--- |
-| `src/settings/defaultSettings.ts` | 添加 V2 相关默认配置 |
+| `src/settings/defaultSettings.json` | 添加 V2 相关默认配置 |
 
 ### 7.3 核心逻辑
 
 | 文件 | 修改内容 |
 | :--- | :--- |
-| `src/lib/taskProgress/taskQuery.ts` | 重写 `getDirectTaskChildren` 为 `queryNestedTasks`，支持多层查询 |
+| `src/lib/taskProgress/taskQuery.ts` | 重写查询逻辑，使用单个 Datalog 查询 |
+| `src/settings/index.ts` | 添加 `processSettings` 和 `getSettingsWithSystem` |
+| `src/settings/useSettings.tsx` | 使用公共的 `processSettings` 函数 |
 
 ### 7.4 设置面板
 
@@ -413,9 +416,9 @@ export interface TaskProgressSettings {
 
 | 文件 | 影响 | 优先级 | 说明 |
 | :--- | :--- | :--- | :--- |
-| `src/lib/taskProgress/taskQuery.ts` | 核心逻辑变更 | P0 | 重写查询函数，这是最大的变更点 |
+| `src/lib/taskProgress/taskQuery.ts` | 核心逻辑变更 | P0 | 重写查询逻辑，使用单个 Datalog 查询 |
 | `src/settings/types.ts` | 类型扩展 | P0 | 添加新的类型定义 |
-| `src/settings/defaultSettings.ts` | 默认配置 | P0 | 添加默认值 |
+| `src/settings/defaultSettings.json` | 默认配置 | P0 | 添加默认值 |
 | `src/components/SettingsModal/tabs/TaskProgressSettings.tsx` | UI 变更 | P1 | 添加新的配置项 |
 | `src/lib/taskProgress/register.ts` | 参数传递 | P1 | 需要传递新的配置 |
 | `src/components/TaskProgress/TaskProgress.tsx` | 组件扩展 | P1 | 添加层级指示器 |
@@ -427,7 +430,7 @@ export interface TaskProgressSettings {
 | **向后兼容性** | ✅ 好，默认配置与 V1 一致 |
 | **修改范围** | 中等，核心逻辑需要重写，其他是增量 |
 | **测试覆盖** | 需要新增测试用例验证嵌套查询 |
-| **风险等级** | 低-Medium，主要是查询逻辑变更 |
+| **风险等级** | 低-中，主要是查询逻辑变更 |
 
 ### 8.3 开发建议
 
@@ -441,33 +444,20 @@ export interface TaskProgressSettings {
 ### 9.1 单元测试
 
 ```typescript
-describe('queryNestedTasks', () => {
-  it('should query direct children only when depth is 1', async () => {
-    const tasks = await queryNestedTasks({
-      parentBlockId: 'parent-1',
-      maxDepth: 1,
-      onlyLeaves: false
-    })
-    expect(tasks.length).toBe(2)
+describe('calculateTaskProgress', () => {
+  it('should query direct children only when nestingLevel is 1', async () => {
+    const result = await calculateTaskProgress('parent-1', { nestingLevel: 1, onlyLeaves: false })
+    expect(result?.totalTasks).toBe(3) // 只统计 A、B、C
   })
 
-  it('should query two levels when depth is 2', async () => {
-    const tasks = await queryNestedTasks({
-      parentBlockId: 'parent-1',
-      maxDepth: 2,
-      onlyLeaves: false
-    })
-    expect(tasks.length).toBe(5)
+  it('should query two levels when nestingLevel is 2', async () => {
+    const result = await calculateTaskProgress('parent-1', { nestingLevel: 2, onlyLeaves: false })
+    expect(result?.totalTasks).toBe(5) // 统计 A、B、C、A1、A2
   })
 
   it('should filter leaf tasks when onlyLeaves is true', async () => {
-    const tasks = await queryNestedTasks({
-      parentBlockId: 'parent-1',
-      maxDepth: 2,
-      onlyLeaves: true
-    })
-    // 验证只返回叶子节点
-    expect(tasks.every(t => !hasChildren(t))).toBe(true)
+    const result = await calculateTaskProgress('parent-1', { nestingLevel: 2, onlyLeaves: true })
+    expect(result?.totalTasks).toBe(3) // 只统计 A1、A2、C
   })
 })
 ```
@@ -477,3 +467,4 @@ describe('queryNestedTasks', () => {
 - [Logseq DB Query Guide](https://github.com/logseq/logseq/blob/master/libs/guides/db_query_guide.md)
 - [Logseq Property Guide](https://github.com/logseq/logseq/blob/master/libs/guides/db_properties_guide.md)
 - [Logseq Plugin API](https://github.com/logseq/logseq/blob/master/libs/src/LSPlugin.user.ts)
+- [V1 设计文档](./Task-Progress-Tracking-Design.md)
