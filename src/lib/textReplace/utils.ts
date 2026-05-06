@@ -83,7 +83,7 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
     const selection = getSelection();
     const doc = getDocument();
     if (!selection || selection.rangeCount === 0) {
-      logger.debug('未找到有效的选择范围');
+      logger.info('未找到有效的选择范围');
       return false;
     }
     
@@ -95,14 +95,14 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
       const textNode = startContainer as Text;
       const startOffset = range.startOffset;
       
-      logger.debug('在同一个文本节点中进行替换', {
+      logger.info('在同一个文本节点中进行替换', {
         nodeText: textNode.textContent,
         startOffset,
         endOffset: range.endOffset
       });
       
       const newText = selectedData.before + processedText + selectedData.after;
-      logger.debug('生成新文本', { newText });
+      logger.info('生成新文本', { newText });
       
       textNode.textContent = newText;
       
@@ -112,10 +112,10 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
       selection.removeAllRanges();
       selection.addRange(newRange);
       
-      logger.debug('替换成功，重新设置选择范围');
+      logger.info('替换成功，重新设置选择范围');
       return true;
     } else {
-      logger.debug('不在同一个文本节点中，无法进行精确替换', {
+      logger.info('不在同一个文本节点中，无法进行精确替换', {
         startContainer: startContainer.nodeType,
         endContainer: endContainer.nodeType
       });

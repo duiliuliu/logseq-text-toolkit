@@ -109,12 +109,12 @@ export async function calculateTaskProgress(
     `
 
     // 执行查询
-    logger.debug('[TaskProgress] 开始查询任务进度', { parentBlockId, nestingLevel, onlyLeaves })
-    logger.debug('[TaskProgress] 查询语句', query)
+    logger.info('[TaskProgress] 开始查询任务进度', { parentBlockId, nestingLevel, onlyLeaves })
+    logger.info('[TaskProgress] 查询语句', query)
     
     const results = await logseqAPI.DB.datascriptQuery(query)
     
-    logger.debug('[TaskProgress] 查询结果摘要', {
+    logger.info('[TaskProgress] 查询结果摘要', {
       总结果数: results?.length || 0,
       结果详情: results?.map((r: any[], i: number) => ({
         索引: i,
@@ -125,7 +125,7 @@ export async function calculateTaskProgress(
     })
     
     if (!results || results.length === 0) {
-      logger.debug('[TaskProgress] 没有找到任务数据')
+      logger.info('[TaskProgress] 没有找到任务数据')
       return null
     }
 
@@ -145,7 +145,7 @@ export async function calculateTaskProgress(
     }
 
     if (Object.keys(statusCounts).length === 0) {
-      logger.debug('[TaskProgress] 没有有效的任务状态数据')
+      logger.info('[TaskProgress] 没有有效的任务状态数据')
       return null
     }
 
@@ -175,7 +175,7 @@ export async function calculateTaskProgress(
       leafTasksOnly: onlyLeaves
     }
     
-    logger.debug('[TaskProgress] 计算完成', result)
+    logger.info('[TaskProgress] 计算完成', result)
 
     return result
   } catch (error) {
