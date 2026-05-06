@@ -1,8 +1,9 @@
 import { getSelection, getDocument } from '../utils.ts';
+import logger from './logger.ts';
 
 const Editor: any = {
   getCurrentBlock: () => {
-    console.log('Get current block');
+    logger.info('Get current block');
 
     const selection = getSelection();
     const doc = getDocument();
@@ -35,7 +36,7 @@ const Editor: any = {
   },
 
   getBlock: (blockId: string) => {
-    console.log('Get block:', blockId);
+    logger.info('Get block:', blockId);
     const doc = getDocument();
     
     const element = findElementByBlockId(blockId, doc);
@@ -123,7 +124,7 @@ const Editor: any = {
   },
 
   getEditingCursorPosition: () => {
-    console.log('Get editing cursor position');
+    logger.info('Get editing cursor position');
 
     const selection = getSelection();
     const doc = getDocument();
@@ -173,7 +174,7 @@ const Editor: any = {
   },
 
   updateBlock: (blockId: string, content: string, properties?: any) => {
-    console.log('Update block:', blockId, content, properties);
+    logger.info('Update block:', blockId, content, properties);
 
     const doc = getDocument();
     const element = findElementByBlockId(blockId, doc);
@@ -192,7 +193,7 @@ const Editor: any = {
   },
 
   insertAtEditingCursor: (text: string) => {
-    console.log('Insert at editing cursor:', text);
+    logger.info('Insert at editing cursor:', text);
     const selection = getSelection();
     const doc = getDocument();
     
@@ -211,7 +212,7 @@ const Editor: any = {
   },
 
   registerSlashCommand: (name: string, callback: Function) => {
-    console.log('Register slash command:', name);
+    logger.info('Register slash command:', name);
     globalThis.logseqSlashCommands = globalThis.logseqSlashCommands || {};
     globalThis.logseqSlashCommands[name] = callback;
   }

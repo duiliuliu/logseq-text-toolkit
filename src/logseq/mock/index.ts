@@ -92,7 +92,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
 
   // beforeunload 方法
   beforeunload: (callback: () => Promise<void>) => {
-    console.log('beforeunload callback registered');
+    logger.info('beforeunload callback registered');
     window.addEventListener('beforeunload', async (e) => {
       await callback();
     });
@@ -100,7 +100,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
 
   // provideModel 方法
   provideModel: (model: Record<string, any>) => {
-    console.log('provideModel called with model:', model);
+    logger.info('provideModel called with model:', model);
     Object.assign(globalThis, model);
     Object.assign(mockLogseq, model);
     return mockLogseq;
@@ -108,13 +108,13 @@ const mockLogseq = Object.assign(new EventEmitter(), {
 
   // provideTheme 方法
   provideTheme: (theme: any) => {
-    console.log('provideTheme called:', theme);
+    logger.info('provideTheme called:', theme);
     return mockLogseq;
   },
 
   // provideStyle 方法
   provideStyle: (style: any) => {
-    console.log('provideStyle called:', style);
+    logger.info('provideStyle called:', style);
     
     // 获取文档对象
     const doc = getDocument();
@@ -134,7 +134,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
     const head = doc.head || doc.getElementsByTagName('head')[0];
     if (head) {
       head.appendChild(styleElement);
-      console.log('Style applied to document head');
+      logger.info('Style applied to document head');
     }
     
     return mockLogseq;
@@ -142,14 +142,14 @@ const mockLogseq = Object.assign(new EventEmitter(), {
 
   // provideUI 方法
   provideUI: (config: any) => {
-    console.log('Provided UI:', config);
+    logger.info('Provided UI:', config);
 
     const targetPath = config.path || 'body';
     let targetElement: HTMLElement | null;
     const doc = getDocument();
     try {
       targetElement = doc.querySelector(targetPath);
-      console.log('Found target element:', targetElement);
+      logger.info('Found target element:', targetElement);
     } catch (error) {
       console.error('Error finding target element:', error);
       targetElement = null;
@@ -173,11 +173,11 @@ const mockLogseq = Object.assign(new EventEmitter(), {
         slotElement.id = config.key;
         slotElement.className = `logseq-macro-slot ${config.slot}`;
         targetElement.appendChild(slotElement);
-        console.log('Created slot element:', config.key);
+        logger.info('Created slot element:', config.key);
       }
       if (config.template) {
         slotElement.innerHTML = config.template;
-        console.log('Updated slot template');
+        logger.info('Updated slot template');
       }
       return mockLogseq;
     }
@@ -193,14 +193,14 @@ const mockLogseq = Object.assign(new EventEmitter(), {
         container.style.position = 'fixed';
         container.style.zIndex = '9999';
         targetElement.appendChild(container);
-        console.log('Created container:', container);
+        logger.info('Created container:', container);
       }
       container.innerHTML = config.template;
-      console.log('Updated container template');
+      logger.info('Updated container template');
     } else {
       if (container) {
         container.remove();
-        console.log('Removed container:', containerId);
+        logger.info('Removed container:', containerId);
       }
     }
 
@@ -209,13 +209,13 @@ const mockLogseq = Object.assign(new EventEmitter(), {
 
   // useSettingsSchema 方法
   useSettingsSchema: (schemas: any[]) => {
-    console.log('useSettingsSchema called:', schemas);
+    logger.info('useSettingsSchema called:', schemas);
     return mockLogseq;
   },
 
   // updateSettings 方法
   updateSettings: (attrs: Record<string, any>) => {
-    console.log('updateSettings called:', attrs);
+    logger.info('updateSettings called:', attrs);
     updateSettings(attrs);
   },
 
@@ -226,45 +226,45 @@ const mockLogseq = Object.assign(new EventEmitter(), {
 
   // showSettingsUI 方法
   showSettingsUI: () => {
-    console.log('showSettingsUI called');
+    logger.info('showSettingsUI called');
   },
 
   // hideSettingsUI 方法
   hideSettingsUI: () => {
-    console.log('hideSettingsUI called');
+    logger.info('hideSettingsUI called');
   },
 
   // setMainUIAttrs 方法
   setMainUIAttrs: (attrs: any) => {
-    console.log('setMainUIAttrs called:', attrs);
+    logger.info('setMainUIAttrs called:', attrs);
   },
 
   // setMainUIInlineStyle 方法
   setMainUIInlineStyle: (style: any) => {
-    console.log('setMainUIInlineStyle called:', style);
+    logger.info('setMainUIInlineStyle called:', style);
   },
 
   // showMainUI 方法
   showMainUI: (opts?: any) => {
-    console.log('showMainUI called:', opts);
+    logger.info('showMainUI called:', opts);
     mockLogseq.isMainUIVisible = true;
   },
 
   // hideMainUI 方法
   hideMainUI: (opts?: any) => {
-    console.log('hideMainUI called:', opts);
+    logger.info('hideMainUI called:', opts);
     mockLogseq.isMainUIVisible = false;
   },
 
   // toggleMainUI 方法
   toggleMainUI: () => {
-    console.log('toggleMainUI called');
+    logger.info('toggleMainUI called');
     mockLogseq.isMainUIVisible = !mockLogseq.isMainUIVisible;
   },
 
   // resolveResourceFullUrl 方法
   resolveResourceFullUrl: (filePath: string) => {
-    console.log('resolveResourceFullUrl called:', filePath);
+    logger.info('resolveResourceFullUrl called:', filePath);
     return filePath;
   },
 
@@ -281,7 +281,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
     q: () => Promise.resolve([]),
     customQuery: () => Promise.resolve([]),
     datascriptQuery: async (query: string, ...inputs: any[]) => {
-      console.log('Mock DB datascriptQuery called:', query, inputs);
+      logger.info('Mock DB datascriptQuery called:', query, inputs);
       
       try {
         // 解析 parentBlockId（检查 inputs 或者从查询中提取）
