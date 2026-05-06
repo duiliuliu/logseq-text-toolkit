@@ -3,6 +3,7 @@ import App from './app.ts';
 import Editor, { findElementByBlockId } from './editor.ts';
 import UI from './ui.ts';
 import { getSettings, updateSettings, onSettingsChanged } from './settings.ts';
+import { logger } from './logger.ts';
 import { getDocument } from '../utils.ts';
 import type { ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 
@@ -59,7 +60,6 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   connected: true,
   baseInfo,
   effect: true,
-  logger: console,
   get settings() {
     const settings = getSettings();
     if (!('disabled' in settings)) {
@@ -267,6 +267,9 @@ const mockLogseq = Object.assign(new EventEmitter(), {
     console.log('resolveResourceFullUrl called:', filePath);
     return filePath;
   },
+
+  // Logger 模块
+  logger,
 
   // 各个 API 模块
   App,

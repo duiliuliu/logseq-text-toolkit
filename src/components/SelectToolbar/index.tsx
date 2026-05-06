@@ -15,7 +15,7 @@ import {
   eventBus
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
-import { logger } from '../../lib/logger/logger.ts';
+import { logger } from '../../logseq/logger';
 import { getSettings } from '../../settings/index.ts';
 
 interface ToolbarPosition {

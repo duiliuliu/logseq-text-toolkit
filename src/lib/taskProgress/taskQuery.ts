@@ -8,6 +8,7 @@
 import { TaskProgress, StatusStat, STATUS_COLORS } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
+import { logger } from '../../logseq/logger'
 import type { NestingLevel } from '../../settings/types'
 
 function getStatusColor(status: string): string {
@@ -70,8 +71,18 @@ function buildLeafOnlyClause(): string {
 
 function buildTaskFilter(): string {
   // 任务识别条件：有 #task 标签 或 有 status 属性
-  // 这里我们使用 pull 查询获取所有 block 数据，然后在客户端过滤
-  return ''
+  return `
+    (or-join [?b]
+      (and [?b :block/tags ?t]
+           [?t :block/title "Task"])
+      (or-join [?b]
+        [?b :logseq.property/status ?status]
+        ;; 兼容旧的属性名称
+        [?b :block/properties ?props]
+        [(get ?props :status)]
+      )
+    )
+  `
 }
 
 export async function calculateTaskProgress(
@@ -86,39 +97,55 @@ export async function calculateTaskProgress(
     // 构建查询
     const nestingClauses = buildNestingQuery(parentBlockId, nestingLevel)
     const leafClause = onlyLeaves ? buildLeafOnlyClause() : ''
+    const taskFilterClause = buildTaskFilter()
     
     const query = `
-      [:find (pull ?b [*])
+      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags :logseq.property/status])
        :where
        ${nestingClauses}
        ${leafClause}
+       ${taskFilterClause}
       ]
     `
 
     // 执行查询
+    logger.debug('[TaskProgress] 开始查询任务进度', { parentBlockId, nestingLevel, onlyLeaves })
+    logger.debug('[TaskProgress] 查询语句', query)
+    
     const results = await logseqAPI.DB.datascriptQuery(query)
+    
+    logger.debug('[TaskProgress] 查询结果摘要', {
+      总结果数: results?.length || 0,
+      结果详情: results?.map((r: any[], i: number) => ({
+        索引: i,
+        block_uuid: r[0]?.uuid || r[0]?.['block/uuid'],
+        title: r[0]?.title || r[0]?.['block/title'],
+        status: r[0]?.properties?.status || r[0]?.['logseq.property/status'] || r[0]?.['block/properties']?.status
+      }))
+    })
+    
     if (!results || results.length === 0) {
+      logger.debug('[TaskProgress] 没有找到任务数据')
       return null
     }
 
-    // 过滤出任务块并统计
+    // 统计任务
     const statusCounts: Record<string, number> = {}
     const blocks = results.flat()
 
     for (const block of blocks) {
-      // 检查是否是任务块
-      const hasTaskTag = block.tags?.some(
-        (tag: any) => tag?.title?.toLowerCase() === 'task'
-      )
-      const hasStatus = block.properties?.status !== undefined
+      // 从多个可能的位置获取 status
+      let status = 
+        block['logseq.property/status'] ||
+        block.properties?.status || 
+        block['block/properties']?.status ||
+        'todo'
       
-      if (hasTaskTag || hasStatus) {
-        const status = block.properties?.status || 'todo'
-        statusCounts[status] = (statusCounts[status] || 0) + 1
-      }
+      statusCounts[status] = (statusCounts[status] || 0) + 1
     }
 
     if (Object.keys(statusCounts).length === 0) {
+      logger.debug('[TaskProgress] 没有有效的任务状态数据')
       return null
     }
 
@@ -137,7 +164,7 @@ export async function calculateTaskProgress(
     const completedTasks = statusStats.find(s => s.status.toLowerCase() === 'done')?.count || 0
     const progress = Math.round((completedTasks / totalTasks) * 100)
 
-    return {
+    const result = {
       blockId: parentBlockId,
       parentBlockId: parentBlockId,
       totalTasks,
@@ -147,8 +174,12 @@ export async function calculateTaskProgress(
       nestingLevel: nestingLevel,
       leafTasksOnly: onlyLeaves
     }
+    
+    logger.debug('[TaskProgress] 计算完成', result)
+
+    return result
   } catch (error) {
-    console.error('[TaskProgress] calculateTaskProgress error:', error)
+    logger.error('[TaskProgress] calculateTaskProgress error:', error)
     return null
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
-import { logger } from '../../../lib/logger/logger.ts';
+import { logger } from '../../../logseq/logger';
 
 // HTML 转义，防止 xss & 特殊字符
 function escapeHtml(str: string): string {

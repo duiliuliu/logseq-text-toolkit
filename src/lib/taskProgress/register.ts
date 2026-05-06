@@ -11,7 +11,7 @@ import { calculateTaskProgress } from './taskQuery'
 import { ProgressDisplayType } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
-import { logger } from '../logger/logger'
+import { logger } from '../../logseq/logger'
 
 
 const MACRO_PREFIX = ':taskprogress'

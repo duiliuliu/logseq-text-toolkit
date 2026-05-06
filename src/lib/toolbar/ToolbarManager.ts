@@ -10,7 +10,7 @@ import { configParser } from './ConfigParser.ts';
 import { eventBus } from './EventBus.ts';
 import { actionExecutor } from './ActionExecutor.ts';
 import { registerExecutors } from './ExecutorRegistry.ts';
-import { logger } from '../logger/logger.ts';
+import { logger } from '../../logseq/logger';
 
 /**
  * 工具栏管理器实现
