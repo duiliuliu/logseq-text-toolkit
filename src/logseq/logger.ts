@@ -6,7 +6,7 @@
  * 在测试模式使用 Mock PluginLogger，在生产模式使用 Logseq 官方 PluginLogger
  */
 import { getSettings } from '../settings/index.ts';
-import { PluginLogger } from '@logseq/libs/dist/helpers';
+import { PluginLogger } from "@logseq/libs/dist/common";
 import { MockPluginLogger } from './mock/logger.ts';
 
 
