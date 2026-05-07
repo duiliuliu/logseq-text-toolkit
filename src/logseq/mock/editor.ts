@@ -1,9 +1,8 @@
 import { getSelection, getDocument } from '../utils.ts';
-import { logger } from './logger.ts';
 
 const Editor: any = {
   getCurrentBlock: () => {
-    logger.info('Get current block');
+    console.log('Get current block');
 
     const selection = getSelection();
     const doc = getDocument();
@@ -36,7 +35,7 @@ const Editor: any = {
   },
 
   getBlock: (blockId: string) => {
-    logger.info('Get block:', blockId);
+    console.log('Get block:', blockId);
     const doc = getDocument();
     
     const element = findElementByBlockId(blockId, doc);
@@ -124,7 +123,7 @@ const Editor: any = {
   },
 
   getEditingCursorPosition: () => {
-    logger.info('Get editing cursor position');
+    console.log('Get editing cursor position');
 
     const selection = getSelection();
     const doc = getDocument();
@@ -174,7 +173,7 @@ const Editor: any = {
   },
 
   updateBlock: (blockId: string, content: string, properties?: any) => {
-    logger.info('Update block:', blockId, content, properties);
+    console.log('Update block:', blockId, content, properties);
 
     const doc = getDocument();
     const element = findElementByBlockId(blockId, doc);
@@ -193,7 +192,7 @@ const Editor: any = {
   },
 
   insertAtEditingCursor: (text: string) => {
-    logger.info('Insert at editing cursor:', text);
+    console.log('Insert at editing cursor:', text);
     const selection = getSelection();
     const doc = getDocument();
     
@@ -212,7 +211,7 @@ const Editor: any = {
   },
 
   registerSlashCommand: (name: string, callback: Function) => {
-    logger.info('Register slash command:', name);
+    console.log('Register slash command:', name);
     globalThis.logseqSlashCommands = globalThis.logseqSlashCommands || {};
     globalThis.logseqSlashCommands[name] = callback;
   }
@@ -282,7 +281,7 @@ function findElementByBlockId(blockId: string, doc: Document): HTMLElement | nul
         return elements[0] as HTMLElement;
       }
     } catch (error) {
-      logger.error('Error finding element by selector:', error);
+      console.error('Error finding element by selector:', error);
     }
   }
 

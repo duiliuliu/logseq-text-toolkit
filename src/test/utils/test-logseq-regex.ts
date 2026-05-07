@@ -1,5 +1,3 @@
-import logger from '../../lib/logger/index';
-
 // 测试Logseq中的实际情况，使用defaultSettings.json中的配置
 
 // 模拟ToolbarItem类型
@@ -48,7 +46,7 @@ function regexReplaceText(item: ToolbarItem, text: string): string {
         }
       }
     } catch (error) {
-      logger.error('Error parsing regex:', error);
+      console.error('Error parsing regex:', error);
     }
   }
   return text;
@@ -58,24 +56,28 @@ function regexReplaceText(item: ToolbarItem, text: string): string {
  * 测试函数
  */
 function testLogseqCase() {
-  logger.info('Testing Logseq case...');
+  console.log('Testing Logseq case...');
   
+  // 用户提供的失败案例
   const testText = "AI 's [:u.red biggest] a";
-  logger.info(`Input: ${testText}`);
+  console.log(`Input: ${testText}`);
   
   const result = regexReplaceText(removeFormattingItem, testText);
-  logger.info(`Output: ${result}`);
+  console.log(`Output: ${result}`);
   
+  // 预期结果
   const expected = "AI 's biggest a";
-  logger.info(`Expected: ${expected}`);
+  console.log(`Expected: ${expected}`);
   
+  // 验证结果
   if (result === expected) {
-    logger.info('✅ Test PASSED');
+    console.log('✅ Test PASSED');
   } else {
-    logger.info('❌ Test FAILED');
+    console.log('❌ Test FAILED');
   }
   
-  logger.info('\nTesting other cases...');
+  // 测试其他案例
+  console.log('\nTesting other cases...');
   
   const otherCases = [
     "thsi is a **bold text** .",
@@ -86,7 +88,7 @@ function testLogseqCase() {
   
   otherCases.forEach((text, index) => {
     const result = regexReplaceText(removeFormattingItem, text);
-    logger.info(`Case ${index + 1}: ${text} => ${result}`);
+    console.log(`Case ${index + 1}: ${text} => ${result}`);
   });
 }
 

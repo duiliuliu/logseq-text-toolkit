@@ -6,7 +6,6 @@
 import { Settings, ThemeType, LanguageType } from './types'
 import defaultSettings from './defaultSettings'
 import { logseqAPI } from '../logseq'
-import logger from '../lib/logger/index'
 
 function processSettings(logseqSettings: any, userConfigs?: any): Settings {
   const settings = {
@@ -63,7 +62,7 @@ export function getSettings(): Settings {
     const logseqSettings = logseqAPI.settings || {}
     return processSettings(logseqSettings)
   } catch (error) {
-    logger.error('Error getting settings:', error)
+    console.error('Error getting settings:', error)
     return defaultSettings
   }
 }
@@ -81,7 +80,7 @@ export async function getSettingsWithSystem(): Promise<Settings> {
 
     return processSettings(logseqSettings, userConfigs)
   } catch (error) {
-    logger.error('Error getting settings with system:', error)
+    console.error('Error getting settings with system:', error)
     return defaultSettings
   }
 }
@@ -95,7 +94,7 @@ export function updateSettings(newSettings: Partial<Settings>): void {
     }
     logseqAPI.updateSettings(settingsToSave)
   } catch (error) {
-    logger.error('Error updating settings:', error)
+    console.error('Error updating settings:', error)
   }
 }
 

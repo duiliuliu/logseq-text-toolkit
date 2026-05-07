@@ -17,7 +17,7 @@ import { logseqAPI } from './logseq/index.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
 import logger from './lib/logger/index'
-import { initializePlugin, cleanupPlugin } from './initializer.ts'
+import { initializePlugin, cleanupPlugin } from './lib/initializer.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'

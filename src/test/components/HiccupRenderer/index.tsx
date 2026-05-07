@@ -224,7 +224,7 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
           }
           return match;
         } catch (error) {
-          logger.error('Hiccup 解析错误:', error);
+          console.error('Hiccup 解析错误:', error);
           return match;
         }
       });

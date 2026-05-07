@@ -1,5 +1,3 @@
-import logger from '../logger/index';
-
 // 直接测试regexReplaceText函数的逻辑，避免依赖浏览器环境
 
 /**
@@ -40,7 +38,7 @@ function regexReplaceText(item: ToolbarItem, text: string): string {
         }
       }
     } catch (error) {
-      logger.error('Error parsing regex:', error);
+      console.error('Error parsing regex:', error);
     }
   }
   return text;
@@ -50,7 +48,7 @@ function regexReplaceText(item: ToolbarItem, text: string): string {
  * 测试正则表达式是否能够正确清除defaultSettings.json中的数据格式
  */
 function testRegexReplace() {
-  logger.info('Testing regexReplaceText function...');
+  console.log('Testing regexReplaceText function...');
   
   // 测试用例
   const testCases = [
@@ -239,18 +237,18 @@ function testRegexReplace() {
   testCases.forEach(testCase => {
     const result = regexReplaceText(removeFormattingItem, testCase.input);
     if (result === testCase.expected) {
-      logger.info(`✅ ${testCase.name}: PASSED`);
+      console.log(`✅ ${testCase.name}: PASSED`);
       passed++;
     } else {
-      logger.info(`❌ ${testCase.name}: FAILED`);
-      logger.info(`   Input: ${testCase.input}`);
-      logger.info(`   Expected: ${testCase.expected}`);
-      logger.info(`   Got: ${result}`);
+      console.log(`❌ ${testCase.name}: FAILED`);
+      console.log(`   Input: ${testCase.input}`);
+      console.log(`   Expected: ${testCase.expected}`);
+      console.log(`   Got: ${result}`);
       failed++;
     }
   });
   
-  logger.info(`\nTest Results: ${passed} passed, ${failed} failed`);
+  console.log(`\nTest Results: ${passed} passed, ${failed} failed`);
   return failed === 0;
 }
 
@@ -258,4 +256,4 @@ function testRegexReplace() {
 const result = testRegexReplace();
 
 // 输出测试结果
-logger.info(`\nFinal Test Result: ${result ? 'ALL TESTS PASSED' : 'SOME TESTS FAILED'}`);
+console.log(`\nFinal Test Result: ${result ? 'ALL TESTS PASSED' : 'SOME TESTS FAILED'}`);

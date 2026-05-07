@@ -4,8 +4,10 @@
  */
 
 import type { EventBus as IEventBus, EventType, EventData } from './types.ts';
-import logger from '../logger/index';
 
+/**
+ * 事件总线实现
+ */
 export class EventBus implements IEventBus {
   private handlers: Map<EventType, Set<Function>> = new Map();
 
@@ -29,7 +31,7 @@ export class EventBus implements IEventBus {
         try {
           handler(data);
         } catch (error) {
-          logger.error(`Error handling event ${event}:`, error);
+          console.error(`Error handling event ${event}:`, error);
         }
       });
     }
