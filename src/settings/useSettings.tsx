@@ -108,19 +108,30 @@ const useSettings = (): SettingsContextType => {
 
   // 监听设置变化
   useEffect(() => {
-    if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
-      const unsubscribe = (logseqAPI as any).onSettingsChanged(async (newSettings: any, oldSettings: any) => {
-        let userConfigs: any = null
-        try {
-          userConfigs = await logseqAPI.App.getUserConfigs()
-        } catch {
-          // 忽略获取失败的情况
-        }
+    let unsubscribe: (() => void) | null = null
+    
+    try {
+      if (logseqAPI && (logseqAPI as any).onSettingsChanged) {
+        unsubscribe = (logseqAPI as any).onSettingsChanged(async (newSettings: any, oldSettings: any) => {
+          let userConfigs: any = null
+          try {
+            userConfigs = await logseqAPI.App.getUserConfigs()
+          } catch {
+            // 忽略获取失败的情况
+          }
 
-        const mergedSettings = processSettings(newSettings, userConfigs)
-        setSettings(mergedSettings)
-      })
-      return unsubscribe
+          const mergedSettings = processSettings(newSettings, userConfigs)
+          setSettings(mergedSettings)
+        })
+      }
+    } catch (err) {
+      logger.error('Failed to listen to settings changes:', err)
+    }
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe()
+      }
     }
   }, [])
 
