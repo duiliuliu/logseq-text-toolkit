@@ -139,7 +139,7 @@ export async function calculateTaskProgress(
       
       if (!block) continue
       
-      const status = statusTitle || 'todo'
+      const status = statusTitle ? statusTitle.toLowerCase() : 'todo'
       statusCounts[status] = (statusCounts[status] || 0) + 1
     }
 

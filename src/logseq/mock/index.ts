@@ -373,18 +373,29 @@ const mockLogseq = Object.assign(new EventEmitter(), {
           });
         }
         
-        // 为叶子节点过滤补充 parent 信息
-        // 为每个块添加 parent 引用（简单处理）
-        const blocksWithParent = filteredBlocks.map(block => {
-          // 模拟 parent 属性
-          return {
-            ...block,
-            // 这里我们不需要真正的 parent，因为 leaf 过滤已经完成
+        // 处理查询结果，正确返回 [块对象, 状态标题] 格式
+        const results = filteredBlocks.map(child => {
+          // 从 properties 中获取状态，如果没有则默认为 'todo'
+          let statusTitle = 'todo';
+          if (child.properties && child.properties.status) {
+            statusTitle = child.properties.status;
+          }
+          
+          // 构建块对象，确保有必要的属性
+          const block = {
+            'block/uuid': child.uuid,
+            uuid: child.uuid,
+            'block/title': child.content,
+            title: child.content,
+            'block/properties': child.properties,
+            properties: child.properties,
+            'block/tags': child.tags,
+            tags: child.tags
           };
+          
+          return [block, statusTitle];
         });
         
-        // V2 查询格式：返回 [[块对象], [块对象], ...]
-        const results = blocksWithParent.map(child => [child]);
         return results;
       } catch (error) {
         console.error('[Mock DB] datascriptQuery error:', error);

@@ -236,7 +236,7 @@ class LogseqAPI {
       
       if (!block || typeof block !== 'object') continue
 
-      let status = statusTitle || 'todo'
+      let status = statusTitle ? statusTitle.toLowerCase() : 'todo'
 
       tasks.push({
         uuid: block['block/uuid'] || block.uuid || '',
