@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, master, dev-text-tool, trae/solo-agent-NO07mF ]
+    branches: [ main, master, dev-text-tool, trae/solo-agent-NO07mF, feature/refactor-initialize-ui ]
   workflow_dispatch:
 
 permissions:
