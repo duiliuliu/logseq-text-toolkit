@@ -8,6 +8,7 @@ import ja from './ja.json'
 import zhCN from './zh-CN.json'
 import { TranslationKeys, SupportedLanguage } from './translations.ts'
 import { getSettings } from '../settings/index.ts'
+import logger from '../lib/logger/index'
 
 const builtInTranslations: Record<SupportedLanguage, TranslationKeys> = {
   'en': en as TranslationKeys,
@@ -43,7 +44,7 @@ const loadLanguageFile = async (langCode: string, filePath: string): Promise<Tra
     }
     return null
   } catch (error) {
-    console.warn(`Failed to load language file for ${langCode}:`, error)
+    logger.warn(`Failed to load language file for ${langCode}:`, error)
     return null
   }
 }

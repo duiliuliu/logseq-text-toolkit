@@ -11,6 +11,7 @@ import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
 import { eventBus } from '../../lib/toolbar/index.ts';
 import { updateBlockContent } from '../../lib/textReplace/utils.ts';
+import logger from '../../lib/logger/index';
 
 interface CommentState {
   isOpen: boolean;
@@ -69,7 +70,7 @@ export const CommentManager: React.FC = () => {
         });
       }
     } catch (error) {
-      console.warn('Error updating block with inline comment:', error);
+      logger.warn('Error updating block with inline comment:', error);
       // 发布评论完成事件（失败）
       eventBus.emit('ltt-comment:completed', {
         blockId: commentState.selectedData?.block?.uuid || '',

@@ -1,10 +1,9 @@
 import { testRegexReplace } from './testRegexReplaceSimple.ts';
+import logger from '../logger/index';
 
-// 运行测试
 const result = testRegexReplace();
 
-// 输出测试结果
-console.log(`\nFinal Test Result: ${result ? 'ALL TESTS PASSED' : 'SOME TESTS FAILED'}`);
+logger.info(`\nFinal Test Result: ${result ? 'ALL TESTS PASSED' : 'SOME TESTS FAILED'}`);
 
 // 导出测试函数
 if (import.meta.vitest) {

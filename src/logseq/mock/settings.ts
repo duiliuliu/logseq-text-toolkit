@@ -13,7 +13,7 @@ const loadSettings = (): Record<string, any> => {
       return { ...defaultSettings, ...JSON.parse(saved) };
     }
   } catch (e) {
-    console.error('Failed to load settings:', e);
+    logger.error('Failed to load settings:', e);
   }
   return defaultSettings as unknown as Record<string, any>;
 };
@@ -23,7 +23,7 @@ const saveSettings = (settings: Record<string, any>): void => {
   try {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   } catch (e) {
-    console.error('Failed to save settings:', e);
+    logger.error('Failed to save settings:', e);
   }
 };
 
@@ -37,7 +37,7 @@ export const getSettings = (): Record<string, any> => {
 
 // 更新设置
 export const updateSettings = async (newSettings: Record<string, any>): Promise<void> => {
-  console.log('Updated settings:', newSettings);
+  logger.info('Updated settings:', newSettings);
   const oldSettings = { ...currentSettings };
   Object.assign(currentSettings, newSettings);
   saveSettings(currentSettings);
@@ -46,7 +46,7 @@ export const updateSettings = async (newSettings: Record<string, any>): Promise<
 
 // 监听设置变化
 export const onSettingsChanged = <T = any>(cb: (a: T, b: T) => void): (() => void) => {
-  console.log('Registered settings change handler');
+  logger.info('Registered settings change handler');
   settingsChangeHandlers.push(cb as any);
   return () => {
     const index = settingsChangeHandlers.indexOf(cb as any);

@@ -13,6 +13,7 @@ import { t } from '../../translations/i18n.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
 import { logseqAPI } from '../../logseq/index.ts';
 import { Textarea } from '../ui/textarea.tsx';
+import logger from '../../lib/logger/index';
 import './inlineComment.css';
 
 export const CommentModal: React.FC<CommentModalProps> = ({
@@ -50,7 +51,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
         setPosition(null);
       }
     } catch (error) {
-      console.warn('Error getting cursor position:', error);
+      logger.warn('Error getting cursor position:', error);
       setPosition(null);
     }
   };

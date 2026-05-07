@@ -6,6 +6,7 @@
 import type { ConfigParser as IConfigParser } from './types.ts';
 import type { ToolbarItem, ToolbarGroup } from '../../components/Toolbar/types.ts';
 import { parseItems } from '../../components/Toolbar/ToolbarLogic.ts';
+import logger from '../logger/index';
 
 /**
  * 配置解析器实现
@@ -65,7 +66,7 @@ export class ConfigParser implements IConfigParser {
       
       return true;
     } catch (error) {
-      console.error('Config validation failed:', error);
+      logger.error('Config validation failed:', error);
       return false;
     }
   }

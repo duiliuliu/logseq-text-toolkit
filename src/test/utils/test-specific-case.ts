@@ -1,3 +1,5 @@
+import logger from '../../lib/logger/index';
+
 // 测试特定案例：a [:u.red few]  ye
 
 // 模拟ToolbarItem类型
@@ -33,13 +35,13 @@ function regexReplaceText(item: ToolbarItem, text: string): string {
       // 处理对象格式的clickfunc（包含regex和replacement属性）
       if (typeof item.clickfunc === 'object' && item.clickfunc.regex && item.clickfunc.replacement) {
         const { regex: pattern, replacement, flags = 'g' } = item.clickfunc;
-        console.log(`Pattern: ${pattern}`);
-        console.log(`Replacement: ${replacement}`);
-        console.log(`Input: ${text}`);
+        logger.debug(`Pattern: ${pattern}`);
+        logger.debug(`Replacement: ${replacement}`);
+        logger.debug(`Input: ${text}`);
         
         const regex = new RegExp(pattern, flags);
         const result = text.replace(regex, replacement);
-        console.log(`Output: ${result}`);
+        logger.debug(`Output: ${result}`);
         return result;
       }
       // 处理字符串格式的clickfunc（格式示例: /pattern/replacement/flags）
@@ -52,7 +54,7 @@ function regexReplaceText(item: ToolbarItem, text: string): string {
         }
       }
     } catch (error) {
-      console.error('Error parsing regex:', error);
+      logger.error('Error parsing regex:', error);
     }
   }
   return text;
@@ -62,28 +64,24 @@ function regexReplaceText(item: ToolbarItem, text: string): string {
  * 测试函数
  */
 function testSpecificCase() {
-  console.log('Testing specific case...');
+  logger.info('Testing specific case...');
   
-  // 用户提供的案例
   const testText = "a [:u.red few]  ye";
-  console.log(`Input: ${testText}`);
+  logger.info(`Input: ${testText}`);
   
   const result = regexReplaceText(removeFormattingItem, testText);
-  console.log(`Output: ${result}`);
+  logger.info(`Output: ${result}`);
   
-  // 预期结果
   const expected = "a few  ye";
-  console.log(`Expected: ${expected}`);
+  logger.info(`Expected: ${expected}`);
   
-  // 验证结果
   if (result === expected) {
-    console.log('✅ Test PASSED');
+    logger.info('✅ Test PASSED');
   } else {
-    console.log('❌ Test FAILED');
+    logger.info('❌ Test FAILED');
   }
   
-  // 测试其他类似案例
-  console.log('\nTesting other similar cases...');
+  logger.info('\nTesting other similar cases...');
   
   const otherCases = [
     "[:u.red test]",
@@ -93,7 +91,7 @@ function testSpecificCase() {
   
   otherCases.forEach((text, index) => {
     const result = regexReplaceText(removeFormattingItem, text);
-    console.log(`Case ${index + 1}: ${text} => ${result}`);
+    logger.info(`Case ${index + 1}: ${text} => ${result}`);
   });
 }
 

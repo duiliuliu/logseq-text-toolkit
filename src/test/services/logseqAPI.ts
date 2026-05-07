@@ -6,6 +6,8 @@
  * 参考: https://github.com/kerim/logseq-db-query-builder
  */
 
+import logger from '../../lib/logger/index';
+
 const API_BASE_URL = 'http://127.0.0.1:12315/api'
 
 export interface HealthStatus {
@@ -161,7 +163,7 @@ class LogseqAPI {
         raw: results
       }
     } catch (error) {
-      console.error('Query execution failed:', error)
+      logger.error('Query execution failed:', error)
       throw error
     }
   }
