@@ -9,7 +9,8 @@
     "comment": "Comment",
     "noSelection": "Please select text to process",
     "replaceFailed": "Text replacement failed",
-    "noBlockContent": "Unable to get block content"
+    "noBlockContent": "Unable to get block content",
+    "buttonTooltip": "✨ Text Toolkit Plugin - Make your notes more fun!"
   },
   "inlineComment": {
     "text": "Text",

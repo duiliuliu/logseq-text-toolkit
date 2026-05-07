@@ -18,6 +18,7 @@ import { getSettings } from './settings/index'
 import { getDocument } from './logseq/utils'
 import logger from './lib/logger/index'
 import { initializePlugin, cleanupPlugin } from './initializer'
+import { t } from './translations/i18n'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -117,6 +118,24 @@ const showSelectToolbar = async () => {
   }
 }
 
+// 注册工具栏按钮
+const registerLogseqButton = () => {
+  const settings = getSettings()
+  const buttonTooltip = t('toolbar.buttonTooltip', settings?.language)
+  
+  logseqAPI.App.registerUIItem('toolbar', {
+    key: 'text-toolkit-settings-btn',
+    template: `
+      <a class="button" id="ltt-settings-button"
+      data-on-click="settingToggle"
+      data-rect
+      title="${buttonTooltip}">
+       <i class="ti ti-text-wrap"></i>
+      </a>
+    `,
+  })
+}
+
 const main = async () => {
   try {
     // 使用统一的初始化管理器
@@ -129,16 +148,7 @@ const main = async () => {
     await showSettingUI()
 
     // 注册工具栏按钮
-    logseqAPI.App.registerUIItem('toolbar', {
-      key: 'text-toolkit-settings-btn',
-      template: `
-        <a class="button" id="ltt-settings-button"
-        data-on-click="settingToggle"
-        data-rect>
-         <i class="ti ti-text-wrap"></i>
-        </a>
-      `,
-    })
+    registerLogseqButton()
 
     // 显示其他 UI
     await showSelectToolbar()
