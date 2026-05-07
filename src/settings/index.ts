@@ -11,7 +11,6 @@ function processSettings(logseqSettings: any, userConfigs?: any): Settings {
   const settings = {
     ...defaultSettings,
     ...logseqSettings,
-    // 确保类型正确
     theme: (logseqSettings.theme || 'light') as ThemeType,
     language: (logseqSettings.language || 'zh-CN') as LanguageType,
     useSystemTheme: Boolean(logseqSettings.useSystemTheme),
@@ -24,7 +23,6 @@ function processSettings(logseqSettings: any, userConfigs?: any): Settings {
     toolbarShortcut: logseqSettings.toolbarShortcut || '',
   }
 
-  // 如果有 userConfigs，应用系统主题和语言
   if (userConfigs) {
     if (settings.useSystemTheme && userConfigs.preferredThemeMode) {
       settings.theme = userConfigs.preferredThemeMode as ThemeType
@@ -34,20 +32,19 @@ function processSettings(logseqSettings: any, userConfigs?: any): Settings {
     }
   }
 
-  // 兼容旧版本的 funcmode 和 clickfunc
   if (settings.ToolbarItems) {
     settings.ToolbarItems = settings.ToolbarItems.map((item: any) => {
       if ('funcmode' in item && 'clickfunc' in item && !('invoke' in item)) {
         item.invoke = item.funcmode
         item.invokeParams = item.clickfunc
       }
-      if ('subItems' in item && item.subItems) {
-        item.subItems = item.subItems.map((subItem: any) => {
-          if ('funcmode' in subItem && 'clickfunc' in subItem && !('invoke' in subItem)) {
-            subItem.invoke = subItem.funcmode
-            subItem.invokeParams = subItem.clickfunc
+      if (item.subItems) {
+        item.subItems = item.subItems.map((sub: any) => {
+          if ('funcmode' in sub && 'clickfunc' in sub && !('invoke' in sub)) {
+            sub.invoke = sub.funcmode
+            sub.invokeParams = sub.clickfunc
           }
-          return subItem
+          return sub
         })
       }
       return item
@@ -71,13 +68,11 @@ export async function getSettingsWithSystem(): Promise<Settings> {
   try {
     const logseqSettings = logseqAPI.settings || {}
     let userConfigs: any = null
-
     try {
       userConfigs = await logseqAPI.App.getUserConfigs()
     } catch {
       // 忽略获取失败的情况
     }
-
     return processSettings(logseqSettings, userConfigs)
   } catch (error) {
     console.error('Error getting settings with system:', error)

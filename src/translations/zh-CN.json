@@ -1,4 +1,7 @@
 {
+  "taskProgress": {
+    "nestingLevel": "嵌套层级"
+  },
   "toolbar": {
     "bold": "加粗",
     "highlight": "高亮",

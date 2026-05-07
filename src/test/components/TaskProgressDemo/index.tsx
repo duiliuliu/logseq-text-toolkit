@@ -1,14 +1,14 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * 任务进度演示组件
  */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { calculateTaskProgress } from '../../../lib/taskProgress/taskQuery'
-import { getSettings } from '../../../settings'
+import { useSettingsContext } from '../../../settings/useSettings.tsx'
 import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../lib/taskProgress/types'
 import { t } from '../../../translations/i18n'
 import { SupportedLanguage } from '../../../translations/translations'
@@ -16,38 +16,46 @@ import { SupportedLanguage } from '../../../translations/translations'
 const TaskProgressDemo: React.FC = () => {
   const [progressData, setProgressData] = useState<TaskProgressType | null>(null)
   const [nestedProgressData, setNestedProgressData] = useState<TaskProgressType | null>(null)
-  const settings = getSettings()
+  const { settings } = useSettingsContext()
   const currentLang = settings?.language || 'zh-CN'
-  
-  // 添加嵌套层级测试选项
-  const [testNestingLevel, setTestNestingLevel] = useState<number | 'all'>(1)
-  const [testOnlyLeaves, setTestOnlyLeaves] = useState(false)
 
-  useEffect(() => {
-    const loadProgress = async () => {
-      const data = await calculateTaskProgress('#task-parent-block')
-      setProgressData(data)
-    }
-    loadProgress()
-  }, [])
+  const [testNestingLevel, setTestNestingLevel] = useState<number | 'all'>(settings?.taskProgress?.nestingLevel ?? 1)
+  const [testOnlyLeaves, setTestOnlyLeaves] = useState(settings?.taskProgress?.onlyLeaves ?? false)
 
-  const refreshProgress = async () => {
+  const loadProgress = useCallback(async () => {
     const data = await calculateTaskProgress('#task-parent-block')
     setProgressData(data)
-  }
-  
-  const refreshNestedProgress = async () => {
+  }, [])
+
+  const refreshProgress = useCallback(async () => {
+    const data = await calculateTaskProgress('#task-parent-block')
+    setProgressData(data)
+  }, [])
+
+  const refreshNestedProgress = useCallback(async () => {
     const data = await calculateTaskProgress('#nested-task-parent', {
       nestingLevel: testNestingLevel,
       onlyLeaves: testOnlyLeaves
     })
     setNestedProgressData(data)
-  }
-  
-  // 加载嵌套任务进度
+  }, [testNestingLevel, testOnlyLeaves])
+
+  useEffect(() => {
+    loadProgress()
+  }, [loadProgress])
+
   useEffect(() => {
     refreshNestedProgress()
-  }, [testNestingLevel, testOnlyLeaves])
+  }, [refreshNestedProgress])
+
+  useEffect(() => {
+    if (settings?.taskProgress?.nestingLevel !== undefined) {
+      setTestNestingLevel(settings.taskProgress.nestingLevel)
+    }
+    if (settings?.taskProgress?.onlyLeaves !== undefined) {
+      setTestOnlyLeaves(settings.taskProgress.onlyLeaves)
+    }
+  }, [settings?.taskProgress?.nestingLevel, settings?.taskProgress?.onlyLeaves])
 
   const displayTypes: { type: ProgressDisplayType; label: string }[] = [
     { type: 'mini-circle', label: '微型圆环' },
@@ -60,8 +68,7 @@ const TaskProgressDemo: React.FC = () => {
   return (
     <div className="task-progress-demo">
       <h3>任务进度演示</h3>
-      
-      {/* 基础任务演示 */}
+
       {progressData ? (
         <>
           <div className="progress-info" style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#f0f9ff', borderRadius: '8px' }}>
@@ -71,18 +78,18 @@ const TaskProgressDemo: React.FC = () => {
             <div style={{ marginTop: '8px', borderTop: '1px solid #ddd', paddingTop: '8px' }}>
               <strong>状态明细:</strong>
               {progressData.statusStats.map(stat => (
-                <div key={stat.status} style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
+                <div key={stat.status} style={{
+                  display: 'flex',
+                  alignItems: 'center',
                   gap: '8px',
                   margin: '4px 0',
                   fontSize: '13px'
                 }}>
-                  <span style={{ 
-                    width: '12px', 
-                    height: '12px', 
-                    borderRadius: '50%', 
-                    backgroundColor: stat.color 
+                  <span style={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: stat.color
                   }} />
                   <span style={{ minWidth: '60px' }}>{t(`settings.taskProgress.statusNames.${stat.status}`, currentLang)}:</span>
                   <span style={{ fontWeight: 'bold' }}>{stat.count}</span>
@@ -90,7 +97,7 @@ const TaskProgressDemo: React.FC = () => {
               ))}
             </div>
           </div>
-          
+
           <div className="all-display-types">
             {displayTypes.map(({ type, label }) => (
               <div key={type} className="display-type-item" style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -108,8 +115,8 @@ const TaskProgressDemo: React.FC = () => {
               </div>
             ))}
           </div>
-          
-          <button 
+
+          <button
             className="refresh-btn"
             onClick={refreshProgress}
             style={{
@@ -132,16 +139,14 @@ const TaskProgressDemo: React.FC = () => {
           </p>
         </div>
       )}
-      
-      {/* V2 嵌套任务演示 */}
+
       <div style={{ marginTop: '32px', borderTop: '2px solid #ddd', paddingTop: '24px' }}>
         <h3>🔄 V2 嵌套任务演示</h3>
-        
-        {/* 测试控制面板 */}
+
         <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#f5f7fa', borderRadius: '8px' }}>
           <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span style={{ fontWeight: 'bold' }}>嵌套层级:</span>
-            <select 
+            <select
               value={typeof testNestingLevel === 'number' ? testNestingLevel : testNestingLevel}
               onChange={(e) => {
                 const val = e.target.value
@@ -154,9 +159,9 @@ const TaskProgressDemo: React.FC = () => {
               <option value="all">All levels</option>
             </select>
           </div>
-          
+
           <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <input 
+            <input
               type="checkbox"
               id="only-leaves"
               checked={testOnlyLeaves}
@@ -165,8 +170,8 @@ const TaskProgressDemo: React.FC = () => {
             />
             <label htmlFor="only-leaves" style={{ fontWeight: 'bold' }}>仅统计叶子任务 (Leaf Tasks)</label>
           </div>
-          
-          <button 
+
+          <button
             onClick={refreshNestedProgress}
             style={{
               padding: '6px 12px',
@@ -179,7 +184,7 @@ const TaskProgressDemo: React.FC = () => {
             刷新嵌套任务进度
           </button>
         </div>
-        
+
         {nestedProgressData ? (
           <>
             <div className="progress-info" style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#ecfdf5', borderRadius: '8px' }}>
@@ -192,18 +197,18 @@ const TaskProgressDemo: React.FC = () => {
               <div style={{ marginTop: '8px', borderTop: '1px solid #ddd', paddingTop: '8px' }}>
                 <strong>状态明细:</strong>
                 {nestedProgressData.statusStats.map(stat => (
-                  <div key={stat.status} style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
+                  <div key={stat.status} style={{
+                    display: 'flex',
+                    alignItems: 'center',
                     gap: '8px',
                     margin: '4px 0',
                     fontSize: '13px'
                   }}>
-                    <span style={{ 
-                      width: '12px', 
-                      height: '12px', 
-                      borderRadius: '50%', 
-                      backgroundColor: stat.color 
+                    <span style={{
+                      width: '12px',
+                      height: '12px',
+                      borderRadius: '50%',
+                      backgroundColor: stat.color
                     }} />
                     <span style={{ minWidth: '60px' }}>{t(`settings.taskProgress.statusNames.${stat.status}`, currentLang)}:</span>
                     <span style={{ fontWeight: 'bold' }}>{stat.count}</span>
@@ -211,7 +216,7 @@ const TaskProgressDemo: React.FC = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="all-display-types">
               {displayTypes.map(({ type, label }) => (
                 <div key={type} className="display-type-item" style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>

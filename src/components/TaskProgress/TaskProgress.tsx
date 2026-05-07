@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * 任务进度主组件
  */
 
@@ -12,6 +12,7 @@ import DotMatrixProgress from './DotMatrixProgress'
 import StatusCursorProgress from './StatusCursorProgress'
 import ProgressCapsule from './ProgressCapsule'
 import StepProgress from './StepProgress'
+import { t } from '../../translations/i18n'
 import { SupportedLanguage } from '../../translations/translations'
 
 interface TaskProgressProps {
@@ -25,8 +26,8 @@ interface TaskProgressProps {
   showNestingIndicator?: boolean
 }
 
-const TaskProgress: React.FC<TaskProgressProps> = ({ 
-  progressData, 
+const TaskProgress: React.FC<TaskProgressProps> = ({
+  progressData,
   displayType,
   config,
   lang = 'zh-CN',
@@ -41,21 +42,21 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
 
   const renderNestingIndicator = () => {
     if (!showNestingIndicator) return null
-    
+
     const levelMap: Record<number | string, string> = {
       1: '1',
       2: '1-2',
       3: '1-3',
       'all': '1-N'
     }
-    
+
     const levelText = levelMap[nestingLevel as number | string] || '1'
     const leafText = onlyLeaves ? ' ◈' : ''
-    
+
     return (
-      <span 
+      <span
         className="nesting-indicator"
-        title={`${lang === 'zh-CN' ? '嵌套层级' : lang === 'ja' ? 'ネストレベル' : 'Nesting Level'}: ${levelText}${leafText}`}
+        title={`${t('taskProgress.nestingLevel', lang)}: ${levelText}${leafText}`}
       >
         {levelText}{leafText}
       </span>
@@ -70,7 +71,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
       animationClass,
       showLabel: config?.showLabel ?? true,
     }
-    
+
     switch (displayType) {
       case 'mini-circle':
         return (
@@ -114,7 +115,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
         return null
     }
   }
-  
+
   return (
     <div className="task-progress">
       {renderNestingIndicator()}
