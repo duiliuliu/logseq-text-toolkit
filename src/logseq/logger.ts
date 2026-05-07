@@ -7,12 +7,7 @@
  * DEPRECATED: 使用 /src/lib/logger 代替
  */
 
-import { getLogger } from '../lib/logger/index';
-import type { Logger } from '../lib/logger/types';
-
-// 导出 logger 实例
-export const logger = getLogger();
-
-export type { Logger };
-
-export default logger;
+// 从新位置重新导出，保持兼容性
+export { default as logger, default } from '../lib/logger/index';
+export { getLogger, updateLoggerConfig, resetLogger } from '../lib/logger/index';
+export type { Logger, PluginLogLevel, LoggerOptions } from '../lib/logger/types';

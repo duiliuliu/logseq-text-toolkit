@@ -23,6 +23,7 @@ let currentConfig: {
 
 /**
  * 获取 logger 实例（惰性初始化）
+ * 通常直接使用默认导出的 logger 即可
  */
 export const getLogger = (): Logger => {
   if (!loggerInstance) {
@@ -66,5 +67,16 @@ export const resetLogger = (): void => {
   };
 };
 
-// 默认导出 logger 获取函数
-export default getLogger;
+// 优雅的默认导出：直接导出 logger 实例（使用 Proxy 实现动态初始化）
+// 这样可以直接 import logger from './logger' 然后 logger.info(...)
+const loggerProxy = new Proxy({} as Logger, {
+  get(_, prop) {
+    const logger = getLogger();
+    return (logger as any)[prop];
+  }
+});
+
+export default loggerProxy;
+
+// 也支持命名导出，方便需要解构的场景
+export { loggerProxy as logger };

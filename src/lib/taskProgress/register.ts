@@ -11,7 +11,7 @@ import { calculateTaskProgress } from './taskQuery'
 import { ProgressDisplayType } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
-import { getLogger } from '../logger/index.ts'
+import logger from '../logger/index';
 
 
 const MACRO_PREFIX = ':taskprogress'
@@ -24,7 +24,6 @@ export function setTaskProgressComponent(component: React.FC<any>) {
 }
 
 async function renderProgress(blockId: string, slot: string): Promise<boolean> {
-  const logger = getLogger()
   try {
     const settings = getSettings()
     const displayType: ProgressDisplayType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
@@ -81,7 +80,6 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
 }
 
 export function registerTaskProgress(): void {
-  const logger = getLogger()
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
     const [type] = payload.arguments || []
     

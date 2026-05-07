@@ -6,13 +6,7 @@
  * DEPRECATED: 使用 /src/lib/logger 代替
  */
 
-// 从新位置重新导出
+// 从新位置重新导出，保持兼容性
 export type { Logger, PluginLogLevel, LoggerOptions } from '../../lib/logger/types';
 export { LogseqLogger as MockPluginLogger, defaultLogger } from '../../lib/logger/logger';
-
-// 保留兼容性导出
-import { getLogger } from '../../lib/logger/index';
-
-export const logger = getLogger();
-
-export default logger;
+export { default as logger, default, getLogger, updateLoggerConfig, resetLogger } from '../../lib/logger/index';

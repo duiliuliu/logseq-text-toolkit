@@ -8,7 +8,7 @@ import type { SelectedData } from '../../../components/Toolbar/types.ts';
 import { replaceText, regexReplaceText, updateBlockContent } from '../../../lib/textReplace/utils.ts';
 import { logseqAPI } from '../../../logseq/index.ts';
 import { t } from '../../../translations/i18n.ts';
-import { getLogger } from '../../logger/index.ts';
+import logger from '../../logger/index';
 
 /**
  * 替换执行器

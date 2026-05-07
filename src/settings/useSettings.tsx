@@ -8,7 +8,7 @@ import { Settings, SettingsContextType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'
 import { processSettings, updateSettings as updateSettingsInIndex } from './index.ts'
 import { logseqAPI } from '../logseq/index.ts'
-import { getLogger } from '../lib/logger/index.ts'
+import logger from '../lib/logger/index';
 
 // 创建设置上下文
 const SettingsContext = createContext<SettingsContextType | null>(null)

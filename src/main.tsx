@@ -16,7 +16,7 @@ import { SettingsProvider } from './settings/useSettings.tsx'
 import { logseqAPI } from './logseq/index.ts'
 import { getSettings } from './settings/index.ts'
 import { getDocument } from './logseq/utils.ts'
-import { getLogger } from './lib/logger/index.ts'
+import logger from './lib/logger/index'
 import { initializePlugin, cleanupPlugin } from './lib/initializer.ts'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
@@ -110,8 +110,6 @@ const showSelectToolbar = async () => {
 }
 
 const main = async () => {
-  const logger = getLogger();
-  
   try {
     // 使用统一的初始化管理器
     await initializePlugin();
@@ -147,12 +145,10 @@ if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
   logseqAPI.ready(main).catch((err) => {
-    const logger = getLogger();
     logger.error('Plugin ready error:', err);
   })
 } else { 
   logseqAPI.ready(main).catch((err) => {
-    const logger = getLogger();
     logger.error('Plugin ready error:', err);
   })
 }

@@ -11,7 +11,7 @@ import type { SelectedData } from '../../components/Toolbar/types.ts';
 import { replaceText, regexReplaceText, updateBlockContent } from '../../lib/textReplace/utils.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
-import { getLogger } from '../logger/index.ts';
+import logger from '../logger/index';
 
 /**
  * 功能执行器实现
@@ -90,14 +90,13 @@ export class ActionExecutor implements IActionExecutor {
       
       return processedText;
     } catch (error) {
-      try {
-        logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', this.language)}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
-      } catch (uiError) {
-        const logger = getLogger();
-        logger.error('Error showing message:', uiError);
-      }
-      return selectedData.text;
+    try {
+      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', this.language)}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
+    } catch (uiError) {
+      logger.error('Error showing message:', uiError);
     }
+    return selectedData.text;
+  }
   }
 
   /**

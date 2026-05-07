@@ -7,7 +7,7 @@
  */
 
 import { getSettings } from '../settings/index.ts';
-import { getLogger, updateLoggerConfig } from './logger/index.ts';
+import logger, { updateLoggerConfig } from './logger/index';
 import { initI18n } from '../translations/i18n.ts';
 import { logseqAPI } from '../logseq/index.ts';
 import { registerTaskProgress, setTaskProgressComponent } from './taskProgress/register.ts';
@@ -29,7 +29,6 @@ let cleanupFunctions: Array<() => void> = [];
  * 加载 CSS 样式
  */
 const loadCSS = async () => {
-  const logger = getLogger();
   
   try {
     const cssFiles = [
@@ -109,7 +108,6 @@ const configureLogger = () => {
  * 核心初始化流程
  */
 export const initializePlugin = async (): Promise<void> => {
-  const logger = getLogger(); // 先使用默认配置初始化 logger
   
   try {
     logger.info('Starting Text Toolkit Plugin initialization...');

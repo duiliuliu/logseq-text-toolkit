@@ -10,7 +10,7 @@ import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
 import { SelectedData } from '../../components/Toolbar/types.ts';
 import { ToolbarItem } from '../../components/Toolbar/types.ts';
-import { getLogger } from '../logger/index.ts';
+import logger from '../logger/index';
 
 /**
  * 更新块内容

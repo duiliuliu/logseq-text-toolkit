@@ -8,7 +8,7 @@
 import { TaskProgress, StatusStat, STATUS_COLORS } from './types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
-import { getLogger } from '../../lib/logger/index.ts'
+import logger from '../../lib/logger/index';
 import type { NestingLevel } from '../../settings/types'
 
 function getStatusColor(status: string): string {
