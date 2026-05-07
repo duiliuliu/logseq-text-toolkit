@@ -207,12 +207,18 @@ class LogseqAPI {
     const leafClause = onlyLeaves ? `(not [?child :block/parent ?b])` : ''
 
     const query = `
-      [:find (pull ?b [:block/uuid :block/title :block/properties :block/content])
+      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags :logseq.property/status])
        :where
        ${parentClause}
        ${nestingClauses}
        ${leafClause}
-       (or [?b :logseq.property/status ?status] [?b :block/properties ?props])
+       (or-join [?b]
+         (and [?b :block/tags ?t]
+              [?t :block/title "Task"])
+         (or-join [?b]
+           [?b :logseq.property/status ?status]
+         )
+       )
       ]
     `
 
