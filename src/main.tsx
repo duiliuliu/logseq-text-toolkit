@@ -79,7 +79,7 @@ const main = async () => {
     await initializePlugin();
 
     // 初始化设置 UI
-    initializeSettingUI()
+    await initializeSettingUI()
 
     // 显示其他 UI
     await showSelectToolbar()
