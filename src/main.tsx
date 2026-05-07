@@ -117,6 +117,21 @@ const showSelectToolbar = async () => {
   }
 }
 
+// 注册工具栏按钮
+const registerToolbarButton = () => {
+  logseqAPI.App.registerUIItem('toolbar', {
+    key: 'text-toolkit-settings-btn',
+    template: `
+      <a class="button" id="ltt-settings-button"
+      data-on-click="settingToggle"
+      data-rect
+      title="Text Toolkit Plugin">
+       <i class="ti ti-text-wrap"></i>
+      </a>
+    `,
+  })
+}
+
 const main = async () => {
   try {
     // 使用统一的初始化管理器
@@ -129,16 +144,7 @@ const main = async () => {
     await showSettingUI()
 
     // 注册工具栏按钮
-    logseqAPI.App.registerUIItem('toolbar', {
-      key: 'text-toolkit-settings-btn',
-      template: `
-        <a class="button" id="ltt-settings-button"
-        data-on-click="settingToggle"
-        data-rect>
-         <i class="ti ti-text-wrap"></i>
-        </a>
-      `,
-    })
+    registerToolbarButton()
 
     // 显示其他 UI
     await showSelectToolbar()
