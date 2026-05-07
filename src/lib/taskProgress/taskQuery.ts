@@ -86,7 +86,6 @@ export async function calculateTaskProgress(
   parentBlockId: string,
   options?: { nestingLevel?: NestingLevel; onlyLeaves?: boolean }
 ): Promise<TaskProgress | null> {
-  const logger = getLogger(); // 在函数内部获取 logger
   try {
     const settings = getSettings()
     const nestingLevel = options?.nestingLevel ?? settings?.taskProgress?.nestingLevel ?? 1

@@ -33,7 +33,6 @@ export const replaceExecutor: ActionExecutorFn = async (item: ToolbarItem, selec
     try {
       logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
     } catch (uiError) {
-      const logger = getLogger();
       logger.error('Error showing message:', uiError);
     }
     return selectedData.text;
@@ -63,7 +62,6 @@ export const regexReplaceExecutor: ActionExecutorFn = async (item: ToolbarItem, 
     try {
       logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
     } catch (uiError) {
-      const logger = getLogger();
       logger.error('Error showing message:', uiError);
     }
     return selectedData.text;

@@ -24,7 +24,6 @@ export const updateBlockContent = async (
   processedText: string,
   language: string
 ): Promise<boolean> => {
-  const logger = getLogger();
   try {
     const block = selectedData.block;
     if (!block || !block.content) {
@@ -61,7 +60,6 @@ export const updateBlockContent = async (
  * @returns 替换后的内容
  */
 export const findAndReplaceText = (originalContent: string, selectedText: string, processedText: string): string => {
-  const logger = getLogger();
   const index = originalContent.indexOf(selectedText);
   if (index === -1) {
     logger.warn('Selected text not found in block content:', {
@@ -81,7 +79,6 @@ export const findAndReplaceText = (originalContent: string, selectedText: string
  * @returns 是否替换成功
  */
 export const replaceInSelectedElement = async (selectedData: SelectedData, processedText: string): Promise<boolean> => {
-  const logger = getLogger();
   try {
     const selection = getSelection();
     const doc = getDocument();
@@ -153,7 +150,6 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
  * @returns 替换后的文本
  */
 export const regexReplaceText = (item: ToolbarItem, text: string): string => {
-  const logger = getLogger();
   if (item.invokeParams) {
     try {
       if (typeof item.invokeParams === 'object' && item.invokeParams.regex && item.invokeParams.replacement) {
