@@ -97,11 +97,13 @@ export async function calculateTaskProgress(
     const taskFilterClause = buildTaskFilter()
 
     const query = `
-      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags :logseq.property/status])
+      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags]) ?status-title
        :where
        ${nestingClauses}
        ${leafClause}
        ${taskFilterClause}
+       [?b :logseq.property/status ?status]
+       [?status :block/title ?status-title]
       ]
     `
 
@@ -117,7 +119,7 @@ export async function calculateTaskProgress(
         索引: i,
         block_uuid: r[0]?.uuid || r[0]?.['block/uuid'],
         title: r[0]?.title || r[0]?.['block/title'],
-        status: r[0]?.properties?.status || r[0]?.['logseq.property/status'] || r[0]?.['block/properties']?.status
+        status: r[1] || 'todo'
       }))
     })
 
@@ -128,16 +130,16 @@ export async function calculateTaskProgress(
 
     // 统计任务
     const statusCounts: Record<string, number> = {}
-    const blocks = results.flat()
-
-    for (const block of blocks) {
-      // 从多个可能的位置获取 status
-      let status =
-        block['logseq.property/status'] ||
-        block.properties?.status ||
-        block['block/properties']?.status ||
-        'todo'
-
+    
+    for (const result of results) {
+      if (!result || !Array.isArray(result) || result.length < 2) continue
+      
+      const block = result[0]
+      const statusTitle = result[1] // 直接从查询结果获取状态名称
+      
+      if (!block) continue
+      
+      const status = statusTitle || 'todo'
       statusCounts[status] = (statusCounts[status] || 0) + 1
     }
 

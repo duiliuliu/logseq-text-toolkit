@@ -207,7 +207,7 @@ class LogseqAPI {
     const leafClause = onlyLeaves ? `(not [?child :block/parent ?b])` : ''
 
     const query = `
-      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags :logseq.property/status])
+      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags]) ?status-title
        :where
        ${parentClause}
        ${nestingClauses}
@@ -219,6 +219,8 @@ class LogseqAPI {
            [?b :logseq.property/status ?status]
          )
        )
+       [?b :logseq.property/status ?status]
+       [?status :block/title ?status-title]
       ]
     `
 
@@ -227,24 +229,14 @@ class LogseqAPI {
     const tasks: TaskProgressData[] = []
     
     for (const item of (result.data || [])) {
-      if (!item || !Array.isArray(item)) continue
+      if (!item || !Array.isArray(item) || item.length < 2) continue
       
       const block = item[0]
+      const statusTitle = item[1] // 直接从查询结果获取状态名称
+      
       if (!block || typeof block !== 'object') continue
 
-      let status = 'todo'
-      
-      if (block.properties && typeof block.properties === 'object') {
-        const statusProp = block.properties.status
-        if (statusProp) {
-          status = typeof statusProp === 'object' ? String(statusProp.id) : String(statusProp)
-        }
-      } else if (block['block/properties'] && typeof block['block/properties'] === 'object') {
-        const statusProp = block['block/properties'].status
-        if (statusProp) {
-          status = typeof statusProp === 'object' ? String(statusProp.id) : String(statusProp)
-        }
-      }
+      let status = statusTitle || 'todo'
 
       tasks.push({
         uuid: block['block/uuid'] || block.uuid || '',
