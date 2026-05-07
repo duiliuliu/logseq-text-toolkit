@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, dev-text-tool, trae/solo-agent-NO07mF ]
+    branches: [ main, master, dev-text-tool, trae/solo-agent-NO07mF ]
   workflow_dispatch:
 
 permissions:
@@ -36,8 +36,8 @@ jobs:
         run: |
           mkdir -p ./gh-pages-build
 
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            echo "Deploying main branch to root /"
+          if [ "${{ github.ref_name }}" = "main" ] || [ "${{ github.ref_name }}" = "master" ]; then
+            echo "Deploying main/master branch to root /"
             cp -r ./dist/* ./gh-pages-build/
           else
             echo "Deploying dev branch to /dev"
