@@ -1,4 +1,10 @@
 {
+<<<<<<< HEAD
+=======
+  "taskProgress": {
+    "nestingLevel": "ネストレベル"
+  },
+>>>>>>> trae/solo-agent-NO07mF
   "toolbar": {
     "bold": "太字",
     "highlight": "ハイライト",
@@ -6,13 +12,26 @@
     "comment": "コメント",
     "noSelection": "処理するテキストを選択してください",
     "replaceFailed": "テキストの置換に失敗しました",
+<<<<<<< HEAD
     "noBlockContent": "ブロックの内容を取得できません"
+=======
+    "noBlockContent": "ブロックの内容を取得できません",
+    "buttonTooltip": "✨ Text Toolkit Plugin - ノートをより楽しく！"
+>>>>>>> trae/solo-agent-NO07mF
   },
   "inlineComment": {
     "text": "テキスト",
     "placeholder": "コメントを追加...",
     "save": "コメントを追加",
+<<<<<<< HEAD
     "title": "コメントを追加"
+=======
+    "title": "コメントを追加",
+    "addComment": "コメントを追加",
+    "selectedText": "選択テキスト",
+    "annotate": "注釈",
+    "comment": "コメント"
+>>>>>>> trae/solo-agent-NO07mF
   },
   "comment": {
     "title": "コメントを追加"

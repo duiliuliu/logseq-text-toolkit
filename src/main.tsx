@@ -18,6 +18,7 @@ import { getSettings } from './settings/index'
 import { getDocument } from './logseq/utils'
 import logger from './lib/logger/index'
 import { initializePlugin, cleanupPlugin } from './initializer'
+import { t } from './translations/i18n'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -47,74 +48,22 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
   }
 }
 
-let settingsModalOpen = false;
-
-const showSettingUI = async () => {
-  logseqAPI.provideUI({
-    key: SETTINGS_ID,
-    path: '#app-container',
-    template: `<div id="${SETTINGS_ID}"></div>`,
+// 注册工具栏按钮
+const registerLogseqButton = () => {
+  const settings = getSettings()
+  const buttonTooltip = t('toolbar.buttonTooltip', settings?.language)
+  
+  logseqAPI.App.registerUIItem('toolbar', {
+    key: 'text-toolkit-settings-btn',
+    template: `
+      <a class="button" id="ltt-settings-button"
+      data-on-click="settingToggle"
+      data-rect
+      title="${buttonTooltip}">
+       <i class="ti ti-text-wrap"></i>
+      </a>
+    `,
   })
-
-  setTimeout(() => {
-    const container = getDocument().getElementById(SETTINGS_ID)
-    if (container) {
-      const currentSettings = getSettings()
-      renderComponent(container, SettingsModal, {
-        isOpen: settingsModalOpen,
-        onClose: () => {
-          settingsModalOpen = false;
-          showSettingUI();
-        },
-        theme: currentSettings.theme,
-      })
-    }
-  }, 1)
-}
-
-const settingToggle = async () => {
-  settingsModalOpen = !settingsModalOpen;
-  showSettingUI();
-}
-
-const showCommentApp = async () => {
-  logseqAPI.provideUI({
-    key: COMMENT_APP_ID,
-    path: '#app-container',
-    template: `<div id="${COMMENT_APP_ID}"></div>`,
-  })
-
-  setTimeout(() => {
-    const commentContainer = getDocument().getElementById(COMMENT_APP_ID)
-    if (commentContainer) {
-      renderComponent(commentContainer, CommentApp)
-    }
-  }, 1)
-}
-
-const showSelectToolbar = async () => {
-  const currentSettings = getSettings()
-  if (currentSettings.toolbar) {
-    logseqAPI.provideUI({
-      key: TOOLBAR_ID,
-      path: '#app-container',
-      template: `<div id="${TOOLBAR_ID}"></div>`,
-    })
-
-    setTimeout(() => {
-      const toolbarContainer = getDocument().getElementById(TOOLBAR_ID)
-      const mainContentContainer = getDocument().getElementById('main-content-container')
-      if (toolbarContainer && mainContentContainer) {
-        const currentSettings = getSettings()
-        const toolbarItems = currentSettings.ToolbarItems || []
-        
-        renderComponent(toolbarContainer, SelectToolbar, {
-          targetElement: mainContentContainer,
-          items: toolbarItems,
-        })
-      }
-    }, 1)
-  }
 }
 
 const main = async () => {
@@ -129,16 +78,7 @@ const main = async () => {
     await showSettingUI()
 
     // 注册工具栏按钮
-    logseqAPI.App.registerUIItem('toolbar', {
-      key: 'text-toolkit-settings-btn',
-      template: `
-        <a class="button" id="ltt-settings-button"
-        data-on-click="settingToggle"
-        data-rect>
-         <i class="ti ti-text-wrap"></i>
-        </a>
-      `,
-    })
+    registerLogseqButton()
 
     // 显示其他 UI
     await showSelectToolbar()
@@ -146,6 +86,58 @@ const main = async () => {
     
   } catch (error) {
     logger.error('Failed to initialize Text Toolkit Plugin:', error)
+  }
+}
+
+// 切换设置界面
+const settingToggle = () => {
+  const container = getDocument().getElementById(SETTINGS_ID)
+  if (container && container.style.display !== 'none') {
+    container.style.display = 'none'
+  } else {
+    if (container) {
+      container.style.display = 'block'
+      if (!container.hasAttribute('data-rendered')) {
+        renderComponent(container, SettingsModal)
+        container.setAttribute('data-rendered', 'true')
+      }
+    }
+  }
+}
+
+// 显示设置 UI
+const showSettingUI = async () => {
+  try {
+    const container = getDocument().getElementById(SETTINGS_ID)
+    if (container) {
+      renderComponent(container, SettingsModal)
+    }
+  } catch (error) {
+    logger.error('Error showing settings UI:', error)
+  }
+}
+
+// 显示工具栏
+const showSelectToolbar = async () => {
+  try {
+    const container = getDocument().getElementById(TOOLBAR_ID)
+    if (container) {
+      renderComponent(container, SelectToolbar)
+    }
+  } catch (error) {
+    logger.error('Error showing toolbar:', error)
+  }
+}
+
+// 显示评论应用
+const showCommentApp = async () => {
+  try {
+    const container = getDocument().getElementById(COMMENT_APP_ID)
+    if (container) {
+      renderComponent(container, CommentApp)
+    }
+  } catch (error) {
+    logger.error('Error showing comment app:', error)
   }
 }
 
