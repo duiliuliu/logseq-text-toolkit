@@ -27,9 +27,17 @@ interface RenderComponentProps {
   [key: string]: any
 }
 
+// 只创建一次 root，全局存起来
+let root: any = null
+
 const renderComponent = (container: HTMLElement | null, Component: React.ComponentType<any>, props: RenderComponentProps = {}) => {
   if (container) {
-    ReactDOM.createRoot(container).render(
+
+    // 关键：如果已经创建过 root，就不再 create，直接 render
+    if (!root) {
+      root = ReactDOM.createRoot(container)
+    }
+    root.render(
       <React.StrictMode>
         <SettingsProvider>
           <Component {...props} />
