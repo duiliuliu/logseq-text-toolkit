@@ -114,6 +114,6 @@ export interface SettingsContextType {
   isSaving: boolean;
   error: Error | null;
   loadSettings: () => Promise<Settings | null>;
-  saveSettings: (settings: Settings) => Promise<boolean>;
+  saveSettings: (settings: Partial<Settings>) => Promise<boolean>;
   resetSettings: () => Promise<boolean>;
 }

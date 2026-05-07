@@ -6,12 +6,12 @@
  * 负责统一管理所有初始化流程，避免循环依赖
  */
 
-import { getSettings } from './settings/index.ts';
-import logger, { updateLoggerConfig } from './lib/logger/index';
-import { initI18n } from './translations/i18n.ts';
-import { logseqAPI } from './logseq/index.ts';
-import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register.ts';
-import TaskProgress from './components/TaskProgress/TaskProgress.tsx';
+import { getSettings } from './settings/index'
+import logger, { updateLoggerConfig } from './lib/logger/index'
+import { initI18n } from './translations/i18n'
+import { logseqAPI } from './logseq/index'
+import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register'
+import TaskProgress from './components/TaskProgress/TaskProgress'
 import { 
   settingsModalCSS, 
   modalCSS, 
@@ -19,7 +19,7 @@ import {
   inlineCommentCSS, 
   cssConfigCSS, 
   taskProgressCSS 
-} from './styles/index.ts';
+} from './styles/index'
 
 // 初始化状态跟踪
 let isInitialized = false;
