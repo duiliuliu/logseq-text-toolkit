@@ -48,10 +48,17 @@ const renderComponent = (container: HTMLElement | null, Component: React.Compone
   }
 }
 
-// 注册工具栏按钮
-const registerLogseqButton = () => {
+// 初始化设置 UI
+const initializeSettingUI = async () => {
   const settings = getSettings()
   const buttonTooltip = t('toolbar.buttonTooltip', settings?.language)
+  
+  logseqAPI.provideModel({ settingToggle })
+  
+  const container = getDocument().getElementById(SETTINGS_ID)
+  if (container) {
+    renderComponent(container, SettingsModal)
+  }
   
   logseqAPI.App.registerUIItem('toolbar', {
     key: 'text-toolkit-settings-btn',
@@ -71,14 +78,8 @@ const main = async () => {
     // 使用统一的初始化管理器
     await initializePlugin();
 
-    // 注册 UI 模型
-    logseqAPI.provideModel({ settingToggle })
-
-    // 显示设置 UI
-    await showSettingUI()
-
-    // 注册工具栏按钮
-    registerLogseqButton()
+    // 初始化设置 UI
+    initializeSettingUI()
 
     // 显示其他 UI
     await showSelectToolbar()
