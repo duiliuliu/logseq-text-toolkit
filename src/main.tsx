@@ -118,14 +118,14 @@ const showSelectToolbar = async () => {
 }
 
 // 注册工具栏按钮
-const registerToolbarButton = () => {
+const registerLogseqButton = () => {
   logseqAPI.App.registerUIItem('toolbar', {
     key: 'text-toolkit-settings-btn',
     template: `
       <a class="button" id="ltt-settings-button"
       data-on-click="settingToggle"
       data-rect
-      title="Text Toolkit Plugin">
+      title="✨ Text Toolkit Plugin - 让你的笔记更有趣！">
        <i class="ti ti-text-wrap"></i>
       </a>
     `,
@@ -144,7 +144,7 @@ const main = async () => {
     await showSettingUI()
 
     // 注册工具栏按钮
-    registerToolbarButton()
+    registerLogseqButton()
 
     // 显示其他 UI
     await showSelectToolbar()
