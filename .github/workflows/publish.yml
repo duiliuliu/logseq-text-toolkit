@@ -123,3 +123,469 @@ jobs:
           name: ${{ env.PLUGIN_NAME }}
           path: ./${{ env.PLUGIN_NAME }}.zip
           retention-days: 7
+name:name: Build and Release plugin
+
+env:
+  PLname: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflowname: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is madename: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-andname: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on:name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of thename: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACEname: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@vname: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增：强制指定 npm 镜像源
+          registry-url: https://registry.npmjs.org/name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增：强制指定 npm 镜像源
+          registry-url: https://registry.npmjs.org/
+
+      - name: Get version from package.json
+        id: get_version
+        run:name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增：强制指定 npm 镜像源
+          registry-url: https://registry.npmjs.org/
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          # 使用 jq 更可靠地获取版本号
+          if command -vname: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增：强制指定 npm 镜像源
+          registry-url: https://registry.npmjs.org/
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          # 使用 jq 更可靠地获取版本号
+          if command -v jq &> /dev/null; then
+            VERSION=$(jq -r '.version'name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增：强制指定 npm 镜像源
+          registry-url: https://registry.npmjs.org/
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          # 使用 jq 更可靠地获取版本号
+          if command -v jq &> /dev/null; then
+            VERSION=$(jq -r '.version' package.json)
+          else
+            # 回退到使用 awk/sed 方式
+name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增：强制指定 npm 镜像源
+          registry-url: https://registry.npmjs.org/
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          # 使用 jq 更可靠地获取版本号
+          if command -v jq &> /dev/null; then
+            VERSION=$(jq -r '.version' package.json)
+          else
+            # 回退到使用 awk/sed 方式
+            VERSION=$(cat package.json | grep version | head -1 | awk -F: '{name: Build and Release plugin
+
+env:
+  PLUGIN_NAME: logseq-text-toolkit
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          # 新增：强制指定 npm 镜像源
+          registry-url: https://registry.npmjs.org/
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          # 使用 jq 更可靠地获取版本号
+          if command -v jq &> /dev/null; then
+            VERSION=$(jq -r '.version' package.json)
+          else
+            # 回退到使用 awk/sed 方式
+            VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d
