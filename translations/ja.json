@@ -1,7 +1,4 @@
 {
-  "taskProgress": {
-    "nestingLevel": "ネストレベル"
-  },
   "toolbar": {
     "bold": "太字",
     "highlight": "ハイライト",
@@ -9,18 +6,13 @@
     "comment": "コメント",
     "noSelection": "処理するテキストを選択してください",
     "replaceFailed": "テキストの置換に失敗しました",
-    "noBlockContent": "ブロックの内容を取得できません",
-    "buttonTooltip": "✨ Text Toolkit Plugin - ノートをより楽しく！"
+    "noBlockContent": "ブロックの内容を取得できません"
   },
   "inlineComment": {
     "text": "テキスト",
     "placeholder": "コメントを追加...",
     "save": "コメントを追加",
-    "title": "コメントを追加",
-    "addComment": "コメントを追加",
-    "selectedText": "選択テキスト",
-    "annotate": "注釈",
-    "comment": "コメント"
+    "title": "コメントを追加"
   },
   "comment": {
     "title": "コメントを追加"
