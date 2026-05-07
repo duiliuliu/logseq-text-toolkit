@@ -1,4 +1,7 @@
 {
+  "taskProgress": {
+    "nestingLevel": "Nesting Level"
+  },
   "toolbar": {
     "bold": "Bold",
     "highlight": "Highlight",
