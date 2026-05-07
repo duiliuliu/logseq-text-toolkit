@@ -115,28 +115,28 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   // provideStyle 方法
   provideStyle: (style: any) => {
     console.log('provideStyle called:', style);
-    
+
     // 获取文档对象
     const doc = getDocument();
-    
+
     // 创建style元素
     const styleElement = doc.createElement('style');
     styleElement.type = 'text/css';
-    
+
     // 设置style内容
     if (typeof style === 'string') {
       styleElement.textContent = style;
     } else if (typeof style === 'object' && style.content) {
       styleElement.textContent = style.content;
     }
-    
+
     // 将style元素添加到head中
     const head = doc.head || doc.getElementsByTagName('head')[0];
     if (head) {
       head.appendChild(styleElement);
       console.log('Style applied to document head');
     }
-    
+
     return mockLogseq;
   },
 
@@ -282,11 +282,11 @@ const mockLogseq = Object.assign(new EventEmitter(), {
     customQuery: () => Promise.resolve([]),
     datascriptQuery: async (query: string, ...inputs: any[]) => {
       console.log('Mock DB datascriptQuery called:', query, inputs);
-      
+
       try {
         // 解析 parentBlockId（检查 inputs 或者从查询中提取）
         let parentBlockId: string | null = null;
-        
+
         // 首先检查 inputs
         if (inputs && inputs.length > 0) {
           const firstInput = inputs[0];
@@ -294,7 +294,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
             parentBlockId = firstInput.replace(/#uuid\s+"([^"]+)"/, '$1');
           }
         }
-        
+
         // 如果 inputs 没有找到，从查询中提取
         if (!parentBlockId) {
           const uuidMatch = query.match(/#uuid\s+"([^"]+)"/);
@@ -302,7 +302,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
             parentBlockId = uuidMatch[1];
           }
         }
-        
+
         // 如果还是没有找到，尝试从查询中提取不带 #uuid 格式的块 ID
         if (!parentBlockId) {
           const blockIdMatch = query.match(/["']([^"']+task-parent[^"']+)["']/);
@@ -310,25 +310,25 @@ const mockLogseq = Object.assign(new EventEmitter(), {
             parentBlockId = blockIdMatch[1];
           }
         }
-        
+
         if (!parentBlockId) {
           return Promise.resolve([]);
         }
-        
+
         // 移除可能的 # 前缀
         const cleanBlockId = parentBlockId.startsWith('#') ? parentBlockId.slice(1) : parentBlockId;
-        
+
         // 分析查询，确定嵌套级别和是否只查询叶子节点
         let maxDepth = 1;
         let onlyLeaves = false;
-        
+
         // 检查是否有 or-join，判断嵌套级别
         if (query.includes('or-join')) {
           // 计算嵌套级别：看有多少个 m1, m2, m3 变量
           const m2Match = query.match(/m2/);
           const m3Match = query.match(/m3/);
           const m4Match = query.match(/m4/);
-          
+
           if (m4Match) {
             maxDepth = 5; // 支持 5 层
           } else if (m3Match) {
@@ -339,40 +339,40 @@ const mockLogseq = Object.assign(new EventEmitter(), {
             maxDepth = 2;
           }
         }
-        
+
         // 检查是否有叶子节点过滤
         if (query.includes('not')) {
           onlyLeaves = true;
         }
-        
+
         // 使用 getAllNestedChildren 获取嵌套子块
         const children = await Editor.getAllNestedChildren(cleanBlockId, maxDepth);
-        
+
         if (!children || !Array.isArray(children)) {
           return [];
         }
-        
+
         // 如果只需要叶子节点，进行过滤
         let filteredBlocks = children;
         if (onlyLeaves) {
           const doc = getDocument();
-          
+
           filteredBlocks = children.filter(block => {
             // 检查这个块是否有子节点
             const element = findElementByBlockId(block.uuid, doc);
             if (!element) {
               return true;
             }
-            
+
             // 检查是否有子块
-            const hasChildren = Array.from(element.children).some(child => 
+            const hasChildren = Array.from(element.children).some(child =>
               child.classList.contains('block') || child.hasAttribute('data-block-id')
             );
-            
+
             return !hasChildren;
           });
         }
-        
+
         // 处理查询结果，正确返回 [块对象, 状态标题] 格式
         const results = filteredBlocks.map(child => {
           // 从 properties 中获取状态，如果没有则默认为 'todo'
@@ -380,7 +380,7 @@ const mockLogseq = Object.assign(new EventEmitter(), {
           if (child.properties && child.properties.status) {
             statusTitle = child.properties.status;
           }
-          
+
           // 构建块对象，确保有必要的属性
           const block = {
             'block/uuid': child.uuid,
@@ -392,17 +392,17 @@ const mockLogseq = Object.assign(new EventEmitter(), {
             'block/tags': child.tags,
             tags: child.tags
           };
-          
+
           return [block, statusTitle];
         });
-        
+
         return results;
       } catch (error) {
         console.error('[Mock DB] datascriptQuery error:', error);
         return [];
       }
     },
-    onChanged: () => () => {}
+    onChanged: () => () => { }
   },
   Git: {
     execCommand: () => Promise.resolve({ stdout: '', stderr: '', exitCode: 0 })
@@ -417,8 +417,5 @@ const mockLogseq = Object.assign(new EventEmitter(), {
   FileStorage: {},
   Experiments: {}
 } as any);
-
-// 挂载到全局
-globalThis.logseq = mockLogseq;
 
 export default mockLogseq;

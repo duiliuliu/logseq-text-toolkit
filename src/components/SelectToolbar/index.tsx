@@ -16,7 +16,6 @@ import {
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import logger from '../../lib/logger/index';
-import { getSettings } from '../../settings/index.ts';
 
 interface ToolbarPosition {
   x: number;
@@ -77,8 +76,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         if (!toolbarManager.isReady()) {
           toolbarManager.initialize(settings);
         }
-        const currentSettings = getSettings();
-        toolbarManager.setLanguage(currentSettings?.language || 'zh-CN');
+        toolbarManager.setLanguage(settings?.language || 'zh-CN');
       } catch (error) {
         logger.error('Error initializing toolbar manager:', error);
       }

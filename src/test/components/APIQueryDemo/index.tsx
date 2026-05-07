@@ -118,7 +118,6 @@ const APIQueryDemo: React.FC = () => {
     }
 
     const progress = Math.round((completedTasks / totalTasks) * 100)
-
     return {
       blockId: blockUuid,
       parentBlockId: blockUuid,

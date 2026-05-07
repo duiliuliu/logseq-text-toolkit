@@ -6,7 +6,7 @@
 import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react'
 import { Settings, SettingsContextType } from './types.ts'
 import defaultSettings from './defaultSettings.ts'
-import { getSettingsWithSystem, updateSettings, processSettings } from './index.ts'
+import { getSettingsWithSystem, updateSettings } from './index.ts'
 import { logseqAPI } from '../logseq/index.ts'
 import logger from '../lib/logger/index'
 
