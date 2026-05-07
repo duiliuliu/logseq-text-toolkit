@@ -9,12 +9,8 @@
     "comment": "评论",
     "noSelection": "请选择要处理的文本",
     "replaceFailed": "文本替换失败",
-<<<<<<< HEAD
-    "noBlockContent": "无法获取块内容"
-=======
     "noBlockContent": "无法获取块内容",
     "buttonTooltip": "✨ Text Toolkit Plugin - 让你的笔记更有趣！"
->>>>>>> trae/solo-agent-NO07mF
   },
   "inlineComment": {
     "text": "文本",
