@@ -78,5 +78,5 @@ const loggerProxy = new Proxy({} as Logger, {
 
 export default loggerProxy;
 
-// 也支持命名导出，方便需要解构的场景
-export { loggerProxy as logger };
+// 命名导出，方便需要解构的场景
+export { getLogger, updateLoggerConfig, resetLogger };
