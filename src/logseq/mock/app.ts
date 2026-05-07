@@ -72,6 +72,14 @@ const App: any = {
     });
   },
   
+  getAppInfo: () => {
+    console.log('Get app info');
+    return Promise.resolve({
+      preferredLanguage: 'zh-CN',
+      version: '0.10.0'
+    });
+  },
+  
   registerUIItem: (slot: string, config: any) => {
     console.log('Registered UI item:', slot, config);
     

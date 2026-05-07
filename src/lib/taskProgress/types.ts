@@ -5,6 +5,8 @@ export interface TaskProgress {
   completedTasks: number;
   statusStats: StatusStat[];
   progress: number;
+  nestingLevel?: number | 'all';
+  leafTasksOnly?: boolean;
 }
 
 export interface StatusStat {

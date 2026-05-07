@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ dev-text-tool, trae/solo-agent-NO07mF ]
+    branches: [ main, dev-text-tool, trae/solo-agent-NO07mF ]
   workflow_dispatch:
 
 permissions:
@@ -32,9 +32,32 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Prepare deployment
+        run: |
+          mkdir -p ./gh-pages-build
+
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "Deploying main branch to root /"
+            cp -r ./dist/* ./gh-pages-build/
+          else
+            echo "Deploying dev branch to /dev"
+            # 首先尝试拉取现有 gh-pages 内容
+            git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} /tmp/gh-pages 2>/dev/null || true
+
+            if [ -d /tmp/gh-pages ] && [ "$(ls -A /tmp/gh-pages)" ]; then
+              # 复制现有内容，保持根目录（main）的内容
+              cp -r /tmp/gh-pages/* ./gh-pages-build/ 2>/dev/null || true
+              rm -rf ./gh-pages-build/.git 2>/dev/null || true
+              rm -rf ./gh-pages-build/dev 2>/dev/null || true
+            fi
+
+            # 将新构建内容复制到 dev 子目录
+            mkdir -p ./gh-pages-build/dev
+            cp -r ./dist/* ./gh-pages-build/dev/
+          fi
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-
+          publish_dir: ./gh-pages-build

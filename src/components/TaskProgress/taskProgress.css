@@ -364,3 +364,19 @@
     opacity: 0.8;
   }
 }
+
+/* 嵌套指示器样式 */
+.nesting-indicator {
+  font-size: 10px;
+  color: var(--ls-secondary-text-color, #6b7280);
+  background-color: var(--ls-secondary-background-color, #f3f4f6);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-family: monospace;
+  cursor: help;
+}
+
+.nesting-indicator::before {
+  content: '';
+}

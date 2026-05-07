@@ -1,6 +1,6 @@
 {
   "name": "logseq-text-toolkit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A toolkit for text formatting and manipulation in Logseq",
   "author": "duiliuliu",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "copy-css": "mkdir -p dist && cp -f src/components/SettingsModal/settingsModal.css dist/ && cp -f src/components/Modal/modal.css dist/ && cp -f src/components/Toolbar/toolbar.css dist/ && cp -f src/components/Comment/inlineComment.css dist/ && cp -f src/styles/customsToolbarItems.css dist/ && cp -f src/components/TaskProgress/taskProgress.css dist/"
   },
   "dependencies": {
-    "@logseq/libs": "^0.2.12",
+    "@logseq/libs": "^0.3.3",
     "@thi.ng/hiccup": "^5.4.5",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.8.0",

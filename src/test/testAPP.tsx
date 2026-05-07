@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import '../main.css'
 import './testApp.css'
-import TestLayout from './components/TestLayout/index.tsx'
-import TextSelectionDemo from './components/TextSelectionDemo/index.tsx'
-import HiccupRenderer from './components/HiccupRenderer/index.tsx'
-import BlockRenderer from './components/BlockRenderer/index.tsx'
-import TaskProgressDemo from './components/TaskProgressDemo/index.tsx'
-import ToastContainer from '../components/Toast/Toast.tsx'
-import testConfig from './testConfig.ts'
-import { useSettingsContext } from '../settings/useSettings.tsx'
+import TestLayout from './components/TestLayout/index'
+import TextSelectionDemo from './components/TextSelectionDemo/index'
+import HiccupRenderer from './components/HiccupRenderer/index'
+import BlockRenderer from './components/BlockRenderer/index'
+import TaskProgressDemo from './components/TaskProgressDemo/index'
+import APIQueryDemo from './components/APIQueryDemo/index'
+import ToastContainer from '../components/Toast/Toast'
+import testConfig from './testConfig'
+import { useSettingsContext } from '../settings/useSettings'
 
 interface TaskItem {
   id: string
@@ -29,12 +30,12 @@ function TestApp() {
   const { settings } = useSettingsContext()
   
   const [tasks, setTasks] = useState<TaskItem[]>([
-    { id: 'task-child-1', content: 'Design the UI', status: 'done' },
-    { id: 'task-child-2', content: 'Setup project', status: 'done' },
-    { id: 'task-child-3', content: 'Implement the logic', status: 'doing' },
-    { id: 'task-child-4', content: 'Write documentation', status: 'todo' },
-    { id: 'task-child-5', content: 'Create examples', status: 'todo' },
-    { id: 'task-child-6', content: 'Write tests', status: 'waiting' },
+    { id: 'task-child-1', content: 'Design the UI #task', status: 'done' },
+    { id: 'task-child-2', content: 'Setup project #task', status: 'done' },
+    { id: 'task-child-3', content: 'Implement the logic #task', status: 'doing' },
+    { id: 'task-child-4', content: 'Write documentation #task', status: 'todo' },
+    { id: 'task-child-5', content: 'Create examples #task', status: 'todo' },
+    { id: 'task-child-6', content: 'Write tests #task', status: 'waiting' },
   ])
   
   const [newTaskContent, setNewTaskContent] = useState('')
@@ -231,6 +232,43 @@ function TestApp() {
       </div>
       
       <TaskProgressDemo />
+
+      {/* 嵌套任务块 */}
+      <div id="nested-task-parent" className="block" data-block-id="nested-task-parent" style={{ marginTop: '24px', padding: '12px', backgroundColor: '#e8f5e9', borderRadius: '8px' }}>
+        <h4 style={{ margin: '0 0 8px 0' }}>嵌套任务演示</h4>
+        <div id="nested-task-1" className="block" data-block-id="nested-task-1"
+          data-properties={JSON.stringify({ status: 'doing' })}
+          style={{ padding: '8px', marginBottom: '4px', marginLeft: '20px', backgroundColor: '#fff', borderRadius: '4px' }}>
+          <span># Level 1 - Planning #task</span>
+          <div id="nested-task-1-1" className="block" data-block-id="nested-task-1-1"
+            data-properties={JSON.stringify({ status: 'done' })}
+            style={{ padding: '8px', marginBottom: '4px', marginLeft: '40px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+            <span>## Level 2 - Research #task</span>
+            <div id="nested-task-1-1-1" className="block" data-block-id="nested-task-1-1-1"
+              data-properties={JSON.stringify({ status: 'done' })}
+              style={{ padding: '8px', marginBottom: '4px', marginLeft: '60px', backgroundColor: '#fff', borderRadius: '4px' }}>
+              <span>### Level 3 - Done #task</span>
+            </div>
+            <div id="nested-task-1-1-2" className="block" data-block-id="nested-task-1-1-2"
+              data-properties={JSON.stringify({ status: 'todo' })}
+              style={{ padding: '8px', marginLeft: '60px', backgroundColor: '#fff', borderRadius: '4px' }}>
+              <span>### Level 3 - Todo #task</span>
+            </div>
+          </div>
+          <div id="nested-task-1-2" className="block" data-block-id="nested-task-1-2"
+            data-properties={JSON.stringify({ status: 'todo' })}
+            style={{ padding: '8px', marginLeft: '40px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+            <span>## Level 2 - Design #task</span>
+          </div>
+        </div>
+        <div id="nested-task-2" className="block" data-block-id="nested-task-2"
+          data-properties={JSON.stringify({ status: 'done' })}
+          style={{ padding: '8px', marginLeft: '20px', backgroundColor: '#fff', borderRadius: '4px' }}>
+          <span># Level 1 - Execution #task</span>
+        </div>
+      </div>
+
+      <APIQueryDemo />
     </div>
   )
 

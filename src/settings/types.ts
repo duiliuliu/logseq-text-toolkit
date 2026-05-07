@@ -6,6 +6,9 @@
 // 主题类型
 export type ThemeType = 'light' | 'dark' | 'system';
 
+// 嵌套层级类型
+export type NestingLevel = 1 | 2 | 3 | 'all';
+
 // 语言类型
 export type LanguageType = 'zh-CN' | 'en' | 'ja' | 'system';
 
@@ -62,7 +65,7 @@ export interface Settings {
   language: LanguageType;
   useSystemTheme: boolean;
   useSystemLanguage: boolean;
-  
+
   // 工具栏设置
   toolbar: boolean;
   disabled: boolean;
@@ -73,10 +76,10 @@ export interface Settings {
   hoverDelay: number;
   sponsorEnabled: boolean;
   developerMode: boolean;
-  
+
   // 工具栏元素配置
   ToolbarItems: Array<ToolbarItem | ToolbarGroup>;
-  
+
   // 任务进度设置
   taskProgress?: {
     enabled: boolean;
@@ -86,14 +89,21 @@ export interface Settings {
     displayOptions?: {
       [key: string]: Record<string, any>;
     };
+    // V2 嵌套层级配置
+    nestingLevel?: NestingLevel;
+    onlyLeaves?: boolean;
+    showNestingIndicator?: boolean;
+    statusColors: Record<string, string>;  // 状态到颜色的映射
   };
-  
+
+
+
   // 元数据设置
   meta?: {
     language?: LanguageMeta;
     taskProgress?: TaskProgressMeta;  // 任务进度元数据（存储动态状态颜色）
   };
-  
+
   [key: string]: any;
 }
 
@@ -104,6 +114,6 @@ export interface SettingsContextType {
   isSaving: boolean;
   error: Error | null;
   loadSettings: () => Promise<Settings | null>;
-  saveSettings: (settings: Settings) => Promise<boolean>;
+  saveSettings: (settings: Partial<Settings>) => Promise<boolean>;
   resetSettings: () => Promise<boolean>;
 }

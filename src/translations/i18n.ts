@@ -6,7 +6,7 @@
 import en from './en.json'
 import ja from './ja.json'
 import zhCN from './zh-CN.json'
-import { TranslationKeys, SupportedLanguage, TaskProgressStatusNames } from './translations.ts'
+import { TranslationKeys, SupportedLanguage } from './translations.ts'
 import { getSettings } from '../settings/index.ts'
 
 const builtInTranslations: Record<SupportedLanguage, TranslationKeys> = {
@@ -62,34 +62,18 @@ export const initI18n = async (): Promise<void> => {
   }
 }
 
-export const t = (key: string, lang: SupportedLanguage = 'zh-CN'): string => {
-  if (dynamicTranslations[lang]) {
-    const translation = getNestedValue(dynamicTranslations[lang], key)
+export const t = (key: string, lang?: SupportedLanguage): string => {
+  const language = lang || getSettings()?.language || 'zh-CN'
+  if (dynamicTranslations[language]) {
+    const translation = getNestedValue(dynamicTranslations[language], key)
     if (translation !== key) return translation
   }
   
-  const builtInTranslation = builtInTranslations[lang] || builtInTranslations['zh-CN']
+  const builtInTranslation = builtInTranslations[language] || builtInTranslations['zh-CN']
   return getNestedValue(builtInTranslation, key)
-}
-
-export const getStatusName = (status: string, lang: SupportedLanguage = 'zh-CN'): string => {
-  const key = `settings.taskProgress.statusNames.${status}`
-  const translation = t(key, lang)
-  if (translation !== key) return translation
-  
-  const fallbackNames: TaskProgressStatusNames = {
-    todo: '待办',
-    doing: '进行中',
-    'in-review': '审核中',
-    done: '已完成',
-    waiting: '等待中',
-    canceled: '已取消'
-  }
-  return fallbackNames[status as keyof TaskProgressStatusNames] || status
 }
 
 export default {
   t,
-  initI18n,
-  getStatusName
+  initI18n
 }
