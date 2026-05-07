@@ -25,6 +25,9 @@
         "size": "small"
       }
     },
+    "nestingLevel": 1,
+    "onlyLeaves": false,
+    "showNestingIndicator": false,
     "statusColors": {
       "todo": "#f59e0b",
       "doing": "#3b82f6",

@@ -7,74 +7,17 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import TestApp from './test/testAPP.tsx'
+import TestApp from './test/testAPP'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
-import CommentApp from './components/Comment/CommentApp.tsx'
-import TaskProgress from './components/TaskProgress/TaskProgress.tsx'
-import { SettingsProvider } from './settings/useSettings.tsx'
-import { logseqAPI } from './logseq/index.ts'
-import { getSettings } from './settings/index.ts'
-import { getDocument } from './logseq/utils.ts'
-import { logger } from './lib/logger/logger.ts'
-import { initI18n } from './translations/i18n.ts'
-import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS, taskProgressCSS } from './styles/index.ts'
-
-const loadCSS = async () => {
-  try {
-    const cssFiles = [
-      { name: 'settingsModal.css', content: settingsModalCSS },
-      { name: 'modal.css', content: modalCSS },
-      { name: 'toolbar.css', content: toolbarCSS },
-      { name: 'inlineComment.css', content: inlineCommentCSS },
-      { name: 'customsToolbarItems.css', content: cssConfigCSS },
-      { name: 'taskProgress.css', content: taskProgressCSS }
-    ];
-
-    for (const cssFile of cssFiles) {
-      try {
-        const response = await fetch(`./${cssFile.name}`);
-        if (response.ok) {
-          const contentType = response.headers.get('content-type');
-          if (contentType && contentType.includes('text/css')) {
-            const cssContent = await response.text();
-            if (cssContent.trim()) {
-              logseqAPI.provideStyle(cssContent);
-              logger.info(`Loaded CSS file from root: ${cssFile.name}`);
-            } else {
-              logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
-              if (cssFile.content) {
-                logseqAPI.provideStyle(cssFile.content);
-                logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-              }
-            }
-          } else {
-            logger.info(`Response is not CSS, using built-in CSS: ${cssFile.name}`);
-            if (cssFile.content) {
-              logseqAPI.provideStyle(cssFile.content);
-              logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-            }
-          }
-        } else {
-          logger.info(`CSS file not found in root, using built-in CSS: ${cssFile.name}`);
-          if (cssFile.content) {
-            logseqAPI.provideStyle(cssFile.content);
-            logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-          }
-        }
-      } catch (error) {
-        logger.warn(`Error loading CSS file from root ${cssFile.name}:`, error);
-        if (cssFile.content) {
-          logseqAPI.provideStyle(cssFile.content);
-          logger.info(`Loaded built-in CSS for ${cssFile.name} (fallback)`);
-        }
-      }
-    }
-  } catch (error) {
-    logger.error('Error in loadCSS:', error);
-  }
-};
+import CommentApp from './components/Comment/CommentApp'
+import TaskProgress from './components/TaskProgress/TaskProgress'
+import { SettingsProvider } from './settings/useSettings'
+import { logseqAPI } from './logseq/index'
+import { getSettings } from './settings/index'
+import { getDocument } from './logseq/utils'
+import logger from './lib/logger/index'
+import { initializePlugin, cleanupPlugin } from './initializer'
 
 const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
@@ -84,9 +27,17 @@ interface RenderComponentProps {
   [key: string]: any
 }
 
+// 为每个容器维护独立的 root 实例
+const roots = new Map<HTMLElement, any>()
+
 const renderComponent = (container: HTMLElement | null, Component: React.ComponentType<any>, props: RenderComponentProps = {}) => {
   if (container) {
-    ReactDOM.createRoot(container).render(
+    // 如果已经创建过 root，就不再 create，直接 render
+    if (!roots.has(container)) {
+      roots.set(container, ReactDOM.createRoot(container))
+    }
+    const root = roots.get(container)!
+    root.render(
       <React.StrictMode>
         <SettingsProvider>
           <Component {...props} />
@@ -168,15 +119,16 @@ const showSelectToolbar = async () => {
 
 const main = async () => {
   try {
-    await loadCSS()
+    // 使用统一的初始化管理器
+    await initializePlugin();
 
-    await initI18n()
-    logger.info('I18n initialized successfully')
-
+    // 注册 UI 模型
     logseqAPI.provideModel({ settingToggle })
 
+    // 显示设置 UI
     await showSettingUI()
 
+    // 注册工具栏按钮
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'text-toolkit-settings-btn',
       template: `
@@ -188,13 +140,10 @@ const main = async () => {
       `,
     })
 
+    // 显示其他 UI
     await showSelectToolbar()
     await showCommentApp()
     
-    // 注册任务进度功能
-    setTaskProgressComponent(TaskProgress)
-    registerTaskProgress()
-    logger.info('Task progress registered successfully')
   } catch (error) {
     logger.error('Failed to initialize Text Toolkit Plugin:', error)
   }
@@ -203,7 +152,14 @@ const main = async () => {
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
-  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
+  logseqAPI.ready(main).catch((err) => {
+    logger.error('Plugin ready error:', err);
+  })
 } else { 
-  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
+  logseqAPI.ready(main).catch((err) => {
+    logger.error('Plugin ready error:', err);
+  })
 }
+
+// 导出清理函数供需要时使用
+export { cleanupPlugin };

@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * 任务进度主组件
  */
 
@@ -12,6 +12,7 @@ import DotMatrixProgress from './DotMatrixProgress'
 import StatusCursorProgress from './StatusCursorProgress'
 import ProgressCapsule from './ProgressCapsule'
 import StepProgress from './StepProgress'
+import { t } from '../../translations/i18n'
 import { SupportedLanguage } from '../../translations/translations'
 
 interface TaskProgressProps {
@@ -20,17 +21,46 @@ interface TaskProgressProps {
   config?: Record<string, any>
   lang?: SupportedLanguage
   animationClass?: string
+  nestingLevel?: number | 'all'
+  onlyLeaves?: boolean
+  showNestingIndicator?: boolean
 }
 
-const TaskProgress: React.FC<TaskProgressProps> = ({ 
-  progressData, 
+const TaskProgress: React.FC<TaskProgressProps> = ({
+  progressData,
   displayType,
   config,
   lang = 'zh-CN',
   animationClass = '',
+  nestingLevel,
+  onlyLeaves,
+  showNestingIndicator,
 }) => {
   if (!progressData) {
     return null
+  }
+
+  const renderNestingIndicator = () => {
+    if (!showNestingIndicator) return null
+
+    const levelMap: Record<number | string, string> = {
+      1: '1',
+      2: '1-2',
+      3: '1-3',
+      'all': '1-N'
+    }
+
+    const levelText = levelMap[nestingLevel as number | string] || '1'
+    const leafText = onlyLeaves ? ' ◈' : ''
+
+    return (
+      <span
+        className="nesting-indicator"
+        title={`${t('taskProgress.nestingLevel', lang)}: ${levelText}${leafText}`}
+      >
+        {levelText}{leafText}
+      </span>
+    )
   }
 
   const renderComponent = () => {
@@ -41,7 +71,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
       animationClass,
       showLabel: config?.showLabel ?? true,
     }
-    
+
     switch (displayType) {
       case 'mini-circle':
         return (
@@ -85,9 +115,10 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
         return null
     }
   }
-  
+
   return (
     <div className="task-progress">
+      {renderNestingIndicator()}
       {renderComponent()}
     </div>
   )
