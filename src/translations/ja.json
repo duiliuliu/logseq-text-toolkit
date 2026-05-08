@@ -109,6 +109,7 @@
       "sizeMedium": "中",
       "sizeLarge": "大",
       "showLabel": "ラベルを表示",
+      "fireworksOnComplete": "全タスク完了時に花火を表示",
       "labelFormat": "ラベル形式",
       "labelFraction": "分数 (10/20)",
       "labelPercentage": "パーセント (50%)",
