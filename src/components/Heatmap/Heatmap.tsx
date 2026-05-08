@@ -34,9 +34,9 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
       case 'year':
         return `${year}`;
       case 'month':
-        return `${year}年${month + 1}月`;
+        return `${year}/${month + 1}`;
       case 'week':
-        return `${year}年第${getWeekNumber(currentDate)}周`;
+        return `${year} W${String(getWeekNumber(currentDate)).padStart(2, '0')}`;
       default:
         return '';
     }
@@ -138,14 +138,14 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
           
           <div className="navigation-controls">
             <button className="nav-btn" onClick={handlePrevPeriod} title="Previous">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 19l-7-7 7-7" />
+              <svg className="nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
             <span className="nav-label">{getViewTitle()}</span>
             <button className="nav-btn" onClick={handleNextPeriod} title="Next">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 5l7 7-7 7" />
+              <svg className="nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
           </div>

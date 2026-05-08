@@ -1,8 +1,15 @@
-import React from 'react';
-import { Settings, HeatmapSettings as HeatmapSettingsType } from '../../../settings/types';
-import { TabComponentProps } from '../index';
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
+ * 热力图设置 Tab
+ */
 
-const HeatmapSettings: React.FC<TabComponentProps> = ({ settings, setSettings, language }) => {
+import { t } from '../../../translations/i18n.ts'
+import { Settings, HeatmapSettings as HeatmapSettingsType } from '../../../settings/types'
+import { TabComponentProps } from '../index'
+
+function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const heatmapSettings: HeatmapSettingsType = settings.heatmap || {
     enabled: true,
     defaultViewType: 'year',
@@ -13,233 +20,155 @@ const HeatmapSettings: React.FC<TabComponentProps> = ({ settings, setSettings, l
       maxColor: '#3730a3',
       gradientSteps: 5,
     },
-  };
+  }
 
-  const updateHeatmapSettings = (updates: Partial<HeatmapSettingsType>) => {
-    setSettings({
-      ...settings,
-      heatmap: {
-        ...heatmapSettings,
-        ...updates,
-      },
-    });
-  };
+  const handleSettingChange = (key: string, value: any) => {
+    setSettings(prev => {
+      if (!prev) return prev
+      return {
+        ...prev,
+        heatmap: {
+          ...heatmapSettings,
+          [key]: value,
+        },
+      }
+    })
+  }
 
   const handleColorChange = (key: 'minColor' | 'maxColor', value: string) => {
-    updateHeatmapSettings({
-      colorScheme: {
-        ...heatmapSettings.colorScheme,
-        [key]: value,
-      },
-    });
-  };
+    handleSettingChange('colorScheme', {
+      ...heatmapSettings.colorScheme,
+      [key]: value,
+    })
+  }
+
+  const viewTypeOptions = [
+    { value: 'year', label: t('settings.heatmap.viewTypeYear', language) },
+    { value: 'month', label: t('settings.heatmap.viewTypeMonth', language) },
+    { value: 'week', label: t('settings.heatmap.viewTypeWeek', language) }
+  ]
+
+  const displayModeOptions = [
+    { value: 'full', label: t('settings.heatmap.displayModeFull', language) },
+    { value: 'basic', label: t('settings.heatmap.displayModeBasic', language) },
+    { value: 'minimal', label: t('settings.heatmap.displayModeMinimal', language) }
+  ]
+
+  const colorFormulaOptions = [
+    { value: 'simple', label: t('settings.heatmap.colorFormulaSimple', language) },
+    { value: 'weighted', label: t('settings.heatmap.colorFormulaWeighted', language) }
+  ]
 
   return (
-    <div className="heatmap-settings">
-      <div className="settings-section">
-        <h3>Heatmap Settings</h3>
-        
-        <div className="settings-row">
-          <label className="settings-label">
-            <input
-              type="checkbox"
-              checked={heatmapSettings.enabled}
-              onChange={() => updateHeatmapSettings({ enabled: !heatmapSettings.enabled })}
-            />
-            <span>Enable Heatmap</span>
-          </label>
-          <p className="settings-description">Show heatmap statistics on your journal pages</p>
-        </div>
-
-        <div className="settings-row">
-          <label className="settings-label">Default View</label>
-          <select
-            value={heatmapSettings.defaultViewType}
-            onChange={(e) => updateHeatmapSettings({ defaultViewType: e.target.value as 'year' | 'month' | 'week' })}
-            className="settings-select"
-          >
-            <option value="year">Year View</option>
-            <option value="month">Month View</option>
-            <option value="week">Week View</option>
-          </select>
-        </div>
-
-        <div className="settings-row">
-          <label className="settings-label">Default Display Mode</label>
-          <select
-            value={heatmapSettings.defaultDisplayMode}
-            onChange={(e) => updateHeatmapSettings({ defaultDisplayMode: e.target.value as 'minimal' | 'basic' | 'full' })}
-            className="settings-select"
-          >
-            <option value="full">Full Mode</option>
-            <option value="basic">Basic Mode</option>
-            <option value="minimal">Minimal Mode</option>
-          </select>
-        </div>
-
-        <div className="settings-row">
-          <label className="settings-label">Default Color Formula</label>
-          <select
-            value={heatmapSettings.defaultColorFormula}
-            onChange={(e) => updateHeatmapSettings({ defaultColorFormula: e.target.value as 'simple' | 'weighted' })}
-            className="settings-select"
-          >
-            <option value="simple">Simple (Block Count)</option>
-            <option value="weighted">Weighted (With Children)</option>
-          </select>
-        </div>
+    <div className="ltt-settings-tab-content">
+      <p className="ltt-tab-section-description-small">
+        {t('settings.heatmap.description', language)}
+      </p>
+      
+      <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.enabled', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={heatmapSettings.enabled}
+            onChange={(e) => handleSettingChange('enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
       </div>
 
-      <div className="settings-section">
-        <h3>Color Scheme</h3>
+      <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.defaultViewType', language)}</label>
+        <select
+          value={heatmapSettings.defaultViewType}
+          onChange={(e) => handleSettingChange('defaultViewType', e.target.value)}
+        >
+          {viewTypeOptions.map(opt => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.defaultDisplayMode', language)}</label>
+        <select
+          value={heatmapSettings.defaultDisplayMode}
+          onChange={(e) => handleSettingChange('defaultDisplayMode', e.target.value)}
+        >
+          {displayModeOptions.map(opt => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.defaultColorFormula', language)}</label>
+        <select
+          value={heatmapSettings.defaultColorFormula}
+          onChange={(e) => handleSettingChange('defaultColorFormula', e.target.value)}
+        >
+          {colorFormulaOptions.map(opt => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="ltt-settings-section">
+        <h4>{t('settings.heatmap.colorScheme', language)}</h4>
         
-        <div className="settings-row">
-          <label className="settings-label">Minimum Color</label>
-          <div className="color-input-wrapper">
+        <div className="ltt-setting-item">
+          <label>{t('settings.heatmap.minColor', language)}</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <input
               type="color"
               value={heatmapSettings.colorScheme.minColor}
               onChange={(e) => handleColorChange('minColor', e.target.value)}
-              className="color-input"
+              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
             />
-            <span className="color-value">{heatmapSettings.colorScheme.minColor}</span>
+            <span style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #666)' }}>
+              {heatmapSettings.colorScheme.minColor}
+            </span>
           </div>
         </div>
 
-        <div className="settings-row">
-          <label className="settings-label">Maximum Color</label>
-          <div className="color-input-wrapper">
+        <div className="ltt-setting-item">
+          <label>{t('settings.heatmap.maxColor', language)}</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <input
               type="color"
               value={heatmapSettings.colorScheme.maxColor}
               onChange={(e) => handleColorChange('maxColor', e.target.value)}
-              className="color-input"
+              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
             />
-            <span className="color-value">{heatmapSettings.colorScheme.maxColor}</span>
+            <span style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #666)' }}>
+              {heatmapSettings.colorScheme.maxColor}
+            </span>
           </div>
         </div>
 
-        <div className="color-preview">
-          <div className="color-preview-label">Preview:</div>
-          <div className="color-gradient">
-            <div
-              className="color-cell"
-              style={{ backgroundColor: heatmapSettings.colorScheme.minColor }}
-            />
-            <div className="color-cell" style={{ backgroundColor: '#e0e7ff' }} />
-            <div className="color-cell" style={{ backgroundColor: '#c7d2fe' }} />
-            <div className="color-cell" style={{ backgroundColor: '#a5b4fc' }} />
-            <div className="color-cell" style={{ backgroundColor: heatmapSettings.colorScheme.maxColor }} />
+        <div className="ltt-setting-item">
+          <label>{t('settings.heatmap.preview', language)}</label>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <div style={{ width: '32px', height: '20px', backgroundColor: heatmapSettings.colorScheme.minColor, borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
+            <div style={{ width: '32px', height: '20px', backgroundColor: '#e0e7ff', borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
+            <div style={{ width: '32px', height: '20px', backgroundColor: '#c7d2fe', borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
+            <div style={{ width: '32px', height: '20px', backgroundColor: '#a5b4fc', borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
+            <div style={{ width: '32px', height: '20px', backgroundColor: heatmapSettings.colorScheme.maxColor, borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
           </div>
         </div>
       </div>
 
-      <style>{`
-        .heatmap-settings {
-          padding: 16px;
-        }
-        
-        .settings-section {
-          margin-bottom: 24px;
-        }
-        
-        .settings-section h3 {
-          font-size: 14px;
-          font-weight: 600;
-          color: var(--ls-primary-text-color, #1f2937);
-          margin: 0 0 16px 0;
-          padding-bottom: 8px;
-          border-bottom: 1px solid var(--ls-border-color, #e5e7eb);
-        }
-        
-        .settings-row {
-          margin-bottom: 16px;
-        }
-        
-        .settings-label {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 13px;
-          color: var(--ls-primary-text-color, #374151);
-          margin-bottom: 6px;
-        }
-        
-        .settings-label input[type="checkbox"] {
-          width: 16px;
-          height: 16px;
-          cursor: pointer;
-        }
-        
-        .settings-description {
-          font-size: 12px;
-          color: var(--ls-secondary-text-color, #6b7280);
-          margin: 0;
-          padding-left: 24px;
-        }
-        
-        .settings-select {
-          width: 100%;
-          max-width: 300px;
-          padding: 8px 12px;
-          font-size: 13px;
-          border: 1px solid var(--ls-border-color, #e5e7eb);
-          border-radius: 6px;
-          background: var(--ls-secondary-background-color, #fff);
-          color: var(--ls-primary-text-color, #374151);
-          cursor: pointer;
-        }
-        
-        .settings-select:focus {
-          outline: none;
-          border-color: var(--ls-primary-color, #3b82f6);
-        }
-        
-        .color-input-wrapper {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        
-        .color-input {
-          width: 40px;
-          height: 40px;
-          border: 1px solid var(--ls-border-color, #e5e7eb);
-          border-radius: 6px;
-          cursor: pointer;
-          padding: 2px;
-        }
-        
-        .color-value {
-          font-family: monospace;
-          font-size: 12px;
-          color: var(--ls-secondary-text-color, #6b7280);
-        }
-        
-        .color-preview {
-          margin-top: 16px;
-        }
-        
-        .color-preview-label {
-          font-size: 12px;
-          color: var(--ls-secondary-text-color, #6b7280);
-          margin-bottom: 8px;
-        }
-        
-        .color-gradient {
-          display: flex;
-          gap: 4px;
-        }
-        
-        .color-cell {
-          width: 40px;
-          height: 24px;
-          border-radius: 4px;
-          border: 1px solid var(--ls-border-color, #e5e7eb);
-        }
-      `}</style>
+      <div className="ltt-settings-actions">
+        <button 
+          className="ltt-settings-btn ltt-settings-btn-save"
+          onClick={onSave}
+          disabled={isSaving}
+        >
+          {isSaving ? t('settings.saving', language) : t('settings.save', language)}
+        </button>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default HeatmapSettings;
+export default HeatmapSettings

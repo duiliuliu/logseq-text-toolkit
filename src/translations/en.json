@@ -128,6 +128,25 @@
         "total": "Total"
       }
     },
-    "saveTaskProgressSettings": "Save Task Progress Settings"
+    "saveTaskProgressSettings": "Save Task Progress Settings",
+    "heatmap": {
+      "description": "Configure heatmap display settings and appearance.",
+      "enabled": "Enable Heatmap",
+      "defaultViewType": "Default View",
+      "viewTypeYear": "Year View",
+      "viewTypeMonth": "Month View",
+      "viewTypeWeek": "Week View",
+      "defaultDisplayMode": "Display Mode",
+      "displayModeFull": "Full Mode",
+      "displayModeBasic": "Basic Mode",
+      "displayModeMinimal": "Minimal Mode",
+      "defaultColorFormula": "Color Formula",
+      "colorFormulaSimple": "Simple",
+      "colorFormulaWeighted": "Weighted",
+      "colorScheme": "Color Scheme",
+      "minColor": "Min Color",
+      "maxColor": "Max Color",
+      "preview": "Preview"
+    }
   }
 }

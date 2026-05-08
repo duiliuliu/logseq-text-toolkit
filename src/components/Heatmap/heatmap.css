@@ -2,9 +2,11 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: #ffffff;
   border-radius: 8px;
-  padding: 16px;
+  padding: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .heatmap-container.dark {
@@ -21,28 +23,22 @@
 }
 
 .heatmap-full {
-  padding: 16px;
+  padding: 12px;
 }
 
 .heatmap-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #e5e7eb;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .dark .heatmap-header {
   border-bottom-color: #374151;
-}
-
-@media (max-width: 640px) {
-  .heatmap-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
 }
 
 .view-controls {
@@ -50,6 +46,7 @@
   background: #f3f4f6;
   border-radius: 6px;
   padding: 2px;
+  flex-shrink: 0;
 }
 
 .dark .view-controls {
@@ -57,8 +54,8 @@
 }
 
 .view-btn {
-  padding: 6px 12px;
-  font-size: 12px;
+  padding: 4px 10px;
+  font-size: 11px;
   font-weight: 500;
   color: #6b7280;
   background: transparent;
@@ -94,12 +91,12 @@
 .navigation-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-btn {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,6 +106,7 @@
   color: #6b7280;
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 0;
 }
 
 .dark .nav-btn {
@@ -119,7 +117,6 @@
 .nav-btn:hover {
   background: #e5e7eb;
   color: #374151;
-  transform: scale(1.05);
 }
 
 .dark .nav-btn:hover {
@@ -127,11 +124,15 @@
   color: #e5e7eb;
 }
 
+.nav-icon {
+  display: block;
+}
+
 .nav-label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: #374151;
-  min-width: 80px;
+  min-width: 60px;
   text-align: center;
 }
 
@@ -140,8 +141,8 @@
 }
 
 .heatmap-content {
-  overflow-x: auto;
   animation: fadeIn 0.3s ease;
+  min-width: 0;
 }
 
 @keyframes fadeIn {
@@ -161,6 +162,7 @@
   display: flex;
   flex-direction: column;
   animation: slideIn 0.3s ease;
+  min-width: fit-content;
 }
 
 @keyframes slideIn {
@@ -176,13 +178,14 @@
 
 .month-labels {
   display: flex;
-  margin-bottom: 6px;
-  padding-left: 32px;
+  margin-bottom: 4px;
+  padding-left: 0;
+  margin-left: 32px;
 }
 
 .month-label {
-  width: 28px;
-  font-size: 10px;
+  flex: 1;
+  font-size: 9px;
   color: #9ca3af;
   text-align: center;
 }
@@ -198,18 +201,18 @@
 .weekday-labels {
   display: flex;
   flex-direction: column;
-  padding-right: 6px;
+  padding-right: 4px;
   justify-content: space-around;
 }
 
 .weekday-label-wrapper {
-  height: 14px;
+  height: 12px;
   display: flex;
   align-items: center;
 }
 
 .weekday-label {
-  font-size: 9px;
+  font-size: 8px;
   color: #9ca3af;
 }
 
@@ -220,6 +223,7 @@
 .grid-container {
   display: flex;
   gap: 2px;
+  min-width: 0;
 }
 
 .week-column {
@@ -230,11 +234,12 @@
 
 .month-header {
   display: flex;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .week-number-header {
-  width: 36px;
+  width: 28px;
+  flex-shrink: 0;
 }
 
 .weekday-header {
@@ -245,7 +250,7 @@
 .weekday-header-item {
   flex: 1;
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   color: #9ca3af;
   font-weight: 500;
 }
@@ -257,21 +262,22 @@
 .month-grid {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .week-row {
   display: flex;
-  gap: 3px;
+  gap: 2px;
 }
 
 .week-number-cell {
-  width: 36px;
+  width: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 9px;
   color: #9ca3af;
+  flex-shrink: 0;
 }
 
 .dark .week-number-cell {
@@ -284,10 +290,11 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  min-width: 0;
 }
 
 .day-number {
-  font-size: 10px;
+  font-size: 9px;
   color: #6b7280;
 }
 
@@ -297,8 +304,8 @@
 
 .week-header {
   display: flex;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid #f3f4f6;
 }
 
@@ -307,7 +314,8 @@
 }
 
 .hour-label-header {
-  width: 48px;
+  width: 36px;
+  flex-shrink: 0;
 }
 
 .day-header {
@@ -321,11 +329,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
 }
 
 .day-name {
-  font-size: 10px;
+  font-size: 9px;
   color: #9ca3af;
   font-weight: 500;
 }
@@ -335,7 +343,7 @@
 }
 
 .day-date {
-  font-size: 14px;
+  font-size: 12px;
   color: #374151;
   font-weight: 600;
 }
@@ -347,12 +355,13 @@
 .week-grid {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .hour-row {
   display: flex;
   gap: 4px;
+  align-items: center;
 }
 
 .full-width-row {
@@ -360,12 +369,13 @@
 }
 
 .hour-label-cell {
-  width: 48px;
+  width: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 9px;
   color: #9ca3af;
+  flex-shrink: 0;
 }
 
 .dark .hour-label-cell {
@@ -377,16 +387,17 @@
   position: relative;
   transition: all 0.2s ease;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .heatmap-cell:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);
 }
 
 .dark .heatmap-cell:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 }
 
 .heatmap-cell.empty {
@@ -397,10 +408,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 16px;
-  padding-top: 12px;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
 }
 
 .dark .heatmap-legend {
@@ -408,7 +420,7 @@
 }
 
 .legend-label {
-  font-size: 11px;
+  font-size: 10px;
   color: #9ca3af;
 }
 
@@ -418,12 +430,12 @@
 
 .legend-colors {
   display: flex;
-  gap: 4px;
+  gap: 3px;
 }
 
 .legend-color {
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   border-radius: 2px;
   transition: transform 0.2s ease;
 }
@@ -436,35 +448,29 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: #1f2937;
   color: #ffffff;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 11px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .heatmap-statistics {
   display: flex;
   justify-content: space-around;
-  margin-top: 16px;
-  padding-top: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 1px solid #e5e7eb;
-  gap: 16px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .dark .heatmap-statistics {
   border-top-color: #374151;
 }
 
-@media (max-width: 640px) {
-  .heatmap-statistics {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
 .stat-item {
   text-align: center;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 6px;
   transition: background 0.2s ease;
 }
@@ -478,7 +484,7 @@
 }
 
 .stat-value {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: #374151;
 }
@@ -488,7 +494,7 @@
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 10px;
   color: #9ca3af;
   margin-top: 2px;
 }
@@ -498,12 +504,13 @@
 }
 
 .weekday-label-offset {
-  width: 32px;
+  width: 0;
+  display: none;
 }
 
 .week-activities {
-  margin-top: 16px;
-  padding-top: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 1px solid #e5e7eb;
 }
 
@@ -512,10 +519,10 @@
 }
 
 .week-activities h4 {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #374151;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
 }
 
 .dark .week-activities h4 {
@@ -528,17 +535,17 @@
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .activity-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
+  gap: 6px;
+  padding: 4px 8px;
   background: #f3f4f6;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .dark .activity-item {
@@ -564,50 +571,74 @@
 
 @media (max-width: 640px) {
   .heatmap-container {
-    padding: 12px;
+    padding: 8px;
+    min-width: 0;
+    width: 100%;
+  }
+  
+  .heatmap-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+  
+  .view-controls {
+    justify-content: center;
   }
   
   .view-btn {
     padding: 4px 8px;
-    font-size: 11px;
+    font-size: 10px;
+  }
+  
+  .navigation-controls {
+    justify-content: center;
   }
   
   .month-label {
-    font-size: 9px;
-    width: 20px;
-  }
-  
-  .weekday-label {
     font-size: 8px;
   }
   
+  .weekday-label {
+    font-size: 7px;
+  }
+  
   .weekday-header-item {
-    font-size: 10px;
+    font-size: 9px;
   }
   
   .day-name {
-    font-size: 9px;
+    font-size: 8px;
   }
   
   .day-date {
-    font-size: 12px;
+    font-size: 10px;
   }
   
   .hour-label-cell {
-    width: 40px;
-    font-size: 9px;
+    width: 28px;
+    font-size: 8px;
   }
   
   .legend-color {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
+  }
+  
+  .heatmap-statistics {
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   .stat-value {
-    font-size: 16px;
+    font-size: 14px;
   }
   
   .stat-label {
-    font-size: 10px;
+    font-size: 9px;
+  }
+  
+  .stat-item {
+    padding: 4px 8px;
   }
 }

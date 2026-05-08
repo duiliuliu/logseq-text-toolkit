@@ -128,6 +128,25 @@
         "total": "总计"
       }
     },
-    "saveTaskProgressSettings": "保存任务进度设置"
+    "saveTaskProgressSettings": "保存任务进度设置",
+    "heatmap": {
+      "description": "配置热力图展示功能和显示效果。",
+      "enabled": "启用热力图功能",
+      "defaultViewType": "默认视图",
+      "viewTypeYear": "年度视图",
+      "viewTypeMonth": "月度视图",
+      "viewTypeWeek": "周度视图",
+      "defaultDisplayMode": "默认显示模式",
+      "displayModeFull": "完整模式",
+      "displayModeBasic": "基础模式",
+      "displayModeMinimal": "极简模式",
+      "defaultColorFormula": "颜色计算公式",
+      "colorFormulaSimple": "简化模式",
+      "colorFormulaWeighted": "加权模式",
+      "colorScheme": "配色方案",
+      "minColor": "最小颜色",
+      "maxColor": "最大颜色",
+      "preview": "预览"
+    }
   }
 }
