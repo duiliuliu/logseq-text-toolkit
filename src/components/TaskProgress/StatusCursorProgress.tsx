@@ -5,9 +5,10 @@
  * 状态光标进度组件
  */
 
-import React from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { StatusStat } from '../../lib/taskProgress/types'
 import Tooltip from './Tooltip'
+import CelebrationEffect from './CelebrationEffect'
 import { SupportedLanguage } from '../../translations/translations'
 
 interface StatusCursorProgressProps {
@@ -34,6 +35,25 @@ const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
   lang = 'zh-CN',
   animationClass = '',
 }) => {
+  const [showCelebration, setShowCelebration] = useState(false)
+  const hasCelebratedRef = useRef(false)
+  const prevProgressRef = useRef(progress)
+
+  const triggerCelebration = useCallback(() => {
+    if (!hasCelebratedRef.current) {
+      hasCelebratedRef.current = true
+      setShowCelebration(true)
+      setTimeout(() => setShowCelebration(false), 1500)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (progress === 100 && prevProgressRef.current < 100 && !hasCelebratedRef.current) {
+      triggerCelebration()
+    }
+    prevProgressRef.current = progress
+  }, [progress, triggerCelebration])
+
   if (stats.length === 0) {
     return null
   }
@@ -47,16 +67,24 @@ const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
     return indexA - indexB
   })
 
+  const totalTasks = stats.reduce((sum, s) => sum + s.count, 0)
+
   return (
     <Tooltip 
-      content={{ stats, totalTasks: stats.reduce((sum, s) => sum + s.count, 0), progress }}
+      content={{ stats, totalTasks, progress }}
       lang={lang}
       animationClass={animationClass}
     >
       <span 
         className="task-progress-cursor"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}
       >
+        <CelebrationEffect
+          trigger={showCelebration}
+          size="small"
+          duration={1500}
+          particleCount={15}
+        />
         {sortedStats.map(stat => {
           const icon = STATUS_ICONS[stat.status] || '●'
           return (
