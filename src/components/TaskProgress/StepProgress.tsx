@@ -5,10 +5,9 @@
  * 阶梯进度组件
  */
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React from 'react'
 import { StatusStat } from '../../lib/taskProgress/types'
 import Tooltip from './Tooltip'
-import CelebrationEffect from './CelebrationEffect'
 import { SupportedLanguage } from '../../translations/translations'
 
 interface StepProgressProps {
@@ -32,25 +31,6 @@ const StepProgress: React.FC<StepProgressProps> = ({
   showLabel = true,
   labelFormat = 'fraction',
 }) => {
-  const [showCelebration, setShowCelebration] = useState(false)
-  const hasCelebratedRef = useRef(false)
-  const prevProgressRef = useRef(progress)
-
-  const triggerCelebration = useCallback(() => {
-    if (!hasCelebratedRef.current) {
-      hasCelebratedRef.current = true
-      setShowCelebration(true)
-      setTimeout(() => setShowCelebration(false), 1500)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (progress === 100 && prevProgressRef.current < 100 && !hasCelebratedRef.current) {
-      triggerCelebration()
-    }
-    prevProgressRef.current = progress
-  }, [progress, triggerCelebration])
-
   if (stats.length === 0) {
     return null
   }
@@ -88,14 +68,8 @@ const StepProgress: React.FC<StepProgressProps> = ({
     >
       <div 
         className="task-progress-step"
-        style={{ cursor: 'pointer', position: 'relative' }}
+        style={{ cursor: 'pointer' }}
       >
-        <CelebrationEffect
-          trigger={showCelebration}
-          size="medium"
-          duration={1500}
-          particleCount={20}
-        />
         {stats.map((stat) => {
           const height = maxCount > 0 ? Math.max(4, (stat.count / maxCount) * maxHeight) : 4
           

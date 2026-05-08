@@ -81,7 +81,6 @@ const Editor: any = {
     const doc = getDocument();
     
     const results: any[] = [];
-    const visitedIds = new Set<string>();
     
     const traverse = (currentId: string, currentDepth: number) => {
       if (maxDepth !== -1 && currentDepth > maxDepth) {
@@ -96,13 +95,6 @@ const Editor: any = {
       Array.from(parentElement.children).forEach(child => {
         if (child.classList.contains('block') || child.hasAttribute('data-block-id')) {
           const id = generateBlockId(child as HTMLElement);
-          
-          // 防止重复统计
-          if (visitedIds.has(id)) {
-            return;
-          }
-          visitedIds.add(id);
-          
           const props = JSON.parse((child as HTMLElement).dataset.properties || '{}');
           
           // 创建完整的块对象，模拟 pull ?b [*] 的结果
