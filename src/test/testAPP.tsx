@@ -239,32 +239,32 @@ function TestApp() {
         <div id="nested-task-1" className="block" data-block-id="nested-task-1"
           data-properties={JSON.stringify({ status: 'doing' })}
           style={{ padding: '8px', marginBottom: '4px', marginLeft: '20px', backgroundColor: '#fff', borderRadius: '4px' }}>
-          <span># Level 1 - Planning #task</span>
+          <span># Level 1 - Planning</span>
           <div id="nested-task-1-1" className="block" data-block-id="nested-task-1-1"
             data-properties={JSON.stringify({ status: 'done' })}
             style={{ padding: '8px', marginBottom: '4px', marginLeft: '40px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
-            <span>## Level 2 - Research #task</span>
+            <span>## Level 2 - Research</span>
             <div id="nested-task-1-1-1" className="block" data-block-id="nested-task-1-1-1"
               data-properties={JSON.stringify({ status: 'done' })}
               style={{ padding: '8px', marginBottom: '4px', marginLeft: '60px', backgroundColor: '#fff', borderRadius: '4px' }}>
-              <span>### Level 3 - Done #task</span>
+              <span>### Level 3 - Done</span>
             </div>
             <div id="nested-task-1-1-2" className="block" data-block-id="nested-task-1-1-2"
               data-properties={JSON.stringify({ status: 'todo' })}
               style={{ padding: '8px', marginLeft: '60px', backgroundColor: '#fff', borderRadius: '4px' }}>
-              <span>### Level 3 - Todo #task</span>
+              <span>### Level 3 - Todo</span>
             </div>
           </div>
           <div id="nested-task-1-2" className="block" data-block-id="nested-task-1-2"
             data-properties={JSON.stringify({ status: 'todo' })}
             style={{ padding: '8px', marginLeft: '40px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
-            <span>## Level 2 - Design #task</span>
+            <span>## Level 2 - Design</span>
           </div>
         </div>
         <div id="nested-task-2" className="block" data-block-id="nested-task-2"
           data-properties={JSON.stringify({ status: 'done' })}
           style={{ padding: '8px', marginLeft: '20px', backgroundColor: '#fff', borderRadius: '4px' }}>
-          <span># Level 1 - Execution #task</span>
+          <span># Level 1 - Execution</span>
         </div>
       </div>
 
