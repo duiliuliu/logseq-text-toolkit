@@ -2,115 +2,184 @@
  * Copyright (c) 2026 duiliuliu
  * License: MIT
  * 
- * 烟花粒子效果组件 - 紧凑型，定位在父元素正上方
+ * 烟花粒子效果组件 - 真实烟花发射效果
  */
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
+
+interface Firework {
+  id: number
+  x: number
+  y: number
+  targetX: number
+  targetY: number
+  angle: number
+  speed: number
+  acceleration: number
+  distanceToTarget: number
+  distanceTraveled: number
+  brightness: number
+  hue: number
+}
 
 interface Particle {
   id: number
   x: number
   y: number
-  vx: number
-  vy: number
-  color: string
-  size: number
-  opacity: number
-  life: number
+  angle: number
+  speed: number
+  friction: number
+  gravity: number
+  hue: number
+  brightness: number
+  alpha: number
   decay: number
 }
 
 interface FireworksProps {
   trigger: boolean
-  duration?: number
-  size?: number
   onComplete?: () => void
 }
 
-const COLORS = [
-  '#ff6b6b',
-  '#4ecdc4',
-  '#ffe66d',
-  '#95e1d3',
-  '#f38181',
-  '#aa96da',
-  '#fcbad3',
-  '#a8d8ea',
-]
-
-const Fireworks: React.FC<FireworksProps> = ({ 
-  trigger, 
-  duration = 10000,
-  size = 40,
-  onComplete 
-}) => {
+const Fireworks: React.FC<FireworksProps> = ({ trigger, onComplete }) => {
+  const [fireworks, setFireworks] = useState<Firework[]>([])
   const [particles, setParticles] = useState<Particle[]>([])
   const [show, setShow] = useState(false)
   const animationRef = useRef<number>()
+  const fireworkIdRef = useRef(0)
   const particleIdRef = useRef(0)
-  const startTimeRef = useRef<number>(0)
   const containerRef = useRef<HTMLDivElement>(null)
+  const targetRef = useRef<{ x: number; y: number } | null>(null)
 
-  const createFireworks = useCallback(() => {
+  const COLORS = [
+    { h: 0 }, { h: 30 }, { h: 60 },   // 红、橙、黄
+    { h: 120 }, { h: 180 }, { h: 200 }, // 绿、青、蓝
+    { h: 260 }, { h: 300 }, { h: 330 }, // 紫、粉红
+  ]
+
+  const createExplosion = useCallback((x: number, y: number, hue: number) => {
+    const count = 80
     const newParticles: Particle[] = []
-    const particleCount = 24
-    const centerX = size / 2
-    const centerY = size / 2
 
-    for (let i = 0; i < particleCount; i++) {
-      const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.3
-      const velocity = 1.5 + Math.random() * 2
-      const color = COLORS[Math.floor(Math.random() * COLORS.length)]
-
+    for (let i = 0; i < count; i++) {
       newParticles.push({
         id: particleIdRef.current++,
-        x: centerX,
-        y: centerY,
-        vx: Math.cos(angle) * velocity,
-        vy: Math.sin(angle) * velocity - 0.5,
-        color,
-        size: 2 + Math.random() * 2,
-        opacity: 1,
-        life: 100,
-        decay: 0.008 + Math.random() * 0.005,
+        x,
+        y,
+        angle: (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.2,
+        speed: Math.random() * 8 + 2,
+        friction: 0.96,
+        gravity: 0.08,
+        hue: hue + (Math.random() - 0.5) * 30,
+        brightness: Math.random() * 40 + 50,
+        alpha: 1,
+        decay: Math.random() * 0.015 + 0.01,
       })
     }
 
-    setParticles(newParticles)
-    startTimeRef.current = Date.now()
+    setParticles(prev => [...prev, ...newParticles])
+  }, [])
+
+  const launchFirework = useCallback((targetX: number, targetY: number) => {
+    const startX = targetX
+    const startY = window.innerHeight
+
+    const hue = COLORS[Math.floor(Math.random() * COLORS.length)].h
+
+    const newFirework: Firework = {
+      id: fireworkIdRef.current++,
+      x: startX,
+      y: startY,
+      targetX,
+      targetY,
+      angle: Math.atan2(targetY - startY, targetX - startX),
+      speed: 8,
+      acceleration: 1.03,
+      distanceToTarget: Math.hypot(targetX - startX, targetY - startY),
+      distanceTraveled: 0,
+      brightness: Math.random() * 50 + 50,
+      hue,
+    }
+
+    setFireworks(prev => [...prev, newFirework])
+  }, [])
+
+  const triggerMultipleFireworks = useCallback((baseX: number, baseY: number) => {
     setShow(true)
-  }, [size])
+    
+    // 发射多个烟花，分布在目标位置附近
+    const count = 5
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        if (containerRef.current) {
+          const rect = containerRef.current.getBoundingClientRect()
+          const offsetX = (Math.random() - 0.5) * rect.width * 2
+          const offsetY = (Math.random() - 0.5) * rect.height
+          const targetX = rect.left + rect.width / 2 + offsetX
+          const targetY = rect.top + offsetY
+          targetRef.current = { x: targetX, y: targetY }
+          launchFirework(targetX, targetY)
+        }
+      }, i * 150)
+    }
+
+    // 10秒后完成
+    setTimeout(() => {
+      setShow(false)
+      setFireworks([])
+      setParticles([])
+      onComplete?.()
+    }, 10000)
+  }, [launchFirework, onComplete])
 
   useEffect(() => {
     if (trigger && !show) {
-      createFireworks()
+      triggerMultipleFireworks(0, 0)
     }
-  }, [trigger, show, createFireworks])
+  }, [trigger, show, triggerMultipleFireworks])
 
   useEffect(() => {
     if (!show) return
 
     const animate = () => {
-      const elapsed = Date.now() - startTimeRef.current
-      
-      if (elapsed >= duration) {
-        setShow(false)
-        setParticles([])
-        onComplete?.()
-        return
-      }
+      // 更新烟花
+      setFireworks(prev => {
+        const updated: Firework[] = []
+        
+        for (let i = 0; i < prev.length; i++) {
+          const fw = prev[i]
+          fw.speed *= fw.acceleration
 
+          const vx = Math.cos(fw.angle) * fw.speed
+          const vy = Math.sin(fw.angle) * fw.speed
+
+          fw.distanceTraveled = Math.hypot(fw.x + vx - fw.x, fw.y + vy - fw.y)
+
+          const distToTarget = Math.hypot(fw.targetX - fw.x, fw.targetY - fw.y)
+          
+          if (distToTarget < 10) {
+            createExplosion(fw.targetX, fw.targetY, fw.hue)
+          } else {
+            fw.x += vx
+            fw.y += vy
+            updated.push(fw)
+          }
+        }
+        
+        return updated
+      })
+
+      // 更新粒子
       setParticles(prev =>
         prev
           .map(p => ({
             ...p,
-            x: p.x + p.vx,
-            y: p.y + p.vy,
-            vy: p.vy + 0.03,
-            opacity: Math.max(0, p.opacity - p.decay),
-            size: p.size * 0.995,
+            speed: p.speed * p.friction,
+            x: p.x + Math.cos(p.angle) * p.speed,
+            y: p.y + Math.sin(p.angle) * p.speed + p.gravity,
+            alpha: p.alpha - p.decay,
           }))
-          .filter(p => p.opacity > 0 && p.life > 0)
+          .filter(p => p.alpha > 0)
       )
 
       animationRef.current = requestAnimationFrame(animate)
@@ -123,7 +192,7 @@ const Fireworks: React.FC<FireworksProps> = ({
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [show, duration, onComplete])
+  }, [show, createExplosion])
 
   if (!show) return null
 
@@ -131,33 +200,49 @@ const Fireworks: React.FC<FireworksProps> = ({
     <div
       ref={containerRef}
       style={{
-        position: 'absolute',
-        bottom: '100%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: size,
-        height: size,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
         pointerEvents: 'none',
         zIndex: 9999,
-        overflow: 'visible',
+        overflow: 'hidden',
       }}
     >
-      <svg
-        width={size}
-        height={size}
-        style={{ position: 'absolute', top: 0, left: 0 }}
-      >
-        {particles.map(p => (
-          <circle
-            key={p.id}
-            cx={p.x}
-            cy={p.y}
-            r={p.size}
-            fill={p.color}
-            opacity={p.opacity}
-          />
-        ))}
-      </svg>
+      <canvas
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}
+        ref={(canvas) => {
+          if (!canvas) return
+          const ctx = canvas.getContext('2d')
+          if (!ctx) return
+
+          canvas.width = window.innerWidth
+          canvas.height = window.innerHeight
+
+          // 绘制烟花轨迹
+          fireworks.forEach(fw => {
+            ctx.beginPath()
+            ctx.arc(fw.x, fw.y, 2, 0, Math.PI * 2)
+            ctx.fillStyle = `hsl(${fw.hue}, 100%, ${fw.brightness}%)`
+            ctx.fill()
+          })
+
+          // 绘制爆炸粒子
+          particles.forEach(p => {
+            ctx.beginPath()
+            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
+            ctx.fillStyle = `hsla(${p.hue}, 100%, ${p.brightness}%, ${p.alpha})`
+            ctx.fill()
+          })
+        }}
+      />
     </div>
   )
 }

@@ -155,7 +155,6 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
       {renderComponent()}
       <Fireworks 
         trigger={showFireworks} 
-        duration={10000}
         onComplete={() => setShowFireworks(false)} 
       />
     </div>
