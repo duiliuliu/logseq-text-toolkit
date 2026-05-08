@@ -196,12 +196,26 @@ export interface HeatmapDataPoint {
 
 export interface BlockEntity {
   'block/uuid': string | { '$uuid$': string };
-  'block/title': string;
-  'block/page': any;
+  'block/title'?: string;
+  'block/content'?: string;
+  'block/page'?: Reference;
+  'block/parent'?: Reference;
   'block/properties'?: Record<string, any>;
-  'logseq.property/created-at'?: number;
-  'logseq.property/updated-at'?: number;
+  'block/tags'?: Reference[];
+  'block/refs'?: Reference[];
+  'block/marker'?: string;
+  'block/priority'?: string;
+  'block/scheduled'?: number;
+  'block/deadline'?: number;
+  'block/created-at'?: number;
+  'block/updated-at'?: number;
   children?: BlockEntity[];
+}
+
+export interface Reference {
+  'block/uuid'?: string | { '$uuid$': string };
+  'block/name'?: string;
+  'block/title'?: string;
 }
 
 export type GraphType = 'file' | 'db';
@@ -215,9 +229,13 @@ export interface HeatmapQueryParams {
   week?: number;
 }
 
+export type DisplayMode = 'minimal' | 'basic' | 'full';
+export type ColorFormula = 'weighted' | 'simple';
+
 export interface HeatmapConfig {
   viewType: HeatmapViewType;
-  compact: boolean;
+  displayMode: DisplayMode;
+  colorFormula: ColorFormula;
   colorScheme: IndigoColorScheme;
   minColor: string;
   maxColor: string;
@@ -254,8 +272,9 @@ export interface HeatmapStatistics {
 **说明**：
 - 使用 Logseq 官方 API 的 `pull` 查询返回的 `IBlock` 类型
 - `block/uuid` 可能是字符串或 `{ '$uuid$': string }` 对象
-- `block/title` 是 DB Graph 的内容字段（File Graph 使用 `block/content`）
-- 时间戳使用毫秒级的 `logseq.property/created-at` 和 `logseq.property/updated-at`
+- `block/title` 是 DB Graph 的内容字段，`block/content` 是 File Graph 的内容字段
+- `block/created-at` 和 `block/updated-at` 是 File Graph 的时间戳（毫秒）
+- `Reference` 类型用于表示对其他 block 或 page 的引用
 
 ### 3.2 时间粒度定义
 
@@ -298,7 +317,7 @@ export interface Settings {
 #### 4.1.1 宏格式
 
 ```
-{{renderer :热力图  :视图类型  :查询类型=查询值  :year=年份  :month=月份}}
+{{renderer :热力图  :视图类型  :查询类型=查询值  :year=年份  :month=月份  :week=周数  :显示模式  :颜色公式}}
 ```
 
 **参数说明**：
@@ -307,21 +326,25 @@ export interface Settings {
 | `视图类型` | `年度视图`、`月度视图`、`周度视图`（可选，默认为年度视图） | `:年度视图` |
 | `查询类型=查询值` | 查询条件 | `:tag=key1`, `:page=日志`, `:property=category::工作` |
 | `:year=年份` | 指定年份（可选，默认为当前年） | `:year=2025` |
-| `:month=月份` | 指定月份（可选，默认为当前月，仅月度视图生效） | `:month=3` |
-| `:compact` | 极简模式，不显示控件和图例 | `:compact` |
+| `:month=月份` | 指定月份（可选，默认为当前月，仅年度/月度视图生效） | `:month=3` |
+| `:week=周数` | 指定周数（可选，仅周度视图生效，1-52） | `:week=15` |
+| `:显示模式` | `minimal`、`basic`、`full`（可选，默认为 full） | `:minimal`, `:basic` |
+| `:颜色公式` | `simple`、`weighted`（可选，默认为 simple） | `:simple`, `:weighted` |
 
 **示例**：
 ```
 {{renderer :热力图 :年度视图 :tag=工作}}
 {{renderer :热力图 :月度视图 :year=2025 :month=3 :tag=任务}}
-{{renderer :热力图 :周度视图 :year=2025 :tag=学习}}
-{{renderer :热力图 :年度视图 :compact :page=日志}}
-{{renderer :热力图 :月度视图 :property=category::工作}}
+{{renderer :热力图 :周度视图 :year=2025 :week=15 :tag=学习}}
+{{renderer :热力图 :年度视图 :minimal :tag=日志}}
+{{renderer :热力图 :月度视图 :basic :page=工作}}
+{{renderer :热力图 :年度视图 :weighted :property=category::工作}}
 ```
 
 **默认行为**：
 - 不指定时间时，使用当前年/月/周
-- 不指定 `:compact` 时，显示完整的视图切换控件和图例
+- 不指定显示模式时，显示 `full` 模式（完整控件和图例）
+- 不指定颜色公式时，使用 `simple` 模式（block 数量累计）
 
 #### 4.1.2 代码实现
 
@@ -361,23 +384,47 @@ export function setHeatmapComponent(component: React.FC<any>) {
 async function parseMacroArguments(args: string[]): Promise<{
   viewType: HeatmapViewType;
   queryParams: { type: string; value: string; propertyKey?: string };
-  compact: boolean;
+  displayMode: DisplayMode;
+  colorFormula: ColorFormula;
   referenceYear?: number;
   referenceMonth?: number;
+  referenceWeek?: number;
 }> {
   let viewType: HeatmapViewType = 'year';
   let queryType = 'tag';
   let queryValue = '';
   let propertyKey = '';
-  let compact = false;
+  let displayMode: DisplayMode = 'full';
+  let colorFormula: ColorFormula = 'simple';
   let referenceYear: number | undefined;
   let referenceMonth: number | undefined;
+  let referenceWeek: number | undefined;
+
+  const DISPLAY_MODE_MAP: Record<string, DisplayMode> = {
+    'minimal': 'minimal',
+    '极简': 'minimal',
+    'basic': 'basic',
+    '基础': 'basic',
+    'full': 'full',
+    '完整': 'full',
+  };
+
+  const COLOR_FORMULA_MAP: Record<string, ColorFormula> = {
+    'simple': 'simple',
+    '简化': 'simple',
+    'weighted': 'weighted',
+    '加权': 'weighted',
+  };
 
   for (const arg of args) {
     const trimmed = arg.trim();
 
     if (VIEW_TYPE_MAP[trimmed]) {
       viewType = VIEW_TYPE_MAP[trimmed];
+    } else if (DISPLAY_MODE_MAP[trimmed]) {
+      displayMode = DISPLAY_MODE_MAP[trimmed];
+    } else if (COLOR_FORMULA_MAP[trimmed]) {
+      colorFormula = COLOR_FORMULA_MAP[trimmed];
     } else if (trimmed.startsWith(':tag=')) {
       queryType = 'tag';
       queryValue = trimmed.substring(5);
@@ -390,8 +437,6 @@ async function parseMacroArguments(args: string[]): Promise<{
       const [key, value] = propertyStr.split('::');
       propertyKey = key;
       queryValue = value;
-    } else if (trimmed === ':compact') {
-      compact = true;
     } else if (trimmed.startsWith(':year=')) {
       const yearStr = trimmed.substring(6);
       const year = parseInt(yearStr, 10);
@@ -404,33 +449,49 @@ async function parseMacroArguments(args: string[]): Promise<{
       if (!isNaN(month) && month >= 1 && month <= 12) {
         referenceMonth = month;
       }
+    } else if (trimmed.startsWith(':week=')) {
+      const weekStr = trimmed.substring(6);
+      const week = parseInt(weekStr, 10);
+      if (!isNaN(week) && week >= 1 && week <= 52) {
+        referenceWeek = week;
+      }
     }
   }
 
   return {
     viewType,
     queryParams: { type: queryType, value: queryValue, propertyKey },
-    compact,
+    displayMode,
+    colorFormula,
     referenceYear,
     referenceMonth,
+    referenceWeek,
   };
 }
 
 async function renderHeatmap(slot: string, args: string[]) {
   try {
-    const { viewType, queryParams, compact, referenceYear, referenceMonth } = await parseMacroArguments(args);
+    const { viewType, queryParams, displayMode, colorFormula, referenceYear, referenceMonth, referenceWeek } = await parseMacroArguments(args);
     const settings = await getSettings();
 
     const now = new Date();
-    const referenceDate = new Date(
-      referenceYear || now.getFullYear(),
-      (referenceMonth !== undefined ? referenceMonth - 1 : now.getMonth()),
-      1
-    );
+    let referenceDate: Date;
+
+    if (viewType === 'week' && referenceWeek) {
+      const weekStart = getDateOfWeek(referenceWeek, referenceYear || now.getFullYear());
+      referenceDate = weekStart;
+    } else {
+      referenceDate = new Date(
+        referenceYear || now.getFullYear(),
+        (referenceMonth !== undefined ? referenceMonth - 1 : now.getMonth()),
+        1
+      );
+    }
 
     const heatmapConfig: HeatmapConfig = {
       viewType,
-      compact,
+      displayMode,
+      colorFormula,
       colorScheme: {
         name: 'indigo',
         colors: generateIndigoGradient(
@@ -445,7 +506,7 @@ async function renderHeatmap(slot: string, args: string[]) {
       referenceDate,
     };
 
-    const heatmapData = await fetchHeatmapData(queryParams, viewType);
+    const heatmapData = await fetchHeatmapData(queryParams, viewType, colorFormula);
 
     if (!HeatmapComponent) {
       logger.warn('[Heatmap] Component not registered');
@@ -718,20 +779,75 @@ function formatDateForAggregation(date: string | Date, viewType: HeatmapViewType
 
 **文件位置**：[src/lib/heatmap/colorCalculator.ts](file:///workspace/src/lib/heatmap/colorCalculator.ts)
 
-#### 4.3.1 颜色深度计算公式
+#### 4.3.1 颜色计算公式模式
 
-根据用户需求，颜色深度应基于统计数据的大小动态计算。设计公式如下：
+根据用户需求，颜色深度可基于两种公式模式计算，支持在设置和宏中配置：
+
+| 公式模式 | 说明 | 使用场景 |
+| :--- | :--- | :--- |
+| `simple`（简化） | 每个格子日期范围内，查询到的 block 数量累计和 | 默认模式，简单直观 |
+| `weighted`（加权） | 基于 block 实体属性计算加权值 | 需要考虑子节点、内容长度等因素 |
+
+#### 4.3.2 Simple 公式（默认）
 
 ```
-颜色深度值 = baseValue + (childrenCount * 0.3) + contentScore
+颜色深度值 = 该时间段内的 block 数量累计
+```
+
+**计算方式**：
+- 统计该格子代表的时间范围内（如一天或4小时）查询到的 block 数量
+- 年度/月度视图：每天一个格子，统计该天的 block 数量
+- 周度视图：每4小时一个格子，统计该时段的 block 数量
+
+#### 4.3.3 Weighted 公式（加权）
+
+```
+颜色深度值 = blockCount + (子节点总数 × 0.3) + (内容长度总分 × 0.1)
 
 其中：
-- baseValue = 基础值（1，表示存在该 block）
-- childrenCount = 子节点数量（乘以权重 0.3）
-- contentScore = 内容长度评分（content.length / 100，最大为 1）
+- blockCount = 该时间段内的 block 数量
+- 子节点总数 = 所有 block 的子节点数量之和（乘以权重 0.3）
+- 内容长度总分 = Σ(min(content.length / 100, 1))（乘以权重 0.1）
 ```
 
-**颜色映射**：基于计算出的值，映射到 Indigo 色系的梯度：
+**计算方式**：
+- 统计该格子代表的时间范围内的 block 数量
+- 遍历每个 block，获取其子节点数量（通过 API 或 properties 估算）
+- 遍历每个 block，计算内容长度评分（内容长度 / 100，最大为 1）
+
+**代码实现**：
+```typescript
+export function calculateColorValueWeighted(blocks: BlockEntity[]): number {
+  if (!blocks || blocks.length === 0) return 0;
+
+  const blockCount = blocks.length;
+  const childrenScore = blocks.reduce((sum, block) => {
+    const childrenCount = getChildrenCount(block);
+    return sum + Math.min(childrenCount * 0.3, 3);
+  }, 0);
+  const contentScore = blocks.reduce((sum, block) => {
+    const content = block['block/content'] || block['block/title'] || '';
+    return sum + Math.min(content.length / 100, 1);
+  }, 0) * 0.1;
+
+  return blockCount + childrenScore + contentScore;
+}
+
+function getChildrenCount(block: BlockEntity): number {
+  if (block.children && block.children.length > 0) {
+    return block.children.length;
+  }
+  const props = block['block/properties'];
+  if (props && typeof props === 'object') {
+    return Object.keys(props).length;
+  }
+  return 0;
+}
+```
+
+#### 4.3.4 颜色映射
+
+基于计算出的值，映射到 Indigo 色系的梯度：
 
 | 数值范围 | 颜色 | 含义 |
 | :--- | :--- | :--- |
@@ -740,7 +856,7 @@ function formatDateForAggregation(date: string | Date, viewType: HeatmapViewType
 | 1.1 - 2.0 | #e0e7ff | 浅靛蓝（中等数据） |
 | 2.1 - 3.0 | #c7d2fe | 中靛蓝（较多数据） |
 | 3.1 - 4.0 | #a5b4fc | 中深靛蓝（大量数据） |
-| > 4.0 | #3730a3 | 深靛蓝（极大量数据） |
+| > 4.0 | #3730a3 | 深靛蓝（极大量数据）
 
 #### 4.3.2 代码实现
 
@@ -2217,6 +2333,20 @@ function HeatmapTooltip({ date, count }) {
 │ Level: ████████░░ 84%     │  ← 活动等级进度条
 └─────────────────────────────┘
 ```
+
+**活动等级进度条计算方式**：
+
+| 字段 | 计算方式 | 说明 |
+| :--- | :--- | :--- |
+| `Activity` | `count` | 该时间段的 block 数量（使用 `simple` 公式）或加权值（使用 `weighted` 公式） |
+| `Level` | `(value / maxValue) × 100%` | 当前格子值占该视图最大值的百分比 |
+| 进度条 | 10 格 Unicode 字符 | `█` 表示已完成，`░` 表示未完成 |
+
+**计算示例**：
+- 假设当前格子 value = 42
+- 假设该视图 maxValue = 50
+- Level = (42 / 50) × 100% = 84%
+- 进度条 = `████████░░` (8/10 已完成)
 
 **Tooltip 样式**：
 - 背景：深色半透明（`rgba(17, 24, 39, 0.95)`）
