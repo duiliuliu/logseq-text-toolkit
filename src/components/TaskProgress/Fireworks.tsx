@@ -5,7 +5,7 @@
  * 烟花粒子效果组件
  */
 
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 interface Particle {
   id: number
@@ -20,8 +20,7 @@ interface Particle {
 }
 
 interface FireworksProps {
-  containerRef?: React.RefObject<HTMLElement>
-  trigger?: boolean
+  trigger: boolean
   onComplete?: () => void
 }
 
@@ -34,32 +33,31 @@ const COLORS = [
   '#aa96da',
   '#fcbad3',
   '#a8d8ea',
+  '#ff9a9e',
+  '#fecfef',
 ]
 
-const Fireworks: React.FC<FireworksProps> = ({ containerRef, trigger, onComplete }) => {
+const Fireworks: React.FC<FireworksProps> = ({ trigger, onComplete }) => {
   const [particles, setParticles] = useState<Particle[]>([])
   const [show, setShow] = useState(false)
-  const [containerSize, setContainerSize] = useState({ width: 60, height: 60 })
   const animationRef = useRef<number>()
   const particleIdRef = useRef(0)
-  const lastTriggerRef = useRef(false)
 
   useEffect(() => {
-    if (containerRef?.current) {
-      const rect = containerRef.current.getBoundingClientRect()
-      setContainerSize({ width: rect.width, height: rect.height })
+    if (trigger) {
+      setShow(true)
+      createFireworks()
     }
-  }, [containerRef])
+  }, [trigger])
 
-  const createFireworks = useCallback(() => {
+  const createFireworks = () => {
     const newParticles: Particle[] = []
-    const centerX = containerSize.width / 2
-    const centerY = containerSize.height / 2
-    const particleCount = 12 + Math.floor(Math.random() * 8)
+    const centerX = 50
+    const centerY = 50
 
-    for (let i = 0; i < particleCount; i++) {
-      const angle = (Math.PI * 2 * i) / particleCount + Math.random() * 0.3
-      const velocity = 1 + Math.random() * 1.5
+    for (let i = 0; i < 60; i++) {
+      const angle = (Math.PI * 2 * i) / 60 + Math.random() * 0.5
+      const velocity = 2 + Math.random() * 3
       const color = COLORS[Math.floor(Math.random() * COLORS.length)]
 
       newParticles.push({
@@ -69,25 +67,25 @@ const Fireworks: React.FC<FireworksProps> = ({ containerRef, trigger, onComplete
         vx: Math.cos(angle) * velocity,
         vy: Math.sin(angle) * velocity,
         color,
-        size: 2 + Math.random() * 2,
+        size: 3 + Math.random() * 3,
         opacity: 1,
-        life: 60 + Math.floor(Math.random() * 40),
+        life: 100,
       })
     }
 
     setParticles(prev => [...prev, ...newParticles])
     animate()
-  }, [containerSize])
+  }
 
-  const animate = useCallback(() => {
+  const animate = () => {
     setParticles(prev => {
       const updated = prev
         .map(p => ({
           ...p,
           x: p.x + p.vx,
           y: p.y + p.vy,
-          vy: p.vy + 0.03,
-          opacity: p.opacity - 0.02,
+          vy: p.vy + 0.05,
+          opacity: p.opacity - 0.015,
           life: p.life - 1,
           size: p.size * 0.98,
         }))
@@ -102,7 +100,7 @@ const Fireworks: React.FC<FireworksProps> = ({ containerRef, trigger, onComplete
     })
 
     animationRef.current = requestAnimationFrame(animate)
-  }, [onComplete])
+  }
 
   useEffect(() => {
     return () => {
@@ -112,52 +110,37 @@ const Fireworks: React.FC<FireworksProps> = ({ containerRef, trigger, onComplete
     }
   }, [])
 
-  useEffect(() => {
-    if (trigger && !lastTriggerRef.current) {
-      setShow(true)
-      createFireworks()
-    }
-    lastTriggerRef.current = trigger
-  }, [trigger, createFireworks])
-
-  useEffect(() => {
-    if (containerRef?.current) {
-      const el = containerRef.current
-      const handleClick = (e: MouseEvent) => {
-        e.stopPropagation()
-        setShow(true)
-        createFireworks()
-      }
-      el.addEventListener('click', handleClick)
-      return () => el.removeEventListener('click', handleClick)
-    }
-  }, [containerRef, createFireworks])
-
   if (!show) return null
 
   return (
-    <svg
-      width={containerSize.width}
-      height={containerSize.height}
+    <div
       style={{
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
+        width: '100%',
+        height: '100%',
         pointerEvents: 'none',
-        overflow: 'visible',
+        zIndex: 9999,
       }}
     >
-      {particles.map(p => (
-        <circle
-          key={p.id}
-          cx={p.x}
-          cy={p.y}
-          r={p.size}
-          fill={p.color}
-          opacity={p.opacity}
-        />
-      ))}
-    </svg>
+      <svg
+        width="100%"
+        height="100%"
+        style={{ position: 'absolute', top: 0, left: 0 }}
+      >
+        {particles.map(p => (
+          <circle
+            key={p.id}
+            cx={`${p.x}%`}
+            cy={`${p.y}%`}
+            r={p.size}
+            fill={p.color}
+            opacity={p.opacity}
+          />
+        ))}
+      </svg>
+    </div>
   )
 }
 
