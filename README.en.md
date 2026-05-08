@@ -13,22 +13,26 @@ English Version | [中文版本](README.md)
 <table>
   <tr>
     <td align="center">
-      <img width="280" alt="Text Operations" src="https://github.com/user-attachments/assets/4be36305-3d06-443d-8548-a121894cb46d" />
-      <br>Text Operations
+      <img width="280" alt="文本操作" src="https://github.com/user-attachments/assets/4be36305-3d06-443d-8548-a121894cb46d" />
+      <br>文本操作
     </td>
     <td align="center">
-      <img width="280" alt="Toolbar" src="https://github.com/user-attachments/assets/ff0810d8-b201-4680-b316-683e03013133" />
-      <br>Toolbar
+      <img width="280" alt="工具栏" src="https://github.com/user-attachments/assets/ff0810d8-b201-4680-b316-683e03013133" />
+      <br>工具栏按钮
+    </td>
+      <td align="center">
+      <img width="280" alt="任务进度" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
+      <br>任务进度追踪
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img width="280" alt="Task Progress" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
-      <br>Task Progress
+       <img width="280" alt="toolbar设置面板" src="https://github.com/user-attachments/assets/383a176b-f94a-4f1c-b50a-a4f738d0ac0f" />
+      <br>toolbar设置面板
     </td>
-    <td align="center">
-      <img width="280" alt="Settings Panel" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
-      <br>Settings Panel
+      <td align="center">
+       <img width="280" alt="taskprogress设置面板" src="https://github.com/user-attachments/assets/73c9eb90-2c4f-4ace-99ea-a9eb510f7bcf" />
+      <br>taskprogress设置面板
     </td>
   </tr>
 </table>
