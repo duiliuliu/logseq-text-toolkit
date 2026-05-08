@@ -94,6 +94,20 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
 
     const largeArcFlag = angle > 180 ? 1 : 0
 
+    if (angle >= 360) {
+      return (
+        <circle
+          key={stat.status}
+          cx={center}
+          cy={center}
+          r={radius}
+          fill="none"
+          stroke={stat.color || '#6b7280'}
+          strokeWidth={strokeWidth}
+        />
+      )
+    }
+
     return (
       <path
         key={stat.status}
