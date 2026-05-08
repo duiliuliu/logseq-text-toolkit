@@ -6,6 +6,7 @@ import TextSelectionDemo from './components/TextSelectionDemo/index'
 import HiccupRenderer from './components/HiccupRenderer/index'
 import BlockRenderer from './components/BlockRenderer/index'
 import TaskProgressDemo from './components/TaskProgressDemo/index'
+import HeatmapDemo from './components/HeatmapDemo/index'
 import APIQueryDemo from './components/APIQueryDemo/index'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
@@ -267,6 +268,8 @@ function TestApp() {
           <span># Level 1 - Execution #task</span>
         </div>
       </div>
+
+      <HeatmapDemo />
 
       <APIQueryDemo />
     </div>

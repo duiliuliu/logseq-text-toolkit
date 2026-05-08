@@ -46,6 +46,19 @@ export interface TaskProgressMeta {
   customStatuses?: TaskStatusConfig[];   // 自定义状态列表
 }
 
+// 热力图设置
+export interface HeatmapSettings {
+  enabled: boolean;
+  defaultViewType: 'year' | 'month' | 'week';
+  defaultDisplayMode: 'minimal' | 'basic' | 'full';
+  defaultColorFormula: 'simple' | 'weighted';
+  colorScheme: {
+    minColor: string;
+    maxColor: string;
+    gradientSteps: number;
+  };
+}
+
 // 全局设置类型
 export interface Settings {
   // 主题和语言设置
@@ -84,7 +97,8 @@ export interface Settings {
     statusColors: Record<string, string>;  // 状态到颜色的映射
   };
 
-
+  // 热力图设置
+  heatmap?: HeatmapSettings;
 
   // 元数据设置
   meta?: {
