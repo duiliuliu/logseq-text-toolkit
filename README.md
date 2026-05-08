@@ -27,7 +27,7 @@
       <br>任务进度追踪
     </td>
     <td align="center">
-      <img width="280" alt="设置面板" src="https://github.com/user-attachments/assets/placeholder" />
+      <img width="280" alt="设置面板" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
       <br>设置面板
     </td>
   </tr>
