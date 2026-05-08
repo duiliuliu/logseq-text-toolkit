@@ -77,7 +77,7 @@ const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
     >
       <span 
         className="task-progress-cursor"
-        style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       >
         <CelebrationEffect
           trigger={showCelebration}

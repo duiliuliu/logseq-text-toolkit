@@ -106,7 +106,7 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
     >
       <div 
         className="task-progress-dot-matrix"
-        style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       >
         <CelebrationEffect
           trigger={showCelebration}

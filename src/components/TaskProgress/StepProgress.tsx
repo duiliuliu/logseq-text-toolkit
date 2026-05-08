@@ -88,7 +88,7 @@ const StepProgress: React.FC<StepProgressProps> = ({
     >
       <div 
         className="task-progress-step"
-        style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       >
         <CelebrationEffect
           trigger={showCelebration}

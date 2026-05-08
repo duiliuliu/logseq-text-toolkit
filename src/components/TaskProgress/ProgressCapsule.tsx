@@ -83,7 +83,7 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
     >
       <div 
         className="task-progress-capsule"
-        style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       >
         <CelebrationEffect
           trigger={showCelebration}

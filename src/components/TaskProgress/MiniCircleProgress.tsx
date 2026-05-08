@@ -154,7 +154,7 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
     >
       <div 
         className="task-progress-mini-circle" 
-        style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       >
         <CelebrationEffect
           trigger={showCelebration}
