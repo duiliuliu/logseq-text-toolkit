@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analytical Intelligence - Heatmap Weekly View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed": "#ffddb8",
+                    "on-tertiary": "#472a00",
+                    "on-surface": "#dae2fd",
+                    "surface-bright": "#31394d",
+                    "primary-fixed": "#e1e0ff",
+                    "on-error": "#690005",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "surface-container-high": "#222a3d",
+                    "error-container": "#93000a",
+                    "surface-container": "#171f33",
+                    "on-secondary": "#003732",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "on-surface-variant": "#c7c4d7",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-background": "#dae2fd",
+                    "surface-dim": "#0b1326",
+                    "surface-container-highest": "#2d3449",
+                    "on-tertiary-container": "#3e2400",
+                    "error": "#ffb4ab",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "tertiary": "#ffb95f",
+                    "inverse-on-surface": "#283044",
+                    "surface-variant": "#2d3449",
+                    "on-primary-container": "#0d0096",
+                    "on-primary-fixed": "#07006c",
+                    "surface-tint": "#c0c1ff",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "tertiary-container": "#ca8100",
+                    "surface-container-low": "#131b2e",
+                    "background": "#0b1326",
+                    "surface-container-lowest": "#060e20",
+                    "primary": "#c0c1ff",
+                    "secondary-container": "#29a195",
+                    "outline-variant": "#464554",
+                    "on-secondary-container": "#00302b",
+                    "on-secondary-fixed": "#00201d",
+                    "secondary": "#6bd8cb",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "on-primary": "#1000a9",
+                    "inverse-primary": "#494bd6",
+                    "surface": "#0b1326",
+                    "primary-container": "#8083ff",
+                    "secondary-fixed": "#89f5e7",
+                    "on-secondary-fixed-variant": "#005049",
+                    "inverse-surface": "#dae2fd",
+                    "outline": "#908fa0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "base": "4px",
+                    "xl": "40px",
+                    "sm": "8px",
+                    "grid_columns": "12"
+            },
+            "fontFamily": {
+                    "label-mono": ["JetBrains Mono"],
+                    "display": ["Hanken Grotesk"],
+                    "header-section": ["Hanken Grotesk"],
+                    "body-main": ["Inter"],
+                    "tooltip": ["Inter"],
+                    "data-table": ["Inter"]
+            },
+            "fontSize": {
+                    "label-mono": ["11px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "display": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "header-section": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-main": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "tooltip": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "data-table": ["13px", {"lineHeight": "1.4", "fontWeight": "450"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: 48px repeat(7, 1fr);
+            gap: 2px;
+        }
+        .glass-popover {
+            background: rgba(23, 31, 51, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-main selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 z-50 w-full flex items-center justify-between px-md h-12 bg-surface dark:bg-surface border-b border-outline-variant transition-colors">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="analytics">analytics</span>
+<h1 class="font-display text-display text-primary dark:text-primary tracking-tight" style="font-size: 20px;">Analytical Intelligence</h1>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="flex bg-surface-container-low rounded-lg p-xs">
+<button class="px-md py-xs font-label-mono text-label-mono text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg">Day</button>
+<button class="px-md py-xs font-label-mono text-label-mono bg-primary-container text-on-primary-container rounded-lg">Week</button>
+<button class="px-md py-xs font-label-mono text-label-mono text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-lg">Month</button>
+</div>
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-xs rounded-full" data-icon="settings">settings</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="pt-12 pb-16 min-h-screen px-gutter">
+<!-- Controls & Legend Section -->
+<section class="flex flex-col md:flex-row justify-between items-center py-lg gap-gutter">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary active:scale-95 transition-all" data-icon="chevron_left">chevron_left</button>
+<h2 class="font-header-section text-header-section text-on-surface">Mar 10 - Mar 16, 2024</h2>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary active:scale-95 transition-all" data-icon="chevron_right">chevron_right</button>
+</div>
+<div class="flex items-center gap-md">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">Intensity Scale</span>
+<div class="flex items-center gap-xs">
+<span class="font-label-mono text-label-mono text-on-surface-variant">Low</span>
+<div class="h-3 w-40 rounded-full bg-gradient-to-r from-surface-container-highest via-secondary-container to-primary"></div>
+<span class="font-label-mono text-label-mono text-on-surface-variant">High</span>
+</div>
+</div>
+</section>
+<!-- Heatmap Container -->
+<div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden p-base mb-lg">
+<!-- Header Row: Days -->
+<div class="heatmap-grid mb-xs sticky top-12 z-40 bg-surface-container py-sm border-b border-outline-variant">
+<div class="flex items-center justify-center"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">SUN</span>
+<span class="font-display text-lg text-primary">10</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">MON</span>
+<span class="font-display text-lg text-on-surface">11</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">TUE</span>
+<span class="font-display text-lg text-on-surface">12</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">WED</span>
+<span class="font-display text-lg text-on-surface">13</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">THU</span>
+<span class="font-display text-lg text-on-surface">14</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">FRI</span>
+<span class="font-display text-lg text-on-surface">15</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-mono text-label-mono text-on-surface-variant">SAT</span>
+<span class="font-display text-lg text-on-surface">16</span>
+</div>
+</div>
+<!-- Heatmap Rows: Hours -->
+<div class="space-y-[2px]">
+<!-- Example Block of 24 Hours -->
+<!-- We'll simulate a few high-activity and low-activity periods -->
+<!-- Hour 00:00 - 08:00 (Quiet) -->
+<script>
+                    const hours = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+                    const intensities = [
+                        "bg-surface-container-highest/20", 
+                        "bg-surface-container-highest/40", 
+                        "bg-secondary-container/40", 
+                        "bg-secondary-container/70", 
+                        "bg-secondary-container", 
+                        "bg-primary-container", 
+                        "bg-primary", 
+                        "bg-primary shadow-[0_0_10px_rgba(192,193,255,0.3)]"
+                    ];
+                </script>
+<!-- Row Generator Simulation via static HTML for clarity as per prompt -->
+<!-- Midnight to 4 AM -->
+<div class="heatmap-grid group">
+<div class="font-label-mono text-[10px] text-on-surface-variant flex items-center justify-end pr-xs">00:00</div>
+<div class="h-10 bg-surface-container-highest/20 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/10 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/10 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/20 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/10 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/30 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+</div>
+<div class="heatmap-grid group">
+<div class="font-label-mono text-[10px] text-on-surface-variant flex items-center justify-end pr-xs">04:00</div>
+<div class="h-10 bg-surface-container-highest/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/30 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/20 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/30 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/50 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+</div>
+<!-- Peak Morning Hours -->
+<div class="heatmap-grid group">
+<div class="font-label-mono text-[10px] text-on-surface-variant flex items-center justify-end pr-xs">08:00</div>
+<div class="h-10 bg-primary/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary/70 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all shadow-[inset_0_0_8px_rgba(192,193,255,0.4)]"></div>
+<div class="h-10 bg-primary/90 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all shadow-[inset_0_0_8px_rgba(192,193,255,0.4)]"></div>
+<div class="h-10 bg-primary/80 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+</div>
+<!-- Mid-day with hover simulation state -->
+<div class="heatmap-grid group relative">
+<div class="font-label-mono text-[10px] text-on-surface-variant flex items-center justify-end pr-xs">12:00</div>
+<div class="h-10 bg-secondary-container rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<!-- Hovered Cell State Visualization -->
+<div class="h-10 bg-primary ring-2 ring-on-surface rounded-sm cursor-pointer transition-all relative z-10">
+<!-- Tooltip -->
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 glass-popover p-sm rounded-lg shadow-2xl pointer-events-none">
+<div class="flex justify-between items-center border-b border-outline-variant pb-xs mb-xs">
+<span class="font-label-mono text-[10px] text-on-surface-variant">MAR 12 • 12:00</span>
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between">
+<span class="text-tooltip text-on-surface-variant">Intensity:</span>
+<span class="text-tooltip font-bold text-primary">Peak (98%)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-tooltip text-on-surface-variant">Transactions:</span>
+<span class="font-label-mono text-tooltip text-on-surface">1,242</span>
+</div>
+</div>
+</div>
+</div>
+<div class="h-10 bg-secondary-container/60 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/80 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/90 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+</div>
+<!-- Afternoon 16:00 -->
+<div class="heatmap-grid group">
+<div class="font-label-mono text-[10px] text-on-surface-variant flex items-center justify-end pr-xs">16:00</div>
+<div class="h-10 bg-primary/60 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary/80 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary/90 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-primary/70 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/60 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/30 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+</div>
+<!-- Evening 20:00 -->
+<div class="heatmap-grid group">
+<div class="font-label-mono text-[10px] text-on-surface-variant flex items-center justify-end pr-xs">20:00</div>
+<div class="h-10 bg-secondary-container/20 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-secondary-container/10 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/40 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/50 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/20 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/10 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+<div class="h-10 bg-surface-container-highest/10 rounded-sm hover:ring-2 ring-on-surface cursor-pointer transition-all"></div>
+</div>
+</div>
+</div>
+<!-- Metric Summary Cards (Contextual Data) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter pb-xl">
+<div class="bg-surface-container p-md rounded-xl border border-outline-variant flex flex-col gap-sm">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Weekly Volatility</span>
+<div class="flex items-end gap-xs">
+<span class="font-display text-3xl text-on-surface">14.2%</span>
+<span class="text-secondary mb-1 font-label-mono">↓ 2.1%</span>
+</div>
+</div>
+<div class="bg-surface-container p-md rounded-xl border border-outline-variant flex flex-col gap-sm">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Peak Concurrent</span>
+<div class="flex items-end gap-xs">
+<span class="font-display text-3xl text-on-surface">8,941</span>
+<span class="text-on-surface-variant mb-1 font-label-mono">at 14:00 Tue</span>
+</div>
+</div>
+<div class="bg-surface-container p-md rounded-xl border border-outline-variant flex flex-col gap-sm">
+<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">System Health</span>
+<div class="flex items-end gap-xs">
+<span class="font-display text-3xl text-secondary">99.98%</span>
+<span class="material-symbols-outlined text-secondary mb-1" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-gutter bg-surface-container dark:bg-surface-container border-t border-outline-variant transition-colors">
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:text-on-surface transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-mono text-label-mono">Overview</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold border-t-2 border-primary pt-1 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-label-mono text-label-mono">Heatmap</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:text-on-surface transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="timeline">timeline</span>
+<span class="font-label-mono text-label-mono">Trends</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:text-on-surface transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="font-label-mono text-label-mono">Alerts</span>
+</a>
+</nav>
+</body></html>

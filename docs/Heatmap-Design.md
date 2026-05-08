@@ -44,36 +44,72 @@
 
 ### 2.1 项目整体架构
 
+将热力图组件模块纳入现有 Text Toolkit 项目整体架构：
+
 ```
 Text Toolkit Plugin (项目根目录)
 ├── src/
 │   ├── components/
-│   │   ├── Heatmap/                  (新增 - 热力图组件)
-│   │   │   ├── index.ts
-│   │   │   ├── Heatmap.tsx           (主组件)
-│   │   │   ├── YearView.tsx          (年度视图)
-│   │   │   ├── MonthView.tsx         (月度视图)
-│   │   │   ├── WeekView.tsx          (周度视图)
-│   │   │   ├── HeatmapCell.tsx       (单元格组件)
-│   │   │   ├── HeatmapTooltip.tsx    (提示组件)
-│   │   │   ├── ViewSwitcher.tsx      (视图切换器)
-│   │   │   └── heatmap.css
-│   │   └── SettingsModal/tabs/
-│   │       └── HeatmapSettings.tsx   (新增 - 热力图设置)
-│   ├── lib/
-│   │   └── heatmap/                  (新增 - 热力图核心逻辑)
+│   │   ├── Comment/                  (已实现 - 评论功能)
+│   │   ├── CustomSelect/             (已实现)
+│   │   ├── Modal/                    (已实现)
+│   │   ├── SelectToolbar/            (已实现 - 选择工具栏)
+│   │   ├── SettingsModal/            (已实现 - 设置面板)
+│   │   │   └── tabs/
+│   │   │       ├── GeneralSettings.tsx              (已实现)
+│   │   │       ├── ToolbarSettings.tsx              (已实现)
+│   │   │       ├── AdvancedSettings.tsx             (已实现)
+│   │   │       ├── TaskProgressSettings.tsx         (已实现)
+│   │   │       └── HeatmapSettings.tsx             (新增 - 热力图设置)
+│   │   ├── Toast/                    (已实现)
+│   │   ├── Toolbar/                  (已实现 - 工具栏)
+│   │   ├── ToolbarItem/              (已实现)
+│   │   ├── TaskProgress/             (已实现 - 任务进度)
+│   │   ├── ui/                      (已实现)
+│   │   └── Heatmap/                  (新增 - 热力图组件)
 │   │       ├── index.ts
-│   │       ├── register.ts           (宏注册)
-│   │       ├── query.ts              (数据查询)
-│   │       ├── colorCalculator.ts    (颜色计算)
-│   │       └── types.ts              (类型定义)
-│   ├── settings/
-│   │   ├── types.ts                  (扩展热力图设置类型)
-│   │   └── defaultSettings.json      (扩展默认配置)
-│   └── main.tsx                      (注册热力图模块)
-└── docs/
-    └── Heatmap-Design.md             (本文档)
+│   │       ├── Heatmap.tsx          (主组件)
+│   │       ├── YearView.tsx         (年度视图)
+│   │       ├── MonthView.tsx        (月度视图)
+│   │       ├── WeekView.tsx         (周度视图)
+│   │       ├── HeatmapCell.tsx      (单元格组件)
+│   │       ├── HeatmapTooltip.tsx   (提示组件)
+│   │       ├── ViewSwitcher.tsx     (视图切换器)
+│   │       ├── TimeNav.tsx          (时间导航器)
+│   │       ├── Statistics.tsx       (统计信息)
+│   │       └── heatmap.css
+│   │
+│   ├── lib/
+│   │   ├── logger/                  (已实现)
+│   │   ├── textReplace/            (已实现)
+│   │   ├── toolbar/                (已实现 - 工具栏核心逻辑)
+│   │   ├── taskProgress/           (已实现 - 任务进度核心逻辑)
+│   │   └── heatmap/                (新增 - 热力图核心逻辑)
+│   │       ├── index.ts
+│   │       ├── register.ts         (宏注册)
+│   │       ├── query.ts            (数据查询)
+│   │       ├── colorCalculator.ts   (颜色计算)
+│   │       └── types.ts            (类型定义)
+│   │
+│   ├── logseq/                      (已实现 - Logseq API 封装)
+│   ├── settings/                   (已实现 - 设置管理)
+│   ├── styles/                     (已实现)
+│   ├── translations/               (已实现)
+│   ├── test/                       (已实现 - 测试)
+│   ├── App.tsx                     (已实现)
+│   └── main.tsx                    (已实现 - 入口)
+│
+├── docs/                           (文档目录)
+│   ├── Architecture-Overview.md   (新增 - 整体架构文档)
+│   ├── Task-Progress-Tracking-Design.md
+│   └── Heatmap-Design.md          (本文档)
+│
+└── package.json
 ```
+
+**模块状态标识**：
+- ✅ 已实现：现有功能模块
+- ⏳ 未实现：热力图组件模块（本方案设计内容）
 
 ### 2.2 架构图
 
@@ -1755,4 +1791,197 @@ DB: {
 | showControlsByDefault | boolean | false | 默认是否显示切换控件 |
 | showStatisticsByDefault | boolean | false | 默认是否显示统计信息 |
 | colorScheme.minColor | string | "#eef2ff" | 最浅色（浅靛蓝） |
-| color
+| colorScheme.maxColor | string | "#3730a3" | 最深色（深靛蓝） |
+| colorScheme.gradientSteps | number | 5 | 颜色梯度级数 |
+
+---
+
+## 9. UI 草稿参考
+
+### 9.1 UI 设计参考文件
+
+根据用户提供的 UI 参考，参考以下 HTML 文件：
+
+| 视图类型 | 参考文件 | 说明 |
+| :--- | :--- | :--- |
+| 年度视图 | [year-view.html](file:///workspace/docs/year-view.html) | GitHub 风格的年度热力图，按月份和周排列 |
+| 月度视图 | [month-view.html](file:///workspace/docs/month-view.html) | 日历格式的月度热力图，显示周数和日期 |
+| 周度视图 | [week-view.html](file:///workspace/docs/week-view.html) | 按小时分布的周度热力图，7天×24小时 |
+
+### 9.2 UI 设计要点
+
+#### 9.2.1 年度视图设计要点
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  [Year] [Month] [Week]        [<] 2024 [>]                      │
+├─────────────────────────────────────────────────────────────────┤
+│         JAN  FEB  MAR  APR  MAY  JUN  JUL  AUG  SEP  ...  DEC   │
+│ MON    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
+│        │  │ │  │ │██│ │  │ │  │ │  │ │  │ │  │ │██│       │
+│        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
+│ TUE    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
+│        │  │ │██│ │  │ │  │ │  │ │  │ │  │ │  │ │  │       │
+│        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
+│ ...                                                           │
+├─────────────────────────────────────────────────────────────────┤
+│  Less ○○○○○ More                              [Export Data]   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**设计要点**：
+- 左侧显示周一至周日的标签
+- 顶部显示 12 个月份标签
+- 每个格子 12×12px，间距 2px
+- 颜色从浅靛蓝到深靛蓝平滑过渡
+- 支持悬停放大动画和 Tooltip 提示
+- 底部显示颜色图例和导出按钮
+
+#### 9.2.2 月度视图设计要点
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  [Year] [Month] [Week]        [<] March 2024 [>]              │
+├─────────────────────────────────────────────────────────────────┤
+│        Sun   Mon   Tue   Wed   Thu   Fri   Sat                 │
+│ W09   │ 25  │ 26  │ 27  │ 28  │ 29  │  1  │  2  │              │
+│ W10   │  3  │  4  │██  │  5  │  6  │  7  │  8  │              │
+│ W11   │  9  │ 10  │ 11  │ 12  │ 13  │███ │ 15  │ ← 高亮悬停   │
+│ W12   │ 16  │ 17  │ 18  │ 19  │ 20  │ 21  │ 22  │              │
+│ W13   │ 23  │ 24  │ 25  │ 26  │ 27  │ 28  │ 29  │              │
+│ W14   │ 30  │ 31  │  1  │  2  │  3  │  4  │  5  │              │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌──────────────────┐                                           │
+│  │ Mar 14, 2024    │  ← Tooltip                                │
+│  │ Activity Level  │                                           │
+│  │ 42 units        │                                           │
+│  │ ████████░░ 84%  │                                           │
+│  └──────────────────┘                                           │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**设计要点**：
+- 标准 7 列日历布局
+- 左侧显示周数（W01, W02...）
+- 顶部显示周一至周日
+- 单元格 20×20px，适合点击操作
+- 悬停时显示详细信息浮窗
+- 支持左右箭头切换月份
+
+#### 9.2.3 周度视图设计要点
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  [Year] [Month] [Week]        [<] Mar 10 - 16, 2024 [>]        │
+├─────────────────────────────────────────────────────────────────┤
+│        │  SUN │  MON │  TUE │  WED │  THU │  FRI │  SAT │       │
+│        │  10  │  11  │  12  │  13  │  14  │  15  │  16  │       │
+├────────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┤       │
+│ 00:00  │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │       │
+│ 04:00  │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ▒▒▒▒ │       │
+│ 08:00  │ ▓▓▓▓ │ ████ │███████│ ▓▓▓▓ │████████│ ████ │ ▓▓▓▓ │       │
+│ 12:00  │ ▒▒▒▒ │ ████ │███████│ ████ │███████│ ████ │ ▒▒▒▒ │ ← 峰值   │
+│ 16:00  │ ▓▓▓▓ │ ████ │███████│ ████ │█████  │ ████ │ ▓▓▓▓ │       │
+│ 20:00  │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │       │
+├─────────────────────────────────────────────────────────────────┤
+│  Low ════════════════════════════════════════════ High         │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**设计要点**：
+- 纵轴显示 24 小时时间点（每 4 小时一个时段）
+- 横轴显示 7 天
+- 单元格 40×32px，适合移动端点击
+- 颜色深度反映该时段的数据密度
+- 适合观察用户活跃时段或系统负载高峰
+
+---
+
+## 10. 预计修改的文件位置
+
+### 10.1 新增文件
+
+| 文件路径 | 说明 | 优先级 |
+| :--- | :--- | :--- |
+| `src/components/Heatmap/index.ts` | 组件导出 | P0 |
+| `src/components/Heatmap/types.ts` | 组件类型定义 | P0 |
+| `src/components/Heatmap/Heatmap.tsx` | 主组件 | P0 |
+| `src/components/Heatmap/YearView.tsx` | 年度视图 | P0 |
+| `src/components/Heatmap/MonthView.tsx` | 月度视图 | P0 |
+| `src/components/Heatmap/WeekView.tsx` | 周度视图 | P0 |
+| `src/components/Heatmap/HeatmapCell.tsx` | 单元格组件 | P0 |
+| `src/components/Heatmap/HeatmapTooltip.tsx` | 提示组件 | P1 |
+| `src/components/Heatmap/ViewSwitcher.tsx` | 视图切换器 | P1 |
+| `src/components/Heatmap/TimeNav.tsx` | 时间导航器 | P1 |
+| `src/components/Heatmap/Statistics.tsx` | 统计信息组件 | P1 |
+| `src/components/Heatmap/heatmap.css` | 样式文件 | P0 |
+| `src/components/SettingsModal/tabs/HeatmapSettings.tsx` | 热力图设置面板 | P2 |
+| `src/lib/heatmap/index.ts` | 模块导出 | P0 |
+| `src/lib/heatmap/register.ts` | 宏注册 | P0 |
+| `src/lib/heatmap/query.ts` | 数据查询逻辑 | P0 |
+| `src/lib/heatmap/colorCalculator.ts` | 颜色计算逻辑 | P0 |
+| `src/lib/heatmap/types.ts` | 核心类型定义 | P0 |
+
+### 10.2 修改文件
+
+| 文件路径 | 修改内容 | 优先级 |
+| :--- | :--- | :--- |
+| `src/main.tsx` | 添加热力图模块初始化 | P0 |
+| `src/settings/types.ts` | 扩展热力图设置类型 | P0 |
+| `src/settings/defaultSettings.json` | 添加热力图默认配置 | P0 |
+| `src/styles/index.ts` | 添加热力图样式导出 | P0 |
+| `src/logseq/mock/index.ts` | 添加热力图 Mock 数据 | P1 |
+| `src/translations/zh-CN.json` | 添加中文翻译 | P2 |
+| `src/translations/en.json` | 添加英文翻译 | P2 |
+| `src/translations/ja.json` | 添加日文翻译 | P2 |
+
+### 10.3 优先级说明
+
+| 优先级 | 说明 | 预计工作量 |
+| :--- | :--- | :--- |
+| P0 | 核心功能，必须实现 | 约 60% |
+| P1 | 重要功能，建议实现 | 约 30% |
+| P2 | 辅助功能，可后续实现 | 约 10% |
+
+---
+
+## 11. 实施计划
+
+### 11.1 阶段划分
+
+#### Phase 1: 基础框架 (P0)
+1. 创建组件目录结构和类型定义
+2. 实现 `lib/heatmap/register.ts` 宏注册
+3. 实现 `lib/heatmap/query.ts` 数据查询
+4. 实现 `lib/heatmap/colorCalculator.ts` 颜色计算
+5. 实现核心组件 `Heatmap.tsx` 和 `HeatmapCell.tsx`
+
+#### Phase 2: 视图实现 (P0)
+1. 实现 `YearView.tsx` 年度视图
+2. 实现 `MonthView.tsx` 月度视图
+3. 实现 `WeekView.tsx` 周度视图
+4. 实现 `ViewSwitcher.tsx` 视图切换器
+5. 实现 `TimeNav.tsx` 时间导航
+
+#### Phase 3: 交互增强 (P1)
+1. 实现 `HeatmapTooltip.tsx` 悬停提示
+2. 实现 `Statistics.tsx` 统计信息
+3. 添加悬停动画效果
+4. 添加点击事件处理
+
+#### Phase 4: 配置与国际化 (P2)
+1. 实现 `HeatmapSettings.tsx` 设置面板
+2. 添加多语言支持
+3. 添加颜色主题自定义
+4. 完善文档和测试
+
+### 11.2 验收标准
+
+- [ ] 支持三种视图模式切换
+- [ ] 支持左右箭头切换时间周期
+- [ ] 颜色深度正确反映数据大小
+- [ ] 悬停显示 Tooltip 提示
+- [ ] 点击触发 console.log（预留扩展）
+- [ ] 极简/全面展示模式可配置
+- [ ] 支持 tag/page/property 三种查询方式
+- [ ] 样式与 Logseq 主题兼容
