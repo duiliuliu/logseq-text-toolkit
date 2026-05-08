@@ -109,6 +109,7 @@
       "sizeMedium": "中",
       "sizeLarge": "大",
       "showLabel": "显示标签",
+      "fireworksOnComplete": "完成所有任务时绽放烟花",
       "labelFormat": "标签格式",
       "labelFraction": "分数 (10/20)",
       "labelPercentage": "百分比 (50%)",
