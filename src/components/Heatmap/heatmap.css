@@ -35,6 +35,24 @@
   border-bottom: 1px solid #e5e7eb;
   gap: 12px;
   flex-shrink: 0;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .heatmap-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+  
+  .view-controls {
+    justify-content: center;
+  }
+  
+  .navigation-controls {
+    justify-content: center;
+  }
 }
 
 .dark .heatmap-header,
@@ -245,12 +263,72 @@
 .month-grid {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
+}
+
+.month-full-layout {
+  display: flex;
+  gap: 8px;
+}
+
+.month-grid-wrapper {
+  display: flex;
+  gap: 4px;
+}
+
+.month-week-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 0;
+}
+
+.month-week-label {
+  font-size: 9px;
+  color: #9ca3af;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+}
+
+.dark .month-week-label,
+.heatmap-container.dark .month-week-label {
+  color: #6b7280;
+}
+
+.month-day-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 4px;
+  border-left: 1px solid #e5e7eb;
+}
+
+.dark .month-day-labels,
+.heatmap-container.dark .month-day-labels {
+  border-left-color: #374151;
+}
+
+.month-day-label {
+  font-size: 9px;
+  color: #9ca3af;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 4px;
+}
+
+.dark .month-day-label,
+.heatmap-container.dark .month-day-label {
+  color: #6b7280;
 }
 
 .week-row {
   display: flex;
-  gap: 1px;
+  gap: 2px;
 }
 
 .weekday-label-offset {
@@ -287,6 +365,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1px;
+  min-width: 0;
 }
 
 .day-name {

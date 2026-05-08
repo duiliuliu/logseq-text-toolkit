@@ -9,6 +9,8 @@ interface MonthViewProps {
   currentDate: Date;
 }
 
+const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -27,10 +29,11 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
   
   const allDays: HeatmapDataPoint[] = [];
   const startDate = new Date(year, month, 1);
-  const endDate = new Date(year, month + 1, 1);
+  const endDate = new Date(year, month + 1, 0);
   
-  for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
-    const dateStr = d.toISOString().split('T')[0];
+  for (let d = 1; d <= endDate.getDate(); d++) {
+    const dateObj = new Date(year, month, d);
+    const dateStr = dateObj.toISOString().split('T')[0];
     const existingData = dataMap.get(dateStr);
     if (existingData) {
       allDays.push(existingData);
@@ -69,26 +72,64 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
     console.log('Month view cell clicked:', date);
   };
 
+  const weekNumbers = weeks.map((_, i) => `W${i + 1}`);
+
   return (
     <div className="heatmap-month-view">
-      <div className="month-grid">
-        {weeks.map((week, weekIndex) => (
-          <div key={weekIndex} className="week-row">
-            {week.map((day, dayIndex) => (
-              <HeatmapCell
-                key={dayIndex}
-                date={day.date}
-                value={day.count}
-                maxValue={maxValue}
-                color={getColorByValue(day.count, maxValue, config.colorScheme)}
-                isEmpty={!day.date || day.count === 0}
-                size="medium"
-                onClick={handleCellClick}
-              />
+      {config.displayMode === 'full' && (
+        <div className="month-full-layout">
+          <div className="month-grid-wrapper">
+            <div className="month-week-labels">
+              {weekNumbers.map((week, i) => (
+                <div key={i} className="month-week-label">{week}</div>
+              ))}
+            </div>
+            <div className="month-grid">
+              {weeks.map((week, weekIndex) => (
+                <div key={weekIndex} className="week-row">
+                  {week.map((day, dayIndex) => (
+                    <HeatmapCell
+                      key={dayIndex}
+                      date={day.date}
+                      value={day.count}
+                      maxValue={maxValue}
+                      color={getColorByValue(day.count, maxValue, config.colorScheme)}
+                      isEmpty={!day.date || day.count === 0}
+                      size="medium"
+                      onClick={handleCellClick}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="month-day-labels">
+            {WEEKDAY_LABELS.map((day, i) => (
+              <div key={i} className="month-day-label">{day}</div>
             ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+      {config.displayMode !== 'full' && (
+        <div className="month-grid">
+          {weeks.map((week, weekIndex) => (
+            <div key={weekIndex} className="week-row">
+              {week.map((day, dayIndex) => (
+                <HeatmapCell
+                  key={dayIndex}
+                  date={day.date}
+                  value={day.count}
+                  maxValue={maxValue}
+                  color={getColorByValue(day.count, maxValue, config.colorScheme)}
+                  isEmpty={!day.date || day.count === 0}
+                  size="medium"
+                  onClick={handleCellClick}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

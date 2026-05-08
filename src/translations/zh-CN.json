@@ -34,6 +34,7 @@
     "general": "⚙️ 通用设置",
     "toolbar": "🛠️ 工具栏设置",
     "taskProgress": "📊 任务进度",
+    "heatmap": "📈 热力图",
     "advanced": "⚡ 其他设置"
   },
     "saveSuccessRestart": "保存成功，请重启应用生效",
