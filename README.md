@@ -8,6 +8,33 @@
 
 ---
 
+## 示例展示
+
+<table>
+  <tr>
+    <td align="center">
+      <img width="280" alt="文本操作" src="https://github.com/user-attachments/assets/4be36305-3d06-443d-8548-a121894cb46d" />
+      <br>文本操作
+    </td>
+    <td align="center">
+      <img width="280" alt="工具栏" src="https://github.com/user-attachments/assets/ff0810d8-b201-4680-b316-683e03013133" />
+      <br>工具栏按钮
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img width="280" alt="任务进度" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
+      <br>任务进度追踪
+    </td>
+    <td align="center">
+      <img width="280" alt="设置面板" src="https://github.com/user-attachments/assets/placeholder" />
+      <br>设置面板
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 主要功能
 
 ### 📝 文本格式化
@@ -77,24 +104,62 @@
 
 ---
 
-## 示例展示
+## 配置说明
 
-<table>
-  <tr>
-    <td align="center">
-      <img width="180" alt="文本操作" src="https://github.com/user-attachments/assets/4be36305-3d06-443d-8548-a121894cb46d" />
-      <br>文本操作
-    </td>
-    <td align="center">
-      <img width="180" alt="工具栏" src="https://github.com/user-attachments/assets/ff0810d8-b201-4680-b316-683e03013133" />
-      <br>工具栏按钮
-    </td>
-    <td align="center">
-      <img width="180" alt="任务进度" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
-      <br>任务进度追踪
-    </td>
-  </tr>
-</table>
+### 语言设置
+| 选项 | 说明 |
+|------|------|
+| 系统跟随 | 自动跟随 Logseq 语言设置 |
+| 简体中文 | 中文界面 |
+| English | 英文界面 |
+| 日本語 | 日语界面 |
+
+语言文件位于 `dist/translations/` 目录，支持扩展新的语言包。
+
+### CSS 定制
+在 Logseq 设置中可通过 CSS 覆盖默认样式：
+
+```css
+/* 自定义工具栏样式 */
+.ltt-toolbar {
+  --ltt-bg: #ffffff;
+  --ltt-border: #e5e7eb;
+}
+
+/* 自定义任务进度颜色 */
+.ltt-task-progress {
+  --ltt-done-color: #22c55e;
+}
+```
+
+### 工具栏配置
+在设置面板的 **Toolbar** 标签页可通过 JSON 配置工具栏元素：
+
+```json
+[
+  {
+    "id": "format-bold",
+    "label": "加粗",
+    "icon": "**",
+    "invoke": "editor/insert-batch-edit",
+    "invokeParams": {
+      "texts": [["**{{selected}}**", "{{selected}}**"]]
+    }
+  }
+]
+```
+
+**配置字段说明**：
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | string | 唯一标识符 |
+| label | string | 按钮显示名称 |
+| icon | string | 按钮图标（支持 emoji） |
+| invoke | string | 调用的 Logseq 命令 |
+| invokeParams | object | 命令参数 |
+| hidden | boolean | 是否隐藏按钮 |
+| binding | string | 快捷键绑定（功能开发中） |
+| subItems | array | 分组，包含多个子元素 |
 
 ---
 
