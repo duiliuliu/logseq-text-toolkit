@@ -5,13 +5,15 @@
  * 任务进度主组件
  */
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types'
 import MiniCircleProgress from './MiniCircleProgress'
 import DotMatrixProgress from './DotMatrixProgress'
 import StatusCursorProgress from './StatusCursorProgress'
 import ProgressCapsule from './ProgressCapsule'
 import StepProgress from './StepProgress'
+import Tooltip from './Tooltip'
+import Fireworks from './Fireworks'
 import { t } from '../../translations/i18n'
 import { SupportedLanguage } from '../../translations/translations'
 
@@ -36,6 +38,18 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   onlyLeaves,
   showNestingIndicator,
 }) => {
+  const [showFireworks, setShowFireworks] = useState(false)
+  const [hasTriggered, setHasTriggered] = useState(false)
+
+  useEffect(() => {
+    if (progressData?.progress === 100 && !hasTriggered) {
+      setShowFireworks(true)
+      setHasTriggered(true)
+    } else if (progressData?.progress !== 100) {
+      setHasTriggered(false)
+    }
+  }, [progressData?.progress, hasTriggered])
+
   if (!progressData) {
     return null
   }
@@ -120,6 +134,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
     <div className="task-progress">
       {renderNestingIndicator()}
       {renderComponent()}
+      <Fireworks trigger={showFireworks} onComplete={() => setShowFireworks(false)} />
     </div>
   )
 }

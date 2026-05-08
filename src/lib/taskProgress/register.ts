@@ -16,16 +16,48 @@ import logger from '../logger/index'
 const MACRO_PREFIX = ':taskprogress'
 const PLUGIN_ID = 'text-toolkit-taskprogress'
 
+const DISPLAY_TYPE_MAP: Record<string, ProgressDisplayType> = {
+  'mini-circle': 'mini-circle',
+  'minicircle': 'mini-circle',
+  '微型圆环': 'mini-circle',
+  'mini circle': 'mini-circle',
+  'dot-matrix': 'dot-matrix',
+  'dotmatrix': 'dot-matrix',
+  '点阵进度': 'dot-matrix',
+  'dot matrix': 'dot-matrix',
+  'status-cursor': 'status-cursor',
+  'statuscursor': 'status-cursor',
+  '状态光标': 'status-cursor',
+  'status cursor': 'status-cursor',
+  'progress-capsule': 'progress-capsule',
+  'progresscapsule': 'progress-capsule',
+  '进度胶囊': 'progress-capsule',
+  'progress capsule': 'progress-capsule',
+  'step-progress': 'step-progress',
+  'stepprogress': 'step-progress',
+  '阶梯进度': 'step-progress',
+  'step progress': 'step-progress',
+}
+
 let TaskProgressComponent: React.FC<any> | null = null
 
 export function setTaskProgressComponent(component: React.FC<any>) {
   TaskProgressComponent = component
 }
 
-async function renderProgress(blockId: string, slot: string): Promise<boolean> {
+async function renderProgress(blockId: string, slot: string, displayTypeArg?: string): Promise<boolean> {
   try {
     const settings = await getSettingsWithSystem()
-    const displayType: ProgressDisplayType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
+    
+    let displayType: ProgressDisplayType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
+    
+    if (displayTypeArg) {
+      const normalizedArg = displayTypeArg.toLowerCase().trim()
+      if (DISPLAY_TYPE_MAP[normalizedArg]) {
+        displayType = DISPLAY_TYPE_MAP[normalizedArg]
+      }
+    }
+    
     const config = settings?.taskProgress?.displayOptions?.[displayType]
     const showLabel = settings?.taskProgress?.showLabel ?? true
     const labelFormat = settings?.taskProgress?.labelFormat || 'fraction'
@@ -80,7 +112,7 @@ async function renderProgress(blockId: string, slot: string): Promise<boolean> {
 
 export function registerTaskProgress(): void {
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-    const [type] = payload.arguments || []
+    const [type, displayTypeArg] = payload.arguments || []
 
     if (!type || !type.startsWith(MACRO_PREFIX)) {
       return
@@ -95,7 +127,7 @@ export function registerTaskProgress(): void {
     }
 
     if (blockId) {
-      await renderProgress(blockId, slot)
+      await renderProgress(blockId, slot, displayTypeArg)
     }
   })
 
