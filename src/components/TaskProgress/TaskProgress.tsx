@@ -5,7 +5,7 @@
  * 任务进度主组件
  */
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types'
 import MiniCircleProgress from './MiniCircleProgress'
 import DotMatrixProgress from './DotMatrixProgress'
@@ -46,14 +46,23 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   onlyLeaves,
   showNestingIndicator,
 }) => {
-  const [showFireworks, setShowFireworks] = useState(false)
-
+  const [fireworksKey, setFireworksKey] = useState(0)
+  const isCompletedRef = useRef(false)
+  
   const isCompleted = progressData?.progress === 100
   const fireworksSize = COMPONENT_SIZES[displayType] || 60
+  
+  isCompletedRef.current = isCompleted
 
   const handleMouseEnter = useCallback(() => {
+    if (isCompletedRef.current) {
+      setFireworksKey(prev => prev + 1)
+    }
+  }, [])
+
+  useEffect(() => {
     if (isCompleted) {
-      setShowFireworks(true)
+      setFireworksKey(prev => prev + 1)
     }
   }, [isCompleted])
 
@@ -146,9 +155,8 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
       {renderNestingIndicator()}
       {renderComponent()}
       <Fireworks 
-        trigger={showFireworks} 
+        key={fireworksKey}
         size={fireworksSize}
-        onComplete={() => setShowFireworks(false)} 
       />
     </div>
   )
