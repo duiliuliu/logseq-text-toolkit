@@ -177,47 +177,57 @@ Text Toolkit Plugin (项目根目录)
 
 ## 3. 数据模型设计
 
-### 3.1 核心数据结构
+### 3.1 Logseq 官方 API 数据结构
+
+基于 Logseq 官方 Datascript API，使用 `pull` 查询返回的数据结构：
 
 **文件位置**：[src/lib/heatmap/types.ts](file:///workspace/src/lib/heatmap/types.ts)
 
 ```typescript
+import type { IBlock } from '@logseq/libs/dist/LSPlugin.user';
+
 export type HeatmapViewType = 'year' | 'month' | 'week';
 
 export interface HeatmapDataPoint {
-  date: string;           // ISO 日期字符串，如 "2024-03-15"
-  count: number;          // 该时间段的数据计数
-  blocks?: BlockEntity[]; // 关联的 block 列表（可选）
+  date: string;
+  count: number;
+  blocks: BlockEntity[];
 }
 
 export interface BlockEntity {
-  id: string;
-  uuid: string;
-  content: string;
-  createdAt: string;      // 创建时间
-  updatedAt: string;      // 更新时间
-  childrenCount: number;  // 子节点数量
-  properties?: Record<string, unknown>;
+  'block/uuid': string | { '$uuid$': string };
+  'block/title': string;
+  'block/page': any;
+  'block/properties'?: Record<string, any>;
+  'logseq.property/created-at'?: number;
+  'logseq.property/updated-at'?: number;
+  children?: BlockEntity[];
 }
+
+export type GraphType = 'file' | 'db';
 
 export interface HeatmapQueryParams {
   type: 'tag' | 'page' | 'property';
   value: string;
-  propertyKey?: string;   // 当 type='property' 时使用
+  propertyKey?: string;
+  year?: number;
+  month?: number;
+  week?: number;
 }
 
 export interface HeatmapConfig {
   viewType: HeatmapViewType;
-  showControls: boolean;  // 是否显示切换控件
-  showStatistics: boolean; // 是否显示统计信息
+  compact: boolean;
   colorScheme: IndigoColorScheme;
-  minColor: string;       // 最浅色
-  maxColor: string;       // 最深色
+  minColor: string;
+  maxColor: string;
+  language: string;
+  referenceDate?: Date;
 }
 
 export interface IndigoColorScheme {
   name: string;
-  colors: string[];       // 从浅到深的颜色数组
+  colors: string[];
 }
 
 export interface HeatmapCellData {
@@ -226,6 +236,7 @@ export interface HeatmapCellData {
   maxValue: number;
   color: string;
   isEmpty: boolean;
+  isHovered: boolean;
 }
 
 export interface HeatmapStatistics {
@@ -239,6 +250,12 @@ export interface HeatmapStatistics {
   };
 }
 ```
+
+**说明**：
+- 使用 Logseq 官方 API 的 `pull` 查询返回的 `IBlock` 类型
+- `block/uuid` 可能是字符串或 `{ '$uuid$': string }` 对象
+- `block/title` 是 DB Graph 的内容字段（File Graph 使用 `block/content`）
+- 时间戳使用毫秒级的 `logseq.property/created-at` 和 `logseq.property/updated-at`
 
 ### 3.2 时间粒度定义
 
@@ -281,22 +298,30 @@ export interface Settings {
 #### 4.1.1 宏格式
 
 ```
-{{renderer :热力图  :视图类型  :查询类型=查询值}}
+{{renderer :热力图  :视图类型  :查询类型=查询值  :year=年份  :month=月份}}
 ```
 
 **参数说明**：
-- `视图类型`：`年度视图`、`月度视图`、`周度视图`（可选，默认为年度视图）
-- `查询类型=查询值`：支持以下格式
-  - `:tag=tagname` - 按标签查询
-  - `:page=pagename` - 按页面查询
-  - `:property=key::value` - 按属性查询
+| 参数 | 说明 | 示例 |
+| :--- | :--- | :--- |
+| `视图类型` | `年度视图`、`月度视图`、`周度视图`（可选，默认为年度视图） | `:年度视图` |
+| `查询类型=查询值` | 查询条件 | `:tag=key1`, `:page=日志`, `:property=category::工作` |
+| `:year=年份` | 指定年份（可选，默认为当前年） | `:year=2025` |
+| `:month=月份` | 指定月份（可选，默认为当前月，仅月度视图生效） | `:month=3` |
+| `:compact` | 极简模式，不显示控件和图例 | `:compact` |
 
 **示例**：
 ```
 {{renderer :热力图 :年度视图 :tag=工作}}
-{{renderer :热力图 :周度视图 :page=每日记录}}
-{{renderer :热力图 :月度视图 :property=category::学习}}
+{{renderer :热力图 :月度视图 :year=2025 :month=3 :tag=任务}}
+{{renderer :热力图 :周度视图 :year=2025 :tag=学习}}
+{{renderer :热力图 :年度视图 :compact :page=日志}}
+{{renderer :热力图 :月度视图 :property=category::工作}}
 ```
+
+**默认行为**：
+- 不指定时间时，使用当前年/月/周
+- 不指定 `:compact` 时，显示完整的视图切换控件和图例
 
 #### 4.1.2 代码实现
 
@@ -336,17 +361,21 @@ export function setHeatmapComponent(component: React.FC<any>) {
 async function parseMacroArguments(args: string[]): Promise<{
   viewType: HeatmapViewType;
   queryParams: { type: string; value: string; propertyKey?: string };
-  showControls: boolean;
+  compact: boolean;
+  referenceYear?: number;
+  referenceMonth?: number;
 }> {
   let viewType: HeatmapViewType = 'year';
   let queryType = 'tag';
   let queryValue = '';
   let propertyKey = '';
-  let showControls = false;
+  let compact = false;
+  let referenceYear: number | undefined;
+  let referenceMonth: number | undefined;
 
   for (const arg of args) {
     const trimmed = arg.trim();
-    
+
     if (VIEW_TYPE_MAP[trimmed]) {
       viewType = VIEW_TYPE_MAP[trimmed];
     } else if (trimmed.startsWith(':tag=')) {
@@ -361,27 +390,47 @@ async function parseMacroArguments(args: string[]): Promise<{
       const [key, value] = propertyStr.split('::');
       propertyKey = key;
       queryValue = value;
-    } else if (trimmed === ':showControls' || trimmed === ':显示控件') {
-      showControls = true;
+    } else if (trimmed === ':compact') {
+      compact = true;
+    } else if (trimmed.startsWith(':year=')) {
+      const yearStr = trimmed.substring(6);
+      const year = parseInt(yearStr, 10);
+      if (!isNaN(year) && year >= 1900 && year <= 2100) {
+        referenceYear = year;
+      }
+    } else if (trimmed.startsWith(':month=')) {
+      const monthStr = trimmed.substring(7);
+      const month = parseInt(monthStr, 10);
+      if (!isNaN(month) && month >= 1 && month <= 12) {
+        referenceMonth = month;
+      }
     }
   }
 
   return {
     viewType,
     queryParams: { type: queryType, value: queryValue, propertyKey },
-    showControls,
+    compact,
+    referenceYear,
+    referenceMonth,
   };
 }
 
 async function renderHeatmap(slot: string, args: string[]) {
   try {
-    const { viewType, queryParams, showControls } = await parseMacroArguments(args);
+    const { viewType, queryParams, compact, referenceYear, referenceMonth } = await parseMacroArguments(args);
     const settings = await getSettings();
-    
+
+    const now = new Date();
+    const referenceDate = new Date(
+      referenceYear || now.getFullYear(),
+      (referenceMonth !== undefined ? referenceMonth - 1 : now.getMonth()),
+      1
+    );
+
     const heatmapConfig: HeatmapConfig = {
       viewType,
-      showControls: showControls || settings?.heatmap?.showControlsByDefault || false,
-      showStatistics: settings?.heatmap?.showStatisticsByDefault || false,
+      compact,
       colorScheme: {
         name: 'indigo',
         colors: generateIndigoGradient(
@@ -392,6 +441,8 @@ async function renderHeatmap(slot: string, args: string[]) {
       },
       minColor: settings?.heatmap?.colorScheme?.minColor || '#eef2ff',
       maxColor: settings?.heatmap?.colorScheme?.maxColor || '#3730a3',
+      language: settings?.language || 'en',
+      referenceDate,
     };
 
     const heatmapData = await fetchHeatmapData(queryParams, viewType);
@@ -469,13 +520,36 @@ function interpolateColor(color1: string, color2: string, ratio: number): string
 
 #### 4.2.1 查询策略
 
-根据不同的查询类型构建相应的 Datascript 查询：
+基于 Logseq 官方 Datascript API，不同查询类型的 Datascript 查询：
 
-| 查询类型 | 查询逻辑 | Datascript 查询示例 |
+| 查询类型 | File Graph 查询 | DB Graph 查询 |
 | :--- | :--- | :--- |
-| tag | 查询包含指定标签的所有 block | `[?b :block/tags ?t] [?t :block/title "tagname"]` |
-| page | 查询指定页面下的所有 block | `[?b :block/page ?p] [?p :block/title "pagename"]` |
-| property | 查询包含指定属性键值对的 block | `[?b :block/properties ?props] [(get ?props :key) ?value]` |
+| tag | `[?b :block/tags ?t] [?t :block/name "tagname"]` | `[?b :block/tags ?t] [?t :db/ident :logseq.class/tagname]` |
+| page | `[?p :block/name "pagename"] [?b :block/page ?p]` | `[?p :block/name "pagename"] [?b :block/page ?p]` |
+| property | `[?b :block/properties ?props] [(get ?props :key) ?v] [(= ?v "value")]` | `[?b :user.property/key ?v] [?v :block/title "value"]` |
+
+**跨图兼容查询示例**：
+```typescript
+async function queryByTag(tagName: string, graphType: 'file' | 'db') {
+  if (graphType === 'file') {
+    return await logseq.DB.datascriptQuery(`
+      [:find (pull ?b [*])
+       :in $ ?tag
+       :where
+       [?b :block/tags ?t]
+       [?t :block/name ?tag]]
+    `, tagName.toLowerCase());
+  } else {
+    return await logseq.DB.datascriptQuery(`
+      [:find (pull ?b [*])
+       :in $ ?tag
+       :where
+       [?b :block/tags ?t]
+       [?t :db/ident ?tag]]
+    `, `:logseq.class/${tagName.toLowerCase()}`);
+  }
+}
+```
 
 #### 4.2.2 时间范围计算
 
@@ -1796,6 +1870,175 @@ DB: {
 
 ---
 
+## 8.3 国际化设计
+
+### 8.3.1 翻译文件结构
+
+**文件位置**：[src/translations/zh-CN.json](file:///workspace/src/translations/zh-CN.json)、[src/translations/en.json](file:///workspace/src/translations/en.json)、[src/translations/ja.json](file:///workspace/src/translations/ja.json)
+
+```json
+{
+  "heatmap": {
+    "moduleName": "热力图",
+    "views": {
+      "year": "年度视图",
+      "month": "月度视图",
+      "week": "周度视图"
+    },
+    "navigation": {
+      "previous": "上一个",
+      "next": "下一个"
+    },
+    "tooltip": {
+      "activity": "活动",
+      "blocks": "条记录",
+      "level": "等级",
+      "noData": "无数据"
+    },
+    "legend": {
+      "less": "少",
+      "more": "多"
+    },
+    "statistics": {
+      "title": "统计数据",
+      "totalBlocks": "总记录数",
+      "activeDays": "活跃天数",
+      "maxCount": "最大活动",
+      "avgCount": "平均活动"
+    },
+    "settings": {
+      "title": "热力图设置",
+      "enabled": "启用热力图",
+      "defaultView": "默认视图",
+      "colorScheme": "颜色方案",
+      "minColor": "最小值颜色",
+      "maxColor": "最大值颜色"
+    }
+  }
+}
+```
+
+### 8.3.2 英文翻译 (en.json)
+
+```json
+{
+  "heatmap": {
+    "moduleName": "Heatmap",
+    "views": {
+      "year": "Year",
+      "month": "Month",
+      "week": "Week"
+    },
+    "navigation": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "tooltip": {
+      "activity": "Activity",
+      "blocks": "blocks",
+      "level": "Level",
+      "noData": "No data"
+    },
+    "legend": {
+      "less": "Less",
+      "more": "More"
+    },
+    "statistics": {
+      "title": "Statistics",
+      "totalBlocks": "Total Blocks",
+      "activeDays": "Active Days",
+      "maxCount": "Max Activity",
+      "avgCount": "Avg Activity"
+    },
+    "settings": {
+      "title": "Heatmap Settings",
+      "enabled": "Enable Heatmap",
+      "defaultView": "Default View",
+      "colorScheme": "Color Scheme",
+      "minColor": "Minimum Color",
+      "maxColor": "Maximum Color"
+    }
+  }
+}
+```
+
+### 8.3.3 日文翻译 (ja.json)
+
+```json
+{
+  "heatmap": {
+    "moduleName": "ヒートマップ",
+    "views": {
+      "year": "年ビュー",
+      "month": "月ビュー",
+      "week": "週ビュー"
+    },
+    "navigation": {
+      "previous": "前へ",
+      "next": "次へ"
+    },
+    "tooltip": {
+      "activity": "アクティビティ",
+      "blocks": "件の記録",
+      "level": "レベル",
+      "noData": "データなし"
+    },
+    "legend": {
+      "less": "少",
+      "more": "多"
+    },
+    "statistics": {
+      "title": "統計データ",
+      "totalBlocks": "総記録数",
+      "activeDays": "アクティブ日数",
+      "maxCount": "最大アクティビティ",
+      "avgCount": "平均アクティビティ"
+    },
+    "settings": {
+      "title": "ヒートマップ設定",
+      "enabled": "ヒートマップを有効化",
+      "defaultView": "デフォルトビュー",
+      "colorScheme": "カラースキーム",
+      "minColor": "最小値の色",
+      "maxColor": "最大値の色"
+    }
+  }
+}
+```
+
+### 8.3.4 翻译使用示例
+
+```typescript
+import { useTranslation } from 'react-i18next';
+import zhCN from '../translations/zh-CN.json';
+import en from '../translations/en.json';
+import ja from '../translations/ja.json';
+
+const resources = {
+  'zh-CN': { translation: zhCN.heatmap },
+  'en': { translation: en.heatmap },
+  'ja': { translation: ja.heatmap },
+};
+
+function HeatmapTooltip({ date, count }) {
+  const { t } = useTranslation();
+  
+  return (
+    <div className="heatmap-tooltip">
+      <div className="tooltip-date">{date}</div>
+      <div className="tooltip-activity">
+        {t('tooltip.activity')}: {count} {t('tooltip.blocks')}
+      </div>
+      <div className="tooltip-level">
+        {t('tooltip.level')}: {Math.round((count / maxCount) * 100)}%
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
 ## 9. UI 草稿参考
 
 ### 9.1 UI 设计参考文件
@@ -1812,22 +2055,53 @@ DB: {
 
 #### 9.2.1 年度视图设计要点
 
+**完整模式（非极简）**：
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  [Year] [Month] [Week]        [<] 2024 [>]                      │
 ├─────────────────────────────────────────────────────────────────┤
 │         JAN  FEB  MAR  APR  MAY  JUN  JUL  AUG  SEP  ...  DEC   │
 │ MON    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
-│        │  │ │  │ │██│ │  │ │  │ │  │ │  │ │  │ │██│       │
+│        │░░│ │  │ │██│ │  │ │  │ │  │ │  │ │  │ │██│       │
 │        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
 │ TUE    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
 │        │  │ │██│ │  │ │  │ │  │ │  │ │  │ │  │ │  │       │
 │        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
-│ ...                                                           │
+│ WED    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
+│        │  │ │  │ │  │ │██│ │  │ │  │ │  │ │██│ │  │       │
+│        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
+│ THU    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
+│        │  │ │  │ │  │ │  │ │██│ │  │ │  │ │  │ │  │       │
+│        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
+│ FRI    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
+│        │  │ │  │ │  │ │  │ │  │ │██│ │  │ │  │ │  │       │
+│        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
+│ SAT    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
+│        │  │ │  │ │  │ │  │ │  │ │  │ │██│ │  │ │  │       │
+│        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
+│ SUN    ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐       │
+│        │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │       │
+│        └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘       │
 ├─────────────────────────────────────────────────────────────────┤
-│  Less ○○○○○ More                              [Export Data]   │
+│  Less ○○○○○ More                                               │
+└─────────────────────────────────────────────────────────────────┘
+         ↑ Hover 时显示 Tooltip
+```
+
+**极简模式**：
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ ┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐ │
+│ │░░││  ││██││  ││  ││  ││  ││  ││██││  ││  ││██││  ││  ││  │ │
+│ └──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘ │
+│       ↑ Hover 时显示 Tooltip                                    │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+**悬停/Tooltip 交互**：
+- 悬停格子时，格子放大 1.2 倍并添加发光边框效果
+- 显示 Tooltip 浮窗，内容包括：日期、活动密度数值、活动百分比
+- Tooltip 固定在格子上方，带有淡入动画
 
 **设计要点**：
 - 左侧显示周一至周日的标签
@@ -1835,30 +2109,48 @@ DB: {
 - 每个格子 12×12px，间距 2px
 - 颜色从浅靛蓝到深靛蓝平滑过渡
 - 支持悬停放大动画和 Tooltip 提示
-- 底部显示颜色图例和导出按钮
+- 底部显示颜色图例（极简模式隐藏）
 
 #### 9.2.2 月度视图设计要点
 
+**完整模式（非极简）**：
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  [Year] [Month] [Week]        [<] March 2024 [>]              │
 ├─────────────────────────────────────────────────────────────────┤
 │        Sun   Mon   Tue   Wed   Thu   Fri   Sat                 │
 │ W09   │ 25  │ 26  │ 27  │ 28  │ 29  │  1  │  2  │              │
-│ W10   │  3  │  4  │██  │  5  │  6  │  7  │  8  │              │
-│ W11   │  9  │ 10  │ 11  │ 12  │ 13  │███ │ 15  │ ← 高亮悬停   │
+│ W10   │  3  │  4  │██   │  5  │  6  │  7  │  8  │              │
+│ W11   │  9  │ 10  │ 11  │ 12  │ 13  │███  │ 15  │              │
 │ W12   │ 16  │ 17  │ 18  │ 19  │ 20  │ 21  │ 22  │              │
 │ W13   │ 23  │ 24  │ 25  │ 26  │ 27  │ 28  │ 29  │              │
 │ W14   │ 30  │ 31  │  1  │  2  │  3  │  4  │  5  │              │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌──────────────────┐                                           │
-│  │ Mar 14, 2024    │  ← Tooltip                                │
+│  │ Mar 14, 2024    │  ← Tooltip (悬停显示)                     │
 │  │ Activity Level  │                                           │
 │  │ 42 units        │                                           │
 │  │ ████████░░ 84%  │                                           │
 │  └──────────────────┘                                           │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+**极简模式**：
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ │ 25  │ 26  │ 27  │ 28  │ 29  │  1  │  2  │                       │
+│ │  3  │  4  │██   │  5  │  6  │  7  │  8  │                       │
+│ │  9  │ 10  │ 11  │ 12  │ 13  │███  │ 15  │                       │
+│ │ 16  │ 17  │ 18  │ 19  │ 20  │ 21  │ 22  │ ← Hover 显示 Tooltip  │
+│ │ 23  │ 24  │ 25  │ 26  │ 27  │ 28  │ 29  │                       │
+│ │ 30  │ 31  │  1  │  2  │  3  │  4  │  5  │                       │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**悬停/Tooltip 交互**：
+- 悬停格子时，格子放大 1.2 倍并添加发光边框
+- Tooltip 显示该日期的活动密度和百分比
+- 支持点击事件（console.log 保留扩展）
 
 **设计要点**：
 - 标准 7 列日历布局
@@ -1870,23 +2162,42 @@ DB: {
 
 #### 9.2.3 周度视图设计要点
 
+**完整模式（非极简）**：
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  [Year] [Month] [Week]        [<] Mar 10 - 16, 2024 [>]        │
+│  [Year] [Month] [Week]        [<] Mar 10 - 16, 2024 [>]     │
 ├─────────────────────────────────────────────────────────────────┤
-│        │  SUN │  MON │  TUE │  WED │  THU │  FRI │  SAT │       │
-│        │  10  │  11  │  12  │  13  │  14  │  15  │  16  │       │
-├────────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┤       │
-│ 00:00  │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │       │
-│ 04:00  │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ▒▒▒▒ │       │
-│ 08:00  │ ▓▓▓▓ │ ████ │███████│ ▓▓▓▓ │████████│ ████ │ ▓▓▓▓ │       │
-│ 12:00  │ ▒▒▒▒ │ ████ │███████│ ████ │███████│ ████ │ ▒▒▒▒ │ ← 峰值   │
-│ 16:00  │ ▓▓▓▓ │ ████ │███████│ ████ │█████  │ ████ │ ▓▓▓▓ │       │
-│ 20:00  │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │       │
+│        │  SUN │  MON │  TUE │  WED │  THU │  FRI │  SAT │      │
+│        │  10  │  11  │  12  │  13  │  14  │  15  │  16  │      │
+├────────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┤      │
+│ 00-04  │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │      │
+│ 04-08  │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ▒▒▒▒ │      │
+│ 08-12  │ ▓▓▓▓ │ ████ │███████│ ▓▓▓▓ │████████│ ████ │ ▓▓▓▓ │      │
+│ 12-16  │ ▒▒▒▒ │ ████ │███████│ ████ │███████│ ████ │ ▒▒▒▒ │      │
+│ 16-20  │ ▓▓▓▓ │ ████ │███████│ ████ │█████  │ ████ │ ▓▓▓▓ │      │
+│ 20-24  │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │      │
 ├─────────────────────────────────────────────────────────────────┤
-│  Low ════════════════════════════════════════════ High         │
+│  Low ════════════════════════════════════════════ High          │
+└─────────────────────────────────────────────────────────────────┘
+          ↑ Hover 时显示 Tooltip
+```
+
+**极简模式**：
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │              │
+│ │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ░░░░ │ ▒▒▒▒ │ ▒▒▒▒ │ ▒▒▒▒ │              │
+│ │ ▓▓▓▓ │ ████ │███████│ ▓▓▓▓ │████████│ ████ │ ▓▓▓▓ │              │
+│ │ ▒▒▒▒ │ ████ │███████│ ████ │███████│ ████ │ ▒▒▒▒ │              │
+│ │ ▓▓▓▓ │ ████ │███████│ ████ │█████  │ ████ │ ▓▓▓▓ │              │
+│ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ░░░░ │ ← Hover Tooltip │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+**悬停/Tooltip 交互**：
+- 悬停格子时，格子放大 1.2 倍并添加发光边框
+- Tooltip 显示：日期时间范围、活动密度、活动百分比
+- 支持点击事件（console.log 保留扩展）
 
 **设计要点**：
 - 纵轴显示 24 小时时间点（每 4 小时一个时段）
@@ -1894,6 +2205,25 @@ DB: {
 - 单元格 40×32px，适合移动端点击
 - 颜色深度反映该时段的数据密度
 - 适合观察用户活跃时段或系统负载高峰
+
+#### 9.2.4 Tooltip 组件设计
+
+**Tooltip 内容结构**：
+```
+┌─────────────────────────────┐
+│ Mar 14, 2024 08:00-12:00  │  ← 日期时间
+│ ─────────────────────────  │
+│ Activity: 42 blocks       │  ← 活动数量
+│ Level: ████████░░ 84%     │  ← 活动等级进度条
+└─────────────────────────────┘
+```
+
+**Tooltip 样式**：
+- 背景：深色半透明（`rgba(17, 24, 39, 0.95)`）
+- 边框：1px solid 主色调
+- 圆角：8px
+- 阴影：0 4px 12px rgba(0, 0, 0, 0.3)
+- 动画：opacity 0→1, 150ms ease-in
 
 ---
 
@@ -1931,9 +2261,9 @@ DB: {
 | `src/settings/defaultSettings.json` | 添加热力图默认配置 | P0 |
 | `src/styles/index.ts` | 添加热力图样式导出 | P0 |
 | `src/logseq/mock/index.ts` | 添加热力图 Mock 数据 | P1 |
-| `src/translations/zh-CN.json` | 添加中文翻译 | P2 |
-| `src/translations/en.json` | 添加英文翻译 | P2 |
-| `src/translations/ja.json` | 添加日文翻译 | P2 |
+| `src/translations/zh-CN.json` | 添加热力图中文字段 | P1 |
+| `src/translations/en.json` | 添加热力图英文字段 | P1 |
+| `src/translations/ja.json` | 添加热力图日文字段 | P1 |
 
 ### 10.3 优先级说明
 
