@@ -10,9 +10,12 @@ interface MonthViewProps {
 }
 
 const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
-  const maxValue = Math.max(...data.map(d => d.count), 1);
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
+  const nonEmptyData = data.filter(d => d.date && d.count > 0);
+  const maxValue = nonEmptyData.length > 0 
+    ? Math.max(...nonEmptyData.map(d => d.count)) 
+    : 1;
   
   const weeks: HeatmapDataPoint[][] = [];
   let currentWeek: HeatmapDataPoint[] = [];

@@ -26,8 +26,6 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
     });
   }
 
-  const maxValue = Math.max(...data.map(d => d.count), 1);
-
   const cellData = days.map(dayInfo => {
     const dayData = data.filter(d => d.date && d.date.startsWith(dayInfo.date));
     const totalCount = dayData.reduce((sum, d) => sum + d.count, 0);
@@ -37,6 +35,11 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
       blocks: dayData.flatMap(d => d.blocks || []),
     };
   });
+
+  const nonEmptyData = cellData.filter(d => d.count > 0);
+  const maxValue = nonEmptyData.length > 0 
+    ? Math.max(...nonEmptyData.map(d => d.count)) 
+    : 1;
 
   const handleCellClick = (date: string) => {
     console.log('Week view cell clicked:', date);
@@ -48,8 +51,8 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
         <div className="week-header">
           <div className="hour-label-header"></div>
           <div className="day-header">
-            {cellData.map((day, index) => (
-              <span key={day.date + index} className="day-header-item">
+            {cellData.map((day) => (
+              <span key={day.date} className="day-header-item">
                 <div className="day-name">{day.short}</div>
                 <div className="day-date">{new Date(day.date).getDate()}</div>
               </span>
@@ -65,11 +68,11 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
           )}
           {cellData.map((day, index) => (
             <HeatmapCell
-              key={index}
+              key={day.date}
               date={day.date}
               value={day.count}
-              maxValue={maxValue || 1}
-              color={getColorByValue(day.count, maxValue || 1, config.colorScheme)}
+              maxValue={maxValue}
+              color={getColorByValue(day.count, maxValue, config.colorScheme)}
               isEmpty={day.count === 0}
               size="large"
               onClick={handleCellClick}

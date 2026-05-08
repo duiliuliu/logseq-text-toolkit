@@ -10,13 +10,16 @@ interface YearViewProps {
 }
 
 const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
-  const maxValue = Math.max(...data.map(d => d.count), 1);
   const year = currentDate.getFullYear();
+  const nonEmptyData = data.filter(d => d.date && d.count > 0);
+  const maxValue = nonEmptyData.length > 0 
+    ? Math.max(...nonEmptyData.map(d => d.count)) 
+    : 1;
   
   const weeks: HeatmapDataPoint[][] = [];
   let currentWeek: HeatmapDataPoint[] = [];
   
-  const firstDayOfYear = new Date(year, 0, 1);
+  const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
   const startDayOfWeek = firstDayOfYear.getDay();
   const startPadding = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
   
@@ -51,7 +54,7 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
       {config.displayMode !== 'minimal' && (
         <div className="month-labels">
           <span className="weekday-label-offset"></span>
-          {months.map((month, index) => (
+          {months.map((month) => (
             <span key={month} className="month-label">
               {month}
             </span>
