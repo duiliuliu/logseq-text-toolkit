@@ -5,7 +5,7 @@
  * 任务进度主组件
  */
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types'
 import MiniCircleProgress from './MiniCircleProgress'
 import DotMatrixProgress from './DotMatrixProgress'
@@ -16,6 +16,14 @@ import Tooltip from './Tooltip'
 import Fireworks from './Fireworks'
 import { t } from '../../translations/i18n'
 import { SupportedLanguage } from '../../translations/translations'
+
+const COMPONENT_SIZES: Record<ProgressDisplayType, number> = {
+  'mini-circle': 32,
+  'dot-matrix': 40,
+  'status-cursor': 80,
+  'progress-capsule': 60,
+  'step-progress': 50,
+}
 
 interface TaskProgressProps {
   progressData: TaskProgressType | null
@@ -39,30 +47,15 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   showNestingIndicator,
 }) => {
   const [showFireworks, setShowFireworks] = useState(false)
-  const [hasTriggered, setHasTriggered] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
 
   const isCompleted = progressData?.progress === 100
-
-  useEffect(() => {
-    if (isCompleted && !hasTriggered) {
-      setShowFireworks(true)
-      setHasTriggered(true)
-    } else if (!isCompleted) {
-      setHasTriggered(false)
-    }
-  }, [isCompleted, hasTriggered])
+  const fireworksSize = COMPONENT_SIZES[displayType] || 60
 
   const handleMouseEnter = useCallback(() => {
-    setIsHovered(true)
-    if (isCompleted && !showFireworks) {
+    if (isCompleted) {
       setShowFireworks(true)
     }
-  }, [isCompleted, showFireworks])
-
-  const handleMouseLeave = useCallback(() => {
-    setIsHovered(false)
-  }, [])
+  }, [isCompleted])
 
   if (!progressData) {
     return null
@@ -148,13 +141,13 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
     <div 
       className="task-progress"
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       style={{ position: 'relative' }}
     >
       {renderNestingIndicator()}
       {renderComponent()}
       <Fireworks 
         trigger={showFireworks} 
+        size={fireworksSize}
         onComplete={() => setShowFireworks(false)} 
       />
     </div>
