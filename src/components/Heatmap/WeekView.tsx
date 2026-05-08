@@ -62,17 +62,107 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
       )}
       
       <div className="week-grid">
-        <div className="hour-row full-width-row">
+        <div className="hour-row">
           {config.displayMode !== 'minimal' && (
-            <div className="hour-label-cell"></div>
+            <div className="hour-label-cell">00-04</div>
           )}
           {cellData.map((day, index) => (
             <HeatmapCell
-              key={day.date}
+              key={`${day.date}-00`}
               date={day.date}
-              value={day.count}
-              maxValue={maxValue}
-              color={getColorByValue(day.count, maxValue, config.colorScheme)}
+              value={Math.floor(day.count / 4)}
+              maxValue={maxValue || 1}
+              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
+              isEmpty={day.count === 0}
+              size="large"
+              onClick={handleCellClick}
+            />
+          ))}
+        </div>
+        
+        <div className="hour-row">
+          {config.displayMode !== 'minimal' && (
+            <div className="hour-label-cell">04-08</div>
+          )}
+          {cellData.map((day, index) => (
+            <HeatmapCell
+              key={`${day.date}-04`}
+              date={day.date}
+              value={Math.floor(day.count / 4)}
+              maxValue={maxValue || 1}
+              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
+              isEmpty={day.count === 0}
+              size="large"
+              onClick={handleCellClick}
+            />
+          ))}
+        </div>
+        
+        <div className="hour-row">
+          {config.displayMode !== 'minimal' && (
+            <div className="hour-label-cell">08-12</div>
+          )}
+          {cellData.map((day, index) => (
+            <HeatmapCell
+              key={`${day.date}-08`}
+              date={day.date}
+              value={Math.floor(day.count / 4)}
+              maxValue={maxValue || 1}
+              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
+              isEmpty={day.count === 0}
+              size="large"
+              onClick={handleCellClick}
+            />
+          ))}
+        </div>
+        
+        <div className="hour-row">
+          {config.displayMode !== 'minimal' && (
+            <div className="hour-label-cell">12-16</div>
+          )}
+          {cellData.map((day, index) => (
+            <HeatmapCell
+              key={`${day.date}-12`}
+              date={day.date}
+              value={Math.floor(day.count / 4)}
+              maxValue={maxValue || 1}
+              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
+              isEmpty={day.count === 0}
+              size="large"
+              onClick={handleCellClick}
+            />
+          ))}
+        </div>
+        
+        <div className="hour-row">
+          {config.displayMode !== 'minimal' && (
+            <div className="hour-label-cell">16-20</div>
+          )}
+          {cellData.map((day, index) => (
+            <HeatmapCell
+              key={`${day.date}-16`}
+              date={day.date}
+              value={Math.floor(day.count / 4)}
+              maxValue={maxValue || 1}
+              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
+              isEmpty={day.count === 0}
+              size="large"
+              onClick={handleCellClick}
+            />
+          ))}
+        </div>
+        
+        <div className="hour-row">
+          {config.displayMode !== 'minimal' && (
+            <div className="hour-label-cell">20-24</div>
+          )}
+          {cellData.map((day, index) => (
+            <HeatmapCell
+              key={`${day.date}-20`}
+              date={day.date}
+              value={Math.floor(day.count / 4)}
+              maxValue={maxValue || 1}
+              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
               isEmpty={day.count === 0}
               size="large"
               onClick={handleCellClick}

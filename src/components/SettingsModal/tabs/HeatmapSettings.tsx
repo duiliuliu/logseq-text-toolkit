@@ -6,6 +6,7 @@
  */
 
 import { t } from '../../../translations/i18n.ts'
+import CustomSelect from '../../CustomSelect/index.tsx'
 import { Settings, HeatmapSettings as HeatmapSettingsType } from '../../../settings/types'
 import { TabComponentProps } from '../index'
 
@@ -79,83 +80,49 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
 
       <div className="ltt-setting-item">
         <label>{t('settings.heatmap.defaultViewType', language)}</label>
-        <select
+        <CustomSelect
+          options={viewTypeOptions}
           value={heatmapSettings.defaultViewType}
-          onChange={(e) => handleSettingChange('defaultViewType', e.target.value)}
-        >
-          {viewTypeOptions.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
+          onChange={(value) => handleSettingChange('defaultViewType', value)}
+        />
       </div>
 
       <div className="ltt-setting-item">
         <label>{t('settings.heatmap.defaultDisplayMode', language)}</label>
-        <select
+        <CustomSelect
+          options={displayModeOptions}
           value={heatmapSettings.defaultDisplayMode}
-          onChange={(e) => handleSettingChange('defaultDisplayMode', e.target.value)}
-        >
-          {displayModeOptions.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
+          onChange={(value) => handleSettingChange('defaultDisplayMode', value)}
+        />
       </div>
 
       <div className="ltt-setting-item">
         <label>{t('settings.heatmap.defaultColorFormula', language)}</label>
-        <select
+        <CustomSelect
+          options={colorFormulaOptions}
           value={heatmapSettings.defaultColorFormula}
-          onChange={(e) => handleSettingChange('defaultColorFormula', e.target.value)}
-        >
-          {colorFormulaOptions.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
+          onChange={(value) => handleSettingChange('defaultColorFormula', value)}
+        />
       </div>
 
-      <div className="ltt-settings-section">
-        <h4>{t('settings.heatmap.colorScheme', language)}</h4>
-        
-        <div className="ltt-setting-item">
-          <label>{t('settings.heatmap.minColor', language)}</label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <input
-              type="color"
-              value={heatmapSettings.colorScheme.minColor}
-              onChange={(e) => handleColorChange('minColor', e.target.value)}
-              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
-            />
-            <span style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #666)' }}>
-              {heatmapSettings.colorScheme.minColor}
-            </span>
-          </div>
-        </div>
+      <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.minColor', language)}</label>
+        <input
+          type="color"
+          value={heatmapSettings.colorScheme.minColor}
+          onChange={(e) => handleColorChange('minColor', e.target.value)}
+          style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
+        />
+      </div>
 
-        <div className="ltt-setting-item">
-          <label>{t('settings.heatmap.maxColor', language)}</label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <input
-              type="color"
-              value={heatmapSettings.colorScheme.maxColor}
-              onChange={(e) => handleColorChange('maxColor', e.target.value)}
-              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
-            />
-            <span style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #666)' }}>
-              {heatmapSettings.colorScheme.maxColor}
-            </span>
-          </div>
-        </div>
-
-        <div className="ltt-setting-item">
-          <label>{t('settings.heatmap.preview', language)}</label>
-          <div style={{ display: 'flex', gap: '4px' }}>
-            <div style={{ width: '32px', height: '20px', backgroundColor: heatmapSettings.colorScheme.minColor, borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
-            <div style={{ width: '32px', height: '20px', backgroundColor: '#e0e7ff', borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
-            <div style={{ width: '32px', height: '20px', backgroundColor: '#c7d2fe', borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
-            <div style={{ width: '32px', height: '20px', backgroundColor: '#a5b4fc', borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
-            <div style={{ width: '32px', height: '20px', backgroundColor: heatmapSettings.colorScheme.maxColor, borderRadius: '4px', border: '1px solid var(--ls-border-color-plugin, #ccc)' }} />
-          </div>
-        </div>
+      <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.maxColor', language)}</label>
+        <input
+          type="color"
+          value={heatmapSettings.colorScheme.maxColor}
+          onChange={(e) => handleColorChange('maxColor', e.target.value)}
+          style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
+        />
       </div>
 
       <div className="ltt-settings-actions">
@@ -164,7 +131,7 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           onClick={onSave}
           disabled={isSaving}
         >
-          {isSaving ? t('settings.saving', language) : t('settings.save', language)}
+          {isSaving ? t('settings.saving', language) : t('settings.saveHeatmapSettings', language)}
         </button>
       </div>
     </div>

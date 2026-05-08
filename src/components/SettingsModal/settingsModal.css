@@ -534,7 +534,7 @@ input:checked + .ltt-switch-slider:before {
   .ltt-setting-item > label {
     flex-shrink: 0 !important;
     width: auto !important;
-    min-width: 80px !important;
+    min-width: 36px !important;
     text-align: left !important;
     font-size: 13px !important;
   }

@@ -43,7 +43,7 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
   }
   
   const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-  const weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+  const weekdays = ['MON', '', 'WED', '', 'FRI', '', ''];
   
   const handleCellClick = (date: string) => {
     console.log('Year view cell clicked:', date);
@@ -66,10 +66,8 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
         {config.displayMode !== 'minimal' && (
           <div className="weekday-labels">
             {weekdays.map((day, index) => (
-              <div key={day} className="weekday-label-wrapper">
-                {index % 2 === 0 && (
-                  <span className="weekday-label">{day}</span>
-                )}
+              <div key={index} className="weekday-label-wrapper">
+                {day && <span className="weekday-label">{day}</span>}
               </div>
             ))}
           </div>

@@ -129,6 +129,7 @@
       }
     },
     "saveTaskProgressSettings": "保存任务进度设置",
+    "saveHeatmapSettings": "保存热力图设置",
     "heatmap": {
       "description": "配置热力图展示功能和显示效果。",
       "enabled": "启用热力图功能",
