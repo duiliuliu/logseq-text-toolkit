@@ -8,8 +8,11 @@ interface HeatmapCellProps {
   maxValue: number;
   color: string;
   isEmpty: boolean;
+  isCurrentMonth?: boolean;
   size?: 'small' | 'medium' | 'large';
   onClick?: (date: string) => void;
+  showDay?: boolean;
+  dayNumber?: number;
 }
 
 interface TooltipProps {
@@ -55,7 +58,18 @@ const Tooltip: React.FC<TooltipProps> = ({ data, position }) => {
   );
 };
 
-const HeatmapCell: React.FC<HeatmapCellProps> = ({ date, value, maxValue, color, isEmpty, size = 'small', onClick }) => {
+const HeatmapCell: React.FC<HeatmapCellProps> = ({ 
+  date, 
+  value, 
+  maxValue, 
+  color, 
+  isEmpty, 
+  isCurrentMonth = true,
+  size = 'small', 
+  onClick,
+  showDay = false,
+  dayNumber
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState<{
     x: number;
@@ -93,26 +107,54 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({ date, value, maxValue, color,
 
   const { width, height } = sizeMap[size];
 
+  const getBackgroundColor = () => {
+    if (isEmpty) return 'transparent';
+    if (!isCurrentMonth) return 'rgba(192, 193, 255, 0.1)';
+    return color;
+  };
+
+  const getBorderStyle = () => {
+    if (isEmpty && !showDay) return '1px solid rgba(70, 69, 84, 0.2)';
+    return '1px solid rgba(70, 69, 84, 0.3)';
+  };
+
   return (
     <>
       <div
-        className={`heatmap-cell ${isEmpty ? 'empty' : ''} ${isHovered ? 'hovered' : ''}`}
+        className={`heatmap-cell ${isEmpty ? 'empty' : ''} ${isHovered ? 'hovered' : ''} ${!isCurrentMonth ? 'other-month' : ''}`}
         style={{
           width: `${width}px`,
           height: `${height}px`,
-          backgroundColor: isEmpty ? '#f5f5f5' : color,
+          backgroundColor: getBackgroundColor(),
           borderRadius: '2px',
+          border: getBorderStyle(),
           cursor: 'pointer',
           transition: 'transform 0.1s ease, box-shadow 0.1s ease',
-          transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+          transform: isHovered ? 'scale(1.15)' : 'scale(1)',
           boxShadow: isHovered ? '0 0 8px rgba(192, 193, 255, 0.6)' : 'none',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'flex-start',
+          padding: '2px',
+          opacity: !isEmpty && !isCurrentMonth ? 0.3 : 1,
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
         title={isEmpty ? undefined : `${date}: ${value} blocks`}
-      />
-      {isHovered && tooltipPosition && (
+      >
+        {showDay && dayNumber !== undefined && dayNumber > 0 && (
+          <span style={{
+            fontSize: '8px',
+            color: isCurrentMonth ? '#c7c4d7' : '#6b7280',
+            fontFamily: 'monospace',
+            lineHeight: 1,
+          }}>
+            {dayNumber}
+          </span>
+        )}
+      </div>
+      {isHovered && tooltipPosition && !isEmpty && (
         <Tooltip 
           data={{ date, count: value, percentage, maxValue }} 
           position={tooltipPosition} 

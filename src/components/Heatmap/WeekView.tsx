@@ -71,35 +71,37 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
       {config.displayMode !== 'minimal' && (
         <div className="week-header">
           <div className="hour-label-header"></div>
-          <div className="day-header">
+          <div className="day-header-grid">
             {days.map((day) => (
-              <span key={day.date} className="day-header-item">
+              <div key={day.date} className="day-header-item">
                 <div className="day-name">{day.short}</div>
                 <div className="day-date">{new Date(day.date).getDate()}</div>
-              </span>
+              </div>
             ))}
           </div>
         </div>
       )}
       
-      <div className="week-grid">
+      <div className="week-grid-container">
         {hourBlocksData.map((hourRow, hourIndex) => (
           <div key={hourIndex} className="hour-row">
             {config.displayMode !== 'minimal' && (
               <div className="hour-label-cell">{WEEK_LABELS[hourIndex]}</div>
             )}
-            {hourRow.map((cell, cellIndex) => (
-              <HeatmapCell
-                key={`${hourIndex}-${cellIndex}`}
-                date={cell.date}
-                value={cell.count}
-                maxValue={maxValue}
-                color={getColorByValue(cell.count, maxValue, config.colorScheme)}
-                isEmpty={cell.count === 0}
-                size="large"
-                onClick={handleCellClick}
-              />
-            ))}
+            <div className="hour-cells">
+              {hourRow.map((cell, cellIndex) => (
+                <HeatmapCell
+                  key={`${hourIndex}-${cellIndex}`}
+                  date={cell.date}
+                  value={cell.count}
+                  maxValue={maxValue}
+                  color={getColorByValue(cell.count, maxValue, config.colorScheme)}
+                  isEmpty={cell.count === 0}
+                  size="large"
+                  onClick={handleCellClick}
+                />
+              ))}
+            </div>
           </div>
         ))}
       </div>

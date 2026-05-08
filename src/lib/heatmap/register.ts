@@ -138,10 +138,7 @@ async function renderHeatmap(slot: string, args: string[]): Promise<boolean> {
       );
     }
 
-    const resolvedTheme: 'light' | 'dark' = (settings?.theme === 'dark' || 
-      (settings?.theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches))
-      ? 'dark' 
-      : 'light';
+    const resolvedTheme: 'light' | 'dark' = settings?.theme === 'dark' ? 'dark' : 'light';
 
     const heatmapConfig: HeatmapConfig = {
       viewType,
@@ -157,7 +154,7 @@ async function renderHeatmap(slot: string, args: string[]): Promise<boolean> {
       },
       minColor: settings?.heatmap?.colorScheme?.minColor || '#eef2ff',
       maxColor: settings?.heatmap?.colorScheme?.maxColor || '#3730a3',
-      language: settings?.language || 'zh-CN',
+      language: settings?.language || 'en',
       referenceDate,
     };
 
