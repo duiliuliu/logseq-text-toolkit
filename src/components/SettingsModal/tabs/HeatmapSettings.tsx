@@ -1,26 +1,34 @@
 import React from 'react';
-import { HeatmapSettings } from '../../../settings/types';
+import { Settings, HeatmapSettings as HeatmapSettingsType } from '../../../settings/types';
+import { TabComponentProps } from '../index';
 
-interface HeatmapSettingsProps {
-  settings: HeatmapSettings;
-  onUpdate: (settings: Partial<HeatmapSettings>) => void;
-}
-
-const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate }) => {
-  const handleToggle = (key: keyof HeatmapSettings) => {
-    if (typeof settings[key] === 'boolean') {
-      onUpdate({ [key]: !settings[key] });
-    }
+const HeatmapSettings: React.FC<TabComponentProps> = ({ settings, setSettings, language }) => {
+  const heatmapSettings: HeatmapSettingsType = settings.heatmap || {
+    enabled: true,
+    defaultViewType: 'year',
+    defaultDisplayMode: 'full',
+    defaultColorFormula: 'simple',
+    colorScheme: {
+      minColor: '#eef2ff',
+      maxColor: '#3730a3',
+      gradientSteps: 5,
+    },
   };
 
-  const handleSelect = (key: keyof HeatmapSettings, value: string) => {
-    onUpdate({ [key]: value });
+  const updateHeatmapSettings = (updates: Partial<HeatmapSettingsType>) => {
+    setSettings({
+      ...settings,
+      heatmap: {
+        ...heatmapSettings,
+        ...updates,
+      },
+    });
   };
 
   const handleColorChange = (key: 'minColor' | 'maxColor', value: string) => {
-    onUpdate({
+    updateHeatmapSettings({
       colorScheme: {
-        ...settings.colorScheme,
+        ...heatmapSettings.colorScheme,
         [key]: value,
       },
     });
@@ -35,8 +43,8 @@ const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate })
           <label className="settings-label">
             <input
               type="checkbox"
-              checked={settings.enabled}
-              onChange={() => handleToggle('enabled')}
+              checked={heatmapSettings.enabled}
+              onChange={() => updateHeatmapSettings({ enabled: !heatmapSettings.enabled })}
             />
             <span>Enable Heatmap</span>
           </label>
@@ -46,8 +54,8 @@ const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate })
         <div className="settings-row">
           <label className="settings-label">Default View</label>
           <select
-            value={settings.defaultViewType}
-            onChange={(e) => handleSelect('defaultViewType', e.target.value)}
+            value={heatmapSettings.defaultViewType}
+            onChange={(e) => updateHeatmapSettings({ defaultViewType: e.target.value as 'year' | 'month' | 'week' })}
             className="settings-select"
           >
             <option value="year">Year View</option>
@@ -59,8 +67,8 @@ const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate })
         <div className="settings-row">
           <label className="settings-label">Default Display Mode</label>
           <select
-            value={settings.defaultDisplayMode}
-            onChange={(e) => handleSelect('defaultDisplayMode', e.target.value)}
+            value={heatmapSettings.defaultDisplayMode}
+            onChange={(e) => updateHeatmapSettings({ defaultDisplayMode: e.target.value as 'minimal' | 'basic' | 'full' })}
             className="settings-select"
           >
             <option value="full">Full Mode</option>
@@ -72,8 +80,8 @@ const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate })
         <div className="settings-row">
           <label className="settings-label">Default Color Formula</label>
           <select
-            value={settings.defaultColorFormula}
-            onChange={(e) => handleSelect('defaultColorFormula', e.target.value)}
+            value={heatmapSettings.defaultColorFormula}
+            onChange={(e) => updateHeatmapSettings({ defaultColorFormula: e.target.value as 'simple' | 'weighted' })}
             className="settings-select"
           >
             <option value="simple">Simple (Block Count)</option>
@@ -90,11 +98,11 @@ const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate })
           <div className="color-input-wrapper">
             <input
               type="color"
-              value={settings.colorScheme.minColor}
+              value={heatmapSettings.colorScheme.minColor}
               onChange={(e) => handleColorChange('minColor', e.target.value)}
               className="color-input"
             />
-            <span className="color-value">{settings.colorScheme.minColor}</span>
+            <span className="color-value">{heatmapSettings.colorScheme.minColor}</span>
           </div>
         </div>
 
@@ -103,11 +111,11 @@ const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate })
           <div className="color-input-wrapper">
             <input
               type="color"
-              value={settings.colorScheme.maxColor}
+              value={heatmapSettings.colorScheme.maxColor}
               onChange={(e) => handleColorChange('maxColor', e.target.value)}
               className="color-input"
             />
-            <span className="color-value">{settings.colorScheme.maxColor}</span>
+            <span className="color-value">{heatmapSettings.colorScheme.maxColor}</span>
           </div>
         </div>
 
@@ -116,12 +124,12 @@ const HeatmapSettings: React.FC<HeatmapSettingsProps> = ({ settings, onUpdate })
           <div className="color-gradient">
             <div
               className="color-cell"
-              style={{ backgroundColor: settings.colorScheme.minColor }}
+              style={{ backgroundColor: heatmapSettings.colorScheme.minColor }}
             />
             <div className="color-cell" style={{ backgroundColor: '#e0e7ff' }} />
             <div className="color-cell" style={{ backgroundColor: '#c7d2fe' }} />
             <div className="color-cell" style={{ backgroundColor: '#a5b4fc' }} />
-            <div className="color-cell" style={{ backgroundColor: settings.colorScheme.maxColor }} />
+            <div className="color-cell" style={{ backgroundColor: heatmapSettings.colorScheme.maxColor }} />
           </div>
         </div>
       </div>

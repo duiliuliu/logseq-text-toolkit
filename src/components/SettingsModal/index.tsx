@@ -6,6 +6,7 @@ import GeneralSettings from './tabs/GeneralSettings'
 import ToolbarSettings from './tabs/ToolbarSettings'
 import AdvancedSettings from './tabs/AdvancedSettings'
 import TaskProgressSettings from './tabs/TaskProgressSettings'
+import HeatmapSettings from './tabs/HeatmapSettings'
 import { t, getCurrentLanguage } from '../../translations/i18n'
 import { ThemeType, Settings } from '../../settings/types'
 import { logseqAPI } from '../../logseq/index.ts'
@@ -94,6 +95,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language) },
     { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language) },
     { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language) },
+    { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language) },
     { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language) }
   ]
 
