@@ -269,9 +269,9 @@ function TestApp() {
         </div>
       </div>
 
-      <HeatmapDemo />
-
       <APIQueryDemo />
+
+      <HeatmapDemo />
     </div>
   )
 

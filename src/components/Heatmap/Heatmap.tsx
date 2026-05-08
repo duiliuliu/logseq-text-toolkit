@@ -113,7 +113,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
 
   return (
     <div className={`heatmap-container heatmap-${config.displayMode}`}>
-      {config.displayMode !== 'minimal' && (
+      {config.displayMode === 'full' && (
         <div className="heatmap-header">
           <div className="view-controls">
             <button
@@ -160,7 +160,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
         <Statistics data={statistics} />
       )}
       
-      {config.displayMode !== 'minimal' && (
+      {config.displayMode === 'full' && (
         <div className="heatmap-legend">
           <span className="legend-label">Less</span>
           <div className="legend-colors">
