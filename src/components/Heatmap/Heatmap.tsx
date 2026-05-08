@@ -9,9 +9,13 @@ import './heatmap.css';
 interface HeatmapProps {
   config: HeatmapConfig;
   data: HeatmapDataPoint[];
+  theme?: 'light' | 'dark';
 }
 
-const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
+const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
+  const containerClass = theme === 'dark' 
+    ? `heatmap-container heatmap-${config.displayMode} dark`
+    : `heatmap-container heatmap-${config.displayMode}`;
   const [viewType, setViewType] = useState<HeatmapViewType>(config.viewType);
   const [currentDate, setCurrentDate] = useState<Date>(config.referenceDate || new Date());
 
@@ -112,7 +116,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
   }, [data]);
 
   return (
-    <div className={`heatmap-container heatmap-${config.displayMode}`}>
+    <div className={containerClass}>
       {config.displayMode === 'full' && (
         <div className="heatmap-header">
           <div className="view-controls">

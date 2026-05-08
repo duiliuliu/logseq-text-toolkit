@@ -11,10 +11,32 @@ interface YearViewProps {
 
 const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
   const year = currentDate.getFullYear();
+  
+  const dataMap = new Map<string, HeatmapDataPoint>();
+  data.forEach(d => {
+    if (d.date) {
+      dataMap.set(d.date.split('T')[0], d);
+    }
+  });
+  
   const nonEmptyData = data.filter(d => d.date && d.count > 0);
   const maxValue = nonEmptyData.length > 0 
     ? Math.max(...nonEmptyData.map(d => d.count)) 
     : 1;
+  
+  const allDays: HeatmapDataPoint[] = [];
+  const startDate = new Date(Date.UTC(year, 0, 1));
+  const endDate = new Date(Date.UTC(year + 1, 0, 1));
+  
+  for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
+    const dateStr = d.toISOString().split('T')[0];
+    const existingData = dataMap.get(dateStr);
+    if (existingData) {
+      allDays.push(existingData);
+    } else {
+      allDays.push({ date: dateStr, count: 0, blocks: [] });
+    }
+  }
   
   const weeks: HeatmapDataPoint[][] = [];
   let currentWeek: HeatmapDataPoint[] = [];
@@ -27,7 +49,7 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
     currentWeek.push({ date: '', count: 0, blocks: [] });
   }
   
-  data.forEach((point) => {
+  allDays.forEach((point) => {
     currentWeek.push(point);
     if (currentWeek.length === 7) {
       weeks.push(currentWeek);

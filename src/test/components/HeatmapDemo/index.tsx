@@ -9,6 +9,7 @@ interface HeatmapDemoProps {
 
 const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [config, setConfig] = useState<HeatmapConfig>({
     viewType: 'year',
     displayMode: 'full',
@@ -164,6 +165,12 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: 'auto' }}>
           <button 
+            onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
+            style={{ padding: '4px 8px', fontSize: '12px', cursor: 'pointer' }}
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+          <button 
             onClick={handlePrevPeriod}
             style={{ padding: '4px 8px', fontSize: '12px', cursor: 'pointer' }}
           >
@@ -187,7 +194,7 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
           加载中...
         </div>
       ) : (
-        <Heatmap config={config} data={data} />
+        <Heatmap config={config} data={data} theme={theme} />
       )}
     </div>
   );

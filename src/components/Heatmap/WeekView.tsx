@@ -9,37 +9,58 @@ interface WeekViewProps {
   currentDate: Date;
 }
 
+const WEEK_LABELS = ['00-04', '04-08', '08-12', '12-16', '16-20', '20-24'];
+
 const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
   const dayOfWeek = currentDate.getDay();
   const monday = new Date(currentDate);
   monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
 
-  const days: { date: string; label: string; short: string }[] = [];
+  const days: { date: string; short: string }[] = [];
   for (let i = 0; i < 7; i++) {
     const date = new Date(monday);
     date.setDate(monday.getDate() + i);
     const dateStr = date.toISOString().split('T')[0];
     days.push({
       date: dateStr,
-      label: date.toLocaleDateString('en-US', { weekday: 'long' }),
       short: date.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
     });
   }
 
-  const cellData = days.map(dayInfo => {
-    const dayData = data.filter(d => d.date && d.date.startsWith(dayInfo.date));
-    const totalCount = dayData.reduce((sum, d) => sum + d.count, 0);
-    return {
-      ...dayInfo,
-      count: totalCount,
-      blocks: dayData.flatMap(d => d.blocks || []),
-    };
+  const dataMap = new Map<string, HeatmapDataPoint[]>();
+  data.forEach(d => {
+    if (d.date) {
+      const dateKey = d.date.split('T')[0];
+      if (!dataMap.has(dateKey)) {
+        dataMap.set(dateKey, []);
+      }
+      dataMap.get(dateKey)!.push(d);
+    }
   });
 
-  const nonEmptyData = cellData.filter(d => d.count > 0);
-  const maxValue = nonEmptyData.length > 0 
-    ? Math.max(...nonEmptyData.map(d => d.count)) 
-    : 1;
+  const hourBlocksData: { date: string; count: number }[][] = [];
+  for (let h = 0; h < 6; h++) {
+    hourBlocksData.push([]);
+    for (let d = 0; d < 7; d++) {
+      hourBlocksData[h].push({ date: days[d].date, count: 0 });
+    }
+  }
+  
+  days.forEach((dayInfo, dayIndex) => {
+    const dayData = dataMap.get(dayInfo.date) || [];
+    dayData.forEach(d => {
+      if (d.date) {
+        const hour = new Date(d.date).getHours();
+        const hourIndex = Math.floor(hour / 4);
+        if (hourIndex >= 0 && hourIndex < 6) {
+          hourBlocksData[hourIndex][dayIndex].count += d.count;
+        }
+      }
+    });
+  });
+
+  const allCounts = hourBlocksData.flat().map(d => d.count);
+  const maxValue = Math.max(...allCounts, 1);
 
   const handleCellClick = (date: string) => {
     console.log('Week view cell clicked:', date);
@@ -51,7 +72,7 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
         <div className="week-header">
           <div className="hour-label-header"></div>
           <div className="day-header">
-            {cellData.map((day) => (
+            {days.map((day) => (
               <span key={day.date} className="day-header-item">
                 <div className="day-name">{day.short}</div>
                 <div className="day-date">{new Date(day.date).getDate()}</div>
@@ -62,127 +83,46 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
       )}
       
       <div className="week-grid">
-        <div className="hour-row">
-          {config.displayMode !== 'minimal' && (
-            <div className="hour-label-cell">00-04</div>
-          )}
-          {cellData.map((day, index) => (
-            <HeatmapCell
-              key={`${day.date}-00`}
-              date={day.date}
-              value={Math.floor(day.count / 4)}
-              maxValue={maxValue || 1}
-              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
-              isEmpty={day.count === 0}
-              size="large"
-              onClick={handleCellClick}
-            />
-          ))}
-        </div>
-        
-        <div className="hour-row">
-          {config.displayMode !== 'minimal' && (
-            <div className="hour-label-cell">04-08</div>
-          )}
-          {cellData.map((day, index) => (
-            <HeatmapCell
-              key={`${day.date}-04`}
-              date={day.date}
-              value={Math.floor(day.count / 4)}
-              maxValue={maxValue || 1}
-              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
-              isEmpty={day.count === 0}
-              size="large"
-              onClick={handleCellClick}
-            />
-          ))}
-        </div>
-        
-        <div className="hour-row">
-          {config.displayMode !== 'minimal' && (
-            <div className="hour-label-cell">08-12</div>
-          )}
-          {cellData.map((day, index) => (
-            <HeatmapCell
-              key={`${day.date}-08`}
-              date={day.date}
-              value={Math.floor(day.count / 4)}
-              maxValue={maxValue || 1}
-              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
-              isEmpty={day.count === 0}
-              size="large"
-              onClick={handleCellClick}
-            />
-          ))}
-        </div>
-        
-        <div className="hour-row">
-          {config.displayMode !== 'minimal' && (
-            <div className="hour-label-cell">12-16</div>
-          )}
-          {cellData.map((day, index) => (
-            <HeatmapCell
-              key={`${day.date}-12`}
-              date={day.date}
-              value={Math.floor(day.count / 4)}
-              maxValue={maxValue || 1}
-              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
-              isEmpty={day.count === 0}
-              size="large"
-              onClick={handleCellClick}
-            />
-          ))}
-        </div>
-        
-        <div className="hour-row">
-          {config.displayMode !== 'minimal' && (
-            <div className="hour-label-cell">16-20</div>
-          )}
-          {cellData.map((day, index) => (
-            <HeatmapCell
-              key={`${day.date}-16`}
-              date={day.date}
-              value={Math.floor(day.count / 4)}
-              maxValue={maxValue || 1}
-              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
-              isEmpty={day.count === 0}
-              size="large"
-              onClick={handleCellClick}
-            />
-          ))}
-        </div>
-        
-        <div className="hour-row">
-          {config.displayMode !== 'minimal' && (
-            <div className="hour-label-cell">20-24</div>
-          )}
-          {cellData.map((day, index) => (
-            <HeatmapCell
-              key={`${day.date}-20`}
-              date={day.date}
-              value={Math.floor(day.count / 4)}
-              maxValue={maxValue || 1}
-              color={getColorByValue(Math.floor(day.count / 4), maxValue || 1, config.colorScheme)}
-              isEmpty={day.count === 0}
-              size="large"
-              onClick={handleCellClick}
-            />
-          ))}
-        </div>
+        {hourBlocksData.map((hourRow, hourIndex) => (
+          <div key={hourIndex} className="hour-row">
+            {config.displayMode !== 'minimal' && (
+              <div className="hour-label-cell">{WEEK_LABELS[hourIndex]}</div>
+            )}
+            {hourRow.map((cell, cellIndex) => (
+              <HeatmapCell
+                key={`${hourIndex}-${cellIndex}`}
+                date={cell.date}
+                value={cell.count}
+                maxValue={maxValue}
+                color={getColorByValue(cell.count, maxValue, config.colorScheme)}
+                isEmpty={cell.count === 0}
+                size="large"
+                onClick={handleCellClick}
+              />
+            ))}
+          </div>
+        ))}
       </div>
 
-      {config.displayMode === 'full' && cellData.some(d => d.count > 0) && (
+      {config.displayMode === 'full' && (
         <div className="week-activities">
           <h4>Week Activities</h4>
           <ul className="activity-list">
-            {cellData.filter(d => d.count > 0).map(day => (
-              <li key={day.date} className="activity-item">
-                <span className="activity-date">
-                  {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                </span>
-                <span className="activity-count">{day.count} activities</span>
-              </li>
-            ))}
+            {days.filter(day => {
+              const dayData = dataMap.get(day.date) || [];
+              return dayData.reduce((sum, d) => sum + d.count, 0) > 0;
+            }).map(day => {
+              const dayData = dataMap.get(day.date) || [];
+              const totalCount = dayData.reduce((sum, d) => sum + d.count, 0);
+              return (
+                <li key={day.date} className="activity-item">
+                  <span className="activity-date">
+                    {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                  </span>
+                  <span className="activity-count">{totalCount} activities</span>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
