@@ -109,6 +109,7 @@
       "sizeMedium": "Medium",
       "sizeLarge": "Large",
       "showLabel": "Show Label",
+      "fireworksOnComplete": "Show fireworks when all tasks complete",
       "labelFormat": "Label Format",
       "labelFraction": "Fraction (10/20)",
       "labelPercentage": "Percentage (50%)",
