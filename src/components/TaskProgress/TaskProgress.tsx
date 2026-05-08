@@ -5,7 +5,7 @@
  * 任务进度主组件
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types'
 import MiniCircleProgress from './MiniCircleProgress'
 import DotMatrixProgress from './DotMatrixProgress'
@@ -39,42 +39,29 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   showNestingIndicator,
 }) => {
   const [showFireworks, setShowFireworks] = useState(false)
-  const [targetRect, setTargetRect] = useState<DOMRect | null>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
-  const hoverTimeoutRef = useRef<NodeJS.Timeout>()
+  const [hasTriggered, setHasTriggered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const isCompleted = progressData?.progress === 100
 
   useEffect(() => {
-    if (isCompleted && componentRef.current) {
+    if (isCompleted && !hasTriggered) {
       setShowFireworks(true)
+      setHasTriggered(true)
+    } else if (!isCompleted) {
+      setHasTriggered(false)
     }
-  }, [isCompleted])
+  }, [isCompleted, hasTriggered])
 
   const handleMouseEnter = useCallback(() => {
-    if (isCompleted && componentRef.current) {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current)
-      }
-      hoverTimeoutRef.current = setTimeout(() => {
-        setTargetRect(componentRef.current?.getBoundingClientRect() || null)
-        setShowFireworks(true)
-      }, 300)
+    setIsHovered(true)
+    if (isCompleted && !showFireworks) {
+      setShowFireworks(true)
     }
-  }, [isCompleted])
+  }, [isCompleted, showFireworks])
 
   const handleMouseLeave = useCallback(() => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current)
-    }
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current)
-      }
-    }
+    setIsHovered(false)
   }, [])
 
   if (!progressData) {
@@ -159,15 +146,17 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
 
   return (
     <div 
-      ref={componentRef}
       className="task-progress"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}
+      style={{ position: 'relative' }}
     >
       {renderNestingIndicator()}
       {renderComponent()}
-      {showFireworks && <Fireworks targetRect={targetRect} onComplete={() => setShowFireworks(false)} />}
+      <Fireworks 
+        trigger={showFireworks} 
+        onComplete={() => setShowFireworks(false)} 
+      />
     </div>
   )
 }
