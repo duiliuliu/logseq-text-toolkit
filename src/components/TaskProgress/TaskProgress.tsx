@@ -5,14 +5,13 @@
  * 任务进度主组件
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types'
 import MiniCircleProgress from './MiniCircleProgress'
 import DotMatrixProgress from './DotMatrixProgress'
 import StatusCursorProgress from './StatusCursorProgress'
 import ProgressCapsule from './ProgressCapsule'
 import StepProgress from './StepProgress'
-import Tooltip from './Tooltip'
 import Fireworks from './Fireworks'
 import { t } from '../../translations/i18n'
 import { SupportedLanguage } from '../../translations/translations'
@@ -38,17 +37,22 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   onlyLeaves,
   showNestingIndicator,
 }) => {
-  const [showFireworks, setShowFireworks] = useState(false)
-  const [hasTriggered, setHasTriggered] = useState(false)
+  const [triggerFireworks, setTriggerFireworks] = useState(false)
+  const [hasTriggeredAuto, setHasTriggeredAuto] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (progressData?.progress === 100 && !hasTriggered) {
-      setShowFireworks(true)
-      setHasTriggered(true)
+    if (progressData?.progress === 100 && !hasTriggeredAuto) {
+      setTriggerFireworks(true)
+      setHasTriggeredAuto(true)
     } else if (progressData?.progress !== 100) {
-      setHasTriggered(false)
+      setHasTriggeredAuto(false)
     }
-  }, [progressData?.progress, hasTriggered])
+  }, [progressData?.progress, hasTriggeredAuto])
+
+  const handleFireworksComplete = useCallback(() => {
+    setTriggerFireworks(false)
+  }, [])
 
   if (!progressData) {
     return null
@@ -131,10 +135,13 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   }
 
   return (
-    <div className="task-progress">
+    <div className="task-progress" ref={containerRef}>
       {renderNestingIndicator()}
       {renderComponent()}
-      <Fireworks trigger={showFireworks} onComplete={() => setShowFireworks(false)} />
+      <Fireworks
+        containerRef={containerRef}
+        onComplete={handleFireworksComplete}
+      />
     </div>
   )
 }
