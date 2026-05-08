@@ -6,16 +6,20 @@ import { getColorByValue } from '../../lib/heatmap/colorCalculator';
 interface MonthViewProps {
   data: HeatmapDataPoint[];
   config: HeatmapConfig;
+  currentDate: Date;
 }
 
-const MonthView: React.FC<MonthViewProps> = ({ data, config }) => {
+const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
   const maxValue = Math.max(...data.map(d => d.count), 1);
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
   
   const weeks: HeatmapDataPoint[][] = [];
   let currentWeek: HeatmapDataPoint[] = [];
   
-  const firstDate = new Date(data[0]?.date || new Date());
-  const startPadding = firstDate.getDay();
+  const firstDate = new Date(year, month, 1);
+  const startDayOfWeek = firstDate.getDay();
+  const startPadding = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
   
   for (let i = 0; i < startPadding; i++) {
     currentWeek.push({ date: '', count: 0, blocks: [] });

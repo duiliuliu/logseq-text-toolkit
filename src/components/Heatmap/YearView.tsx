@@ -6,18 +6,21 @@ import { getColorByValue } from '../../lib/heatmap/colorCalculator';
 interface YearViewProps {
   data: HeatmapDataPoint[];
   config: HeatmapConfig;
+  currentDate: Date;
 }
 
-const YearView: React.FC<YearViewProps> = ({ data, config }) => {
+const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
   const maxValue = Math.max(...data.map(d => d.count), 1);
+  const year = currentDate.getFullYear();
   
   const weeks: HeatmapDataPoint[][] = [];
   let currentWeek: HeatmapDataPoint[] = [];
   
-  const firstDate = new Date(data[0]?.date || new Date());
-  const startPadding = firstDate.getDay() || 7;
+  const firstDayOfYear = new Date(year, 0, 1);
+  const startDayOfWeek = firstDayOfYear.getDay();
+  const startPadding = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
   
-  for (let i = 1; i < startPadding; i++) {
+  for (let i = 0; i < startPadding; i++) {
     currentWeek.push({ date: '', count: 0, blocks: [] });
   }
   
@@ -48,7 +51,7 @@ const YearView: React.FC<YearViewProps> = ({ data, config }) => {
       {config.displayMode !== 'minimal' && (
         <div className="month-labels">
           <span className="weekday-label-offset"></span>
-          {months.map((month) => (
+          {months.map((month, index) => (
             <span key={month} className="month-label">
               {month}
             </span>

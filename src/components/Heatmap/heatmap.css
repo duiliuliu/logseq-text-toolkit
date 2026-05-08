@@ -18,6 +18,10 @@
   padding: 8px;
 }
 
+.heatmap-full {
+  padding: 16px;
+}
+
 .heatmap-header {
   display: flex;
   justify-content: space-between;
@@ -29,6 +33,14 @@
 
 .dark .heatmap-header {
   border-bottom-color: #374151;
+}
+
+@media (max-width: 640px) {
+  .heatmap-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
 }
 
 .view-controls {
@@ -307,6 +319,7 @@
 
 .heatmap-cell {
   border: 1px solid transparent;
+  position: relative;
 }
 
 .heatmap-cell.empty {
@@ -349,4 +362,99 @@
 
 .heatmap-tooltip {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.heatmap-statistics {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  gap: 16px;
+}
+
+.dark .heatmap-statistics {
+  border-top-color: #374151;
+}
+
+@media (max-width: 640px) {
+  .heatmap-statistics {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.stat-item {
+  text-align: center;
+  padding: 8px 12px;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dark .stat-value {
+  color: #e5e7eb;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .heatmap-container {
+    padding: 12px;
+  }
+  
+  .view-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .month-label {
+    font-size: 9px;
+    width: 20px;
+  }
+  
+  .weekday-label {
+    font-size: 8px;
+  }
+  
+  .weekday-header-item {
+    font-size: 10px;
+  }
+  
+  .day-name {
+    font-size: 9px;
+  }
+  
+  .day-date {
+    font-size: 10px;
+  }
+  
+  .hour-label-cell {
+    width: 40px;
+    font-size: 9px;
+  }
+  
+  .legend-color {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .stat-value {
+    font-size: 16px;
+  }
+  
+  .stat-label {
+    font-size: 10px;
+  }
+}
+
+.weekday-label-offset {
+  width: 32px;
 }

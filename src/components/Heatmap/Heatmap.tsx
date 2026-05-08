@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import YearView from './YearView';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
+import Statistics from './Statistics';
 import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, INDIGO_COLORS } from '../../lib/heatmap/types';
 import './heatmap.css';
 
@@ -12,50 +13,103 @@ interface HeatmapProps {
 
 const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
   const [viewType, setViewType] = useState<HeatmapViewType>(config.viewType);
-  const [currentYear] = useState(config.referenceDate?.getFullYear() || new Date().getFullYear());
-  const [currentMonth] = useState(config.referenceDate?.getMonth() || new Date().getMonth());
+  const [currentDate, setCurrentDate] = useState<Date>(config.referenceDate || new Date());
 
-  const handleViewChange = (type: HeatmapViewType) => {
+  const handleViewChange = useCallback((type: HeatmapViewType) => {
     setViewType(type);
-  };
+  }, []);
 
-  const getViewTitle = () => {
+  const getWeekNumber = useCallback((date: Date): number => {
+    const startOfYear = new Date(date.getFullYear(), 0, 1);
+    const diff = date.getTime() - startOfYear.getTime();
+    const oneWeek = 604800000;
+    return Math.ceil(diff / oneWeek);
+  }, []);
+
+  const getViewTitle = useCallback((): string => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    
     switch (viewType) {
       case 'year':
-        return `${currentYear}`;
+        return `${year}`;
       case 'month':
-        return `${currentYear}年${currentMonth + 1}月`;
+        return `${year}年${month + 1}月`;
       case 'week':
-        return `${currentYear}年第${getWeekNumber()}周`;
+        return `${year}年第${getWeekNumber(currentDate)}周`;
       default:
         return '';
     }
-  };
+  }, [viewType, currentDate, getWeekNumber]);
 
-  const getWeekNumber = () => {
-    const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const diff = now.getTime() - startOfYear.getTime();
-    const oneWeek = 604800000;
-    return Math.ceil(diff / oneWeek);
-  };
+  const handlePrevPeriod = useCallback(() => {
+    const newDate = new Date(currentDate);
+    switch (viewType) {
+      case 'year':
+        newDate.setFullYear(newDate.getFullYear() - 1);
+        break;
+      case 'month':
+        newDate.setMonth(newDate.getMonth() - 1);
+        break;
+      case 'week':
+        newDate.setDate(newDate.getDate() - 7);
+        break;
+    }
+    setCurrentDate(newDate);
+  }, [viewType, currentDate]);
+
+  const handleNextPeriod = useCallback(() => {
+    const newDate = new Date(currentDate);
+    switch (viewType) {
+      case 'year':
+        newDate.setFullYear(newDate.getFullYear() + 1);
+        break;
+      case 'month':
+        newDate.setMonth(newDate.getMonth() + 1);
+        break;
+      case 'week':
+        newDate.setDate(newDate.getDate() + 7);
+        break;
+    }
+    setCurrentDate(newDate);
+  }, [viewType, currentDate]);
 
   useEffect(() => {
     setViewType(config.viewType);
   }, [config.viewType]);
 
   const renderView = () => {
+    const viewData = filterDataByView(data, viewType, currentDate);
+    
     switch (viewType) {
       case 'year':
-        return <YearView data={data} config={config} />;
+        return <YearView data={viewData} config={config} currentDate={currentDate} />;
       case 'month':
-        return <MonthView data={data} config={config} />;
+        return <MonthView data={viewData} config={config} currentDate={currentDate} />;
       case 'week':
-        return <WeekView data={data} config={config} />;
+        return <WeekView data={viewData} config={config} currentDate={currentDate} />;
       default:
         return null;
     }
   };
+
+  const statistics = React.useMemo(() => {
+    const totalBlocks = data.reduce((sum, d) => sum + d.count, 0);
+    const activeDays = data.filter(d => d.count > 0).length;
+    const maxCount = Math.max(...data.map(d => d.count), 0);
+    const avgCount = data.length > 0 ? Math.round(totalBlocks / data.length * 10) / 10 : 0;
+    
+    return {
+      totalBlocks,
+      activeDays,
+      maxCount,
+      avgCount,
+      dateRange: {
+        start: data.length > 0 ? data[0].date : '',
+        end: data.length > 0 ? data[data.length - 1].date : '',
+      },
+    };
+  }, [data]);
 
   return (
     <div className={`heatmap-container heatmap-${config.displayMode}`}>
@@ -83,14 +137,14 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
           </div>
           
           <div className="navigation-controls">
-            <button className="nav-btn" title="Previous">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <button className="nav-btn" onClick={handlePrevPeriod} title="Previous">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <span className="nav-label">{getViewTitle()}</span>
-            <button className="nav-btn" title="Next">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <button className="nav-btn" onClick={handleNextPeriod} title="Next">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -101,6 +155,10 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
       <div className="heatmap-content">
         {renderView()}
       </div>
+      
+      {config.displayMode === 'full' && (
+        <Statistics data={statistics} />
+      )}
       
       {config.displayMode !== 'minimal' && (
         <div className="heatmap-legend">
@@ -120,5 +178,34 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data }) => {
     </div>
   );
 };
+
+function filterDataByView(data: HeatmapDataPoint[], viewType: HeatmapViewType, currentDate: Date): HeatmapDataPoint[] {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  
+  switch (viewType) {
+    case 'year':
+      return data.filter(d => d.date.startsWith(`${year}-`));
+    case 'month':
+      const monthStr = (month + 1).toString().padStart(2, '0');
+      return data.filter(d => d.date.startsWith(`${year}-${monthStr}`));
+    case 'week':
+      const dayOfWeek = currentDate.getDay();
+      const monday = new Date(currentDate);
+      monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+      const sunday = new Date(monday);
+      sunday.setDate(monday.getDate() + 6);
+      
+      const startStr = monday.toISOString().split('T')[0];
+      const endStr = sunday.toISOString().split('T')[0];
+      
+      return data.filter(d => {
+        const dateStr = d.date.split('T')[0];
+        return dateStr >= startStr && dateStr <= endStr;
+      });
+    default:
+      return data;
+  }
+}
 
 export default Heatmap;
