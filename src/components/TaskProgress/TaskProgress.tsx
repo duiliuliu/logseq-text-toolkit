@@ -5,7 +5,7 @@
  * 任务进度主组件
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types'
 import MiniCircleProgress from './MiniCircleProgress'
 import DotMatrixProgress from './DotMatrixProgress'
@@ -40,15 +40,29 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
 }) => {
   const [showFireworks, setShowFireworks] = useState(false)
   const [hasTriggered, setHasTriggered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+
+  const isCompleted = progressData?.progress === 100
 
   useEffect(() => {
-    if (progressData?.progress === 100 && !hasTriggered) {
+    if (isCompleted && !hasTriggered) {
       setShowFireworks(true)
       setHasTriggered(true)
-    } else if (progressData?.progress !== 100) {
+    } else if (!isCompleted) {
       setHasTriggered(false)
     }
-  }, [progressData?.progress, hasTriggered])
+  }, [isCompleted, hasTriggered])
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true)
+    if (isCompleted && !showFireworks) {
+      setShowFireworks(true)
+    }
+  }, [isCompleted, showFireworks])
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false)
+  }, [])
 
   if (!progressData) {
     return null
@@ -131,10 +145,19 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   }
 
   return (
-    <div className="task-progress">
+    <div 
+      className="task-progress"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ position: 'relative' }}
+    >
       {renderNestingIndicator()}
       {renderComponent()}
-      <Fireworks trigger={showFireworks} onComplete={() => setShowFireworks(false)} />
+      <Fireworks 
+        trigger={showFireworks} 
+        duration={10000}
+        onComplete={() => setShowFireworks(false)} 
+      />
     </div>
   )
 }
