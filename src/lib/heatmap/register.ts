@@ -138,6 +138,11 @@ async function renderHeatmap(slot: string, args: string[]): Promise<boolean> {
       );
     }
 
+    const resolvedTheme: 'light' | 'dark' = (settings?.theme === 'dark' || 
+      (settings?.theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches))
+      ? 'dark' 
+      : 'light';
+
     const heatmapConfig: HeatmapConfig = {
       viewType,
       displayMode,
@@ -174,6 +179,7 @@ async function renderHeatmap(slot: string, args: string[]): Promise<boolean> {
       React.createElement(HeatmapComponent, {
         config: heatmapConfig,
         data: heatmapData,
+        theme: resolvedTheme,
       })
     );
 

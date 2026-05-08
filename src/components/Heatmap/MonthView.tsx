@@ -74,9 +74,11 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
 
   const weekNumbers = weeks.map((_, i) => `W${i + 1}`);
 
+  const showLabels = config.displayMode !== 'minimal';
+
   return (
     <div className="heatmap-month-view">
-      {config.displayMode === 'full' && (
+      {showLabels && (
         <div className="month-full-layout">
           <div className="month-grid-wrapper">
             <div className="month-week-labels">
@@ -110,7 +112,7 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
           </div>
         </div>
       )}
-      {config.displayMode !== 'full' && (
+      {!showLabels && (
         <div className="month-grid">
           {weeks.map((week, weekIndex) => (
             <div key={weekIndex} className="week-row">
