@@ -63,7 +63,7 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
     >
       <div 
         className="task-progress-capsule"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}
       >
         <div className="task-progress-capsule-bar" style={{ width: '60px' }}>
           {stats.map((stat) => {

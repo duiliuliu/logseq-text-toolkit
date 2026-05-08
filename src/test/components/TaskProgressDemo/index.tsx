@@ -108,7 +108,8 @@ const TaskProgressDemo: React.FC = () => {
                   config={{
                     ...settings?.taskProgress?.displayOptions?.[type],
                     showLabel: settings?.taskProgress?.showLabel ?? true,
-                    labelFormat: settings?.taskProgress?.labelFormat || 'fraction'
+                    labelFormat: settings?.taskProgress?.labelFormat || 'fraction',
+                    fireworksOnComplete: settings?.taskProgress?.fireworksOnComplete ?? true
                   }}
                   lang={currentLang}
                 />
@@ -227,7 +228,8 @@ const TaskProgressDemo: React.FC = () => {
                     config={{
                       ...settings?.taskProgress?.displayOptions?.[type],
                       showLabel: settings?.taskProgress?.showLabel ?? true,
-                      labelFormat: settings?.taskProgress?.labelFormat || 'fraction'
+                      labelFormat: settings?.taskProgress?.labelFormat || 'fraction',
+                      fireworksOnComplete: settings?.taskProgress?.fireworksOnComplete ?? true
                     }}
                     lang={currentLang}
                     nestingLevel={testNestingLevel}

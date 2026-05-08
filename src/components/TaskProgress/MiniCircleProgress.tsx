@@ -128,7 +128,7 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
     >
       <div 
         className="task-progress-mini-circle" 
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}
       >
         <svg width={svgSize} height={svgSize} viewBox={`0 0 ${svgSize} ${svgSize}`}>
           {segments}

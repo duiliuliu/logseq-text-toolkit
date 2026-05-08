@@ -86,7 +86,7 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
     >
       <div 
         className="task-progress-dot-matrix"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}
       >
         {dots.map((dot, index) => (
           <div

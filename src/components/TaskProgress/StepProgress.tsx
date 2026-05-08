@@ -68,7 +68,7 @@ const StepProgress: React.FC<StepProgressProps> = ({
     >
       <div 
         className="task-progress-step"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'flex-end', verticalAlign: 'middle' }}
       >
         {stats.map((stat) => {
           const height = maxCount > 0 ? Math.max(4, (stat.count / maxCount) * maxHeight) : 4

@@ -352,12 +352,27 @@ const mockLogseq = Object.assign(new EventEmitter(), {
           return [];
         }
 
+        // 过滤任务：只保留带有 #task 标签或 status 属性的块
+        const taskFiltered = children.filter(child => {
+          // 检查是否有 #task 标签
+          const hasTaskTag = child.tags && child.tags.length > 0 && 
+                            child.tags.some((tag: any) => tag.title?.toLowerCase() === 'task');
+          
+          // 检查是否有 status 属性
+          const hasStatus = child.properties && child.properties.status;
+          
+          // 检查文本内容是否包含 #task
+          const contentHasTaskTag = child.content && child.content.includes('#task');
+          
+          return hasTaskTag || hasStatus || contentHasTaskTag;
+        });
+
         // 如果只需要叶子节点，进行过滤
-        let filteredBlocks = children;
+        let filteredBlocks = taskFiltered;
         if (onlyLeaves) {
           const doc = getDocument();
 
-          filteredBlocks = children.filter(block => {
+          filteredBlocks = taskFiltered.filter(block => {
             // 检查这个块是否有子节点
             const element = findElementByBlockId(block.uuid, doc);
             if (!element) {

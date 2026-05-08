@@ -84,6 +84,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
     nestingLevel: 1,
     onlyLeaves: false,
     showNestingIndicator: false,
+    fireworksOnComplete: true,
   }
 
   const statusColors = {
@@ -134,6 +135,18 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
             type="checkbox"
             checked={taskProgress.showLabel ?? true}
             onChange={(e) => handleSettingChange('taskProgress.showLabel', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.fireworksOnComplete', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={taskProgress.fireworksOnComplete ?? true}
+            onChange={(e) => handleSettingChange('taskProgress.fireworksOnComplete', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>

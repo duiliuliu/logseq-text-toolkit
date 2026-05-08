@@ -55,7 +55,7 @@ const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
     >
       <span 
         className="task-progress-cursor"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}
       >
         {sortedStats.map(stat => {
           const icon = STATUS_ICONS[stat.status] || '●'
