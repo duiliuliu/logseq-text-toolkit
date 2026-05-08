@@ -2,7 +2,7 @@
  * Copyright (c) 2026 duiliuliu
  * License: MIT
  * 
- * 烟花粒子效果组件 - 真实烟花发射效果，定位在目标元素正上方
+ * 烟花粒子效果组件 - 定位在目标元素正上方，不影响其他区域
  */
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
@@ -134,8 +134,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     resizeCanvas()
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       setFireworks(prev => {
         const updated: Firework[] = []
@@ -202,6 +201,8 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
       window.removeEventListener('resize', handleResize)
     }
   }, [fireworks, particles, createExplosion])
+
+  if (!targetRect) return null
 
   return (
     <div
