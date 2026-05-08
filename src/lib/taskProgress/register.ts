@@ -64,6 +64,7 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
     const nestingLevel = settings?.taskProgress?.nestingLevel ?? 1
     const onlyLeaves = settings?.taskProgress?.onlyLeaves ?? false
     const showNestingIndicator = settings?.taskProgress?.showNestingIndicator ?? false
+    const fireworksOnComplete = settings?.taskProgress?.fireworksOnComplete ?? true
 
     const progressData = await calculateTaskProgress(blockId, { nestingLevel, onlyLeaves })
 
@@ -88,7 +89,7 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
       React.createElement(TaskProgressComponent, {
         progressData,
         displayType,
-        config: { ...config, showLabel, labelFormat },
+        config: { ...config, showLabel, labelFormat, fireworksOnComplete },
         lang,
         nestingLevel,
         onlyLeaves,
