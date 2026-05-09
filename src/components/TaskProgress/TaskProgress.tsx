@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from '../../lib/taskProgress/types'
+import { TaskProgress as TaskProgressType, ProgressDisplayType, StatusStat } from './types'
 import MiniCircleProgress from './MiniCircleProgress'
 import DotMatrixProgress from './DotMatrixProgress'
 import StatusCursorProgress from './StatusCursorProgress'

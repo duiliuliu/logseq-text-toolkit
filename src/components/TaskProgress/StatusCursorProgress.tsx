@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import { StatusStat } from '../../lib/taskProgress/types'
+import { StatusStat } from './types'
 import Tooltip from './Tooltip'
 import { SupportedLanguage } from '../../translations/translations'
 

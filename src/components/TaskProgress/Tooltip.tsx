@@ -8,7 +8,7 @@
 
 import React from 'react'
 import { t } from '../../translations/i18n'
-import { StatusStat } from '../../lib/taskProgress/types'
+import { StatusStat } from './types'
 import { SupportedLanguage } from '../../translations/translations'
 
 interface TooltipContent {

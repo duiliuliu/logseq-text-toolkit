@@ -5,7 +5,7 @@
  * 任务查询和统计逻辑
  */
 
-import { TaskProgress, StatusStat, STATUS_COLORS } from './types'
+import { TaskProgress, StatusStat, STATUS_COLORS } from '../../components/TaskProgress/types'
 import { logseqAPI } from '../../logseq'
 import { getSettings } from '../../settings'
 import logger from '../../lib/logger/index';

@@ -3,15 +3,13 @@
  * License: MIT
  * 
  * 插件初始化管理器
- * 负责统一管理所有初始化流程，避免循环依赖
+ * 负责统一管理所有初始化流程
  */
 
 import { getSettings } from './settings/index'
 import logger, { updateLoggerConfig } from './lib/logger/index'
 import { initI18n } from './translations/i18n'
-import { logseqAPI } from './logseq/index'
-import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register'
-import TaskProgress from './components/TaskProgress/TaskProgress'
+import { registerTaskProgress } from './lib/taskProgress/register'
 import { loadAllCSS } from './styles/cssRegistry'
 
 let isInitialized = false
@@ -32,11 +30,6 @@ const configureLogger = () => {
   }
 }
 
-const registerTaskProgressFeature = () => {
-  setTaskProgressComponent(TaskProgress)
-  registerTaskProgress()
-}
-
 export const initializePlugin = async (): Promise<void> => {
   try {
     logger.info('Starting Text Toolkit Plugin initialization...')
@@ -50,7 +43,7 @@ export const initializePlugin = async (): Promise<void> => {
     configureLogger()
     logger.info('Logger configured with settings')
     
-    registerTaskProgressFeature()
+    registerTaskProgress()
     logger.info('Task progress registered successfully')
     
     cleanupFunctions.push(() => {
