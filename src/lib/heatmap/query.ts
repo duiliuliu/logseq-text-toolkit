@@ -133,7 +133,7 @@ export async function queryByTag(tagName: string, viewType: HeatmapViewType, col
     case 'year':
       return generateYearData(currentYear, tagName, colorFormula);
     case 'month':
-      const currentMonth = month !== undefined ? month : new Date().getMonth();
+      const currentMonth = month !== undefined ? month - 1 : new Date().getMonth();
       return generateMonthData(currentYear, currentMonth, tagName, colorFormula);
     case 'week':
       const currentWeek = week || getCurrentWeekNumber();

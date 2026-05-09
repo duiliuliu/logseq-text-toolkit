@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Heatmap } from '../../../components/Heatmap';
-import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, DisplayMode, ColorFormula } from '../../../lib/heatmap/types';
+import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, DisplayMode, ColorFormula, HeatmapQueryParams } from '../../../lib/heatmap/types';
 import { fetchHeatmapData } from '../../../lib/heatmap/query';
+import { logseqAPI, HealthStatus } from '../../services/logseqAPI';
+import { fetchHeatmapDataByTokenQuery } from '../../services/heatmapTokenQuery';
 
 interface HeatmapDemoProps {
   initialConfig?: Partial<HeatmapConfig>;
@@ -10,6 +12,7 @@ interface HeatmapDemoProps {
 const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [dataSource, setDataSource] = useState<'mock' | 'api'>('mock');
   const [config, setConfig] = useState<HeatmapConfig>({
     viewType: 'year',
     displayMode: 'full',
@@ -26,6 +29,41 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
   
   const [data, setData] = useState<HeatmapDataPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [enabled, setEnabled] = useState(false);
+  const [apiToken, setApiToken] = useState('');
+  const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [queryType, setQueryType] = useState<HeatmapQueryParams['type']>('tag');
+  const [queryValue, setQueryValue] = useState('work');
+  const [propertyKey, setPropertyKey] = useState('');
+
+  const checkConnection = useCallback(async () => {
+    try {
+      const status = await logseqAPI.checkHealth();
+      setHealthStatus(status);
+      if (!status.connected) {
+        setError(status.error === 'invalid_token'
+          ? 'Invalid API token. Check your token in Logseq settings.'
+          : 'Cannot connect to Logseq. Make sure the API server is enabled.');
+      } else {
+        setError(null);
+      }
+    } catch (err: any) {
+      setHealthStatus({ connected: false, graphName: null, error: 'connection_refused' });
+      setError(err.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dataSource === 'api' && enabled && apiToken) {
+      logseqAPI.setToken(apiToken);
+      checkConnection();
+    }
+    if (dataSource === 'mock') {
+      setError(null);
+      setHealthStatus(null);
+    }
+  }, [dataSource, enabled, apiToken, checkConnection]);
 
   const loadData = useCallback(async () => {
     setIsLoading(true);
@@ -33,20 +71,49 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
     const month = currentDate.getMonth() + 1;
     const week = getWeekNumber(currentDate);
     
-    const result = await fetchHeatmapData(
-      {
-        type: 'tag',
-        value: 'work',
-        year: year,
-        month: month,
-        week: week,
-      },
-      config.viewType,
-      config.colorFormula
-    );
-    setData(result);
-    setIsLoading(false);
-  }, [currentDate, config.viewType, config.colorFormula]);
+    const queryParams: HeatmapQueryParams = {
+      type: queryType,
+      value: queryValue,
+      propertyKey: queryType === 'property' ? propertyKey : undefined,
+      year,
+      month,
+      week,
+    };
+
+    try {
+      if (dataSource === 'api') {
+        if (!enabled || !apiToken) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+        if (healthStatus && !healthStatus.connected) {
+          setData([]);
+          setIsLoading(false);
+          return;
+        }
+        const result = await fetchHeatmapDataByTokenQuery(
+          queryParams,
+          config.viewType,
+          config.colorFormula,
+          currentDate
+        );
+        setData(result);
+      } else {
+        const result = await fetchHeatmapData(
+          queryParams,
+          config.viewType,
+          config.colorFormula
+        );
+        setData(result);
+      }
+    } catch (err: any) {
+      setError(err.message || String(err));
+      setData([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [currentDate, config.viewType, config.colorFormula, dataSource, enabled, apiToken, healthStatus, queryType, queryValue, propertyKey]);
 
   useEffect(() => {
     loadData();
@@ -126,6 +193,18 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
       {/* 控制面板 */}
       <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
         <div>
+          <label style={{ fontSize: '12px', color: '#666', marginRight: '8px' }}>数据源:</label>
+          <select
+            value={dataSource}
+            onChange={(e) => setDataSource(e.target.value as 'mock' | 'api')}
+            style={{ padding: '4px 8px', fontSize: '12px' }}
+          >
+            <option value="mock">Mock</option>
+            <option value="api">API</option>
+          </select>
+        </div>
+
+        <div>
           <label style={{ fontSize: '12px', color: '#666', marginRight: '8px' }}>视图:</label>
           <select 
             value={config.viewType}
@@ -137,6 +216,37 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
             <option value="week">周度视图</option>
           </select>
         </div>
+
+        <div>
+          <label style={{ fontSize: '12px', color: '#666', marginRight: '8px' }}>查询:</label>
+          <select
+            value={queryType}
+            onChange={(e) => setQueryType(e.target.value as HeatmapQueryParams['type'])}
+            style={{ padding: '4px 8px', fontSize: '12px', marginRight: '8px' }}
+          >
+            <option value="tag">Tag</option>
+            <option value="page">Page</option>
+            <option value="property">Property</option>
+          </select>
+          <input
+            value={queryValue}
+            onChange={(e) => setQueryValue(e.target.value)}
+            placeholder={queryType === 'tag' ? 'e.g. work' : queryType === 'page' ? 'e.g. My Page' : 'e.g. high'}
+            style={{ padding: '4px 8px', fontSize: '12px', width: '140px' }}
+          />
+        </div>
+
+        {queryType === 'property' && (
+          <div>
+            <label style={{ fontSize: '12px', color: '#666', marginRight: '8px' }}>属性名:</label>
+            <input
+              value={propertyKey}
+              onChange={(e) => setPropertyKey(e.target.value)}
+              placeholder="e.g. category"
+              style={{ padding: '4px 8px', fontSize: '12px', width: '140px' }}
+            />
+          </div>
+        )}
         
         <div>
           <label style={{ fontSize: '12px', color: '#666', marginRight: '8px' }}>显示:</label>
@@ -170,6 +280,12 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
           >
             {theme === 'light' ? '🌙' : '☀️'}
           </button>
+          <button
+            onClick={loadData}
+            style={{ padding: '4px 8px', fontSize: '12px', cursor: 'pointer' }}
+          >
+            Reload
+          </button>
           <button 
             onClick={handlePrevPeriod}
             style={{ padding: '4px 8px', fontSize: '12px', cursor: 'pointer' }}
@@ -187,6 +303,77 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
           </button>
         </div>
       </div>
+
+      {dataSource === 'api' && !enabled && (
+        <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '600', color: '#334155' }}>
+              Enable Logseq API Query
+            </label>
+            <button
+              onClick={() => setEnabled(true)}
+              style={{ padding: '6px 16px', backgroundColor: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '500' }}
+            >
+              Enable
+            </button>
+          </div>
+          <div style={{ marginTop: '8px', fontSize: '12px', color: '#64748b' }}>
+            Connect to local Logseq server to query blocks
+          </div>
+        </div>
+      )}
+
+      {dataSource === 'api' && enabled && (
+        <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '600', color: '#334155' }}>
+              Enable Logseq API Query
+            </label>
+            <button
+              onClick={() => {
+                setEnabled(false);
+                setApiToken('');
+                setHealthStatus(null);
+              }}
+              style={{ padding: '6px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '500' }}
+            >
+              Disable
+            </button>
+            {healthStatus?.connected && (
+              <span style={{ fontSize: '12px', color: '#16a34a', marginLeft: 'auto' }}>
+                Connected{healthStatus.graphName ? `: ${healthStatus.graphName}` : ''}
+              </span>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#64748b', marginBottom: '6px' }}>
+                API Token (from Logseq Settings)
+              </label>
+              <input
+                type="password"
+                value={apiToken}
+                onChange={(e) => setApiToken(e.target.value)}
+                placeholder="Enter your Logseq API token"
+                style={{ width: '320px', padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '13px', outline: 'none' }}
+              />
+            </div>
+            <button
+              onClick={checkConnection}
+              style={{ padding: '8px 16px', backgroundColor: '#334155', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '500', alignSelf: 'flex-end' }}
+            >
+              Check
+            </button>
+          </div>
+
+          {error && (
+            <div style={{ marginTop: '10px', fontSize: '12px', color: '#ef4444' }}>
+              {error}
+            </div>
+          )}
+        </div>
+      )}
       
       {/* 热力图组件 */}
       {isLoading ? (

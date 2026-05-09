@@ -99,14 +99,6 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
     console.log('Heatmap cell clicked:', date, value);
   };
 
-  const sizeMap = {
-    small: { width: 6.5, height: 6 },
-    medium: { width: 18, height: 12 },
-    large: { width: 20, height: 22 },
-  };
-
-  const { width, height } = sizeMap[size];
-
   const getBackgroundColor = () => {
     if (isEmpty) return 'transparent';
     if (!isCurrentMonth) return 'rgba(192, 193, 255, 0.1)';
@@ -121,21 +113,10 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   return (
     <>
       <div
-        className={`heatmap-cell ${isEmpty ? 'empty' : ''} ${isHovered ? 'hovered' : ''} ${!isCurrentMonth ? 'other-month' : ''}`}
+        className={`heatmap-cell size-${size} ${isEmpty ? 'empty' : ''} ${isHovered ? 'hovered' : ''} ${!isCurrentMonth ? 'other-month' : ''}`}
         style={{
-          width: `${width}px`,
-          height: `${height}px`,
           backgroundColor: getBackgroundColor(),
-          borderRadius: '2px',
           border: getBorderStyle(),
-          cursor: 'pointer',
-          transition: 'transform 0.1s ease, box-shadow 0.1s ease',
-          transform: isHovered ? 'scale(1.15)' : 'scale(1)',
-          boxShadow: isHovered ? '0 0 8px rgba(192, 193, 255, 0.6)' : 'none',
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'flex-start',
-          padding: '2px',
           opacity: !isEmpty && !isCurrentMonth ? 0.3 : 1,
         }}
         onMouseEnter={handleMouseEnter}
@@ -149,6 +130,9 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
             color: isCurrentMonth ? '#c7c4d7' : '#6b7280',
             fontFamily: 'monospace',
             lineHeight: 1,
+            position: 'absolute',
+            top: '2px',
+            left: '2px',
           }}>
             {dayNumber}
           </span>

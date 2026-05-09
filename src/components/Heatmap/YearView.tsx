@@ -65,22 +65,72 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
   }
   
   const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-  const weekdays = ['MON', '', 'WED', '', 'FRI', '', ''];
+  const weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
   
   const handleCellClick = (date: string) => {
     console.log('Year view cell clicked:', date);
   };
 
+  const handleMonthHeaderClick = (monthIndex: number, startWeek: number, endWeek: number) => {
+    console.log('Year view month header clicked:', { month: months[monthIndex], monthIndex, startWeek, endWeek });
+  };
+
+  const handleWeekdayHeaderClick = (weekdayIndex: number, label: string) => {
+    console.log('Year view weekday header clicked:', { label, weekdayIndex });
+  };
+
+  const getWeekMonthIndex = (week: HeatmapDataPoint[]): number | null => {
+    const first = week.find(d => d.date);
+    if (!first?.date) return null;
+    const monthStr = first.date.split('-')[1];
+    const monthIndex = monthStr ? parseInt(monthStr, 10) - 1 : NaN;
+    if (Number.isNaN(monthIndex) || monthIndex < 0 || monthIndex > 11) return null;
+    return monthIndex;
+  };
+
+  const monthSpans: { monthIndex: number; start: number; end: number }[] = [];
+  let currentMonthIndex: number | null = null;
+  let spanStart = 0;
+  for (let i = 0; i < weeks.length; i++) {
+    const mi = getWeekMonthIndex(weeks[i]);
+    if (mi === null) continue;
+    if (currentMonthIndex === null) {
+      currentMonthIndex = mi;
+      spanStart = i;
+      continue;
+    }
+    if (mi !== currentMonthIndex) {
+      monthSpans.push({ monthIndex: currentMonthIndex, start: spanStart, end: i });
+      currentMonthIndex = mi;
+      spanStart = i;
+    }
+  }
+  if (currentMonthIndex !== null) {
+    monthSpans.push({ monthIndex: currentMonthIndex, start: spanStart, end: weeks.length });
+  }
+
   return (
     <div className="heatmap-year-view">
       {config.displayMode !== 'minimal' && (
-        <div className="month-labels">
-          <span className="weekday-label-offset"></span>
-          {months.map((month) => (
-            <span key={month} className="month-label">
-              {month}
-            </span>
-          ))}
+        <div className="year-month-header">
+          <div
+            className="year-month-header-grid"
+            style={{
+              gridTemplateColumns: `var(--heatmap-year-axis-width) repeat(${weeks.length}, var(--heatmap-cell-small))`,
+            }}
+          >
+            <div className="year-axis-spacer" />
+            {monthSpans.map((span) => (
+              <div
+                key={`${span.monthIndex}-${span.start}`}
+                className="year-month-label"
+                style={{ gridColumn: `${span.start + 2} / ${span.end + 2}` }}
+                onClick={() => handleMonthHeaderClick(span.monthIndex, span.start, span.end)}
+              >
+                {months[span.monthIndex]}
+              </div>
+            ))}
+          </div>
         </div>
       )}
       
@@ -88,8 +138,12 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
         {config.displayMode !== 'minimal' && (
           <div className="weekday-labels">
             {weekdays.map((day, index) => (
-              <div key={index} className="weekday-label-wrapper">
-                {day && <span className="weekday-label">{day}</span>}
+              <div
+                key={day}
+                className="weekday-label-wrapper"
+                onClick={() => handleWeekdayHeaderClick(index, day)}
+              >
+                <span className="weekday-label">{day}</span>
               </div>
             ))}
           </div>

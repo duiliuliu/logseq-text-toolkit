@@ -66,43 +66,56 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
     console.log('Week view cell clicked:', date);
   };
 
+  const handleDayHeaderClick = (date: string, label: string) => {
+    console.log('Week view day header clicked:', { date, label });
+  };
+
+  const handleHourHeaderClick = (label: string, hourIndex: number) => {
+    console.log('Week view hour label clicked:', { label, hourIndex });
+  };
+
   return (
     <div className="heatmap-week-view">
-      {config.displayMode !== 'minimal' && (
-        <div className="week-header">
-          <div className="hour-label-header"></div>
-          <div className="day-header-grid">
+      <div className={`week-grid-container ${config.displayMode === 'minimal' ? 'minimal' : ''}`}>
+        {config.displayMode !== 'minimal' && (
+          <>
+            <div className="hour-label-header" />
             {days.map((day) => (
-              <div key={day.date} className="day-header-item">
+              <div
+                key={day.date}
+                className="day-header-item"
+                onClick={() => handleDayHeaderClick(day.date, day.short)}
+              >
                 <div className="day-name">{day.short}</div>
                 <div className="day-date">{new Date(day.date).getDate()}</div>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-      
-      <div className="week-grid-container">
+          </>
+        )}
+
         {hourBlocksData.map((hourRow, hourIndex) => (
-          <div key={hourIndex} className="hour-row">
+          <React.Fragment key={hourIndex}>
             {config.displayMode !== 'minimal' && (
-              <div className="hour-label-cell">{WEEK_LABELS[hourIndex]}</div>
+              <div
+                className="hour-label-cell"
+                onClick={() => handleHourHeaderClick(WEEK_LABELS[hourIndex], hourIndex)}
+              >
+                {WEEK_LABELS[hourIndex]}
+              </div>
             )}
-            <div className="hour-cells">
-              {hourRow.map((cell, cellIndex) => (
-                <HeatmapCell
-                  key={`${hourIndex}-${cellIndex}`}
-                  date={cell.date}
-                  value={cell.count}
-                  maxValue={maxValue}
-                  color={getColorByValue(cell.count, maxValue, config.colorScheme)}
-                  isEmpty={cell.count === 0}
-                  size="large"
-                  onClick={handleCellClick}
-                />
-              ))}
-            </div>
-          </div>
+            {hourRow.map((cell, cellIndex) => (
+              <HeatmapCell
+                key={`${hourIndex}-${cellIndex}`}
+                date={cell.date}
+                value={cell.count}
+                maxValue={maxValue}
+                color={getColorByValue(cell.count, maxValue, config.colorScheme)}
+                isEmpty={cell.count === 0}
+                size="large"
+                onClick={handleCellClick}
+              />
+            ))}
+          </React.Fragment>
         ))}
       </div>
 

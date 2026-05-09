@@ -67,6 +67,14 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
     console.log('Month view cell clicked:', date);
   };
 
+  const handleDayHeaderClick = (day: string, dayIndex: number) => {
+    console.log('Month view day header clicked:', { day, dayIndex });
+  };
+
+  const handleWeekLabelClick = (weekLabel: string, weekIndex: number) => {
+    console.log('Month view week label clicked:', { weekLabel, weekIndex });
+  };
+
   const weekNumbers = weeks.map((_, i) => `W${String(i + 1).padStart(2, '0')}`);
 
   const getCellData = (week: typeof weeks[0], dayIndex: number) => {
@@ -85,41 +93,46 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
   return (
     <div className="heatmap-month-view">
       <div className="month-view-container">
-        <div className="month-day-header-row">
+        <div className="month-grid">
+          <div className="month-axis-spacer" />
           {DAY_LABELS_EN.map((day, i) => (
-            <div key={i} className="month-day-header">{day}</div>
+            <div
+              key={day}
+              className="month-day-header"
+              onClick={() => handleDayHeaderClick(day, i)}
+            >
+              {day}
+            </div>
           ))}
-        </div>
-        <div className="month-main-layout">
-          <div className="month-week-labels">
-            {weekNumbers.map((week, i) => (
-              <div key={i} className="month-week-label">{week}</div>
-            ))}
-          </div>
-          <div className="month-grid">
-            {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="week-row">
-                {week.map((cell, dayIndex) => {
-                  const cellData = getCellData(week, dayIndex);
-                  return (
-                    <HeatmapCell
-                      key={dayIndex}
-                      date={cellData.date}
-                      value={cellData.count}
-                      maxValue={maxValue}
-                      color={getColorByValue(cellData.count, maxValue, config.colorScheme)}
-                      isEmpty={cellData.isEmpty || cellData.count === 0}
-                      isCurrentMonth={cellData.isCurrentMonth}
-                      size="large"
-                      onClick={handleCellClick}
-                      showDay={cell.day > 0}
-                      dayNumber={cell.day}
-                    />
-                  );
-                })}
+
+          {weeks.map((week, weekIndex) => (
+            <React.Fragment key={weekIndex}>
+              <div
+                className="month-week-label"
+                onClick={() => handleWeekLabelClick(weekNumbers[weekIndex], weekIndex)}
+              >
+                {weekNumbers[weekIndex]}
               </div>
-            ))}
-          </div>
+              {week.map((cell, dayIndex) => {
+                const cellData = getCellData(week, dayIndex);
+                return (
+                  <HeatmapCell
+                    key={`${weekIndex}-${dayIndex}`}
+                    date={cellData.date}
+                    value={cellData.count}
+                    maxValue={maxValue}
+                    color={getColorByValue(cellData.count, maxValue, config.colorScheme)}
+                    isEmpty={cellData.isEmpty || cellData.count === 0}
+                    isCurrentMonth={cellData.isCurrentMonth}
+                    size="large"
+                    onClick={handleCellClick}
+                    showDay={cell.day > 0}
+                    dayNumber={cell.day}
+                  />
+                );
+              })}
+            </React.Fragment>
+          ))}
         </div>
       </div>
     </div>
