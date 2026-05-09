@@ -34,6 +34,10 @@ English Version | [中文版本](README.md)
        <img width="280" alt="taskprogress设置面板" src="https://github.com/user-attachments/assets/73c9eb90-2c4f-4ace-99ea-a9eb510f7bcf" />
       <br>taskprogress设置面板
     </td>
+    <td align="center">
+      <img width="280" alt="heatmap" src="docs/screenshots/heatmap.png" />
+      <br>heatmap
+    </td>
   </tr>
 </table>
 
@@ -58,6 +62,13 @@ English Version | [中文版本](README.md)
 | Status Recognition | Auto-detects todo/doing/done/waiting/in-review etc. |
 | Custom Colors | Customizable status colors |
 | 🎆 Achievement Fireworks | Fireworks when all tasks complete (toggleable) |
+
+### 🔥 heatmap
+| Feature | Description |
+|---------|-------------|
+| Views | year / month / week |
+| Query | tag / page / property |
+| Colors | min/max gradient and two formulas |
 
 ### 🎛️ Toolbar
 - Auto-popup when text is selected
@@ -101,10 +112,21 @@ Select text → Toolbar auto-pops up → Click button
 
 **Specify display style**:
 ```markdown
-{{renderer :taskprogress :Step Progress}}
-{{renderer :taskprogress :mini-circle}}
+{{renderer :taskprogress, step-progress}}
+{{renderer :taskprogress, display=step-progress, size=small}}
 ```
 Supported styles: mini-circle, dot-matrix, status-cursor, progress-capsule, step-progress
+
+### heatmap
+```markdown
+{{renderer :heatmap, month, tag=work}}
+```
+More examples (recommended key=value):
+```markdown
+{{renderer :heatmap, view=year, tag=work}}
+{{renderer :heatmap, view=month, page=My Page}}
+{{renderer :heatmap, view=week, property=category::work, week=20, year=2026}}
+```
 
 ---
 
@@ -171,7 +193,7 @@ Configure toolbar elements via JSON in Settings:
 
 ```bash
 npm install          # Install dependencies
-npm run dev          # Development server (http://localhost:3004)
+npm run dev          # Development server (http://localhost:3000)
 npm run build        # Build
 npm run test         # Test mode
 ```

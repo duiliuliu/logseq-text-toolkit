@@ -16,7 +16,8 @@ import logger from '../logger/index';
 import { generateIndigoGradient } from './colorCalculator';
 import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 
-const MACRO_PREFIX = ':热力图';
+const MACRO_PREFIX = ':heatmap';
+const MACRO_PREFIX_CN = ':热力图';
 const PLUGIN_ID = 'text-toolkit-heatmap';
 
 let HeatmapComponent: React.FC<any> | null = null;
@@ -26,6 +27,7 @@ export function setHeatmapComponent(component: React.FC<any>) {
 }
 
 registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] })
+registerRendererArgModel(MACRO_PREFIX_CN, { positional: ['view'] })
 
 function parseMacroArguments(tokens: string[], argMap: Record<string, string>): {
   viewType: HeatmapViewType;
@@ -248,7 +250,7 @@ export function registerHeatmap(): void {
     const type = split?.type || ''
     const tokens = split?.tokens || []
 
-    if (!type || !type.startsWith(MACRO_PREFIX)) {
+    if (!type || (!type.startsWith(MACRO_PREFIX) && !type.startsWith(MACRO_PREFIX_CN))) {
       return;
     }
 
@@ -259,7 +261,7 @@ export function registerHeatmap(): void {
     '[Text Toolkit] Insert Heatmap',
     async () => {
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}, view=year, tag=工作}}`
+        `{{renderer ${MACRO_PREFIX}, view=year, tag=work}}`
       );
     }
   );
