@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import YearView from './YearView';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
@@ -18,6 +18,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
     : `heatmap-container heatmap-${config.displayMode}`;
   const [viewType, setViewType] = useState<HeatmapViewType>(config.viewType);
   const [currentDate, setCurrentDate] = useState<Date>(config.referenceDate || new Date());
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
 
   const handleViewChange = useCallback((type: HeatmapViewType) => {
     setViewType(type);
@@ -82,6 +84,63 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
     setViewType(config.viewType);
   }, [config.viewType]);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      setContainerWidth(el.clientWidth);
+    });
+    ro.observe(el);
+    setContainerWidth(el.clientWidth);
+    return () => ro.disconnect();
+  }, []);
+
+  const dynamicStyle = useMemo(() => {
+    const el = containerRef.current;
+    if (!el || !containerWidth) return undefined;
+
+    const cs = getComputedStyle(el);
+    const paddingLeft = parseFloat(cs.paddingLeft || '0') || 0;
+    const paddingRight = parseFloat(cs.paddingRight || '0') || 0;
+    const innerWidth = Math.max(containerWidth - paddingLeft - paddingRight, 0);
+
+    const gap = 2;
+
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+    const calcCell = (cols: number, axis: number, min: number, max: number) => {
+      const available = Math.max(innerWidth - axis - gap * Math.max(cols - 1, 0), 0);
+      const raw = cols > 0 ? available / cols : min;
+      return clamp(raw, min, max);
+    };
+
+    const getYearWeeksCount = (year: number) => {
+      const first = new Date(Date.UTC(year, 0, 1));
+      const startDayOfWeek = first.getDay();
+      const startPadding = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
+      const days = ((Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000) | 0;
+      return Math.ceil((startPadding + days) / 7);
+    };
+
+    const yearAxis = config.displayMode !== 'minimal' ? 28 : 0;
+    const monthAxis = 32;
+    const weekAxis = config.displayMode !== 'minimal' ? 44 : 0;
+
+    const yearCols = getYearWeeksCount(currentDate.getFullYear());
+    const monthCols = 7;
+    const weekCols = 7;
+
+    const small = calcCell(yearCols, yearAxis, 6, 16);
+    const large = calcCell(monthCols, monthAxis, 16, 56);
+    const week = calcCell(weekCols, weekAxis, 14, 48);
+
+    return {
+      ['--heatmap-cell-small' as any]: `${small}px`,
+      ['--heatmap-cell-large' as any]: `${large}px`,
+      ['--heatmap-cell-week' as any]: `${week}px`,
+    } as React.CSSProperties;
+  }, [containerWidth, config.displayMode, currentDate]);
+
   const renderView = () => {
     const viewData = filterDataByView(data, viewType, currentDate);
     
@@ -116,7 +175,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
   }, [data]);
 
   return (
-    <div className={containerClass}>
+    <div ref={containerRef} className={containerClass} style={dynamicStyle}>
       {config.displayMode === 'full' && (
         <div className="heatmap-header">
           <div className="view-controls">

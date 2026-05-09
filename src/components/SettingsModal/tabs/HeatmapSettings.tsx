@@ -9,6 +9,7 @@ import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
 import { Settings, HeatmapSettings as HeatmapSettingsType } from '../../../settings/types'
 import { TabComponentProps } from '../index'
+import { generateIndigoGradient } from '../../../lib/heatmap/colorCalculator'
 
 function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const heatmapSettings: HeatmapSettingsType = settings.heatmap || {
@@ -60,6 +61,16 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
     { value: 'weighted', label: t('settings.heatmap.colorFormulaWeighted', language) }
   ]
 
+  const formulaNote = language?.startsWith('zh')
+    ? '简化：当天 blocks 数量（count = blocks.length）。加权：count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1)。'
+    : 'Simple: count = blocks.length. Weighted: count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1).'
+
+  const gradientColors = generateIndigoGradient(
+    heatmapSettings.colorScheme.minColor,
+    heatmapSettings.colorScheme.maxColor,
+    6
+  )
+
   return (
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">
@@ -104,6 +115,9 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           onChange={(value) => handleSettingChange('defaultColorFormula', value)}
         />
       </div>
+      <div style={{ margin: '-8px 0 16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
+        {formulaNote}
+      </div>
 
       <div className="ltt-setting-item">
         <label>{t('settings.heatmap.minColor', language)}</label>
@@ -123,6 +137,31 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           onChange={(e) => handleColorChange('maxColor', e.target.value)}
           style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
         />
+      </div>
+      <div style={{ margin: '-8px 0 16px 0' }}>
+        <div
+          style={{
+            height: '10px',
+            borderRadius: '6px',
+            border: '1px solid var(--ls-border-color-plugin, #ccc)',
+            background: `linear-gradient(90deg, ${heatmapSettings.colorScheme.minColor}, ${heatmapSettings.colorScheme.maxColor})`,
+            marginBottom: '8px',
+          }}
+        />
+        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          {gradientColors.map((c) => (
+            <div
+              key={c}
+              style={{
+                width: '18px',
+                height: '18px',
+                borderRadius: '6px',
+                backgroundColor: c,
+                border: '1px solid rgba(0,0,0,0.06)',
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="ltt-settings-actions">

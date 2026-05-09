@@ -9,9 +9,9 @@
   overflow-x: auto;
   --heatmap-gap: 2px;
   --heatmap-cell-radius: 2px;
-  --heatmap-cell-small: clamp(6px, 0.85vw, 11px);
-  --heatmap-cell-large: clamp(16px, 2.3vw, 22px);
-  --heatmap-cell-week: clamp(14px, 2vw, 20px);
+  --heatmap-cell-small: 10px;
+  --heatmap-cell-large: 24px;
+  --heatmap-cell-week: 22px;
   --heatmap-year-axis-width: 28px;
   --heatmap-month-axis-width: 32px;
   --heatmap-week-axis-width: 44px;
@@ -194,6 +194,7 @@
 .heatmap-content {
   animation: fadeIn 0.3s ease;
   min-width: 0;
+  width: 100%;
 }
 
 @keyframes fadeIn {
@@ -213,7 +214,8 @@
   display: flex;
   flex-direction: column;
   animation: slideIn 0.3s ease;
-  min-width: fit-content;
+  min-width: 0;
+  width: 100%;
 }
 
 @keyframes slideIn {

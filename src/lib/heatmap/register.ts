@@ -14,6 +14,7 @@ import { logseqAPI } from '../../logseq';
 import { getSettingsWithSystem } from '../../settings';
 import logger from '../logger/index';
 import { generateIndigoGradient } from './colorCalculator';
+import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 
 const MACRO_PREFIX = ':热力图';
 const PLUGIN_ID = 'text-toolkit-heatmap';
@@ -24,7 +25,9 @@ export function setHeatmapComponent(component: React.FC<any>) {
   HeatmapComponent = component;
 }
 
-async function parseMacroArguments(args: string[]): Promise<{
+registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] })
+
+function parseMacroArguments(tokens: string[], argMap: Record<string, string>): {
   viewType: HeatmapViewType;
   queryType: 'tag' | 'page' | 'property';
   queryValue: string;
@@ -34,7 +37,7 @@ async function parseMacroArguments(args: string[]): Promise<{
   referenceYear?: number;
   referenceMonth?: number;
   referenceWeek?: number;
-}> {
+} {
   let viewType: HeatmapViewType = 'year';
   let queryType: 'tag' | 'page' | 'property' = 'tag';
   let queryValue = '';
@@ -45,46 +48,90 @@ async function parseMacroArguments(args: string[]): Promise<{
   let referenceMonth: number | undefined;
   let referenceWeek: number | undefined;
 
-  for (const arg of args) {
-    const trimmed = arg.trim();
+  const applyViewType = (raw: string) => {
+    const v = VIEW_TYPE_MAP[raw.trim()] || VIEW_TYPE_MAP[raw.trim().toLowerCase()]
+    if (v) viewType = v
+  }
 
-    if (VIEW_TYPE_MAP[trimmed]) {
-      viewType = VIEW_TYPE_MAP[trimmed];
-    } else if (DISPLAY_MODE_MAP[trimmed]) {
-      displayMode = DISPLAY_MODE_MAP[trimmed];
-    } else if (COLOR_FORMULA_MAP[trimmed]) {
-      colorFormula = COLOR_FORMULA_MAP[trimmed];
-    } else if (trimmed.startsWith(':tag=')) {
-      queryType = 'tag';
-      queryValue = trimmed.substring(5);
-    } else if (trimmed.startsWith(':page=')) {
-      queryType = 'page';
-      queryValue = trimmed.substring(6);
-    } else if (trimmed.startsWith(':property=')) {
-      queryType = 'property';
-      const propertyStr = trimmed.substring(10);
-      const [key, value] = propertyStr.split('::');
-      propertyKey = key;
-      queryValue = value;
-    } else if (trimmed.startsWith(':year=')) {
-      const yearStr = trimmed.substring(6);
-      const year = parseInt(yearStr, 10);
-      if (!isNaN(year) && year >= 1900 && year <= 2100) {
-        referenceYear = year;
-      }
-    } else if (trimmed.startsWith(':month=')) {
-      const monthStr = trimmed.substring(7);
-      const month = parseInt(monthStr, 10);
-      if (!isNaN(month) && month >= 1 && month <= 12) {
-        referenceMonth = month;
-      }
-    } else if (trimmed.startsWith(':week=')) {
-      const weekStr = trimmed.substring(6);
-      const week = parseInt(weekStr, 10);
-      if (!isNaN(week) && week >= 1 && week <= 52) {
-        referenceWeek = week;
-      }
+  const applyDisplayMode = (raw: string) => {
+    const v = DISPLAY_MODE_MAP[raw.trim()] || DISPLAY_MODE_MAP[raw.trim().toLowerCase()]
+    if (v) displayMode = v
+  }
+
+  const applyColorFormula = (raw: string) => {
+    const v = COLOR_FORMULA_MAP[raw.trim()] || COLOR_FORMULA_MAP[raw.trim().toLowerCase()]
+    if (v) colorFormula = v
+  }
+
+  const tryInt = (raw: string) => {
+    const n = parseInt(raw, 10)
+    return Number.isFinite(n) ? n : undefined
+  }
+
+  const directView = argMap.viewType || argMap.view
+  if (directView) applyViewType(directView)
+
+  const directDisplay = argMap.displayMode || argMap.display
+  if (directDisplay) applyDisplayMode(directDisplay)
+
+  const directFormula = argMap.colorFormula || argMap.formula
+  if (directFormula) applyColorFormula(directFormula)
+
+  if (argMap.tag) {
+    queryType = 'tag'
+    queryValue = argMap.tag
+  } else if (argMap.page) {
+    queryType = 'page'
+    queryValue = argMap.page
+  } else if (argMap.property) {
+    queryType = 'property'
+    const [k, v] = argMap.property.split('::')
+    propertyKey = (k || '').trim()
+    queryValue = (v || '').trim()
+  }
+
+  if (argMap.year) referenceYear = tryInt(argMap.year)
+  if (argMap.month) referenceMonth = tryInt(argMap.month)
+  if (argMap.week) referenceWeek = tryInt(argMap.week)
+
+  for (const token of tokens) {
+    const t = token.trim()
+    if (!t) continue
+    if (t.includes('=')) continue
+
+    if (VIEW_TYPE_MAP[t] || VIEW_TYPE_MAP[t.toLowerCase()]) {
+      applyViewType(t)
+      continue
     }
+    if (DISPLAY_MODE_MAP[t] || DISPLAY_MODE_MAP[t.toLowerCase()]) {
+      applyDisplayMode(t)
+      continue
+    }
+    if (COLOR_FORMULA_MAP[t] || COLOR_FORMULA_MAP[t.toLowerCase()]) {
+      applyColorFormula(t)
+      continue
+    }
+    if (t.startsWith('tag=')) {
+      queryType = 'tag'
+      queryValue = t.slice(4)
+      continue
+    }
+    if (t.startsWith('page=')) {
+      queryType = 'page'
+      queryValue = t.slice(5)
+      continue
+    }
+    if (t.startsWith('property=')) {
+      queryType = 'property'
+      const propertyStr = t.slice(9)
+      const [k, v] = propertyStr.split('::')
+      propertyKey = (k || '').trim()
+      queryValue = (v || '').trim()
+      continue
+    }
+    if (t.startsWith('year=')) referenceYear = tryInt(t.slice(5))
+    if (t.startsWith('month=')) referenceMonth = tryInt(t.slice(6))
+    if (t.startsWith('week=')) referenceWeek = tryInt(t.slice(5))
   }
 
   return {
@@ -97,7 +144,7 @@ async function parseMacroArguments(args: string[]): Promise<{
     referenceYear,
     referenceMonth,
     referenceWeek,
-  };
+  }
 }
 
 function getDateOfWeek(week: number, year: number): Date {
@@ -108,19 +155,20 @@ function getDateOfWeek(week: number, year: number): Date {
   return new Date(d.getTime() - diff + (week - 1) * oneWeek);
 }
 
-async function renderHeatmap(slot: string, args: string[]): Promise<boolean> {
+async function renderHeatmap(slot: string, type: string, tokens: string[]): Promise<boolean> {
   try {
-    const { 
-      viewType, 
-      queryType, 
-      queryValue, 
+    const argMap = parseRendererArgs(type, tokens)
+    const {
+      viewType,
+      queryType,
+      queryValue,
       propertyKey,
-      displayMode, 
-      colorFormula, 
-      referenceYear, 
-      referenceMonth, 
-      referenceWeek 
-    } = await parseMacroArguments(args);
+      displayMode,
+      colorFormula,
+      referenceYear,
+      referenceMonth,
+      referenceWeek,
+    } = parseMacroArguments(tokens, argMap)
     
     const settings = await getSettingsWithSystem();
 
@@ -196,20 +244,22 @@ async function renderHeatmap(slot: string, args: string[]): Promise<boolean> {
 
 export function registerHeatmap(): void {
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-    const [type, ...args] = payload.arguments || [];
+    const split = splitRendererArgs(payload.arguments)
+    const type = split?.type || ''
+    const tokens = split?.tokens || []
 
     if (!type || !type.startsWith(MACRO_PREFIX)) {
       return;
     }
 
-    await renderHeatmap(slot, args);
+    await renderHeatmap(slot, type, tokens);
   });
 
   logseqAPI.Editor.registerSlashCommand(
     '[Text Toolkit] Insert Heatmap',
     async () => {
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX} :年度视图 :tag=工作}}`
+        `{{renderer ${MACRO_PREFIX}, view=year, tag=工作}}`
       );
     }
   );

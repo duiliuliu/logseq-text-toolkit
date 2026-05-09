@@ -12,3 +12,10 @@ export {
   hasRoot,
   type RenderOptions
 } from './utils'
+
+export {
+  registerRendererArgModel,
+  splitRendererArgs,
+  parseRendererArgs,
+  type RendererArgModel,
+} from './rendererArgs'
