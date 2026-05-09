@@ -18,7 +18,6 @@ const TaskProgressDemo: React.FC = () => {
   const [nestedProgressData, setNestedProgressData] = useState<TaskProgressType | null>(null)
   const { settings } = useSettingsContext()
   const currentLang = settings?.language || 'zh-CN'
-  const [forceFireworks, setForceFireworks] = useState(false)
 
   const [testNestingLevel, setTestNestingLevel] = useState<number | 'all'>(settings?.taskProgress?.nestingLevel ?? 1)
   const [testOnlyLeaves, setTestOnlyLeaves] = useState(settings?.taskProgress?.onlyLeaves ?? false)
@@ -113,7 +112,6 @@ const TaskProgressDemo: React.FC = () => {
                     fireworksOnComplete: settings?.taskProgress?.fireworksOnComplete ?? true
                   }}
                   lang={currentLang}
-                  forceShowFireworks={forceFireworks}
                 />
               </div>
             ))}
@@ -132,21 +130,6 @@ const TaskProgressDemo: React.FC = () => {
               cursor: 'pointer'
             }}>
             刷新进度
-          </button>
-          <button
-            className="fireworks-btn"
-            onClick={() => setForceFireworks(f => !f)}
-            style={{
-              marginTop: '16px',
-              marginLeft: '8px',
-              padding: '8px 16px',
-              backgroundColor: forceFireworks ? '#ef4444' : '#10b981',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}>
-            {forceFireworks ? '🔴 关闭烟花测试' : '🟢 开启烟花测试'}
           </button>
         </>
       ) : (
@@ -252,7 +235,6 @@ const TaskProgressDemo: React.FC = () => {
                     nestingLevel={testNestingLevel}
                     onlyLeaves={testOnlyLeaves}
                     showNestingIndicator={settings?.taskProgress?.showNestingIndicator ?? false}
-                    forceShowFireworks={forceFireworks}
                   />
                 </div>
               ))}
