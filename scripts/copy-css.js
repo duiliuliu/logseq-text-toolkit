@@ -1,23 +1,37 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
+const cssFiles = require('./css-files')
 
-const cssFiles = [
-  'src/components/SettingsModal/settingsModal.css',
-  'src/components/Modal/modal.css',
-  'src/components/Toolbar/toolbar.css',
-  'src/components/Comment/inlineComment.css',
-  'src/lib/cssRegistry/customsToolbarItems.css',
-  'src/components/TaskProgress/taskProgress.css'
-];
-
-const distDir = 'dist';
+const sourceDir = 'src'
+const distDir = 'dist'
 
 if (!fs.existsSync(distDir)) {
-  fs.mkdirSync(distDir, { recursive: true });
+  fs.mkdirSync(distDir, { recursive: true })
+}
+
+const sourceMap = {
+  'toolbar.css': 'src/components/Toolbar/toolbar.css',
+  'settingsModal.css': 'src/components/SettingsModal/settingsModal.css',
+  'modal.css': 'src/components/Modal/modal.css',
+  'inlineComment.css': 'src/components/Comment/inlineComment.css',
+  'customToolbarItems.css': 'src/components/SelectToolbar/customsToolbarItems.css',
+  'taskProgress.css': 'src/components/TaskProgress/taskProgress.css',
+  'customSelect.css': 'src/components/CustomSelect/customSelect.css',
 }
 
 cssFiles.forEach(file => {
-  const dest = path.join(distDir, path.basename(file));
-  fs.copyFileSync(file, dest);
-  console.log(`Copied: ${file} -> ${dest}`);
-});
+  const sourcePath = sourceMap[file]
+  if (!sourcePath) {
+    console.warn(`Warning: No source mapping for ${file}`)
+    return
+  }
+  const dest = path.join(distDir, file)
+  try {
+    fs.copyFileSync(sourcePath, dest)
+    console.log(`Copied: ${sourcePath} -> ${dest}`)
+  } catch (err) {
+    console.error(`Error copying ${file}:`, err.message)
+  }
+})
+
+console.log(`\nTotal: ${cssFiles.length} CSS files copied`)

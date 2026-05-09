@@ -13,6 +13,7 @@ import SelectToolbar from './components/SelectToolbar'
 import SettingsModal from './components/SettingsModal'
 import { renderComponent } from './lib/render'
 import { registerTaskProgress } from './lib/taskProgress'
+import { registerCSS } from './lib/cssRegistry'
 import logseqAPI from './logseq'
 import { getDocument } from './logseq/utils'
 
@@ -20,7 +21,7 @@ import toolbarCSSRaw from './components/Toolbar/toolbar.css?raw'
 import settingsModalCSSRaw from './components/SettingsModal/settingsModal.css?raw'
 import modalCSSRaw from './components/Modal/modal.css?raw'
 import inlineCommentCSSRaw from './components/Comment/inlineComment.css?raw'
-import customsToolbarItemsCSSRaw from './lib/cssRegistry/customsToolbarItems.css?raw'
+import customsToolbarItemsCSSRaw from './components/SelectToolbar/customsToolbarItems.css?raw'
 import taskProgressCSSRaw from './components/TaskProgress/taskProgress.css?raw'
 import customSelectCSSRaw from './components/CustomSelect/customSelect.css?raw'
 
@@ -59,6 +60,58 @@ export function configureLogger(): void {
 }
 
 /* ============================================================================
+   CSS 注册
+   ============================================================================ */
+
+/**
+ * 注册所有 CSS 样式
+ * 使用 both 类型：优先加载外部 CSS（用户自定义），降级使用内置 CSS
+ */
+export function registerAllCSS(): void {
+  registerCSS('toolbar', {
+    type: 'both',
+    inlineContent: toolbarCSSRaw,
+    externalPath: 'toolbar.css'
+  })
+
+  registerCSS('settingsModal', {
+    type: 'both',
+    inlineContent: settingsModalCSSRaw,
+    externalPath: 'settingsModal.css'
+  })
+
+  registerCSS('modal', {
+    type: 'both',
+    inlineContent: modalCSSRaw,
+    externalPath: 'modal.css'
+  })
+
+  registerCSS('inlineComment', {
+    type: 'both',
+    inlineContent: inlineCommentCSSRaw,
+    externalPath: 'inlineComment.css'
+  })
+
+  registerCSS('customToolbarItems', {
+    type: 'both',
+    inlineContent: customsToolbarItemsCSSRaw,
+    externalPath: 'customToolbarItems.css'
+  })
+
+  registerCSS('taskProgress', {
+    type: 'both',
+    inlineContent: taskProgressCSSRaw,
+    externalPath: 'taskProgress.css'
+  })
+
+  registerCSS('customSelect', {
+    type: 'both',
+    inlineContent: customSelectCSSRaw,
+    externalPath: 'customSelect.css'
+  })
+}
+
+/* ============================================================================
    SettingsModal 组件
    ============================================================================ */
 
@@ -93,27 +146,6 @@ export async function initSettingsModal(): Promise<void> {
     template: `<div id="${ID.SETTINGS}"></div>`,
   })
   setTimeout(renderSettingsModal, 1)
-}
-
-/**
- * 注册设置弹窗样式
- */
-export function registerSettingsModalCSS(): void {
-  logseqAPI.provideStyle(settingsModalCSSRaw)
-}
-
-/**
- * 注册通用弹窗样式
- */
-export function registerModalCSS(): void {
-  logseqAPI.provideStyle(modalCSSRaw)
-}
-
-/**
- * 注册自定义选择器样式
- */
-export function registerCustomSelectCSS(): void {
-  logseqAPI.provideStyle(customSelectCSSRaw)
 }
 
 /**
@@ -170,20 +202,6 @@ function renderSelectToolbar(): void {
 }
 
 /**
- * 注册工具栏样式
- */
-export function registerToolbarCSS(): void {
-  logseqAPI.provideStyle(toolbarCSSRaw)
-}
-
-/**
- * 注册自定义工具栏样式
- */
-export function registerCustomToolbarCSS(): void {
-  logseqAPI.provideStyle(customsToolbarItemsCSSRaw)
-}
-
-/**
  * SelectToolbar 初始化
  * 仅在 toolbar 设置启用时渲染
  */
@@ -212,14 +230,6 @@ function renderCommentApp(): void {
   renderComponent(container, CommentApp)
 }
 
-
-/**
- * 注册评论功能样式
- */
-export function registerCommentCSS(): void {
-  logseqAPI.provideStyle(inlineCommentCSSRaw)
-}
-
 /**
  * CommentApp 初始化
  */
@@ -235,12 +245,6 @@ export async function initCommentApp(): Promise<void> {
 /* ============================================================================
    TaskProgress 宏注册
    ============================================================================ */
-/**
- * 注册任务进度样式
- */
-export function registerTaskProgressCSS(): void {
-  logseqAPI.provideStyle(taskProgressCSSRaw)
-}
 
 /**
  * TaskProgress 初始化

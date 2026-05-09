@@ -11,6 +11,7 @@ import { renderComponent, clearAllRoots } from './lib/render'
 import TestApp from './test/testAPP'
 import logger from './lib/logger'
 import { initI18n } from './translations/i18n'
+import { loadAllCSS } from './lib/cssRegistry'
 import {
   configureLogger,
   initCommentApp,
@@ -19,13 +20,7 @@ import {
   initTaskProgress,
   registerLogseqButton,
   settingToggle,
-  registerCommentCSS,
-  registerCustomToolbarCSS,
-  registerModalCSS,
-  registerSettingsModalCSS,
-  registerTaskProgressCSS,
-  registerToolbarCSS,
-  registerCustomSelectCSS,
+  registerAllCSS,
 } from './initializer'
 
 const cleanupFunctions: Array<() => void> = []
@@ -55,19 +50,6 @@ export function cleanup(): void {
    ============================================================================ */
 
 /**
- * 注册所有 CSS 样式
- */
-function registerAllCSS(): void {
-  registerToolbarCSS()
-  registerSettingsModalCSS()
-  registerModalCSS()
-  registerCommentCSS()
-  registerCustomToolbarCSS()
-  registerTaskProgressCSS()
-  registerCustomSelectCSS()
-}
-
-/**
  * 初始化插件基础资源
  * - 注册 CSS 样式
  * - 初始化国际化
@@ -78,6 +60,7 @@ export async function initializePlugin(): Promise<void> {
     logger.info('[initializePlugin] Starting plugin initialization...')
 
     registerAllCSS()
+    await loadAllCSS()
     logger.info('[initializePlugin] CSS registered')
 
     await initI18n()
