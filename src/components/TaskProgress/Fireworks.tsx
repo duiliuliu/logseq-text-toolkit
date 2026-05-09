@@ -1,11 +1,12 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
- * 烟花粒子效果组件 - 定位在目标元素正上方，不影响其他区域
+ *
+ * 烟花粒子效果组件 - 使用 Portal 渲染到 document.body，突破 Shadow DOM 限制
  */
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
+import ReactDOM from 'react-dom'
 
 interface Firework {
   id: number
@@ -39,14 +40,33 @@ interface FireworksProps {
   onComplete?: () => void
 }
 
-const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
+let portalRoot: HTMLDivElement | null = null
+
+function getPortalRoot(): HTMLDivElement {
+  if (!portalRoot) {
+    portalRoot = document.createElement('div')
+    portalRoot.id = 'fireworks-portal-root'
+    portalRoot.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2147483647;'
+    document.body.appendChild(portalRoot)
+  }
+  return portalRoot
+}
+
+function removePortalRoot(): void {
+  if (portalRoot) {
+    document.body.removeChild(portalRoot)
+    portalRoot = null
+  }
+}
+
+const FireworksCanvas: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
   const [fireworks, setFireworks] = useState<Firework[]>([])
   const [particles, setParticles] = useState<Particle[]>([])
-  const animationRef = useRef<number>()
+  const animationRef = useRef<number>(0)
   const fireworkIdRef = useRef(0)
   const particleIdRef = useRef(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const launchedRef = useRef(false)
 
   const COLORS = [
     { h: 0 }, { h: 30 }, { h: 60 },
@@ -97,7 +117,8 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
   }, [])
 
   const launchMultiple = useCallback(() => {
-    if (!targetRect) return
+    if (!targetRect || launchedRef.current) return
+    launchedRef.current = true
 
     const centerX = targetRect.left + targetRect.width / 2
     const topY = targetRect.top
@@ -124,21 +145,18 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     const canvas = canvasRef.current
     if (!canvas) return
 
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-    resizeCanvas()
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       setFireworks(prev => {
         const updated: Firework[] = []
-        
+
         for (let i = 0; i < prev.length; i++) {
           const fw = prev[i]
           fw.speed *= fw.acceleration
@@ -147,7 +165,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
           const vy = Math.sin(fw.angle) * fw.speed
 
           const distToTarget = Math.hypot(fw.targetX - fw.x, fw.targetY - fw.y)
-          
+
           if (distToTarget < 8) {
             createExplosion(fw.targetX, fw.targetY, fw.hue)
           } else {
@@ -156,7 +174,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
             updated.push(fw)
           }
         }
-        
+
         return updated
       })
 
@@ -191,34 +209,30 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
 
     animationRef.current = requestAnimationFrame(animate)
 
-    const handleResize = () => resizeCanvas()
-    window.addEventListener('resize', handleResize)
-
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
-      window.removeEventListener('resize', handleResize)
     }
   }, [fireworks, particles, createExplosion])
 
-  if (!targetRect) return null
+  useEffect(() => {
+    return () => {
+      removePortalRoot()
+    }
+  }, [])
 
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 9999,
-      }}
-    >
-      <canvas ref={canvasRef} style={{ display: 'block' }} />
-    </div>
+  return <canvas ref={canvasRef} style={{ display: 'block' }} />
+}
+
+const Fireworks: React.FC<FireworksProps> = (props) => {
+  if (!props.targetRect) return null
+
+  const portalRoot = getPortalRoot()
+
+  return ReactDOM.createPortal(
+    <FireworksCanvas {...props} />,
+    portalRoot
   )
 }
 
