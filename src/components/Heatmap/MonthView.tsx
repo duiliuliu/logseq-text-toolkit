@@ -7,11 +7,29 @@ interface MonthViewProps {
   data: HeatmapDataPoint[];
   config: HeatmapConfig;
   currentDate: Date;
+  onCellClick?: (date: string) => void;
 }
 
 const DAY_LABELS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
+const getWeekNumber = (date: Date): number => {
+  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+  const day = firstDayOfYear.getDay() || 7; // 周一为1
+  const adjustedStart = new Date(firstDayOfYear);
+  adjustedStart.setDate(firstDayOfYear.getDate() - day + 1);
+  
+  if (adjustedStart > date) {
+    adjustedStart.setFullYear(adjustedStart.getFullYear() - 1);
+    const newDay = adjustedStart.getDay() || 7;
+    adjustedStart.setDate(adjustedStart.getDate() - newDay + 1);
+  }
+  
+  const diff = date.getTime() - adjustedStart.getTime();
+  const weekNumber = Math.floor(diff / 604800000) + 1;
+  return weekNumber;
+};
+
+const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCellClick }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   
@@ -63,19 +81,18 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
     weeks.push(currentWeek);
   }
   
-  const handleCellClick = (date: string) => {
-    console.log('Month view cell clicked:', date);
-  };
-
-  const handleDayHeaderClick = (day: string, dayIndex: number) => {
-    console.log('Month view day header clicked:', { day, dayIndex });
-  };
-
-  const handleWeekLabelClick = (weekLabel: string, weekIndex: number) => {
-    console.log('Month view week label clicked:', { weekLabel, weekIndex });
-  };
-
-  const weekNumbers = weeks.map((_, i) => `W${String(i + 1).padStart(2, '0')}`);
+  // 计算正确的周数
+  const weekNumbers: string[] = [];
+  weeks.forEach((week) => {
+    // 找到当前周中第一个非空的日期
+    const firstValidDay = week.find(day => day.date);
+    if (firstValidDay) {
+      const weekNum = getWeekNumber(new Date(firstValidDay.date));
+      weekNumbers.push(`W${String(weekNum).padStart(2, '0')}`);
+    } else {
+      weekNumbers.push('');
+    }
+  });
 
   const getCellData = (week: typeof weeks[0], dayIndex: number) => {
     const cell = week[dayIndex];
@@ -90,6 +107,12 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
     };
   };
 
+  const handleCellClick = (date: string) => {
+    if (date && onCellClick) {
+      onCellClick(date);
+    }
+  };
+
   return (
     <div className="heatmap-month-view">
       <div className="month-view-container">
@@ -99,7 +122,6 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
             <div
               key={day}
               className="month-day-header"
-              onClick={() => handleDayHeaderClick(day, i)}
             >
               {day}
             </div>
@@ -109,7 +131,6 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
             <React.Fragment key={weekIndex}>
               <div
                 className="month-week-label"
-                onClick={() => handleWeekLabelClick(weekNumbers[weekIndex], weekIndex)}
               >
                 {weekNumbers[weekIndex]}
               </div>

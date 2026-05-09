@@ -10,5 +10,6 @@ module.exports = [
   "inlineComment.css",
   "customToolbarItems.css",
   "taskProgress.css",
-  "customSelect.css"
+  "customSelect.css",
+  "heatmap.css"
 ]

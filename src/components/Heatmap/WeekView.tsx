@@ -7,11 +7,45 @@ interface WeekViewProps {
   data: HeatmapDataPoint[];
   config: HeatmapConfig;
   currentDate: Date;
+  onCellClick?: (date: string) => void;
 }
 
 const WEEK_LABELS = ['00-04', '04-08', '08-12', '12-16', '16-20', '20-24'];
 
-const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
+const parseTimeFromData = (dateValue: any): Date => {
+  // 处理多种日期格式：时间戳数字、日期字符串、或包含 'created-at' 字段的对象
+  try {
+    let timestamp: number;
+    
+    // 如果是对象且有 'created-at' 字段
+    if (typeof dateValue === 'object' && dateValue !== null && 'created-at' in dateValue) {
+      timestamp = dateValue['created-at'];
+    } 
+    // 如果是数字
+    else if (typeof dateValue === 'number') {
+      timestamp = dateValue;
+    } 
+    // 如果是字符串，尝试解析为数字或日期
+    else if (typeof dateValue === 'string') {
+      const num = Number(dateValue);
+      if (!isNaN(num)) {
+        timestamp = num;
+      } else {
+        return new Date(dateValue);
+      }
+    } 
+    // 其他情况，返回当前时间
+    else {
+      return new Date();
+    }
+    
+    return new Date(timestamp);
+  } catch {
+    return new Date();
+  }
+};
+
+const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellClick }) => {
   const dayOfWeek = currentDate.getDay();
   const monday = new Date(currentDate);
   monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
@@ -27,17 +61,39 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
     });
   }
 
-  const dataMap = new Map<string, HeatmapDataPoint[]>();
-  data.forEach(d => {
-    if (d.date) {
-      const dateKey = d.date.split('T')[0];
-      if (!dataMap.has(dateKey)) {
-        dataMap.set(dateKey, []);
+  // 处理数据，支持多种数据格式
+  const allBlocks: any[] = [];
+  
+  // 扁平化处理嵌套数组数据结构
+  const flattenData = (items: any[]): any[] => {
+    const result: any[] = [];
+    items.forEach(item => {
+      if (Array.isArray(item)) {
+        result.push(...flattenData(item));
+      } else {
+        result.push(item);
       }
-      dataMap.get(dateKey)!.push(d);
+    });
+    return result;
+  };
+  
+  // 提取所有块数据
+  const flatData = flattenData(data);
+  
+  // 构建按日期分组的块数据
+  const blocksByDate = new Map<string, any[]>();
+  flatData.forEach(block => {
+    if (block && (block['created-at'] || block.date)) {
+      const blockDate = parseTimeFromData(block);
+      const dateKey = blockDate.toISOString().split('T')[0];
+      if (!blocksByDate.has(dateKey)) {
+        blocksByDate.set(dateKey, []);
+      }
+      blocksByDate.get(dateKey)!.push(block);
     }
   });
 
+  // 初始化小时块数据
   const hourBlocksData: { date: string; count: number }[][] = [];
   for (let h = 0; h < 6; h++) {
     hourBlocksData.push([]);
@@ -46,15 +102,19 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
     }
   }
   
+  // 填充小时块数据
   days.forEach((dayInfo, dayIndex) => {
-    const dayData = dataMap.get(dayInfo.date) || [];
-    dayData.forEach(d => {
-      if (d.date) {
-        const hour = new Date(d.date).getHours();
+    const dayBlocks = blocksByDate.get(dayInfo.date) || [];
+    dayBlocks.forEach(block => {
+      try {
+        const blockDate = parseTimeFromData(block);
+        const hour = blockDate.getHours();
         const hourIndex = Math.floor(hour / 4);
         if (hourIndex >= 0 && hourIndex < 6) {
-          hourBlocksData[hourIndex][dayIndex].count += d.count;
+          hourBlocksData[hourIndex][dayIndex].count += 1;
         }
+      } catch {
+        // 忽略解析错误
       }
     });
   });
@@ -63,15 +123,9 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
   const maxValue = Math.max(...allCounts, 1);
 
   const handleCellClick = (date: string) => {
-    console.log('Week view cell clicked:', date);
-  };
-
-  const handleDayHeaderClick = (date: string, label: string) => {
-    console.log('Week view day header clicked:', { date, label });
-  };
-
-  const handleHourHeaderClick = (label: string, hourIndex: number) => {
-    console.log('Week view hour label clicked:', { label, hourIndex });
+    if (date && onCellClick) {
+      onCellClick(date);
+    }
   };
 
   return (
@@ -84,7 +138,6 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
               <div
                 key={day.date}
                 className="day-header-item"
-                onClick={() => handleDayHeaderClick(day.date, day.short)}
               >
                 <div className="day-name">{day.short}</div>
                 <div className="day-date">{new Date(day.date).getDate()}</div>
@@ -98,7 +151,6 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
             {config.displayMode !== 'minimal' && (
               <div
                 className="hour-label-cell"
-                onClick={() => handleHourHeaderClick(WEEK_LABELS[hourIndex], hourIndex)}
               >
                 {WEEK_LABELS[hourIndex]}
               </div>
@@ -124,11 +176,11 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate }) => {
           <h4>Week Activities</h4>
           <ul className="activity-list">
             {days.filter(day => {
-              const dayData = dataMap.get(day.date) || [];
-              return dayData.reduce((sum, d) => sum + d.count, 0) > 0;
+              const dayBlocks = blocksByDate.get(day.date) || [];
+              return dayBlocks.length > 0;
             }).map(day => {
-              const dayData = dataMap.get(day.date) || [];
-              const totalCount = dayData.reduce((sum, d) => sum + d.count, 0);
+              const dayBlocks = blocksByDate.get(day.date) || [];
+              const totalCount = dayBlocks.length;
               return (
                 <li key={day.date} className="activity-item">
                   <span className="activity-date">

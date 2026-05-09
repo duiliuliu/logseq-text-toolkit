@@ -18,10 +18,11 @@ import {
   initSelectToolbar,
   initSettingsModal,
   initTaskProgress,
+  initHeatmap,
   registerLogseqButton,
   settingToggle,
   registerAllCSS,
-} from './initializer'
+} from './initializer';
 
 const cleanupFunctions: Array<() => void> = []
 
@@ -93,6 +94,9 @@ export async function initializeComponent(): Promise<void> {
 
   await initTaskProgress()
   logger.info('[initializeComponent] TaskProgress ready')
+
+  await initHeatmap()
+  logger.info('[initializeComponent] Heatmap ready')
 
   await initSettingsModal()
   registerLogseqButton()

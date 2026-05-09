@@ -4,6 +4,7 @@ import MonthView from './MonthView';
 import WeekView from './WeekView';
 import Statistics from './Statistics';
 import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, INDIGO_COLORS } from '../../lib/heatmap/types';
+import { logseqAPI } from '../../logseq';
 import './heatmap.css';
 
 interface HeatmapProps {
@@ -26,10 +27,19 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
   }, []);
 
   const getWeekNumber = useCallback((date: Date): number => {
-    const startOfYear = new Date(date.getFullYear(), 0, 1);
-    const diff = date.getTime() - startOfYear.getTime();
-    const oneWeek = 604800000;
-    return Math.ceil(diff / oneWeek);
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const day = firstDayOfYear.getDay() || 7; // 周一为1
+    const adjustedStart = new Date(firstDayOfYear);
+    adjustedStart.setDate(firstDayOfYear.getDate() - day + 1);
+    
+    if (adjustedStart > date) {
+      adjustedStart.setFullYear(adjustedStart.getFullYear() - 1);
+      adjustedStart.setDate(adjustedStart.getDate() - day + 1);
+    }
+    
+    const diff = date.getTime() - adjustedStart.getTime();
+    const weekNumber = Math.floor(diff / 604800000) + 1;
+    return weekNumber;
   }, []);
 
   const getViewTitle = useCallback((): string => {
@@ -141,16 +151,28 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
     } as React.CSSProperties;
   }, [containerWidth, config.displayMode, currentDate]);
 
+  const handleCellClick = useCallback(async (date: string) => {
+    if (date) {
+      try {
+        logseqAPI.App.pushState(`page`, {
+          date: date.replace(/-/g, '/'),
+        });
+      } catch (err) {
+        console.error('Failed to navigate to date:', err);
+      }
+    }
+  }, []);
+
   const renderView = () => {
     const viewData = filterDataByView(data, viewType, currentDate);
     
     switch (viewType) {
       case 'year':
-        return <YearView data={viewData} config={config} currentDate={currentDate} />;
+        return <YearView data={viewData} config={config} currentDate={currentDate} onCellClick={handleCellClick} />;
       case 'month':
-        return <MonthView data={viewData} config={config} currentDate={currentDate} />;
+        return <MonthView data={viewData} config={config} currentDate={currentDate} onCellClick={handleCellClick} />;
       case 'week':
-        return <WeekView data={viewData} config={config} currentDate={currentDate} />;
+        return <WeekView data={viewData} config={config} currentDate={currentDate} onCellClick={handleCellClick} />;
       default:
         return null;
     }

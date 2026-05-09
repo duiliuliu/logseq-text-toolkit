@@ -7,9 +7,10 @@ interface YearViewProps {
   data: HeatmapDataPoint[];
   config: HeatmapConfig;
   currentDate: Date;
+  onCellClick?: (date: string) => void;
 }
 
-const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
+const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellClick }) => {
   const year = currentDate.getFullYear();
   
   const dataMap = new Map<string, HeatmapDataPoint>();
@@ -67,18 +68,6 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
   const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   const weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
   
-  const handleCellClick = (date: string) => {
-    console.log('Year view cell clicked:', date);
-  };
-
-  const handleMonthHeaderClick = (monthIndex: number, startWeek: number, endWeek: number) => {
-    console.log('Year view month header clicked:', { month: months[monthIndex], monthIndex, startWeek, endWeek });
-  };
-
-  const handleWeekdayHeaderClick = (weekdayIndex: number, label: string) => {
-    console.log('Year view weekday header clicked:', { label, weekdayIndex });
-  };
-
   const getWeekMonthIndex = (week: HeatmapDataPoint[]): number | null => {
     const first = week.find(d => d.date);
     if (!first?.date) return null;
@@ -109,6 +98,12 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
     monthSpans.push({ monthIndex: currentMonthIndex, start: spanStart, end: weeks.length });
   }
 
+  const handleCellClick = (date: string) => {
+    if (date && onCellClick) {
+      onCellClick(date);
+    }
+  };
+
   return (
     <div className="heatmap-year-view">
       {config.displayMode !== 'minimal' && (
@@ -125,7 +120,6 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
                 key={`${span.monthIndex}-${span.start}`}
                 className="year-month-label"
                 style={{ gridColumn: `${span.start + 2} / ${span.end + 2}` }}
-                onClick={() => handleMonthHeaderClick(span.monthIndex, span.start, span.end)}
               >
                 {months[span.monthIndex]}
               </div>
@@ -138,11 +132,7 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate }) => {
         {config.displayMode !== 'minimal' && (
           <div className="weekday-labels">
             {weekdays.map((day, index) => (
-              <div
-                key={day}
-                className="weekday-label-wrapper"
-                onClick={() => handleWeekdayHeaderClick(index, day)}
-              >
+              <div key={day} className="weekday-label-wrapper">
                 <span className="weekday-label">{day}</span>
               </div>
             ))}
