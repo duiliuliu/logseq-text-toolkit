@@ -25,6 +25,7 @@ import {
   registerSettingsModalCSS,
   registerTaskProgressCSS,
   registerToolbarCSS,
+  registerCustomSelectCSS,
 } from './initializer'
 
 const cleanupFunctions: Array<() => void> = []
@@ -63,6 +64,7 @@ function registerAllCSS(): void {
   registerCommentCSS()
   registerCustomToolbarCSS()
   registerTaskProgressCSS()
+  registerCustomSelectCSS()
 }
 
 /**

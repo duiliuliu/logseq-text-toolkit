@@ -22,6 +22,7 @@ import modalCSSRaw from './components/Modal/modal.css?raw'
 import inlineCommentCSSRaw from './components/Comment/inlineComment.css?raw'
 import customsToolbarItemsCSSRaw from './lib/cssRegistry/customsToolbarItems.css?raw'
 import taskProgressCSSRaw from './components/TaskProgress/taskProgress.css?raw'
+import customSelectCSSRaw from './components/CustomSelect/customSelect.css?raw'
 
 /* ============================================================================
    常量定义
@@ -106,6 +107,13 @@ export function registerSettingsModalCSS(): void {
  */
 export function registerModalCSS(): void {
   logseqAPI.provideStyle(modalCSSRaw)
+}
+
+/**
+ * 注册自定义选择器样式
+ */
+export function registerCustomSelectCSS(): void {
+  logseqAPI.provideStyle(customSelectCSSRaw)
 }
 
 /**
