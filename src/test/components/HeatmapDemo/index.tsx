@@ -10,9 +10,10 @@ interface HeatmapDemoProps {
 }
 
 const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  // 设置初始日期为测试数据的日期范围
+  const [currentDate, setCurrentDate] = useState(new Date(2026, 4, 8));
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [dataSource, setDataSource] = useState<'mock' | 'api'>('mock');
+  const [dataSource, setDataSource] = useState<'mock' | 'api' | 'test'>('mock');
   const [config, setConfig] = useState<HeatmapConfig>({
     viewType: 'year',
     displayMode: 'full',
@@ -81,7 +82,154 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
     };
 
     try {
-      if (dataSource === 'api') {
+      if (dataSource === 'test') {
+        // 使用用户提供的测试数据
+        const testData = [
+          [
+            {
+              "created-at": 1778362343035,
+              "page": {"id": 198},
+              "tags": [{"id": 158}],
+              "title": "节点 3.3.2. 第六层 -叶子",
+              "updated-at": 1778362352708,
+              "uuid": "69ffa7e7-0932-4273-a61a-5ef7454eda57",
+              "content": "节点 3.3.2. 第六层 -叶子",
+              "full-title": "节点 3.3.2. 第六层 -叶子"
+            }
+          ],
+          [
+            {
+              "created-at": 1778362343035,
+              "page": {"id": 198},
+              "tags": [{"id": 158}],
+              "title": "节点3.3",
+              "updated-at": 1778362347872,
+              "uuid": "69ffa7e7-734f-40f6-a25f-59a61838ebae",
+              "content": "节点3.3",
+              "full-title": "节点3.3"
+            }
+          ],
+          [
+            {
+              "created-at": 1778362304572,
+              "page": {"id": 198},
+              "tags": [{"id": 158}],
+              "title": "dasdasd",
+              "updated-at": 1778362319822,
+              "uuid": "69ffa7c0-1a0e-4124-b0f7-0649ad4cf901",
+              "content": "dasdasd",
+              "full-title": "dasdasd"
+            }
+          ],
+          [
+            {
+              "created-at": 1778039021077,
+              "page": {"id": 199},
+              "tags": [{"id": 158}],
+              "title": "节点3.3",
+              "updated-at": 1778042580334,
+              "uuid": "69fab8ed-6fe6-44f6-ae61-8c4d0c458ab7",
+              "content": "节点3.3",
+              "full-title": "节点3.3"
+            }
+          ],
+          [
+            {
+              "created-at": 1778039018302,
+              "page": {"id": 199},
+              "tags": [{"id": 158}],
+              "title": "节点3.1-叶子",
+              "updated-at": 1778049677974,
+              "uuid": "69fab8ea-aca1-41bd-b2fe-adafd3a9a71c",
+              "content": "节点3.1-叶子",
+              "full-title": "节点3.1-叶子"
+            }
+          ],
+          [
+            {
+              "created-at": 1778039010024,
+              "page": {"id": 199},
+              "tags": [{"id": 158}],
+              "title": "节点3",
+              "updated-at": 1778042573573,
+              "uuid": "69fab8e2-221d-4ee3-9dac-d8a672f87b43",
+              "content": "节点3",
+              "full-title": "节点3"
+            }
+          ],
+          [
+            {
+              "created-at": 1778039004891,
+              "page": {"id": 199},
+              "tags": [{"id": 158}],
+              "title": "节点1-叶子",
+              "updated-at": 1778043205863,
+              "uuid": "69fab8dc-b4f3-4e37-845c-2e803b169e0b",
+              "content": "节点1-叶子",
+              "full-title": "节点1-叶子"
+            }
+          ]
+        ];
+        
+        // 扁平化数据并转换为 HeatmapDataPoint 格式
+        const flattenData = (items: any[]): any[] => {
+          const result: any[] = [];
+          items.forEach(item => {
+            if (Array.isArray(item)) {
+              result.push(...flattenData(item));
+            } else {
+              result.push(item);
+            }
+          });
+          return result;
+        };
+        
+        const flatBlocks = flattenData(testData);
+        
+        // 计算周范围，使用参考日期
+        const dayOfWeek = currentDate.getDay();
+        const monday = new Date(currentDate);
+        monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+        monday.setHours(0, 0, 0, 0);
+        
+        const pad2 = (n: number) => String(n).padStart(2, '0');
+        const formatLocalDateTimeNoTZ = (d: Date) =>
+          `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+        
+        // 构建分组
+        const buckets: Record<string, any[]> = {};
+        for (const b of flatBlocks) {
+          const createdAt = b['created-at'];
+          if (!createdAt) continue;
+          const dt = new Date(createdAt);
+          const dayIndex = Math.floor((dt.getTime() - monday.getTime()) / 86400000);
+          if (dayIndex < 0 || dayIndex >= 7) continue;
+          const hourIndex = Math.floor(dt.getHours() / 4);
+          if (hourIndex < 0 || hourIndex >= 6) continue;
+          const key = `${dayIndex}-${hourIndex}`;
+          if (!buckets[key]) buckets[key] = [];
+          buckets[key].push(b);
+        }
+        
+        // 生成数据
+        const data: HeatmapDataPoint[] = [];
+        for (let hourIndex = 0; hourIndex < 6; hourIndex++) {
+          for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+            const d = new Date(monday);
+            d.setDate(monday.getDate() + dayIndex);
+            d.setHours(hourIndex * 4, 0, 0, 0);
+            const key = `${dayIndex}-${hourIndex}`;
+            const cellBlocks = buckets[key] || [];
+            const count = cellBlocks.length;
+            data.push({
+              date: formatLocalDateTimeNoTZ(d),
+              count,
+              blocks: cellBlocks as BlockEntity[],
+            });
+          }
+        }
+        setData(data);
+      } else if (dataSource === 'api') {
         if (!enabled || !apiToken) {
           setData([]);
           setIsLoading(false);
@@ -196,11 +344,12 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
           <label style={{ fontSize: '12px', color: '#666', marginRight: '8px' }}>数据源:</label>
           <select
             value={dataSource}
-            onChange={(e) => setDataSource(e.target.value as 'mock' | 'api')}
+            onChange={(e) => setDataSource(e.target.value as 'mock' | 'api' | 'test')}
             style={{ padding: '4px 8px', fontSize: '12px' }}
           >
             <option value="mock">Mock</option>
             <option value="api">API</option>
+            <option value="test">Test</option>
           </select>
         </div>
 

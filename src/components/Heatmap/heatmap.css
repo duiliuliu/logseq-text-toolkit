@@ -475,14 +475,17 @@
 }
 
 .heatmap-cell:hover {
-  transform: scale(1.15);
+  transform: scale(1.1);
   z-index: 10;
   box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
 }
 
 .dark .heatmap-cell:hover,
 .heatmap-container.dark .heatmap-cell:hover {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  outline-color: rgba(96, 165, 250, 0.5);
 }
 
 .heatmap-cell.empty {

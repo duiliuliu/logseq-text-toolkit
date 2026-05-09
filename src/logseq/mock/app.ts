@@ -147,6 +147,18 @@ const App: any = {
     console.log('Trigger event:', event, args);
     const listeners = eventListeners.get(event);
     listeners?.forEach(callback => callback(...args));
+  },
+  
+  pushState: (page: string, params: any) => {
+    console.log('Mock App.pushState:', page, params);
+    const message = params.date ? `跳转到日期页面: ${params.date}` : `跳转到页面: ${page}`;
+    // 显示 Toast 提示
+    if ((window as any).addToast) {
+      (window as any).addToast(message, 'info', 3000);
+    } else {
+      console.log('Toast:', message);
+      alert(message);
+    }
   }
 };
 
