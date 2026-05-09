@@ -55,7 +55,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
   ]
 
   const createExplosion = useCallback((x: number, y: number, hue: number) => {
-    const count = 60
+    const count = 80
     const newParticles: Particle[] = []
 
     for (let i = 0; i < count; i++) {
@@ -63,14 +63,14 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
         id: particleIdRef.current++,
         x,
         y,
-        angle: (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.2,
-        speed: Math.random() * 6 + 2,
-        friction: 0.96,
-        gravity: 0.05,
-        hue: hue + (Math.random() - 0.5) * 30,
-        brightness: Math.random() * 40 + 50,
+        angle: (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.3,
+        speed: Math.random() * 8 + 4,
+        friction: 0.97,
+        gravity: 0.08,
+        hue: hue + (Math.random() - 0.5) * 40,
+        brightness: Math.random() * 50 + 60,
         alpha: 1,
-        decay: Math.random() * 0.02 + 0.015,
+        decay: Math.random() * 0.015 + 0.01,
       })
     }
 
@@ -102,18 +102,18 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     const centerX = targetRect.left + targetRect.width / 2
     const topY = targetRect.top
 
-    const count = 4
+    const count = 8
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
         const offsetX = (Math.random() - 0.5) * targetRect.width * 2
-        const offsetY = (Math.random() - 0.5) * targetRect.height
+        const offsetY = (Math.random() - 0.5) * targetRect.height * 2
         launchFirework(centerX + offsetX, topY + offsetY)
-      }, i * 200)
+      }, i * 150)
     }
 
     setTimeout(() => {
       onComplete?.()
-    }, 3000)
+    }, 4000)
   }, [targetRect, launchFirework, onComplete])
 
   useEffect(() => {
@@ -174,14 +174,14 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
 
       fireworks.forEach(fw => {
         ctx.beginPath()
-        ctx.arc(fw.x, fw.y, 2, 0, Math.PI * 2)
+        ctx.arc(fw.x, fw.y, 3, 0, Math.PI * 2)
         ctx.fillStyle = `hsl(${fw.hue}, 100%, ${fw.brightness}%)`
         ctx.fill()
       })
 
       particles.forEach(p => {
         ctx.beginPath()
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
+        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2)
         ctx.fillStyle = `hsla(${p.hue}, 100%, ${p.brightness}%, ${p.alpha})`
         ctx.fill()
       })
@@ -211,10 +211,10 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 9999,
+        width: '100vw',
+        height: '100vh',
+        pointerEvents: 'none !important',
+        zIndex: 2147483647,
       }}
     >
       <canvas ref={canvasRef} style={{ display: 'block' }} />
