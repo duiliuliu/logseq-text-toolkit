@@ -8,9 +8,15 @@
 import { getSelection, getDocument } from '../../logseq/utils.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
-import { SelectedData } from '../../components/Toolbar/types.ts';
-import { ToolbarItem } from '../../components/Toolbar/types.ts';
+import { SelectedData, ToolbarItem, InvokeParams, RegexReplaceParams } from '../../components/Toolbar/types.ts';
 import logger from '../logger/index';
+
+/**
+ * 判断 invokeParams 是否为正则替换配置对象
+ */
+function isRegexReplaceParams(params: InvokeParams): params is RegexReplaceParams {
+  return typeof params === 'object' && params !== null && 'regex' in params;
+}
 
 /**
  * 更新块内容
@@ -138,7 +144,12 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
     const regex = new RegExp(item.regex, 'g');
     return text.replace(regex, item.replacement);
   } else if (item.invokeParams) {
-    return item.invokeParams.replace(/\${selectedText}/g, text);
+    if (isRegexReplaceParams(item.invokeParams)) {
+      const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+      const regex = new RegExp(pattern, flags);
+      return text.replace(regex, replacement);
+    }
+    return String(item.invokeParams).replace(/\${selectedText}/g, text);
   }
   return text;
 };
@@ -152,12 +163,11 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
 export const regexReplaceText = (item: ToolbarItem, text: string): string => {
   if (item.invokeParams) {
     try {
-      if (typeof item.invokeParams === 'object' && item.invokeParams.regex && item.invokeParams.replacement) {
+      if (isRegexReplaceParams(item.invokeParams)) {
         const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
         const regex = new RegExp(pattern, flags);
         return text.replace(regex, replacement);
-      }
-      else if (typeof item.invokeParams === 'string') {
+      } else if (typeof item.invokeParams === 'string') {
         const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
         if (regexMatch) {
           const [, pattern, replacement, flags] = regexMatch;

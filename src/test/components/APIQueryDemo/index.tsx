@@ -12,7 +12,7 @@ import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { getSettings } from '../../../settings'
 import { t } from '../../../translations/i18n'
 import { SupportedLanguage } from '../../../translations/translations'
-import { StatusStat, STATUS_COLORS } from '../../../lib/taskProgress/types'
+import { StatusStat, STATUS_COLORS } from '../../../components/TaskProgress/types'
 
 const APIQueryDemo: React.FC = () => {
   const settings = getSettings()

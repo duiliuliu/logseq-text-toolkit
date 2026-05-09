@@ -5,6 +5,5 @@
  * 任务进度追踪模块导出
  */
 
-export * from './types'
 export * from './taskQuery'
 export * from './register'

@@ -5,13 +5,14 @@
  * Logseq API 注册 - 宏渲染器和斜杠命令
  */
 
-import ReactDOMServer from 'react-dom/server'
-import React from 'react'
 import { calculateTaskProgress } from './taskQuery'
-import { ProgressDisplayType } from './types'
+import { ProgressDisplayType } from '../../components/TaskProgress/types'
+import TaskProgress from '../../components/TaskProgress/TaskProgress'
 import { logseqAPI } from '../../logseq'
+import { getDocument } from '../../logseq/utils'
 import { getSettingsWithSystem } from '../../settings'
-import logger from '../logger/index'
+import { renderComponent } from '../render'
+import logger from '../logger'
 
 const MACRO_PREFIX = ':taskprogress'
 const PLUGIN_ID = 'text-toolkit-taskprogress'
@@ -37,12 +38,6 @@ const DISPLAY_TYPE_MAP: Record<string, ProgressDisplayType> = {
   'stepprogress': 'step-progress',
   '阶梯进度': 'step-progress',
   'step progress': 'step-progress',
-}
-
-let TaskProgressComponent: React.FC<any> | null = null
-
-export function setTaskProgressComponent(component: React.FC<any>) {
-  TaskProgressComponent = component
 }
 
 async function renderProgress(blockId: string, slot: string, displayTypeArg?: string): Promise<boolean> {
@@ -80,29 +75,29 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
 
     const lang = settings?.language || 'zh-CN'
 
-    if (!TaskProgressComponent) {
-      logger.warn('[TaskProgress] Component not registered')
-      return false
-    }
-
-    const template = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(TaskProgressComponent, {
-        progressData,
-        displayType,
-        config: { ...config, showLabel, labelFormat, fireworksOnComplete },
-        lang,
-        nestingLevel,
-        onlyLeaves,
-        showNestingIndicator,
-      })
-    )
+    const containerId = PLUGIN_ID + slot
 
     logseqAPI.provideUI({
       key: PLUGIN_ID + '__' + slot,
       slot,
       reset: true,
-      template,
+      template: `<div id="${containerId}"></div>`,
     })
+
+    setTimeout(() => {
+      const container = getDocument().getElementById(containerId)
+      if (container) {
+        renderComponent(container, TaskProgress, {
+          progressData,
+          displayType,
+          config: { ...config, showLabel, labelFormat, fireworksOnComplete },
+          lang,
+          nestingLevel,
+          onlyLeaves,
+          showNestingIndicator,
+        })
+      }
+    }, 1)
 
     return true
   } catch (err) {

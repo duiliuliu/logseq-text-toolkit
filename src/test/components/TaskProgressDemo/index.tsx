@@ -9,7 +9,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import TaskProgress from '../../../components/TaskProgress/TaskProgress'
 import { calculateTaskProgress } from '../../../lib/taskProgress/taskQuery'
 import { useSettingsContext } from '../../../settings/useSettings'
-import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../lib/taskProgress/types'
+import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../../components/TaskProgress/types'
 import { t } from '../../../translations/i18n'
 import { SupportedLanguage } from '../../../translations/translations'
 
