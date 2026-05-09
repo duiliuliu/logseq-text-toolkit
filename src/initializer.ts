@@ -12,72 +12,10 @@ import { initI18n } from './translations/i18n'
 import { logseqAPI } from './logseq/index'
 import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register'
 import TaskProgress from './components/TaskProgress/TaskProgress'
-import { 
-  settingsModalCSS, 
-  modalCSS, 
-  toolbarCSS, 
-  inlineCommentCSS, 
-  cssConfigCSS, 
-  taskProgressCSS 
-} from './styles/index'
+import { loadAllCSS } from './lib/cssRegistry'
 
 let isInitialized = false
 let cleanupFunctions: Array<() => void> = []
-
-const loadCSS = async () => {
-  try {
-    const cssFiles = [
-      { name: 'settingsModal.css', content: settingsModalCSS },
-      { name: 'modal.css', content: modalCSS },
-      { name: 'toolbar.css', content: toolbarCSS },
-      { name: 'inlineComment.css', content: inlineCommentCSS },
-      { name: 'customsToolbarItems.css', content: cssConfigCSS },
-      { name: 'taskProgress.css', content: taskProgressCSS }
-    ]
-
-    for (const cssFile of cssFiles) {
-      try {
-        const response = await fetch(`./${cssFile.name}`)
-        if (response.ok) {
-          const contentType = response.headers.get('content-type')
-          if (contentType && contentType.includes('text/css')) {
-            const cssContent = await response.text()
-            if (cssContent.trim()) {
-              logseqAPI.provideStyle(cssContent)
-              logger.info(`Loaded CSS file from root: ${cssFile.name}`)
-            } else {
-              logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`)
-              if (cssFile.content) {
-                logseqAPI.provideStyle(cssFile.content)
-                logger.info(`Loaded built-in CSS for ${cssFile.name}`)
-              }
-            }
-          } else {
-            logger.info(`Response is not CSS, using built-in CSS: ${cssFile.name}`)
-            if (cssFile.content) {
-              logseqAPI.provideStyle(cssFile.content)
-              logger.info(`Loaded built-in CSS for ${cssFile.name}`)
-            }
-          }
-        } else {
-          logger.info(`CSS file not found in root, using built-in CSS: ${cssFile.name}`)
-          if (cssFile.content) {
-            logseqAPI.provideStyle(cssFile.content)
-            logger.info(`Loaded built-in CSS for ${cssFile.name}`)
-          }
-        }
-      } catch (error) {
-        logger.warn(`Error loading CSS file from root ${cssFile.name}:`, error)
-        if (cssFile.content) {
-          logseqAPI.provideStyle(cssFile.content)
-          logger.info(`Loaded built-in CSS for ${cssFile.name} (fallback)`)
-        }
-      }
-    }
-  } catch (error) {
-    logger.error('Error in loadCSS:', error)
-  }
-}
 
 const configureLogger = () => {
   try {
@@ -103,7 +41,7 @@ export const initializePlugin = async (): Promise<void> => {
   try {
     logger.info('Starting Text Toolkit Plugin initialization...')
     
-    await loadCSS()
+    await loadAllCSS()
     logger.info('CSS loading completed')
     
     await initI18n()
