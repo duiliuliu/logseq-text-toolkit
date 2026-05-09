@@ -3,26 +3,27 @@
  * License: MIT
  * 
  * 插件初始化管理器
- * 负责统一管理所有初始化流程
+ * 负责基础资源加载和全局配置
+ * 复杂初始化逻辑由各模块自行抽象 Init 函数
  */
 
-import { getSettings } from './settings/index'
-import logger, { updateLoggerConfig } from './lib/logger/index'
+import logger, { updateLoggerConfig } from './lib/logger'
 import { initI18n } from './translations/i18n'
-import { registerTaskProgress } from './lib/taskProgress/register'
 import { loadAllCSS } from './lib/cssRegistry'
+import { registerTaskProgress } from './lib/taskProgress/register'
+import { getSettings } from './settings'
 
 let isInitialized = false
-let cleanupFunctions: Array<() => void> = []
+const cleanupFunctions: Array<() => void> = []
 
-const configureLogger = () => {
+function configureLogger(): void {
   try {
     const settings = getSettings()
     updateLoggerConfig({
       enabled: true,
       level: settings.developerMode ? 'DEBUG' : 'INFO'
     })
-  } catch (error) {
+  } catch {
     updateLoggerConfig({
       enabled: true,
       level: 'INFO'
@@ -32,29 +33,28 @@ const configureLogger = () => {
 
 export const initializePlugin = async (): Promise<void> => {
   try {
-    logger.info('Starting Text Toolkit Plugin initialization...')
+    logger.info('[Initializer] Starting plugin initialization...')
     
     await loadAllCSS()
-    logger.info('CSS loading completed')
+    logger.info('[Initializer] CSS resources loaded')
     
     await initI18n()
-    logger.info('I18n initialized successfully')
+    logger.info('[Initializer] I18n initialized')
     
     configureLogger()
-    logger.info('Logger configured with settings')
+    logger.info('[Initializer] Logger configured')
     
     registerTaskProgress()
-    logger.info('Task progress registered successfully')
+    logger.info('[Initializer] TaskProgress registered')
     
     cleanupFunctions.push(() => {
-      logger.info('Cleaning up Text Toolkit Plugin...')
+      logger.info('[Initializer] Cleaning up plugin...')
     })
     
     isInitialized = true
-    logger.info('Text Toolkit Plugin initialized successfully!')
-    
+    logger.info('[Initializer] Plugin initialized successfully')
   } catch (error) {
-    logger.error('Failed to initialize Text Toolkit Plugin:', error)
+    logger.error('[Initializer] Initialization failed:', error)
     throw error
   }
 }
@@ -64,15 +64,13 @@ export const cleanupPlugin = (): void => {
     try {
       fn()
     } catch (error) {
-      logger.error('Error during cleanup:', error)
+      logger.error('[Initializer] Cleanup error:', error)
     }
   })
-  cleanupFunctions = []
+  cleanupFunctions.length = 0
   isInitialized = false
 }
 
-export const isPluginInitialized = (): boolean => {
-  return isInitialized
-}
+export const isPluginInitialized = (): boolean => isInitialized
 
 export default initializePlugin

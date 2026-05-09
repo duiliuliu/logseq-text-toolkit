@@ -3,141 +3,154 @@
  * License: MIT
  * 
  * 插件入口文件
+ * 负责 UI 组件渲染编排和业务逻辑初始化
  */
 
-import React from 'react'
+import { logseqAPI } from './logseq'
+import { getSettings } from './settings'
+import { getDocument } from './logseq/utils'
+import { renderComponent, clearAllRoots } from './lib/render'
+import { initializePlugin, cleanupPlugin } from './initializer'
+import { t } from './translations/i18n'
+import logger from './lib/logger'
 import TestApp from './test/testAPP'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
 import CommentApp from './components/Comment/CommentApp'
-import { logseqAPI } from './logseq/index'
-import { getSettings } from './settings/index'
-import { getDocument } from './logseq/utils'
-import { renderComponent, clearAllRoots } from './lib/render'
-import logger from './lib/logger/index'
-import { initializePlugin, cleanupPlugin } from './initializer'
-import { t } from './translations/i18n'
 
-const TOOLBAR_ID = 'text-toolkit-toolbar'
-const SETTINGS_ID = 'text-toolkit-settings'
-const COMMENT_APP_ID = 'text-toolkit-comment-app'
+const ID = {
+  TOOLBAR: 'text-toolkit-toolbar',
+  SETTINGS: 'text-toolkit-settings',
+  COMMENT: 'text-toolkit-comment-app',
+  BUTTON: 'ltt-settings-button',
+} as const
 
 let settingsModalOpen = false
 
-const showSettingUI = async () => {
-  logseqAPI.provideUI({
-    key: SETTINGS_ID,
-    path: '#app-container',
-    template: `<div id="${SETTINGS_ID}"></div>`,
-  })
+function renderSettingsModal(): void {
+  const container = getDocument().getElementById(ID.SETTINGS)
+  if (!container) return
 
-  setTimeout(() => {
-    const container = getDocument().getElementById(SETTINGS_ID)
-    if (container) {
-      const currentSettings = getSettings()
-      renderComponent(container, SettingsModal, {
-        isOpen: settingsModalOpen,
-        onClose: () => {
-          settingsModalOpen = false
-          showSettingUI()
-        },
-        theme: currentSettings.theme,
-      })
-    }
-  }, 1)
+  const currentSettings = getSettings()
+  renderComponent(container, SettingsModal, {
+    isOpen: settingsModalOpen,
+    onClose: () => {
+      settingsModalOpen = false
+      renderSettingsModal()
+    },
+    theme: currentSettings.theme,
+  })
 }
 
-const settingToggle = async () => {
+async function showSettingUI(): Promise<void> {
+  logseqAPI.provideUI({
+    key: ID.SETTINGS,
+    path: '#app-container',
+    template: `<div id="${ID.SETTINGS}"></div>`,
+  })
+  setTimeout(renderSettingsModal, 1)
+}
+
+const settingToggle = async (): Promise<void> => {
   settingsModalOpen = !settingsModalOpen
   showSettingUI()
 }
 
-const showCommentApp = async () => {
+function renderCommentApp(): void {
+  const container = getDocument().getElementById(ID.COMMENT)
+  if (!container) return
+  renderComponent(container, CommentApp)
+}
+
+async function showCommentApp(): Promise<void> {
   logseqAPI.provideUI({
-    key: COMMENT_APP_ID,
+    key: ID.COMMENT,
     path: '#app-container',
-    template: `<div id="${COMMENT_APP_ID}"></div>`,
+    template: `<div id="${ID.COMMENT}"></div>`,
   })
-
-  setTimeout(() => {
-    const commentContainer = getDocument().getElementById(COMMENT_APP_ID)
-    if (commentContainer) {
-      renderComponent(commentContainer, CommentApp)
-    }
-  }, 1)
+  setTimeout(renderCommentApp, 1)
 }
 
-const showSelectToolbar = async () => {
+function renderSelectToolbar(): void {
+  const toolbarContainer = getDocument().getElementById(ID.TOOLBAR)
+  const mainContentContainer = getDocument().getElementById('main-content-container')
+  if (!toolbarContainer || !mainContentContainer) return
+
   const currentSettings = getSettings()
-  if (currentSettings.toolbar) {
-    logseqAPI.provideUI({
-      key: TOOLBAR_ID,
-      path: '#app-container',
-      template: `<div id="${TOOLBAR_ID}"></div>`,
-    })
-
-    setTimeout(() => {
-      const toolbarContainer = getDocument().getElementById(TOOLBAR_ID)
-      const mainContentContainer = getDocument().getElementById('main-content-container')
-      if (toolbarContainer && mainContentContainer) {
-        const currentSettings = getSettings()
-        const toolbarItems = currentSettings.ToolbarItems || []
-        
-        renderComponent(toolbarContainer, SelectToolbar, {
-          targetElement: mainContentContainer,
-          items: toolbarItems,
-        })
-      }
-    }, 1)
-  }
+  renderComponent(toolbarContainer, SelectToolbar, {
+    targetElement: mainContentContainer,
+    items: currentSettings.ToolbarItems || [],
+  })
 }
 
-const registerLogseqButton = () => {
+async function showSelectToolbar(): Promise<void> {
+  const settings = getSettings()
+  if (!settings.toolbar) return
+
+  logseqAPI.provideUI({
+    key: ID.TOOLBAR,
+    path: '#app-container',
+    template: `<div id="${ID.TOOLBAR}"></div>`,
+  })
+  setTimeout(renderSelectToolbar, 1)
+}
+
+function registerLogseqButton(): void {
   const settings = getSettings()
   const buttonTooltip = t('toolbar.buttonTooltip', settings?.language)
-  
+
   logseqAPI.App.registerUIItem('toolbar', {
-    key: 'text-toolkit-settings-btn',
+    key: ID.BUTTON,
     template: `
-      <a class="button" id="ltt-settings-button"
-      data-on-click="settingToggle"
-      data-rect
-      title="${buttonTooltip}">
-       <i class="ti ti-text-wrap"></i>
+      <a class="button" id="${ID.BUTTON}"
+         data-on-click="settingToggle"
+         data-rect
+         title="${buttonTooltip}">
+        <i class="ti ti-text-wrap"></i>
       </a>
     `,
   })
 }
 
-const main = async () => {
-  try {
-    await initializePlugin()
-    logseqAPI.provideModel({ settingToggle })
-    await showSettingUI()
-    registerLogseqButton()
-    await showSelectToolbar()
-    await showCommentApp()
-    
-  } catch (error) {
-    logger.error('Failed to initialize Text Toolkit Plugin:', error)
-  }
-}
-
-const cleanup = () => {
+const cleanup = (): void => {
   clearAllRoots()
   cleanupPlugin()
+}
+
+const main = async (): Promise<void> => {
+  try {
+    logger.info('[Main] Starting plugin main...')
+
+    await showSettingUI()
+    logger.info('[Main] Settings UI ready')
+
+    registerLogseqButton()
+    logger.info('[Main] Toolbar button registered')
+
+    await showSelectToolbar()
+    logger.info('[Main] SelectToolbar ready')
+
+    await showCommentApp()
+    logger.info('[Main] CommentApp ready')
+
+    logger.info('[Main] Plugin main completed')
+  } catch (error) {
+    logger.error('[Main] Plugin main error:', error)
+  }
 }
 
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp, {}, { wrapWithProvider: false })
-  logseqAPI.ready(main).catch((err) => {
-    logger.error('Plugin ready error:', err)
-  })
-} else { 
-  logseqAPI.ready(main).catch((err) => {
-    logger.error('Plugin ready error:', err)
-  })
 }
+
+logseqAPI.ready(async () => {
+  try {
+    await initializePlugin()
+    await main()
+  } catch (error) {
+    logger.error('[Main] Fatal error:', error)
+  }
+})
 
 export { cleanup }
