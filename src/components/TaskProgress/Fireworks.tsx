@@ -99,16 +99,14 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
   const launchMultiple = useCallback(() => {
     if (!targetRect) return
 
-    const scrollX = window.scrollX || window.pageXOffset
-    const scrollY = window.scrollY || window.pageYOffset
-    const centerX = targetRect.left + targetRect.width / 2 + scrollX
-    const topY = targetRect.top + scrollY
+    const centerX = targetRect.left + targetRect.width / 2
+    const topY = targetRect.top
 
     const count = 8
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
-        const offsetX = (Math.random() - 0.5) * Math.min(targetRect.width * 3, 300)
-        const offsetY = (Math.random() - 0.5) * Math.min(targetRect.height * 3, 150)
+        const offsetX = (Math.random() - 0.5) * targetRect.width * 2
+        const offsetY = (Math.random() - 0.5) * targetRect.height * 2
         launchFirework(centerX + offsetX, topY + offsetY)
       }, i * 150)
     }

@@ -48,7 +48,6 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
 
   useEffect(() => {
     if (isCompleted && componentRef.current && fireworksEnabled) {
-      setTargetRect(componentRef.current.getBoundingClientRect())
       setShowFireworks(true)
     }
   }, [isCompleted, fireworksEnabled])
