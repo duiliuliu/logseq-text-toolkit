@@ -145,7 +145,7 @@ export interface TranslationKeys {
 }
 
 // 支持的语言类型
-export type SupportedLanguage = 'en' | 'ja' | 'zh-CN';
+export type SupportedLanguage = 'en' | 'ja' | 'zh-CN' | 'system';
 
 // 翻译对象类型
 export type Translations = Record<SupportedLanguage, TranslationKeys>;

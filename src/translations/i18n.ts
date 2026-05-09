@@ -64,13 +64,18 @@ export const initI18n = async (): Promise<void> => {
 }
 
 export const t = (key: string, lang?: SupportedLanguage): string => {
-  const language = lang || getSettings()?.language || 'zh-CN'
+  let language = lang || getSettings()?.language || 'zh-CN'
+  
+  if (language === 'system') {
+    language = 'zh-CN'
+  }
+  
   if (dynamicTranslations[language]) {
     const translation = getNestedValue(dynamicTranslations[language], key)
     if (translation !== key) return translation
   }
   
-  const builtInTranslation = builtInTranslations[language] || builtInTranslations['zh-CN']
+  const builtInTranslation = builtInTranslations[language as SupportedLanguage] || builtInTranslations['zh-CN']
   return getNestedValue(builtInTranslation, key)
 }
 
