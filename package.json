@@ -15,7 +15,7 @@
     "supportsDB": true
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode test",
     "test": "vite --mode test",
     "build": "vite build --mode test && npm run copy-assets",
     "build:plugin": "vite build && npm run copy-assets",
