@@ -13,13 +13,18 @@ import logger from './lib/logger'
 import { initI18n } from './translations/i18n'
 import {
   configureLogger,
-  registerAllCSS,
   initCommentApp,
   initSelectToolbar,
   initSettingsModal,
   initTaskProgress,
   registerLogseqButton,
   settingToggle,
+  registerCommentCSS,
+  registerCustomToolbarCSS,
+  registerModalCSS,
+  registerSettingsModalCSS,
+  registerTaskProgressCSS,
+  registerToolbarCSS,
 } from './initializer'
 
 const cleanupFunctions: Array<() => void> = []
@@ -47,6 +52,18 @@ export function cleanup(): void {
 /* ============================================================================
    基础资源初始化
    ============================================================================ */
+
+/**
+ * 注册所有 CSS 样式
+ */
+function registerAllCSS(): void {
+  registerToolbarCSS()
+  registerSettingsModalCSS()
+  registerModalCSS()
+  registerCommentCSS()
+  registerCustomToolbarCSS()
+  registerTaskProgressCSS()
+}
 
 /**
  * 初始化插件基础资源
