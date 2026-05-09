@@ -52,27 +52,32 @@ function getPortalRoot(): HTMLDivElement {
   return portalRoot
 }
 
-function removePortalRoot(): void {
+function cleanup(): void {
   if (portalRoot) {
-    document.body.removeChild(portalRoot)
-    portalRoot = null
+    portalRoot.innerHTML = ''
   }
 }
 
-const FireworksCanvas: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
+const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
   const [fireworks, setFireworks] = useState<Firework[]>([])
   const [particles, setParticles] = useState<Particle[]>([])
+  const [isLaunched, setIsLaunched] = useState(false)
   const animationRef = useRef<number>(0)
   const fireworkIdRef = useRef(0)
   const particleIdRef = useRef(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const launchedRef = useRef(false)
 
   const COLORS = [
     { h: 0 }, { h: 30 }, { h: 60 },
     { h: 120 }, { h: 180 }, { h: 200 },
     { h: 260 }, { h: 300 }, { h: 330 },
   ]
+
+  useEffect(() => {
+    return () => {
+      cleanup()
+    }
+  }, [])
 
   const createExplosion = useCallback((x: number, y: number, hue: number) => {
     const count = 60
@@ -116,12 +121,12 @@ const FireworksCanvas: React.FC<FireworksProps> = ({ targetRect, onComplete }) =
     setFireworks(prev => [...prev, newFirework])
   }, [])
 
-  const launchMultiple = useCallback(() => {
-    if (!targetRect || launchedRef.current) return
-    launchedRef.current = true
+  useEffect(() => {
+    if (!targetRect || isLaunched) return
 
     const centerX = targetRect.left + targetRect.width / 2
     const topY = targetRect.top
+    setIsLaunched(true)
 
     const count = 4
     for (let i = 0; i < count; i++) {
@@ -134,12 +139,8 @@ const FireworksCanvas: React.FC<FireworksProps> = ({ targetRect, onComplete }) =
 
     setTimeout(() => {
       onComplete?.()
-    }, 3000)
-  }, [targetRect, launchFirework, onComplete])
-
-  useEffect(() => {
-    launchMultiple()
-  }, [launchMultiple])
+    }, 3500)
+  }, [targetRect, isLaunched, launchFirework, onComplete])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -216,23 +217,11 @@ const FireworksCanvas: React.FC<FireworksProps> = ({ targetRect, onComplete }) =
     }
   }, [fireworks, particles, createExplosion])
 
-  useEffect(() => {
-    return () => {
-      removePortalRoot()
-    }
-  }, [])
-
-  return <canvas ref={canvasRef} style={{ display: 'block' }} />
-}
-
-const Fireworks: React.FC<FireworksProps> = (props) => {
-  if (!props.targetRect) return null
-
-  const portalRoot = getPortalRoot()
+  if (!targetRect) return null
 
   return ReactDOM.createPortal(
-    <FireworksCanvas {...props} />,
-    portalRoot
+    <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />,
+    getPortalRoot()
   )
 }
 
