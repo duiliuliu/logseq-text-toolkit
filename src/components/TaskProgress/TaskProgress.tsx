@@ -26,6 +26,7 @@ interface TaskProgressProps {
   nestingLevel?: number | 'all'
   onlyLeaves?: boolean
   showNestingIndicator?: boolean
+  forceShowFireworks?: boolean
 }
 
 const TaskProgress: React.FC<TaskProgressProps> = ({
@@ -37,6 +38,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   nestingLevel,
   onlyLeaves,
   showNestingIndicator,
+  forceShowFireworks = false,
 }) => {
   const [showFireworks, setShowFireworks] = useState(false)
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null)
@@ -45,15 +47,16 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
 
   const isCompleted = progressData?.progress === 100
   const fireworksEnabled = config?.fireworksOnComplete ?? true
+  const shouldShowFireworks = isCompleted || forceShowFireworks
 
   useEffect(() => {
-    if (isCompleted && componentRef.current && fireworksEnabled) {
+    if (shouldShowFireworks && componentRef.current && fireworksEnabled) {
       setShowFireworks(true)
     }
-  }, [isCompleted, fireworksEnabled])
+  }, [shouldShowFireworks, fireworksEnabled])
 
   const handleMouseEnter = useCallback(() => {
-    if (isCompleted && componentRef.current && fireworksEnabled) {
+    if (shouldShowFireworks && componentRef.current && fireworksEnabled) {
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current)
       }
@@ -62,7 +65,7 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
         setShowFireworks(true)
       }, 300)
     }
-  }, [isCompleted, fireworksEnabled])
+  }, [shouldShowFireworks, fireworksEnabled])
 
   const handleMouseLeave = useCallback(() => {
     if (hoverTimeoutRef.current) {
