@@ -5,7 +5,7 @@
  * CustomToolbar CSS 注册
  */
 
-import cssConfigCSSRaw from '../../styles/customsToolbarItems.css?raw'
+import cssConfigCSSRaw from './customsToolbarItems.css?raw'
 import { registerCSS } from './index'
 
 export function registerCustomToolbarCSS(): void {

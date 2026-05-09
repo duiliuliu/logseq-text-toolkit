@@ -10,7 +10,7 @@ import { getSettings } from './settings/index'
 import logger, { updateLoggerConfig } from './lib/logger/index'
 import { initI18n } from './translations/i18n'
 import { registerTaskProgress } from './lib/taskProgress/register'
-import { loadAllCSS } from './styles/cssRegistry'
+import { loadAllCSS } from './lib/cssRegistry'
 
 let isInitialized = false
 let cleanupFunctions: Array<() => void> = []

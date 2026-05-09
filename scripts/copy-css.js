@@ -6,7 +6,7 @@ const cssFiles = [
   'src/components/Modal/modal.css',
   'src/components/Toolbar/toolbar.css',
   'src/components/Comment/inlineComment.css',
-  'src/styles/customsToolbarItems.css',
+  'src/lib/cssRegistry/customsToolbarItems.css',
   'src/components/TaskProgress/taskProgress.css'
 ];
 
