@@ -7,7 +7,7 @@
  */
 
 import { logseqAPI } from '../../logseq'
-import logger from '../logger'
+import logger from '../../lib/logger'
 
 export type CSSSource = 
   | { type: 'inline'; content: string }

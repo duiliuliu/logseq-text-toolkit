@@ -12,7 +12,7 @@ import { initI18n } from './translations/i18n'
 import { logseqAPI } from './logseq/index'
 import { registerTaskProgress, setTaskProgressComponent } from './lib/taskProgress/register'
 import TaskProgress from './components/TaskProgress/TaskProgress'
-import { loadAllCSS } from './lib/cssRegistry'
+import { loadAllCSS } from './styles/cssRegistry'
 
 let isInitialized = false
 let cleanupFunctions: Array<() => void> = []
