@@ -26,8 +26,8 @@ interface TooltipProps {
 const Tooltip: React.FC<TooltipProps> = ({ data, position }) => {
   const progressBar = generateProgressBar(data.percentage);
   return (
-    <div 
-      className="heatmap-tooltip" 
+    <div
+      className="heatmap-tooltip"
       style={{
         position: 'fixed',
         left: position.x + 12,
@@ -58,14 +58,14 @@ const Tooltip: React.FC<TooltipProps> = ({ data, position }) => {
   );
 };
 
-const HeatmapCell: React.FC<HeatmapCellProps> = ({ 
-  date, 
-  value, 
-  maxValue, 
-  color, 
-  isEmpty, 
+const HeatmapCell: React.FC<HeatmapCellProps> = ({
+  date,
+  value,
+  maxValue,
+  color,
+  isEmpty,
   isCurrentMonth = true,
-  size = 'small', 
+  size = 'small',
   onClick,
   showDay = false,
   dayNumber
@@ -100,9 +100,9 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   };
 
   const sizeMap = {
-    small: { width: 6, height: 6 },
-    medium: { width: 12, height: 12 },
-    large: { width: 24, height: 22 },
+    small: { width: 6.5, height: 6 },
+    medium: { width: 18, height: 12 },
+    large: { width: 20, height: 22 },
   };
 
   const { width, height } = sizeMap[size];
@@ -155,9 +155,9 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
         )}
       </div>
       {isHovered && tooltipPosition && !isEmpty && (
-        <Tooltip 
-          data={{ date, count: value, percentage, maxValue }} 
-          position={tooltipPosition} 
+        <Tooltip
+          data={{ date, count: value, percentage, maxValue }}
+          position={tooltipPosition}
         />
       )}
     </>

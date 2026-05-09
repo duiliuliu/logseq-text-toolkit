@@ -71,20 +71,26 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
 
   const getCellData = (week: typeof weeks[0], dayIndex: number) => {
     const cell = week[dayIndex];
-    if (cell.isEmpty) return { date: '', count: 0, isCurrentMonth: false };
+    if (cell.isEmpty) return { date: '', count: 0, isCurrentMonth: false, isEmpty: true, day: 0 };
     const existingData = dataMap.get(cell.date);
     return { 
       date: cell.date, 
       count: existingData?.count || 0, 
       isCurrentMonth: cell.isCurrentMonth,
-      day: cell.day 
+      day: cell.day,
+      isEmpty: false
     };
   };
 
   return (
     <div className="heatmap-month-view">
-      <div className="month-layout">
-        <div className="month-grid-wrapper">
+      <div className="month-view-container">
+        <div className="month-day-header-row">
+          {DAY_LABELS_EN.map((day, i) => (
+            <div key={i} className="month-day-header">{day}</div>
+          ))}
+        </div>
+        <div className="month-main-layout">
           <div className="month-week-labels">
             {weekNumbers.map((week, i) => (
               <div key={i} className="month-week-label">{week}</div>
@@ -114,11 +120,6 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate }) => {
               </div>
             ))}
           </div>
-        </div>
-        <div className="month-day-labels">
-          {DAY_LABELS_EN.map((day, i) => (
-            <div key={i} className="month-day-label">{day}</div>
-          ))}
         </div>
       </div>
     </div>
