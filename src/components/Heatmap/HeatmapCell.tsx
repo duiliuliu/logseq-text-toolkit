@@ -100,9 +100,9 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   };
 
   const sizeMap = {
-    small: { width: 10, height: 10 },
-    medium: { width: 14, height: 14 },
-    large: { width: 28, height: 32 },
+    small: { width: 6, height: 6 },
+    medium: { width: 12, height: 12 },
+    large: { width: 24, height: 22 },
   };
 
   const { width, height } = sizeMap[size];
