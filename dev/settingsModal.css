@@ -640,8 +640,8 @@ input:checked + .ltt-switch-slider:before {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
   border: 1px solid #e5e7eb;
   transition: all 0.2s ease;
 }
@@ -651,20 +651,19 @@ input:checked + .ltt-switch-slider:before {
 }
 
 .ltt-color-input {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 10px;
+  width: 28px;
+  height: 22px;
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 6px;
   cursor: pointer;
   padding: 0;
   background: transparent;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: none;
+  transition: border-color 0.2s ease;
 }
 
 .ltt-color-input:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-color: #94a3b8;
 }
 
 .ltt-status-label {
