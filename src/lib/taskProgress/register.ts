@@ -5,12 +5,14 @@
  * Logseq API 注册 - 宏渲染器和斜杠命令
  */
 
-import ReactDOMServer from 'react-dom/server'
+import ReactDOM from 'react-dom/client'
 import React from 'react'
 import { calculateTaskProgress } from './taskQuery'
 import { ProgressDisplayType } from './types'
 import { logseqAPI } from '../../logseq'
+import { getDocument } from '../../logseq/utils'
 import { getSettingsWithSystem } from '../../settings'
+import { renderComponent, type RenderOptions } from '../render'
 import logger from '../logger/index'
 
 const MACRO_PREFIX = ':taskprogress'
@@ -39,9 +41,9 @@ const DISPLAY_TYPE_MAP: Record<string, ProgressDisplayType> = {
   'step progress': 'step-progress',
 }
 
-let TaskProgressComponent: React.FC<any> | null = null
+let TaskProgressComponent: React.ComponentType<any> | null = null
 
-export function setTaskProgressComponent(component: React.FC<any>) {
+export function setTaskProgressComponent(component: React.ComponentType<any>) {
   TaskProgressComponent = component
 }
 
@@ -85,24 +87,29 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
       return false
     }
 
-    const template = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(TaskProgressComponent, {
-        progressData,
-        displayType,
-        config: { ...config, showLabel, labelFormat, fireworksOnComplete },
-        lang,
-        nestingLevel,
-        onlyLeaves,
-        showNestingIndicator,
-      })
-    )
+    const containerId = PLUGIN_ID + slot
 
     logseqAPI.provideUI({
       key: PLUGIN_ID + '__' + slot,
       slot,
       reset: true,
-      template,
+      template: `<div id="${containerId}"></div>`,
     })
+
+    setTimeout(() => {
+      const container = getDocument().getElementById(containerId)
+      if (container) {
+        renderComponent(container, TaskProgressComponent, {
+          progressData,
+          displayType,
+          config: { ...config, showLabel, labelFormat, fireworksOnComplete },
+          lang,
+          nestingLevel,
+          onlyLeaves,
+          showNestingIndicator,
+        })
+      }
+    }, 1)
 
     return true
   } catch (err) {

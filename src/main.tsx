@@ -6,16 +6,14 @@
  */
 
 import React from 'react'
-import ReactDOM from 'react-dom/client'
 import TestApp from './test/testAPP'
 import SettingsModal from './components/SettingsModal'
 import SelectToolbar from './components/SelectToolbar'
 import CommentApp from './components/Comment/CommentApp'
-import TaskProgress from './components/TaskProgress/TaskProgress'
-import { SettingsProvider } from './settings/useSettings'
 import { logseqAPI } from './logseq/index'
 import { getSettings } from './settings/index'
 import { getDocument } from './logseq/utils'
+import { renderComponent, clearAllRoots } from './lib/render'
 import logger from './lib/logger/index'
 import { initializePlugin, cleanupPlugin } from './initializer'
 import { t } from './translations/i18n'
@@ -24,31 +22,7 @@ const TOOLBAR_ID = 'text-toolkit-toolbar'
 const SETTINGS_ID = 'text-toolkit-settings'
 const COMMENT_APP_ID = 'text-toolkit-comment-app'
 
-interface RenderComponentProps {
-  [key: string]: any
-}
-
-// 为每个容器维护独立的 root 实例
-const roots = new Map<HTMLElement, any>()
-
-const renderComponent = (container: HTMLElement | null, Component: React.ComponentType<any>, props: RenderComponentProps = {}) => {
-  if (container) {
-    // 如果已经创建过 root，就不再 create，直接 render
-    if (!roots.has(container)) {
-      roots.set(container, ReactDOM.createRoot(container))
-    }
-    const root = roots.get(container)!
-    root.render(
-      <React.StrictMode>
-        <SettingsProvider>
-          <Component {...props} />
-        </SettingsProvider>
-      </React.StrictMode>
-    )
-  }
-}
-
-let settingsModalOpen = false;
+let settingsModalOpen = false
 
 const showSettingUI = async () => {
   logseqAPI.provideUI({
@@ -64,8 +38,8 @@ const showSettingUI = async () => {
       renderComponent(container, SettingsModal, {
         isOpen: settingsModalOpen,
         onClose: () => {
-          settingsModalOpen = false;
-          showSettingUI();
+          settingsModalOpen = false
+          showSettingUI()
         },
         theme: currentSettings.theme,
       })
@@ -74,8 +48,8 @@ const showSettingUI = async () => {
 }
 
 const settingToggle = async () => {
-  settingsModalOpen = !settingsModalOpen;
-  showSettingUI();
+  settingsModalOpen = !settingsModalOpen
+  showSettingUI()
 }
 
 const showCommentApp = async () => {
@@ -118,7 +92,6 @@ const showSelectToolbar = async () => {
   }
 }
 
-// 注册工具栏按钮
 const registerLogseqButton = () => {
   const settings = getSettings()
   const buttonTooltip = t('toolbar.buttonTooltip', settings?.language)
@@ -138,19 +111,10 @@ const registerLogseqButton = () => {
 
 const main = async () => {
   try {
-    // 使用统一的初始化管理器
-    await initializePlugin();
-
-    // 注册 UI 模型
+    await initializePlugin()
     logseqAPI.provideModel({ settingToggle })
-
-    // 显示设置 UI
     await showSettingUI()
-
-    // 注册工具栏按钮
     registerLogseqButton()
-
-    // 显示其他 UI
     await showSelectToolbar()
     await showCommentApp()
     
@@ -159,17 +123,21 @@ const main = async () => {
   }
 }
 
+const cleanup = () => {
+  clearAllRoots()
+  cleanupPlugin()
+}
+
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
-  renderComponent(rootElement, TestApp)
+  renderComponent(rootElement, TestApp, {}, { wrapWithProvider: false })
   logseqAPI.ready(main).catch((err) => {
-    logger.error('Plugin ready error:', err);
+    logger.error('Plugin ready error:', err)
   })
 } else { 
   logseqAPI.ready(main).catch((err) => {
-    logger.error('Plugin ready error:', err);
+    logger.error('Plugin ready error:', err)
   })
 }
 
-// 导出清理函数供需要时使用
-export { cleanupPlugin };
+export { cleanup }
