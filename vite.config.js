@@ -61,19 +61,17 @@ export default defineConfig(({ mode }) => {
         }
       }
     ],
-    assetsInclude: ['**/*.css'],
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[hash].[ext]',
+      },
+    },
     build: {
       outDir: '../dist',
       emptyOutDir: true,
       target: 'esnext',
       minify: 'terser',
       cssCodeSplit: true,
-      rollupOptions: {
-        output: {
-          manualChunks: undefined,
-          assetFileNames: 'assets/[name].[hash].[ext]',
-        },
-      },
     },
     server: {
       port: 3000,
