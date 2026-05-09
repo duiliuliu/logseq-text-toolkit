@@ -65,23 +65,7 @@ export function getCopyFiles(): Array<{ from: string; to?: string }> {
 }
 
 export async function loadAllCSS(): Promise<void> {
-  const { registerAllCSS } = await import('./registerAll')
-  registerAllCSS()
-  
-  logger.info(`[CSSRegistry] Loading ${registrations.size} CSS resources...`)
-  
-  for (const reg of registrations.values()) {
-    if (reg.loaded) continue
-    
-    try {
-      await loadCSSResource(reg)
-      reg.loaded = true
-    } catch (error) {
-      logger.error(`[CSSRegistry] Failed to load CSS "${reg.name}":`, error)
-    }
-  }
-  
-  logger.info('[CSSRegistry] CSS loading completed')
+  logger.info('[CSSRegistry] CSS loading completed (managed by initializer)')
 }
 
 async function loadCSSResource(reg: CSSRegistration): Promise<void> {

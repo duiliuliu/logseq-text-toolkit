@@ -10,10 +10,10 @@ import { getDocument } from './logseq/utils'
 import { renderComponent, clearAllRoots } from './lib/render'
 import TestApp from './test/testAPP'
 import logger from './lib/logger'
-import { loadAllCSS } from './lib/cssRegistry'
 import { initI18n } from './translations/i18n'
 import {
   configureLogger,
+  registerAllCSS,
   initCommentApp,
   initSelectToolbar,
   initSettingsModal,
@@ -50,7 +50,7 @@ export function cleanup(): void {
 
 /**
  * 初始化插件基础资源
- * - 加载 CSS 样式
+ * - 注册 CSS 样式
  * - 初始化国际化
  * - 配置日志系统
  */
@@ -58,8 +58,8 @@ export async function initializePlugin(): Promise<void> {
   try {
     logger.info('[initializePlugin] Starting plugin initialization...')
 
-    await loadAllCSS()
-    logger.info('[initializePlugin] CSS resources loaded')
+    registerAllCSS()
+    logger.info('[initializePlugin] CSS registered')
 
     await initI18n()
     logger.info('[initializePlugin] I18n initialized')
@@ -126,7 +126,7 @@ export async function main(): Promise<void> {
 /** 测试模式渲染 TestApp */
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
-  renderComponent(rootElement, TestApp, {}, { wrapWithProvider: true })
+  renderComponent(rootElement, TestApp)
 }
 
 /** Logseq 插件就绪后执行主流程 */

@@ -51,6 +51,71 @@ export function configureLogger(): void {
 }
 
 /* ============================================================================
+   CSS 注册
+   ============================================================================ */
+
+import toolbarCSSRaw from './components/Toolbar/toolbar.css?raw'
+import settingsModalCSSRaw from './components/SettingsModal/settingsModal.css?raw'
+import modalCSSRaw from './components/Modal/modal.css?raw'
+import inlineCommentCSSRaw from './components/Comment/inlineComment.css?raw'
+import customsToolbarItemsCSSRaw from './lib/cssRegistry/customsToolbarItems.css?raw'
+import taskProgressCSSRaw from './components/TaskProgress/taskProgress.css?raw'
+
+/**
+ * 注册工具栏样式
+ */
+export function registerToolbarCSS(): void {
+  logseqAPI.provideStyle(toolbarCSSRaw)
+}
+
+/**
+ * 注册设置弹窗样式
+ */
+export function registerSettingsModalCSS(): void {
+  logseqAPI.provideStyle(settingsModalCSSRaw)
+}
+
+/**
+ * 注册通用弹窗样式
+ */
+export function registerModalCSS(): void {
+  logseqAPI.provideStyle(modalCSSRaw)
+}
+
+/**
+ * 注册评论功能样式
+ */
+export function registerCommentCSS(): void {
+  logseqAPI.provideStyle(inlineCommentCSSRaw)
+}
+
+/**
+ * 注册自定义工具栏样式
+ */
+export function registerCustomToolbarCSS(): void {
+  logseqAPI.provideStyle(customsToolbarItemsCSSRaw)
+}
+
+/**
+ * 注册任务进度样式
+ */
+export function registerTaskProgressCSS(): void {
+  logseqAPI.provideStyle(taskProgressCSSRaw)
+}
+
+/**
+ * 注册所有 CSS 样式
+ */
+export function registerAllCSS(): void {
+  registerToolbarCSS()
+  registerSettingsModalCSS()
+  registerModalCSS()
+  registerCommentCSS()
+  registerCustomToolbarCSS()
+  registerTaskProgressCSS()
+}
+
+/* ============================================================================
    SettingsModal 组件
    ============================================================================ */
 
