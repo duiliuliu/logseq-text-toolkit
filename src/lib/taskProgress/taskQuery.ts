@@ -11,16 +11,6 @@ import { getSettings } from '../../settings'
 import logger from '../../lib/logger/index';
 import type { NestingLevel } from '../../settings/types'
 
-function getStatusColor(status: string): string {
-  const settings = getSettings()
-  const normalizedStatus = status.toLowerCase()
-  return settings?.taskProgress?.statusColors?.[normalizedStatus] ||
-    settings?.taskProgress?.statusColors?.[status] ||
-    STATUS_COLORS[normalizedStatus] ||
-    STATUS_COLORS[status] ||
-    '#6b7280'
-}
-
 function buildNestingQuery(parentBlockId: string, nestingLevel: NestingLevel): string {
   const parentClause = `[?p :block/uuid #uuid "${parentBlockId}"]`
 
@@ -150,13 +140,15 @@ export async function calculateTaskProgress(
 
     const statusStats: StatusStat[] = []
     let totalTasks = 0
+    const statusColors = settings?.taskProgress?.statusColors ?? {}
 
     for (const [status, count] of Object.entries(statusCounts)) {
       totalTasks += count
+      const normalizedStatus = status.toLowerCase()
       statusStats.push({
         status,
         count,
-        color: getStatusColor(status)
+        color: statusColors[normalizedStatus] || STATUS_COLORS[normalizedStatus] || '#6b7280'
       })
     }
 

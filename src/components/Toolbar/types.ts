@@ -18,14 +18,32 @@ export interface SelectedData {
   block?: BlockEntity;
 }
 
-// Toolbar 项目类型
+/**
+ * 正则替换配置
+ */
+export interface RegexReplaceParams {
+  regex: string;
+  replacement: string;
+  flags?: string;
+}
+
+/**
+ * invokeParams 支持两种类型：
+ * 1. 字符串 - 普通的模板字符串替换
+ * 2. RegexReplaceParams 对象 - 正则替换配置
+ */
+export type InvokeParams = string | RegexReplaceParams;
+
+/**
+ * Toolbar 项目类型
+ */
 export interface ToolbarItem {
   id: string;
   label: string;
   binding?: string;
-  icon?: string | React.ReactNode;
+  icon?: string;
   invoke: string;
-  invokeParams: string;
+  invokeParams: InvokeParams;
   regex?: string;
   replacement?: string;
   hidden?: boolean;
@@ -34,12 +52,16 @@ export interface ToolbarItem {
   clickfunc?: string;
 }
 
-// Toolbar 组类型
+/**
+ * Toolbar 组类型
+ */
 export interface ToolbarGroup extends ToolbarItem {
   subItems: ToolbarItem[];
 }
 
-// Toolbar 配置类型
+/**
+ * Toolbar 配置类型
+ */
 export interface ToolbarConfig {
   enabled: boolean;
   showBorder: boolean;

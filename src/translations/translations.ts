@@ -16,6 +16,16 @@ export interface TaskProgressTooltip {
 
 export interface TaskProgressTranslation {
   enabled: string;
+  nestingSettings: string;
+  nestingLevel: string;
+  nestingLevel1: string;
+  nestingLevel2: string;
+  nestingLevel3: string;
+  nestingLevelAll: string;
+  onlyLeaves: string;
+  onlyLeavesDescription: string;
+  showNestingIndicator: string;
+  showNestingIndicatorDescription: string;
   defaultDisplayType: string;
   miniCircle: string;
   dotMatrix: string;
@@ -27,6 +37,7 @@ export interface TaskProgressTranslation {
   sizeMedium: string;
   sizeLarge: string;
   showLabel: string;
+  fireworksOnComplete: string;
   labelFormat: string;
   labelFraction: string;
   labelPercentage: string;
@@ -34,23 +45,36 @@ export interface TaskProgressTranslation {
   statusColors: string;
   statusNames: TaskProgressStatusNames;
   tooltip: TaskProgressTooltip;
-  nestingSettings: string;
-  nestingLevel: string;
-  nestingLevel1: string;
-  nestingLevel2: string;
-  nestingLevel3: string;
-  nestingLevelAll: string;
-  onlyLeaves: string;
-  showNestingIndicator: string;
+}
+
+export interface ToolbarTranslation {
+  bold: string;
+  highlight: string;
+  fileLink: string;
+  comment: string;
+  noSelection: string;
+  replaceFailed: string;
+  noBlockContent: string;
+  buttonTooltip: string;
+}
+
+export interface InlineCommentTranslation {
+  text: string;
+  placeholder: string;
+  save: string;
+  title: string;
+  addComment: string;
+  selectedText: string;
+  annotate: string;
+  comment: string;
 }
 
 export interface TranslationKeys {
-  toolbar: {
-    bold: string;
-    highlight: string;
-    fileLink: string;
-    comment: string;
+  taskProgress?: {
+    nestingLevel: string;
   };
+  toolbar: ToolbarTranslation;
+  inlineComment: InlineCommentTranslation;
   comment: {
     title: string;
   };
@@ -65,6 +89,7 @@ export interface TranslationKeys {
       taskProgress: string;
       advanced: string;
     };
+    saveSuccessRestart?: string;
     generalSettings: string;
     theme: string;
     themeFollowSystem: string;
@@ -72,10 +97,15 @@ export interface TranslationKeys {
     languageFollowSystem: string;
     toolbarSettings: string;
     enabled: string;
+    disabled: string;
     showBorder: string;
     width: string;
     height: string;
     hoverDelay: string;
+    toolbarShortcut?: string;
+    toolbarShortcutPlaceholder?: string;
+    sponsorEnabled: string;
+    developerMode: string;
     toolbarElements: string;
     addNewItem: string;
     addItem: string;

@@ -3,6 +3,9 @@
  * License: MIT
  */
 
+// Re-export ToolbarItem and ToolbarGroup from components
+export type { ToolbarItem, ToolbarGroup } from '../components/Toolbar/types';
+
 // 主题类型
 export type ThemeType = 'light' | 'dark' | 'system';
 
@@ -25,24 +28,9 @@ export interface LanguageMeta {
   fallbackLanguage: string;     // 降级语言代码
 }
 
-// Toolbar item type
-export interface ToolbarItem {
-  id: string;
-  label: string;
-  icon: string;
-  binding?: string;
-  invoke: string;
-  invokeParams: string;
-  hidden?: boolean;
-  // 兼容旧版本
-  funcmode?: string;
-  clickfunc?: string;
-}
+// Toolbar item type - 已移除，统一从 components/Toolbar/types.ts 导出
 
-// Toolbar group type
-export interface ToolbarGroup extends ToolbarItem {
-  subItems: ToolbarItem[];
-}
+// Toolbar group type - 已移除，统一从 components/Toolbar/types.ts 导出
 
 // 任务状态颜色配置
 export interface TaskStatusConfig {
