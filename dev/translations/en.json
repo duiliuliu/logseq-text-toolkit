@@ -34,7 +34,6 @@
     "general": "⚙️ General Settings",
     "toolbar": "🛠️ Toolbar Settings",
     "taskProgress": "📊 Task Progress",
-    "heatmap": "📈 Heatmap",
     "advanced": "⚡ Other Settings"
   },
     "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
@@ -129,26 +128,6 @@
         "total": "Total"
       }
     },
-    "saveTaskProgressSettings": "Save Task Progress Settings",
-    "saveHeatmapSettings": "Save Heatmap Settings",
-    "heatmap": {
-      "description": "Configure heatmap display settings and appearance.",
-      "enabled": "Enable Heatmap",
-      "defaultViewType": "Default View",
-      "viewTypeYear": "Year View",
-      "viewTypeMonth": "Month View",
-      "viewTypeWeek": "Week View",
-      "defaultDisplayMode": "Display Mode",
-      "displayModeFull": "Full Mode",
-      "displayModeBasic": "Basic Mode",
-      "displayModeMinimal": "Minimal Mode",
-      "defaultColorFormula": "Color Formula",
-      "colorFormulaSimple": "Simple",
-      "colorFormulaWeighted": "Weighted",
-      "colorScheme": "Color Scheme",
-      "minColor": "Min Color",
-      "maxColor": "Max Color",
-      "preview": "Preview"
-    }
+    "saveTaskProgressSettings": "Save Task Progress Settings"
   }
 }
