@@ -148,7 +148,15 @@
       "colorScheme": "Color Scheme",
       "minColor": "Min Color",
       "maxColor": "Max Color",
-      "preview": "Preview"
+      "preview": "Preview",
+      "monthPageCreation": "Month Page Creation",
+      "enableMonthPageCreation": "Enable Month Page Creation",
+      "monthPageNameTemplate": "Page Name Template",
+      "monthLogseqTemplate": "Logseq Template",
+      "weekPageCreation": "Week Page Creation",
+      "enableWeekPageCreation": "Enable Week Page Creation",
+      "weekPageNameTemplate": "Page Name Template",
+      "weekLogseqTemplate": "Logseq Template"
     }
   }
 }
