@@ -57,6 +57,18 @@ export interface HeatmapSettings {
     maxColor: string;
     gradientSteps: number;
   };
+  // Month page creation settings
+  monthPageCreation?: {
+    enabled: boolean;
+    pageNameTemplate?: string;
+    logseqTemplate?: string;
+  };
+  // Week page creation settings
+  weekPageCreation?: {
+    enabled: boolean;
+    pageNameTemplate?: string;
+    logseqTemplate?: string;
+  };
 }
 
 // 全局设置类型

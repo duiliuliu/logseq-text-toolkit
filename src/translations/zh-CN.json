@@ -148,7 +148,15 @@
       "colorScheme": "配色方案",
       "minColor": "最小颜色",
       "maxColor": "最大颜色",
-      "preview": "预览"
+      "preview": "预览",
+      "monthPageCreation": "月度页面创建",
+      "enableMonthPageCreation": "启用月度页面创建",
+      "monthPageNameTemplate": "页面名称模板",
+      "monthLogseqTemplate": "Logseq 模板",
+      "weekPageCreation": "周度页面创建",
+      "enableWeekPageCreation": "启用周度页面创建",
+      "weekPageNameTemplate": "页面名称模板",
+      "weekLogseqTemplate": "Logseq 模板"
     }
   }
 }

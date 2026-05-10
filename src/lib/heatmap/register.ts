@@ -253,12 +253,13 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       language: settings?.language || 'en',
       referenceDate,
       containerWidth,
-      enableMonthPageCreation,
-      monthPageTemplate,
-      monthPageLogseqTemplate,
-      enableWeekPageCreation,
-      weekPageTemplate,
-      weekPageLogseqTemplate,
+      // Merge settings with macro parameters - macro takes precedence
+      enableMonthPageCreation: enableMonthPageCreation ?? settings?.heatmap?.monthPageCreation?.enabled ?? false,
+      monthPageTemplate: monthPageTemplate || settings?.heatmap?.monthPageCreation?.pageNameTemplate || '',
+      monthPageLogseqTemplate: monthPageLogseqTemplate || settings?.heatmap?.monthPageCreation?.logseqTemplate || '',
+      enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.weekPageCreation?.enabled ?? false,
+      weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageCreation?.pageNameTemplate || '',
+      weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || '',
     };
 
     const heatmapData = await fetchHeatmapData({
