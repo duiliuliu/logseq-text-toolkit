@@ -9,6 +9,78 @@ import { logseqAPI } from '../../logseq';
 import logger from '../logger';
 
 /**
+ * 获取 Logseq 用户配置的日期格式
+ */
+export async function getPreferredDateFormat(): Promise<string> {
+  try {
+    const configs = await (logseqAPI as any).App.getUserConfigs?.();
+    if (configs?.preferredDateFormat) {
+      return configs.preferredDateFormat;
+    }
+    return 'yyyy-MM-dd';
+  } catch (err) {
+    logger.warn('[PageUtils] Failed to get preferred date format:', err);
+    return 'yyyy-MM-dd';
+  }
+}
+
+/**
+ * 解析 Logseq 日期格式模板
+ * 支持格式：
+ * - E, EE, EEE, EEEE (星期)
+ * - MM (月份 01-12)
+ * - M (月份 1-12)
+ * - dd (日期 01-31)
+ * - d (日期 1-31)
+ * - yyyy (4位年份)
+ * - yy (2位年份)
+ */
+export function parseDateFormat(format: string): (date: Date) => string {
+  return (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dayOfWeek = date.getDay();
+    const weekdaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayName = weekdaysShort[dayOfWeek] || '';
+    const dayNameFull = weekdaysFull[dayOfWeek] || '';
+
+    return format
+      .replace(/EEEE/g, dayNameFull)
+      .replace(/E{1,3}/g, dayName)
+      .replace(/yyyy/g, String(year))
+      .replace(/yy/g, String(year).slice(-2))
+      .replace(/MM/g, String(month).padStart(2, '0'))
+      .replace(/M(?!a|i|n)/g, String(month))
+      .replace(/dd/g, String(day).padStart(2, '0'))
+      .replace(/d/g, String(day));
+  };
+}
+
+/**
+ * 格式化日期为页面名称
+ */
+export function formatDateForPage(
+  date: Date, 
+  format?: string
+): string {
+  if (format) {
+    try {
+      const formatter = parseDateFormat(format);
+      return formatter(date);
+    } catch (err) {
+      logger.warn('[PageUtils] Failed to parse date format:', err);
+    }
+  }
+  
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
  * 检查页面是否存在
  */
 export async function checkPageExists(pageName: string): Promise<boolean> {
@@ -94,26 +166,4 @@ export async function ensurePageAndNavigate(
     logger.error('[PageUtils] Error in ensurePageAndNavigate:', err);
     return false;
   }
-}
-
-/**
- * 格式化日期为页面名称
- */
-export function formatDateForPage(
-  date: Date, 
-  format?: string
-): string {
-  if (format) {
-    // 支持简单格式化
-    return format
-      .replace('{year}', String(date.getFullYear()))
-      .replace('{month}', String(date.getMonth() + 1).padStart(2, '0'))
-      .replace('{day}', String(date.getDate()).padStart(2, '0'));
-  }
-  
-  // 默认格式：YYYY-MM-DD
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
 }

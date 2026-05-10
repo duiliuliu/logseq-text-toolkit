@@ -17,6 +17,7 @@ const useSettings = (): SettingsContextType => {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
   const loadSettings = useCallback(async (): Promise<Settings | null> => {
     setIsLoading(true)
@@ -79,6 +80,33 @@ const useSettings = (): SettingsContextType => {
     }
   }, [loadSettings])
 
+  useEffect(() => {
+    // 监听 theme 变化
+    const setupThemeListener = async () => {
+      try {
+        if ((logseqAPI as any).onThemeModeChanged) {
+          const unsub = (logseqAPI as any).onThemeModeChanged(({ mode }: { mode: string }) => {
+            const newTheme = mode === 'dark' ? 'dark' : 'light'
+            setTheme(newTheme)
+            logger.info(`[Settings] Theme changed to: ${newTheme}`)
+          })
+          return unsub
+        }
+      } catch (err) {
+        logger.warn('[Settings] Failed to setup theme listener:', err)
+      }
+    }
+
+    const unsubPromise = setupThemeListener()
+    return () => {
+      unsubPromise.then(unsub => {
+        if (typeof unsub === 'function') {
+          unsub()
+        }
+      })
+    }
+  }, [])
+
   return {
     settings,
     isLoading,
@@ -86,7 +114,8 @@ const useSettings = (): SettingsContextType => {
     error,
     loadSettings,
     saveSettings,
-    resetSettings
+    resetSettings,
+    theme
   }
 }
 

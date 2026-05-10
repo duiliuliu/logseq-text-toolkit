@@ -130,4 +130,5 @@ export interface SettingsContextType {
   loadSettings: () => Promise<Settings | null>;
   saveSettings: (settings: Partial<Settings>) => Promise<boolean>;
   resetSettings: () => Promise<boolean>;
+  theme: 'light' | 'dark';
 }
