@@ -11,16 +11,23 @@ interface HeatmapProps {
   config: HeatmapConfig;
   data: HeatmapDataPoint[];
   theme?: 'light' | 'dark';
+  onBlockId?: string;
 }
 
-const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
+const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => {
   const containerClass = theme === 'dark' 
     ? `heatmap-container heatmap-${config.displayMode} dark`
     : `heatmap-container heatmap-${config.displayMode}`;
   const [viewType, setViewType] = useState<HeatmapViewType>(config.viewType);
   const [currentDate, setCurrentDate] = useState<Date>(config.referenceDate || new Date());
+  const [manualWidth, setManualWidth] = useState<string | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
+  const isResizing = useRef(false);
+  const startX = useRef(0);
+  const startWidth = useRef(0);
+
+  const effectiveWidth = manualWidth || config.containerWidth;
 
   const handleViewChange = useCallback((type: HeatmapViewType) => {
     setViewType(type);
@@ -90,6 +97,89 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
     setCurrentDate(newDate);
   }, [viewType, currentDate]);
 
+  const handleMonthLabelClick = useCallback(async (monthIndex: number) => {
+    if (!config.enableMonthPageCreation || !config.monthPageTemplate) return;
+    
+    const year = currentDate.getFullYear();
+    const month = monthIndex + 1;
+    let pageName = config.monthPageTemplate
+      .replace(/\{month\}/g, String(month).padStart(2, '0'))
+      .replace(/\{year\}/g, String(year));
+    
+    try {
+      await logseqAPI.App.createPage(pageName, '', {
+        createFirstBlock: true,
+        properties: config.monthPageLogseqTemplate ? { template: config.monthPageLogseqTemplate } : undefined
+      });
+      
+      if ((window as any).addToast) {
+        (window as any).addToast(`Created page: ${pageName}`, 'success', 3000);
+      }
+    } catch (err) {
+      console.error('Failed to create month page:', err);
+    }
+  }, [config, currentDate]);
+
+  const handleWeekLabelClick = useCallback(async (weekNumber: number) => {
+    if (!config.enableWeekPageCreation || !config.weekPageTemplate) return;
+    
+    const year = currentDate.getFullYear();
+    let pageName = config.weekPageTemplate
+      .replace(/\{week\}/g, String(weekNumber).padStart(2, '0'))
+      .replace(/\{year\}/g, String(year));
+    
+    try {
+      await logseqAPI.App.createPage(pageName, '', {
+        createFirstBlock: true,
+        properties: config.weekPageLogseqTemplate ? { template: config.weekPageLogseqTemplate } : undefined
+      });
+      
+      if ((window as any).addToast) {
+        (window as any).addToast(`Created page: ${pageName}`, 'success', 3000);
+      }
+    } catch (err) {
+      console.error('Failed to create week page:', err);
+    }
+  }, [config, currentDate]);
+
+  const handleResizeStart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    isResizing.current = true;
+    startX.current = e.clientX;
+    startWidth.current = containerRef.current?.clientWidth || 0;
+    
+    const handleResizeMove = (moveEvent: MouseEvent) => {
+      if (!isResizing.current) return;
+      const diff = moveEvent.clientX - startX.current;
+      const newWidth = Math.max(200, startWidth.current + diff);
+      setManualWidth(`${newWidth}px`);
+    };
+    
+    const handleResizeEnd = async () => {
+      if (!isResizing.current) return;
+      isResizing.current = false;
+      
+      if (onBlockId && manualWidth) {
+        try {
+          const currentBlock = await logseqAPI.Editor.getBlock(onBlockId);
+          if (currentBlock) {
+            const content = currentBlock.content;
+            const updatedContent = content.replace(/width=[\w%]+/, `width=${manualWidth}`);
+            await logseqAPI.Editor.updateBlock(onBlockId, updatedContent);
+          }
+        } catch (err) {
+          console.error('Failed to update block:', err);
+        }
+      }
+      
+      document.removeEventListener('mousemove', handleResizeMove);
+      document.removeEventListener('mouseup', handleResizeEnd);
+    };
+    
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeEnd);
+  }, [manualWidth, onBlockId]);
+
   useEffect(() => {
     setViewType(config.viewType);
   }, [config.viewType]);
@@ -144,12 +234,18 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
     const large = calcCell(monthCols, monthAxis, 16, 56);
     const week = calcCell(weekCols, weekAxis, 14, 48);
 
-    return {
-      ['--heatmap-cell-small' as any]: `${small}px`,
-      ['--heatmap-cell-large' as any]: `${large}px`,
-      ['--heatmap-cell-week' as any]: `${week}px`,
-    } as React.CSSProperties;
-  }, [containerWidth, config.displayMode, currentDate]);
+    const style: any = {
+      '--heatmap-cell-small': `${small}px`,
+      '--heatmap-cell-large': `${large}px`,
+      '--heatmap-cell-week': `${week}px`,
+    };
+    
+    if (effectiveWidth) {
+      style.width = effectiveWidth;
+    }
+
+    return style;
+  }, [containerWidth, config.displayMode, currentDate, effectiveWidth]);
 
   const handleCellClick = useCallback(async (date: string) => {
     if (date) {
@@ -168,9 +264,25 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
     
     switch (viewType) {
       case 'year':
-        return <YearView data={viewData} config={config} currentDate={currentDate} onCellClick={handleCellClick} />;
+        return (
+          <YearView 
+            data={viewData} 
+            config={config} 
+            currentDate={currentDate} 
+            onCellClick={handleCellClick}
+            onMonthLabelClick={handleMonthLabelClick}
+          />
+        );
       case 'month':
-        return <MonthView data={viewData} config={config} currentDate={currentDate} onCellClick={handleCellClick} />;
+        return (
+          <MonthView 
+            data={viewData} 
+            config={config} 
+            currentDate={currentDate} 
+            onCellClick={handleCellClick}
+            onWeekLabelClick={handleWeekLabelClick}
+          />
+        );
       case 'week':
         return <WeekView data={viewData} config={config} currentDate={currentDate} onCellClick={handleCellClick} />;
       default:
@@ -260,6 +372,11 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme }) => {
           <span className="legend-label">More</span>
         </div>
       )}
+      
+      <div 
+        className="heatmap-resize-handle"
+        onMouseDown={handleResizeStart}
+      />
     </div>
   );
 };

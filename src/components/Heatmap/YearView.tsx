@@ -8,9 +8,10 @@ interface YearViewProps {
   config: HeatmapConfig;
   currentDate: Date;
   onCellClick?: (date: string) => void;
+  onMonthLabelClick?: (monthIndex: number) => void;
 }
 
-const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellClick }) => {
+const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellClick, onMonthLabelClick }) => {
   const year = currentDate.getFullYear();
   
   const dataMap = new Map<string, HeatmapDataPoint>();
@@ -120,6 +121,7 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellCl
                 key={`${span.monthIndex}-${span.start}`}
                 className="year-month-label"
                 style={{ gridColumn: `${span.start + 2} / ${span.end + 2}` }}
+                onClick={() => onMonthLabelClick?.(span.monthIndex)}
               >
                 {months[span.monthIndex]}
               </div>

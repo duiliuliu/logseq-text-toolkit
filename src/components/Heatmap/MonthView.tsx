@@ -8,6 +8,7 @@ interface MonthViewProps {
   config: HeatmapConfig;
   currentDate: Date;
   onCellClick?: (date: string) => void;
+  onWeekLabelClick?: (weekNumber: number) => void;
 }
 
 const DAY_LABELS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -29,7 +30,7 @@ const getWeekNumber = (date: Date): number => {
   return weekNumber;
 };
 
-const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCellClick }) => {
+const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCellClick, onWeekLabelClick }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   
@@ -113,6 +114,13 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCell
     }
   };
 
+  const handleWeekLabelClick = (weekNumberStr: string) => {
+    const weekNum = parseInt(weekNumberStr.replace('W', ''), 10);
+    if (weekNum > 0 && onWeekLabelClick) {
+      onWeekLabelClick(weekNum);
+    }
+  };
+
   return (
     <div className="heatmap-month-view">
       <div className="month-view-container">
@@ -131,6 +139,7 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCell
             <React.Fragment key={weekIndex}>
               <div
                 className="month-week-label"
+                onClick={() => handleWeekLabelClick(weekNumbers[weekIndex])}
               >
                 {weekNumbers[weekIndex]}
               </div>

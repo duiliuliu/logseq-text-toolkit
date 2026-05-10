@@ -52,6 +52,13 @@ export interface HeatmapConfig {
   maxColor: string;
   language: string;
   referenceDate?: Date;
+  containerWidth?: string;
+  enableMonthPageCreation?: boolean;
+  monthPageTemplate?: string;
+  monthPageLogseqTemplate?: string;
+  enableWeekPageCreation?: boolean;
+  weekPageTemplate?: string;
+  weekPageLogseqTemplate?: string;
 }
 
 export interface IndigoColorScheme {

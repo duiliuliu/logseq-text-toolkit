@@ -8,6 +8,8 @@
   width: 100%;
   box-sizing: border-box;
   --heatmap-gap: 2px;
+  --heatmap-gap-month: 10px;
+  --heatmap-gap-week: 10px;
   --heatmap-cell-radius: 2px;
   --heatmap-cell-small: 10px;
   --heatmap-cell-large: 24px;
@@ -15,6 +17,7 @@
   --heatmap-year-axis-width: 28px;
   --heatmap-month-axis-width: 32px;
   --heatmap-week-axis-width: 44px;
+  position: relative;
 }
 
 .heatmap-container.dark {
@@ -305,7 +308,7 @@
 .month-grid {
   display: grid;
   grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);
-  gap: var(--heatmap-gap);
+  gap: var(--heatmap-gap-month);
   align-items: start;
   width: 100%;
   box-sizing: border-box;
@@ -314,7 +317,7 @@
 .month-view-container {
   display: flex;
   flex-direction: column;
-  gap: var(--heatmap-gap);
+  gap: var(--heatmap-gap-month);
   width: 100%;
   box-sizing: border-box;
 }
@@ -410,7 +413,7 @@
 .week-grid-container {
   display: grid;
   grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);
-  gap: var(--heatmap-gap);
+  gap: var(--heatmap-gap-week);
   align-items: start;
   width: 100%;
   box-sizing: border-box;
@@ -732,4 +735,62 @@
   .stat-item {
     padding: 3px 4px;
   }
+}
+
+.heatmap-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: se-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+  border-radius: 0 0 8px 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.heatmap-container:hover .heatmap-resize-handle {
+  opacity: 1;
+}
+
+.heatmap-resize-handle::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.heatmap-container.dark .heatmap-resize-handle::before {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.year-month-label {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.year-month-label:hover {
+  color: #3b82f6;
+}
+
+.dark .year-month-label:hover {
+  color: #60a5fa;
+}
+
+.month-week-label {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.month-week-label:hover {
+  color: #3b82f6;
+}
+
+.dark .month-week-label:hover {
+  color: #60a5fa;
 }
