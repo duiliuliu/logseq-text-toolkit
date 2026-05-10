@@ -8,15 +8,21 @@
   width: 100%;
   box-sizing: border-box;
   --heatmap-gap: 2px;
-  --heatmap-gap-month: 10px;
-  --heatmap-gap-week: 10px;
+  --heatmap-gap-month: 2px;
+  --heatmap-gap-week: 2px;
   --heatmap-cell-radius: 2px;
   --heatmap-cell-small: 10px;
   --heatmap-cell-large: 24px;
   --heatmap-cell-week: 22px;
+  --heatmap-cell-large-height: 24px;
+  --heatmap-cell-week-height: 22px;
   --heatmap-year-axis-width: 28px;
   --heatmap-month-axis-width: 32px;
   --heatmap-week-axis-width: 44px;
+  --heatmap-month-cell-width: 1fr;
+  --heatmap-month-cell-height: 24px;
+  --heatmap-week-cell-width: 1fr;
+  --heatmap-week-cell-height: 22px;
   position: relative;
 }
 
@@ -345,7 +351,7 @@
 .month-week-label {
   font-size: 10px;
   color: #9ca3af;
-  height: var(--heatmap-cell-large);
+  height: var(--heatmap-month-cell-height);
   width: var(--heatmap-month-axis-width);
   display: flex;
   align-items: center;
@@ -462,14 +468,20 @@
 
 .heatmap-cell.size-large {
   width: 100% !important;
-  aspect-ratio: 1/1;
-  height: auto !important;
+  aspect-ratio: unset;
+  height: var(--heatmap-cell-large-height) !important;
+}
+
+.heatmap-month-view .heatmap-cell.size-large {
+  width: var(--heatmap-month-cell-width) !important;
+  height: var(--heatmap-month-cell-height) !important;
+  aspect-ratio: unset;
 }
 
 .heatmap-week-view .heatmap-cell.size-large {
-  width: 100% !important;
-  aspect-ratio: 1/1;
-  height: auto !important;
+  width: var(--heatmap-week-cell-width) !important;
+  height: var(--heatmap-week-cell-height) !important;
+  aspect-ratio: unset;
 }
 
 .dark .heatmap-cell,

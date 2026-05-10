@@ -215,15 +215,6 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           value={heatmapSettings.monthPageCreation?.pageNameTemplate || ''}
           onChange={(e) => handleMonthPageCreationChange('pageNameTemplate', e.target.value)}
           placeholder="{year}-{month}"
-          style={{
-            flex: 1,
-            padding: '6px 10px',
-            border: '1px solid var(--ls-border-color-plugin, #ccc)',
-            borderRadius: '4px',
-            fontSize: '13px',
-            outline: 'none',
-            minWidth: '200px'
-          }}
         />
       </div>
       <div style={{ margin: '-8px 0 12px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
@@ -237,15 +228,6 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           value={heatmapSettings.monthPageCreation?.logseqTemplate || ''}
           onChange={(e) => handleMonthPageCreationChange('logseqTemplate', e.target.value)}
           placeholder={language?.startsWith('zh') ? '模板名称（可选）' : 'Template name (optional)'}
-          style={{
-            flex: 1,
-            padding: '6px 10px',
-            border: '1px solid var(--ls-border-color-plugin, #ccc)',
-            borderRadius: '4px',
-            fontSize: '13px',
-            outline: 'none',
-            minWidth: '200px'
-          }}
         />
       </div>
 
@@ -272,15 +254,6 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           value={heatmapSettings.weekPageCreation?.pageNameTemplate || ''}
           onChange={(e) => handleWeekPageCreationChange('pageNameTemplate', e.target.value)}
           placeholder="{year}-W{week}"
-          style={{
-            flex: 1,
-            padding: '6px 10px',
-            border: '1px solid var(--ls-border-color-plugin, #ccc)',
-            borderRadius: '4px',
-            fontSize: '13px',
-            outline: 'none',
-            minWidth: '200px'
-          }}
         />
       </div>
       <div style={{ margin: '-8px 0 12px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
@@ -294,15 +267,6 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           value={heatmapSettings.weekPageCreation?.logseqTemplate || ''}
           onChange={(e) => handleWeekPageCreationChange('logseqTemplate', e.target.value)}
           placeholder={language?.startsWith('zh') ? '模板名称（可选）' : 'Template name (optional)'}
-          style={{
-            flex: 1,
-            padding: '6px 10px',
-            border: '1px solid var(--ls-border-color-plugin, #ccc)',
-            borderRadius: '4px',
-            fontSize: '13px',
-            outline: 'none',
-            minWidth: '200px'
-          }}
         />
       </div>
 

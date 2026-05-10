@@ -234,10 +234,33 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const large = calcCell(monthCols, monthAxis, 16, 56);
     const week = calcCell(weekCols, weekAxis, 14, 48);
 
+    // Adaptive gap calculation for month and week views (range: 2-10px)
+    const minGap = 2;
+    const maxGap = 10;
+    const availableForMonth = Math.max(innerWidth - monthAxis, 0);
+    const monthCellWidth = Math.max((availableForMonth - minGap * 6) / 7, 10);
+    const monthGap = Math.min(Math.max((availableForMonth - monthCellWidth * 7) / 6, minGap), maxGap);
+    
+    const availableForWeek = Math.max(innerWidth - weekAxis, 0);
+    const weekCellWidth = Math.max((availableForWeek - minGap * 6) / 7, 10);
+    const weekGap = Math.min(Math.max((availableForWeek - weekCellWidth * 7) / 6, minGap), maxGap);
+
+    // Calculate cell heights based on container width (width:height ratio control)
+    const monthCellHeight = Math.min(Math.max(large * 0.6, 12), 40);
+    const weekCellHeight = Math.min(Math.max(week * 0.6, 10), 36);
+
     const style: any = {
       '--heatmap-cell-small': `${small}px`,
       '--heatmap-cell-large': `${large}px`,
+      '--heatmap-cell-large-height': `${monthCellHeight}px`,
       '--heatmap-cell-week': `${week}px`,
+      '--heatmap-cell-week-height': `${weekCellHeight}px`,
+      '--heatmap-gap-month': `${monthGap}px`,
+      '--heatmap-gap-week': `${weekGap}px`,
+      '--heatmap-month-cell-width': `${monthCellWidth}px`,
+      '--heatmap-month-cell-height': `${monthCellHeight}px`,
+      '--heatmap-week-cell-width': `${weekCellWidth}px`,
+      '--heatmap-week-cell-height': `${weekCellHeight}px`,
     };
     
     if (effectiveWidth) {

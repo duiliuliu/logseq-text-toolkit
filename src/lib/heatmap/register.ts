@@ -1,4 +1,3 @@
-import ReactDOMServer from 'react-dom/server';
 import React from 'react';
 import { fetchHeatmapData } from './query';
 import { 
@@ -11,10 +10,11 @@ import {
   ColorFormula
 } from './types';
 import { logseqAPI } from '../../logseq';
+import { getDocument } from '../../logseq/utils';
 import { getSettingsWithSystem } from '../../settings';
 import logger from '../logger/index';
 import { generateIndigoGradient } from './colorCalculator';
-import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 
 const MACRO_PREFIX = ':heatmap';
 const MACRO_PREFIX_CN = ':热力图';
@@ -276,21 +276,26 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       return false;
     }
 
-    const template = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(HeatmapComponent, {
-        config: heatmapConfig,
-        data: heatmapData,
-        theme: resolvedTheme,
-        onBlockId: blockUuid,
-      })
-    );
+    const containerId = PLUGIN_ID + '__' + slot;
 
     logseqAPI.provideUI({
-      key: PLUGIN_ID + '__' + slot,
+      key: containerId,
       slot,
       reset: true,
-      template,
+      template: `<div id="${containerId}"></div>`,
     });
+
+    setTimeout(() => {
+      const container = getDocument().getElementById(containerId);
+      if (container) {
+        renderComponent(container, HeatmapComponent, {
+          config: heatmapConfig,
+          data: heatmapData,
+          theme: resolvedTheme,
+          onBlockId: blockUuid,
+        });
+      }
+    }, 1);
 
     return true;
   } catch (err) {
