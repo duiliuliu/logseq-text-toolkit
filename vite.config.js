@@ -19,6 +19,23 @@ module.exports = ${JSON.stringify(fileNames, null, 2)}
   console.log(`[vite-plugin-css-export] Generated CSS files config: ${fileNames.join(', ')}`)
 }
 
+function findMatchingCSSVar(registeredName, importMap) {
+  const exactVarName = registeredName + 'CSSRaw'
+  if (importMap[exactVarName]) {
+    return importMap[exactVarName]
+  }
+
+  const lowerName = registeredName.toLowerCase()
+  for (const [varName, cssPath] of Object.entries(importMap)) {
+    const varLower = varName.replace('CSSRaw', '').toLowerCase()
+    if (varLower === lowerName || varLower.includes(lowerName) || lowerName.includes(varLower)) {
+      return cssPath
+    }
+  }
+
+  return null
+}
+
 function extractCSSFilesAndWrite() {
   const projectRoot = resolve(__dirname)
   const initializerPath = resolve(projectRoot, 'src/initializer.ts')
@@ -47,22 +64,22 @@ function extractCSSFilesAndWrite() {
   while ((registerMatch = registerRegex.exec(content)) !== null) {
     const registeredName = registerMatch[1]
     const cssFileName = `${registeredName}.css`
-    const targetVarName = registeredName + 'CSSRaw'
+    const cssPath = findMatchingCSSVar(registeredName, importMap)
 
-    if (importMap[targetVarName]) {
-      const cssPath = resolve(projectRoot, 'src', importMap[targetVarName].replace(/\?raw$/, ''))
+    if (cssPath) {
+      const fullCSSPath = resolve(projectRoot, 'src', cssPath.replace(/\?raw$/, ''))
 
-      if (existsSync(cssPath)) {
-        const cssContent = readFileSync(cssPath, 'utf-8')
+      if (existsSync(fullCSSPath)) {
+        const cssContent = readFileSync(fullCSSPath, 'utf-8')
         const distPath = resolve(projectRoot, 'dist', cssFileName)
         writeFileSync(distPath, cssContent, 'utf-8')
         cssFileNames.push(cssFileName)
         console.log(`[vite-plugin-css-export] Written CSS file: ${cssFileName}`)
       } else {
-        console.warn(`[vite-plugin-css-export] CSS file not found: ${cssPath}`)
+        console.warn(`[vite-plugin-css-export] CSS file not found: ${fullCSSPath}`)
       }
     } else {
-      console.warn(`[vite-plugin-css-export] No import found for CSS: ${targetVarName}`)
+      console.warn(`[vite-plugin-css-export] No import found for CSS: ${registeredName}`)
     }
   }
 
