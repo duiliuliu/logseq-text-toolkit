@@ -1,98 +1,33 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import logseqDevPlugin from 'vite-plugin-logseq'
-import { writeFileSync, existsSync, readdirSync, statSync, readFileSync } from 'fs'
-import { resolve, join } from 'path'
+import { writeFileSync, existsSync, readFileSync } from 'fs'
+import { resolve } from 'path'
 
 const CSS_FILES_CONFIG = 'scripts/css-files.js'
-const COMPONENTS_DIR = 'src/components'
-const INITIALIZER_PATH = 'src/initializer.ts'
 
-/**
- * Recursively find all CSS files in a directory
- */
-function findCSSFiles(dir, baseDir = dir) {
-  const files = []
-  try {
-    const items = readdirSync(dir)
-    for (const item of items) {
-      const fullPath = join(dir, item)
-      const stat = statSync(fullPath)
-      if (stat.isDirectory()) {
-        files.push(...findCSSFiles(fullPath, baseDir))
-      } else if (item.endsWith('.css')) {
-        const relativePath = fullPath.replace(baseDir + '/', '')
-        files.push(relativePath)
-      }
-    }
-  } catch (error) {
-    console.warn(`[vite-plugin-css-export] Cannot read directory ${dir}:`, error.message)
-  }
-  return files
-}
-
-/**
- * Extract registered CSS external paths from initializer.ts
- * Returns a map of css file name -> full registered path
- */
-function getRegisteredCSSPaths() {
+function extractExternalPaths() {
   const projectRoot = resolve(__dirname)
-  const initializerFile = resolve(projectRoot, INITIALIZER_PATH)
-
-  if (!existsSync(initializerFile)) {
-    console.warn('[vite-plugin-css-export] initializer.ts not found')
-    return {}
+  const cssRegistryPath = resolve(projectRoot, 'src/initializer.ts')
+  
+  console.log('[vite-plugin-css-export] Project root:', projectRoot)
+  console.log('[vite-plugin-css-export] CSS registry path:', cssRegistryPath)
+  
+  if (!existsSync(cssRegistryPath)) {
+    console.warn('[vite-plugin-css-export] cssRegistry/index.ts not found')
+    return null
   }
-
-  const content = readFileSync(initializerFile, 'utf-8')
-
-  const registeredPaths = {}
-
-  const regex = /registerCSS\s*\(\s*['"]([^'"]+)['"]\s*,\s*\{[^}]*externalPath:\s*['"]([^'"]+)['"]/gs
+  
+  const content = readFileSync(cssRegistryPath, 'utf-8')
+  const regex = /externalPath:\s*['"]([^'"]+)['"]/g
+  const paths = []
   let match
-
+  
   while ((match = regex.exec(content)) !== null) {
-    const [, cssName, externalPath] = match
-    const fileName = externalPath.split('/').pop()
-    registeredPaths[externalPath] = cssName
-    registeredPaths[fileName] = cssName
+    paths.push(match[1])
   }
-
-  console.log(`[vite-plugin-css-export] Found ${Object.keys(registeredPaths).length / 2} registered CSS paths`)
-  return registeredPaths
-}
-
-/**
- * Scan components directory for CSS files and generate config
- * Only includes CSS files that are registered in initializer.ts
- */
-function scanComponentsForCSS() {
-  const projectRoot = resolve(__dirname)
-  const componentsPath = resolve(projectRoot, COMPONENTS_DIR)
-
-  console.log('[vite-plugin-css-export] Scanning components for CSS files...')
-
-  if (!existsSync(componentsPath)) {
-    console.warn('[vite-plugin-css-export] Components directory not found:', componentsPath)
-    return []
-  }
-
-  const registeredPaths = getRegisteredCSSPaths()
-  const allCSSFiles = findCSSFiles(componentsPath)
-
-  const registeredCSSFiles = allCSSFiles.filter(cssFile => {
-    const fileName = cssFile.split('/').pop()
-    const isRegistered = cssFile in registeredPaths || fileName in registeredPaths
-    if (!isRegistered) {
-      console.log(`[vite-plugin-css-export] Skipping unregistered CSS: ${cssFile}`)
-    }
-    return isRegistered
-  })
-
-  console.log(`[vite-plugin-css-export] Found ${registeredCSSFiles.length} registered CSS files:`)
-  registeredCSSFiles.forEach(f => console.log(`  + ${f}`))
-
-  return registeredCSSFiles
+  
+  return paths.length > 0 ? paths : null
 }
 
 function generateCSSFilesConfig(paths) {
@@ -118,10 +53,10 @@ export default defineConfig(({ mode }) => {
         name: 'vite-plugin-css-export',
         apply: 'build',
         writeBundle() {
-          console.log('[vite-plugin-css-export] Bundle written, scanning for registered CSS files...')
-          const cssFiles = scanComponentsForCSS()
-          if (cssFiles.length > 0) {
-            generateCSSFilesConfig(cssFiles)
+          console.log('[vite-plugin-css-export] Bundle written, extracting CSS files...')
+          const paths = extractExternalPaths()
+          if (paths) {
+            generateCSSFilesConfig(paths)
           }
         }
       }

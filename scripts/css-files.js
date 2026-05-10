@@ -4,11 +4,12 @@
  */
 
 module.exports = [
-  "Comment/inlineComment.css",
-  "CustomSelect/customSelect.css",
-  "Heatmap/heatmap.css",
-  "Modal/modal.css",
-  "SettingsModal/settingsModal.css",
-  "TaskProgress/taskProgress.css",
-  "Toolbar/toolbar.css"
+  "toolbar.css",
+  "settingsModal.css",
+  "modal.css",
+  "inlineComment.css",
+  "customToolbarItems.css",
+  "taskProgress.css",
+  "customSelect.css",
+  "heatmap.css"
 ]
