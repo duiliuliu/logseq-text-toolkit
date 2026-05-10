@@ -389,7 +389,10 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
     }
 
     try {
-      const pageName = getMonthPageName(monthPageCreation.pageNameTemplate, currentDate);
+      const pageNameTemplate = monthPageCreation.pageNameTemplate || '{{year}}-{{month}}';
+      const contentTemplate = monthPageCreation.logseqTemplate || '- {{date}}: {{count}} items';
+
+      const pageName = getMonthPageName(pageNameTemplate, currentDate);
       const existingPages = await logseqAPI.getAllPages();
       if (existingPages.some(p => p.name === pageName)) {
         setCreationStatus(`Page "${pageName}" already exists`);
@@ -404,9 +407,9 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
 
       let content = '';
       Object.entries(aggregatedData).sort().forEach(([date, count]) => {
-        const line = monthPageCreation.logseqTemplate
-          .replace('{{date}}', date)
-          .replace('{{count}}', String(count));
+        const line = contentTemplate
+          .replace(/\{\{date\}\}/g, date)
+          .replace(/\{\{count\}\}/g, String(count));
         content += line + '\n';
       });
 
@@ -425,7 +428,10 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
     }
 
     try {
-      const pageName = getWeekPageName(weekPageCreation.pageNameTemplate, currentDate);
+      const pageNameTemplate = weekPageCreation.pageNameTemplate || '{{year}}-W{{week}}';
+      const contentTemplate = weekPageCreation.logseqTemplate || '- {{date}}: {{count}} items';
+
+      const pageName = getWeekPageName(pageNameTemplate, currentDate);
       const existingPages = await logseqAPI.getAllPages();
       if (existingPages.some(p => p.name === pageName)) {
         setCreationStatus(`Page "${pageName}" already exists`);
@@ -440,9 +446,9 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
 
       let content = '';
       Object.entries(aggregatedData).sort().forEach(([date, count]) => {
-        const line = weekPageCreation.logseqTemplate
-          .replace('{{date}}', date)
-          .replace('{{count}}', String(count));
+        const line = contentTemplate
+          .replace(/\{\{date\}\}/g, date)
+          .replace(/\{\{count\}\}/g, String(count));
         content += line + '\n';
       });
 
