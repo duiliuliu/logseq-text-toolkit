@@ -170,29 +170,6 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
           </React.Fragment>
         ))}
       </div>
-
-      {config.displayMode === 'full' && (
-        <div className="week-activities">
-          <h4>Week Activities</h4>
-          <ul className="activity-list">
-            {days.filter(day => {
-              const dayBlocks = blocksByDate.get(day.date) || [];
-              return dayBlocks.length > 0;
-            }).map(day => {
-              const dayBlocks = blocksByDate.get(day.date) || [];
-              const totalCount = dayBlocks.length;
-              return (
-                <li key={day.date} className="activity-item">
-                  <span className="activity-date">
-                    {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                  </span>
-                  <span className="activity-count">{totalCount} activities</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };
