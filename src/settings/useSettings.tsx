@@ -135,6 +135,6 @@ export const useSettingsContext = () => {
     throw new Error('useSettingsContext must be used within SettingsProvider');
   }
   return ctx;
-};}
+};
 
 export default useSettings
