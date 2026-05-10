@@ -1,50 +1,34 @@
 const fs = require('fs')
 const path = require('path')
+const cssFiles = require('./css-files')
 
+const sourceDir = 'src'
 const distDir = 'dist'
 
 if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir, { recursive: true })
 }
 
-function scanCSSFiles() {
-  const sourceDir = 'src'
-  const sourceMap = {}
-  
-  function walkDir(dir, basePath = '') {
-    if (!fs.existsSync(dir)) return
-    
-    const entries = fs.readdirSync(dir, { withFileTypes: true })
-    
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name)
-      const relativePath = path.join(basePath, entry.name)
-      
-      if (entry.isDirectory()) {
-        walkDir(fullPath, relativePath)
-      } else if (entry.isFile() && entry.name.endsWith('.css')) {
-        const cssName = entry.name
-        const sourceRelative = relativePath
-        sourceMap[cssName] = sourceRelative
-      }
-    }
-  }
-  
-  walkDir(sourceDir)
-  return sourceMap
+const sourceMap = {
+  'toolbar.css': 'src/components/Toolbar/toolbar.css',
+  'settingsModal.css': 'src/components/SettingsModal/settingsModal.css',
+  'modal.css': 'src/components/Modal/modal.css',
+  'inlineComment.css': 'src/components/Comment/inlineComment.css',
+  'customToolbarItems.css': 'src/components/SelectToolbar/customsToolbarItems.css',
+  'taskProgress.css': 'src/components/TaskProgress/taskProgress.css',
+  'customSelect.css': 'src/components/CustomSelect/customSelect.css',
 }
 
-const sourceMap = scanCSSFiles()
-const cssFiles = Object.keys(sourceMap)
-
-console.log('Found CSS files:', cssFiles)
-
 cssFiles.forEach(file => {
-  const sourcePath = path.join(process.cwd(), sourceMap[file])
+  const sourcePath = sourceMap[file]
+  if (!sourcePath) {
+    console.warn(`Warning: No source mapping for ${file}`)
+    return
+  }
   const dest = path.join(distDir, file)
   try {
     fs.copyFileSync(sourcePath, dest)
-    console.log(`Copied: ${sourceMap[file]} -> ${dest}`)
+    console.log(`Copied: ${sourcePath} -> ${dest}`)
   } catch (err) {
     console.error(`Error copying ${file}:`, err.message)
   }
