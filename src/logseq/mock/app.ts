@@ -2,6 +2,13 @@ import { getDocument } from '../utils.ts';
 
 const eventListeners: Map<string, Array<(...args: any[]) => void>> = new Map();
 
+// Mock logger
+const logger = {
+  info: (message: string, ...args: any[]) => console.log(`[INFO] ${message}`, ...args),
+  warn: (message: string, ...args: any[]) => console.warn(`[WARN] ${message}`, ...args),
+  error: (message: string, ...args: any[]) => console.error(`[ERROR] ${message}`, ...args),
+};
+
 const App: any = {
   registerCommand: (command: any) => {
     console.log('Registered command:', command);
@@ -150,16 +157,54 @@ const App: any = {
   },
   
   pushState: (page: string, params: any) => {
-    console.log('Mock App.pushState:', page, params);
-    const message = params.date ? `跳转到日期页面: ${params.date}` : `跳转到页面: ${page}`;
+    logger.info(`[Mock] App.pushState: ${page}`, params);
+    const message = params.date 
+      ? `跳转到日期页面: ${params.date}` 
+      : params.name 
+        ? `跳转到页面: ${params.name}`
+        : `跳转到页面: ${page}`;
     // 显示 Toast 提示
     if ((window as any).addToast) {
       (window as any).addToast(message, 'info', 3000);
     } else {
-      console.log('Toast:', message);
       alert(message);
     }
   }
+};
+
+// Mock Editor
+export const Editor: any = {
+  getPage: async (pageName: string) => {
+    logger.info(`[Mock] Editor.getPage: ${pageName}`);
+    // Mock: 总是返回 null，表示页面不存在
+    return Promise.resolve(null);
+  },
+  
+  createPage: async (pageName: string, content: string, options?: any) => {
+    logger.info(`[Mock] Editor.createPage: ${pageName}`, options);
+    // Mock: 模拟创建页面
+    const message = `创建页面: ${pageName}`;
+    if ((window as any).addToast) {
+      (window as any).addToast(message, 'success', 3000);
+    } else {
+      alert(message);
+    }
+    return Promise.resolve({
+      name: pageName,
+      uuid: `mock-uuid-${Date.now()}`,
+      'page/original-name': pageName,
+    });
+  },
+  
+  getBlock: async (blockUuid: string) => {
+    logger.info(`[Mock] Editor.getBlock: ${blockUuid}`);
+    return Promise.resolve(null);
+  },
+  
+  updateBlock: async (blockUuid: string, content: string) => {
+    logger.info(`[Mock] Editor.updateBlock: ${blockUuid}`, content);
+    return Promise.resolve(true);
+  },
 };
 
 export default App;

@@ -5,6 +5,7 @@ import WeekView from './WeekView';
 import Statistics from './Statistics';
 import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, INDIGO_COLORS } from '../../lib/heatmap/types';
 import { logseqAPI } from '../../logseq';
+import { ensurePageAndNavigate } from '../../lib/heatmap/pageUtils';
 import './heatmap.css';
 
 interface HeatmapProps {
@@ -106,18 +107,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       .replace(/\{month\}/g, String(month).padStart(2, '0'))
       .replace(/\{year\}/g, String(year));
     
-    try {
-      await logseqAPI.App.createPage(pageName, '', {
-        createFirstBlock: true,
-        properties: config.monthPageLogseqTemplate ? { template: config.monthPageLogseqTemplate } : undefined
-      });
-      
-      if ((window as any).addToast) {
-        (window as any).addToast(`Created page: ${pageName}`, 'success', 3000);
-      }
-    } catch (err) {
-      console.error('Failed to create month page:', err);
-    }
+    // 使用 ensurePageAndNavigate 确保页面存在并跳转
+    await ensurePageAndNavigate(pageName, config.monthPageLogseqTemplate);
   }, [config, currentDate]);
 
   const handleWeekLabelClick = useCallback(async (weekNumber: number) => {
@@ -128,18 +119,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       .replace(/\{week\}/g, String(weekNumber).padStart(2, '0'))
       .replace(/\{year\}/g, String(year));
     
-    try {
-      await logseqAPI.App.createPage(pageName, '', {
-        createFirstBlock: true,
-        properties: config.weekPageLogseqTemplate ? { template: config.weekPageLogseqTemplate } : undefined
-      });
-      
-      if ((window as any).addToast) {
-        (window as any).addToast(`Created page: ${pageName}`, 'success', 3000);
-      }
-    } catch (err) {
-      console.error('Failed to create week page:', err);
-    }
+    // 使用 ensurePageAndNavigate 确保页面存在并跳转
+    await ensurePageAndNavigate(pageName, config.weekPageLogseqTemplate);
   }, [config, currentDate]);
 
   const handleResizeStart = useCallback((e: React.MouseEvent) => {
