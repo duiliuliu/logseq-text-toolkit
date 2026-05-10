@@ -16,7 +16,7 @@
   transform: rotate(-90deg);
 }
 
-.ltt-task-progress-mini-circle .ltt-center-text {
+.ltt-task-progress-mini-circle .ltt-task-progress-mini-circle-center-text {
   position: absolute;
   font-size: 10px;
   font-weight: 600;
