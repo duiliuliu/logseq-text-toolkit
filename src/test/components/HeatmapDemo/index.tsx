@@ -332,6 +332,12 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
         },
         minColor: heatmapSettings.colorScheme.minColor,
         maxColor: heatmapSettings.colorScheme.maxColor,
+        enableMonthPageCreation: settings?.heatmap?.monthPageCreation?.enabled ?? false,
+        monthPageTemplate: settings?.heatmap?.monthPageCreation?.pageNameTemplate || '',
+        monthPageLogseqTemplate: settings?.heatmap?.monthPageCreation?.logseqTemplate || '',
+        enableWeekPageCreation: settings?.heatmap?.weekPageCreation?.enabled ?? false,
+        weekPageTemplate: settings?.heatmap?.weekPageCreation?.pageNameTemplate || '',
+        weekPageLogseqTemplate: settings?.heatmap?.weekPageCreation?.logseqTemplate || '',
       }));
     }
   }, [heatmapSettings?.defaultViewType, heatmapSettings?.defaultDisplayMode, heatmapSettings?.defaultColorFormula, heatmapSettings?.colorScheme?.minColor, heatmapSettings?.colorScheme?.maxColor, heatmapSettings?.colorScheme?.gradientSteps]);
