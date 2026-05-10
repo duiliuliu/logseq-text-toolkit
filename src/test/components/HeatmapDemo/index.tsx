@@ -389,9 +389,12 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
     }
 
     try {
-      const pageName = getMonthPageName(monthPageCreation.pageNameTemplate, currentDate);
-      const existingPages = await logseqAPI.getAllPages();
-      if (existingPages.some(p => p.name === pageName)) {
+      const pageName = getMonthPageName(monthPageCreation.pageNameTemplate || '{{year}}-{{month}}', currentDate);
+      const logseqTemplate = monthPageCreation.logseqTemplate || '- {{date}} - {{count}} items';
+
+      const existingPage = await logseqAPI.getPage(pageName);
+      if (existingPage) {
+        await logseqAPI.showMsg(`Page "${pageName}" already exists`, 'warning');
         setCreationStatus(`Page "${pageName}" already exists`);
         return;
       }
@@ -404,16 +407,19 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
 
       let content = '';
       Object.entries(aggregatedData).sort().forEach(([date, count]) => {
-        const line = monthPageCreation.logseqTemplate
-          .replace('{{date}}', date)
-          .replace('{{count}}', String(count));
+        const line = logseqTemplate
+          .replace(/\{\{date\}\}/g, date)
+          .replace(/\{\{count\}\}/g, String(count));
         content += line + '\n';
       });
 
       await logseqAPI.createPage(pageName, content.trim());
+      await logseqAPI.showMsg(`Created page: ${pageName}`, 'success');
+      await logseqAPI.pushState(pageName);
       setCreationStatus(`Created page: ${pageName}`);
       setTimeout(() => setCreationStatus(null), 3000);
     } catch (err: any) {
+      await logseqAPI.showMsg(`Error: ${err.message}`, 'error');
       setCreationStatus(`Error: ${err.message}`);
     }
   }, [currentDate, data, monthPageCreation, healthStatus]);
@@ -425,9 +431,12 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
     }
 
     try {
-      const pageName = getWeekPageName(weekPageCreation.pageNameTemplate, currentDate);
-      const existingPages = await logseqAPI.getAllPages();
-      if (existingPages.some(p => p.name === pageName)) {
+      const pageName = getWeekPageName(weekPageCreation.pageNameTemplate || '{{year}}-W{{week}}', currentDate);
+      const logseqTemplate = weekPageCreation.logseqTemplate || '- {{date}} - {{count}} items';
+
+      const existingPage = await logseqAPI.getPage(pageName);
+      if (existingPage) {
+        await logseqAPI.showMsg(`Page "${pageName}" already exists`, 'warning');
         setCreationStatus(`Page "${pageName}" already exists`);
         return;
       }
@@ -440,16 +449,19 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
 
       let content = '';
       Object.entries(aggregatedData).sort().forEach(([date, count]) => {
-        const line = weekPageCreation.logseqTemplate
-          .replace('{{date}}', date)
-          .replace('{{count}}', String(count));
+        const line = logseqTemplate
+          .replace(/\{\{date\}\}/g, date)
+          .replace(/\{\{count\}\}/g, String(count));
         content += line + '\n';
       });
 
       await logseqAPI.createPage(pageName, content.trim());
+      await logseqAPI.showMsg(`Created page: ${pageName}`, 'success');
+      await logseqAPI.pushState(pageName);
       setCreationStatus(`Created page: ${pageName}`);
       setTimeout(() => setCreationStatus(null), 3000);
     } catch (err: any) {
+      await logseqAPI.showMsg(`Error: ${err.message}`, 'error');
       setCreationStatus(`Error: ${err.message}`);
     }
   }, [currentDate, data, weekPageCreation, healthStatus]);

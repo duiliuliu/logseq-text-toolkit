@@ -265,28 +265,48 @@ class LogseqAPI {
   }
 
   async getAllPages(): Promise<{ name: string }[]> {
-    const query = `
-      [:find ?name
-       :where
-       [?p :page/name ?name]
-      ]
-    `
-
-    const result = await this.executeQuery(query)
-    if (result.data && result.data.length > 0) {
-      return result.data.map((item: any) => ({ name: item[0] }))
+    try {
+      const result = await this._callAPI('logseq.Editor.getAllPages', []);
+      if (result && Array.isArray(result)) {
+        return result.map((page: any) => ({
+          name: page.name || page['page/name'] || page.title || ''
+        })).filter((p: any) => p.name);
+      }
+      return [];
+    } catch (error) {
+      console.error('Error getting all pages:', error);
+      return [];
     }
-    return []
   }
 
   async createPage(pageName: string, content: string): Promise<{ name: string }> {
     const args = [
       pageName,
-      { content }
-    ]
+      {
+        content: content,
+        createFirstBlock: true
+      }
+    ];
 
-    const result = await this._callAPI('create-page', args)
-    return { name: pageName }
+    await this._callAPI('logseq.Editor.createPage', args);
+    return { name: pageName };
+  }
+
+  async getPage(pageName: string): Promise<any> {
+    try {
+      const result = await this._callAPI('logseq.Editor.getPage', [pageName]);
+      return result;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async pushState(pageName: string): Promise<void> {
+    await this._callAPI('logseq.App.pushState', ['page', { name: pageName }]);
+  }
+
+  async showMsg(message: string, type: 'success' | 'warning' | 'error' = 'success'): Promise<void> {
+    await this._callAPI('logseq.UI.showMsg', [message, type]);
   }
 }
 
