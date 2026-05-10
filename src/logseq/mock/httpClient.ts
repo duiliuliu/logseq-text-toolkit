@@ -86,6 +86,7 @@ class LogseqHTTPClient {
       return result.data;
     }
 
+    logger.error(`[HTTPClient] Method "${method}" failed:`, result.error || 'Unknown error');
     throw new Error(result.error || 'Unknown error');
   }
 

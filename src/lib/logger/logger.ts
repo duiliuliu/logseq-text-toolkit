@@ -21,6 +21,14 @@ export class LogseqLogger implements Logger {
     ERROR: 3,
   };
 
+  // 控制台颜色配置
+  private colors: Record<PluginLogLevel, string> = {
+    DEBUG: '#9CA3AF', // 灰色
+    INFO: '#3B82F6', // 蓝色
+    WARN: '#F59E0B', // 黄色/橙色
+    ERROR: '#EF4444', // 红色
+  };
+
   constructor(
     namespace: string = '',
     options: LoggerOptions = {}
@@ -31,14 +39,6 @@ export class LogseqLogger implements Logger {
   }
 
   /**
-   * 格式化日志消息
-   */
-  private formatMessage(level: string, message: string): string {
-    const prefix = this._tag ? `[${this._tag}]` : '[Text Toolkit]';
-    return `${prefix} [${level}] ${message}`;
-  }
-
-  /**
    * 检查日志级别是否允许输出
    */
   private isLevelAllowed(level: PluginLogLevel): boolean {
@@ -46,7 +46,7 @@ export class LogseqLogger implements Logger {
   }
 
   /**
-   * 通用日志输出方法
+   * 通用日志输出方法（带颜色）
    */
   private output(
     level: PluginLogLevel,
@@ -58,9 +58,17 @@ export class LogseqLogger implements Logger {
     if (!this._console) return;
     // 2. 检查日志级别
     if (!this.isLevelAllowed(level)) return;
-    // 3. 格式化并输出日志
-    const formattedMsg = this.formatMessage(level.toUpperCase(), message);
-    console[consoleMethod](formattedMsg, ...args);
+    
+    const prefix = this._tag ? `[${this._tag}]` : '[Text Toolkit]';
+    const color = this.colors[level];
+    
+    // 3. 使用 CSS 颜色格式化并输出日志（浏览器控制台）
+    console[consoleMethod](
+      `%c${prefix} [${level.toUpperCase()}]`, 
+      `color: ${color}; font-weight: bold;`,
+      message,
+      ...args
+    );
   }
 
   // ========== 实现官方 Logger 接口 ==========

@@ -173,6 +173,7 @@ function parseHiccupArray(str: string): any {
   
   skipWhitespace();
   if (str[pos] !== '[') {
+    logger.error('Hiccup must start with [');
     throw new Error('Hiccup must start with [');
   }
   
@@ -186,6 +187,7 @@ function parseHiccupString(str: string): string {
   
   // 检查是否是数组形式
   if (!str.startsWith('[') || !str.endsWith(']')) {
+    logger.error('Hiccup must be an array starting with [ and ending with ]');
     throw new Error('Hiccup must be an array starting with [ and ending with ]');
   }
   

@@ -6,6 +6,7 @@ import Statistics from './Statistics';
 import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, INDIGO_COLORS } from '../../lib/heatmap/types';
 import { logseqAPI } from '../../logseq';
 import { ensurePageAndNavigate } from '../../lib/heatmap/pageUtils';
+import logger from '../../lib/logger';
 import './heatmap.css';
 
 interface HeatmapProps {

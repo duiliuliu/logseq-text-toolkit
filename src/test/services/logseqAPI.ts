@@ -6,6 +6,8 @@
  * 参考: https://github.com/kerim/logseq-db-query-builder
  */
 
+import logger from '../../lib/logger';
+
 const API_BASE_URL = 'http://127.0.0.1:12315/api'
 
 export interface HealthStatus {
@@ -64,6 +66,7 @@ class LogseqAPI {
         } catch {
           // ignore JSON parse error
         }
+        logger.error(`[logseqAPI] ${errorMessage}`);
         throw new Error(errorMessage)
       }
 
@@ -82,6 +85,7 @@ class LogseqAPI {
         } catch {
           // ignore JSON parse error
         }
+        logger.error(`[logseqAPI] ${errorMessage}`);
         throw new Error(errorMessage)
       }
 
@@ -91,8 +95,11 @@ class LogseqAPI {
         throw error
       }
       if (error.name === 'TypeError' && error.message && error.message.includes('fetch')) {
-        throw new Error('Cannot connect to Logseq. Make sure the API server is enabled in Logseq settings.')
+        const connError = 'Cannot connect to Logseq. Make sure the API server is enabled in Logseq settings.'
+        logger.error(`[logseqAPI] ${connError}`);
+        throw new Error(connError)
       }
+      logger.error(`[logseqAPI] API call failed for method "${method}":`, error);
       throw error
     }
   }
@@ -161,7 +168,7 @@ class LogseqAPI {
         raw: results
       }
     } catch (error) {
-      console.error('Query execution failed:', error)
+      logger.error('[logseqAPI] Query execution failed:', error)
       throw error
     }
   }
