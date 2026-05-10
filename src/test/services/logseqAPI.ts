@@ -263,6 +263,31 @@ class LogseqAPI {
     }
     return null
   }
+
+  async getAllPages(): Promise<{ name: string }[]> {
+    const query = `
+      [:find ?name
+       :where
+       [?p :page/name ?name]
+      ]
+    `
+
+    const result = await this.executeQuery(query)
+    if (result.data && result.data.length > 0) {
+      return result.data.map((item: any) => ({ name: item[0] }))
+    }
+    return []
+  }
+
+  async createPage(pageName: string, content: string): Promise<{ name: string }> {
+    const args = [
+      pageName,
+      { content }
+    ]
+
+    const result = await this._callAPI('create-page', args)
+    return { name: pageName }
+  }
 }
 
 export const logseqAPI = new LogseqAPI()

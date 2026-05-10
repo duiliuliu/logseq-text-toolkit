@@ -76,6 +76,20 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
   const [queryValue, setQueryValue] = useState('work');
   const [propertyKey, setPropertyKey] = useState('');
 
+  const [monthPageCreation, setMonthPageCreation] = useState({
+    enabled: false,
+    pageNameTemplate: '{{year}}-{{month}}',
+    logseqTemplate: '- {{date}}\n  - {{count}} items',
+  });
+
+  const [weekPageCreation, setWeekPageCreation] = useState({
+    enabled: false,
+    pageNameTemplate: '{{year}}-W{{week}}',
+    logseqTemplate: '- {{date}}\n  - {{count}} items',
+  });
+
+  const [creationStatus, setCreationStatus] = useState<string | null>(null);
+
   const checkConnection = useCallback(async () => {
     try {
       const status = await logseqAPI.checkHealth();
@@ -322,12 +336,117 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
     }
   }, [heatmapSettings?.defaultViewType, heatmapSettings?.defaultDisplayMode, heatmapSettings?.defaultColorFormula, heatmapSettings?.colorScheme?.minColor, heatmapSettings?.colorScheme?.maxColor, heatmapSettings?.colorScheme?.gradientSteps]);
 
+  useEffect(() => {
+    if (heatmapSettings?.monthPageCreation) {
+      setMonthPageCreation(heatmapSettings.monthPageCreation);
+    }
+    if (heatmapSettings?.weekPageCreation) {
+      setWeekPageCreation(heatmapSettings.weekPageCreation);
+    }
+  }, [heatmapSettings?.monthPageCreation?.enabled, heatmapSettings?.monthPageCreation?.pageNameTemplate, heatmapSettings?.monthPageCreation?.logseqTemplate, heatmapSettings?.weekPageCreation?.enabled, heatmapSettings?.weekPageCreation?.pageNameTemplate, heatmapSettings?.weekPageCreation?.logseqTemplate]);
+
   const getWeekNumber = (date: Date): number => {
     const startOfYear = new Date(date.getFullYear(), 0, 1);
     const diff = date.getTime() - startOfYear.getTime();
     const oneWeek = 604800000;
     return Math.ceil(diff / oneWeek);
   };
+
+  const formatTemplate = (template: string, data: Record<string, string | number>): string => {
+    let result = template;
+    Object.entries(data).forEach(([key, value]) => {
+      result = result.replace(new RegExp(`{{${key}}}`, 'g'), String(value));
+    });
+    return result;
+  };
+
+  const getMonthPageName = (template: string, date: Date): string => {
+    return formatTemplate(template, {
+      year: date.getFullYear(),
+      month: String(date.getMonth() + 1).padStart(2, '0'),
+      monthName: date.toLocaleString('default', { month: 'long' }),
+    });
+  };
+
+  const getWeekPageName = (template: string, date: Date): string => {
+    return formatTemplate(template, {
+      year: date.getFullYear(),
+      week: getWeekNumber(date),
+      weekShort: String(getWeekNumber(date)).padStart(2, '0'),
+    });
+  };
+
+  const createMonthPage = useCallback(async () => {
+    if (!healthStatus?.connected) {
+      setCreationStatus('Please connect to Logseq first');
+      return;
+    }
+
+    try {
+      const pageName = getMonthPageName(monthPageCreation.pageNameTemplate, currentDate);
+      const existingPages = await logseqAPI.getAllPages();
+      if (existingPages.some(p => p.name === pageName)) {
+        setCreationStatus(`Page "${pageName}" already exists`);
+        return;
+      }
+
+      const aggregatedData: Record<string, number> = {};
+      data.forEach(point => {
+        const dateKey = point.date.split('T')[0];
+        aggregatedData[dateKey] = (aggregatedData[dateKey] || 0) + point.count;
+      });
+
+      let content = '';
+      Object.entries(aggregatedData).sort().forEach(([date, count]) => {
+        const line = monthPageCreation.logseqTemplate
+          .replace('{{date}}', date)
+          .replace('{{count}}', String(count));
+        content += line + '\n';
+      });
+
+      await logseqAPI.createPage(pageName, content.trim());
+      setCreationStatus(`Created page: ${pageName}`);
+      setTimeout(() => setCreationStatus(null), 3000);
+    } catch (err: any) {
+      setCreationStatus(`Error: ${err.message}`);
+    }
+  }, [currentDate, data, monthPageCreation, healthStatus]);
+
+  const createWeekPage = useCallback(async () => {
+    if (!healthStatus?.connected) {
+      setCreationStatus('Please connect to Logseq first');
+      return;
+    }
+
+    try {
+      const pageName = getWeekPageName(weekPageCreation.pageNameTemplate, currentDate);
+      const existingPages = await logseqAPI.getAllPages();
+      if (existingPages.some(p => p.name === pageName)) {
+        setCreationStatus(`Page "${pageName}" already exists`);
+        return;
+      }
+
+      const aggregatedData: Record<string, number> = {};
+      data.forEach(point => {
+        const dateKey = point.date.split('T')[0];
+        aggregatedData[dateKey] = (aggregatedData[dateKey] || 0) + point.count;
+      });
+
+      let content = '';
+      Object.entries(aggregatedData).sort().forEach(([date, count]) => {
+        const line = weekPageCreation.logseqTemplate
+          .replace('{{date}}', date)
+          .replace('{{count}}', String(count));
+        content += line + '\n';
+      });
+
+      await logseqAPI.createPage(pageName, content.trim());
+      setCreationStatus(`Created page: ${pageName}`);
+      setTimeout(() => setCreationStatus(null), 3000);
+    } catch (err: any) {
+      setCreationStatus(`Error: ${err.message}`);
+    }
+  }, [currentDate, data, weekPageCreation, healthStatus]);
 
   const handleViewChange = (viewType: HeatmapViewType) => {
     setConfig(prev => ({ ...prev, viewType }));
@@ -576,6 +695,157 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
               {error}
             </div>
           )}
+        </div>
+      )}
+
+      {dataSource === 'api' && enabled && healthStatus?.connected && (
+        <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#f0fdf4', borderRadius: '10px', border: '1px solid #bbf7d0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '600', color: '#166534' }}>
+              📄 Page Creation
+            </label>
+            {creationStatus && (
+              <span style={{ fontSize: '12px', color: '#166534', marginLeft: 'auto' }}>
+                {creationStatus}
+              </span>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+            <div style={{ flex: '1', minWidth: '280px', padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #d1d5db' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <input
+                  type="checkbox"
+                  id="month-creation-enabled"
+                  checked={monthPageCreation.enabled}
+                  onChange={(e) => setMonthPageCreation(prev => ({ ...prev, enabled: e.target.checked }))}
+                />
+                <label htmlFor="month-creation-enabled" style={{ fontWeight: '600', fontSize: '13px' }}>
+                  Monthly Page
+                </label>
+              </div>
+
+              {monthPageCreation.enabled && (
+                <>
+                  <div style={{ marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '11px', color: '#64748b', marginBottom: '4px' }}>
+                      Page Name Template:
+                    </label>
+                    <input
+                      type="text"
+                      value={monthPageCreation.pageNameTemplate}
+                      onChange={(e) => setMonthPageCreation(prev => ({ ...prev, pageNameTemplate: e.target.value }))}
+                      placeholder="{{year}}-{{month}}"
+                      style={{ width: '100%', padding: '4px 8px', fontSize: '12px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                    />
+                    <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>
+                      Variables: {`{{year}}`}, {`{{month}}`}, {`{{monthName}}`}
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '11px', color: '#64748b', marginBottom: '4px' }}>
+                      Content Template:
+                    </label>
+                    <textarea
+                      value={monthPageCreation.logseqTemplate}
+                      onChange={(e) => setMonthPageCreation(prev => ({ ...prev, logseqTemplate: e.target.value }))}
+                      placeholder="- {{date}} - {{count}} items"
+                      rows={2}
+                      style={{ width: '100%', padding: '4px 8px', fontSize: '12px', border: '1px solid #d1d5db', borderRadius: '4px', resize: 'vertical' }}
+                    />
+                    <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>
+                      Variables: {`{{date}}`}, {`{{count}}`}
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={createMonthPage}
+                    style={{
+                      width: '100%',
+                      padding: '6px 12px',
+                      backgroundColor: '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: '500'
+                    }}
+                  >
+                    Create {getMonthPageName(monthPageCreation.pageNameTemplate, currentDate)}
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div style={{ flex: '1', minWidth: '280px', padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #d1d5db' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <input
+                  type="checkbox"
+                  id="week-creation-enabled"
+                  checked={weekPageCreation.enabled}
+                  onChange={(e) => setWeekPageCreation(prev => ({ ...prev, enabled: e.target.checked }))}
+                />
+                <label htmlFor="week-creation-enabled" style={{ fontWeight: '600', fontSize: '13px' }}>
+                  Weekly Page
+                </label>
+              </div>
+
+              {weekPageCreation.enabled && (
+                <>
+                  <div style={{ marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '11px', color: '#64748b', marginBottom: '4px' }}>
+                      Page Name Template:
+                    </label>
+                    <input
+                      type="text"
+                      value={weekPageCreation.pageNameTemplate}
+                      onChange={(e) => setWeekPageCreation(prev => ({ ...prev, pageNameTemplate: e.target.value }))}
+                      placeholder="{{year}}-W{{week}}"
+                      style={{ width: '100%', padding: '4px 8px', fontSize: '12px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                    />
+                    <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>
+                      Variables: {`{{year}}`}, {`{{week}}`}, {`{{weekShort}}`}
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: '8px' }}>
+                    <label style={{ display: 'block', fontSize: '11px', color: '#64748b', marginBottom: '4px' }}>
+                      Content Template:
+                    </label>
+                    <textarea
+                      value={weekPageCreation.logseqTemplate}
+                      onChange={(e) => setWeekPageCreation(prev => ({ ...prev, logseqTemplate: e.target.value }))}
+                      placeholder="- {{date}} - {{count}} items"
+                      rows={2}
+                      style={{ width: '100%', padding: '4px 8px', fontSize: '12px', border: '1px solid #d1d5db', borderRadius: '4px', resize: 'vertical' }}
+                    />
+                    <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>
+                      Variables: {`{{date}}`}, {`{{count}}`}
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={createWeekPage}
+                    style={{
+                      width: '100%',
+                      padding: '6px 12px',
+                      backgroundColor: '#10b981',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: '500'
+                    }}
+                  >
+                    Create {getWeekPageName(weekPageCreation.pageNameTemplate, currentDate)}
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       )}
       
