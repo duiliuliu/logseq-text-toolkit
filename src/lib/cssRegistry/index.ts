@@ -45,11 +45,11 @@ const registrations: Map<string, CSSRegistration> = new Map()
  */
 export function registerCSS(name: string, source: CSSSource): void {
   if (registrations.has(name)) {
-    logger.warn(`[CSSRegistry] CSS "${name}" already registered, skipping`)
-    return
+    logger.warn(`⚠️ CSSRegistry: CSS "${name}" already registered, skipping`);
+    return;
   }
-  registrations.set(name, { name, source })
-  logger.debug(`[CSSRegistry] Registered CSS: ${name}`)
+  registrations.set(name, { name, source });
+  logger.debug(`🎨 CSSRegistry: Registered CSS: ${name}`);
 }
 
 /**
@@ -57,8 +57,8 @@ export function registerCSS(name: string, source: CSSSource): void {
  * @param name - CSS 资源名称
  */
 export function unregisterCSS(name: string): void {
-  registrations.delete(name)
-  logger.debug(`[CSSRegistry] Unregistered CSS: ${name}`)
+  registrations.delete(name);
+  logger.debug(`🎨 CSSRegistry: Unregistered CSS: ${name}`);
 }
 
 /**
@@ -116,20 +116,20 @@ export function getCopyFiles(): Array<{ from: string; to?: string }> {
  * 按类型分别处理 inline 和 external
  */
 export async function loadAllCSS(): Promise<void> {
-  logger.info(`[CSSRegistry] Loading ${registrations.size} CSS resources...`)
-  
+  logger.info(`🎨 CSSRegistry: Loading ${registrations.size} CSS resources...`);
+
   for (const reg of registrations.values()) {
-    if (reg.loaded) continue
-    
+    if (reg.loaded) continue;
+
     try {
-      await loadCSSResource(reg)
-      reg.loaded = true
+      await loadCSSResource(reg);
+      reg.loaded = true;
     } catch (error) {
-      logger.error(`[CSSRegistry] Failed to load CSS "${reg.name}":`, error)
+      logger.error(`❌ CSSRegistry: Failed to load CSS "${reg.name}"`, error);
     }
   }
-  
-  logger.info('[CSSRegistry] CSS loading completed')
+
+  logger.info('✅ CSSRegistry: CSS loading completed');
 }
 
 /**
@@ -137,21 +137,21 @@ export async function loadAllCSS(): Promise<void> {
  * @param reg - CSS 注册信息
  */
 async function loadCSSResource(reg: CSSRegistration): Promise<void> {
-  const { name, source } = reg
-  
+  const { name, source } = reg;
+
   if (source.type === 'inline') {
-    logseqAPI.provideStyle(source.content)
-    logger.info(`[CSSRegistry] Loaded inline CSS: ${name}`)
-    
+    logseqAPI.provideStyle(source.content);
+    logger.info(`🎨 CSSRegistry: Loaded inline CSS: ${name}`);
+
   } else if (source.type === 'external') {
-    await loadExternalCSS(name, source.path)
-    
+    await loadExternalCSS(name, source.path);
+
   } else if (source.type === 'both') {
-    logseqAPI.provideStyle(source.inlineContent)
-    logger.info(`[CSSRegistry] Loaded inline CSS: ${name}`)
-    
+    logseqAPI.provideStyle(source.inlineContent);
+    logger.info(`🎨 CSSRegistry: Loaded inline CSS: ${name}`);
+
     if (source.externalPath) {
-      await loadExternalCSS(name, source.externalPath)
+      await loadExternalCSS(name, source.externalPath);
     }
   }
 }
@@ -163,25 +163,24 @@ async function loadCSSResource(reg: CSSRegistration): Promise<void> {
  */
 async function loadExternalCSS(name: string, path: string): Promise<void> {
   try {
-    const response = await fetch(`./${path}`)
+    const response = await fetch(`./${path}`);
     if (response.ok) {
-      const contentType = response.headers.get('content-type')
+      const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('text/css')) {
-        const content = await response.text()
+        const content = await response.text();
         if (content.trim()) {
-          logseqAPI.provideStyle(content)
-          logger.info(`[CSSRegistry] Loaded external CSS: ${name} from ${path}`)
+          logseqAPI.provideStyle(content);
+          logger.info(`🎨 CSSRegistry: Loaded external CSS: ${name} from ${path}`);
         } else {
-          logger.warn(`[CSSRegistry] External CSS is empty: ${name} from ${path}`)
+          logger.warn(`⚠️ CSSRegistry: External CSS is empty: ${name} from ${path}`);
         }
       } else {
-        logger.warn(`[CSSRegistry] Response is not CSS: ${name} from ${path}`)
+        logger.warn(`⚠️ CSSRegistry: Response is not CSS: ${name} from ${path}`);
       }
     } else {
-      logger.warn(`[CSSRegistry] CSS file not found: ${name} from ${path}`)
+      logger.warn(`⚠️ CSSRegistry: CSS file not found: ${name} from ${path}`);
     }
   } catch (error) {
-    logger.error(`[CSSRegistry] Error loading external CSS ${name}:`, error)
-    throw error
+    logger.error(`❌ CSSRegistry: Error loading external CSS ${name}`, error);
   }
 }

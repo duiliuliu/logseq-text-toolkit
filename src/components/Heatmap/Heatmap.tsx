@@ -169,10 +169,28 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const el = containerRef.current;
     if (!el) return;
     const ro = new ResizeObserver(() => {
-      setContainerWidth(el.clientWidth);
+      const width = el.clientWidth;
+      const rect = el.getBoundingClientRect();
+      logger.debug('📐 Heatmap: ResizeObserver triggered', {
+        clientWidth: width,
+        offsetWidth: el.offsetWidth,
+        rectLeft: rect.left,
+        rectWidth: rect.width,
+        scrollLeft: window.scrollX
+      });
+      setContainerWidth(width);
     });
     ro.observe(el);
-    setContainerWidth(el.clientWidth);
+    const initialWidth = el.clientWidth;
+    const initialRect = el.getBoundingClientRect();
+    logger.debug('📐 Heatmap: Initial measurement', {
+      clientWidth: initialWidth,
+      offsetWidth: el.offsetWidth,
+      rectLeft: initialRect.left,
+      rectWidth: initialRect.width,
+      scrollLeft: window.scrollX
+    });
+    setContainerWidth(initialWidth);
     return () => ro.disconnect();
   }, []);
 

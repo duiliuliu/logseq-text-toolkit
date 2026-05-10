@@ -262,6 +262,17 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || '',
     };
 
+    logger.debug('🌡️ Heatmap: Rendering heatmap', {
+      queryType,
+      queryValue,
+      propertyKey,
+      viewType,
+      colorFormula,
+      referenceDate,
+      enableMonthPageCreation,
+      enableWeekPageCreation
+    });
+
     const heatmapData = await fetchHeatmapData({
       type: queryType,
       value: queryValue,
@@ -271,12 +282,21 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       week: referenceWeek,
     }, viewType, colorFormula);
 
+    logger.debug('🌡️ Heatmap: Data loaded', {
+      dataPoints: heatmapData.length,
+      totalCount: heatmapData.reduce((sum, d) => sum + d.count, 0),
+      firstDate: heatmapData[0]?.date,
+      lastDate: heatmapData[heatmapData.length - 1]?.date
+    });
+
     if (!HeatmapComponent) {
-      logger.warn('[Heatmap] Component not registered');
+      logger.warn('⚠️ Heatmap: Component not registered');
       return false;
     }
 
     const containerId = PLUGIN_ID + '__' + slot;
+
+    logger.debug('🌡️ Heatmap: Container created', { containerId });
 
     logseqAPI.provideUI({
       key: containerId,
@@ -288,18 +308,21 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
     setTimeout(() => {
       const container = getDocument().getElementById(containerId);
       if (container) {
+        logger.debug('🌡️ Heatmap: Rendering component', { containerId });
         renderComponent(container, HeatmapComponent, {
           config: heatmapConfig,
           data: heatmapData,
           theme: resolvedTheme,
           onBlockId: blockUuid,
         });
+      } else {
+        logger.warn('🌡️ Heatmap: Container not found', { containerId });
       }
     }, 1);
 
     return true;
   } catch (err) {
-    logger.error('[Heatmap] Render error:', err);
+    logger.error('❌ Heatmap: Render error', err);
     return false;
   }
 }
@@ -315,6 +338,8 @@ export function registerHeatmap(): void {
       return;
     }
 
+    logger.debug('🌡️ Heatmap: Macro detected', { type, blockUuid });
+
     await renderHeatmap(slot, type, tokens, blockUuid);
   });
 
@@ -327,5 +352,5 @@ export function registerHeatmap(): void {
     }
   );
 
-  logger.info('[Heatmap] Registered successfully');
+  logger.info('✅ Heatmap: Registered successfully');
 }

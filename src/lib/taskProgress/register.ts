@@ -103,7 +103,7 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
 
     return true
   } catch (err) {
-    logger.error('[TaskProgress] Render error:', err)
+    logger.error('❌ TaskProgress: Render error', err)
     return false
   }
 }
@@ -129,6 +129,7 @@ export function registerTaskProgress(): void {
     }
 
     if (blockId) {
+      logger.debug('📊 TaskProgress: Rendering progress', { blockId, displayTypeArg });
       const settings = await getSettingsWithSystem()
       const defaultType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
       const normalizedDisplay = (displayTypeArg || '').toLowerCase().trim()
@@ -195,5 +196,5 @@ export function registerTaskProgress(): void {
     }
   )
 
-  logger.info('[TaskProgress] Registered successfully')
+  logger.info('✅ TaskProgress: Registered successfully')
 }

@@ -47,8 +47,11 @@ export async function getPreferredDateFormat(): Promise<string> {
 
 export async function checkPageExists(pageName: string): Promise<boolean> {
   try {
+    logger.debug('📄 PageUtils: Checking page existence', { pageName });
     const page = await logseqAPI.Editor.getPage(pageName);
-    return page !== null;
+    const exists = page !== null;
+    logger.debug('📄 PageUtils: Page check result', { pageName, exists });
+    return exists;
   } catch (err) {
     logger.warn('[PageUtils] Failed to check page existence:', err);
     return false;
@@ -56,10 +59,11 @@ export async function checkPageExists(pageName: string): Promise<boolean> {
 }
 
 export async function createPage(
-  pageName: string, 
+  pageName: string,
   properties?: Record<string, any>
 ): Promise<boolean> {
   try {
+    logger.info('📄 PageUtils: Creating page', { pageName, properties });
     await logseqAPI.Editor.createPage(pageName, '', {
       createFirstBlock: true,
       properties: properties,
@@ -79,6 +83,7 @@ export async function createPage(
 
 export async function navigateToPage(pageName: string): Promise<boolean> {
   try {
+    logger.info('📄 PageUtils: Navigating to page', { pageName });
     await logseqAPI.App.pushState('page', {
       name: pageName,
     });

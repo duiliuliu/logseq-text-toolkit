@@ -40,7 +40,7 @@ export function cleanup(): void {
     try {
       fn()
     } catch (error) {
-      logger.error('[Main] Cleanup error:', error)
+      logger.error('🧹 Main: Cleanup error', error)
     }
   })
   cleanupFunctions.length = 0
@@ -58,21 +58,21 @@ export function cleanup(): void {
  */
 export async function initializePlugin(): Promise<void> {
   try {
-    logger.info('[initializePlugin] Starting plugin initialization...')
+    logger.info('🚀 Plugin: Starting initialization...')
 
     registerAllCSS()
     await loadAllCSS()
-    logger.info('[initializePlugin] CSS registered')
+    logger.info('🎨 Plugin: CSS registered')
 
     await initI18n()
-    logger.info('[initializePlugin] I18n initialized')
+    logger.info('🌐 Plugin: I18n initialized')
 
     configureLogger()
-    logger.info('[initializePlugin] Logger configured')
+    logger.info('⚙️ Plugin: Logger configured')
 
-    logger.info('[initializePlugin] Plugin initialized successfully')
+    logger.info('✅ Plugin: Initialized successfully')
   } catch (error) {
-    logger.error('[initializePlugin] Initialization failed:', error)
+    logger.error('❌ Plugin: Initialization failed', error)
     throw error
   }
 }
@@ -93,23 +93,23 @@ export async function initializeComponent(): Promise<void> {
   logseqAPI.provideModel({ settingToggle })
 
   await initTaskProgress()
-  logger.info('[initializeComponent] TaskProgress ready')
+  logger.info('📊 Plugin: TaskProgress ready')
 
   await initHeatmap()
-  logger.info('[initializeComponent] Heatmap ready')
+  logger.info('🌡️ Plugin: Heatmap ready')
 
   await initSettingsModal()
   registerLogseqButton()
-  logger.info('[initializeComponent] SettingsModal ready')
+  logger.info('⚙️ Plugin: SettingsModal ready')
 
   await initSelectToolbar()
-  logger.info('[initializeComponent] SelectToolbar ready')
+  logger.info('🛠️ Plugin: SelectToolbar ready')
 
   await initCommentApp()
-  logger.info('[initializeComponent] CommentApp ready')
+  logger.info('💬 Plugin: CommentApp ready')
 
-  cleanupFunctions.push(() => logger.info('[Main] Cleaning up plugin...'))
-  logger.info('[initializeComponent] Component initialized successfully')
+  cleanupFunctions.push(() => logger.info('🧹 Plugin: Cleaning up...'))
+  logger.info('✅ Plugin: Components initialized')
 }
 
 /* ============================================================================
@@ -140,6 +140,6 @@ logseqAPI.ready(async () => {
   try {
     await main()
   } catch (error) {
-    logger.error('[Main] Fatal error:', error)
+    logger.error('💥 Plugin: Fatal error', error)
   }
 })

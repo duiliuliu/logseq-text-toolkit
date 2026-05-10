@@ -6,6 +6,7 @@
  */
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
+import logger from '../../lib/logger'
 
 interface Firework {
   id: number
@@ -78,6 +79,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
   }, [])
 
   const launchFirework = useCallback((targetX: number, targetY: number) => {
+    logger.debug('🎆 Fireworks: launchFirework called', { targetX, targetY });
     const hue = COLORS[Math.floor(Math.random() * COLORS.length)].h
 
     const newFirework: Firework = {
@@ -94,27 +96,35 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     }
 
     setFireworks(prev => [...prev, newFirework])
+    logger.debug('🎆 Fireworks: firework launched', { id: newFirework.id, hue });
   }, [])
 
   const launchMultiple = useCallback(() => {
-    if (!targetRect) return
+    logger.debug('🎆 Fireworks: launchMultiple called', { targetRect });
+    if (!targetRect) {
+      logger.debug('🎆 Fireworks: targetRect is null, skipping');
+      return;
+    }
 
-    const centerX = targetRect.left + targetRect.width / 2
-    const topY = targetRect.top
+    const centerX = targetRect.left + targetRect.width / 2;
+    const topY = targetRect.top;
 
-    const count = 4
+    logger.debug('🎆 Fireworks: calculated positions', { centerX, topY, width: targetRect.width, height: targetRect.height });
+
+    const count = 4;
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
-        const offsetX = (Math.random() - 0.5) * targetRect.width * 2
-        const offsetY = (Math.random() - 0.5) * targetRect.height
-        launchFirework(centerX + offsetX, topY + offsetY)
-      }, i * 200)
+        const offsetX = (Math.random() - 0.5) * targetRect.width * 2;
+        const offsetY = (Math.random() - 0.5) * targetRect.height;
+        logger.debug('🎆 Fireworks: launching firework', { index: i, offsetX, offsetY });
+        launchFirework(centerX + offsetX, topY + offsetY);
+      }, i * 200);
     }
 
     setTimeout(() => {
-      onComplete?.()
-    }, 3000)
-  }, [targetRect, launchFirework, onComplete])
+      onComplete?.();
+    }, 3000);
+  }, [targetRect, launchFirework, onComplete]);
 
   useEffect(() => {
     launchMultiple()
