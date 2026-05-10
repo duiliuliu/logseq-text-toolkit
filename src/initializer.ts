@@ -98,7 +98,7 @@ export function registerAllCSS(): void {
   registerCSS('customToolbarItems', {
     type: 'both',
     inlineContent: customsToolbarItemsCSSRaw,
-    externalPath: 'customToolbarItems.css'
+    externalPath: 'customsToolbarItems.css'
   })
 
   registerCSS('taskProgress', {
