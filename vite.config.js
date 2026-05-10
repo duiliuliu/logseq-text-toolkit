@@ -1,33 +1,54 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import logseqDevPlugin from 'vite-plugin-logseq'
-import { writeFileSync, existsSync, readFileSync } from 'fs'
-import { resolve } from 'path'
+import { writeFileSync, existsSync, readdirSync, statSync } from 'fs'
+import { resolve, join } from 'path'
 
 const CSS_FILES_CONFIG = 'scripts/css-files.js'
+const COMPONENTS_DIR = 'src/components'
 
-function extractExternalPaths() {
+/**
+ * Recursively find all CSS files in a directory
+ */
+function findCSSFiles(dir, baseDir = dir) {
+  const files = []
+  try {
+    const items = readdirSync(dir)
+    for (const item of items) {
+      const fullPath = join(dir, item)
+      const stat = statSync(fullPath)
+      if (stat.isDirectory()) {
+        files.push(...findCSSFiles(fullPath, baseDir))
+      } else if (item.endsWith('.css')) {
+        const relativePath = fullPath.replace(baseDir + '/', '')
+        files.push(relativePath)
+      }
+    }
+  } catch (error) {
+    console.warn(`[vite-plugin-css-export] Cannot read directory ${dir}:`, error.message)
+  }
+  return files
+}
+
+/**
+ * Scan components directory for CSS files and generate config
+ */
+function scanComponentsForCSS() {
   const projectRoot = resolve(__dirname)
-  const cssRegistryPath = resolve(projectRoot, 'src/initializer.ts')
-  
-  console.log('[vite-plugin-css-export] Project root:', projectRoot)
-  console.log('[vite-plugin-css-export] CSS registry path:', cssRegistryPath)
-  
-  if (!existsSync(cssRegistryPath)) {
-    console.warn('[vite-plugin-css-export] cssRegistry/index.ts not found')
-    return null
+  const componentsPath = resolve(projectRoot, COMPONENTS_DIR)
+
+  console.log('[vite-plugin-css-export] Scanning components for CSS files...')
+
+  if (!existsSync(componentsPath)) {
+    console.warn('[vite-plugin-css-export] Components directory not found:', componentsPath)
+    return []
   }
-  
-  const content = readFileSync(cssRegistryPath, 'utf-8')
-  const regex = /externalPath:\s*['"]([^'"]+)['"]/g
-  const paths = []
-  let match
-  
-  while ((match = regex.exec(content)) !== null) {
-    paths.push(match[1])
-  }
-  
-  return paths.length > 0 ? paths : null
+
+  const cssFiles = findCSSFiles(componentsPath)
+  console.log(`[vite-plugin-css-export] Found ${cssFiles.length} CSS files:`)
+  cssFiles.forEach(f => console.log(`  - ${f}`))
+
+  return cssFiles
 }
 
 function generateCSSFilesConfig(paths) {
@@ -53,10 +74,10 @@ export default defineConfig(({ mode }) => {
         name: 'vite-plugin-css-export',
         apply: 'build',
         writeBundle() {
-          console.log('[vite-plugin-css-export] Bundle written, extracting CSS files...')
-          const paths = extractExternalPaths()
-          if (paths) {
-            generateCSSFilesConfig(paths)
+          console.log('[vite-plugin-css-export] Bundle written, scanning for CSS files...')
+          const cssFiles = scanComponentsForCSS()
+          if (cssFiles.length > 0) {
+            generateCSSFilesConfig(cssFiles)
           }
         }
       }
