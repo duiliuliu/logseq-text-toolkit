@@ -423,6 +423,9 @@
   align-items: start;
   width: 100%;
   box-sizing: border-box;
+
+  grid-auto-rows: var(--heatmap-week-cell-height);
+  row-gap: var(--heatmap-gap-week);
 }
 
 .week-grid-container.minimal {
