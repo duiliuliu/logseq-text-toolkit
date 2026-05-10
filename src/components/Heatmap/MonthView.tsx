@@ -9,6 +9,7 @@ interface MonthViewProps {
   currentDate: Date;
   onCellClick?: (date: string) => void;
   onWeekLabelClick?: (weekNumber: number) => void;
+  theme?: 'light' | 'dark';
 }
 
 const DAY_LABELS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -30,7 +31,7 @@ const getWeekNumber = (date: Date): number => {
   return weekNumber;
 };
 
-const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCellClick, onWeekLabelClick }) => {
+const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCellClick, onWeekLabelClick, theme = 'light' }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   
@@ -50,9 +51,12 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCell
   const startDate = new Date(year, month, 1);
   const endDate = new Date(year, month + 1, 0);
   
+  const pad2 = (n: number) => String(n).padStart(2, '0');
+  
   for (let d = 1; d <= endDate.getDate(); d++) {
     const dateObj = new Date(year, month, d);
-    const dateStr = dateObj.toISOString().split('T')[0];
+    // 使用本地时间格式化，避免时区偏移问题
+    const dateStr = `${dateObj.getFullYear()}-${pad2(dateObj.getMonth() + 1)}-${pad2(dateObj.getDate())}`;
     allDays.push({ date: dateStr, day: d, isCurrentMonth: true });
   }
   
@@ -158,6 +162,7 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCell
                     onClick={handleCellClick}
                     showDay={cell.day > 0}
                     dayNumber={cell.day}
+                    theme={theme}
                   />
                 );
               })}

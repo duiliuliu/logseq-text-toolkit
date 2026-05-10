@@ -13,6 +13,8 @@ interface HeatmapCellProps {
   onClick?: (date: string) => void;
   showDay?: boolean;
   dayNumber?: number;
+  theme?: 'light' | 'dark';
+  blocks?: any[];
 }
 
 interface TooltipProps {
@@ -21,10 +23,13 @@ interface TooltipProps {
     x: number;
     y: number;
   };
+  theme?: 'light' | 'dark';
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ data, position }) => {
+const Tooltip: React.FC<TooltipProps> = ({ data, position, theme = 'light' }) => {
+  const isDark = theme === 'dark';
   const progressBar = generateProgressBar(data.percentage);
+  
   return (
     <div
       className="heatmap-tooltip"
@@ -32,24 +37,24 @@ const Tooltip: React.FC<TooltipProps> = ({ data, position }) => {
         position: 'fixed',
         left: position.x + 12,
         top: position.y - 60,
-        background: 'rgba(17, 24, 39, 0.95)',
-        border: '1px solid #c0c1ff',
+        background: isDark ? 'rgba(23, 31, 51, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+        border: `1px solid ${isDark ? '#c0c1ff' : '#3730a3'}`,
         borderRadius: '8px',
         padding: '8px 12px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+        boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.2)',
         zIndex: 1000,
         opacity: 1,
         transition: 'opacity 0.15s ease-in',
         pointerEvents: 'none',
       }}
     >
-      <div style={{ color: '#c0c1ff', fontSize: '12px', fontWeight: 500, marginBottom: '4px' }}>
+      <div style={{ color: isDark ? '#c0c1ff' : '#3730a3', fontSize: '12px', fontWeight: 500, marginBottom: '4px' }}>
         {data.date}
       </div>
-      <div style={{ color: '#dae2fd', fontSize: '12px', marginBottom: '2px' }}>
+      <div style={{ color: isDark ? '#dae2fd' : '#374151', fontSize: '12px', marginBottom: '2px' }}>
         Activity: {data.count} blocks
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#c7c4d7' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: isDark ? '#c7c4d7' : '#6b7280' }}>
         <span>Level:</span>
         <span style={{ fontFamily: 'monospace' }}>{progressBar}</span>
         <span>{data.percentage}%</span>
@@ -68,7 +73,9 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   size = 'small',
   onClick,
   showDay = false,
-  dayNumber
+  dayNumber,
+  theme = 'light',
+  blocks = []
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState<{
@@ -96,7 +103,6 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
     if (onClick) {
       onClick(date);
     }
-    console.log('Heatmap cell clicked:', date, value);
   };
 
   const getBackgroundColor = () => {
@@ -142,6 +148,7 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
         <Tooltip
           data={{ date, count: value, percentage, maxValue }}
           position={tooltipPosition}
+          theme={theme}
         />
       )}
     </>

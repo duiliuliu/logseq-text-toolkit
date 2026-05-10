@@ -294,6 +294,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
             currentDate={currentDate} 
             onCellClick={handleCellClick}
             onMonthLabelClick={handleMonthLabelClick}
+            theme={theme}
           />
         );
       case 'month':
@@ -304,10 +305,19 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
             currentDate={currentDate} 
             onCellClick={handleCellClick}
             onWeekLabelClick={handleWeekLabelClick}
+            theme={theme}
           />
         );
       case 'week':
-        return <WeekView data={viewData} config={config} currentDate={currentDate} onCellClick={handleCellClick} />;
+        return (
+          <WeekView 
+            data={viewData} 
+            config={config} 
+            currentDate={currentDate} 
+            onCellClick={handleCellClick}
+            theme={theme}
+          />
+        );
       default:
         return null;
     }
@@ -319,6 +329,15 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const maxCount = Math.max(...data.map(d => d.count), 0);
     const avgCount = data.length > 0 ? Math.round(totalBlocks / data.length * 10) / 10 : 0;
     
+    // Build blocksByDate map for statistics hover display
+    const blocksByDate: Record<string, any[]> = {};
+    data.forEach(d => {
+      if (d && d.blocks && d.date) {
+        const dateKey = d.date.split('T')[0];
+        blocksByDate[dateKey] = d.blocks;
+      }
+    });
+    
     return {
       totalBlocks,
       activeDays,
@@ -328,6 +347,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
         start: data.length > 0 ? data[0].date : '',
         end: data.length > 0 ? data[data.length - 1].date : '',
       },
+      blocksByDate,
     };
   }, [data]);
 

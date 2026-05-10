@@ -61,35 +61,15 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
     });
   }
 
-  // 处理数据，支持多种数据格式
-  const allBlocks: any[] = [];
-  
-  // 扁平化处理嵌套数组数据结构
-  const flattenData = (items: any[]): any[] => {
-    const result: any[] = [];
-    items.forEach(item => {
-      if (Array.isArray(item)) {
-        result.push(...flattenData(item));
-      } else {
-        result.push(item);
-      }
-    });
-    return result;
-  };
-  
-  // 提取所有块数据
-  const flatData = flattenData(data);
-  
-  // 构建按日期分组的块数据
+  // 从 HeatmapDataPoint 中提取 blocks 并按日期分组
   const blocksByDate = new Map<string, any[]>();
-  flatData.forEach(block => {
-    if (block && (block['created-at'] || block.date)) {
-      const blockDate = parseTimeFromData(block);
-      const dateKey = blockDate.toISOString().split('T')[0];
+  data.forEach(dataPoint => {
+    if (dataPoint && dataPoint.blocks) {
+      const dateKey = dataPoint.date.split('T')[0];
       if (!blocksByDate.has(dateKey)) {
         blocksByDate.set(dateKey, []);
       }
-      blocksByDate.get(dateKey)!.push(block);
+      blocksByDate.get(dateKey)!.push(...dataPoint.blocks);
     }
   });
 
@@ -107,7 +87,7 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
     const dayBlocks = blocksByDate.get(dayInfo.date) || [];
     dayBlocks.forEach(block => {
       try {
-        const blockDate = parseTimeFromData(block);
+        const blockDate = parseTimeFromData(block['created-at'] || block.date);
         const hour = blockDate.getHours();
         const hourIndex = Math.floor(hour / 4);
         if (hourIndex >= 0 && hourIndex < 6) {

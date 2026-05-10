@@ -9,9 +9,10 @@ interface YearViewProps {
   currentDate: Date;
   onCellClick?: (date: string) => void;
   onMonthLabelClick?: (monthIndex: number) => void;
+  theme?: 'light' | 'dark';
 }
 
-const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellClick, onMonthLabelClick }) => {
+const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellClick, onMonthLabelClick, theme = 'light' }) => {
   const year = currentDate.getFullYear();
   
   const dataMap = new Map<string, HeatmapDataPoint>();
@@ -154,6 +155,7 @@ const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellCl
                   isEmpty={!day.date || day.count === 0}
                   size="small"
                   onClick={handleCellClick}
+                  theme={theme}
                 />
               ))}
             </div>
