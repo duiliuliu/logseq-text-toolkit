@@ -4,12 +4,50 @@ import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, DisplayMode, ColorFor
 import { fetchHeatmapData } from '../../../lib/heatmap/query';
 import { logseqAPI, HealthStatus } from '../../services/logseqAPI';
 import { fetchHeatmapDataByTokenQuery } from '../../services/heatmapTokenQuery';
+import { useSettingsContext } from '../../../settings/useSettings';
+import { HeatmapSettings } from '../../../settings/types';
 
 interface HeatmapDemoProps {
   initialConfig?: Partial<HeatmapConfig>;
 }
 
 const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
+  const { settings } = useSettingsContext();
+  const heatmapSettings = settings?.heatmap as HeatmapSettings | undefined;
+
+  const generateColorGradient = (minColor: string, maxColor: string, steps: number): string[] => {
+    const hexToRgb = (hex: string) => {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : { r: 0, g: 0, b: 0 };
+    };
+
+    const rgbToHex = (r: number, g: number, b: number) => {
+      return '#' + [r, g, b].map(x => {
+        const hex = Math.round(x).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      }).join('');
+    };
+
+    const minRgb = hexToRgb(minColor);
+    const maxRgb = hexToRgb(maxColor);
+    const colors: string[] = [];
+
+    for (let i = 0; i < steps; i++) {
+      const ratio = i / (steps - 1);
+      colors.push(rgbToHex(
+        minRgb.r + ratio * (maxRgb.r - minRgb.r),
+        minRgb.g + ratio * (maxRgb.g - minRgb.g),
+        minRgb.b + ratio * (maxRgb.b - minRgb.b)
+      ));
+    }
+
+    return colors;
+  };
+
   // 设置初始日期为测试数据的日期范围
   const [currentDate, setCurrentDate] = useState(new Date(2026, 4, 8));
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -266,6 +304,23 @@ const HeatmapDemo: React.FC<HeatmapDemoProps> = ({ initialConfig }) => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    if (heatmapSettings) {
+      setConfig(prev => ({
+        ...prev,
+        viewType: heatmapSettings.defaultViewType || prev.viewType,
+        displayMode: heatmapSettings.defaultDisplayMode || prev.displayMode,
+        colorFormula: heatmapSettings.defaultColorFormula || prev.colorFormula,
+        colorScheme: {
+          name: 'custom',
+          colors: generateColorGradient(heatmapSettings.colorScheme.minColor, heatmapSettings.colorScheme.maxColor, heatmapSettings.colorScheme.gradientSteps),
+        },
+        minColor: heatmapSettings.colorScheme.minColor,
+        maxColor: heatmapSettings.colorScheme.maxColor,
+      }));
+    }
+  }, [heatmapSettings?.defaultViewType, heatmapSettings?.defaultDisplayMode, heatmapSettings?.defaultColorFormula, heatmapSettings?.colorScheme?.minColor, heatmapSettings?.colorScheme?.maxColor, heatmapSettings?.colorScheme?.gradientSteps]);
 
   const getWeekNumber = (date: Date): number => {
     const startOfYear = new Date(date.getFullYear(), 0, 1);
