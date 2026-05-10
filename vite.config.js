@@ -53,10 +53,12 @@ function getRegisteredCSSPaths() {
 
   while ((match = regex.exec(content)) !== null) {
     const [, cssName, externalPath] = match
+    const fileName = externalPath.split('/').pop()
     registeredPaths[externalPath] = cssName
+    registeredPaths[fileName] = cssName
   }
 
-  console.log(`[vite-plugin-css-export] Found ${Object.keys(registeredPaths).length} registered CSS paths`)
+  console.log(`[vite-plugin-css-export] Found ${Object.keys(registeredPaths).length / 2} registered CSS paths`)
   return registeredPaths
 }
 
@@ -79,7 +81,8 @@ function scanComponentsForCSS() {
   const allCSSFiles = findCSSFiles(componentsPath)
 
   const registeredCSSFiles = allCSSFiles.filter(cssFile => {
-    const isRegistered = cssFile in registeredPaths
+    const fileName = cssFile.split('/').pop()
+    const isRegistered = cssFile in registeredPaths || fileName in registeredPaths
     if (!isRegistered) {
       console.log(`[vite-plugin-css-export] Skipping unregistered CSS: ${cssFile}`)
     }
