@@ -26,6 +26,8 @@
   "dependencies": {
     "@logseq/libs": "^0.3.3",
     "@thi.ng/hiccup": "^5.4.5",
+    "dayjs": "^1.11.20",
+    "dayjs-plugin-utc": "^0.1.2",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.8.0",
     "react": "^18.2.0",

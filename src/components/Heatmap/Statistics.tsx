@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { HeatmapStatistics } from '../../lib/heatmap/types';
+import { useState, useRef, useCallback, FC } from 'react';
+import { HeatmapStatistics, BlockEntity } from '../../lib/heatmap/types';
 import { logseqAPI } from '../../logseq';
+import logger from '../../lib/logger';
 
 interface StatisticsProps {
   data: HeatmapStatistics;
@@ -9,29 +10,29 @@ interface StatisticsProps {
 
 interface TooltipItem {
   id: string;
-  block: any;
-  page: any;
+  block: BlockEntity;
   content: string;
   pageTitle: string;
 }
 
-const Statistics: React.FC<StatisticsProps> = ({ data, theme = 'light' }) => {
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+let tooltipIdCounter = 0;
+function generateTooltipId(): string {
+  return `tooltip-${++tooltipIdCounter}-${Date.now()}`;
+}
+
+const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
   const [tooltips, setTooltips] = useState<TooltipItem[]>([]);
-  const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
-  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [anchorPosition, setAnchorPosition] = useState({ x: 0, y: 0 });
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 新增：绑定触发元素的 ref
+  const triggerRef = useRef<HTMLElement | null>(null);
   const isDark = theme === 'dark';
 
-  const fetchBlockDetails = useCallback(async (blocks: any[]): Promise<TooltipItem[]> => {
+  const fetchBlockDetails = useCallback(async (blocks: BlockEntity[]): Promise<TooltipItem[]> => {
     const items: TooltipItem[] = [];
     for (const block of blocks.slice(0, 8)) {
       try {
-        const uuid = typeof block.uuid === 'object' && block.uuid['$uuid$']
-          ? block.uuid['$uuid$']
-          : block.uuid;
-
         let pageTitle = 'Untitled';
         if (block['block/page']) {
           const pageName = typeof block['block/page'] === 'object'
@@ -45,120 +46,198 @@ const Statistics: React.FC<StatisticsProps> = ({ data, theme = 'light' }) => {
         }
 
         const content = block.content || block.title || 'Untitled';
-        const shortContent = content.length > 40 ? content.substring(0, 40) + '...' : content;
+        const shortContent = content.length > 40 ? content.substring(0, 40) + '…' : content;
 
         items.push({
-          id: uuid || `block-${Math.random().toString(36).substr(2, 9)}`,
+          id: generateTooltipId(),
           block,
-          page: block['block/page'] || block.page,
           content: shortContent,
           pageTitle,
         });
       } catch (err) {
-        console.error('Failed to process block:', err);
+        logger.error('[Statistics] Failed to process block:', err);
       }
     }
     return items;
   }, []);
 
   const handleStatClick = async (date: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
     }
 
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = rect.right + 12;
-    const y = rect.top;
-    setTooltipPosition({ x, y });
+    // 把当前点击的元素存进 ref
+    triggerRef.current = event.currentTarget as HTMLElement;
 
-    let blocks: any[] = [];
+    const rect = event.currentTarget.getBoundingClientRect();
+    setAnchorPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top,
+    });
+
+    let blocks: BlockEntity[] = [];
     if (date === 'total') {
-      const allBlocks: any[] = [];
+      const allBlocks: BlockEntity[] = [];
       Object.values(data.blocksByDate || {}).forEach((dayBlocks) => {
-        allBlocks.push(...(dayBlocks as any[]));
+        allBlocks.push(...dayBlocks);
       });
       blocks = allBlocks.slice(0, 8);
     } else if (date === 'active') {
       const activeDays = Object.entries(data.blocksByDate || {});
       const lastDayBlocks = activeDays.length > 0
-        ? (activeDays[activeDays.length - 1][1] as any[])
+        ? activeDays[activeDays.length - 1][1]
         : [];
       blocks = lastDayBlocks.slice(0, 8);
     } else if (date === 'max') {
       let maxDate = '';
       let maxCount = 0;
       Object.entries(data.blocksByDate || {}).forEach(([d, dayBlocks]) => {
-        if ((dayBlocks as any[]).length > maxCount) {
-          maxCount = (dayBlocks as any[]).length;
+        if (dayBlocks.length > maxCount) {
+          maxCount = dayBlocks.length;
           maxDate = d;
         }
       });
-      blocks = (data.blocksByDate?.[maxDate] || []) as any[];
-      blocks = blocks.slice(0, 8);
+      blocks = (data.blocksByDate?.[maxDate] || []).slice(0, 8);
     } else if (date === 'avg') {
       const days = Object.entries(data.blocksByDate || {});
       if (days.length > 0) {
         const randomDay = days[Math.floor(Math.random() * days.length)];
-        blocks = (randomDay[1] as any[]).slice(0, 8);
+        blocks = randomDay[1].slice(0, 8);
       }
     } else if (data.blocksByDate?.[date]) {
-      blocks = (data.blocksByDate[date] as any[]).slice(0, 8);
+      blocks = data.blocksByDate[date].slice(0, 8);
     }
 
     const tooltipItems = await fetchBlockDetails(blocks);
     setTooltips(tooltipItems);
-    setSelectedDate(date);
+    setIsOpen(true);
   };
 
   const handleClose = useCallback(() => {
     closeTimeoutRef.current = setTimeout(() => {
-      setSelectedDate(null);
+      setIsOpen(false);
       setTooltips([]);
+      // 关闭时清空 ref
+      triggerRef.current = null;
     }, 150);
   }, []);
+  
 
-  const handleMouseEnterTooltip = (tooltipId: string) => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-    setHoveredTooltip(tooltipId);
-  };
-
-  const handleMouseLeaveTooltip = () => {
-    setHoveredTooltip(null);
-    handleClose();
-  };
-
-  const handleBlockClick = async (block: any) => {
+  const handleBlockClick = async (block: BlockEntity) => {
     if (block && block.uuid) {
       try {
         const uuid = typeof block.uuid === 'object' && block.uuid['$uuid$']
           ? block.uuid['$uuid$']
           : block.uuid;
         await logseqAPI.App.pushState('page', { id: uuid });
+        setIsOpen(false);
+        setTooltips([]);
+        triggerRef.current = null;
       } catch (err) {
-        console.error('Failed to navigate to block:', err);
+        logger.error('[Statistics] Failed to navigate to block:', err);
       }
     }
   };
 
-  const statDates = Object.keys(data.blocksByDate || {}).slice(0, 4);
-
-  const getHeaderText = () => {
-    switch (selectedDate) {
-      case 'total':
-        return `All: ${Object.values(data.blocksByDate || {}).reduce((sum, b) => sum + (b as any[]).length, 0)} blocks`;
-      case 'active':
-        return `Active: ${Object.keys(data.blocksByDate || {}).length} days`;
-      case 'max':
-        return `Max: ${data.maxCount} blocks`;
-      case 'avg':
-        return `Avg: ${data.avgCount}/day`;
-      default:
-        return `Blocks`;
+  // 新的 getTooltipPosition：用 triggerRef 计算，固定在正上方居中
+  const getTooltipPosition = () => {
+    if (typeof window === 'undefined' || !triggerRef.current) {
+      return { left: anchorPosition.x, top: anchorPosition.y + 10 };
     }
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const tooltipWidth = 220;
+    const tooltipHeight = 60 + tooltips.length * 40;
+
+    // 正上方居中：水平居中对齐触发元素，垂直放在触发元素上方
+    let left = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2 + 100;
+    let top = triggerRect.top - tooltipHeight - 8; // 8px 间距，避免贴死
+
+    // 边界检测，防止 tooltip 超出视窗
+    if (left < 10) left = 10;
+    if (left + tooltipWidth > window.innerWidth - 10) {
+      left = window.innerWidth - tooltipWidth - 10;
+    }
+    // 如果上方空间不够，自动 fallback 到下方
+    if (top < 10) {
+      top = triggerRect.bottom + 8;
+    }
+
+    return { left, top };
+  };
+
+  const getCardTransform = (index: number, total: number) => {
+    // 加大基础偏移，加深整体堆叠聚拢感
+    const maxOffset = total * 6;
+    // 加大垂直步长，卡片上下错落更明显
+    const translateY = -maxOffset + index * 13;
+    // 从 2.5 改成 5，旋转角度翻倍、扇形更开
+    const angle = (index - (total - 1) / 2) * 6;
+    // 中心基准 [-1 ~ 1]
+    const center = (total - 1) / 2;
+    const normalized = center === 0 ? 0 : (index - center) / center;
+
+    // 使用 sin 曲线让扇形更圆润，而不是线性展开
+    const curve = Math.sin(normalized * (Math.PI / 2));
+
+    // 旋转不再线性，而是缓入缓出
+    const rotate = curve * 9;
+    return {
+      transform: `translateY(${translateY}px) rotate(${angle}deg)`,
+      zIndex: total - index,
+      rotate,
+    };
+  };
+
+  const getCardHoverTransform = () => {
+    return {
+      transform: 'translateY(-8px) scale(1.03)',
+      zIndex: 100,
+    };
+  };
+
+  const getCardStyle = (index: number, total: number) => {
+    const baseStyle = isDark ? {
+      background: 'rgba(30, 35, 50, 0.95)',
+      border: '1px solid rgba(255, 255, 255, 0.08)',
+      boxShadow: `0 ${4 + index * 2}px ${12 + index * 3}px rgba(0, 0, 0, ${0.25 + index * 0.03})`,
+    } : {
+      background: 'rgba(255, 255, 255, 0.98)',
+      border: '1px solid rgba(0, 0, 0, 0.06)',
+      boxShadow: `0 ${3 + index * 2}px ${10 + index * 3}px rgba(0, 0, 0, ${0.08 + index * 0.01})`,
+    };
+
+    return {
+      padding: '6px 10px',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      minWidth: '200px',
+      maxWidth: '220px',
+      transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      ...getCardTransform(index, total),
+      ...baseStyle,
+    };
+  };
+
+  const getHoverStyle = () => {
+    const baseStyle = isDark ? {
+      background: 'rgba(192, 193, 255, 0.25)',
+      border: '1px solid rgba(192, 193, 255, 0.35)',
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+    } : {
+      background: 'rgba(255, 255, 255, 1)',
+      border: '1px solid rgba(59, 130, 246, 0.25)',
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+    };
+
+    return {
+      ...getCardHoverTransform(),
+      transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      ...baseStyle,
+    };
   };
 
   return (
@@ -167,7 +246,6 @@ const Statistics: React.FC<StatisticsProps> = ({ data, theme = 'light' }) => {
         <div
           className="stat-item"
           onClick={(e) => handleStatClick('total', e)}
-          style={{ cursor: 'pointer' }}
         >
           <div className="stat-value">{data.totalBlocks}</div>
           <div className="stat-label">Total</div>
@@ -175,7 +253,6 @@ const Statistics: React.FC<StatisticsProps> = ({ data, theme = 'light' }) => {
         <div
           className="stat-item"
           onClick={(e) => handleStatClick('active', e)}
-          style={{ cursor: 'pointer' }}
         >
           <div className="stat-value">{data.activeDays}</div>
           <div className="stat-label">Active</div>
@@ -183,7 +260,6 @@ const Statistics: React.FC<StatisticsProps> = ({ data, theme = 'light' }) => {
         <div
           className="stat-item"
           onClick={(e) => handleStatClick('max', e)}
-          style={{ cursor: 'pointer' }}
         >
           <div className="stat-value">{data.maxCount}</div>
           <div className="stat-label">Max</div>
@@ -191,14 +267,13 @@ const Statistics: React.FC<StatisticsProps> = ({ data, theme = 'light' }) => {
         <div
           className="stat-item"
           onClick={(e) => handleStatClick('avg', e)}
-          style={{ cursor: 'pointer' }}
         >
           <div className="stat-value">{data.avgCount}</div>
           <div className="stat-label">Avg</div>
         </div>
       </div>
 
-      {selectedDate && tooltips.length > 0 && (
+      {isOpen && tooltips.length > 0 && (
         <>
           <div
             style={{
@@ -207,130 +282,77 @@ const Statistics: React.FC<StatisticsProps> = ({ data, theme = 'light' }) => {
               left: 0,
               right: 0,
               bottom: 0,
-              zIndex: 999,
+              zIndex: 998,
             }}
             onClick={handleClose}
           />
           <div
-            ref={containerRef}
             style={{
               position: 'fixed',
-              left: Math.min(tooltipPosition.x, window.innerWidth - 350),
-              top: Math.max(0, tooltipPosition.y - 40),
-              zIndex: 1000,
+              left: getTooltipPosition().left,
+              top: getTooltipPosition().top,
+              zIndex: 999,
               pointerEvents: 'auto',
             }}
           >
             <div
               style={{
-                background: isDark ? 'rgba(23, 31, 51, 0.95)' : 'rgba(255, 255, 255, 0.98)',
-                border: `1px solid ${isDark ? '#c0c1ff' : '#3730a3'}`,
-                borderRadius: '8px',
-                padding: '10px 12px',
-                marginBottom: '8px',
-                boxShadow: isDark
-                  ? '0 4px 20px rgba(0, 0, 0, 0.5)'
-                  : '0 4px 20px rgba(0, 0, 0, 0.15)',
-                minWidth: '280px',
-                maxWidth: '320px',
-              }}
-            >
-              <div style={{
-                color: isDark ? '#c0c1ff' : '#3730a3',
-                fontSize: '12px',
-                fontWeight: 600,
-                marginBottom: '8px',
-                borderBottom: `1px solid ${isDark ? '#374151' : '#e5e7eb'}`,
-                paddingBottom: '6px',
-              }}>
-                {getHeaderText()}
-              </div>
-              <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '6px',
-              }}>
-                {tooltips.map((tooltip, index) => (
-                  <div
-                    key={tooltip.id}
-                    onMouseEnter={() => handleMouseEnterTooltip(tooltip.id)}
-                    onMouseLeave={handleMouseLeaveTooltip}
-                    onClick={() => handleBlockClick(tooltip.block)}
-                    style={{
-                      position: 'relative',
-                      padding: '10px 12px',
-                      background: isDark
-                        ? 'rgba(45, 52, 73, 0.8)'
-                        : 'rgba(239, 242, 255, 0.95)',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      transform: `translateY(${index * -8}px) rotate(${(index - 3.5) * 0.3}deg)`,
-                      zIndex: tooltips.length - index,
-                      border: `1px solid ${isDark ? 'rgba(192, 193, 255, 0.15)' : 'rgba(55, 48, 163, 0.1)'}`,
-                      boxShadow: isDark
-                        ? '0 2px 8px rgba(0, 0, 0, 0.3)'
-                        : '0 2px 8px rgba(0, 0, 0, 0.08)',
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.transform = `translateY(${index * -12}px) scale(1.02)`;
-                      e.currentTarget.style.background = isDark
-                        ? 'rgba(192, 193, 255, 0.25)'
-                        : 'rgba(192, 193, 255, 0.35)';
-                      e.currentTarget.style.boxShadow = isDark
-                        ? '0 6px 20px rgba(0, 0, 0, 0.4)'
-                        : '0 6px 20px rgba(0, 0, 0, 0.15)';
-                      e.currentTarget.style.zIndex = '1000';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.transform = `translateY(${index * -8}px) rotate(${(index - 3.5) * 0.3}deg)`;
-                      e.currentTarget.style.background = isDark
-                        ? 'rgba(45, 52, 73, 0.8)'
-                        : 'rgba(239, 242, 255, 0.95)';
-                      e.currentTarget.style.boxShadow = isDark
-                        ? '0 2px 8px rgba(0, 0, 0, 0.3)'
-                        : '0 2px 8px rgba(0, 0, 0, 0.08)';
-                      e.currentTarget.style.zIndex = String(tooltips.length - index);
-                    }}
-                  >
-                    <div style={{
-                      fontSize: '12px',
-                      color: isDark ? '#dae2fd' : '#374151',
-                      lineHeight: '1.4',
-                      marginBottom: '4px',
-                      wordBreak: 'break-word',
-                    }}>
-                      {tooltip.content}
-                    </div>
-                    <div style={{
-                      fontSize: '10px',
-                      color: isDark ? '#9ca3af' : '#6b7280',
-                      fontStyle: 'italic',
-                    }}>
-                      {tooltip.pageTitle}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button
-              onClick={handleClose}
-              style={{
-                position: 'absolute',
-                top: '4px',
-                right: '8px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: isDark ? '#9ca3af' : '#6b7280',
-                fontSize: '18px',
-                lineHeight: 1,
-                padding: '2px 6px',
-                zIndex: 1001,
+                gap: 0,
+                padding: '6px',
               }}
             >
-              ×
-            </button>
+              {tooltips.map((tooltip, index) => (
+                <div
+                  key={tooltip.id}
+                  onClick={() => handleBlockClick(tooltip.block)}
+                  onMouseEnter={(e) => {
+                    if (closeTimeoutRef.current) {
+                      clearTimeout(closeTimeoutRef.current);
+                      closeTimeoutRef.current = null;
+                    }
+                    const el = e.currentTarget;
+                    el.style.transform = getHoverStyle().transform;
+                    el.style.zIndex = String(getHoverStyle().zIndex);
+                    el.style.background = getHoverStyle().background;
+                    el.style.border = getHoverStyle().border;
+                    el.style.boxShadow = getHoverStyle().boxShadow;
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget;
+                    const transforms = getCardTransform(index, tooltips.length);
+                    el.style.transform = transforms.transform;
+                    el.style.zIndex = String(transforms.zIndex);
+                    el.style.background = isDark ? 'rgba(30, 35, 50, 0.95)' : 'rgba(255, 255, 255, 0.98)';
+                    el.style.border = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
+                    el.style.boxShadow = isDark
+                      ? `0 ${4 + index * 2}px ${12 + index * 3}px rgba(0, 0, 0, ${0.25 + index * 0.03})`
+                      : `0 ${3 + index * 2}px ${10 + index * 3}px rgba(0, 0, 0, ${0.08 + index * 0.01})`;
+                    handleClose();
+                  }}
+                  style={{
+                    ...getCardStyle(index, tooltips.length),
+                  }}
+                >
+                  <div style={{
+                    fontSize: '11px',
+                    lineHeight: '1.3',
+                    wordBreak: 'break-word',
+                    color: isDark ? '#e5e7eb' : '#1f2937',
+                    marginBottom: '2px',
+                  }}>
+                    {tooltip.content}
+                  </div>
+                  <div style={{
+                    fontSize: '9px',
+                    color: isDark ? '#9ca3af' : '#6b7280',
+                  }}>
+                    {tooltip.pageTitle}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </>
       )}

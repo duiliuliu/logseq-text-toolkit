@@ -1,8 +1,16 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
+ * Mock Logseq App API
+ * 支持 HTTP API 调用模式
+ */
+
 import { getDocument } from '../utils.ts';
+import { httpClient, HTTPAPIConfig } from './httpClient';
 
 const eventListeners: Map<string, Array<(...args: any[]) => void>> = new Map();
 
-// Mock logger
 const logger = {
   info: (message: string, ...args: any[]) => console.log(`[INFO] ${message}`, ...args),
   warn: (message: string, ...args: any[]) => console.warn(`[WARN] ${message}`, ...args),
@@ -10,6 +18,43 @@ const logger = {
 };
 
 const App: any = {
+  httpClient: httpClient,
+
+  setHTTPAPIConfig: (config: HTTPAPIConfig | null) => {
+    if (config) {
+      httpClient.setConfig(config.baseUrl, config.token);
+      logger.info('[Mock App] HTTP API configured:', config.baseUrl);
+    } else {
+      httpClient.disable();
+      logger.info('[Mock App] HTTP API disabled');
+    }
+  },
+
+  useHTTPAPI: function(this: any, baseUrl: string, token: string): any {
+    httpClient.setConfig(baseUrl, token);
+    
+    const wrappedApp: any = {};
+    const self = this;
+
+    for (const key of Object.keys(App)) {
+      if (key === 'useHTTPAPI' || key === 'httpClient' || key === 'setHTTPAPIConfig') continue;
+      
+      wrappedApp[key] = async function(...args: any[]) {
+        if (httpClient.isEnabled()) {
+          const methodName = `logseq.App.${key}`;
+          try {
+            return await httpClient.callMethod(methodName, args);
+          } catch (err) {
+            logger.warn(`[Mock App] HTTP call failed for ${key}, falling back to mock:`, err);
+          }
+        }
+        return App[key].call(self, ...args);
+      };
+    }
+
+    return wrappedApp;
+  },
+
   registerCommand: (command: any) => {
     console.log('Registered command:', command);
   },
@@ -62,9 +107,15 @@ const App: any = {
       eventListeners.delete(event);
     }
   },
-  
-  getUserConfigs: () => {
-    console.log('Get user configs');
+
+  getUserConfigs: async function(this: any) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.getUserConfigs();
+      } catch (err) {
+        logger.warn('[Mock App] HTTP getUserConfigs failed, using mock:', err);
+      }
+    }
     return Promise.resolve({
       preferredThemeMode: 'light',
       preferredFormat: 'markdown',
@@ -85,6 +136,11 @@ const App: any = {
       preferredLanguage: 'zh-CN',
       version: '0.10.0'
     });
+  },
+
+  onThemeModeChanged: (callback: (event: { mode: string }) => void) => {
+    console.log('[Mock App] onThemeModeChanged registered');
+    return () => console.log('[Mock App] onThemeModeChanged unregistered');
   },
   
   registerUIItem: (slot: string, config: any) => {
@@ -163,48 +219,12 @@ const App: any = {
       : params.name 
         ? `跳转到页面: ${params.name}`
         : `跳转到页面: ${page}`;
-    // 显示 Toast 提示
     if ((window as any).addToast) {
       (window as any).addToast(message, 'info', 3000);
     } else {
       alert(message);
     }
   }
-};
-
-// Mock Editor
-export const Editor: any = {
-  getPage: async (pageName: string) => {
-    logger.info(`[Mock] Editor.getPage: ${pageName}`);
-    // Mock: 总是返回 null，表示页面不存在
-    return Promise.resolve(null);
-  },
-  
-  createPage: async (pageName: string, content: string, options?: any) => {
-    logger.info(`[Mock] Editor.createPage: ${pageName}`, options);
-    // Mock: 模拟创建页面
-    const message = `创建页面: ${pageName}`;
-    if ((window as any).addToast) {
-      (window as any).addToast(message, 'success', 3000);
-    } else {
-      alert(message);
-    }
-    return Promise.resolve({
-      name: pageName,
-      uuid: `mock-uuid-${Date.now()}`,
-      'page/original-name': pageName,
-    });
-  },
-  
-  getBlock: async (blockUuid: string) => {
-    logger.info(`[Mock] Editor.getBlock: ${blockUuid}`);
-    return Promise.resolve(null);
-  },
-  
-  updateBlock: async (blockUuid: string, content: string) => {
-    logger.info(`[Mock] Editor.updateBlock: ${blockUuid}`, content);
-    return Promise.resolve(true);
-  },
 };
 
 export default App;

@@ -29,7 +29,7 @@ const statusOptions = [
 
 function TestApp() {
   const { settings } = useSettingsContext()
-  
+
   const [tasks, setTasks] = useState<TaskItem[]>([
     { id: 'task-child-1', content: 'Design the UI #task', status: 'done' },
     { id: 'task-child-2', content: 'Setup project #task', status: 'done' },
@@ -38,20 +38,20 @@ function TestApp() {
     { id: 'task-child-5', content: 'Create examples #task', status: 'todo' },
     { id: 'task-child-6', content: 'Write tests #task', status: 'waiting' },
   ])
-  
+
   const [newTaskContent, setNewTaskContent] = useState('')
   const [newTaskStatus, setNewTaskStatus] = useState('todo')
   const [taskCounter, setTaskCounter] = useState(7)
 
   const addTask = () => {
     if (!newTaskContent.trim()) return
-    
+
     const newTask: TaskItem = {
       id: `task-child-${taskCounter}`,
       content: newTaskContent.trim(),
       status: newTaskStatus,
     }
-    
+
     setTasks(prev => [...prev, newTask])
     setTaskCounter(prev => prev + 1)
     setNewTaskContent('')
@@ -63,7 +63,7 @@ function TestApp() {
   }
 
   const updateTaskStatus = (taskId: string, newStatus: string) => {
-    setTasks(prev => prev.map(task => 
+    setTasks(prev => prev.map(task =>
       task.id === taskId ? { ...task, status: newStatus } : task
     ))
   }
@@ -110,32 +110,32 @@ function TestApp() {
   const centerContent = (
     <div className="center-content">
       <TextSelectionDemo />
-      
+
       <div className="hiccup-renderer-container">
         <HiccupRenderer />
       </div>
-      
+
       <div className="block-demo-container" style={{ marginTop: '24px', padding: '16px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
         <h3>Block 渲染演示</h3>
-        
+
         <div id="task-parent-block" className="block" data-block-id="task-parent-block" style={{ marginBottom: '12px' }}>
           <BlockRenderer
             blockId="#task-parent-block"
             content="My Project Tasks {{renderer :taskprogress}}"
             properties={{}}
           />
-          
+
           {tasks.map(task => {
             const icon = getStatusIcon(task.status)
             const color = getStatusColor(task.status)
-            
+
             return (
-              <div key={task.id} className="block" data-block-id={task.id} 
-                style={{ 
-                  padding: '8px', 
-                  marginBottom: '4px', 
-                  backgroundColor: '#fff', 
-                  borderRadius: '4px', 
+              <div key={task.id} className="block" data-block-id={task.id}
+                style={{
+                  padding: '8px',
+                  marginBottom: '4px',
+                  backgroundColor: '#fff',
+                  borderRadius: '4px',
                   marginLeft: '20px',
                   display: 'flex',
                   alignItems: 'center',
@@ -144,11 +144,11 @@ function TestApp() {
                 data-properties={JSON.stringify({ status: task.status })}>
                 <span style={{ color }}>{icon}</span>
                 <span style={{ flex: 1 }}>{task.content} ({task.status})</span>
-                <select 
+                <select
                   value={task.status}
                   onChange={(e) => updateTaskStatus(task.id, e.target.value)}
-                  style={{ 
-                    padding: '2px 6px', 
+                  style={{
+                    padding: '2px 6px',
                     fontSize: '12px',
                     borderRadius: '4px',
                     border: '1px solid #ddd'
@@ -159,11 +159,11 @@ function TestApp() {
                     </option>
                   ))}
                 </select>
-                <button 
+                <button
                   onClick={() => removeTask(task.id)}
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
+                  style={{
+                    background: 'none',
+                    border: 'none',
                     color: '#ef4444',
                     cursor: 'pointer',
                     fontSize: '16px',
@@ -175,12 +175,12 @@ function TestApp() {
             )
           })}
         </div>
-        
+
         {/* 添加任务表单 */}
-        <div style={{ 
-          marginTop: '16px', 
-          padding: '12px', 
-          backgroundColor: '#fff', 
+        <div style={{
+          marginTop: '16px',
+          padding: '12px',
+          backgroundColor: '#fff',
           borderRadius: '8px',
           display: 'flex',
           gap: '8px',
@@ -192,7 +192,7 @@ function TestApp() {
             value={newTaskContent}
             onChange={(e) => setNewTaskContent(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addTask()}
-            style={{ 
+            style={{
               flex: 1,
               padding: '6px 10px',
               border: '1px solid #ddd',
@@ -200,11 +200,11 @@ function TestApp() {
               fontSize: '13px'
             }}
           />
-          <select 
+          <select
             value={newTaskStatus}
             onChange={(e) => setNewTaskStatus(e.target.value)}
-            style={{ 
-              padding: '6px 10px', 
+            style={{
+              padding: '6px 10px',
               fontSize: '13px',
               borderRadius: '4px',
               border: '1px solid #ddd'
@@ -215,11 +215,11 @@ function TestApp() {
               </option>
             ))}
           </select>
-          <button 
+          <button
             onClick={addTask}
             disabled={!newTaskContent.trim()}
-            style={{ 
-              padding: '6px 16px', 
+            style={{
+              padding: '6px 16px',
               backgroundColor: '#3b82f6',
               color: 'white',
               border: 'none',
@@ -231,7 +231,7 @@ function TestApp() {
           </button>
         </div>
       </div>
-      
+
       <TaskProgressDemo />
 
       {/* 嵌套任务块 */}
@@ -281,31 +281,34 @@ function TestApp() {
         <div className="toolbar-banner-content">
           <span className="toolbar-banner-text">工具栏演示</span>
           <div className="toolbar-banner-actions">
-            <button className="toolbar-banner-btn" title="粗体">
-              <span className="toolbar-icon">B</span>
-            </button>
-            <button className="toolbar-banner-btn" title="斜体">
-              <span className="toolbar-icon">I</span>
-            </button>
-            <button className="toolbar-banner-btn" title="下划线">
-              <span className="toolbar-icon">U</span>
-            </button>
+            <a
+              className="button toolbar-banner-btn"
+              title="Settings JSON"
+              onClick={() => {
+                const jsonStr = JSON.stringify(settings, null, 2);
+                alert('Settings JSON:\n\n' + jsonStr);
+                console.log('Settings JSON:\n\n' + jsonStr)
+              }}
+            >
+              <i className="ti ti-settings-cancel"></i>
+              {/* <span className="toolbar-icon">{ }</span> */}
+            </a>
           </div>
         </div>
       </div>
-      
+
       <div id="head" className="top-toolbar">
         <div className="toolbar-content">
           <h1>Text Toolkit Plugin (Test Mode)</h1>
         </div>
       </div>
-      
-      <TestLayout 
+
+      <TestLayout
         leftContent={leftContent}
         centerContent={centerContent}
         rightContent={rightContent}
       />
-      
+
       <ToastContainer />
     </div>
   )

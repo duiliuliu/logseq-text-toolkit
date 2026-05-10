@@ -296,7 +296,6 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
             config={config} 
             currentDate={currentDate} 
             onCellClick={handleCellClick}
-            theme={theme}
           />
         );
       default:

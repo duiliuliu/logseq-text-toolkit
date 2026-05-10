@@ -84,6 +84,7 @@ export interface HeatmapStatistics {
     start: string;
     end: string;
   };
+  blocksByDate: Record<string, BlockEntity[]>;
 }
 
 export interface HeatmapTooltipData {
