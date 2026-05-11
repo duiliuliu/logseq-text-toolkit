@@ -9,24 +9,24 @@ const CSS_FILES_CONFIG = 'scripts/css-files.js'
 function extractExternalPaths() {
   const projectRoot = resolve(__dirname)
   const cssRegistryPath = resolve(projectRoot, 'src/initializer.ts')
-  
+
   console.log('[vite-plugin-css-export] Project root:', projectRoot)
   console.log('[vite-plugin-css-export] CSS registry path:', cssRegistryPath)
-  
+
   if (!existsSync(cssRegistryPath)) {
     console.warn('[vite-plugin-css-export] cssRegistry/index.ts not found')
     return null
   }
-  
+
   const content = readFileSync(cssRegistryPath, 'utf-8')
   const regex = /externalPath:\s*['"]([^'"]+)['"]/g
   const paths = []
   let match
-  
+
   while ((match = regex.exec(content)) !== null) {
     paths.push(match[1])
   }
-  
+
   return paths.length > 0 ? paths : null
 }
 
@@ -44,6 +44,8 @@ module.exports = ${JSON.stringify(paths, null, 2)}
 }
 
 export default defineConfig(({ mode }) => {
+  const isDevPlugin = mode === 'devplugin'
+
   return {
     root: 'src',
     plugins: [
@@ -61,17 +63,32 @@ export default defineConfig(({ mode }) => {
         }
       }
     ],
-    rollupOptions: {
-      output: {
-        assetFileNames: 'assets/[name].[hash].[ext]',
-      },
-    },
     build: {
       outDir: '../dist',
       emptyOutDir: true,
       target: 'esnext',
-      minify: 'terser',
+      minify: false,
+      sourcemap: isDevPlugin ? 'inline' : false,
       cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          assetFileNames: 'assets/[name].[ext]',
+          chunkFileNames: '[name].[ext]',
+          entryFileNames: '[name].js',
+          format: 'iife',
+          generatedCode: {
+            preset: 'es2015',
+            constBindings: false,
+            arrowFunctions: false,
+          },
+        },
+      },
+    },
+    esbuild: {
+      keepNames: true,
+      minifyIdentifiers: false,
+      minifySyntax: false,
+      minifyWhitespace: false,
     },
     server: {
       port: 3000,
