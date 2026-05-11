@@ -3735,7 +3735,7 @@
       };
       animationRef.current = requestAnimationFrame(animate);
       const handleResize = () => resizeCanvas();
-      window.addEventListener("resize", handleResize);
+      window.addEventListener("resize", handleResize, { passive: true });
       return () => {
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
