@@ -4403,14 +4403,17 @@ ${nestingClauses}`;
   const Tooltip = ({ data, position, theme = "light" }) => {
     const isDark = theme === "dark";
     const progressBar = generateProgressBar(data.percentage);
+    const cellCenterX = position.x + position.width / 2;
+    const cellTop = position.y;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
         className: "heatmap-tooltip",
         style: {
           position: "fixed",
-          left: position.x + 12,
-          top: position.y - 60,
+          left: cellCenterX,
+          top: cellTop - 8,
+          transform: "translate(-50%, -100%)",
           background: isDark ? "rgba(23, 31, 51, 0.95)" : "rgba(255, 255, 255, 0.95)",
           border: `1px solid ${isDark ? "#c0c1ff" : "#3730a3"}`,
           borderRadius: "8px",
@@ -4419,7 +4422,8 @@ ${nestingClauses}`;
           zIndex: 1e3,
           opacity: 1,
           transition: "opacity 0.15s ease-in",
-          pointerEvents: "none"
+          pointerEvents: "none",
+          whiteSpace: "nowrap"
         },
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { color: isDark ? "#c0c1ff" : "#3730a3", fontSize: "12px", fontWeight: 500, marginBottom: "4px" }, children: data.date }),
@@ -4462,9 +4466,11 @@ ${nestingClauses}`;
       const rect = e.currentTarget.getBoundingClientRect();
       setTooltipPosition({
         x: rect.left,
-        y: rect.top
+        y: rect.top,
+        width: rect.width,
+        height: rect.height
       });
-      loggerProxy.debug("HeatmapCell hovered position", { x: rect.left, y: rect.top }, "cell date", date, "blocks", blocks.length);
+      loggerProxy.debug("HeatmapCell hovered position", { x: rect.left, y: rect.top, width: rect.width, height: rect.height }, "cell date", date, "blocks", blocks.length);
     };
     const handleMouseLeave = () => {
       setIsHovered(false);
