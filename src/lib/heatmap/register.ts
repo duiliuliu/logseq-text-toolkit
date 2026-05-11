@@ -260,6 +260,7 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.weekPageCreation?.enabled ?? false,
       weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageCreation?.pageNameTemplate || '',
       weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || '',
+      dateFormat: settings?.dateFormat || '',
     };
 
     logger.debug('🌡️ Heatmap: Rendering heatmap', {

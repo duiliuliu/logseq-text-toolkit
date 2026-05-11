@@ -8,7 +8,6 @@ import { logseqAPI } from '../../logseq';
 import { ensurePageAndNavigate, formatDateForPage } from '../../lib/heatmap/pageUtils';
 import logger from '../../lib/logger';
 import './heatmap.css';
-import useSettingsContext from '../../settings/useSettings';
 
 interface HeatmapProps {
   config: HeatmapConfig;
@@ -18,7 +17,6 @@ interface HeatmapProps {
 }
 
 const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => {
-  const { settings } = useSettingsContext();
 
   const containerClass = theme === 'dark'
     ? `heatmap-container heatmap-${config.displayMode} dark`
@@ -31,8 +29,6 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   const isResizing = useRef(false);
   const startX = useRef(0);
   const startWidth = useRef(0);
-
-
 
   const effectiveWidth = manualWidth || config.containerWidth;
 
@@ -322,8 +318,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     logger.debug('📐 Heatmap: Cell clicked', { date });
     if (date) {
       try {
-        const pageName = formatDateForPage(date, settings?.dateFormat);
-        logger.debug('📐 Heatmap: Navigating to page', { pageName }, "dateformat", settings?.dateFormat);
+        const pageName = formatDateForPage(date, config?.dateFormat);
+        logger.debug('📐 Heatmap: Navigating to page', { pageName, date, dateFormat: config?.dateFormat });
         ensurePageAndNavigate(pageName);
       } catch (err) {
         console.error('Failed to navigate to date:', err);

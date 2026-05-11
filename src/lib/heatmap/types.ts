@@ -59,6 +59,7 @@ export interface HeatmapConfig {
   enableWeekPageCreation?: boolean;
   weekPageTemplate?: string;
   weekPageLogseqTemplate?: string;
+  dateFormat?: string;
 }
 
 export interface IndigoColorScheme {

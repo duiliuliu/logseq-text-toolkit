@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HeatmapTooltipData } from '../../lib/heatmap/types';
 import { generateProgressBar } from '../../lib/heatmap/colorCalculator';
+import { logger } from '../../logseq/logger';
 
 interface HeatmapCellProps {
   date: string;
@@ -92,6 +93,7 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
       x: rect.left,
       y: rect.top,
     });
+    logger.debug('HeatmapCell hovered position', { x: rect.left, y: rect.top }, "cell date", date, "blocks", blocks.length);
   };
 
   const handleMouseLeave = () => {
