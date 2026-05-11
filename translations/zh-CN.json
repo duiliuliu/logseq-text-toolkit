@@ -34,6 +34,7 @@
     "general": "⚙️ 通用设置",
     "toolbar": "🛠️ 工具栏设置",
     "taskProgress": "📊 任务进度",
+    "heatmap": "📈 热力图",
     "advanced": "⚡ 其他设置"
   },
     "saveSuccessRestart": "保存成功，请重启应用生效",
@@ -128,6 +129,34 @@
         "total": "总计"
       }
     },
-    "saveTaskProgressSettings": "保存任务进度设置"
+    "saveTaskProgressSettings": "保存任务进度设置",
+    "saveHeatmapSettings": "保存热力图设置",
+    "heatmap": {
+      "description": "配置热力图展示功能和显示效果。",
+      "enabled": "启用热力图功能",
+      "defaultViewType": "默认视图",
+      "viewTypeYear": "年度视图",
+      "viewTypeMonth": "月度视图",
+      "viewTypeWeek": "周度视图",
+      "defaultDisplayMode": "默认显示模式",
+      "displayModeFull": "完整模式",
+      "displayModeBasic": "基础模式",
+      "displayModeMinimal": "极简模式",
+      "defaultColorFormula": "颜色计算公式",
+      "colorFormulaSimple": "简化模式",
+      "colorFormulaWeighted": "加权模式",
+      "colorScheme": "配色方案",
+      "minColor": "最小颜色",
+      "maxColor": "最大颜色",
+      "preview": "预览",
+      "monthPageCreation": "月度页面创建",
+      "enableMonthPageCreation": "启用月度页面创建",
+      "monthPageNameTemplate": "页面名称模板",
+      "monthLogseqTemplate": "Logseq 模板",
+      "weekPageCreation": "周度页面创建",
+      "enableWeekPageCreation": "启用周度页面创建",
+      "weekPageNameTemplate": "页面名称模板",
+      "weekLogseqTemplate": "Logseq 模板"
+    }
   }
 }
