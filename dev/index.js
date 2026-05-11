@@ -4359,7 +4359,7 @@ ${nestingClauses}`;
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
-          className: `heatmap-cell size-${size} ${isHovered ? "hovered" : ""} ${!isCurrentMonth ? "other-month" : ""}`,
+          className: `heatmap-cell size-${size} ${!isCurrentMonth ? "other-month" : ""}`,
           style: {
             backgroundColor: getBackgroundColor(),
             border: getBorderStyle(),
