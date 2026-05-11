@@ -47,12 +47,12 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
   weekPageTemplate?: string;
   weekPageLogseqTemplate?: string;
 } {
-  let viewType: HeatmapViewType = 'year';
+  let viewType: HeatmapViewType ;
   let queryType: 'tag' | 'page' | 'property' = 'tag';
   let queryValue = '';
   let propertyKey = '';
-  let displayMode: DisplayMode = 'full';
-  let colorFormula: ColorFormula = 'simple';
+  let displayMode: DisplayMode ;
+  let colorFormula: ColorFormula  ;
   let referenceYear: number | undefined;
   let referenceMonth: number | undefined;
   let referenceWeek: number | undefined;
@@ -262,6 +262,14 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || '',
       dateFormat: settings?.dateFormat || '',
     };
+    logger.debug('🌡️ Heatmap: Configuration resolved', {
+      displayMode,
+      defaultDisplayMode: settings?.heatmap?.defaultDisplayMode,
+      colorFormula,
+      defaultColorFormula: settings?.heatmap?.defaultColorFormula,
+      languageSetting: settings?.language,
+      containerWidth
+    });
 
     logger.debug('🌡️ Heatmap: Rendering heatmap', {
       queryType,

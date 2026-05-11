@@ -27,27 +27,28 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
   const [activeTooltipId, setActiveTooltipId] = useState<string | null>(null);
   const isDark = theme === 'dark';
 
-  const handleStatClick = async (date: string, event: React.MouseEvent) => {
-    logger.debug('Statistics stat clicked', { date });
+  const handleStatClick = async (action: string, event: React.MouseEvent) => {
+    logger.debug('Statistics stat clicked', { action: action });
     event.stopPropagation();
+    setTooltips([]);
 
     const rect = event.currentTarget.getBoundingClientRect();
     setTriggerRect(rect);
 
     let blocks: BlockEntity[] = [];
-    if (date === 'total') {
+    if (action === 'total') {
       const allBlocks: BlockEntity[] = [];
       Object.values(data.blocksByDate || {}).forEach((dayBlocks) => {
         allBlocks.push(...dayBlocks);
       });
       blocks = allBlocks.slice(0, 8);
-    } else if (date === 'active') {
+    } else if (action === 'active') {
       const activeDays = Object.entries(data.blocksByDate || {});
       const lastDayBlocks = activeDays.length > 0
         ? activeDays[activeDays.length - 1][1]
         : [];
       blocks = lastDayBlocks.slice(0, 8);
-    } else if (date === 'max') {
+    } else if (action === 'max') {
       let maxDate = '';
       let maxCount = 0;
       Object.entries(data.blocksByDate || {}).forEach(([d, dayBlocks]) => {
@@ -57,14 +58,14 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
         }
       });
       blocks = (data.blocksByDate?.[maxDate] || []).slice(0, 8);
-    } else if (date === 'avg') {
+    } else if (action === 'avg') {
       const days = Object.entries(data.blocksByDate || {});
       if (days.length > 0) {
         const randomDay = days[Math.floor(Math.random() * days.length)];
         blocks = randomDay[1].slice(0, 8);
       }
-    } else if (data.blocksByDate?.[date]) {
-      blocks = data.blocksByDate[date].slice(0, 8);
+    } else if (data.blocksByDate?.[action]) {
+      blocks = data.blocksByDate[action].slice(0, 8);
     }
 
     const items: TooltipItem[] = [];
@@ -97,7 +98,7 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
     }
 
     setTooltips(items);
-    setActiveTooltipId(date);
+    setActiveTooltipId(action);
     setIsOpen(true);
   };
 
@@ -115,7 +116,7 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
         const uuid = typeof block.uuid === 'object' && block.uuid['$uuid$']
           ? block.uuid['$uuid$']
           : block.uuid;
-        await logseqAPI.App.pushState('page', { id: uuid });
+        await logseqAPI.App.pushState('page', { id: block['block/page'] }, { id: uuid });
         handleClose();
       } catch (err) {
         logger.error('[Statistics] Failed to navigate to block:', err);
@@ -193,7 +194,7 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
     return {
       position: 'fixed',
       left: triggerRect.left,
-      top: triggerRect.top,
+      top: triggerRect.top - 120,
       transform: 'translateY(calc(-100% - 8px))',
       zIndex: 999,
       pointerEvents: 'auto',

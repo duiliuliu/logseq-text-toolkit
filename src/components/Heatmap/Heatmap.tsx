@@ -156,20 +156,24 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
           const currentBlock = await logseqAPI.Editor.getBlock(onBlockId);
           if (currentBlock) {
             const content = currentBlock.content || '';
-            const widthRegex = /width=["']?[\w%]+["']?/i;
-            let updatedContent: string;
 
-            if (widthRegex.test(content)) {
-              updatedContent = content.replace(widthRegex, `width="${finalWidth}"`);
-            } else {
-              updatedContent = content.replace(
-                /(<\w+)(\s|>)/i,
-                `$1 width="${finalWidth}"$2`
-              );
-            }
+            // 🔥 匹配整个 {{renderer :heatmap ... }}
+            const rendererRegex = /({{renderer\s+:heatmap.*?}})/gi;
 
-            logger.debug('📐 Heatmap: Updating block content', { onBlockId, finalWidth, updatedContent });
+            const updatedContent = content.replace(rendererRegex, (rendererStr) => {
+              const hasWidth = /containerWidth=[\w%]+/i.test(rendererStr);
+
+              if (hasWidth) {
+                // 有 → 替换
+                return rendererStr.replace(/containerWidth=[\w%]+/i, `containerWidth=${finalWidth}`);
+              } else {
+                // 无 → 智能插入到参数最后面
+                return rendererStr.replace(/\s*}}$/, `, containerWidth=${finalWidth}}}`);
+              }
+            });
+
             await logseqAPI.Editor.updateBlock(onBlockId, updatedContent);
+            logger.debug('📐 Heatmap: Width updated to block', { onBlockId, finalWidth, updatedContent });
           }
         } catch (err) {
           logger.error('Failed to update block:', err);

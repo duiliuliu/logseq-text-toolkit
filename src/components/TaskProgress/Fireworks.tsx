@@ -108,7 +108,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     }
 
     const centerX = targetRect.left + targetRect.width / 2;
-    const topY = targetRect.top;
+    const topY = targetRect.top - 120;
 
     logger.debug('🎆 Fireworks: calculated positions', { centerX, topY, width: targetRect.width, height: targetRect.height });
 

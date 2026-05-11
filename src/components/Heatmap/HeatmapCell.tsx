@@ -31,7 +31,7 @@ const Tooltip: React.FC<TooltipProps> = ({ data, cellRect, theme = 'light' }) =>
   const style: React.CSSProperties = {
     position: 'fixed',
     left: cellRect.left,
-    top: cellRect.top,
+    top: cellRect.top - 120,
     transform: 'translateY(calc(-100% - 8px))',
     background: isDark ? 'rgba(23, 31, 51, 0.95)' : 'rgba(255, 255, 255, 0.95)',
     border: `1px solid ${isDark ? '#c0c1ff' : '#3730a3'}`,
