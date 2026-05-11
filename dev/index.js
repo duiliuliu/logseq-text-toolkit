@@ -3686,8 +3686,8 @@
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       const resizeCanvas = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = getWindow().innerWidth;
+        canvas.height = getWindow().innerHeight;
       };
       resizeCanvas();
       const animate = () => {
@@ -3735,12 +3735,12 @@
       };
       animationRef.current = requestAnimationFrame(animate);
       const handleResize = () => resizeCanvas();
-      window.addEventListener("resize", handleResize, { passive: true });
+      getWindow().addEventListener("resize", handleResize, { passive: true });
       return () => {
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
         }
-        window.removeEventListener("resize", handleResize);
+        getWindow().removeEventListener("resize", handleResize);
       };
     }, [fireworks, particles, createExplosion]);
     if (!targetRect) return null;
@@ -4936,6 +4936,7 @@ ${nestingClauses}`;
       return items;
     }, []);
     const handleStatClick = async (date, event) => {
+      loggerProxy.debug("Statistics stat clicked", { date });
       event.stopPropagation();
       if (closeTimeoutRef.current) {
         clearTimeout(closeTimeoutRef.current);
@@ -4989,6 +4990,7 @@ ${nestingClauses}`;
       }, 150);
     }, []);
     const handleBlockClick = async (block) => {
+      loggerProxy.debug("Statistics block clicked", { blockId: block.uuid });
       if (block && block.uuid) {
         try {
           const uuid = typeof block.uuid === "object" && block.uuid["$uuid$"] ? block.uuid["$uuid$"] : block.uuid;
@@ -5002,7 +5004,7 @@ ${nestingClauses}`;
       }
     };
     const getTooltipPosition = () => {
-      if (typeof window === "undefined" || !triggerRef.current) {
+      if (typeof getWindow() === "undefined" || !triggerRef.current) {
         return { left: anchorPosition.x, top: anchorPosition.y + 10 };
       }
       const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -5011,8 +5013,8 @@ ${nestingClauses}`;
       let left = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2 + 100;
       let top = triggerRect.top - tooltipHeight - 8;
       if (left < 10) left = 10;
-      if (left + tooltipWidth > window.innerWidth - 10) {
-        left = window.innerWidth - tooltipWidth - 10;
+      if (left + tooltipWidth > getWindow().innerWidth - 10) {
+        left = getWindow().innerWidth - tooltipWidth - 10;
       }
       if (top < 10) {
         top = triggerRect.bottom + 8;
@@ -5488,36 +5490,52 @@ ${nestingClauses}`;
       await ensurePageAndNavigate(pageName, config.weekPageLogseqTemplate);
     }, [config, currentDate]);
     const handleResizeStart = reactExports.useCallback((e) => {
+      loggerProxy.debug("📐 Heatmap: Resize start", { clientX: e.clientX, manualWidth });
       e.preventDefault();
       isResizing.current = true;
       startX.current = e.clientX;
       startWidth.current = containerRef.current?.clientWidth || 0;
       const handleResizeMove = (moveEvent) => {
-        if (!isResizing.current) return;
+        loggerProxy.debug("📐 Heatmap: Resizing", { clientX: moveEvent.clientX, startX: startX.current, startWidth: startWidth.current });
+        if (!isResizing.current) {
+          loggerProxy.debug("📐 Heatmap: Not resizing, ignoring move event");
+          return;
+        }
         const diff = moveEvent.clientX - startX.current;
         const newWidth = Math.max(200, startWidth.current + diff);
         setManualWidth(`${newWidth}px`);
       };
       const handleResizeEnd = async () => {
+        loggerProxy.debug("📐 Heatmap: Resize end", { manualWidth });
         if (!isResizing.current) return;
         isResizing.current = false;
         if (onBlockId && manualWidth) {
           try {
             const currentBlock = await logseqAPI$1.Editor.getBlock(onBlockId);
             if (currentBlock) {
-              const content = currentBlock.content;
-              const updatedContent = content.replace(/width=[\w%]+/, `width=${manualWidth}`);
+              const content = currentBlock.content || "";
+              const widthRegex = /width=["']?[\w%]+["']?/i;
+              let updatedContent;
+              if (widthRegex.test(content)) {
+                updatedContent = content.replace(widthRegex, `width=${manualWidth}`);
+              } else {
+                updatedContent = content.replace(
+                  /(<\w+)(\s|>)/i,
+                  `$1 width=${manualWidth}$2`
+                );
+              }
+              loggerProxy.debug("📐 Heatmap: Updating block content", { onBlockId, updatedContent });
               await logseqAPI$1.Editor.updateBlock(onBlockId, updatedContent);
             }
           } catch (err) {
-            console.error("Failed to update block:", err);
+            loggerProxy.error("Failed to update block:", err);
           }
         }
-        document.removeEventListener("mousemove", handleResizeMove);
-        document.removeEventListener("mouseup", handleResizeEnd);
+        getDocument().removeEventListener("mousemove", handleResizeMove);
+        getDocument().removeEventListener("mouseup", handleResizeEnd);
       };
-      document.addEventListener("mousemove", handleResizeMove);
-      document.addEventListener("mouseup", handleResizeEnd);
+      getDocument().addEventListener("mousemove", handleResizeMove);
+      getDocument().addEventListener("mouseup", handleResizeEnd);
     }, [manualWidth, onBlockId]);
     reactExports.useEffect(() => {
       setViewType(config.viewType);
@@ -5527,7 +5545,7 @@ ${nestingClauses}`;
       if (!el) return;
       const blockElementId = "ls-block-" + onBlockId;
       const ro = new ResizeObserver(() => {
-        const blockEl2 = document.getElementById(blockElementId);
+        const blockEl2 = getDocument().getElementById(blockElementId);
         if (!blockEl2) return;
         const containerWidth2 = el.getBoundingClientRect().width;
         const blockWidth = blockEl2.getBoundingClientRect().width;
@@ -5540,9 +5558,9 @@ ${nestingClauses}`;
         setContainerWidth(safeWidth);
       });
       ro.observe(el);
-      const blockEl = document.getElementById(blockElementId);
+      const blockEl = getDocument().getElementById(blockElementId);
       if (blockEl) ro.observe(blockEl);
-      const initialBlockEl = document.getElementById(blockElementId);
+      const initialBlockEl = getDocument().getElementById(blockElementId);
       const initialWidth = Math.min(
         el.getBoundingClientRect().width,
         initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
