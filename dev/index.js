@@ -5406,12 +5406,16 @@ ${nestingClauses}`;
     const [viewType, setViewType] = reactExports.useState(config.viewType);
     const [currentDate, setCurrentDate] = reactExports.useState(config.referenceDate || /* @__PURE__ */ new Date());
     const [manualWidth, setManualWidth] = reactExports.useState(void 0);
+    const manualWidthRef = reactExports.useRef(void 0);
     const containerRef = reactExports.useRef(null);
     const [containerWidth, setContainerWidth] = reactExports.useState(0);
     const isResizing = reactExports.useRef(false);
     const startX = reactExports.useRef(0);
     const startWidth = reactExports.useRef(0);
     const effectiveWidth = manualWidth || config.containerWidth;
+    reactExports.useEffect(() => {
+      manualWidthRef.current = manualWidth;
+    }, [manualWidth]);
     const handleViewChange = reactExports.useCallback((type) => {
       setViewType(type);
     }, []);
@@ -5488,6 +5492,7 @@ ${nestingClauses}`;
       await ensurePageAndNavigate(pageName, config.weekPageLogseqTemplate);
     }, [config, currentDate]);
     const handleResizeStart = reactExports.useCallback((e) => {
+      loggerProxy.debug("📐 Heatmap: Resize start", { clientX: e.clientX, manualWidth: manualWidthRef.current });
       e.preventDefault();
       isResizing.current = true;
       startX.current = e.clientX;
@@ -5498,28 +5503,38 @@ ${nestingClauses}`;
         const newWidth = Math.max(200, startWidth.current + diff);
         setManualWidth(`${newWidth}px`);
       };
-      const handleResizeEnd = async (finalWidth) => {
+      const handleResizeEnd = async () => {
+        loggerProxy.debug("📐 Heatmap: Resize end", { manualWidth: manualWidthRef.current });
         if (!isResizing.current) return;
         isResizing.current = false;
+        const finalWidth = manualWidthRef.current;
         if (onBlockId && finalWidth) {
           try {
             const currentBlock = await logseqAPI$1.Editor.getBlock(onBlockId);
             if (currentBlock) {
-              const content = currentBlock.content;
-              const widthPattern = /width=[\w%]+/;
-              const updatedContent = widthPattern.test(content) ? content.replace(widthPattern, `width=${finalWidth}`) : `${content} width=${finalWidth}`;
+              const content = currentBlock.content || "";
+              const widthRegex = /width=["']?[\w%]+["']?/i;
+              let updatedContent;
+              if (widthRegex.test(content)) {
+                updatedContent = content.replace(widthRegex, `width="${finalWidth}"`);
+              } else {
+                updatedContent = content.replace(
+                  /(<\w+)(\s|>)/i,
+                  `$1 width="${finalWidth}"$2`
+                );
+              }
+              loggerProxy.debug("📐 Heatmap: Updating block content", { onBlockId, finalWidth, updatedContent });
               await logseqAPI$1.Editor.updateBlock(onBlockId, updatedContent);
-              loggerProxy.debug("📐 Heatmap: Width updated to block", { onBlockId, finalWidth, updatedContent });
             }
           } catch (err) {
-            loggerProxy.error("📐 Heatmap: Failed to update width", err);
+            loggerProxy.error("Failed to update block:", err);
           }
         }
-        document.removeEventListener("mousemove", handleResizeMove);
-        document.removeEventListener("mouseup", handleResizeEnd);
+        getDocument().removeEventListener("mousemove", handleResizeMove);
+        getDocument().removeEventListener("mouseup", handleResizeEnd);
       };
-      document.addEventListener("mousemove", handleResizeMove);
-      document.addEventListener("mouseup", () => handleResizeEnd(manualWidth || `${containerRef.current?.clientWidth || 0}px`));
+      getDocument().addEventListener("mousemove", handleResizeMove);
+      getDocument().addEventListener("mouseup", handleResizeEnd);
     }, [onBlockId]);
     reactExports.useEffect(() => {
       setViewType(config.viewType);
@@ -5529,22 +5544,17 @@ ${nestingClauses}`;
       if (!el) return;
       const blockElementId = "ls-block-" + onBlockId;
       const ro = new ResizeObserver(() => {
-        const blockEl2 = document.getElementById(blockElementId);
+        const blockEl2 = getDocument().getElementById(blockElementId);
         if (!blockEl2) return;
         const containerWidth2 = el.getBoundingClientRect().width;
         const blockWidth = blockEl2.getBoundingClientRect().width;
         const safeWidth = Math.min(containerWidth2, blockWidth);
-        loggerProxy.debug("📐 安全宽度", {
-          containerWidth: containerWidth2,
-          blockWidth,
-          safeWidth
-        });
         setContainerWidth(safeWidth);
       });
       ro.observe(el);
-      const blockEl = document.getElementById(blockElementId);
+      const blockEl = getDocument().getElementById(blockElementId);
       if (blockEl) ro.observe(blockEl);
-      const initialBlockEl = document.getElementById(blockElementId);
+      const initialBlockEl = getDocument().getElementById(blockElementId);
       const initialWidth = Math.min(
         el.getBoundingClientRect().width,
         initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
@@ -21338,12 +21348,12 @@ ${where}
   registerRendererArgModel(MACRO_PREFIX, { positional: ["view"] });
   registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
   function parseMacroArguments(tokens, argMap) {
-    let viewType = "year";
+    let viewType;
     let queryType = "tag";
     let queryValue = "";
     let propertyKey = "";
-    let displayMode = "full";
-    let colorFormula = "simple";
+    let displayMode;
+    let colorFormula;
     let referenceYear;
     let referenceMonth;
     let referenceWeek;
@@ -21531,6 +21541,14 @@ ${where}
         weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || "",
         dateFormat: settings?.dateFormat || ""
       };
+      loggerProxy.debug("🌡️ Heatmap: Configuration resolved", {
+        displayMode,
+        defaultDisplayMode: settings?.heatmap?.defaultDisplayMode,
+        colorFormula,
+        defaultColorFormula: settings?.heatmap?.defaultColorFormula,
+        languageSetting: settings?.language,
+        containerWidth
+      });
       loggerProxy.debug("🌡️ Heatmap: Rendering heatmap", {
         queryType,
         queryValue,
