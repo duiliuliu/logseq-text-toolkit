@@ -4302,28 +4302,38 @@ ${nestingClauses}`;
     ] });
   };
 
-  const Tooltip = ({ data, theme = "light" }) => {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "heatmap-tooltip", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "heatmap-tooltip-date", children: data.date }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "heatmap-tooltip-stats", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "heatmap-tooltip-count", children: [
-          data.count,
-          " ",
-          data.count === 1 ? "block" : "blocks"
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "heatmap-tooltip-percent", children: [
-          data.percentage,
-          "%"
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "heatmap-tooltip-bar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "div",
-        {
-          className: "heatmap-tooltip-bar-fill",
-          style: { width: `${data.percentage}%` }
-        }
-      ) })
-    ] });
+  const Tooltip = ({ data, position, theme = "light" }) => {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "heatmap-tooltip",
+        style: {
+          left: position.x,
+          top: position.y - 8
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "heatmap-tooltip-date", children: data.date }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "heatmap-tooltip-stats", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "heatmap-tooltip-count", children: [
+              data.count,
+              " ",
+              data.count === 1 ? "block" : "blocks"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "heatmap-tooltip-percent", children: [
+              data.percentage,
+              "%"
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "heatmap-tooltip-bar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "heatmap-tooltip-bar-fill",
+              style: { width: `${data.percentage}%` }
+            }
+          ) })
+        ]
+      }
+    );
   };
   const HeatmapCell = ({
     date,
@@ -4339,7 +4349,22 @@ ${nestingClauses}`;
     theme = "light",
     blocks = []
   }) => {
+    const [isHovered, setIsHovered] = reactExports.useState(false);
+    const [tooltipPosition, setTooltipPosition] = reactExports.useState(null);
     const percentage = maxValue > 0 ? Math.round(value / maxValue * 100) : 0;
+    const handleMouseEnter = (e) => {
+      setIsHovered(true);
+      const rect = e.currentTarget.getBoundingClientRect();
+      setTooltipPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top,
+        cellHeight: rect.height
+      });
+    };
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+      setTooltipPosition(null);
+    };
     const handleClick = () => {
       if (onClick) {
         onClick(date);
@@ -4355,22 +4380,24 @@ ${nestingClauses}`;
       return "1px solid rgba(70, 69, 84, 0.3)";
     };
     const tooltipData = { date, count: value, percentage, maxValue };
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `heatmap-cell-wrapper ${isEmpty ? "empty" : ""}`, children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
-          className: `heatmap-cell size-${size} ${!isCurrentMonth ? "other-month" : ""}`,
+          className: `heatmap-cell size-${size} ${isHovered ? "hovered" : ""} ${!isCurrentMonth ? "other-month" : ""}`,
           style: {
             backgroundColor: getBackgroundColor(),
             border: getBorderStyle(),
             opacity: !isEmpty && !isCurrentMonth ? 0.3 : 1
           },
+          onMouseEnter: handleMouseEnter,
+          onMouseLeave: handleMouseLeave,
           onClick: handleClick,
           title: isEmpty ? void 0 : `${date}: ${value} blocks`,
           children: showDay && dayNumber !== void 0 && dayNumber > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "heatmap-cell-day", children: dayNumber })
         }
       ),
-      !isEmpty && /* @__PURE__ */ jsxRuntimeExports.jsx(Tooltip, { data: tooltipData, theme })
+      isHovered && tooltipPosition && !isEmpty && /* @__PURE__ */ jsxRuntimeExports.jsx(Tooltip, { data: tooltipData, position: tooltipPosition, theme })
     ] });
   };
 
