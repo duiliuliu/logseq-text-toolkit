@@ -5756,146 +5756,148 @@ ${nestingClauses}`;
     }
   }
 
-  const generateMockBlocks = (count, date) => {
-    const blocks = [];
-    const baseDate = new Date(date);
-    for (let i = 0; i < count; i++) {
-      const createdAt = baseDate.getTime() + Math.random() * 864e5;
-      blocks.push({
-        "block/uuid": { "$uuid$": `mock-uuid-${date}-${i}` },
-        "block/content": `Task ${i + 1} on ${date}`,
-        "block/created-at": createdAt,
-        "block/updated-at": createdAt + Math.random() * 36e5,
-        children: Math.random() > 0.7 ? Array(Math.floor(Math.random() * 3)).fill(null).map((_, j) => ({
-          "block/uuid": { "$uuid$": `mock-child-${date}-${i}-${j}` },
-          "block/content": `Subtask ${j + 1}`
-        })) : void 0,
-        "block/properties": Math.random() > 0.5 ? {
-          category: "work",
-          priority: "high"
-        } : void 0
-      });
-    }
-    return blocks;
+  const escapeDatalogString$1 = (value) => value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n");
+  const getCreatedAt$1 = (block) => {
+    const v = block?.["block/created-at"] ?? block?.["created-at"] ?? block?.createdAt ?? block?.created_at;
+    const n = typeof v === "number" ? v : Number(v);
+    return Number.isFinite(n) ? n : null;
   };
-  const generateYearData = (year, tagName, colorFormula) => {
-    const data = [];
-    const startDate = new Date(year, 0, 1);
-    const endDate = new Date(year + 1, 0, 1);
-    for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
-      const dateStr = d.toISOString().split("T")[0];
-      const dayOfWeek = d.getDay();
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      let count = 0;
-      if (Math.random() > 0.3) {
-        count = isWeekend ? Math.floor(Math.random() * 8) : Math.floor(Math.random() * 15) + 2;
-      }
-      const blocks = generateMockBlocks(count, dateStr);
-      data.push({
-        date: dateStr,
-        count: colorFormula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
-        blocks
-      });
+  const pad2$1 = (n) => String(n).padStart(2, "0");
+  const formatLocalDateTimeNoTZ$1 = (d) => `${d.getFullYear()}-${pad2$1(d.getMonth() + 1)}-${pad2$1(d.getDate())}T${pad2$1(d.getHours())}:${pad2$1(d.getMinutes())}:${pad2$1(d.getSeconds())}`;
+  const buildWhereClause$1 = (queryParams) => {
+    const value = escapeDatalogString$1(queryParams.value || "");
+    if (queryParams.type === "tag") {
+      return `
+      [?b :block/tags ?t]
+      (or-join [?t]
+        [?t :block/name "${value}"]
+        [?t :block/title "${value}"]
+      )
+    `;
     }
-    return data;
+    if (queryParams.type === "page") {
+      return `
+      (or-join [?p]
+        [?p :block/name "${value}"]
+        [?p :block/title "${value}"]
+      )
+      [?b :block/page ?p]
+    `;
+    }
+    const key = (queryParams.propertyKey || "").trim();
+    const escapedKey = key.replace(/[^a-zA-Z0-9_\\-]/g, "_");
+    return `
+    [?b :block/properties ?props]
+    [(get ?props :${escapedKey}) ?pv]
+    [(str ?pv) ?pvStr]
+    [(= ?pvStr "${value}")]
+  `;
   };
-  const generateMonthData = (year, month, tagName, colorFormula) => {
-    const data = [];
-    const startDate = new Date(year, month, 1);
-    const endDate = new Date(year, month + 1, 1);
-    for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
-      const dateStr = d.toISOString().split("T")[0];
-      const dayOfWeek = d.getDay();
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      let count = 0;
-      if (Math.random() > 0.25) {
-        count = isWeekend ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 20) + 3;
-      }
-      const blocks = generateMockBlocks(count, dateStr);
-      data.push({
-        date: dateStr,
-        count: colorFormula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
-        blocks
-      });
-    }
-    return data;
+  const buildQuery$1 = (queryParams, startMs, endMs) => {
+    const whereClause = buildWhereClause$1(queryParams);
+    return `
+    [:find (pull ?b [:block/uuid :block/content :block/title :block/created-at :block/updated-at :block/properties :block/tags :block/page])
+     :where
+     [?b :block/created-at ?created]
+     [(>= ?created ${startMs})]
+     [(< ?created ${endMs})]
+     ${whereClause}
+    ]
+  `;
   };
-  const generateWeekData = (year, weekNumber, tagName, colorFormula) => {
-    const data = [];
-    const startDate = getDateOfWeek$1(weekNumber, year);
-    for (let day = 0; day < 7; day++) {
-      for (let hourBlock = 0; hourBlock < 6; hourBlock++) {
-        const date = new Date(startDate);
-        date.setDate(date.getDate() + day);
-        date.setHours(hourBlock * 4, 0, 0, 0);
-        const dateStr = date.toISOString().split(".")[0];
-        const hour = date.getHours();
-        const isNight = hour < 6 || hour >= 22;
-        const isWorkHour = hour >= 9 && hour < 18;
-        let count = 0;
-        if (isNight) {
-          count = Math.random() > 0.9 ? Math.floor(Math.random() * 3) : 0;
-        } else if (isWorkHour) {
-          count = Math.random() > 0.15 ? Math.floor(Math.random() * 8) + 2 : 0;
-        } else {
-          count = Math.random() > 0.4 ? Math.floor(Math.random() * 5) : 0;
-        }
-        const blocks = generateMockBlocks(count, dateStr);
-        data.push({
-          date: dateStr,
-          count: colorFormula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
-          blocks
-        });
-      }
-    }
-    return data;
-  };
-  function getDateOfWeek$1(week, year) {
-    const d = new Date(year, 0, 1);
-    d.getDay();
-    const diff = d.getTimezoneOffset() * 6e4;
-    const oneWeek = 6048e5;
-    return new Date(d.getTime() - diff + (week - 1) * oneWeek);
-  }
-  async function queryByTag(tagName, viewType, colorFormula, year, month, week) {
-    const currentYear = year || (/* @__PURE__ */ new Date()).getFullYear();
-    switch (viewType) {
-      case "year":
-        return generateYearData(currentYear, tagName, colorFormula);
-      case "month":
-        const currentMonth = month !== void 0 ? month - 1 : (/* @__PURE__ */ new Date()).getMonth();
-        return generateMonthData(currentYear, currentMonth, tagName, colorFormula);
-      case "week":
-        const currentWeek = week || getCurrentWeekNumber();
-        return generateWeekData(currentYear, currentWeek, tagName, colorFormula);
-      default:
-        return [];
-    }
-  }
-  async function queryByPage(pageName, viewType, colorFormula, year, month, week) {
-    return queryByTag(pageName, viewType, colorFormula, year, month, week);
-  }
-  async function queryByProperty(propertyKey, propertyValue, viewType, colorFormula, year, month, week) {
-    return queryByTag(`${propertyKey}:${propertyValue}`, viewType, colorFormula, year, month, week);
-  }
-  function getCurrentWeekNumber() {
-    const now = /* @__PURE__ */ new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const diff = now.getTime() - startOfYear.getTime();
-    const oneWeek = 6048e5;
-    return Math.ceil(diff / oneWeek);
-  }
   async function fetchHeatmapData(queryParams, viewType, colorFormula) {
-    switch (queryParams.type) {
-      case "tag":
-        return queryByTag(queryParams.value, viewType, colorFormula, queryParams.year, queryParams.month, queryParams.week);
-      case "page":
-        return queryByPage(queryParams.value, viewType, colorFormula, queryParams.year, queryParams.month, queryParams.week);
-      case "property":
-        return queryByProperty(queryParams.propertyKey || "", queryParams.value, viewType, colorFormula, queryParams.year, queryParams.month, queryParams.week);
-      default:
-        return [];
+    if (!queryParams.value?.trim()) {
+      loggerProxy.debug("[Heatmap] Query value is empty, returning empty data");
+      return [];
     }
+    loggerProxy.debug("[Heatmap] fetchHeatmapData called", { queryParams, viewType, colorFormula });
+    if (viewType === "week") {
+      const referenceDate = /* @__PURE__ */ new Date();
+      if (queryParams.year !== void 0 && queryParams.month !== void 0 && queryParams.week !== void 0) {
+        referenceDate.setFullYear(queryParams.year, queryParams.month - 1, 1);
+      }
+      const dayOfWeek = referenceDate.getDay();
+      const monday = new Date(referenceDate);
+      monday.setDate(referenceDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+      monday.setHours(0, 0, 0, 0);
+      const startMs2 = monday.getTime();
+      const endMs2 = startMs2 + 7 * 864e5;
+      const query2 = buildQuery$1(queryParams, startMs2, endMs2);
+      loggerProxy.debug("[Heatmap] Week query", query2);
+      const result2 = await logseqAPI$1.DB.datascriptQuery(query2);
+      const blocks2 = (result2 || []).filter(Boolean);
+      loggerProxy.debug("[Heatmap] Week query result count:", blocks2.length);
+      const buckets2 = {};
+      for (const b of blocks2) {
+        const createdAt = getCreatedAt$1(b);
+        if (!createdAt) continue;
+        const dt = new Date(createdAt);
+        const dayIndex = Math.floor((dt.getTime() - startMs2) / 864e5);
+        if (dayIndex < 0 || dayIndex >= 7) continue;
+        const hourIndex = Math.floor(dt.getHours() / 4);
+        if (hourIndex < 0 || hourIndex >= 6) continue;
+        const key = `${dayIndex}-${hourIndex}`;
+        if (!buckets2[key]) buckets2[key] = [];
+        buckets2[key].push(b);
+      }
+      const data2 = [];
+      for (let hourIndex = 0; hourIndex < 6; hourIndex++) {
+        for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+          const d = new Date(monday);
+          d.setDate(monday.getDate() + dayIndex);
+          d.setHours(hourIndex * 4, 0, 0, 0);
+          const key = `${dayIndex}-${hourIndex}`;
+          const cellBlocks = buckets2[key] || [];
+          const count = colorFormula === "simple" ? calculateColorValueSimple(cellBlocks) : calculateColorValueWeighted(cellBlocks);
+          data2.push({
+            date: formatLocalDateTimeNoTZ$1(d),
+            count,
+            blocks: cellBlocks
+          });
+        }
+      }
+      loggerProxy.debug("[Heatmap] Week data generated, total cells:", data2.length);
+      return data2;
+    }
+    const year = queryParams.year || (/* @__PURE__ */ new Date()).getFullYear();
+    const monthIndex = queryParams.month !== void 0 ? queryParams.month - 1 : (/* @__PURE__ */ new Date()).getMonth();
+    let startDate;
+    let endDate;
+    if (viewType === "month") {
+      startDate = new Date(year, monthIndex, 1);
+      endDate = new Date(year, monthIndex + 1, 1);
+    } else {
+      startDate = new Date(year, 0, 1);
+      endDate = new Date(year + 1, 0, 1);
+    }
+    const startMs = startDate.getTime();
+    const endMs = endDate.getTime();
+    const query = buildQuery$1(queryParams, startMs, endMs);
+    loggerProxy.debug(`[Heatmap] ${viewType} query`, query);
+    const result = await logseqAPI$1.DB.datascriptQuery(query);
+    const blocks = (result || []).filter(Boolean);
+    loggerProxy.debug("[Heatmap] Query result count:", blocks.length);
+    const buckets = {};
+    for (const b of blocks) {
+      const createdAt = getCreatedAt$1(b);
+      if (!createdAt) continue;
+      const dateKey = new Date(createdAt).toISOString().split("T")[0];
+      if (!buckets[dateKey]) buckets[dateKey] = [];
+      buckets[dateKey].push(b);
+    }
+    const data = [];
+    for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
+      const dateKey = d.toISOString().split("T")[0];
+      const dayBlocks = buckets[dateKey] || [];
+      const count = colorFormula === "simple" ? calculateColorValueSimple(dayBlocks) : calculateColorValueWeighted(dayBlocks);
+      data.push({
+        date: dateKey,
+        count,
+        blocks: dayBlocks
+      });
+    }
+    loggerProxy.debug("[Heatmap] Data generated", { totalDays: data.length, viewType, year, month: monthIndex + 1 });
+    return data;
   }
 
   const API_BASE_URL = "http://127.0.0.1:12315/api";
