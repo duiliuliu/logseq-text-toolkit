@@ -4,7 +4,7 @@ import { logseqAPI } from '../../logseq';
 import logger from '../logger';
 
 const getCreatedAt = (block: any): number | null => {
-  const v = block?.['block/created-at'] ?? block?.['created-at'] ?? block?.createdAt ?? block?.created_at;
+  const v = block?.['created-at'] ?? block?.['block/created-at'] ?? block?.createdAt ?? block?.created_at;
   const n = typeof v === 'number' ? v : Number(v);
   return Number.isFinite(n) ? n : null;
 };
@@ -66,35 +66,34 @@ const getWeekBounds = (ref: Date) => {
   return { start: monday, end: new Date(monday.getTime() + 7 * 86400000) };
 };
 
-const bucketByDay = (blocks: any[], startMs: number, endMs: number): Record<string, BlockEntity[]> => {
-  const buckets: Record<string, BlockEntity[]> = {};
+const bucketByDay = (blocks: any[], startMs: number, endMs: number): Record<string, any[]> => {
+  const buckets: Record<string, any[]> = {};
   for (const b of blocks) {
     const ts = getCreatedAt(b);
     if (!ts || ts < startMs || ts >= endMs) continue;
     const key = formatDate(new Date(ts));
     if (!buckets[key]) buckets[key] = [];
-    buckets[key].push(b as BlockEntity);
+    buckets[key].push(b);
   }
   return buckets;
 };
 
-const bucketByWeekCell = (blocks: any[], startMs: number): Record<string, BlockEntity[]> => {
-  const buckets: Record<string, BlockEntity[]> = {};
+const bucketByWeekCell = (blocks: any[], startMs: number): Record<string, any[]> => {
+  const buckets: Record<string, any[]> = {};
   for (const b of blocks) {
     const ts = getCreatedAt(b);
     if (!ts) continue;
-    const dt = new Date(ts);
     const dayIdx = Math.floor((ts - startMs) / 86400000);
     if (dayIdx < 0 || dayIdx >= 7) continue;
-    const hourIdx = Math.floor(dt.getHours() / 4);
+    const hourIdx = Math.floor((ts % 86400000) / 14400000);
     const key = `${dayIdx}-${hourIdx}`;
     if (!buckets[key]) buckets[key] = [];
-    buckets[key].push(b as BlockEntity);
+    buckets[key].push(b);
   }
   return buckets;
 };
 
-const calcCount = (blocks: BlockEntity[], formula: ColorFormula) =>
+const calcCount = (blocks: any[], formula: ColorFormula) =>
   formula === 'simple' ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks);
 
 export async function fetchHeatmapData(
@@ -109,7 +108,7 @@ export async function fetchHeatmapData(
   const month = params.month ?? now.getMonth() + 1;
   const ref = new Date(year, month - 1, 1);
 
-  logger.debug('[Heatmap] fetchHeatmapData', { params, view, year, month, ref: ref.toISOString() });
+  logger.debug('[Heatmap] fetchHeatmapData', { params, view, year, month });
 
   let start: Date, end: Date;
 
@@ -132,9 +131,9 @@ export async function fetchHeatmapData(
   logger.debug('[Heatmap] query', query);
 
   const raw = await logseqAPI.DB.datascriptQuery(query);
-  const blocks = (raw || []).filter(Boolean);
+  const blocks = (raw || []).flat().filter(Boolean);
 
-  logger.debug('[Heatmap] result count:', blocks.length);
+  logger.debug('[Heatmap] result count:', blocks.length, 'sample:', blocks[0]?.['created-at']);
 
   const data: HeatmapDataPoint[] = [];
 
@@ -150,7 +149,7 @@ export async function fetchHeatmapData(
         data.push({
           date: day.toISOString().replace('.000Z', 'Z'),
           count: calcCount(cellBlocks, formula),
-          blocks: cellBlocks,
+          blocks: cellBlocks as BlockEntity[],
         });
       }
     }
@@ -162,7 +161,7 @@ export async function fetchHeatmapData(
       data.push({
         date: key,
         count: calcCount(dayBlocks, formula),
-        blocks: dayBlocks,
+        blocks: dayBlocks as BlockEntity[],
       });
     }
   }
