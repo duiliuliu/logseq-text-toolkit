@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, FC } from 'react';
 import { HeatmapStatistics, BlockEntity } from '../../lib/heatmap/types';
 import { logseqAPI } from '../../logseq';
 import logger from '../../lib/logger';
+import { getWindow } from '../../logseq/utils';
 
 interface StatisticsProps {
   data: HeatmapStatistics;
@@ -62,6 +63,7 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
   }, []);
 
   const handleStatClick = async (date: string, event: React.MouseEvent) => {
+    logger.debug('Statistics stat clicked', { date });
     event.stopPropagation();
 
     if (closeTimeoutRef.current) {
@@ -124,9 +126,10 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
       triggerRef.current = null;
     }, 150);
   }, []);
-  
+
 
   const handleBlockClick = async (block: BlockEntity) => {
+    logger.debug('Statistics block clicked', { blockId: block.uuid });
     if (block && block.uuid) {
       try {
         const uuid = typeof block.uuid === 'object' && block.uuid['$uuid$']
@@ -144,7 +147,7 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
 
   // 新的 getTooltipPosition：用 triggerRef 计算，固定在正上方居中
   const getTooltipPosition = () => {
-    if (typeof window === 'undefined' || !triggerRef.current) {
+    if (typeof getWindow() === 'undefined' || !triggerRef.current) {
       return { left: anchorPosition.x, top: anchorPosition.y + 10 };
     }
 
@@ -158,8 +161,8 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
 
     // 边界检测，防止 tooltip 超出视窗
     if (left < 10) left = 10;
-    if (left + tooltipWidth > window.innerWidth - 10) {
-      left = window.innerWidth - tooltipWidth - 10;
+    if (left + tooltipWidth > getWindow().innerWidth - 10) {
+      left = getWindow().innerWidth - tooltipWidth - 10;
     }
     // 如果上方空间不够，自动 fallback 到下方
     if (top < 10) {

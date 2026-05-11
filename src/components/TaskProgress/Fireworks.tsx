@@ -7,6 +7,7 @@
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import logger from '../../lib/logger'
+import { getWindow } from '../../logseq/utils'
 
 interface Firework {
   id: number
@@ -138,8 +139,8 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     if (!ctx) return
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      canvas.width = getWindow().innerWidth
+      canvas.height = getWindow().innerHeight
     }
     resizeCanvas()
 
@@ -202,13 +203,13 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     animationRef.current = requestAnimationFrame(animate)
 
     const handleResize = () => resizeCanvas()
-    window.addEventListener('resize', handleResize, { passive: true })
+    getWindow().addEventListener('resize', handleResize, { passive: true })
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
-      window.removeEventListener('resize', handleResize)
+      getWindow().removeEventListener('resize', handleResize)
     }
   }, [fireworks, particles, createExplosion])
 

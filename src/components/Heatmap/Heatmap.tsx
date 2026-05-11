@@ -8,6 +8,7 @@ import { logseqAPI } from '../../logseq';
 import { ensurePageAndNavigate, formatDateForPage } from '../../lib/heatmap/pageUtils';
 import logger from '../../lib/logger';
 import './heatmap.css';
+import { getDocument } from '../../logseq/utils';
 
 interface HeatmapProps {
   config: HeatmapConfig;
@@ -128,19 +129,25 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   }, [config, currentDate]);
 
   const handleResizeStart = useCallback((e: React.MouseEvent) => {
+    logger.debug('📐 Heatmap: Resize start', { clientX: e.clientX, manualWidth });
     e.preventDefault();
     isResizing.current = true;
     startX.current = e.clientX;
     startWidth.current = containerRef.current?.clientWidth || 0;
 
     const handleResizeMove = (moveEvent: MouseEvent) => {
-      if (!isResizing.current) return;
+      logger.debug('📐 Heatmap: Resizing', { clientX: moveEvent.clientX, startX: startX.current, startWidth: startWidth.current });
+      if (!isResizing.current) {
+        logger.debug('📐 Heatmap: Not resizing, ignoring move event');
+        return
+      };
       const diff = moveEvent.clientX - startX.current;
       const newWidth = Math.max(200, startWidth.current + diff);
       setManualWidth(`${newWidth}px`);
     };
 
     const handleResizeEnd = async () => {
+      logger.debug('📐 Heatmap: Resize end', { manualWidth });
       if (!isResizing.current) return;
       isResizing.current = false;
 
@@ -148,21 +155,39 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
         try {
           const currentBlock = await logseqAPI.Editor.getBlock(onBlockId);
           if (currentBlock) {
-            const content = currentBlock.content;
-            const updatedContent = content.replace(/width=[\w%]+/, `width=${manualWidth}`);
+            const content = currentBlock.content || '';
+
+            // 正则匹配 width 规则（更健壮）
+            const widthRegex = /width=["']?[\w%]+["']?/i;
+
+            let updatedContent: string;
+
+            if (widthRegex.test(content)) {
+              // 有 width → 替换
+              updatedContent = content.replace(widthRegex, `width=${manualWidth}`);
+            } else {
+              // 无 width → 智能加到最合理的位置（不破坏内容）
+              // 匹配 <img 或 <div 等标签，插入 width
+              updatedContent = content.replace(
+                /(<\w+)(\s|>)/i,
+                `$1 width=${manualWidth}$2`
+              );
+            }
+
+            logger.debug('📐 Heatmap: Updating block content', { onBlockId, updatedContent });
             await logseqAPI.Editor.updateBlock(onBlockId, updatedContent);
           }
         } catch (err) {
-          console.error('Failed to update block:', err);
+          logger.error('Failed to update block:', err);
         }
       }
 
-      document.removeEventListener('mousemove', handleResizeMove);
-      document.removeEventListener('mouseup', handleResizeEnd);
+      getDocument().removeEventListener('mousemove', handleResizeMove);
+      getDocument().removeEventListener('mouseup', handleResizeEnd);
     };
 
-    document.addEventListener('mousemove', handleResizeMove);
-    document.addEventListener('mouseup', handleResizeEnd);
+    getDocument().addEventListener('mousemove', handleResizeMove);
+    getDocument().addEventListener('mouseup', handleResizeEnd);
   }, [manualWidth, onBlockId]);
 
   useEffect(() => {
@@ -177,7 +202,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const blockElementId = "ls-block-" + onBlockId;
     const ro = new ResizeObserver(() => {
       // 直接获取 block 元素
-      const blockEl = document.getElementById(blockElementId);
+      const blockEl = getDocument().getElementById(blockElementId);
       if (!blockEl) return;
 
       // 取两个宽度的较小值，确保不溢出
@@ -196,11 +221,11 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
 
     // 监听自身 + 监听 block
     ro.observe(el);
-    const blockEl = document.getElementById(blockElementId);
+    const blockEl = getDocument().getElementById(blockElementId);
     if (blockEl) ro.observe(blockEl);
 
     // 初始计算
-    const initialBlockEl = document.getElementById(blockElementId);
+    const initialBlockEl = getDocument().getElementById(blockElementId);
     const initialWidth = Math.min(
       el.getBoundingClientRect().width,
       initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
