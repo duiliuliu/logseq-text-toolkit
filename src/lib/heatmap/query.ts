@@ -3,245 +3,160 @@ import { calculateColorValueSimple, calculateColorValueWeighted } from './colorC
 import { logseqAPI } from '../../logseq';
 import logger from '../logger';
 
-const escapeDatalogString = (value: string) => value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
-
 const getCreatedAt = (block: any): number | null => {
   const v = block?.['block/created-at'] ?? block?.['created-at'] ?? block?.createdAt ?? block?.created_at;
   const n = typeof v === 'number' ? v : Number(v);
   return Number.isFinite(n) ? n : null;
 };
 
-const pad2 = (n: number) => String(n).padStart(2, '0');
+const formatDate = (d: Date) => d.toISOString().split('T')[0];
 
-const formatLocalDateTimeNoTZ = (d: Date) =>
-  `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+const buildWhereClause = (params: HeatmapQueryParams): string => {
+  const value = params.value || '';
 
-const buildWhereClause = (queryParams: HeatmapQueryParams) => {
-  const value = escapeDatalogString(queryParams.value || '');
-  if (queryParams.type === 'tag') {
+  if (params.type === 'tag') {
     return `
-      [?b :block/tags ?t]
-      (or-join [?t]
-        [?t :block/name "${value}"]
-        [?t :block/title "${value}"]
-      )
-    `;
+[?b :block/tags ?t]
+[?t :block/title "${value}"]`;
   }
 
-  if (queryParams.type === 'page') {
+  if (params.type === 'page') {
     return `
-      (or-join [?p]
-        [?p :block/name "${value}"]
-        [?p :block/title "${value}"]
-      )
-      [?b :block/page ?p]
-    `;
+[?p :block/name "${value}"]
+[?b :block/page ?p]`;
   }
 
-  const key = (queryParams.propertyKey || '').trim();
-  const escapedKey = key.replace(/[^a-zA-Z0-9_\\-]/g, '_');
   return `
-    [?b :block/properties ?props]
-    [(get ?props :${escapedKey}) ?pv]
-    [(str ?pv) ?pvStr]
-    [(= ?pvStr "${value}")]
-  `;
+[?b :logseq.property/status ?s]
+[?s :block/title "${value}"]`;
 };
 
-const buildQuery = (queryParams: HeatmapQueryParams, startMs: number, endMs: number) => {
-  const whereClause = buildWhereClause(queryParams);
+const buildQuery = (params: HeatmapQueryParams, startMs: number, endMs: number) => {
+  const where = buildWhereClause(params);
   return `
-    [:find (pull ?b [:block/uuid :block/content :block/title :block/created-at :block/updated-at :block/properties :block/tags :block/page])
-     :where
-     [?b :block/created-at ?created]
-     [(>= ?created ${startMs})]
-     [(< ?created ${endMs})]
-     ${whereClause}
-    ]
-  `;
+[:find (pull ?b [*])
+ :where
+${where}
+[?b :block/created-at ?date]
+[(>= ?date ${startMs})]
+[(<= ?date ${endMs})]]`;
 };
 
-export async function queryByTag(
-  tagName: string,
-  viewType: HeatmapViewType,
-  colorFormula: ColorFormula,
-  year?: number,
-  month?: number,
-  week?: number
-): Promise<HeatmapDataPoint[]> {
-  return fetchHeatmapData({
-    type: 'tag',
-    value: tagName,
-    year,
-    month,
-    week,
-  }, viewType, colorFormula);
-}
+const getWeekBounds = (ref: Date) => {
+  const d = new Date(ref);
+  const day = d.getDay();
+  const monday = new Date(d);
+  monday.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+  monday.setHours(0, 0, 0, 0);
+  return { start: monday, end: new Date(monday.getTime() + 7 * 86400000) };
+};
 
-export async function queryByPage(
-  pageName: string,
-  viewType: HeatmapViewType,
-  colorFormula: ColorFormula,
-  year?: number,
-  month?: number,
-  week?: number
-): Promise<HeatmapDataPoint[]> {
-  return fetchHeatmapData({
-    type: 'page',
-    value: pageName,
-    year,
-    month,
-    week,
-  }, viewType, colorFormula);
-}
+const bucketByDay = (blocks: any[], startMs: number, endMs: number): Record<string, BlockEntity[]> => {
+  const buckets: Record<string, BlockEntity[]> = {};
+  for (const b of blocks) {
+    const ts = getCreatedAt(b);
+    if (!ts || ts < startMs || ts >= endMs) continue;
+    const key = formatDate(new Date(ts));
+    if (!buckets[key]) buckets[key] = [];
+    buckets[key].push(b as BlockEntity);
+  }
+  return buckets;
+};
 
-export async function queryByProperty(
-  propertyKey: string,
-  propertyValue: string,
-  viewType: HeatmapViewType,
-  colorFormula: ColorFormula,
-  year?: number,
-  month?: number,
-  week?: number
-): Promise<HeatmapDataPoint[]> {
-  return fetchHeatmapData({
-    type: 'property',
-    propertyKey,
-    value: propertyValue,
-    year,
-    month,
-    week,
-  }, viewType, colorFormula);
-}
+const bucketByWeekCell = (blocks: any[], startMs: number): Record<string, BlockEntity[]> => {
+  const buckets: Record<string, BlockEntity[]> = {};
+  for (const b of blocks) {
+    const ts = getCreatedAt(b);
+    if (!ts) continue;
+    const dt = new Date(ts);
+    const dayIdx = Math.floor((ts - startMs) / 86400000);
+    if (dayIdx < 0 || dayIdx >= 7) continue;
+    const hourIdx = Math.floor(dt.getHours() / 4);
+    const key = `${dayIdx}-${hourIdx}`;
+    if (!buckets[key]) buckets[key] = [];
+    buckets[key].push(b as BlockEntity);
+  }
+  return buckets;
+};
 
-function getDateOfWeek(week: number, year: number): Date {
-  const d = new Date(year, 0, 1);
-  const dayOfWeek = d.getDay();
-  const diff = d.getTimezoneOffset() * 60000;
-  const oneWeek = 604800000;
-  return new Date(d.getTime() - diff + (week - 1) * oneWeek);
-}
-
-function getCurrentWeekNumber(): number {
-  const now = new Date();
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const diff = now.getTime() - startOfYear.getTime();
-  const oneWeek = 604800000;
-  return Math.ceil(diff / oneWeek);
-}
+const calcCount = (blocks: BlockEntity[], formula: ColorFormula) =>
+  formula === 'simple' ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks);
 
 export async function fetchHeatmapData(
-  queryParams: HeatmapQueryParams,
-  viewType: HeatmapViewType,
-  colorFormula: ColorFormula
+  params: HeatmapQueryParams,
+  view: HeatmapViewType,
+  formula: ColorFormula
 ): Promise<HeatmapDataPoint[]> {
-  if (!queryParams.value?.trim()) {
-    logger.debug('[Heatmap] Query value is empty, returning empty data');
-    return [];
+  if (!params.value?.trim()) return [];
+
+  const ref = new Date(params.year || 0, (params.month || 1) - 1, 1);
+  let start: Date, end: Date;
+
+  if (view === 'week') {
+    const bounds = getWeekBounds(ref);
+    start = bounds.start;
+    end = bounds.end;
+  } else if (view === 'month') {
+    start = new Date(ref.getFullYear(), ref.getMonth(), 1);
+    end = new Date(ref.getFullYear(), ref.getMonth() + 1, 1);
+  } else {
+    start = new Date(ref.getFullYear(), 0, 1);
+    end = new Date(ref.getFullYear() + 1, 0, 1);
   }
 
-  logger.debug('[Heatmap] fetchHeatmapData called', { queryParams, viewType, colorFormula });
+  const startMs = start.getTime();
+  const endMs = end.getTime();
+  const query = buildQuery(params, startMs, endMs);
 
-  if (viewType === 'week') {
-    const referenceDate = new Date();
-    if (queryParams.year !== undefined && queryParams.month !== undefined && queryParams.week !== undefined) {
-      referenceDate.setFullYear(queryParams.year, queryParams.month - 1, 1);
-    }
+  logger.debug('[Heatmap] query', query);
 
-    const dayOfWeek = referenceDate.getDay();
-    const monday = new Date(referenceDate);
-    monday.setDate(referenceDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-    monday.setHours(0, 0, 0, 0);
-    const startMs = monday.getTime();
-    const endMs = startMs + 7 * 86400000;
+  const raw = await logseqAPI.DB.datascriptQuery(query);
+  const blocks = (raw || []).filter(Boolean);
 
-    const query = buildQuery(queryParams, startMs, endMs);
-    logger.debug('[Heatmap] Week query', query);
+  logger.debug('[Heatmap] result count:', blocks.length);
 
-    const result = await logseqAPI.DB.datascriptQuery(query);
-    const blocks = (result || []).filter(Boolean);
+  const data: HeatmapDataPoint[] = [];
 
-    logger.debug('[Heatmap] Week query result count:', blocks.length);
-
-    const buckets: Record<string, BlockEntity[]> = {};
-    for (const b of blocks) {
-      const createdAt = getCreatedAt(b);
-      if (!createdAt) continue;
-      const dt = new Date(createdAt);
-      const dayIndex = Math.floor((dt.getTime() - startMs) / 86400000);
-      if (dayIndex < 0 || dayIndex >= 7) continue;
-      const hourIndex = Math.floor(dt.getHours() / 4);
-      if (hourIndex < 0 || hourIndex >= 6) continue;
-      const key = `${dayIndex}-${hourIndex}`;
-      if (!buckets[key]) buckets[key] = [];
-      buckets[key].push(b as BlockEntity);
-    }
-
-    const data: HeatmapDataPoint[] = [];
-    for (let hourIndex = 0; hourIndex < 6; hourIndex++) {
-      for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-        const d = new Date(monday);
-        d.setDate(monday.getDate() + dayIndex);
-        d.setHours(hourIndex * 4, 0, 0, 0);
-        const key = `${dayIndex}-${hourIndex}`;
+  if (view === 'week') {
+    const buckets = bucketByWeekCell(blocks, startMs);
+    for (let h = 0; h < 6; h++) {
+      for (let d = 0; d < 7; d++) {
+        const key = `${d}-${h}`;
         const cellBlocks = buckets[key] || [];
-        const count = colorFormula === 'simple' ? calculateColorValueSimple(cellBlocks) : calculateColorValueWeighted(cellBlocks);
+        const day = new Date(start);
+        day.setDate(start.getDate() + d);
+        day.setHours(h * 4, 0, 0, 0);
         data.push({
-          date: formatLocalDateTimeNoTZ(d),
-          count,
+          date: day.toISOString().replace('.000Z', 'Z'),
+          count: calcCount(cellBlocks, formula),
           blocks: cellBlocks,
         });
       }
     }
-    logger.debug('[Heatmap] Week data generated, total cells:', data.length);
-    return data;
-  }
-
-  const year = queryParams.year || new Date().getFullYear();
-  const monthIndex = queryParams.month !== undefined ? queryParams.month - 1 : new Date().getMonth();
-
-  let startDate: Date;
-  let endDate: Date;
-
-  if (viewType === 'month') {
-    startDate = new Date(year, monthIndex, 1);
-    endDate = new Date(year, monthIndex + 1, 1);
   } else {
-    startDate = new Date(year, 0, 1);
-    endDate = new Date(year + 1, 0, 1);
+    const buckets = bucketByDay(blocks, startMs, endMs);
+    for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
+      const key = formatDate(new Date(d));
+      const dayBlocks = buckets[key] || [];
+      data.push({
+        date: key,
+        count: calcCount(dayBlocks, formula),
+        blocks: dayBlocks,
+      });
+    }
   }
 
-  const startMs = startDate.getTime();
-  const endMs = endDate.getTime();
-  const query = buildQuery(queryParams, startMs, endMs);
-  logger.debug(`[Heatmap] ${viewType} query`, query);
-
-  const result = await logseqAPI.DB.datascriptQuery(query);
-  const blocks = (result || []).filter(Boolean);
-
-  logger.debug('[Heatmap] Query result count:', blocks.length);
-
-  const buckets: Record<string, BlockEntity[]> = {};
-  for (const b of blocks) {
-    const createdAt = getCreatedAt(b);
-    if (!createdAt) continue;
-    const dateKey = new Date(createdAt).toISOString().split('T')[0];
-    if (!buckets[dateKey]) buckets[dateKey] = [];
-    buckets[dateKey].push(b as BlockEntity);
-  }
-
-  const data: HeatmapDataPoint[] = [];
-  for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
-    const dateKey = d.toISOString().split('T')[0];
-    const dayBlocks = buckets[dateKey] || [];
-    const count = colorFormula === 'simple' ? calculateColorValueSimple(dayBlocks) : calculateColorValueWeighted(dayBlocks);
-    data.push({
-      date: dateKey,
-      count,
-      blocks: dayBlocks,
-    });
-  }
-
-  logger.debug('[Heatmap] Data generated', { totalDays: data.length, viewType, year, month: monthIndex + 1 });
   return data;
+}
+
+export async function queryByTag(tag: string, view: HeatmapViewType, formula: ColorFormula, year?: number, month?: number): Promise<HeatmapDataPoint[]> {
+  return fetchHeatmapData({ type: 'tag', value: tag, year, month }, view, formula);
+}
+
+export async function queryByPage(page: string, view: HeatmapViewType, formula: ColorFormula, year?: number, month?: number): Promise<HeatmapDataPoint[]> {
+  return fetchHeatmapData({ type: 'page', value: page, year, month }, view, formula);
+}
+
+export async function queryByStatus(status: string, view: HeatmapViewType, formula: ColorFormula, year?: number, month?: number): Promise<HeatmapDataPoint[]> {
+  return fetchHeatmapData({ type: 'status', value: status, year, month }, view, formula);
 }
