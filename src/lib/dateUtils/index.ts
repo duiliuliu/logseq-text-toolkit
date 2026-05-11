@@ -15,6 +15,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 
 import 'dayjs/locale/en';
 import 'dayjs/locale/zh-cn';
+import { logger } from '../../logseq/logger';
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
@@ -70,13 +71,14 @@ export function formatDate(
   if (!d.isValid()) {
     return '';
   }
-  
+
   if (logseqFormat) {
     const dayjsFormat = logseqFormatToDayjsFormat(logseqFormat);
+    logger.debug('📅 DateUtils: Formatting date with logseq format', { date, logseqFormat, dayjsFormat });
     return d.format(dayjsFormat);
   }
-  
-  return d.format('YYYY-MM-DD');
+
+  return d.format('YYYY-MM-DD ddd');
 }
 
 export function formatDateForPage(
@@ -94,7 +96,7 @@ export function formatDateTime(
   if (!d.isValid()) {
     return '';
   }
-  return includeSeconds 
+  return includeSeconds
     ? d.format('YYYY-MM-DD HH:mm:ss')
     : d.format('YYYY-MM-DD HH:mm');
 }
@@ -131,12 +133,12 @@ export function parseDate(
       return d.toDate();
     }
   }
-  
+
   const d = dayjs(dateStr);
   if (d.isValid()) {
     return d.toDate();
   }
-  
+
   return null;
 }
 
@@ -151,7 +153,7 @@ export function utcToLocal(
   const format = logseqFormat
     ? logseqFormatToDayjsFormat(logseqFormat)
     : 'YYYY-MM-DD';
-  
+
   return dayjs.utc(utcStr).local().format(format);
 }
 

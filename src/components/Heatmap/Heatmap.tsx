@@ -5,9 +5,10 @@ import WeekView from './WeekView';
 import Statistics from './Statistics';
 import { HeatmapConfig, HeatmapDataPoint, HeatmapViewType, INDIGO_COLORS } from '../../lib/heatmap/types';
 import { logseqAPI } from '../../logseq';
-import { ensurePageAndNavigate } from '../../lib/heatmap/pageUtils';
+import { ensurePageAndNavigate, formatDateForPage } from '../../lib/heatmap/pageUtils';
 import logger from '../../lib/logger';
 import './heatmap.css';
+import useSettingsContext from '../../settings/useSettings';
 
 interface HeatmapProps {
   config: HeatmapConfig;
@@ -17,7 +18,9 @@ interface HeatmapProps {
 }
 
 const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => {
-  const containerClass = theme === 'dark' 
+  const { settings } = useSettingsContext();
+
+  const containerClass = theme === 'dark'
     ? `heatmap-container heatmap-${config.displayMode} dark`
     : `heatmap-container heatmap-${config.displayMode}`;
   const [viewType, setViewType] = useState<HeatmapViewType>(config.viewType);
@@ -28,6 +31,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   const isResizing = useRef(false);
   const startX = useRef(0);
   const startWidth = useRef(0);
+
+
 
   const effectiveWidth = manualWidth || config.containerWidth;
 
@@ -40,12 +45,12 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const day = firstDayOfYear.getDay() || 7; // 周一为1
     const adjustedStart = new Date(firstDayOfYear);
     adjustedStart.setDate(firstDayOfYear.getDate() - day + 1);
-    
+
     if (adjustedStart > date) {
       adjustedStart.setFullYear(adjustedStart.getFullYear() - 1);
       adjustedStart.setDate(adjustedStart.getDate() - day + 1);
     }
-    
+
     const diff = date.getTime() - adjustedStart.getTime();
     const weekNumber = Math.floor(diff / 604800000) + 1;
     return weekNumber;
@@ -54,7 +59,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   const getViewTitle = useCallback((): string => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    
+
     switch (viewType) {
       case 'year':
         return `${year}`;
@@ -100,15 +105,15 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   }, [viewType, currentDate]);
 
   const handleMonthLabelClick = useCallback(async (monthIndex: number) => {
-    logger.debug('📐 Heatmap: Month label clicked', { monthIndex }) ;
+    logger.debug('📐 Heatmap: Month label clicked', { monthIndex });
     if (!config.enableMonthPageCreation || !config.monthPageTemplate) return;
-    
+
     const year = currentDate.getFullYear();
     const month = monthIndex + 1;
     let pageName = config.monthPageTemplate
       .replace(/\{month\}/g, String(month).padStart(2, '0'))
       .replace(/\{year\}/g, String(year));
-    
+
     // 使用 ensurePageAndNavigate 确保页面存在并跳转
     await ensurePageAndNavigate(pageName, config.monthPageLogseqTemplate);
   }, [config, currentDate]);
@@ -116,12 +121,12 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   const handleWeekLabelClick = useCallback(async (weekNumber: number) => {
     logger.debug('📐 Heatmap: Week label clicked', { weekNumber });
     if (!config.enableWeekPageCreation || !config.weekPageTemplate) return;
-    
+
     const year = currentDate.getFullYear();
     let pageName = config.weekPageTemplate
       .replace(/\{week\}/g, String(weekNumber).padStart(2, '0'))
       .replace(/\{year\}/g, String(year));
-    
+
     // 使用 ensurePageAndNavigate 确保页面存在并跳转
     await ensurePageAndNavigate(pageName, config.weekPageLogseqTemplate);
   }, [config, currentDate]);
@@ -131,18 +136,18 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     isResizing.current = true;
     startX.current = e.clientX;
     startWidth.current = containerRef.current?.clientWidth || 0;
-    
+
     const handleResizeMove = (moveEvent: MouseEvent) => {
       if (!isResizing.current) return;
       const diff = moveEvent.clientX - startX.current;
       const newWidth = Math.max(200, startWidth.current + diff);
       setManualWidth(`${newWidth}px`);
     };
-    
+
     const handleResizeEnd = async () => {
       if (!isResizing.current) return;
       isResizing.current = false;
-      
+
       if (onBlockId && manualWidth) {
         try {
           const currentBlock = await logseqAPI.Editor.getBlock(onBlockId);
@@ -155,11 +160,11 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
           console.error('Failed to update block:', err);
         }
       }
-      
+
       document.removeEventListener('mousemove', handleResizeMove);
       document.removeEventListener('mouseup', handleResizeEnd);
     };
-    
+
     document.addEventListener('mousemove', handleResizeMove);
     document.addEventListener('mouseup', handleResizeEnd);
   }, [manualWidth, onBlockId]);
@@ -171,31 +176,72 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+
+    // 你内部的变量：直接是 block 的 DOM ID
+    const blockElementId = "ls-block-" + onBlockId;
     const ro = new ResizeObserver(() => {
-      const width = el.clientWidth;
-      const rect = el.getBoundingClientRect();
-      logger.debug('📐 Heatmap: ResizeObserver triggered', {
-        clientWidth: width,
-        offsetWidth: el.offsetWidth,
-        rectLeft: rect.left,
-        rectWidth: rect.width,
-        scrollLeft: window.scrollX
+      // 直接获取 block 元素
+      const blockEl = document.getElementById(blockElementId);
+      if (!blockEl) return;
+
+      // 取两个宽度的较小值，确保不溢出
+      const containerWidth = el.getBoundingClientRect().width;
+      const blockWidth = blockEl.getBoundingClientRect().width;
+      const safeWidth = Math.min(containerWidth, blockWidth);
+
+      logger.debug('📐 安全宽度', {
+        containerWidth,
+        blockWidth,
+        safeWidth,
       });
-      setContainerWidth(width);
+
+      setContainerWidth(safeWidth);
     });
+
+    // 监听自身 + 监听 block
     ro.observe(el);
-    const initialWidth = el.clientWidth;
-    const initialRect = el.getBoundingClientRect();
-    logger.debug('📐 Heatmap: Initial measurement', {
-      clientWidth: initialWidth,
-      offsetWidth: el.offsetWidth,
-      rectLeft: initialRect.left,
-      rectWidth: initialRect.width,
-      scrollLeft: window.scrollX
-    });
+    const blockEl = document.getElementById(blockElementId);
+    if (blockEl) ro.observe(blockEl);
+
+    // 初始计算
+    const initialBlockEl = document.getElementById(blockElementId);
+    const initialWidth = Math.min(
+      el.getBoundingClientRect().width,
+      initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
+    );
     setContainerWidth(initialWidth);
+
     return () => ro.disconnect();
-  }, []);
+  }, [onBlockId]);
+
+  // useEffect(() => {
+  //   const el = containerRef.current;
+  //   if (!el) return;
+  //   const ro = new ResizeObserver(() => {
+  //     const width = el.clientWidth;
+  //     const rect = el.getBoundingClientRect(); 
+  //     logger.debug('📐 Heatmap: ResizeObserver triggered', {
+  //       clientWidth: width,
+  //       offsetWidth: el.offsetWidth,
+  //       rectLeft: rect.left,
+  //       rectWidth: rect.width,
+  //       scrollLeft: window.scrollX
+  //     }, "el", el);
+  //     setContainerWidth(width);
+  //   });
+  //   ro.observe(el);
+  //   const initialWidth = el.clientWidth;
+  //   const initialRect = el.getBoundingClientRect();
+  //   logger.debug('📐 Heatmap: Initial measurement', {
+  //     clientWidth: initialWidth,
+  //     offsetWidth: el.offsetWidth,
+  //     rectLeft: initialRect.left,
+  //     rectWidth: initialRect.width,
+  //     scrollLeft: window.scrollX
+  //   });
+  //   setContainerWidth(initialWidth);
+  //   return () => ro.disconnect();
+  // }, []);
 
   const dynamicStyle = useMemo(() => {
     const el = containerRef.current;
@@ -242,7 +288,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const availableForMonth = Math.max(innerWidth - monthAxis, 0);
     const monthCellWidth = Math.max((availableForMonth - minGap * 6) / 7, 10);
     const monthGap = Math.min(Math.max((availableForMonth - monthCellWidth * 7) / 6, minGap), maxGap);
-    
+
     const availableForWeek = Math.max(innerWidth - weekAxis, 0);
     const weekCellWidth = Math.max((availableForWeek - minGap * 6) / 7, 10);
     const weekGap = Math.min(Math.max((availableForWeek - weekCellWidth * 7) / 6, minGap), maxGap);
@@ -264,7 +310,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       '--heatmap-week-cell-width': `${weekCellWidth}px`,
       '--heatmap-week-cell-height': `${weekCellHeight}px`,
     };
-    
+
     if (effectiveWidth) {
       style.width = effectiveWidth;
     }
@@ -276,9 +322,9 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     logger.debug('📐 Heatmap: Cell clicked', { date });
     if (date) {
       try {
-        logseqAPI.App.pushState(`page`, {
-          date: date.replace(/-/g, '/'),
-        });
+        const pageName = formatDateForPage(date, settings?.dateFormat);
+        logger.debug('📐 Heatmap: Formatted page name', { pageName });
+        ensurePageAndNavigate(pageName);
       } catch (err) {
         console.error('Failed to navigate to date:', err);
       }
@@ -287,14 +333,14 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
 
   const renderView = () => {
     const viewData = filterDataByView(data, viewType, currentDate);
-    
+
     switch (viewType) {
       case 'year':
         return (
-          <YearView 
-            data={viewData} 
-            config={config} 
-            currentDate={currentDate} 
+          <YearView
+            data={viewData}
+            config={config}
+            currentDate={currentDate}
             onCellClick={handleCellClick}
             onMonthLabelClick={handleMonthLabelClick}
             theme={theme}
@@ -302,10 +348,10 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
         );
       case 'month':
         return (
-          <MonthView 
-            data={viewData} 
-            config={config} 
-            currentDate={currentDate} 
+          <MonthView
+            data={viewData}
+            config={config}
+            currentDate={currentDate}
             onCellClick={handleCellClick}
             onWeekLabelClick={handleWeekLabelClick}
             theme={theme}
@@ -313,10 +359,10 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
         );
       case 'week':
         return (
-          <WeekView 
-            data={viewData} 
-            config={config} 
-            currentDate={currentDate} 
+          <WeekView
+            data={viewData}
+            config={config}
+            currentDate={currentDate}
             onCellClick={handleCellClick}
           />
         );
@@ -330,7 +376,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const activeDays = data.filter(d => d.count > 0).length;
     const maxCount = Math.max(...data.map(d => d.count), 0);
     const avgCount = data.length > 0 ? Math.round(totalBlocks / data.length * 10) / 10 : 0;
-    
+
     // Build blocksByDate map for statistics hover display
     const blocksByDate: Record<string, any[]> = {};
     data.forEach(d => {
@@ -339,7 +385,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
         blocksByDate[dateKey] = d.blocks;
       }
     });
-    
+
     return {
       totalBlocks,
       activeDays,
@@ -377,7 +423,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
               Week
             </button>
           </div>
-          
+
           <div className="navigation-controls">
             <button className="nav-btn" onClick={handlePrevPeriod} title="Previous">
               <svg className="nav-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -393,15 +439,15 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
           </div>
         </div>
       )}
-      
+
       <div className="heatmap-content">
         {renderView()}
       </div>
-      
+
       {config.displayMode === 'full' && (
         <Statistics data={statistics} />
       )}
-      
+
       {config.displayMode === 'full' && (
         <div className="heatmap-legend">
           <span className="legend-label">Less</span>
@@ -417,8 +463,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
           <span className="legend-label">More</span>
         </div>
       )}
-      
-      <div 
+
+      <div
         className="heatmap-resize-handle"
         onMouseDown={handleResizeStart}
       />
@@ -429,7 +475,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
 function filterDataByView(data: HeatmapDataPoint[], viewType: HeatmapViewType, currentDate: Date): HeatmapDataPoint[] {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-  
+
   switch (viewType) {
     case 'year':
       return data.filter(d => d.date.startsWith(`${year}-`));
@@ -442,10 +488,10 @@ function filterDataByView(data: HeatmapDataPoint[], viewType: HeatmapViewType, c
       monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
       const sunday = new Date(monday);
       sunday.setDate(monday.getDate() + 6);
-      
+
       const startStr = monday.toISOString().split('T')[0];
       const endStr = sunday.toISOString().split('T')[0];
-      
+
       return data.filter(d => {
         const dateStr = d.date.split('T')[0];
         return dateStr >= startStr && dateStr <= endStr;
@@ -456,3 +502,5 @@ function filterDataByView(data: HeatmapDataPoint[], viewType: HeatmapViewType, c
 }
 
 export default Heatmap;
+
+

@@ -72,8 +72,8 @@ const useSettings = (): SettingsContextType => {
   }, [loadSettings])
 
   useEffect(() => {
-    if ((logseqAPI as any).onSettingsChanged) {
-      const unsub = (logseqAPI as any).onSettingsChanged(() => {
+    if ((logseqAPI as ILSPluginUser).onSettingsChanged) {
+      const unsub = (logseqAPI as ILSPluginUser).onSettingsChanged(() => {
         loadSettings()
       })
       return unsub
@@ -84,8 +84,8 @@ const useSettings = (): SettingsContextType => {
     // 监听 theme 变化
     const setupThemeListener = async () => {
       try {
-        if ((logseqAPI as any).onThemeModeChanged) {
-          const unsub = (logseqAPI as any).onThemeModeChanged(({ mode }: { mode: string }) => {
+        if ((logseqAPI as ILSPluginUser).onThemeModeChanged) {
+          const unsub = (logseqAPI as ILSPluginUser).onThemeModeChanged(({ mode }: { mode: string }) => {
             const newTheme = mode === 'dark' ? 'dark' : 'light'
             setTheme(newTheme)
             logger.info(`[Settings] Theme changed to: ${newTheme}`)

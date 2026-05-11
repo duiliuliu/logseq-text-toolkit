@@ -5,9 +5,9 @@
  * 页面操作工具函数
  */
 
-import { 
-  LOGSEQ_DATE_FORMAT_MAP, 
-  SUPPORTED_LOGSEQ_FORMATS, 
+import {
+  LOGSEQ_DATE_FORMAT_MAP,
+  SUPPORTED_LOGSEQ_FORMATS,
   logseqFormatToDayjsFormat,
   formatDate,
   formatDateForPage,
@@ -32,19 +32,6 @@ export {
   getCurrentDateStr
 };
 
-export async function getPreferredDateFormat(): Promise<string> {
-  try {
-    const configs = await (logseqAPI as any).App.getUserConfigs?.();
-    if (configs?.preferredDateFormat) {
-      return configs.preferredDateFormat;
-    }
-    return 'yyyy-MM-dd';
-  } catch (err) {
-    logger.warn('[PageUtils] Failed to get preferred date format:', err);
-    return 'yyyy-MM-dd';
-  }
-}
-
 export async function checkPageExists(pageName: string): Promise<boolean> {
   try {
     logger.debug('📄 PageUtils: Checking page existence', { pageName });
@@ -60,20 +47,22 @@ export async function checkPageExists(pageName: string): Promise<boolean> {
 
 export async function createPage(
   pageName: string,
-  properties?: Record<string, any>
+  template?: string
 ): Promise<boolean> {
   try {
-    logger.info('📄 PageUtils: Creating page', { pageName, properties });
-    await logseqAPI.Editor.createPage(pageName, '', {
-      createFirstBlock: true,
-      properties: properties,
-    });
+    logger.info('📄 PageUtils: Creating page', { pageName, template });
+    const pageID = await logseqAPI.Editor.createPage(pageName, '', { createFirstBlock: true });
+    logger.debug('📄 PageUtils: Page created with ID', { pageName, pageID });
+    const block = pageID && await logseqAPI.Editor.insertBlock(pageID, "");
+    logger.debug('📄 PageUtils: First block created', { pageName, block });
+    block && await logseqAPI.App.insertTemplate(block.uuid, template || '');
+    logger.debug('📄 PageUtils: Template inserted', { pageName, template });
     logger.info(`[PageUtils] Created page: ${pageName}`);
-    
+
     if (typeof window !== 'undefined' && (window as any).addToast) {
       (window as any).addToast(`Created page: ${pageName}`, 'success', 3000);
     }
-    
+
     return true;
   } catch (err) {
     logger.error('[PageUtils] Failed to create page:', err);
@@ -101,20 +90,19 @@ export async function ensurePageAndNavigate(
 ): Promise<boolean> {
   try {
     const exists = await checkPageExists(pageName);
-    
+
     if (!exists) {
-      const properties = template ? { template } : undefined;
-      const created = await createPage(pageName, properties);
-      
+      const created = await createPage(pageName, template);
+
       if (!created) {
         logger.error(`[PageUtils] Failed to create page: ${pageName}`);
         return false;
       }
     }
-    
+
     await navigateToPage(pageName);
     return true;
-    
+
   } catch (err) {
     logger.error('[PageUtils] Error in ensurePageAndNavigate:', err);
     return false;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { fetchHeatmapData } from './query';
-import { 
-  HeatmapConfig, 
-  VIEW_TYPE_MAP, 
-  DISPLAY_MODE_MAP, 
+import {
+  HeatmapConfig,
+  VIEW_TYPE_MAP,
+  DISPLAY_MODE_MAP,
   COLOR_FORMULA_MAP,
   HeatmapViewType,
   DisplayMode,
@@ -109,14 +109,14 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
   if (argMap.year) referenceYear = tryInt(argMap.year)
   if (argMap.month) referenceMonth = tryInt(argMap.month)
   if (argMap.week) referenceWeek = tryInt(argMap.week)
-  
+
   if (argMap.width) containerWidth = argMap.width
   if (argMap.containerWidth) containerWidth = argMap.containerWidth
-  
+
   if (argMap.enableMonthPage) enableMonthPageCreation = argMap.enableMonthPage === 'true'
   if (argMap.monthPageTemplate) monthPageTemplate = argMap.monthPageTemplate
   if (argMap.monthPageLogseqTemplate) monthPageLogseqTemplate = argMap.monthPageLogseqTemplate
-  
+
   if (argMap.enableWeekPage) enableWeekPageCreation = argMap.enableWeekPage === 'true'
   if (argMap.weekPageTemplate) weekPageTemplate = argMap.weekPageTemplate
   if (argMap.weekPageLogseqTemplate) weekPageLogseqTemplate = argMap.weekPageLogseqTemplate
@@ -217,7 +217,7 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       weekPageTemplate,
       weekPageLogseqTemplate,
     } = parseMacroArguments(tokens, argMap)
-    
+
     const settings = await getSettingsWithSystem();
 
     const now = new Date();
@@ -237,9 +237,9 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
     const resolvedTheme: 'light' | 'dark' = settings?.theme === 'dark' ? 'dark' : 'light';
 
     const heatmapConfig: HeatmapConfig = {
-      viewType,
-      displayMode,
-      colorFormula,
+      viewType: viewType || settings?.heatmap?.defaultViewType || 'year',
+      displayMode: displayMode || settings?.heatmap?.defaultDisplayMode || 'full',
+      colorFormula: colorFormula || settings?.heatmap?.defaultColorFormula || 'simple',
       colorScheme: {
         name: 'indigo',
         colors: generateIndigoGradient(

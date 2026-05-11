@@ -3,6 +3,7 @@
   "theme": "light",
   "language": "zh-CN",
   "toolbar": true,
+  "dateFormat": "yyyy-MM-dd EEE",
   "useSystemTheme": false,
   "useSystemLanguage": false,
   "showBorder": false,

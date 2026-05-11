@@ -31,6 +31,9 @@ function processSettings(logseqSettings: any, userConfigs?: any): Settings {
     if (settings.useSystemLanguage && userConfigs.preferredLanguage) {
       settings.language = userConfigs.preferredLanguage as LanguageType
     }
+    if (userConfigs.preferredDateFormat) {
+      settings.dateFormat = userConfigs.preferredDateFormat;
+    }
   }
 
   if (settings.ToolbarItems) {

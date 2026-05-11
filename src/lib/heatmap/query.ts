@@ -4,7 +4,7 @@ import { calculateColorValueSimple, calculateColorValueWeighted } from './colorC
 const generateMockBlocks = (count: number, date: string): BlockEntity[] => {
   const blocks: BlockEntity[] = [];
   const baseDate = new Date(date);
-  
+
   for (let i = 0; i < count; i++) {
     const createdAt = baseDate.getTime() + Math.random() * 86400000;
     blocks.push({
@@ -22,7 +22,7 @@ const generateMockBlocks = (count: number, date: string): BlockEntity[] => {
       } : undefined,
     });
   }
-  
+
   return blocks;
 };
 
@@ -30,27 +30,27 @@ const generateYearData = (year: number, tagName: string, colorFormula: ColorForm
   const data: HeatmapDataPoint[] = [];
   const startDate = new Date(year, 0, 1);
   const endDate = new Date(year + 1, 0, 1);
-  
+
   for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
     const dateStr = d.toISOString().split('T')[0];
     const dayOfWeek = d.getDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-    
+
     let count = 0;
     if (Math.random() > 0.3) {
-      count = isWeekend 
+      count = isWeekend
         ? Math.floor(Math.random() * 8)
         : Math.floor(Math.random() * 15) + 2;
     }
-    
+
     const blocks = generateMockBlocks(count, dateStr);
     data.push({
       date: dateStr,
-      count: colorFormula === 'simple' ? blocks.length : calculateColorValueWeighted(blocks),
+      count: colorFormula === 'simple' ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
       blocks,
     });
   }
-  
+
   return data;
 };
 
@@ -58,45 +58,45 @@ const generateMonthData = (year: number, month: number, tagName: string, colorFo
   const data: HeatmapDataPoint[] = [];
   const startDate = new Date(year, month, 1);
   const endDate = new Date(year, month + 1, 1);
-  
+
   for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
     const dateStr = d.toISOString().split('T')[0];
     const dayOfWeek = d.getDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-    
+
     let count = 0;
     if (Math.random() > 0.25) {
-      count = isWeekend 
+      count = isWeekend
         ? Math.floor(Math.random() * 10)
         : Math.floor(Math.random() * 20) + 3;
     }
-    
+
     const blocks = generateMockBlocks(count, dateStr);
     data.push({
       date: dateStr,
-      count: colorFormula === 'simple' ? blocks.length : calculateColorValueWeighted(blocks),
+      count: colorFormula === 'simple' ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
       blocks,
     });
   }
-  
+
   return data;
 };
 
 const generateWeekData = (year: number, weekNumber: number, tagName: string, colorFormula: ColorFormula): HeatmapDataPoint[] => {
   const data: HeatmapDataPoint[] = [];
   const startDate = getDateOfWeek(weekNumber, year);
-  
+
   for (let day = 0; day < 7; day++) {
     for (let hourBlock = 0; hourBlock < 6; hourBlock++) {
       const date = new Date(startDate);
       date.setDate(date.getDate() + day);
       date.setHours(hourBlock * 4, 0, 0, 0);
-      
+
       const dateStr = date.toISOString().split('.')[0];
       const hour = date.getHours();
       const isNight = hour < 6 || hour >= 22;
       const isWorkHour = hour >= 9 && hour < 18;
-      
+
       let count = 0;
       if (isNight) {
         count = Math.random() > 0.9 ? Math.floor(Math.random() * 3) : 0;
@@ -105,16 +105,16 @@ const generateWeekData = (year: number, weekNumber: number, tagName: string, col
       } else {
         count = Math.random() > 0.4 ? Math.floor(Math.random() * 5) : 0;
       }
-      
+
       const blocks = generateMockBlocks(count, dateStr);
       data.push({
         date: dateStr,
-        count: colorFormula === 'simple' ? blocks.length : calculateColorValueWeighted(blocks),
+        count: colorFormula === 'simple' ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
         blocks,
       });
     }
   }
-  
+
   return data;
 };
 
@@ -128,7 +128,7 @@ function getDateOfWeek(week: number, year: number): Date {
 
 export async function queryByTag(tagName: string, viewType: HeatmapViewType, colorFormula: ColorFormula, year?: number, month?: number, week?: number): Promise<HeatmapDataPoint[]> {
   const currentYear = year || new Date().getFullYear();
-  
+
   switch (viewType) {
     case 'year':
       return generateYearData(currentYear, tagName, colorFormula);
