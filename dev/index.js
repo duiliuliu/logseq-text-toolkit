@@ -5858,18 +5858,22 @@ ${where}
   const calcCount = (blocks, formula) => formula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks);
   async function fetchHeatmapData(params, view, formula) {
     if (!params.value?.trim() && !params.propertyKey?.trim()) return [];
-    const ref = new Date(params.year || 0, (params.month || 1) - 1, 1);
+    const now = /* @__PURE__ */ new Date();
+    const year = params.year ?? now.getFullYear();
+    const month = params.month ?? now.getMonth() + 1;
+    const ref = new Date(year, month - 1, 1);
+    loggerProxy.debug("[Heatmap] fetchHeatmapData", { params, view, year, month, ref: ref.toISOString() });
     let start, end;
     if (view === "week") {
       const bounds = getWeekBounds(ref);
       start = bounds.start;
       end = bounds.end;
     } else if (view === "month") {
-      start = new Date(ref.getFullYear(), ref.getMonth(), 1);
-      end = new Date(ref.getFullYear(), ref.getMonth() + 1, 1);
+      start = new Date(year, month - 1, 1);
+      end = new Date(year, month, 1);
     } else {
-      start = new Date(ref.getFullYear(), 0, 1);
-      end = new Date(ref.getFullYear() + 1, 0, 1);
+      start = new Date(year, 0, 1);
+      end = new Date(year + 1, 0, 1);
     }
     const startMs = start.getTime();
     const endMs = end.getTime();
