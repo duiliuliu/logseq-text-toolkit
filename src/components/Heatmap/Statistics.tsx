@@ -1,8 +1,7 @@
-import { useState, useRef, useCallback, FC } from 'react';
+import { useState, useCallback, FC, useRef } from 'react';
 import { HeatmapStatistics, BlockEntity } from '../../lib/heatmap/types';
 import { logseqAPI } from '../../logseq';
 import logger from '../../lib/logger';
-import { getWindow } from '../../logseq/utils';
 
 interface StatisticsProps {
   data: HeatmapStatistics;
@@ -24,61 +23,16 @@ function generateTooltipId(): string {
 const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
   const [tooltips, setTooltips] = useState<TooltipItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [anchorPosition, setAnchorPosition] = useState({ x: 0, y: 0 });
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // 新增：绑定触发元素的 ref
-  const triggerRef = useRef<HTMLElement | null>(null);
+  const [triggerRect, setTriggerRect] = useState<DOMRect | null>(null);
+  const [activeTooltipId, setActiveTooltipId] = useState<string | null>(null);
   const isDark = theme === 'dark';
-
-  const fetchBlockDetails = useCallback(async (blocks: BlockEntity[]): Promise<TooltipItem[]> => {
-    const items: TooltipItem[] = [];
-    for (const block of blocks.slice(0, 8)) {
-      try {
-        let pageTitle = 'Untitled';
-        if (block['block/page']) {
-          const pageName = typeof block['block/page'] === 'object'
-            ? block['block/page']['page/name']
-            : block['block/page'];
-          if (pageName) pageTitle = pageName;
-        } else if (block.page) {
-          pageTitle = typeof block.page === 'object'
-            ? block.page['page/name'] || 'Untitled'
-            : block.page;
-        }
-
-        const content = block.content || block.title || 'Untitled';
-        const shortContent = content.length > 40 ? content.substring(0, 40) + '…' : content;
-
-        items.push({
-          id: generateTooltipId(),
-          block,
-          content: shortContent,
-          pageTitle,
-        });
-      } catch (err) {
-        logger.error('[Statistics] Failed to process block:', err);
-      }
-    }
-    return items;
-  }, []);
 
   const handleStatClick = async (date: string, event: React.MouseEvent) => {
     logger.debug('Statistics stat clicked', { date });
     event.stopPropagation();
 
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-
-    // 把当前点击的元素存进 ref
-    triggerRef.current = event.currentTarget as HTMLElement;
-
     const rect = event.currentTarget.getBoundingClientRect();
-    setAnchorPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top,
-    });
+    setTriggerRect(rect);
 
     let blocks: BlockEntity[] = [];
     if (date === 'total') {
@@ -113,20 +67,46 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
       blocks = data.blocksByDate[date].slice(0, 8);
     }
 
-    const tooltipItems = await fetchBlockDetails(blocks);
-    setTooltips(tooltipItems);
+    const items: TooltipItem[] = [];
+    for (const block of blocks) {
+      try {
+        let pageTitle = 'Untitled';
+        if (block['block/page']) {
+          const pageName = typeof block['block/page'] === 'object'
+            ? block['block/page']['page/name']
+            : block['block/page'];
+          if (pageName) pageTitle = pageName;
+        } else if (block.page) {
+          pageTitle = typeof block.page === 'object'
+            ? block.page['page/name'] || 'Untitled'
+            : block.page;
+        }
+
+        const content = block.content || block.title || 'Untitled';
+        const shortContent = content.length > 40 ? content.substring(0, 40) + '…' : content;
+
+        items.push({
+          id: generateTooltipId(),
+          block,
+          content: shortContent,
+          pageTitle,
+        });
+      } catch (err) {
+        logger.error('[Statistics] Failed to process block:', err);
+      }
+    }
+
+    setTooltips(items);
+    setActiveTooltipId(date);
     setIsOpen(true);
   };
 
   const handleClose = useCallback(() => {
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-      setTooltips([]);
-      // 关闭时清空 ref
-      triggerRef.current = null;
-    }, 150);
+    setIsOpen(false);
+    setTooltips([]);
+    setActiveTooltipId(null);
+    setTriggerRect(null);
   }, []);
-
 
   const handleBlockClick = async (block: BlockEntity) => {
     logger.debug('Statistics block clicked', { blockId: block.uuid });
@@ -136,57 +116,20 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
           ? block.uuid['$uuid$']
           : block.uuid;
         await logseqAPI.App.pushState('page', { id: uuid });
-        setIsOpen(false);
-        setTooltips([]);
-        triggerRef.current = null;
+        handleClose();
       } catch (err) {
         logger.error('[Statistics] Failed to navigate to block:', err);
       }
     }
   };
 
-  // 新的 getTooltipPosition：用 triggerRef 计算，固定在正上方居中
-  const getTooltipPosition = () => {
-    if (typeof getWindow() === 'undefined' || !triggerRef.current) {
-      return { left: anchorPosition.x, top: anchorPosition.y + 10 };
-    }
-
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const tooltipWidth = 220;
-    const tooltipHeight = 60 + tooltips.length * 40;
-
-    // 正上方居中：水平居中对齐触发元素，垂直放在触发元素上方
-    let left = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2 + 100;
-    let top = triggerRect.top - tooltipHeight - 8; // 8px 间距，避免贴死
-
-    // 边界检测，防止 tooltip 超出视窗
-    if (left < 10) left = 10;
-    if (left + tooltipWidth > getWindow().innerWidth - 10) {
-      left = getWindow().innerWidth - tooltipWidth - 10;
-    }
-    // 如果上方空间不够，自动 fallback 到下方
-    if (top < 10) {
-      top = triggerRect.bottom + 8;
-    }
-
-    return { left, top };
-  };
-
   const getCardTransform = (index: number, total: number) => {
-    // 加大基础偏移，加深整体堆叠聚拢感
     const maxOffset = total * 6;
-    // 加大垂直步长，卡片上下错落更明显
     const translateY = -maxOffset + index * 13;
-    // 从 2.5 改成 5，旋转角度翻倍、扇形更开
     const angle = (index - (total - 1) / 2) * 6;
-    // 中心基准 [-1 ~ 1]
     const center = (total - 1) / 2;
     const normalized = center === 0 ? 0 : (index - center) / center;
-
-    // 使用 sin 曲线让扇形更圆润，而不是线性展开
     const curve = Math.sin(normalized * (Math.PI / 2));
-
-    // 旋转不再线性，而是缓入缓出
     const rotate = curve * 9;
     return {
       transform: `translateY(${translateY}px) rotate(${angle}deg)`,
@@ -243,32 +186,46 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
     };
   };
 
+  const getTooltipStyle = (): React.CSSProperties => {
+    if (!triggerRect) {
+      return { display: 'none' };
+    }
+    return {
+      position: 'fixed',
+      left: triggerRect.left,
+      top: triggerRect.top,
+      transform: 'translateY(calc(-100% - 8px))',
+      zIndex: 999,
+      pointerEvents: 'auto',
+    };
+  };
+
   return (
     <>
       <div className="heatmap-statistics">
         <div
-          className="stat-item"
+          className={`stat-item ${activeTooltipId === 'total' && isOpen ? 'active' : ''}`}
           onClick={(e) => handleStatClick('total', e)}
         >
           <div className="stat-value">{data.totalBlocks}</div>
           <div className="stat-label">Total</div>
         </div>
         <div
-          className="stat-item"
+          className={`stat-item ${activeTooltipId === 'active' && isOpen ? 'active' : ''}`}
           onClick={(e) => handleStatClick('active', e)}
         >
           <div className="stat-value">{data.activeDays}</div>
           <div className="stat-label">Active</div>
         </div>
         <div
-          className="stat-item"
+          className={`stat-item ${activeTooltipId === 'max' && isOpen ? 'active' : ''}`}
           onClick={(e) => handleStatClick('max', e)}
         >
           <div className="stat-value">{data.maxCount}</div>
           <div className="stat-label">Max</div>
         </div>
         <div
-          className="stat-item"
+          className={`stat-item ${activeTooltipId === 'avg' && isOpen ? 'active' : ''}`}
           onClick={(e) => handleStatClick('avg', e)}
         >
           <div className="stat-value">{data.avgCount}</div>
@@ -289,15 +246,7 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
             }}
             onClick={handleClose}
           />
-          <div
-            style={{
-              position: 'fixed',
-              left: getTooltipPosition().left,
-              top: getTooltipPosition().top,
-              zIndex: 999,
-              pointerEvents: 'auto',
-            }}
-          >
+          <div style={getTooltipStyle()}>
             <div
               style={{
                 display: 'flex',
@@ -311,10 +260,6 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
                   key={tooltip.id}
                   onClick={() => handleBlockClick(tooltip.block)}
                   onMouseEnter={(e) => {
-                    if (closeTimeoutRef.current) {
-                      clearTimeout(closeTimeoutRef.current);
-                      closeTimeoutRef.current = null;
-                    }
                     const el = e.currentTarget;
                     el.style.transform = getHoverStyle().transform;
                     el.style.zIndex = String(getHoverStyle().zIndex);
@@ -332,7 +277,6 @@ const Statistics: FC<StatisticsProps> = ({ data, theme = 'light' }) => {
                     el.style.boxShadow = isDark
                       ? `0 ${4 + index * 2}px ${12 + index * 3}px rgba(0, 0, 0, ${0.25 + index * 0.03})`
                       : `0 ${3 + index * 2}px ${10 + index * 3}px rgba(0, 0, 0, ${0.08 + index * 0.01})`;
-                    handleClose();
                   }}
                   style={{
                     ...getCardStyle(index, tooltips.length),
