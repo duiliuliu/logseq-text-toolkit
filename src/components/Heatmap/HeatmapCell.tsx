@@ -20,33 +20,42 @@ interface HeatmapCellProps {
 
 interface TooltipProps {
   data: HeatmapTooltipData;
-  cellRect: DOMRect;
+  position: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
   theme?: 'light' | 'dark';
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ data, cellRect, theme = 'light' }) => {
+const Tooltip: React.FC<TooltipProps> = ({ data, position, theme = 'light' }) => {
   const isDark = theme === 'dark';
   const progressBar = generateProgressBar(data.percentage);
-
-  const style: React.CSSProperties = {
-    position: 'fixed',
-    left: cellRect.left,
-    top: cellRect.top,
-    transform: 'translateY(calc(-100% - 8px))',
-    background: isDark ? 'rgba(23, 31, 51, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-    border: `1px solid ${isDark ? '#c0c1ff' : '#3730a3'}`,
-    borderRadius: '8px',
-    padding: '8px 12px',
-    boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.2)',
-    zIndex: 1000,
-    opacity: 1,
-    transition: 'opacity 0.15s ease-in',
-    pointerEvents: 'none',
-    whiteSpace: 'nowrap',
-  };
-
+  
+  const cellCenterX = position.x + position.width / 2;
+  const cellTop = position.y;
+  
   return (
-    <div style={style}>
+    <div
+      className="heatmap-tooltip"
+      style={{
+        position: 'fixed',
+        left: cellCenterX,
+        top: cellTop - 8,
+        transform: 'translate(-50%, -100%)',
+        background: isDark ? 'rgba(23, 31, 51, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+        border: `1px solid ${isDark ? '#c0c1ff' : '#3730a3'}`,
+        borderRadius: '8px',
+        padding: '8px 12px',
+        boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.2)',
+        zIndex: 1000,
+        opacity: 1,
+        transition: 'opacity 0.15s ease-in',
+        pointerEvents: 'none',
+        whiteSpace: 'nowrap',
+      }}
+    >
       <div style={{ color: isDark ? '#c0c1ff' : '#3730a3', fontSize: '12px', fontWeight: 500, marginBottom: '4px' }}>
         {data.date}
       </div>
@@ -77,19 +86,30 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   blocks = []
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [cellRect, setCellRect] = useState<DOMRect | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
 
   const percentage = maxValue > 0 ? Math.round((value / maxValue) * 100) : 0;
 
   const handleMouseEnter = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCellRect(rect);
     setIsHovered(true);
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      x: rect.left,
+      y: rect.top,
+      width: rect.width,
+      height: rect.height,
+    });
+    logger.debug('HeatmapCell hovered position', { x: rect.left, y: rect.top, width: rect.width, height: rect.height }, "cell date", date, "blocks", blocks.length);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setCellRect(null);
+    setTooltipPosition(null);
   };
 
   const handleClick = () => {
@@ -137,10 +157,10 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
           </span>
         )}
       </div>
-      {isHovered && cellRect && !isEmpty && (
+      {isHovered && tooltipPosition && !isEmpty && (
         <Tooltip
           data={{ date, count: value, percentage, maxValue }}
-          cellRect={cellRect}
+          position={tooltipPosition}
           theme={theme}
         />
       )}
