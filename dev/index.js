@@ -5329,7 +5329,7 @@ ${nestingClauses}`;
   function logseqFormatToDayjsFormat(logseqFormat) {
     return LOGSEQ_DATE_FORMAT_MAP[logseqFormat] || "YYYY-MM-DD";
   }
-  function formatDate(date, logseqFormat) {
+  function formatDate$1(date, logseqFormat) {
     const d = dayjs(date);
     if (!d.isValid()) {
       return "";
@@ -5342,7 +5342,7 @@ ${nestingClauses}`;
     return d.format("YYYY-MM-DD ddd");
   }
   function formatDateForPage(date, logseqFormat) {
-    return formatDate(date, logseqFormat);
+    return formatDate$1(date, logseqFormat);
   }
 
   async function checkPageExists(pageName) {
@@ -5775,147 +5775,124 @@ ${nestingClauses}`;
     }
   }
 
-  const escapeDatalogString$1 = (value) => value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n");
   const getCreatedAt$1 = (block) => {
     const v = block?.["block/created-at"] ?? block?.["created-at"] ?? block?.createdAt ?? block?.created_at;
     const n = typeof v === "number" ? v : Number(v);
     return Number.isFinite(n) ? n : null;
   };
-  const pad2$1 = (n) => String(n).padStart(2, "0");
-  const formatLocalDateTimeNoTZ$1 = (d) => `${d.getFullYear()}-${pad2$1(d.getMonth() + 1)}-${pad2$1(d.getDate())}T${pad2$1(d.getHours())}:${pad2$1(d.getMinutes())}:${pad2$1(d.getSeconds())}`;
-  const buildWhereClause$1 = (queryParams) => {
-    const value = escapeDatalogString$1(queryParams.value || "");
-    if (queryParams.type === "tag") {
+  const formatDate = (d) => d.toISOString().split("T")[0];
+  const buildWhereClause$1 = (params) => {
+    const value = params.value || "";
+    if (params.type === "tag") {
       return `
-      [?b :block/tags ?t]
-      (or-join [?t]
-        [?t :block/name "${value}"]
-        [?t :block/title "${value}"]
-      )
-    `;
+[?b :block/tags ?t]
+[?t :block/title "${value}"]`;
     }
-    if (queryParams.type === "page") {
+    if (params.type === "page") {
       return `
-      (or-join [?p]
-        [?p :block/name "${value}"]
-        [?p :block/title "${value}"]
-      )
-      [?b :block/page ?p]
-    `;
+[?p :block/name "${value}"]
+[?b :block/page ?p]`;
     }
-    const key = (queryParams.propertyKey || "").trim();
-    const escapedKey = key.replace(/[^a-zA-Z0-9_\\-]/g, "_");
     return `
-    [?b :block/properties ?props]
-    [(get ?props :${escapedKey}) ?pv]
-    [(str ?pv) ?pvStr]
-    [(= ?pvStr "${value}")]
-  `;
+[?b :logseq.property/status ?s]
+[?s :block/title "${value}"]`;
   };
-  const buildQuery$1 = (queryParams, startMs, endMs) => {
-    const whereClause = buildWhereClause$1(queryParams);
+  const buildQuery$1 = (params, startMs, endMs) => {
+    const where = buildWhereClause$1(params);
     return `
-    [:find (pull ?b [:block/uuid :block/content :block/title :block/created-at :block/updated-at :block/properties :block/tags :block/page])
-     :where
-     [?b :block/created-at ?created]
-     [(>= ?created ${startMs})]
-     [(< ?created ${endMs})]
-     ${whereClause}
-    ]
-  `;
+[:find (pull ?b [*])
+ :where
+${where}
+[?b :block/created-at ?date]
+[(>= ?date ${startMs})]
+[(<= ?date ${endMs})]]`;
   };
-  async function fetchHeatmapData(queryParams, viewType, colorFormula) {
-    if (!queryParams.value?.trim()) {
-      loggerProxy.debug("[Heatmap] Query value is empty, returning empty data");
-      return [];
+  const getWeekBounds = (ref) => {
+    const d = new Date(ref);
+    const day = d.getDay();
+    const monday = new Date(d);
+    monday.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+    monday.setHours(0, 0, 0, 0);
+    return { start: monday, end: new Date(monday.getTime() + 7 * 864e5) };
+  };
+  const bucketByDay = (blocks, startMs, endMs) => {
+    const buckets = {};
+    for (const b of blocks) {
+      const ts = getCreatedAt$1(b);
+      if (!ts || ts < startMs || ts >= endMs) continue;
+      const key = formatDate(new Date(ts));
+      if (!buckets[key]) buckets[key] = [];
+      buckets[key].push(b);
     }
-    loggerProxy.debug("[Heatmap] fetchHeatmapData called", { queryParams, viewType, colorFormula });
-    if (viewType === "week") {
-      const referenceDate = /* @__PURE__ */ new Date();
-      if (queryParams.year !== void 0 && queryParams.month !== void 0 && queryParams.week !== void 0) {
-        referenceDate.setFullYear(queryParams.year, queryParams.month - 1, 1);
-      }
-      const dayOfWeek = referenceDate.getDay();
-      const monday = new Date(referenceDate);
-      monday.setDate(referenceDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-      monday.setHours(0, 0, 0, 0);
-      const startMs2 = monday.getTime();
-      const endMs2 = startMs2 + 7 * 864e5;
-      const query2 = buildQuery$1(queryParams, startMs2, endMs2);
-      loggerProxy.debug("[Heatmap] Week query", query2);
-      const result2 = await logseqAPI$1.DB.datascriptQuery(query2);
-      const blocks2 = (result2 || []).filter(Boolean);
-      loggerProxy.debug("[Heatmap] Week query result count:", blocks2.length);
-      const buckets2 = {};
-      for (const b of blocks2) {
-        const createdAt = getCreatedAt$1(b);
-        if (!createdAt) continue;
-        const dt = new Date(createdAt);
-        const dayIndex = Math.floor((dt.getTime() - startMs2) / 864e5);
-        if (dayIndex < 0 || dayIndex >= 7) continue;
-        const hourIndex = Math.floor(dt.getHours() / 4);
-        if (hourIndex < 0 || hourIndex >= 6) continue;
-        const key = `${dayIndex}-${hourIndex}`;
-        if (!buckets2[key]) buckets2[key] = [];
-        buckets2[key].push(b);
-      }
-      const data2 = [];
-      for (let hourIndex = 0; hourIndex < 6; hourIndex++) {
-        for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-          const d = new Date(monday);
-          d.setDate(monday.getDate() + dayIndex);
-          d.setHours(hourIndex * 4, 0, 0, 0);
-          const key = `${dayIndex}-${hourIndex}`;
-          const cellBlocks = buckets2[key] || [];
-          const count = colorFormula === "simple" ? calculateColorValueSimple(cellBlocks) : calculateColorValueWeighted(cellBlocks);
-          data2.push({
-            date: formatLocalDateTimeNoTZ$1(d),
-            count,
+    return buckets;
+  };
+  const bucketByWeekCell = (blocks, startMs) => {
+    const buckets = {};
+    for (const b of blocks) {
+      const ts = getCreatedAt$1(b);
+      if (!ts) continue;
+      const dt = new Date(ts);
+      const dayIdx = Math.floor((ts - startMs) / 864e5);
+      if (dayIdx < 0 || dayIdx >= 7) continue;
+      const hourIdx = Math.floor(dt.getHours() / 4);
+      const key = `${dayIdx}-${hourIdx}`;
+      if (!buckets[key]) buckets[key] = [];
+      buckets[key].push(b);
+    }
+    return buckets;
+  };
+  const calcCount = (blocks, formula) => formula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks);
+  async function fetchHeatmapData(params, view, formula) {
+    if (!params.value?.trim()) return [];
+    const ref = new Date(params.year || 0, (params.month || 1) - 1, 1);
+    let start, end;
+    if (view === "week") {
+      const bounds = getWeekBounds(ref);
+      start = bounds.start;
+      end = bounds.end;
+    } else if (view === "month") {
+      start = new Date(ref.getFullYear(), ref.getMonth(), 1);
+      end = new Date(ref.getFullYear(), ref.getMonth() + 1, 1);
+    } else {
+      start = new Date(ref.getFullYear(), 0, 1);
+      end = new Date(ref.getFullYear() + 1, 0, 1);
+    }
+    const startMs = start.getTime();
+    const endMs = end.getTime();
+    const query = buildQuery$1(params, startMs, endMs);
+    loggerProxy.debug("[Heatmap] query", query);
+    const raw = await logseqAPI$1.DB.datascriptQuery(query);
+    const blocks = (raw || []).filter(Boolean);
+    loggerProxy.debug("[Heatmap] result count:", blocks.length);
+    const data = [];
+    if (view === "week") {
+      const buckets = bucketByWeekCell(blocks, startMs);
+      for (let h = 0; h < 6; h++) {
+        for (let d = 0; d < 7; d++) {
+          const key = `${d}-${h}`;
+          const cellBlocks = buckets[key] || [];
+          const day = new Date(start);
+          day.setDate(start.getDate() + d);
+          day.setHours(h * 4, 0, 0, 0);
+          data.push({
+            date: day.toISOString().replace(".000Z", "Z"),
+            count: calcCount(cellBlocks, formula),
             blocks: cellBlocks
           });
         }
       }
-      loggerProxy.debug("[Heatmap] Week data generated, total cells:", data2.length);
-      return data2;
-    }
-    const year = queryParams.year || (/* @__PURE__ */ new Date()).getFullYear();
-    const monthIndex = queryParams.month !== void 0 ? queryParams.month - 1 : (/* @__PURE__ */ new Date()).getMonth();
-    let startDate;
-    let endDate;
-    if (viewType === "month") {
-      startDate = new Date(year, monthIndex, 1);
-      endDate = new Date(year, monthIndex + 1, 1);
     } else {
-      startDate = new Date(year, 0, 1);
-      endDate = new Date(year + 1, 0, 1);
+      const buckets = bucketByDay(blocks, startMs, endMs);
+      for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
+        const key = formatDate(new Date(d));
+        const dayBlocks = buckets[key] || [];
+        data.push({
+          date: key,
+          count: calcCount(dayBlocks, formula),
+          blocks: dayBlocks
+        });
+      }
     }
-    const startMs = startDate.getTime();
-    const endMs = endDate.getTime();
-    const query = buildQuery$1(queryParams, startMs, endMs);
-    loggerProxy.debug(`[Heatmap] ${viewType} query`, query);
-    const result = await logseqAPI$1.DB.datascriptQuery(query);
-    const blocks = (result || []).filter(Boolean);
-    loggerProxy.debug("[Heatmap] Query result count:", blocks.length);
-    const buckets = {};
-    for (const b of blocks) {
-      const createdAt = getCreatedAt$1(b);
-      if (!createdAt) continue;
-      const dateKey = new Date(createdAt).toISOString().split("T")[0];
-      if (!buckets[dateKey]) buckets[dateKey] = [];
-      buckets[dateKey].push(b);
-    }
-    const data = [];
-    for (const d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
-      const dateKey = d.toISOString().split("T")[0];
-      const dayBlocks = buckets[dateKey] || [];
-      const count = colorFormula === "simple" ? calculateColorValueSimple(dayBlocks) : calculateColorValueWeighted(dayBlocks);
-      data.push({
-        date: dateKey,
-        count,
-        blocks: dayBlocks
-      });
-    }
-    loggerProxy.debug("[Heatmap] Data generated", { totalDays: data.length, viewType, year, month: monthIndex + 1 });
     return data;
   }
 
