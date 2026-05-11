@@ -100,6 +100,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   }, [viewType, currentDate]);
 
   const handleMonthLabelClick = useCallback(async (monthIndex: number) => {
+    logger.debug('📐 Heatmap: Month label clicked', { monthIndex }) ;
     if (!config.enableMonthPageCreation || !config.monthPageTemplate) return;
     
     const year = currentDate.getFullYear();
@@ -113,6 +114,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   }, [config, currentDate]);
 
   const handleWeekLabelClick = useCallback(async (weekNumber: number) => {
+    logger.debug('📐 Heatmap: Week label clicked', { weekNumber });
     if (!config.enableWeekPageCreation || !config.weekPageTemplate) return;
     
     const year = currentDate.getFullYear();
@@ -271,6 +273,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
   }, [containerWidth, config.displayMode, currentDate, effectiveWidth]);
 
   const handleCellClick = useCallback(async (date: string) => {
+    logger.debug('📐 Heatmap: Cell clicked', { date });
     if (date) {
       try {
         logseqAPI.App.pushState(`page`, {
