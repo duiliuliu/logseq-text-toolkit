@@ -33,14 +33,16 @@ export default defineConfig({
     minify: false,
     sourcemap: 'inline',
     rollupOptions: {
-      preserveEntrySignatures: 'auto',
       output: {
+        format: 'iife',
         entryFileNames: '[name].js',
         chunkFileNames: '[name].js',
         assetFileNames: '[name].[ext]',
-        preserveModules: true,
-        preserveModulesRoot: resolve(__dirname, 'src'),
-        format: 'es',
+        generatedCode: {
+          preset: 'es2015',
+          constBindings: false,
+          arrowFunctions: false,
+        },
       },
     },
   },
