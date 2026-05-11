@@ -34,6 +34,10 @@
        <img width="280" alt="taskprogress设置面板" src="https://github.com/user-attachments/assets/73c9eb90-2c4f-4ace-99ea-a9eb510f7bcf" />
       <br>taskprogress设置面板
     </td>
+    <td align="center">
+      <img width="280" alt="heatmap" src="docs/screenshots/heatmap.png" />
+      <br>heatmap
+    </td>
   </tr>
 </table>
 
@@ -58,6 +62,13 @@
 | 状态识别 | 自动识别 todo/doing/done/waiting/in-review 等 |
 | 自定义颜色 | 支持自定义状态颜色 |
 | 🎆 成就烟花 | 任务全部完成时绽放绚丽烟花（可开关） |
+
+### 🔥 heatmap
+| 功能 | 说明 |
+|------|------|
+| 视图 | year / month / week 三视图 |
+| 查询 | 支持 tag / page / property 三种查询方式 |
+| 配色 | 支持 min/max 渐变颜色与两种计算公式 |
 
 ### 🎛️ 工具栏
 - 选中文本自动弹出
@@ -101,10 +112,21 @@
 
 **指定展示样式**：
 ```markdown
-{{renderer :taskprogress :Step Progress}}
-{{renderer :taskprogress :阶梯进度}}
+{{renderer :taskprogress, step-progress}}
+{{renderer :taskprogress, display=step-progress, size=small}}
 ```
 支持样式：mini-circle / 微型圆环、dot-matrix / 点阵进度、status-cursor / 状态光标、progress-capsule / 进度胶囊、step-progress / 阶梯进度
+
+### heatmap
+```markdown
+{{renderer :heatmap, month, tag=work}}
+```
+更多参数示例（推荐 key=value）：
+```markdown
+{{renderer :heatmap, view=year, tag=work}}
+{{renderer :heatmap, view=month, page=My Page}}
+{{renderer :heatmap, view=week, property=category::work, week=20, year=2026}}
+```
 
 ---
 
@@ -171,7 +193,7 @@
 
 ```bash
 npm install          # 安装依赖
-npm run dev          # 开发服务器 (http://localhost:3004)
+npm run dev          # 开发服务器 (http://localhost:3000)
 npm run build        # 构建
 npm run test         # 测试模式
 ```

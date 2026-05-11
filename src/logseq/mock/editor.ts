@@ -1,6 +1,23 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
+ * Mock Logseq Editor API
+ * 支持 HTTP API 调用模式
+ */
+
 import { getSelection, getDocument } from '../utils.ts';
+import { httpClient } from './httpClient';
+
+const logger = {
+  info: (message: string, ...args: any[]) => console.log(`[INFO] ${message}`, ...args),
+  warn: (message: string, ...args: any[]) => console.warn(`[WARN] ${message}`, ...args),
+  error: (message: string, ...args: any[]) => console.error(`[ERROR] ${message}`, ...args),
+};
 
 const Editor: any = {
+  httpClient: httpClient,
+
   getCurrentBlock: () => {
     console.log('Get current block');
 
@@ -34,20 +51,141 @@ const Editor: any = {
     });
   },
 
-  getBlock: (blockId: string) => {
-    console.log('Get block:', blockId);
+  getPage: async function(this: any, pageName: string) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.getPage(pageName);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP getPage failed, using mock:', err);
+      }
+    }
+    logger.info(`[Mock] Editor.getPage: ${pageName}`);
+    return Promise.resolve(null);
+  },
+
+  createPage: async function(this: any, pageName: string, content: string, options?: any) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.createPage(pageName, content, options);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP createPage failed, using mock:', err);
+      }
+    }
+    logger.info(`[Mock] Editor.createPage: ${pageName}`, options);
+    const message = `创建页面: ${pageName}`;
+    if ((window as any).addToast) {
+      (window as any).addToast(message, 'success', 3000);
+    }
+    return Promise.resolve({
+      name: pageName,
+      uuid: `mock-uuid-${Date.now()}`,
+      'page/original-name': pageName,
+    });
+  },
+
+  getBlock: async function(this: any, blockUuid: string) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.getBlock(blockUuid);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP getBlock failed, using mock:', err);
+      }
+    }
+    console.log('Get block:', blockUuid);
     const doc = getDocument();
-    
-    const element = findElementByBlockId(blockId, doc);
+    const element = findElementByBlockId(blockUuid, doc);
     if (element) {
       return Promise.resolve({
-        id: blockId,
-        uuid: blockId,
+        id: blockUuid,
+        uuid: blockUuid,
         content: element.textContent || '',
         properties: JSON.parse(element.dataset.properties || '{}')
       });
     }
     return Promise.resolve(null);
+  },
+
+  updateBlock: async function(this: any, blockUuid: string, content: string) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.updateBlock(blockUuid, content);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP updateBlock failed, using mock:', err);
+      }
+    }
+    console.log('Update block:', blockUuid, content);
+
+    const doc = getDocument();
+    const element = findElementByBlockId(blockUuid, doc);
+
+    if (element) {
+      if (content !== undefined) {
+        element.textContent = content;
+      }
+      return Promise.resolve(true);
+    }
+
+    return Promise.resolve(false);
+  },
+
+  upsertBlockProperty: async function(this: any, blockUuid: string, property: string, value: any) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.upsertBlockProperty(blockUuid, property, value);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP upsertBlockProperty failed, using mock:', err);
+      }
+    }
+    logger.info(`[Mock] Editor.upsertBlockProperty: ${blockUuid}`, { property, value });
+    return Promise.resolve(true);
+  },
+
+  renamePage: async function(this: any, oldName: string, newName: string) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.renamePage(oldName, newName);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP renamePage failed, using mock:', err);
+      }
+    }
+    logger.info(`[Mock] Editor.renamePage: ${oldName} -> ${newName}`);
+    return Promise.resolve(true);
+  },
+
+  insertBlock: async function(this: any, parentUuid: string, content: string, position: string = 'last') {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.insertBlock(parentUuid, content, position);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP insertBlock failed, using mock:', err);
+      }
+    }
+    logger.info(`[Mock] Editor.insertBlock: parent=${parentUuid}, content=${content}, position=${position}`);
+    return Promise.resolve({ uuid: `mock-block-${Date.now()}`, content });
+  },
+
+  deleteBlock: async function(this: any, blockUuid: string) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.deleteBlock(blockUuid);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP deleteBlock failed, using mock:', err);
+      }
+    }
+    logger.info(`[Mock] Editor.deleteBlock: ${blockUuid}`);
+    return Promise.resolve(true);
+  },
+
+  addTag: async function(this: any, blockUuid: string, tagName: string) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.addTag(blockUuid, tagName);
+      } catch (err) {
+        logger.warn('[Mock Editor] HTTP addTag failed, using mock:', err);
+      }
+    }
+    logger.info(`[Mock] Editor.addTag: ${blockUuid} -> ${tagName}`);
+    return Promise.resolve(true);
   },
 
   getBlockChildren: (blockId: string) => {
@@ -76,7 +214,6 @@ const Editor: any = {
     return Promise.resolve(children);
   },
 
-  // 获取指定深度的所有嵌套子块
   getAllNestedChildren: (blockId: string, maxDepth: number = 5) => {
     const doc = getDocument();
     
@@ -97,19 +234,16 @@ const Editor: any = {
           const id = generateBlockId(child as HTMLElement);
           const props = JSON.parse((child as HTMLElement).dataset.properties || '{}');
           
-          // 创建完整的块对象，模拟 pull ?b [*] 的结果
           const block = {
             id,
             uuid: id,
             content: child.textContent || '',
             properties: props,
-            // 添加 tags 属性来支持 #task 标签检测
             tags: (child as HTMLElement).textContent?.includes('#task') ? [{ title: 'task' }] : undefined
           };
           
           results.push(block);
           
-          // 递归遍历更深层
           if (maxDepth === -1 || currentDepth < maxDepth) {
             traverse(id, currentDepth + 1);
           }
@@ -172,25 +306,6 @@ const Editor: any = {
     return Promise.resolve(null);
   },
 
-  updateBlock: (blockId: string, content: string, properties?: any) => {
-    console.log('Update block:', blockId, content, properties);
-
-    const doc = getDocument();
-    const element = findElementByBlockId(blockId, doc);
-
-    if (element) {
-      if (content !== undefined) {
-        element.textContent = content;
-      }
-      if (properties) {
-        (element as HTMLElement).dataset.properties = JSON.stringify(properties);
-      }
-      return Promise.resolve(true);
-    }
-
-    return Promise.resolve(false);
-  },
-
   insertAtEditingCursor: (text: string) => {
     console.log('Insert at editing cursor:', text);
     const selection = getSelection();
@@ -217,7 +332,6 @@ const Editor: any = {
   }
 };
 
-// 生成基于元素路径的唯一ID（使用JS路径格式）
 function generateBlockId(element: HTMLElement): string {
   const path: string[] = [];
   let current: Element | null = element;
@@ -225,15 +339,12 @@ function generateBlockId(element: HTMLElement): string {
   while (current) {
     let selector = current.tagName.toLowerCase();
 
-    // 添加ID作为标识（优先使用ID）
     if (current.id) {
       selector = `#${current.id}`;
     } else if (current.classList.length > 0) {
-      // 添加类名作为额外标识
       const classes = Array.from(current.classList).join('.');
       selector += `.${classes}`;
     } else {
-      // 添加索引位置
       const siblings = current.parentElement?.children;
       let index = 0;
       if (siblings) {
@@ -254,26 +365,21 @@ function generateBlockId(element: HTMLElement): string {
   return path.join(' > ');
 }
 
-// 根据blockId查找元素
 function findElementByBlockId(blockId: string, doc: Document): HTMLElement | null {
-  // 对于默认块，返回main-content-container
   if (blockId === 'default-block') {
     return doc.getElementById('main-content-container');
   }
 
-  // 首先尝试直接使用 ID 查找
   const byId = doc.getElementById(blockId);
   if (byId) {
     return byId;
   }
 
-  // 尝试使用 data-block-id 属性查找
   const byDataBlockId = doc.querySelector(`[data-block-id="${blockId}"]`);
   if (byDataBlockId) {
     return byDataBlockId as HTMLElement;
   }
 
-  // 如果 blockId 已经包含 #，尝试作为选择器
   if (blockId.startsWith('#')) {
     try {
       const elements = doc.querySelectorAll(blockId);
@@ -285,7 +391,6 @@ function findElementByBlockId(blockId: string, doc: Document): HTMLElement | nul
     }
   }
 
-  // 回退：查找包含blockId的元素
   const allElements = doc.querySelectorAll('*');
   for (const element of allElements) {
     if (element.textContent?.includes(blockId)) {

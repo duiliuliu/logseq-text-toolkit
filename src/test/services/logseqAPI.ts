@@ -6,6 +6,8 @@
  * 参考: https://github.com/kerim/logseq-db-query-builder
  */
 
+import logger from '../../lib/logger';
+
 const API_BASE_URL = 'http://127.0.0.1:12315/api'
 
 export interface HealthStatus {
@@ -64,6 +66,7 @@ class LogseqAPI {
         } catch {
           // ignore JSON parse error
         }
+        logger.error(`[logseqAPI] ${errorMessage}`);
         throw new Error(errorMessage)
       }
 
@@ -82,6 +85,7 @@ class LogseqAPI {
         } catch {
           // ignore JSON parse error
         }
+        logger.error(`[logseqAPI] ${errorMessage}`);
         throw new Error(errorMessage)
       }
 
@@ -91,8 +95,11 @@ class LogseqAPI {
         throw error
       }
       if (error.name === 'TypeError' && error.message && error.message.includes('fetch')) {
-        throw new Error('Cannot connect to Logseq. Make sure the API server is enabled in Logseq settings.')
+        const connError = 'Cannot connect to Logseq. Make sure the API server is enabled in Logseq settings.'
+        logger.error(`[logseqAPI] ${connError}`);
+        throw new Error(connError)
       }
+      logger.error(`[logseqAPI] API call failed for method "${method}":`, error);
       throw error
     }
   }
@@ -161,7 +168,7 @@ class LogseqAPI {
         raw: results
       }
     } catch (error) {
-      console.error('Query execution failed:', error)
+      logger.error('[logseqAPI] Query execution failed:', error)
       throw error
     }
   }
@@ -262,6 +269,51 @@ class LogseqAPI {
       return this._normalizeKeys(result.data[0])
     }
     return null
+  }
+
+  async getAllPages(): Promise<{ name: string }[]> {
+    try {
+      const result = await this._callAPI('logseq.Editor.getAllPages', []);
+      if (result && Array.isArray(result)) {
+        return result.map((page: any) => ({
+          name: page.name || page['page/name'] || page.title || ''
+        })).filter((p: any) => p.name);
+      }
+      return [];
+    } catch (error) {
+      console.error('Error getting all pages:', error);
+      return [];
+    }
+  }
+
+  async createPage(pageName: string, content: string): Promise<{ name: string }> {
+    const args = [
+      pageName,
+      {
+        content: content,
+        createFirstBlock: true
+      }
+    ];
+
+    await this._callAPI('logseq.Editor.createPage', args);
+    return { name: pageName };
+  }
+
+  async getPage(pageName: string): Promise<any> {
+    try {
+      const result = await this._callAPI('logseq.Editor.getPage', [pageName]);
+      return result;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async pushState(pageName: string): Promise<void> {
+    await this._callAPI('logseq.App.pushState', ['page', { name: pageName }]);
+  }
+
+  async showMsg(message: string, type: 'success' | 'warning' | 'error' = 'success'): Promise<void> {
+    await this._callAPI('logseq.UI.showMsg', [message, type]);
   }
 }
 

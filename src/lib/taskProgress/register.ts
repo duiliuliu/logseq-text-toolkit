@@ -11,11 +11,13 @@ import TaskProgress from '../../components/TaskProgress/TaskProgress'
 import { logseqAPI } from '../../logseq'
 import { getDocument } from '../../logseq/utils'
 import { getSettingsWithSystem } from '../../settings'
-import { renderComponent } from '../render'
+import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render'
 import logger from '../logger'
 
 const MACRO_PREFIX = ':taskprogress'
 const PLUGIN_ID = 'text-toolkit-taskprogress'
+
+registerRendererArgModel(MACRO_PREFIX, { positional: ['display', 'size'] })
 
 const DISPLAY_TYPE_MAP: Record<string, ProgressDisplayType> = {
   'mini-circle': 'mini-circle',
@@ -101,14 +103,18 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
 
     return true
   } catch (err) {
-    logger.error('[TaskProgress] Render error:', err)
+    logger.error('❌ TaskProgress: Render error', err)
     return false
   }
 }
 
 export function registerTaskProgress(): void {
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-    const [type, displayTypeArg] = payload.arguments || []
+    const split = splitRendererArgs(payload.arguments)
+    const type = split?.type
+    const argMap = type ? parseRendererArgs(type, split?.tokens || []) : {}
+    const displayTypeArg = argMap.display
+    const sizeArg = argMap.size
 
     if (!type || !type.startsWith(MACRO_PREFIX)) {
       return
@@ -123,7 +129,58 @@ export function registerTaskProgress(): void {
     }
 
     if (blockId) {
-      await renderProgress(blockId, slot, displayTypeArg)
+      logger.debug('📊 TaskProgress: Rendering progress', { blockId, displayTypeArg });
+      const settings = await getSettingsWithSystem()
+      const defaultType = settings?.taskProgress?.defaultDisplayType || 'mini-circle'
+      const normalizedDisplay = (displayTypeArg || '').toLowerCase().trim()
+      const displayType = normalizedDisplay && DISPLAY_TYPE_MAP[normalizedDisplay] ? DISPLAY_TYPE_MAP[normalizedDisplay] : defaultType
+      const config = settings?.taskProgress?.displayOptions?.[displayType] || {}
+      const showLabel = settings?.taskProgress?.showLabel ?? true
+      const labelFormat = settings?.taskProgress?.labelFormat || 'fraction'
+      const nestingLevel = settings?.taskProgress?.nestingLevel ?? 1
+      const onlyLeaves = settings?.taskProgress?.onlyLeaves ?? false
+      const showNestingIndicator = settings?.taskProgress?.showNestingIndicator ?? false
+      const fireworksOnComplete = settings?.taskProgress?.fireworksOnComplete ?? true
+
+      const size = (sizeArg || '').toLowerCase().trim()
+      const extraConfig = size === 'small' || size === 'medium' || size === 'large' ? { size } : {}
+
+      const progressData = await calculateTaskProgress(blockId, { nestingLevel, onlyLeaves })
+
+      if (!progressData) {
+        logseqAPI.provideUI({
+          key: PLUGIN_ID + '__' + slot,
+          slot,
+          reset: true,
+          template: '',
+        })
+        return
+      }
+
+      const lang = settings?.language || 'zh-CN'
+      const containerId = PLUGIN_ID + slot
+
+      logseqAPI.provideUI({
+        key: PLUGIN_ID + '__' + slot,
+        slot,
+        reset: true,
+        template: `<div id="${containerId}"></div>`,
+      })
+
+      setTimeout(() => {
+        const container = getDocument().getElementById(containerId)
+        if (container) {
+          renderComponent(container, TaskProgress, {
+            progressData,
+            displayType,
+            config: { ...config, ...extraConfig, showLabel, labelFormat, fireworksOnComplete },
+            lang,
+            nestingLevel,
+            onlyLeaves,
+            showNestingIndicator,
+          })
+        }
+      }, 1)
     }
   })
 
@@ -133,11 +190,11 @@ export function registerTaskProgress(): void {
       const block = await logseqAPI.Editor.getCurrentBlock()
       if (block?.uuid) {
         await logseqAPI.Editor.insertAtEditingCursor(
-          `{{renderer ${MACRO_PREFIX}}}`
+          `{{renderer ${MACRO_PREFIX}, display=mini-circle}}`
         )
       }
     }
   )
 
-  logger.info('[TaskProgress] Registered successfully')
+  logger.info('✅ TaskProgress: Registered successfully')
 }

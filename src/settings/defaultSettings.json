@@ -3,6 +3,7 @@
   "theme": "light",
   "language": "zh-CN",
   "toolbar": true,
+  "dateFormat": "yyyy-MM-dd EEE",
   "useSystemTheme": false,
   "useSystemLanguage": false,
   "showBorder": false,
@@ -35,6 +36,17 @@
       "waiting": "#8b5cf6",
       "canceled": "#6b7280",
       "in-review": "#f97316"
+    }
+  },
+  "heatmap": {
+    "enabled": true,
+    "defaultViewType": "year",
+    "defaultDisplayMode": "full",
+    "defaultColorFormula": "simple",
+    "colorScheme": {
+      "minColor": "#eef2ff",
+      "maxColor": "#3730a3",
+      "gradientSteps": 5
     }
   },
   "meta": {

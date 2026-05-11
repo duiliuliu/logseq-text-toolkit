@@ -17,6 +17,7 @@ const useSettings = (): SettingsContextType => {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
   const loadSettings = useCallback(async (): Promise<Settings | null> => {
     setIsLoading(true)
@@ -71,13 +72,40 @@ const useSettings = (): SettingsContextType => {
   }, [loadSettings])
 
   useEffect(() => {
-    if ((logseqAPI as any).onSettingsChanged) {
-      const unsub = (logseqAPI as any).onSettingsChanged(() => {
+    if ((logseqAPI as ILSPluginUser).onSettingsChanged) {
+      const unsub = (logseqAPI as ILSPluginUser).onSettingsChanged(() => {
         loadSettings()
       })
       return unsub
     }
   }, [loadSettings])
+
+  useEffect(() => {
+    // 监听 theme 变化
+    const setupThemeListener = async () => {
+      try {
+        if ((logseqAPI as ILSPluginUser).onThemeModeChanged) {
+          const unsub = (logseqAPI as ILSPluginUser).onThemeModeChanged(({ mode }: { mode: string }) => {
+            const newTheme = mode === 'dark' ? 'dark' : 'light'
+            setTheme(newTheme)
+            logger.info(`[Settings] Theme changed to: ${newTheme}`)
+          })
+          return unsub
+        }
+      } catch (err) {
+        logger.warn('[Settings] Failed to setup theme listener:', err)
+      }
+    }
+
+    const unsubPromise = setupThemeListener()
+    return () => {
+      unsubPromise.then(unsub => {
+        if (typeof unsub === 'function') {
+          unsub()
+        }
+      })
+    }
+  }, [])
 
   return {
     settings,
@@ -86,7 +114,8 @@ const useSettings = (): SettingsContextType => {
     error,
     loadSettings,
     saveSettings,
-    resetSettings
+    resetSettings,
+    theme
   }
 }
 
@@ -100,9 +129,12 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 }
 
 export const useSettingsContext = () => {
-  const ctx = useContext(SettingsContext)
-  if (!ctx) throw new Error('useSettingsContext must be used within SettingsProvider')
-  return ctx
-}
+  const ctx = useContext(SettingsContext);
+  if (!ctx) {
+    logger.error('useSettingsContext must be used within SettingsProvider');
+    throw new Error('useSettingsContext must be used within SettingsProvider');
+  }
+  return ctx;
+};
 
 export default useSettings

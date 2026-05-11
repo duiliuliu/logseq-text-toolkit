@@ -1,8 +1,60 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
+ * Mock Logseq App API
+ * 支持 HTTP API 调用模式
+ */
+
 import { getDocument } from '../utils.ts';
+import { httpClient, HTTPAPIConfig } from './httpClient';
 
 const eventListeners: Map<string, Array<(...args: any[]) => void>> = new Map();
 
+const logger = {
+  info: (message: string, ...args: any[]) => console.log(`[INFO] ${message}`, ...args),
+  warn: (message: string, ...args: any[]) => console.warn(`[WARN] ${message}`, ...args),
+  error: (message: string, ...args: any[]) => console.error(`[ERROR] ${message}`, ...args),
+};
+
 const App: any = {
+  httpClient: httpClient,
+
+  setHTTPAPIConfig: (config: HTTPAPIConfig | null) => {
+    if (config) {
+      httpClient.setConfig(config.baseUrl, config.token);
+      logger.info('[Mock App] HTTP API configured:', config.baseUrl);
+    } else {
+      httpClient.disable();
+      logger.info('[Mock App] HTTP API disabled');
+    }
+  },
+
+  useHTTPAPI: function(this: any, baseUrl: string, token: string): any {
+    httpClient.setConfig(baseUrl, token);
+    
+    const wrappedApp: any = {};
+    const self = this;
+
+    for (const key of Object.keys(App)) {
+      if (key === 'useHTTPAPI' || key === 'httpClient' || key === 'setHTTPAPIConfig') continue;
+      
+      wrappedApp[key] = async function(...args: any[]) {
+        if (httpClient.isEnabled()) {
+          const methodName = `logseq.App.${key}`;
+          try {
+            return await httpClient.callMethod(methodName, args);
+          } catch (err) {
+            logger.warn(`[Mock App] HTTP call failed for ${key}, falling back to mock:`, err);
+          }
+        }
+        return App[key].call(self, ...args);
+      };
+    }
+
+    return wrappedApp;
+  },
+
   registerCommand: (command: any) => {
     console.log('Registered command:', command);
   },
@@ -55,9 +107,15 @@ const App: any = {
       eventListeners.delete(event);
     }
   },
-  
-  getUserConfigs: () => {
-    console.log('Get user configs');
+
+  getUserConfigs: async function(this: any) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.getUserConfigs();
+      } catch (err) {
+        logger.warn('[Mock App] HTTP getUserConfigs failed, using mock:', err);
+      }
+    }
     return Promise.resolve({
       preferredThemeMode: 'light',
       preferredFormat: 'markdown',
@@ -78,6 +136,11 @@ const App: any = {
       preferredLanguage: 'zh-CN',
       version: '0.10.0'
     });
+  },
+
+  onThemeModeChanged: (callback: (event: { mode: string }) => void) => {
+    console.log('[Mock App] onThemeModeChanged registered');
+    return () => console.log('[Mock App] onThemeModeChanged unregistered');
   },
   
   registerUIItem: (slot: string, config: any) => {
@@ -147,6 +210,20 @@ const App: any = {
     console.log('Trigger event:', event, args);
     const listeners = eventListeners.get(event);
     listeners?.forEach(callback => callback(...args));
+  },
+  
+  pushState: (page: string, params: any) => {
+    logger.info(`[Mock] App.pushState: ${page}`, params);
+    const message = params.date 
+      ? `跳转到日期页面: ${params.date}` 
+      : params.name 
+        ? `跳转到页面: ${params.name}`
+        : `跳转到页面: ${page}`;
+    if ((window as any).addToast) {
+      (window as any).addToast(message, 'info', 3000);
+    } else {
+      alert(message);
+    }
   }
 };
 

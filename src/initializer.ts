@@ -11,8 +11,10 @@ import { getSettings } from './settings'
 import CommentApp from './components/Comment/CommentApp'
 import SelectToolbar from './components/SelectToolbar'
 import SettingsModal from './components/SettingsModal'
+import Heatmap from './components/Heatmap/Heatmap'
 import { renderComponent } from './lib/render'
-import { registerTaskProgress } from './lib/taskProgress'
+import { registerTaskProgress } from './lib/taskProgress/register'
+import { registerHeatmap, setHeatmapComponent } from './lib/heatmap/register'
 import { registerCSS } from './lib/cssRegistry'
 import logseqAPI from './logseq'
 import { getDocument } from './logseq/utils'
@@ -24,6 +26,7 @@ import inlineCommentCSSRaw from './components/Comment/inlineComment.css?raw'
 import customsToolbarItemsCSSRaw from './components/SelectToolbar/customsToolbarItems.css?raw'
 import taskProgressCSSRaw from './components/TaskProgress/taskProgress.css?raw'
 import customSelectCSSRaw from './components/CustomSelect/customSelect.css?raw'
+import heatmapCSSRaw from './components/Heatmap/heatmap.css?raw'
 
 /* ============================================================================
    常量定义
@@ -95,7 +98,7 @@ export function registerAllCSS(): void {
   registerCSS('customToolbarItems', {
     type: 'both',
     inlineContent: customsToolbarItemsCSSRaw,
-    externalPath: 'customToolbarItems.css'
+    externalPath: 'customsToolbarItems.css'
   })
 
   registerCSS('taskProgress', {
@@ -108,6 +111,12 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: customSelectCSSRaw,
     externalPath: 'customSelect.css'
+  })
+
+  registerCSS('heatmap', {
+    type: 'both',
+    inlineContent: heatmapCSSRaw,
+    externalPath: 'heatmap.css'
   })
 }
 
@@ -252,4 +261,17 @@ export async function initCommentApp(): Promise<void> {
  */
 export async function initTaskProgress(): Promise<void> {
   registerTaskProgress()
+}
+
+/* ============================================================================
+   Heatmap 组件
+   ============================================================================ */
+
+/**
+ * Heatmap 初始化
+ * 注册热力图宏渲染器和斜杠命令
+ */
+export async function initHeatmap(): Promise<void> {
+  setHeatmapComponent(Heatmap)
+  registerHeatmap()
 }

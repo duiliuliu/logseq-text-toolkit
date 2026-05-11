@@ -87,6 +87,7 @@ export interface TranslationKeys {
       general: string;
       toolbar: string;
       taskProgress: string;
+      heatmap: string;
       advanced: string;
     };
     saveSuccessRestart?: string;

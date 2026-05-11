@@ -1,11 +1,13 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * 烟花粒子效果组件 - 定位在目标元素正上方，不影响其他区域
  */
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
+import logger from '../../lib/logger'
+import { getWindow } from '../../logseq/utils'
 
 interface Firework {
   id: number
@@ -78,6 +80,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
   }, [])
 
   const launchFirework = useCallback((targetX: number, targetY: number) => {
+    logger.debug('🎆 Fireworks: launchFirework called', { targetX, targetY });
     const hue = COLORS[Math.floor(Math.random() * COLORS.length)].h
 
     const newFirework: Firework = {
@@ -94,27 +97,35 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     }
 
     setFireworks(prev => [...prev, newFirework])
+    logger.debug('🎆 Fireworks: firework launched', { id: newFirework.id, hue });
   }, [])
 
   const launchMultiple = useCallback(() => {
-    if (!targetRect) return
+    logger.debug('🎆 Fireworks: launchMultiple called', { targetRect });
+    if (!targetRect) {
+      logger.debug('🎆 Fireworks: targetRect is null, skipping');
+      return;
+    }
 
-    const centerX = targetRect.left + targetRect.width / 2
-    const topY = targetRect.top
+    const centerX = targetRect.left + targetRect.width / 2;
+    const topY = targetRect.top - 120;
 
-    const count = 4
+    logger.debug('🎆 Fireworks: calculated positions', { centerX, topY, width: targetRect.width, height: targetRect.height });
+
+    const count = 4;
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
-        const offsetX = (Math.random() - 0.5) * targetRect.width * 2
-        const offsetY = (Math.random() - 0.5) * targetRect.height
-        launchFirework(centerX + offsetX, topY + offsetY)
-      }, i * 200)
+        const offsetX = (Math.random() - 0.5) * targetRect.width * 2;
+        const offsetY = (Math.random() - 0.5) * targetRect.height;
+        logger.debug('🎆 Fireworks: launching firework', { index: i, offsetX, offsetY });
+        launchFirework(centerX + offsetX, topY + offsetY);
+      }, i * 200);
     }
 
     setTimeout(() => {
-      onComplete?.()
-    }, 3000)
-  }, [targetRect, launchFirework, onComplete])
+      onComplete?.();
+    }, 3000);
+  }, [targetRect, launchFirework, onComplete]);
 
   useEffect(() => {
     launchMultiple()
@@ -128,8 +139,8 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     if (!ctx) return
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      canvas.width = getWindow().innerWidth
+      canvas.height = getWindow().innerHeight
     }
     resizeCanvas()
 
@@ -138,7 +149,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
 
       setFireworks(prev => {
         const updated: Firework[] = []
-        
+
         for (let i = 0; i < prev.length; i++) {
           const fw = prev[i]
           fw.speed *= fw.acceleration
@@ -147,7 +158,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
           const vy = Math.sin(fw.angle) * fw.speed
 
           const distToTarget = Math.hypot(fw.targetX - fw.x, fw.targetY - fw.y)
-          
+
           if (distToTarget < 8) {
             createExplosion(fw.targetX, fw.targetY, fw.hue)
           } else {
@@ -156,7 +167,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
             updated.push(fw)
           }
         }
-        
+
         return updated
       })
 
@@ -192,13 +203,13 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     animationRef.current = requestAnimationFrame(animate)
 
     const handleResize = () => resizeCanvas()
-    window.addEventListener('resize', handleResize)
+    getWindow().addEventListener('resize', handleResize, { passive: true })
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
-      window.removeEventListener('resize', handleResize)
+      getWindow().removeEventListener('resize', handleResize)
     }
   }, [fireworks, particles, createExplosion])
 

@@ -8,7 +8,8 @@ module.exports = [
   "settingsModal.css",
   "modal.css",
   "inlineComment.css",
-  "customToolbarItems.css",
+  "customsToolbarItems.css",
   "taskProgress.css",
-  "customSelect.css"
+  "customSelect.css",
+  "heatmap.css"
 ]
