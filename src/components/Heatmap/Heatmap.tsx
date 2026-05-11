@@ -323,7 +323,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     if (date) {
       try {
         const pageName = formatDateForPage(date, settings?.dateFormat);
-        logger.debug('📐 Heatmap: Formatted page name', { pageName });
+        logger.debug('📐 Heatmap: Navigating to page', { pageName }, "dateformat", settings?.dateFormat);
         ensurePageAndNavigate(pageName);
       } catch (err) {
         console.error('Failed to navigate to date:', err);
