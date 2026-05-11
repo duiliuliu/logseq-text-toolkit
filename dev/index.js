@@ -3662,7 +3662,7 @@
         return;
       }
       const centerX = targetRect.left + targetRect.width / 2;
-      const topY = targetRect.top;
+      const topY = targetRect.top - 120;
       loggerProxy.debug("🎆 Fireworks: calculated positions", { centerX, topY, width: targetRect.width, height: targetRect.height });
       const count = 4;
       for (let i = 0; i < count; i++) {
@@ -3686,8 +3686,8 @@
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       const resizeCanvas = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = getWindow().innerWidth;
+        canvas.height = getWindow().innerHeight;
       };
       resizeCanvas();
       const animate = () => {
@@ -3735,12 +3735,12 @@
       };
       animationRef.current = requestAnimationFrame(animate);
       const handleResize = () => resizeCanvas();
-      window.addEventListener("resize", handleResize, { passive: true });
+      getWindow().addEventListener("resize", handleResize, { passive: true });
       return () => {
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
         }
-        window.removeEventListener("resize", handleResize);
+        getWindow().removeEventListener("resize", handleResize);
       };
     }, [fireworks, particles, createExplosion]);
     if (!targetRect) return null;
@@ -4400,49 +4400,41 @@ ${nestingClauses}`;
     return "█".repeat(filled) + "░".repeat(empty);
   }
 
-  const Tooltip = ({ data, position, theme = "light" }) => {
+  const Tooltip = ({ data, cellRect, theme = "light" }) => {
     const isDark = theme === "dark";
     const progressBar = generateProgressBar(data.percentage);
-    const cellCenterX = position.x + position.width / 2;
-    const cellTop = position.y;
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        className: "heatmap-tooltip",
-        style: {
-          position: "fixed",
-          left: cellCenterX,
-          top: cellTop - 8,
-          transform: "translate(-50%, -100%)",
-          background: isDark ? "rgba(23, 31, 51, 0.95)" : "rgba(255, 255, 255, 0.95)",
-          border: `1px solid ${isDark ? "#c0c1ff" : "#3730a3"}`,
-          borderRadius: "8px",
-          padding: "8px 12px",
-          boxShadow: isDark ? "0 4px 12px rgba(0, 0, 0, 0.4)" : "0 4px 12px rgba(0, 0, 0, 0.2)",
-          zIndex: 1e3,
-          opacity: 1,
-          transition: "opacity 0.15s ease-in",
-          pointerEvents: "none",
-          whiteSpace: "nowrap"
-        },
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { color: isDark ? "#c0c1ff" : "#3730a3", fontSize: "12px", fontWeight: 500, marginBottom: "4px" }, children: data.date }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: isDark ? "#dae2fd" : "#374151", fontSize: "12px", marginBottom: "2px" }, children: [
-            "Activity: ",
-            data.count,
-            " blocks"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: isDark ? "#c7c4d7" : "#6b7280" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Level:" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontFamily: "monospace" }, children: progressBar }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-              data.percentage,
-              "%"
-            ] })
-          ] })
-        ]
-      }
-    );
+    const style = {
+      position: "fixed",
+      left: cellRect.left,
+      top: cellRect.top - 120,
+      transform: "translateY(calc(-100% - 8px))",
+      background: isDark ? "rgba(23, 31, 51, 0.95)" : "rgba(255, 255, 255, 0.95)",
+      border: `1px solid ${isDark ? "#c0c1ff" : "#3730a3"}`,
+      borderRadius: "8px",
+      padding: "8px 12px",
+      boxShadow: isDark ? "0 4px 12px rgba(0, 0, 0, 0.4)" : "0 4px 12px rgba(0, 0, 0, 0.2)",
+      zIndex: 1e3,
+      opacity: 1,
+      transition: "opacity 0.15s ease-in",
+      pointerEvents: "none",
+      whiteSpace: "nowrap"
+    };
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { color: isDark ? "#c0c1ff" : "#3730a3", fontSize: "12px", fontWeight: 500, marginBottom: "4px" }, children: data.date }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: isDark ? "#dae2fd" : "#374151", fontSize: "12px", marginBottom: "2px" }, children: [
+        "Activity: ",
+        data.count,
+        " blocks"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", color: isDark ? "#c7c4d7" : "#6b7280" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Level:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontFamily: "monospace" }, children: progressBar }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+          data.percentage,
+          "%"
+        ] })
+      ] })
+    ] });
   };
   const HeatmapCell = ({
     date,
@@ -4459,22 +4451,16 @@ ${nestingClauses}`;
     blocks = []
   }) => {
     const [isHovered, setIsHovered] = reactExports.useState(false);
-    const [tooltipPosition, setTooltipPosition] = reactExports.useState(null);
+    const [cellRect, setCellRect] = reactExports.useState(null);
     const percentage = maxValue > 0 ? Math.round(value / maxValue * 100) : 0;
     const handleMouseEnter = (e) => {
-      setIsHovered(true);
       const rect = e.currentTarget.getBoundingClientRect();
-      setTooltipPosition({
-        x: rect.left,
-        y: rect.top,
-        width: rect.width,
-        height: rect.height
-      });
-      loggerProxy.debug("HeatmapCell hovered position", { x: rect.left, y: rect.top, width: rect.width, height: rect.height }, "cell date", date, "blocks", blocks.length);
+      setCellRect(rect);
+      setIsHovered(true);
     };
     const handleMouseLeave = () => {
       setIsHovered(false);
-      setTooltipPosition(null);
+      setCellRect(null);
     };
     const handleClick = () => {
       if (onClick) {
@@ -4515,11 +4501,11 @@ ${nestingClauses}`;
           }, children: dayNumber })
         }
       ),
-      isHovered && tooltipPosition && !isEmpty && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      isHovered && cellRect && !isEmpty && /* @__PURE__ */ jsxRuntimeExports.jsx(
         Tooltip,
         {
           data: { date, count: value, percentage, maxValue },
-          position: tooltipPosition,
+          cellRect,
           theme
         }
       )
@@ -4906,13 +4892,47 @@ ${nestingClauses}`;
   const Statistics = ({ data, theme = "light" }) => {
     const [tooltips, setTooltips] = reactExports.useState([]);
     const [isOpen, setIsOpen] = reactExports.useState(false);
-    const [anchorPosition, setAnchorPosition] = reactExports.useState({ x: 0, y: 0 });
-    const closeTimeoutRef = reactExports.useRef(null);
-    const triggerRef = reactExports.useRef(null);
+    const [triggerRect, setTriggerRect] = reactExports.useState(null);
+    const [activeTooltipId, setActiveTooltipId] = reactExports.useState(null);
     const isDark = theme === "dark";
-    const fetchBlockDetails = reactExports.useCallback(async (blocks) => {
+    const handleStatClick = async (action, event) => {
+      loggerProxy.debug("Statistics stat clicked", { action });
+      event.stopPropagation();
+      setTooltips([]);
+      const rect = event.currentTarget.getBoundingClientRect();
+      setTriggerRect(rect);
+      let blocks = [];
+      if (action === "total") {
+        const allBlocks = [];
+        Object.values(data.blocksByDate || {}).forEach((dayBlocks) => {
+          allBlocks.push(...dayBlocks);
+        });
+        blocks = allBlocks.slice(0, 8);
+      } else if (action === "active") {
+        const activeDays = Object.entries(data.blocksByDate || {});
+        const lastDayBlocks = activeDays.length > 0 ? activeDays[activeDays.length - 1][1] : [];
+        blocks = lastDayBlocks.slice(0, 8);
+      } else if (action === "max") {
+        let maxDate = "";
+        let maxCount = 0;
+        Object.entries(data.blocksByDate || {}).forEach(([d, dayBlocks]) => {
+          if (dayBlocks.length > maxCount) {
+            maxCount = dayBlocks.length;
+            maxDate = d;
+          }
+        });
+        blocks = (data.blocksByDate?.[maxDate] || []).slice(0, 8);
+      } else if (action === "avg") {
+        const days = Object.entries(data.blocksByDate || {});
+        if (days.length > 0) {
+          const randomDay = days[Math.floor(Math.random() * days.length)];
+          blocks = randomDay[1].slice(0, 8);
+        }
+      } else if (data.blocksByDate?.[action]) {
+        blocks = data.blocksByDate[action].slice(0, 8);
+      }
       const items = [];
-      for (const block of blocks.slice(0, 8)) {
+      for (const block of blocks) {
         try {
           let pageTitle = "Untitled";
           if (block["block/page"]) {
@@ -4933,91 +4953,27 @@ ${nestingClauses}`;
           loggerProxy.error("[Statistics] Failed to process block:", err);
         }
       }
-      return items;
-    }, []);
-    const handleStatClick = async (date, event) => {
-      event.stopPropagation();
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-        closeTimeoutRef.current = null;
-      }
-      triggerRef.current = event.currentTarget;
-      const rect = event.currentTarget.getBoundingClientRect();
-      setAnchorPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top
-      });
-      let blocks = [];
-      if (date === "total") {
-        const allBlocks = [];
-        Object.values(data.blocksByDate || {}).forEach((dayBlocks) => {
-          allBlocks.push(...dayBlocks);
-        });
-        blocks = allBlocks.slice(0, 8);
-      } else if (date === "active") {
-        const activeDays = Object.entries(data.blocksByDate || {});
-        const lastDayBlocks = activeDays.length > 0 ? activeDays[activeDays.length - 1][1] : [];
-        blocks = lastDayBlocks.slice(0, 8);
-      } else if (date === "max") {
-        let maxDate = "";
-        let maxCount = 0;
-        Object.entries(data.blocksByDate || {}).forEach(([d, dayBlocks]) => {
-          if (dayBlocks.length > maxCount) {
-            maxCount = dayBlocks.length;
-            maxDate = d;
-          }
-        });
-        blocks = (data.blocksByDate?.[maxDate] || []).slice(0, 8);
-      } else if (date === "avg") {
-        const days = Object.entries(data.blocksByDate || {});
-        if (days.length > 0) {
-          const randomDay = days[Math.floor(Math.random() * days.length)];
-          blocks = randomDay[1].slice(0, 8);
-        }
-      } else if (data.blocksByDate?.[date]) {
-        blocks = data.blocksByDate[date].slice(0, 8);
-      }
-      const tooltipItems = await fetchBlockDetails(blocks);
-      setTooltips(tooltipItems);
+      setTooltips(items);
+      setActiveTooltipId(action);
       setIsOpen(true);
     };
     const handleClose = reactExports.useCallback(() => {
-      closeTimeoutRef.current = setTimeout(() => {
-        setIsOpen(false);
-        setTooltips([]);
-        triggerRef.current = null;
-      }, 150);
+      setIsOpen(false);
+      setTooltips([]);
+      setActiveTooltipId(null);
+      setTriggerRect(null);
     }, []);
     const handleBlockClick = async (block) => {
+      loggerProxy.debug("Statistics block clicked", { blockId: block.uuid });
       if (block && block.uuid) {
         try {
           const uuid = typeof block.uuid === "object" && block.uuid["$uuid$"] ? block.uuid["$uuid$"] : block.uuid;
-          await logseqAPI$1.App.pushState("page", { id: uuid });
-          setIsOpen(false);
-          setTooltips([]);
-          triggerRef.current = null;
+          await logseqAPI$1.App.pushState("page", { id: block["block/page"] }, { id: uuid });
+          handleClose();
         } catch (err) {
           loggerProxy.error("[Statistics] Failed to navigate to block:", err);
         }
       }
-    };
-    const getTooltipPosition = () => {
-      if (typeof window === "undefined" || !triggerRef.current) {
-        return { left: anchorPosition.x, top: anchorPosition.y + 10 };
-      }
-      const triggerRect = triggerRef.current.getBoundingClientRect();
-      const tooltipWidth = 220;
-      const tooltipHeight = 60 + tooltips.length * 40;
-      let left = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2 + 100;
-      let top = triggerRect.top - tooltipHeight - 8;
-      if (left < 10) left = 10;
-      if (left + tooltipWidth > window.innerWidth - 10) {
-        left = window.innerWidth - tooltipWidth - 10;
-      }
-      if (top < 10) {
-        top = triggerRect.bottom + 8;
-      }
-      return { left, top };
     };
     const getCardTransform = (index, total) => {
       const maxOffset = total * 6;
@@ -5076,12 +5032,25 @@ ${nestingClauses}`;
         ...baseStyle
       };
     };
+    const getTooltipStyle = () => {
+      if (!triggerRect) {
+        return { display: "none" };
+      }
+      return {
+        position: "fixed",
+        left: triggerRect.left,
+        top: triggerRect.top - 120,
+        transform: "translateY(calc(-100% - 8px))",
+        zIndex: 999,
+        pointerEvents: "auto"
+      };
+    };
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "heatmap-statistics", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
-            className: "stat-item",
+            className: `stat-item ${activeTooltipId === "total" && isOpen ? "active" : ""}`,
             onClick: (e) => handleStatClick("total", e),
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "stat-value", children: data.totalBlocks }),
@@ -5092,7 +5061,7 @@ ${nestingClauses}`;
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
-            className: "stat-item",
+            className: `stat-item ${activeTooltipId === "active" && isOpen ? "active" : ""}`,
             onClick: (e) => handleStatClick("active", e),
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "stat-value", children: data.activeDays }),
@@ -5103,7 +5072,7 @@ ${nestingClauses}`;
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
-            className: "stat-item",
+            className: `stat-item ${activeTooltipId === "max" && isOpen ? "active" : ""}`,
             onClick: (e) => handleStatClick("max", e),
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "stat-value", children: data.maxCount }),
@@ -5114,7 +5083,7 @@ ${nestingClauses}`;
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
-            className: "stat-item",
+            className: `stat-item ${activeTooltipId === "avg" && isOpen ? "active" : ""}`,
             onClick: (e) => handleStatClick("avg", e),
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "stat-value", children: data.avgCount }),
@@ -5138,74 +5107,57 @@ ${nestingClauses}`;
             onClick: handleClose
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getTooltipStyle(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
             style: {
-              position: "fixed",
-              left: getTooltipPosition().left,
-              top: getTooltipPosition().top,
-              zIndex: 999,
-              pointerEvents: "auto"
+              display: "flex",
+              flexDirection: "column",
+              gap: 0,
+              padding: "6px"
             },
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            children: tooltips.map((tooltip, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "div",
               {
-                style: {
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 0,
-                  padding: "6px"
+                onClick: () => handleBlockClick(tooltip.block),
+                onMouseEnter: (e) => {
+                  const el = e.currentTarget;
+                  el.style.transform = getHoverStyle().transform;
+                  el.style.zIndex = String(getHoverStyle().zIndex);
+                  el.style.background = getHoverStyle().background;
+                  el.style.border = getHoverStyle().border;
+                  el.style.boxShadow = getHoverStyle().boxShadow;
                 },
-                children: tooltips.map((tooltip, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "div",
-                  {
-                    onClick: () => handleBlockClick(tooltip.block),
-                    onMouseEnter: (e) => {
-                      if (closeTimeoutRef.current) {
-                        clearTimeout(closeTimeoutRef.current);
-                        closeTimeoutRef.current = null;
-                      }
-                      const el = e.currentTarget;
-                      el.style.transform = getHoverStyle().transform;
-                      el.style.zIndex = String(getHoverStyle().zIndex);
-                      el.style.background = getHoverStyle().background;
-                      el.style.border = getHoverStyle().border;
-                      el.style.boxShadow = getHoverStyle().boxShadow;
-                    },
-                    onMouseLeave: (e) => {
-                      const el = e.currentTarget;
-                      const transforms = getCardTransform(index, tooltips.length);
-                      el.style.transform = transforms.transform;
-                      el.style.zIndex = String(transforms.zIndex);
-                      el.style.background = isDark ? "rgba(30, 35, 50, 0.95)" : "rgba(255, 255, 255, 0.98)";
-                      el.style.border = isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)";
-                      el.style.boxShadow = isDark ? `0 ${4 + index * 2}px ${12 + index * 3}px rgba(0, 0, 0, ${0.25 + index * 0.03})` : `0 ${3 + index * 2}px ${10 + index * 3}px rgba(0, 0, 0, ${0.08 + index * 0.01})`;
-                      handleClose();
-                    },
-                    style: {
-                      ...getCardStyle(index, tooltips.length)
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-                        fontSize: "11px",
-                        lineHeight: "1.3",
-                        wordBreak: "break-word",
-                        color: isDark ? "#e5e7eb" : "#1f2937",
-                        marginBottom: "2px"
-                      }, children: tooltip.content }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-                        fontSize: "9px",
-                        color: isDark ? "#9ca3af" : "#6b7280"
-                      }, children: tooltip.pageTitle })
-                    ]
-                  },
-                  tooltip.id
-                ))
-              }
-            )
+                onMouseLeave: (e) => {
+                  const el = e.currentTarget;
+                  const transforms = getCardTransform(index, tooltips.length);
+                  el.style.transform = transforms.transform;
+                  el.style.zIndex = String(transforms.zIndex);
+                  el.style.background = isDark ? "rgba(30, 35, 50, 0.95)" : "rgba(255, 255, 255, 0.98)";
+                  el.style.border = isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)";
+                  el.style.boxShadow = isDark ? `0 ${4 + index * 2}px ${12 + index * 3}px rgba(0, 0, 0, ${0.25 + index * 0.03})` : `0 ${3 + index * 2}px ${10 + index * 3}px rgba(0, 0, 0, ${0.08 + index * 0.01})`;
+                },
+                style: {
+                  ...getCardStyle(index, tooltips.length)
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+                    fontSize: "11px",
+                    lineHeight: "1.3",
+                    wordBreak: "break-word",
+                    color: isDark ? "#e5e7eb" : "#1f2937",
+                    marginBottom: "2px"
+                  }, children: tooltip.content }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+                    fontSize: "9px",
+                    color: isDark ? "#9ca3af" : "#6b7280"
+                  }, children: tooltip.pageTitle })
+                ]
+              },
+              tooltip.id
+            ))
           }
-        )
+        ) })
       ] })
     ] });
   };
@@ -5513,18 +5465,17 @@ ${nestingClauses}`;
             const currentBlock = await logseqAPI$1.Editor.getBlock(onBlockId);
             if (currentBlock) {
               const content = currentBlock.content || "";
-              const widthRegex = /width=["']?[\w%]+["']?/i;
-              let updatedContent;
-              if (widthRegex.test(content)) {
-                updatedContent = content.replace(widthRegex, `width="${finalWidth}"`);
-              } else {
-                updatedContent = content.replace(
-                  /(<\w+)(\s|>)/i,
-                  `$1 width="${finalWidth}"$2`
-                );
-              }
-              loggerProxy.debug("📐 Heatmap: Updating block content", { onBlockId, finalWidth, updatedContent });
+              const rendererRegex = /({{renderer\s+:heatmap.*?}})/gi;
+              const updatedContent = content.replace(rendererRegex, (rendererStr) => {
+                const hasWidth = /containerWidth=[\w%]+/i.test(rendererStr);
+                if (hasWidth) {
+                  return rendererStr.replace(/containerWidth=[\w%]+/i, `containerWidth=${finalWidth}`);
+                } else {
+                  return rendererStr.replace(/\s*}}$/, `, containerWidth=${finalWidth}}}`);
+                }
+              });
               await logseqAPI$1.Editor.updateBlock(onBlockId, updatedContent);
+              loggerProxy.debug("📐 Heatmap: Width updated to block", { onBlockId, finalWidth, updatedContent });
             }
           } catch (err) {
             loggerProxy.error("Failed to update block:", err);
