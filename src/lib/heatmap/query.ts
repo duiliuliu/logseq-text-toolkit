@@ -13,6 +13,7 @@ const formatDate = (d: Date) => d.toISOString().split('T')[0];
 
 const buildWhereClause = (params: HeatmapQueryParams): string => {
   const value = params.value || '';
+  const key = params.propertyKey || '';
 
   if (params.type === 'tag') {
     return `
@@ -26,9 +27,23 @@ const buildWhereClause = (params: HeatmapQueryParams): string => {
 [?b :block/page ?p]`;
   }
 
-  return `
-[?b :logseq.property/status ?s]
-[?s :block/title "${value}"]`;
+  if (params.type === 'property') {
+    if (!key) {
+      return `
+[?b :block/properties ?props]
+[(some? ?props)]`;
+    }
+    if (value) {
+      return `
+[?b :logseq.property/${key} ?val]
+[?val :block/title "${value}"]`;
+    }
+    return `
+[?b :logseq.property/${key} ?val]
+[(some? ?val)]`;
+  }
+
+  return '';
 };
 
 const buildQuery = (params: HeatmapQueryParams, startMs: number, endMs: number) => {
@@ -87,7 +102,7 @@ export async function fetchHeatmapData(
   view: HeatmapViewType,
   formula: ColorFormula
 ): Promise<HeatmapDataPoint[]> {
-  if (!params.value?.trim()) return [];
+  if (!params.value?.trim() && !params.propertyKey?.trim()) return [];
 
   const ref = new Date(params.year || 0, (params.month || 1) - 1, 1);
   let start: Date, end: Date;
@@ -157,6 +172,6 @@ export async function queryByPage(page: string, view: HeatmapViewType, formula: 
   return fetchHeatmapData({ type: 'page', value: page, year, month }, view, formula);
 }
 
-export async function queryByStatus(status: string, view: HeatmapViewType, formula: ColorFormula, year?: number, month?: number): Promise<HeatmapDataPoint[]> {
-  return fetchHeatmapData({ type: 'status', value: status, year, month }, view, formula);
+export async function queryByProperty(propertyKey: string, propertyValue: string, view: HeatmapViewType, formula: ColorFormula, year?: number, month?: number): Promise<HeatmapDataPoint[]> {
+  return fetchHeatmapData({ type: 'property', propertyKey, value: propertyValue, year, month }, view, formula);
 }
