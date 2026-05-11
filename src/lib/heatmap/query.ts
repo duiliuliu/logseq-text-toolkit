@@ -104,7 +104,13 @@ export async function fetchHeatmapData(
 ): Promise<HeatmapDataPoint[]> {
   if (!params.value?.trim() && !params.propertyKey?.trim()) return [];
 
-  const ref = new Date(params.year || 0, (params.month || 1) - 1, 1);
+  const now = new Date();
+  const year = params.year ?? now.getFullYear();
+  const month = params.month ?? now.getMonth() + 1;
+  const ref = new Date(year, month - 1, 1);
+
+  logger.debug('[Heatmap] fetchHeatmapData', { params, view, year, month, ref: ref.toISOString() });
+
   let start: Date, end: Date;
 
   if (view === 'week') {
@@ -112,11 +118,11 @@ export async function fetchHeatmapData(
     start = bounds.start;
     end = bounds.end;
   } else if (view === 'month') {
-    start = new Date(ref.getFullYear(), ref.getMonth(), 1);
-    end = new Date(ref.getFullYear(), ref.getMonth() + 1, 1);
+    start = new Date(year, month - 1, 1);
+    end = new Date(year, month, 1);
   } else {
-    start = new Date(ref.getFullYear(), 0, 1);
-    end = new Date(ref.getFullYear() + 1, 0, 1);
+    start = new Date(year, 0, 1);
+    end = new Date(year + 1, 0, 1);
   }
 
   const startMs = start.getTime();
