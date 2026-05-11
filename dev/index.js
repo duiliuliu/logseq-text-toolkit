@@ -5783,6 +5783,7 @@ ${nestingClauses}`;
   const formatDate = (d) => d.toISOString().split("T")[0];
   const buildWhereClause$1 = (params) => {
     const value = params.value || "";
+    const key = params.propertyKey || "";
     if (params.type === "tag") {
       return `
 [?b :block/tags ?t]
@@ -5793,9 +5794,22 @@ ${nestingClauses}`;
 [?p :block/name "${value}"]
 [?b :block/page ?p]`;
     }
-    return `
-[?b :logseq.property/status ?s]
-[?s :block/title "${value}"]`;
+    if (params.type === "property") {
+      if (!key) {
+        return `
+[?b :block/properties ?props]
+[(some? ?props)]`;
+      }
+      if (value) {
+        return `
+[?b :logseq.property/${key} ?val]
+[?val :block/title "${value}"]`;
+      }
+      return `
+[?b :logseq.property/${key} ?val]
+[(some? ?val)]`;
+    }
+    return "";
   };
   const buildQuery$1 = (params, startMs, endMs) => {
     const where = buildWhereClause$1(params);
@@ -5843,7 +5857,7 @@ ${where}
   };
   const calcCount = (blocks, formula) => formula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks);
   async function fetchHeatmapData(params, view, formula) {
-    if (!params.value?.trim()) return [];
+    if (!params.value?.trim() && !params.propertyKey?.trim()) return [];
     const ref = new Date(params.year || 0, (params.month || 1) - 1, 1);
     let start, end;
     if (view === "week") {
