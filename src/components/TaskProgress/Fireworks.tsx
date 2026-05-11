@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * 烟花粒子效果组件 - 定位在目标元素正上方，不影响其他区域
  */
 
@@ -148,7 +148,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
 
       setFireworks(prev => {
         const updated: Firework[] = []
-        
+
         for (let i = 0; i < prev.length; i++) {
           const fw = prev[i]
           fw.speed *= fw.acceleration
@@ -157,7 +157,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
           const vy = Math.sin(fw.angle) * fw.speed
 
           const distToTarget = Math.hypot(fw.targetX - fw.x, fw.targetY - fw.y)
-          
+
           if (distToTarget < 8) {
             createExplosion(fw.targetX, fw.targetY, fw.hue)
           } else {
@@ -166,7 +166,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
             updated.push(fw)
           }
         }
-        
+
         return updated
       })
 
@@ -202,7 +202,7 @@ const Fireworks: React.FC<FireworksProps> = ({ targetRect, onComplete }) => {
     animationRef.current = requestAnimationFrame(animate)
 
     const handleResize = () => resizeCanvas()
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize, { passive: true })
 
     return () => {
       if (animationRef.current) {
