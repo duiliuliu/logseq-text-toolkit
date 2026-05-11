@@ -23,6 +23,8 @@ interface TooltipProps {
   position: {
     x: number;
     y: number;
+    width: number;
+    height: number;
   };
   theme?: 'light' | 'dark';
 }
@@ -31,13 +33,17 @@ const Tooltip: React.FC<TooltipProps> = ({ data, position, theme = 'light' }) =>
   const isDark = theme === 'dark';
   const progressBar = generateProgressBar(data.percentage);
   
+  const cellCenterX = position.x + position.width / 2;
+  const cellTop = position.y;
+  
   return (
     <div
       className="heatmap-tooltip"
       style={{
         position: 'fixed',
-        left: position.x + 12,
-        top: position.y - 60,
+        left: cellCenterX,
+        top: cellTop - 8,
+        transform: 'translate(-50%, -100%)',
         background: isDark ? 'rgba(23, 31, 51, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         border: `1px solid ${isDark ? '#c0c1ff' : '#3730a3'}`,
         borderRadius: '8px',
@@ -47,6 +53,7 @@ const Tooltip: React.FC<TooltipProps> = ({ data, position, theme = 'light' }) =>
         opacity: 1,
         transition: 'opacity 0.15s ease-in',
         pointerEvents: 'none',
+        whiteSpace: 'nowrap',
       }}
     >
       <div style={{ color: isDark ? '#c0c1ff' : '#3730a3', fontSize: '12px', fontWeight: 500, marginBottom: '4px' }}>
@@ -82,6 +89,8 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   const [tooltipPosition, setTooltipPosition] = useState<{
     x: number;
     y: number;
+    width: number;
+    height: number;
   } | null>(null);
 
   const percentage = maxValue > 0 ? Math.round((value / maxValue) * 100) : 0;
@@ -92,8 +101,10 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
     setTooltipPosition({
       x: rect.left,
       y: rect.top,
+      width: rect.width,
+      height: rect.height,
     });
-    logger.debug('HeatmapCell hovered position', { x: rect.left, y: rect.top }, "cell date", date, "blocks", blocks.length);
+    logger.debug('HeatmapCell hovered position', { x: rect.left, y: rect.top, width: rect.width, height: rect.height }, "cell date", date, "blocks", blocks.length);
   };
 
   const handleMouseLeave = () => {
