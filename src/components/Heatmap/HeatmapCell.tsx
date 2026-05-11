@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HeatmapTooltipData } from '../../lib/heatmap/types';
 import { generateProgressBar } from '../../lib/heatmap/colorCalculator';
+import './HeatmapCell.css';
 
 interface HeatmapCellProps {
   date: string;
@@ -22,42 +23,79 @@ interface TooltipProps {
   position: {
     x: number;
     y: number;
+    cellHeight: number;
   };
   theme?: 'light' | 'dark';
 }
 
 const Tooltip: React.FC<TooltipProps> = ({ data, position, theme = 'light' }) => {
   const isDark = theme === 'dark';
-  const progressBar = generateProgressBar(data.percentage);
-  
+
+  const tooltipStyle: React.CSSProperties = {
+    position: 'fixed',
+    left: position.x,
+    top: position.y,
+    transform: 'translateY(-100%) translateY(-8px)',
+    background: isDark ? '#1e1e1e' : '#ffffff',
+    border: `1px solid ${isDark ? '#333' : '#e5e7eb'}`,
+    borderRadius: '8px',
+    padding: '8px 12px',
+    boxShadow: isDark
+      ? '0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)'
+      : '0 4px 12px rgba(0, 0, 0, 0.15)',
+    zIndex: 9999,
+    pointerEvents: 'none',
+    minWidth: '120px',
+    animation: 'tooltipFadeIn 0.15s ease-out',
+  };
+
   return (
-    <div
-      className="heatmap-tooltip"
-      style={{
-        position: 'fixed',
-        left: position.x + 12,
-        top: position.y - 60,
-        background: isDark ? 'rgba(23, 31, 51, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-        border: `1px solid ${isDark ? '#c0c1ff' : '#3730a3'}`,
-        borderRadius: '8px',
-        padding: '8px 12px',
-        boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.2)',
-        zIndex: 1000,
-        opacity: 1,
-        transition: 'opacity 0.15s ease-in',
-        pointerEvents: 'none',
-      }}
-    >
-      <div style={{ color: isDark ? '#c0c1ff' : '#3730a3', fontSize: '12px', fontWeight: 500, marginBottom: '4px' }}>
+    <div className="heatmap-tooltip" style={tooltipStyle}>
+      <div style={{
+        color: isDark ? '#f4f4f5' : '#18181b',
+        fontSize: '13px',
+        fontWeight: 600,
+        marginBottom: '4px',
+        letterSpacing: '-0.01em',
+      }}>
         {data.date}
       </div>
-      <div style={{ color: isDark ? '#dae2fd' : '#374151', fontSize: '12px', marginBottom: '2px' }}>
-        Activity: {data.count} blocks
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '12px',
+      }}>
+        <span style={{
+          color: isDark ? '#a1a1aa' : '#71717a',
+          fontSize: '12px',
+        }}>
+          {data.count} {data.count === 1 ? 'block' : 'blocks'}
+        </span>
+        <span style={{
+          color: isDark ? '#d4d4d8' : '#27272a',
+          fontSize: '12px',
+          fontWeight: 500,
+        }}>
+          {data.percentage}%
+        </span>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: isDark ? '#c7c4d7' : '#6b7280' }}>
-        <span>Level:</span>
-        <span style={{ fontFamily: 'monospace' }}>{progressBar}</span>
-        <span>{data.percentage}%</span>
+      <div style={{
+        marginTop: '6px',
+        height: '4px',
+        background: isDark ? '#27272a' : '#f4f4f5',
+        borderRadius: '2px',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          width: `${data.percentage}%`,
+          height: '100%',
+          background: data.percentage > 0
+            ? (data.percentage > 50 ? '#22c55e' : '#3b82f6')
+            : 'transparent',
+          borderRadius: '2px',
+          transition: 'width 0.3s ease',
+        }} />
       </div>
     </div>
   );
@@ -81,6 +119,7 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   const [tooltipPosition, setTooltipPosition] = useState<{
     x: number;
     y: number;
+    cellHeight: number;
   } | null>(null);
 
   const percentage = maxValue > 0 ? Math.round((value / maxValue) * 100) : 0;
@@ -91,6 +130,7 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
     setTooltipPosition({
       x: rect.left,
       y: rect.top,
+      cellHeight: rect.height,
     });
   };
 
