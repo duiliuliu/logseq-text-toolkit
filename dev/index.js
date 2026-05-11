@@ -5498,27 +5498,29 @@ ${nestingClauses}`;
         const newWidth = Math.max(200, startWidth.current + diff);
         setManualWidth(`${newWidth}px`);
       };
-      const handleResizeEnd = async () => {
+      const handleResizeEnd = async (finalWidth) => {
         if (!isResizing.current) return;
         isResizing.current = false;
-        if (onBlockId && manualWidth) {
+        if (onBlockId && finalWidth) {
           try {
             const currentBlock = await logseqAPI$1.Editor.getBlock(onBlockId);
             if (currentBlock) {
               const content = currentBlock.content;
-              const updatedContent = content.replace(/width=[\w%]+/, `width=${manualWidth}`);
+              const widthPattern = /width=[\w%]+/;
+              const updatedContent = widthPattern.test(content) ? content.replace(widthPattern, `width=${finalWidth}`) : `${content} width=${finalWidth}`;
               await logseqAPI$1.Editor.updateBlock(onBlockId, updatedContent);
+              loggerProxy.debug("📐 Heatmap: Width updated to block", { onBlockId, finalWidth, updatedContent });
             }
           } catch (err) {
-            console.error("Failed to update block:", err);
+            loggerProxy.error("📐 Heatmap: Failed to update width", err);
           }
         }
         document.removeEventListener("mousemove", handleResizeMove);
         document.removeEventListener("mouseup", handleResizeEnd);
       };
       document.addEventListener("mousemove", handleResizeMove);
-      document.addEventListener("mouseup", handleResizeEnd);
-    }, [manualWidth, onBlockId]);
+      document.addEventListener("mouseup", () => handleResizeEnd(manualWidth || `${containerRef.current?.clientWidth || 0}px`));
+    }, [onBlockId]);
     reactExports.useEffect(() => {
       setViewType(config.viewType);
     }, [config.viewType]);
