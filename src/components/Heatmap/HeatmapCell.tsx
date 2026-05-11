@@ -80,7 +80,7 @@ const HeatmapCell: React.FC<HeatmapCellProps> = ({
   return (
     <div className={`heatmap-cell-wrapper ${isEmpty ? 'empty' : ''}`}>
       <div
-        className={`heatmap-cell size-${size} ${isHovered ? 'hovered' : ''} ${!isCurrentMonth ? 'other-month' : ''}`}
+        className={`heatmap-cell size-${size} ${!isCurrentMonth ? 'other-month' : ''}`}
         style={{
           backgroundColor: getBackgroundColor(),
           border: getBorderStyle(),
