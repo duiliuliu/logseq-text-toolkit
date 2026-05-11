@@ -854,6 +854,7 @@
   const theme = "light";
   const language = "zh-CN";
   const toolbar$3 = true;
+  const dateFormat = "yyyy-MM-dd EEE";
   const useSystemTheme = false;
   const useSystemLanguage = false;
   const showBorder = false;
@@ -1163,6 +1164,7 @@
   	theme: theme,
   	language: language,
   	toolbar: toolbar$3,
+  	dateFormat: dateFormat,
   	useSystemTheme: useSystemTheme,
   	useSystemLanguage: useSystemLanguage,
   	showBorder: showBorder,
@@ -2046,6 +2048,9 @@
       }
       if (settings.useSystemLanguage && userConfigs.preferredLanguage) {
         settings.language = userConfigs.preferredLanguage;
+      }
+      if (userConfigs.preferredDateFormat) {
+        settings.dateFormat = userConfigs.preferredDateFormat;
       }
     }
     if (settings.ToolbarItems) {
@@ -4355,6 +4360,10 @@ ${nestingClauses}`;
     const b = Math.round(b1 + (b2 - b1) * ratio);
     return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   }
+  function calculateColorValueSimple(blocks) {
+    if (!blocks || blocks.length === 0) return 0;
+    return blocks.length;
+  }
   function calculateColorValueWeighted(blocks) {
     if (!blocks || blocks.length === 0) return 0;
     const blockCount = blocks.length;
@@ -5269,6 +5278,53 @@ ${nestingClauses}`;
   dayjs.extend(relativeTime);
   dayjs.extend(weekOfYear);
   dayjs.extend(isoWeek);
+  const LOGSEQ_DATE_FORMAT_MAP = {
+    "E, MM/dd/yyyy": "d, MM/DD/YYYY",
+    "E, dd-MM-yyyy": "d, DD-MM-YYYY",
+    "E, dd.MM.yyyy": "d, DD.MM.YYYY",
+    "E, yyyy/MM/dd": "d, YYYY/MM/DD",
+    "EEE, MM/dd/yyyy": "ddd, MM/DD/YYYY",
+    "EEE, dd-MM-yyyy": "ddd, DD-MM-YYYY",
+    "EEE, dd.MM.yyyy": "ddd, DD.MM.YYYY",
+    "EEE, yyyy/MM/dd": "ddd, YYYY/MM/DD",
+    "EEEE, MM/dd/yyyy": "dddd, MM/DD/YYYY",
+    "EEEE, dd-MM-yyyy": "dddd, DD-MM-YYYY",
+    "EEEE, dd.MM.yyyy": "dddd, DD.MM.YYYY",
+    "EEEE, yyyy/MM/dd": "dddd, YYYY/MM/DD",
+    "MM-dd-yyyy": "MM-DD-YYYY",
+    "MM/dd/yyyy": "MM/DD/YYYY",
+    "MMM do, yyyy": "MMM Do, YYYY",
+    "MMMM do, yyyy": "MMMM Do, YYYY",
+    "MM_dd_yyyy": "MM_DD_YYYY",
+    "dd-MM-yyyy": "DD-MM-YYYY",
+    "do MMM yyyy": "Do MMM YYYY",
+    "do MMMM yyyy": "Do MMMM YYYY",
+    "yyyy-MM-dd": "YYYY-MM-DD",
+    "yyyy-MM-dd EEE": "YYYY-MM-DD ddd",
+    "yyyy-MM-dd EEEE": "YYYY-MM-DD dddd",
+    "yyyy/MM/dd": "YYYY/MM/DD",
+    "yyyyMMdd": "YYYYMMDD",
+    "yyyy_MM_dd": "YYYY_MM_DD",
+    "yyyy年MM月dd日": "YYYY年MM月DD日"
+  };
+  function logseqFormatToDayjsFormat(logseqFormat) {
+    return LOGSEQ_DATE_FORMAT_MAP[logseqFormat] || "YYYY-MM-DD";
+  }
+  function formatDate(date, logseqFormat) {
+    const d = dayjs(date);
+    if (!d.isValid()) {
+      return "";
+    }
+    if (logseqFormat) {
+      const dayjsFormat = logseqFormatToDayjsFormat(logseqFormat);
+      loggerProxy.debug("📅 DateUtils: Formatting date with logseq format", { date, logseqFormat, dayjsFormat });
+      return d.format(dayjsFormat);
+    }
+    return d.format("YYYY-MM-DD ddd");
+  }
+  function formatDateForPage(date, logseqFormat) {
+    return formatDate(date, logseqFormat);
+  }
 
   async function checkPageExists(pageName) {
     try {
@@ -5282,13 +5338,15 @@ ${nestingClauses}`;
       return false;
     }
   }
-  async function createPage(pageName, properties) {
+  async function createPage(pageName, template) {
     try {
-      loggerProxy.info("📄 PageUtils: Creating page", { pageName, properties });
-      await logseqAPI$1.Editor.createPage(pageName, "", {
-        createFirstBlock: true,
-        properties
-      });
+      loggerProxy.info("📄 PageUtils: Creating page", { pageName, template });
+      const pageID = await logseqAPI$1.Editor.createPage(pageName, "", { createFirstBlock: true });
+      loggerProxy.debug("📄 PageUtils: Page created with ID", { pageName, pageID });
+      const block = pageID && await logseqAPI$1.Editor.insertBlock(pageID, "");
+      loggerProxy.debug("📄 PageUtils: First block created", { pageName, block });
+      block && await logseqAPI$1.App.insertTemplate(block.uuid, template || "");
+      loggerProxy.debug("📄 PageUtils: Template inserted", { pageName, template });
       loggerProxy.info(`[PageUtils] Created page: ${pageName}`);
       if (typeof window !== "undefined" && window.addToast) {
         window.addToast(`Created page: ${pageName}`, "success", 3e3);
@@ -5316,8 +5374,7 @@ ${nestingClauses}`;
     try {
       const exists = await checkPageExists(pageName);
       if (!exists) {
-        const properties = template ? { template } : void 0;
-        const created = await createPage(pageName, properties);
+        const created = await createPage(pageName, template);
         if (!created) {
           loggerProxy.error(`[PageUtils] Failed to create page: ${pageName}`);
           return false;
@@ -5332,6 +5389,7 @@ ${nestingClauses}`;
   }
 
   const Heatmap = ({ config, data, theme, onBlockId }) => {
+    const { settings } = useSettings();
     const containerClass = theme === "dark" ? `heatmap-container heatmap-${config.displayMode} dark` : `heatmap-container heatmap-${config.displayMode}`;
     const [viewType, setViewType] = reactExports.useState(config.viewType);
     const [currentDate, setCurrentDate] = reactExports.useState(config.referenceDate || /* @__PURE__ */ new Date());
@@ -5455,31 +5513,31 @@ ${nestingClauses}`;
     reactExports.useEffect(() => {
       const el = containerRef.current;
       if (!el) return;
+      const blockElementId = "ls-block-" + onBlockId;
       const ro = new ResizeObserver(() => {
-        const width = el.clientWidth;
-        const rect = el.getBoundingClientRect();
-        loggerProxy.debug("📐 Heatmap: ResizeObserver triggered", {
-          clientWidth: width,
-          offsetWidth: el.offsetWidth,
-          rectLeft: rect.left,
-          rectWidth: rect.width,
-          scrollLeft: window.scrollX
+        const blockEl2 = document.getElementById(blockElementId);
+        if (!blockEl2) return;
+        const containerWidth2 = el.getBoundingClientRect().width;
+        const blockWidth = blockEl2.getBoundingClientRect().width;
+        const safeWidth = Math.min(containerWidth2, blockWidth);
+        loggerProxy.debug("📐 安全宽度", {
+          containerWidth: containerWidth2,
+          blockWidth,
+          safeWidth
         });
-        setContainerWidth(width);
+        setContainerWidth(safeWidth);
       });
       ro.observe(el);
-      const initialWidth = el.clientWidth;
-      const initialRect = el.getBoundingClientRect();
-      loggerProxy.debug("📐 Heatmap: Initial measurement", {
-        clientWidth: initialWidth,
-        offsetWidth: el.offsetWidth,
-        rectLeft: initialRect.left,
-        rectWidth: initialRect.width,
-        scrollLeft: window.scrollX
-      });
+      const blockEl = document.getElementById(blockElementId);
+      if (blockEl) ro.observe(blockEl);
+      const initialBlockEl = document.getElementById(blockElementId);
+      const initialWidth = Math.min(
+        el.getBoundingClientRect().width,
+        initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
+      );
       setContainerWidth(initialWidth);
       return () => ro.disconnect();
-    }, []);
+    }, [onBlockId]);
     const dynamicStyle = reactExports.useMemo(() => {
       const el = containerRef.current;
       if (!el || !containerWidth) return void 0;
@@ -5542,9 +5600,9 @@ ${nestingClauses}`;
       loggerProxy.debug("📐 Heatmap: Cell clicked", { date });
       if (date) {
         try {
-          logseqAPI$1.App.pushState(`page`, {
-            date: date.replace(/-/g, "/")
-          });
+          const pageName = formatDateForPage(date, settings?.dateFormat);
+          loggerProxy.debug("📐 Heatmap: Formatted page name", { pageName });
+          ensurePageAndNavigate(pageName);
         } catch (err) {
           console.error("Failed to navigate to date:", err);
         }
@@ -5735,7 +5793,7 @@ ${nestingClauses}`;
       const blocks = generateMockBlocks(count, dateStr);
       data.push({
         date: dateStr,
-        count: colorFormula === "simple" ? blocks.length : calculateColorValueWeighted(blocks),
+        count: colorFormula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
         blocks
       });
     }
@@ -5756,7 +5814,7 @@ ${nestingClauses}`;
       const blocks = generateMockBlocks(count, dateStr);
       data.push({
         date: dateStr,
-        count: colorFormula === "simple" ? blocks.length : calculateColorValueWeighted(blocks),
+        count: colorFormula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
         blocks
       });
     }
@@ -5785,7 +5843,7 @@ ${nestingClauses}`;
         const blocks = generateMockBlocks(count, dateStr);
         data.push({
           date: dateStr,
-          count: colorFormula === "simple" ? blocks.length : calculateColorValueWeighted(blocks),
+          count: colorFormula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks),
           blocks
         });
       }
@@ -21438,9 +21496,9 @@ ${nestingClauses}`;
       }
       const resolvedTheme = settings?.theme === "dark" ? "dark" : "light";
       const heatmapConfig = {
-        viewType,
-        displayMode,
-        colorFormula,
+        viewType: viewType || settings?.heatmap?.defaultViewType || "year",
+        displayMode: displayMode || settings?.heatmap?.defaultDisplayMode || "full",
+        colorFormula: colorFormula || settings?.heatmap?.defaultColorFormula || "simple",
         colorScheme: {
           name: "indigo",
           colors: generateIndigoGradient(
