@@ -4699,7 +4699,13 @@ ${nestingClauses}`;
     weeks.forEach((week) => {
       const firstValidDay = week.find((day) => day.date);
       if (firstValidDay) {
-        const weekNum = getWeekNumber(new Date(firstValidDay.date));
+        const date = new Date(firstValidDay.date);
+        const dayOfWeek = date.getDay();
+        const monday = new Date(date);
+        if (dayOfWeek !== 1) {
+          monday.setDate(date.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+        }
+        const weekNum = getWeekNumber(monday);
         weekNumbers.push(`W${String(weekNum).padStart(2, "0")}`);
       } else {
         weekNumbers.push("");
