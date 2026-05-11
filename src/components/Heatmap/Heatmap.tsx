@@ -140,20 +140,24 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       setManualWidth(`${newWidth}px`);
     };
 
-    const handleResizeEnd = async () => {
+    const handleResizeEnd = async (finalWidth: string) => {
       if (!isResizing.current) return;
       isResizing.current = false;
 
-      if (onBlockId && manualWidth) {
+      if (onBlockId && finalWidth) {
         try {
           const currentBlock = await logseqAPI.Editor.getBlock(onBlockId);
           if (currentBlock) {
             const content = currentBlock.content;
-            const updatedContent = content.replace(/width=[\w%]+/, `width=${manualWidth}`);
+            const widthPattern = /width=[\w%]+/;
+            const updatedContent = widthPattern.test(content)
+              ? content.replace(widthPattern, `width=${finalWidth}`)
+              : `${content} width=${finalWidth}`;
             await logseqAPI.Editor.updateBlock(onBlockId, updatedContent);
+            logger.debug('📐 Heatmap: Width updated to block', { onBlockId, finalWidth, updatedContent });
           }
         } catch (err) {
-          console.error('Failed to update block:', err);
+          logger.error('📐 Heatmap: Failed to update width', err);
         }
       }
 
@@ -162,8 +166,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     };
 
     document.addEventListener('mousemove', handleResizeMove);
-    document.addEventListener('mouseup', handleResizeEnd);
-  }, [manualWidth, onBlockId]);
+    document.addEventListener('mouseup', () => handleResizeEnd(manualWidth || `${containerRef.current?.clientWidth || 0}px`));
+  }, [onBlockId]);
 
   useEffect(() => {
     setViewType(config.viewType);
