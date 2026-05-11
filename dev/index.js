@@ -4464,6 +4464,7 @@ ${nestingClauses}`;
         x: rect.left,
         y: rect.top
       });
+      loggerProxy.debug("HeatmapCell hovered position", { x: rect.left, y: rect.top }, "cell date", date, "blocks", blocks.length);
     };
     const handleMouseLeave = () => {
       setIsHovered(false);
@@ -5395,7 +5396,6 @@ ${nestingClauses}`;
   }
 
   const Heatmap = ({ config, data, theme, onBlockId }) => {
-    const { settings } = useSettings();
     const containerClass = theme === "dark" ? `heatmap-container heatmap-${config.displayMode} dark` : `heatmap-container heatmap-${config.displayMode}`;
     const [viewType, setViewType] = reactExports.useState(config.viewType);
     const [currentDate, setCurrentDate] = reactExports.useState(config.referenceDate || /* @__PURE__ */ new Date());
@@ -5606,8 +5606,8 @@ ${nestingClauses}`;
       loggerProxy.debug("📐 Heatmap: Cell clicked", { date });
       if (date) {
         try {
-          const pageName = formatDateForPage(date, settings?.dateFormat);
-          loggerProxy.debug("📐 Heatmap: Navigating to page", { pageName }, "dateformat", settings?.dateFormat);
+          const pageName = formatDateForPage(date, config?.dateFormat);
+          loggerProxy.debug("📐 Heatmap: Navigating to page", { pageName, date, dateFormat: config?.dateFormat });
           ensurePageAndNavigate(pageName);
         } catch (err) {
           console.error("Failed to navigate to date:", err);
@@ -21520,7 +21520,8 @@ ${where}
         monthPageLogseqTemplate: monthPageLogseqTemplate || settings?.heatmap?.monthPageCreation?.logseqTemplate || "",
         enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.weekPageCreation?.enabled ?? false,
         weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageCreation?.pageNameTemplate || "",
-        weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || ""
+        weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || "",
+        dateFormat: settings?.dateFormat || ""
       };
       loggerProxy.debug("🌡️ Heatmap: Rendering heatmap", {
         queryType,
