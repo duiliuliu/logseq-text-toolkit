@@ -5705,7 +5705,7 @@ ${nestingClauses}`;
   }
 
   const getCreatedAt$1 = (block) => {
-    const v = block?.["block/created-at"] ?? block?.["created-at"] ?? block?.createdAt ?? block?.created_at;
+    const v = block?.["created-at"] ?? block?.["block/created-at"] ?? block?.createdAt ?? block?.created_at;
     const n = typeof v === "number" ? v : Number(v);
     return Number.isFinite(n) ? n : null;
   };
@@ -5774,10 +5774,9 @@ ${where}
     for (const b of blocks) {
       const ts = getCreatedAt$1(b);
       if (!ts) continue;
-      const dt = new Date(ts);
       const dayIdx = Math.floor((ts - startMs) / 864e5);
       if (dayIdx < 0 || dayIdx >= 7) continue;
-      const hourIdx = Math.floor(dt.getHours() / 4);
+      const hourIdx = Math.floor(ts % 864e5 / 144e5);
       const key = `${dayIdx}-${hourIdx}`;
       if (!buckets[key]) buckets[key] = [];
       buckets[key].push(b);
@@ -5791,7 +5790,7 @@ ${where}
     const year = params.year ?? now.getFullYear();
     const month = params.month ?? now.getMonth() + 1;
     const ref = new Date(year, month - 1, 1);
-    loggerProxy.debug("[Heatmap] fetchHeatmapData", { params, view, year, month, ref: ref.toISOString() });
+    loggerProxy.debug("[Heatmap] fetchHeatmapData", { params, view, year, month });
     let start, end;
     if (view === "week") {
       const bounds = getWeekBounds(ref);
@@ -5809,8 +5808,8 @@ ${where}
     const query = buildQuery$1(params, startMs, endMs);
     loggerProxy.debug("[Heatmap] query", query);
     const raw = await logseqAPI$1.DB.datascriptQuery(query);
-    const blocks = (raw || []).filter(Boolean);
-    loggerProxy.debug("[Heatmap] result count:", blocks.length);
+    const blocks = (raw || []).flat().filter(Boolean);
+    loggerProxy.debug("[Heatmap] result count:", blocks.length, "sample:", blocks[0]?.["created-at"]);
     const data = [];
     if (view === "week") {
       const buckets = bucketByWeekCell(blocks, startMs);
