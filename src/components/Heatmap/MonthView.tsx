@@ -55,7 +55,6 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCell
   
   for (let d = 1; d <= endDate.getDate(); d++) {
     const dateObj = new Date(year, month, d);
-    // 使用本地时间格式化，避免时区偏移问题
     const dateStr = `${dateObj.getFullYear()}-${pad2(dateObj.getMonth() + 1)}-${pad2(dateObj.getDate())}`;
     allDays.push({ date: dateStr, day: d, isCurrentMonth: true });
   }
@@ -92,7 +91,15 @@ const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCell
     // 找到当前周中第一个非空的日期
     const firstValidDay = week.find(day => day.date);
     if (firstValidDay) {
-      const weekNum = getWeekNumber(new Date(firstValidDay.date));
+      // 使用本周周一的日期计算周数，确保整行显示相同的周数
+      const date = new Date(firstValidDay.date);
+      const dayOfWeek = date.getDay();
+      const monday = new Date(date);
+      // 如果不是周一，找到本周的周一
+      if (dayOfWeek !== 1) {
+        monday.setDate(date.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+      }
+      const weekNum = getWeekNumber(monday);
       weekNumbers.push(`W${String(weekNum).padStart(2, '0')}`);
     } else {
       weekNumbers.push('');
