@@ -1,13 +1,15 @@
 /* ==========================================
-   GTD 工作回顾模版样式 - 优化版 v5.0
+   GTD 工作回顾模版样式 - 优化版 v5.1
    Logseq Text Toolkit - Summary Module
+   使用 .ltt-summary-page 限定范围，避免影响其他页面
    ========================================== */
 
 /* ========================================================
-   KPI 指标卡片样式 (level 4)
+   只有包含 .ltt-summary-page 的页面才会应用这些样式
    ======================================================== */
 
-.ls-block[level="4"] {
+/* 找到包含 .ltt-summary-page 的块，然后样式化它的所有子块 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
   background: var(--ls-secondary-background-color, #f8f9fa) !important;
   padding: 24px 16px !important;
   border-radius: 12px !important;
@@ -21,25 +23,25 @@
   transition: all 0.3s ease !important;
 }
 
-.ls-block[level="4"]:hover {
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"]:hover {
   transform: translateY(-4px) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
-.ls-block[level="4"] .block-title-wrap {
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-title-wrap {
   font-size: 24px !important;
   font-weight: 700 !important;
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   line-height: 1.2 !important;
 }
 
-/* 隐藏卡片内的圆点和控制按钮 */
-.ls-block[level="4"] .block-control-wrap,
-.ls-block[level="4"] .bullet-link-wrap {
+/* 隐藏 level 4 卡片内的圆点和控制按钮 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-control-wrap,
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .bullet-link-wrap {
   display: none !important;
 }
 
-.ls-block[level="4"] .block-content-wrapper {
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-content-wrapper {
   padding-left: 0 !important;
 }
 
@@ -47,7 +49,7 @@
    两列布局卡片样式 (level 3)
    ======================================================== */
 
-.ls-block[level="3"] {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
   background: var(--ls-secondary-background-color, #ffffff) !important;
   padding: 24px !important;
   border-radius: 12px !important;
@@ -60,17 +62,17 @@
   min-height: 200px !important;
 }
 
-.ls-block[level="3"]:hover {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"]:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* 隐藏 level 3 卡片内的圆点 */
-.ls-block[level="3"] .block-control-wrap,
-.ls-block[level="3"] .bullet-link-wrap {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .block-control-wrap,
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .bullet-link-wrap {
   display: none !important;
 }
 
-.ls-block[level="3"] .block-content-wrapper {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .block-content-wrapper {
   padding-left: 0 !important;
 }
 
@@ -78,7 +80,7 @@
    标题样式
    ======================================================== */
 
-h1.as-heading {
+.ls-block:has(.ltt-summary-page) h1.as-heading {
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   font-size: 28px !important;
   font-weight: 700 !important;
@@ -87,14 +89,14 @@ h1.as-heading {
   border-bottom: 3px solid var(--ls-primary-color, #3b82f6) !important;
 }
 
-h2.as-heading {
+.ls-block:has(.ltt-summary-page) h2.as-heading {
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   font-size: 20px !important;
   font-weight: 600 !important;
   margin: 24px 0 16px 0 !important;
 }
 
-h3.as-heading {
+.ls-block:has(.ltt-summary-page) h3.as-heading {
   color: var(--ls-secondary-text-color, #6b7280) !important;
   font-size: 16px !important;
   font-weight: 600 !important;
@@ -106,13 +108,13 @@ h3.as-heading {
    列表样式
    ======================================================== */
 
-.ls-block[level="3"] ul,
-.ls-block[level="3"] ol {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] ul,
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] ol {
   padding-left: 20px !important;
   margin: 12px 0 !important;
 }
 
-.ls-block[level="3"] li {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] li {
   margin: 8px 0 !important;
   padding: 6px 0 !important;
   background: transparent !important;
@@ -124,27 +126,27 @@ h3.as-heading {
    表格样式
    ======================================================== */
 
-.ls-block[level="3"] table {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] table {
   width: 100% !important;
   border-collapse: collapse !important;
   margin: 12px 0 !important;
 }
 
-.ls-block[level="3"] th,
-.ls-block[level="3"] td {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] th,
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] td {
   padding: 8px 12px !important;
   text-align: left !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
-.ls-block[level="3"] th {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] th {
   background: rgba(59, 130, 246, 0.08) !important;
   font-weight: 600 !important;
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   font-size: 13px !important;
 }
 
-.ls-block[level="3"] td {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] td {
   font-size: 14px !important;
 }
 
@@ -152,7 +154,7 @@ h3.as-heading {
    任务复选框样式
    ======================================================== */
 
-.ls-block[level="3"] input[type="checkbox"] {
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] input[type="checkbox"] {
   margin-right: 8px !important;
 }
 
@@ -160,17 +162,17 @@ h3.as-heading {
    暗色主题适配
    ======================================================== */
 
-.dark .ls-block[level="4"] {
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
   background: rgba(45, 52, 73, 0.8) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .ls-block[level="3"] {
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
   background: rgba(45, 52, 73, 0.8) !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .ls-block[level="3"] th {
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="3"] th {
   background: rgba(96, 165, 250, 0.15) !important;
 }
 
@@ -179,17 +181,17 @@ h3.as-heading {
    ======================================================== */
 
 @media (max-width: 900px) {
-  .ls-block[level="4"] {
+  .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
     width: calc(50% - 16px) !important;
   }
   
-  .ls-block[level="3"] {
+  .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
     width: calc(100% - 16px) !important;
   }
 }
 
 @media (max-width: 500px) {
-  .ls-block[level="4"] {
+  .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
     width: calc(100% - 16px) !important;
   }
 }
