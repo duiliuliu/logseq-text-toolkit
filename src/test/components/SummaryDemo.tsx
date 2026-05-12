@@ -52,34 +52,78 @@ export const SummaryDemo: React.FC<SummaryDemoProps> = ({ onGenerateSuccess }) =
       if (pageName) {
         logger.info('[SummaryDemo] 总结生成成功', { pageName });
         
+        // 按照设计方案生成完整的内容结构
         const mockBlocks = [
           {
+            id: 'block-0',
+            content: `[:div.ltt-summary-page "📊 周度总结 - 2026年第20周"]`,
+            level: 0
+          },
+          {
             id: 'block-1',
-            content: `# ${pageName}`,
+            content: '## 📈 数据概览',
             level: 1,
             children: [
-              {
-                id: 'block-1-1',
-                content: '## 📊 数据概览',
-                level: 2,
-                children: [
-                  { id: 'block-1-1-1', content: '- 创建块数: 15', level: 3 },
-                  { id: 'block-1-1-2', content: '- 完成任务: 7 / 12', level: 3 },
-                  { id: 'block-1-1-3', content: '- 任务完成率: 58%', level: 3 },
-                  { id: 'block-1-1-4', content: '- 新增页面: 2', level: 3 },
-                ],
-              },
-              {
-                id: 'block-1-2',
-                content: '## 🏷️ 热门标签',
-                level: 2,
-                children: [
-                  { id: 'block-1-2-1', content: '- #task: 8', level: 3 },
-                  { id: 'block-1-2-2', content: '- #project: 5', level: 3 },
-                  { id: 'block-1-2-3', content: '- #note: 3', level: 3 },
-                ],
-              },
-            ],
+              { id: 'block-1-1', content: '### 核心指标', level: 2 },
+              { id: 'block-1-2', content: '- 创建块数: 156', level: 3 },
+              { id: 'block-1-3', content: '- 完成任务: 28 / 35', level: 3 },
+              { id: 'block-1-4', content: '- 活跃天数: 6 / 7', level: 3 },
+              { id: 'block-1-5', content: '- 新增页面: 12', level: 3 },
+            ]
+          },
+          {
+            id: 'block-2',
+            content: '## 📈 活跃度热力图',
+            level: 1,
+            children: [
+              { id: 'block-2-1', content: '{{renderer :heatmap :week :tag=work}}', level: 2 },
+            ]
+          },
+          {
+            id: 'block-3',
+            content: '## ✅ 任务回顾',
+            level: 1,
+            children: [
+              { id: 'block-3-1', content: '### 完成任务清单', level: 2 },
+              { id: 'block-3-2', content: '- [x] 完成项目A设计', level: 3 },
+              { id: 'block-3-3', content: '- [x] 代码评审', level: 3 },
+              { id: 'block-3-4', content: '- [x] 团队周会', level: 3 },
+              { id: 'block-3-5', content: '### 任务统计', level: 2 },
+              { id: 'block-3-6', content: '| 状态 | 数量 |', level: 3 },
+              { id: 'block-3-7', content: '|------|------|', level: 3 },
+              { id: 'block-3-8', content: '| 完成 | 28 |', level: 3 },
+              { id: 'block-3-9', content: '| 进行中 | 5 |', level: 3 },
+              { id: 'block-3-10', content: '| 待办 | 2 |', level: 3 },
+              { id: 'block-3-11', content: '### 优先级分布', level: 2 },
+              { id: 'block-3-12', content: '- A: 8', level: 3 },
+              { id: 'block-3-13', content: '- B: 12', level: 3 },
+              { id: 'block-3-14', content: '- C: 7', level: 3 },
+            ]
+          },
+          {
+            id: 'block-4',
+            content: '## 📝 内容分析',
+            level: 1,
+            children: [
+              { id: 'block-4-1', content: '### 热门标签', level: 2 },
+              { id: 'block-4-2', content: '- [[工作]] (45)', level: 3 },
+              { id: 'block-4-3', content: '- [[学习]] (28)', level: 3 },
+              { id: 'block-4-4', content: '- [[项目A]] (22)', level: 3 },
+              { id: 'block-4-5', content: '### 页面分布', level: 2 },
+              { id: 'block-4-6', content: '- 工作笔记: 8页', level: 3 },
+              { id: 'block-4-7', content: '- 学习笔记: 4页', level: 3 },
+              { id: 'block-4-8', content: '- 会议记录: 3页', level: 3 },
+            ]
+          },
+          {
+            id: 'block-5',
+            content: '## 🤖 AI 分析建议',
+            level: 1,
+            children: [
+              { id: 'block-5-1', content: '> 本周任务完成率较高，建议继续保持。', level: 2 },
+              { id: 'block-5-2', content: '> 学习时间较上周有所增加，继续保持。', level: 2 },
+              { id: 'block-5-3', content: '> 建议关注B优先级任务，避免延误。', level: 2 },
+            ]
           },
         ];
 
@@ -178,6 +222,25 @@ export const SummaryDemo: React.FC<SummaryDemoProps> = ({ onGenerateSuccess }) =
             <button onClick={() => setShowResult(false)}>关闭</button>
           </div>
           <div className="result-content">
+            <div className="summary-stats-grid">
+              <div className="summary-stat-card">
+                <div className="summary-stat-value">156</div>
+                <div className="summary-stat-label">创建块数</div>
+              </div>
+              <div className="summary-stat-card">
+                <div className="summary-stat-value">28/35</div>
+                <div className="summary-stat-label">完成任务</div>
+              </div>
+              <div className="summary-stat-card">
+                <div className="summary-stat-value">6/7</div>
+                <div className="summary-stat-label">活跃天数</div>
+              </div>
+              <div className="summary-stat-card">
+                <div className="summary-stat-value">12</div>
+                <div className="summary-stat-label">新增页面</div>
+              </div>
+            </div>
+
             {generatedContent.map((block) => renderBlock(block))}
           </div>
         </div>
