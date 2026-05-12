@@ -208,105 +208,145 @@ export interface SummarySettings {
 
 ---
 
-## 4. Markdown + Hiccup 输出格式
+## 4. 数据层级结构与插入逻辑
 
-### 4.1 设计原则
+### 4.1 内存数据组织
 
-1. **99% 纯 Markdown**：保持内容可读性和可编辑性
-2. **极简 Hiccup**：仅在关键容器节点注入 class，立即结束 `]`
-3. **Logseq 原生缩进**：子内容通过缩进成为 Logseq 子节点
-4. **CSS 层级选择器**：通过 `.summary-kpi-section > div` 等选择器设置样式
+在内存中按父子关系组织 BlockNode 树结构：
 
-### 4.2 输出示例（GTD 工作回顾模版）
+```typescript
+interface BlockNode {
+  content: string;      // 块内容（含 Hiccup 标签）
+  children?: BlockNode[]; // 子块数组
+}
 
-```markdown
-[:div.summary-page]
-# 📊 周度总结 - 2026年第19周
-
-## 📈 数据概览
-
-[:div.summary-kpi-section]
-  ### 核心指标
-  - 创建块数: 156
-  - 完成任务: 28 / 35
-  - 活跃天数: 6 / 7
-  - 新增页面: 12
-
-## 📈 活跃度热力图
-
-[:div.summary-heatmap-section]
-  {{renderer :heatmap :week :tag=work}}
-
-[:div.summary-two-columns]
-  ## ✅ 任务回顾
-  
-  ### 完成任务清单
-  - [x] 完成项目A设计
-  - [x] 代码评审
-  - [x] 团队周会
-  
-  ### 任务统计
-  | 状态 | 数量 |
-  |------|------|
-  | 完成 | 28 |
-  | 进行中 | 5 |
-  | 待办 | 2 |
-
-  ## 📝 内容分析
-  
-  ### 热门标签
-  - #工作 (45)
-  - #学习 (28)
-  - #项目A (22)
-  
-  ### 页面分布
-  - 工作笔记: 8页
-  - 学习笔记: 4页
-  - 会议记录: 3页
-
-## 🤖 AI 分析建议
-
-> [AI 生成的分析内容...]
+// 示例数据结构
+const summaryTree: BlockNode[] = [
+  {
+    content: '[:div.summary-page]',
+    children: [
+      { content: '# 📊 周度总结 - 2026年第19周' },
+      {
+        content: '## 📈 数据概览',
+        children: [
+          {
+            content: '[:div.summary-kpi-section]',
+            children: [
+              { content: '### 核心指标' },
+              { content: '- 创建块数: 156' },
+              { content: '- 完成任务: 28 / 35' },
+              { content: '- 活跃天数: 6 / 7' },
+              { content: '- 新增页面: 12' },
+            ]
+          }
+        ]
+      },
+      // ... 其他块
+    ]
+  }
+];
 ```
 
-### 4.3 Logseq 渲染后的 HTML 结构示意
+### 4.2 Logseq API 逐块插入逻辑
 
-```html
-<div class="ls-block">
-  <div class="summary-page">
-    <h1>📊 周度总结 - 2026年第19周</h1>
+使用 Logseq Editor API 按层级逐个创建 block：
+
+```typescript
+async function insertBlockTree(
+  pageName: string,
+  blocks: BlockNode[],
+  parentId?: string
+): Promise<void> {
+  for (const block of blocks) {
+    // 创建当前块
+    const createdBlock = await logseq.Editor.createBlock(
+      parentId || pageName,  // parent: 页面名或父块 UUID
+      block.content,          // content: 块内容
+      { sibling: !!parentId } // sibling: true=作为同级块，false=作为子块
+    );
     
-    <h2>📈 数据概览</h2>
-    
-    <div class="summary-kpi-section">
-      <div class="ls-block">
-        <h3>核心指标</h3>
-        <ul>
-          <li>创建块数: 156</li>
-          <li>完成任务: 28 / 35</li>
-          ...
-        </ul>
-      </div>
-    </div>
-    
-    <div class="summary-heatmap-section">
-      <div class="ls-block">
-        [Heatmap 组件]
-      </div>
-    </div>
-    
-    <div class="summary-two-columns">
-      <div class="ls-block">
-        <h2>✅ 任务回顾</h2>
-        ...
-      </div>
-      <div class="ls-block">
-        <h2>📝 内容分析</h2>
-        ...
-      </div>
-    </div>
-  </div>
-</div>
+    // 递归插入子块
+    if (block.children?.length) {
+      await insertBlockTree(pageName, block.children, createdBlock.uuid);
+    }
+  }
+}
+```
+
+### 4.3 输出格式（含层级说明）
+
+**说明：level 仅用于文档说明层级关系，实际输出不包含 level**
+
+```
+[:div.summary-page]     (level 0)
+# 📊 周度总结 - 2026年第19周     (level 1)
+
+## 📈 数据概览     (level 1)
+
+[:div.summary-kpi-section]     (level 2)
+  ### 核心指标     (level 3)
+  - 创建块数: 156     (level 4)
+  - 完成任务: 28 / 35     (level 4)
+  - 活跃天数: 6 / 7     (level 4)
+  - 新增页面: 12     (level 4)
+
+## 📈 活跃度热力图     (level 1)
+
+[:div.summary-heatmap-section]     (level 2)
+  {{renderer :heatmap :week :tag=work}}     (level 3)
+
+
+[:div.summary-two-columns]     (level 1)
+  ## ✅ 任务回顾     (level 2)
+  
+  ### 完成任务清单     (level 3)
+  - [x] 完成项目A设计     (level 4)
+  - [x] 代码评审     (level 4)
+  - [x] 团队周会     (level 4)
+  
+  ### 任务统计     (level 3)
+  | 状态 | 数量 |     (level 4)
+  |------|------|     (level 4)
+  | 完成 | 28 |     (level 4)
+  | 进行中 | 5 |     (level 4)
+  | 待办 | 2 |     (level 4)
+
+  ## 📝 内容分析     (level 2)
+  
+  ### 热门标签     (level 3)
+  - #工作 (45)     (level 4)
+  - #学习 (28)     (level 4)
+  - #项目A (22)     (level 4)
+  
+  ### 页面分布     (level 3)
+  - 工作笔记: 8页     (level 4)
+  - 学习笔记: 4页     (level 4)
+  - 会议记录: 3页     (level 4)
+
+## 🤖 AI 分析建议     (level 1)
+
+> [AI 生成的分析内容...]     (level 2)
+```
+
+### 4.4 插入顺序
+
+```
+1. 创建页面 '周度总结-2026-19'
+   ↓
+2. 插入 '[:div.summary-page]' (level 0)
+   ↓
+3. 插入 '# 📊 周度总结...' (level 1, sibling)
+   ↓
+4. 插入 '## 📈 数据概览' (level 1, sibling)
+   ↓
+5. 插入 '[:div.summary-kpi-section]' (level 2, child)
+   ↓
+6. 插入 '### 核心指标' (level 3, child)
+   ↓
+7. 插入 '- 创建块数: 156' (level 4, sibling)
+   ↓
+8. 插入 '- 完成任务: 28 / 35' (level 4, sibling)
+   ... 继续插入剩余块
 ```
 
 ---
@@ -409,13 +449,21 @@ export interface SummarySettings {
 **文件**: `src/lib/summary/templates/index.ts`
 
 ```typescript
+// Block 节点类型
+interface BlockNode {
+  content: string;      // 块内容（含 Hiccup 标签）
+  children?: BlockNode[]; // 子块数组
+}
+
+// 模版接口
 export interface SummaryTemplate {
   id: TemplateType;
   name: string;
   description: string;
   supportedTypes: SummaryType[];
   
-  render(data: SummaryData, params: Record<string, any>): string;
+  // 返回 BlockNode 树结构，供 PageGenerator 逐块插入
+  render(data: SummaryData, params: Record<string, any>): BlockNode[];
 }
 
 // 模版工厂
