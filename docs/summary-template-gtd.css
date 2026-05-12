@@ -1,89 +1,49 @@
 /* ==========================================
-   GTD 工作回顾模版样式
+   最简单、最直接的 CSS v4.0
    Logseq Text Toolkit - Summary Module
-   版本: v1.0
-   日期: 2026-05-12
    ========================================== */
 
-/* 1. 页面容器 */
-.ltt-summary-page {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 24px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
+/* ========================================================
+   针对 test.html 实际结构的样式
+   
+   分析：
+   - level 0: 包含 summary-page
+   - level 1: 标题 "周度总结"
+   - level 2: 包含 summary-kpi-section 和 "数据概览"
+   - level 3: "核心指标"
+   - level 4: 四个 KPI 数据（是我们要样式化的卡片）
+   ======================================================== */
 
-/* 2. KPI 指标区域 - 4列网格布局 */
-.ltt-summary-kpi-section + div > ul {
-  display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
-  gap: 16px !important;
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 24px 0 !important;
-}
-
-.ltt-summary-kpi-section + div > ul > li {
+/* 1. 给 level 4 块都做成卡片（我们想要的样式） */
+.ls-block[level="4"] {
   background: var(--ls-secondary-background-color, #f8f9fa) !important;
   padding: 24px 16px !important;
   border-radius: 12px !important;
   text-align: center !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-  transition: all 0.3s ease !important;
   border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  display: inline-block !important;
+  width: calc(25% - 16px) !important;
+  margin: 8px !important;
+  vertical-align: top !important;
+  transition: all 0.3s ease !important;
 }
 
-.ltt-summary-kpi-section + div > ul > li:hover {
+.ls-block[level="4"]:hover {
   transform: translateY(-4px) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* 3. 热力图区域 */
-.ltt-summary-heatmap-section {
-  margin: 32px 0 !important;
-  padding: 20px !important;
-  background: var(--ls-secondary-background-color, #f8f9fa) !important;
-  border-radius: 12px !important;
-  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+/* 2. 卡片内的文本样式 */
+.ls-block[level="4"] .block-title-wrap {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: var(--ls-primary-text-color, #1a1a1a) !important;
+  line-height: 1.2 !important;
 }
 
-/* 4. 两列布局 */
-.ltt-summary-two-columns {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 24px !important;
-  margin: 32px 0 !important;
-}
-
-.ltt-summary-two-columns > div {
-  background: var(--ls-secondary-background-color, #f8f9fa) !important;
-  padding: 24px !important;
-  border-radius: 12px !important;
-  border: 1px solid rgba(0, 0, 0, 0.05) !important;
-}
-
-/* 5. 暗色主题适配 */
-.dark .ltt-summary-kpi-section + div > ul > li,
-.dark .ltt-summary-heatmap-section,
-.dark .ltt-summary-two-columns > div {
-  background: rgba(45, 52, 73, 0.6) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* 6. 响应式布局 */
-@media (max-width: 768px) {
-  .ltt-summary-kpi-section + div > ul {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  
-  .ltt-summary-two-columns {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* 7. 标题样式增强 */
-.ltt-summary-page h1 {
+/* 3. 标题样式 */
+h1.as-heading {
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   font-size: 28px !important;
   font-weight: 700 !important;
@@ -92,68 +52,36 @@
   border-bottom: 3px solid var(--ls-primary-color, #3b82f6) !important;
 }
 
-.ltt-summary-page h2 {
+h2.as-heading {
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   font-size: 20px !important;
   font-weight: 600 !important;
   margin: 24px 0 16px 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
 }
 
-.ltt-summary-page h3 {
+h3.as-heading {
   color: var(--ls-secondary-text-color, #6b7280) !important;
   font-size: 16px !important;
   font-weight: 600 !important;
   margin: 16px 0 12px 0 !important;
 }
 
-/* 8. 列表样式 */
-.ltt-summary-page ul {
-  padding-left: 0 !important;
-  margin: 12px 0 !important;
+/* 4. 暗色主题适配 */
+.dark .ls-block[level="4"] {
+  background: rgba(45, 52, 73, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
-.ltt-summary-page li {
-  margin: 8px 0 !important;
-  padding: 8px 12px !important;
-  background: rgba(59, 130, 246, 0.05) !important;
-  border-radius: 6px !important;
-  border-left: 3px solid var(--ls-primary-color, #3b82f6) !important;
+/* 5. 响应式布局 */
+@media (max-width: 768px) {
+  .ls-block[level="4"] {
+    width: calc(50% - 16px) !important;
+  }
 }
 
-/* 9. 任务完成样式 */
-.ltt-summary-page li input[type="checkbox"] {
-  margin-right: 8px !important;
-}
-
-/* 10. 表格样式 */
-.ltt-summary-page table {
-  width: 100% !important;
-  border-collapse: collapse !important;
-  margin: 16px 0 !important;
-}
-
-.ltt-summary-page th,
-.ltt-summary-page td {
-  padding: 12px !important;
-  text-align: left !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-}
-
-.ltt-summary-page th {
-  background: var(--ls-secondary-background-color, #f3f4f6) !important;
-  font-weight: 600 !important;
-  color: var(--ls-primary-text-color, #1a1a1a) !important;
-}
-
-/* 11. 引用块样式 */
-.ltt-summary-page blockquote {
-  margin: 16px 0 !important;
-  padding: 16px !important;
-  background: rgba(59, 130, 246, 0.08) !important;
-  border-left: 4px solid var(--ls-primary-color, #3b82f6) !important;
-  border-radius: 0 8px 8px 0 !important;
-  font-style: italic !important;
+@media (max-width: 480px) {
+  .ls-block[level="4"] {
+    width: calc(100% - 16px) !important;
+  }
 }
