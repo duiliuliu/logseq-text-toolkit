@@ -250,72 +250,61 @@ ls-block [level=0]
 在内存中按父子关系组织 BlockNode 树结构：
 
 ```typescript
-// 示例数据结构
+// 示例数据结构 - 仅头部使用 Hiccup
 const summaryTree: BlockNode[] = [
   {
-    content: '[:div.ltt-summary-page]',
+    content: '[:div.ltt-summary-page "📊 周度总结 - 2026年第19周"]',
     children: [
-      { content: '# 📊 周度总结 - 2026年第19周' },
       {
         content: '## 📈 数据概览',
         children: [
-          {
-            content: '[:div.ltt-summary-kpi-section]',
-            children: [
-              { content: '### 核心指标' },
-              { content: '- 创建块数: 156' },
-              { content: '- 完成任务: 28 / 35' },
-              { content: '- 活跃天数: 6 / 7' },
-              { content: '- 新增页面: 12' },
-            ]
-          }
+          { content: '### 核心指标' },
+          { content: '- 创建块数: 156' },
+          { content: '- 完成任务: 28 / 35' },
+          { content: '- 活跃天数: 6 / 7' },
+          { content: '- 新增页面: 12' },
         ]
       },
       {
         content: '## 📈 活跃度热力图',
         children: [
-          {
-            content: '[:div.ltt-summary-heatmap-section]',
-            children: [
-              { content: '{{renderer :heatmap :week :tag=work}}' }
-            ]
-          }
+          { content: '{{renderer :heatmap :week :tag=work}}' }
         ]
       },
       {
-        content: '[:div.ltt-summary-two-columns]',
+        content: '## ✅ 任务回顾',
         children: [
-          { content: '## ✅ 任务回顾',
-            children: [
-              { content: '### 完成任务清单' },
-              { content: '- [x] 完成项目A设计' },
-              { content: '- [x] 代码评审' },
-              { content: '- [x] 团队周会' },
-              { content: '### 任务统计' },
-              { content: '| 状态 | 数量 |' },
-              { content: '|------|------|' },
-              { content: '| 完成 | 28 |' },
-              { content: '| 进行中 | 5 |' },
-              { content: '| 待办 | 2 |' },
-            ]
-          },
-          {
-            content: '## 📝 内容分析',
-            children: [
-              { content: '### 热门标签' },
-              { content: '- #工作 (45)' },
-              { content: '- #学习 (28)' },
-              { content: '- #项目A (22)' },
-              { content: '### 页面分布' },
-              { content: '- 工作笔记: 8页' },
-              { content: '- 学习笔记: 4页' },
-              { content: '- 会议记录: 3页' },
-            ]
-          }
+          { content: '### 完成任务清单' },
+          { content: '- [x] 完成项目A设计' },
+          { content: '- [x] 代码评审' },
+          { content: '- [x] 团队周会' },
+          { content: '### 任务统计' },
+          { content: '| 状态 | 数量 |' },
+          { content: '|------|------|' },
+          { content: '| 完成 | 28 |' },
+          { content: '| 进行中 | 5 |' },
+          { content: '| 待办 | 2 |' },
         ]
       },
-      { content: '## 🤖 AI 分析建议' },
-      { content: '> [AI 生成的分析内容...]' },
+      {
+        content: '## 📝 内容分析',
+        children: [
+          { content: '### 热门标签' },
+          { content: '- #工作 (45)' },
+          { content: '- #学习 (28)' },
+          { content: '- #项目A (22)' },
+          { content: '### 页面分布' },
+          { content: '- 工作笔记: 8页' },
+          { content: '- 学习笔记: 4页' },
+          { content: '- 会议记录: 3页' },
+        ]
+      },
+      {
+        content: '## 🤖 AI 分析建议',
+        children: [
+          { content: '> [AI 生成的分析内容...]' },
+        ]
+      },
     ]
   }
 ];
@@ -347,55 +336,54 @@ async function insertBlockTree(
 }
 ```
 
-### 4.4 输出 Markdown 示例（纯内容不含 Hiccup
+### 4.4 输出 Markdown 示例（完整结构）
 
-**说明：以下示例为说明文档时不含 Hiccup，实际输出会在关键块添加
+**实际输出到 Logseq 的完整内容结构：**
 
+```markdown
+[:div.ltt-summary-page "📊 周度总结 - 2026年第19周"]
+  ## 📈 数据概览
+    ### 核心指标
+      - 创建块数: 156
+      - 完成任务: 28 / 35
+      - 活跃天数: 6 / 7
+      - 新增页面: 12
+  ## 📈 活跃度热力图
+    {{renderer :heatmap :week :tag=work}}
+  ## ✅ 任务回顾
+    ### 完成任务清单
+      - [x] 完成项目A设计
+      - [x] 代码评审
+      - [x] 团队周会
+    ### 任务统计
+      | 状态 | 数量 |
+      |------|------|
+      | 完成 | 28 |
+      | 进行中 | 5 |
+      | 待办 | 2 |
+  ## 📝 内容分析
+    ### 热门标签
+      - [[工作]] (45)
+      - [[学习]] (28)
+      - [[项目A]] (22)
+    ### 页面分布
+      - 工作笔记: 8页
+      - 学习笔记: 4页
+      - 会议记录: 3页
+  ## 🤖 AI 分析建议
+    > [AI 生成的分析内容...]
 ```
-# 📊 周度总结 - 2026年第19周
 
-## 📈 数据概览
+**层级说明：**
+- level 0: `[:div.ltt-summary-page "📊 周度总结 - 2026年第19周"]`
+- level 1: `## 📈 数据概览`、`## ✅ 任务回顾` 等二级标题
+- level 2: `### 核心指标`、`### 完成任务清单` 等三级标题
+- level 3: 列表项、表格、renderer 宏等内容块
+- level 4: 列表子项（当有更深层级时）
 
-### 核心指标
-- 创建块数: 156
-- 完成任务: 28 / 35
-- 活跃天数: 6 / 7
-- 新增页面: 12
-
-## 📈 活跃度热力图
-
-{{renderer :heatmap :week :tag=work}}
-
-## ✅ 任务回顾
-
-### 完成任务清单
-- [x] 完成项目A设计
-- [x] 代码评审
-- [x] 团队周会
-
-### 任务统计
-| 状态 | 数量 |
-|------|------|
-| 完成 | 28 |
-| 进行中 | 5 |
-| 待办 | 2 |
-
-## 📝 内容分析
-
-### 热门标签
-- #工作 (45)
-- #学习 (28)
-- #项目A (22)
-
-### 页面分布
-- 工作笔记: 8页
-- 学习笔记: 4页
-- 会议记录: 3页
-
-## 🤖 AI 分析建议
-
-> [AI 生成的分析内容...]
-```
+**CSS 样式映射：**
+- level 3 块 → 两列布局卡片
+- level 4 块 → KPI 指标卡片（当在「核心指标」下时）
 
 ### 4.5 插入顺序
 
@@ -426,66 +414,115 @@ async function insertBlockTree(
 **文件**: `src/components/Summary/summary.css`
 
 ```css
-/* 页面容器 */
-.ltt-summary-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-}
+/* 
+  Summary 模块样式 - 使用 .ltt-summary-page 限定范围
+  选择器策略: .ls-block:has(.ltt-summary-page) .ls-block[level="x"]
+  仅影响包含 .ltt-summary-page 的页面
+*/
 
-/* KPI 指标区域 - 使用 grid 布局 */
-/* 选择器: .ltt-summary-kpi-section → .ls-block → ul */
-.ltt-summary-kpi-section + div > ul {
-  display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
-  gap: 16px !important;
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 24px 0 !important;
-}
-
-.ltt-summary-kpi-section + div > ul > li {
-  background: var(--ls-secondary-background-color) !important;
-  padding: 20px !important;
+/* KPI 指标卡片样式 (level 4 - 核心指标下的列表项) */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
+  background: var(--ls-secondary-background-color, #f8f9fa) !important;
+  padding: 24px 16px !important;
   border-radius: 12px !important;
   text-align: center !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-  transition: transform 0.2s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  display: inline-block !important;
+  width: calc(25% - 16px) !important;
+  margin: 8px !important;
+  vertical-align: top !important;
+  transition: all 0.3s ease !important;
 }
 
-.ltt-summary-kpi-section + div > ul > li:hover {
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"]:hover {
   transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* 热力图区域 */
-.ltt-summary-heatmap-section {
-  margin: 24px 0 !important;
-  padding: 16px !important;
-  background: var(--ls-secondary-background-color) !important;
+/* 隐藏 KPI 卡片内的圆点和控制按钮 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-control-wrap,
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .bullet-link-wrap {
+  display: none !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-content-wrapper {
+  padding-left: 0 !important;
+}
+
+/* 两列布局卡片样式 (level 3 - 任务回顾/内容分析) */
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
+  background: var(--ls-secondary-background-color, #ffffff) !important;
+  padding: 24px !important;
   border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  display: inline-block !important;
+  width: calc(50% - 16px) !important;
+  margin: 8px !important;
+  vertical-align: top !important;
+  min-height: 200px !important;
 }
 
-/* 两列布局 */
-/* 选择器: .ltt-summary-two-columns → .ls-block (第一列, 第二列) */
-.ltt-summary-two-columns {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 32px !important;
-  margin: 24px 0 !important;
+/* 隐藏 level 3 卡片内的圆点 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .block-control-wrap,
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .bullet-link-wrap {
+  display: none !important;
 }
 
-.ltt-summary-two-columns > div {
-  background: var(--ls-secondary-background-color) !important;
-  padding: 20px !important;
-  border-radius: 12px !important;
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .block-content-wrapper {
+  padding-left: 0 !important;
+}
+
+/* 表格样式 (level 4 下的表格) */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] th,
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] td {
+  padding: 8px 12px !important;
+  text-align: left !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] th {
+  background: rgba(59, 130, 246, 0.08) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
 }
 
 /* 暗色主题适配 */
-.dark .ltt-summary-kpi-section + div > ul > li,
-.dark .ltt-summary-heatmap-section,
-.dark .ltt-summary-two-columns > div {
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
   background: rgba(45, 52, 73, 0.8) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
+  background: rgba(45, 52, 73, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="4"] th {
+  background: rgba(96, 165, 250, 0.15) !important;
+}
+
+/* 响应式布局 */
+@media (max-width: 900px) {
+  .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
+    width: calc(50% - 16px) !important;
+  }
+  
+  .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
+    width: calc(100% - 16px) !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
+    width: calc(100% - 16px) !important;
+  }
 }
 ```
 
@@ -493,9 +530,14 @@ async function insertBlockTree(
 
 | 选择器模式 | 说明 | 示例 |
 |-----------|------|------|
-| `.ltt-summary-section + div` | 选择 Hiccup div 后的直接子块（ls-block） | `.ltt-summary-kpi-section + div` |
-| `.ltt-summary-section + div > ul` | 选择子块下的列表 | `.ltt-summary-kpi-section + div > ul` |
-| `:where()` | 降低选择器优先级，方便用户覆盖 | `:where(.ltt-summary-kpi-section) + div > ul` |
+| `.ls-block:has(.ltt-summary-page)` | 选择包含 .ltt-summary-page 的块及其子块 | `.ls-block:has(.ltt-summary-page) .ls-block[level="4"]` |
+| `.ls-block[level="x"]` | 根据层级选择块 | `.ls-block[level="4"]` 选择 KPI 卡片 |
+| `.dark .ls-block:has(...)` | 暗色主题下的样式 | `.dark .ls-block:has(.ltt-summary-page) .ls-block[level="4"]` |
+
+**选择器优先级策略：**
+- 使用 `:has()` 伪类限定范围，仅影响包含 `.ltt-summary-page` 的页面
+- 使用 `!important` 确保样式优先级足够高，能覆盖 Logseq 默认样式
+- 通过层级选择器 `.ls-block[level="x"]` 精确控制不同层级的块样式
 
 ### 5.3 CSSRegistry 集成（type: 'both'
 
@@ -565,58 +607,51 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
   render(data: SummaryData): BlockNode[] {
     return [
       {
-        content: '[:div.ltt-summary-page]',
+        content: `[:div.ltt-summary-page "📊 工作回顾 - ${this.formatDateRange(data.dateRange)}"]`,
         children: [
-          { content: `# 📊 工作回顾 - ${this.formatDateRange(data.dateRange)}' },
           { 
             content: '## 📈 数据概览',
             children: [
-              {
-                content: '[:div.ltt-summary-kpi-section]',
-                children: [
-                  { content: '### 核心指标' },
-                  { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}' },
-                  { content: `- 创建块数: ${data.blocks.created}' },
-                  { content: `- 新增页面: ${data.pages.newPages}' },
-                  { content: `- 任务完成率: ${(data.tasks.completionRate}%' },
-                ]
-              }
+              { content: '### 核心指标' },
+              { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
+              { content: `- 创建块数: ${data.blocks.created}` },
+              { content: `- 新增页面: ${data.pages.newPages}` },
+              { content: `- 任务完成率: ${data.tasks.completionRate}%` },
             ]
           },
           {
             content: '## 📈 工作热力图',
             children: [
-              {
-                content: '[:div.ltt-summary-heatmap-section]',
-                children: [
-                  { content: '{{renderer :heatmap :week :tag=work}' }
-                ]
-              }
+              { content: '{{renderer :heatmap :week :tag=work}}' }
             ]
           },
           {
-            content: '[:div.ltt-summary-two-columns]',
+            content: '## ✅ 任务回顾',
             children: [
-              {
-                content: '## ✅ 任务回顾',
-                children: [
-                  { content: '### 完成任务清单' },
-                  // ... 任务数据
-                ]
-              },
-              {
-                content: '## 📝 内容分析',
-                children: [
-                  { content: '### 热门标签' },
-                  // ... 标签数据
-                ]
-              }
+              { content: '### 完成任务清单' },
+              // ... 任务数据
             ]
           },
-          { content: '## 🤖 AI 分析建议' },
+          {
+            content: '## 📝 内容分析',
+            children: [
+              { content: '### 热门标签' },
+              // ... 标签数据
+            ]
+          },
+          {
+            content: '## 🤖 AI 分析建议',
+            children: [
+              // AI 分析内容
+            ]
+          },
         ]
       }
     ];
+  }
+
+  private formatDateRange(range: DateRange): string {
+    return `${range.start.toLocaleDateString()} - ${range.end.toLocaleDateString()}`;
   }
 }
 ```
@@ -769,40 +804,66 @@ Summary: {
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
+│  [:div.ltt-summary-page]                                           │
 │  📊 周度总结 - 2026年第19周 (5月5日-5月11日)                        │
 ├─────────────────────────────────────────────────────────────────────┤
+│  📈 数据概览                                                        │
 │                                                                     │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
 │  │ 创建块数  │  │ 完成任务  │  │ 活跃天数  │  │ 新增页面  │          │
 │  │   156    │  │  28/35   │  │   6/7    │  │   12     │          │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘          │
-│  (summary-kpi-section                                              │
+│  (level 4 块 → KPI 卡片样式)                                         │
 │                                                                     │
 ├─────────────────────────────────────────────────────────────────────┤
 │  📈 活跃度热力图                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐  │
-│  │  [Heatmap 组件，显示工作相关的热力图                            │  │
+│  │  {{renderer :heatmap :week :tag=work}}                        │  │
+│  │  [Heatmap 组件，显示工作相关的热力图]                           │  │
 │  └─────────────────────────────────────────────────────────────┘  │
-│  (summary-heatmap-section                                          │
 │                                                                     │
 ├─────────────────────────────────────────────────────────────────────┤
-│  [summary-two-columns] (grid 布局                                  │
-│  ┌─────────────────────────────┬───────────────────────────────┐  │
-│  │  ✅ 任务回顾                │  📝 内容分析                  │  │
-│  │  ┌───────────────────────┐  │  ┌─────────────────────────┐  │  │
-│  │  │ • 完成: 28            │  │  │ 🔥 热门标签              │  │  │
-│  │  │ • 进行中: 5           │  │  │  #工作 (45)             │  │  │
-│  │  │ • 待办: 2             │  │  │  #学习 (28)             │  │  │
-│  │  └───────────────────────┘  │  └─────────────────────────┘  │  │
-│  │  📋 任务清单                │  📚 页面分布                 │  │
-│  │  [任务列表...              │  ...                          │  │
-│  └─────────────────────────────┴───────────────────────────────┘  │
+│  ✅ 任务回顾 (level 3 块 → 卡片样式)                                   │
+│  ┌─────────────────────────────────────────────────────────────┐  │
+│  │  ### 完成任务清单                                           │  │
+│  │  - [x] 完成项目A设计                                        │  │
+│  │  - [x] 代码评审                                             │  │
+│  │  - [x] 团队周会                                             │  │
+│  └─────────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────────┐  │
+│  │  ### 任务统计                                               │  │
+│  │  | 状态 | 数量 |                                           │  │
+│  │  |------|------|                                           │  │
+│  │  | 完成 | 28   |                                           │  │
+│  └─────────────────────────────────────────────────────────────┘  │
+│                                                                     │
+├─────────────────────────────────────────────────────────────────────┤
+│  📝 内容分析 (level 3 块 → 卡片样式)                                   │
+│  ┌─────────────────────────────────────────────────────────────┐  │
+│  │  ### 热门标签                                               │  │
+│  │  - [[工作]] (45)                                           │  │
+│  │  - [[学习]] (28)                                           │  │
+│  │  - [[项目A]] (22)                                          │  │
+│  └─────────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────────┐  │
+│  │  ### 页面分布                                               │  │
+│  │  - 工作笔记: 8页                                           │  │
+│  │  - 学习笔记: 4页                                           │  │
+│  │  - 会议记录: 3页                                           │  │
+│  └─────────────────────────────────────────────────────────────┘  │
+│                                                                     │
 ├─────────────────────────────────────────────────────────────────────┤
 │  🤖 AI 分析建议                                                     │
 │  > [AI 生成的分析与建议，帮助用户提升效率]                          │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
+
+**样式应用说明：**
+- `.ltt-summary-page` - 页面级限定，仅影响此页面
+- `level 3` 块 → 卡片样式（圆角、阴影、内边距）
+- `level 4` 块 → KPI 卡片样式（4列网格布局）
+- 表格在 level 4 块内自动应用表格样式
 
 ---
 

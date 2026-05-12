@@ -1,12 +1,8 @@
 /* ==========================================
-   极简数据看板模版样式 - 优化版 v5.1
+   极简数据看板模版样式 - 简化版 v6.0
    Logseq Text Toolkit - Summary Module
-   使用 .ltt-summary-page 限定范围，避免影响其他页面
+   使用 .ltt-summary-page 限定范围
    ========================================== */
-
-/* ========================================================
-   只有包含 .ltt-summary-page 的页面才会应用这些样式
-   ======================================================== */
 
 /* KPI 指标卡片样式 (level 4) */
 .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
@@ -39,14 +35,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
 }
 
-.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-title-wrap {
-  font-size: 32px !important;
-  font-weight: 700 !important;
-  color: var(--ls-primary-text-color, #1a1a1a) !important;
-  line-height: 1.2 !important;
-}
-
-/* 隐藏 level 4 卡片内的圆点和控制按钮 */
+/* 隐藏 level 4 卡片内的圆点 */
 .ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-control-wrap,
 .ls-block:has(.ltt-summary-page) .ls-block[level="4"] .bullet-link-wrap {
   display: none !important;
@@ -56,20 +45,13 @@
   padding-left: 0 !important;
 }
 
-/* ========================================================
-   两列布局卡片样式 (level 3)
-   ======================================================== */
-
+/* level 3 卡片样式 */
 .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
   background: var(--ls-primary-background-color, #ffffff) !important;
-  padding: 24px !important;
+  padding: 20px !important;
   border-radius: 8px !important;
-  border: 1px solid var(--ls-border-color, #e5e7eb) !important;
-  display: inline-block !important;
-  width: calc(50% - 16px) !important;
-  margin: 8px !important;
-  vertical-align: top !important;
-  min-height: 200px !important;
+  border-left: 3px solid var(--ls-primary-color, #3b82f6) !important;
+  margin: 12px 0 !important;
 }
 
 /* 隐藏 level 3 卡片内的圆点 */
@@ -78,57 +60,20 @@
   display: none !important;
 }
 
-.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .block-content-wrapper {
-  padding-left: 0 !important;
-}
-
-/* ========================================================
-   标题样式
-   ======================================================== */
-
-.ls-block:has(.ltt-summary-page) h1.as-heading {
-  color: var(--ls-primary-text-color, #1a1a1a) !important;
-  font-size: 32px !important;
-  font-weight: 700 !important;
-  margin: 0 0 32px 0 !important;
-  letter-spacing: -0.5px !important;
-}
-
-.ls-block:has(.ltt-summary-page) h2.as-heading {
-  color: var(--ls-primary-text-color, #1a1a1a) !important;
-  font-size: 18px !important;
-  font-weight: 600 !important;
-  margin: 0 0 20px 0 !important;
-  text-transform: uppercase !important;
-}
-
-.ls-block:has(.ltt-summary-page) h3.as-heading {
-  color: var(--ls-secondary-text-color, #6b7280) !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  margin: 0 0 12px 0 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-}
-
-/* ========================================================
-   表格样式
-   ======================================================== */
-
-.ls-block:has(.ltt-summary-page) .ls-block[level="3"] table {
+/* 表格样式 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] table {
   width: 100% !important;
   border-collapse: collapse !important;
-  margin: 12px 0 !important;
 }
 
-.ls-block:has(.ltt-summary-page) .ls-block[level="3"] th,
-.ls-block:has(.ltt-summary-page) .ls-block[level="3"] td {
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] th,
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] td {
   padding: 8px 0 !important;
   text-align: left !important;
   border-bottom: 1px solid var(--ls-border-color, #e5e7eb) !important;
 }
 
-.ls-block:has(.ltt-summary-page) .ls-block[level="3"] th {
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] th {
   background: transparent !important;
   font-weight: 600 !important;
   color: var(--ls-secondary-text-color, #6b7280) !important;
@@ -136,14 +81,7 @@
   text-transform: uppercase !important;
 }
 
-.ls-block:has(.ltt-summary-page) .ls-block[level="3"] td {
-  font-size: 14px !important;
-}
-
-/* ========================================================
-   暗色主题适配
-   ======================================================== */
-
+/* 暗色主题适配 */
 .dark .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
   background: var(--ls-primary-background-color, #1f2937) !important;
   border-color: var(--ls-border-color, #374151) !important;
@@ -155,20 +93,13 @@
 
 .dark .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
   background: var(--ls-primary-background-color, #1f2937) !important;
-  border-color: var(--ls-border-color, #374151) !important;
+  border-color: var(--ls-primary-color, #60a5fa) !important;
 }
 
-/* ========================================================
-   响应式布局
-   ======================================================== */
-
+/* 响应式布局 */
 @media (max-width: 900px) {
   .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
     width: calc(50% - 16px) !important;
-  }
-  
-  .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
-    width: calc(100% - 16px) !important;
   }
 }
 
