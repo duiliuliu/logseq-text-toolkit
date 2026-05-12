@@ -8,9 +8,12 @@ import BlockRenderer from './components/BlockRenderer/index'
 import TaskProgressDemo from './components/TaskProgressDemo/index'
 import HeatmapDemo from './components/HeatmapDemo/index'
 import APIQueryDemo from './components/APIQueryDemo/index'
+import { ModeSwitch, ProxyConfig } from './components/ProxySettings/index'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
 import { useSettingsContext } from '../settings/useSettings'
+import { logseqAPI, setMode, getMode, connectProxy, disconnectProxy } from '../logseq'
+import logger from '../logseq/logger'
 
 interface TaskItem {
   id: string
@@ -29,6 +32,39 @@ const statusOptions = [
 
 function TestApp() {
   const { settings } = useSettingsContext()
+  
+  // Proxy 设置状态
+  const [apiMode, setApiMode] = useState<'mock' | 'proxy'>(getMode())
+  const [showProxyPanel, setShowProxyPanel] = useState(false)
+  const [proxyStatus, setProxyStatus] = useState<'disconnected' | 'connecting' | 'connected' | 'error'>('disconnected')
+  const [proxyError, setProxyError] = useState<string>('')
+
+  // 模式切换处理
+  const handleModeChange = (mode: 'mock' | 'proxy') => {
+    setApiMode(mode)
+    setMode(mode)
+  }
+
+  // 代理连接处理
+  const handleProxyConnect = async (url: string): Promise<boolean> => {
+    setProxyStatus('connecting')
+    try {
+      const success = await connectProxy(url)
+      setProxyStatus(success ? 'connected' : 'error')
+      setProxyError(success ? '' : '连接失败')
+      return success
+    } catch (error) {
+      setProxyStatus('error')
+      setProxyError((error as Error).message || '未知错误')
+      return false
+    }
+  }
+
+  const handleProxyDisconnect = () => {
+    disconnectProxy()
+    setProxyStatus('disconnected')
+    setProxyError('')
+  }
 
   const [tasks, setTasks] = useState<TaskItem[]>([
     { id: 'task-child-1', content: 'Design the UI #task', status: 'done' },
@@ -281,6 +317,23 @@ function TestApp() {
         <div className="toolbar-banner-content">
           <span className="toolbar-banner-text">工具栏演示</span>
           <div className="toolbar-banner-actions">
+            {/* Proxy 设置 */}
+            <div className="proxy-settings-bar">
+              <ModeSwitch 
+                currentMode={apiMode} 
+                onModeChange={handleModeChange} 
+              />
+              
+              {apiMode === 'proxy' && (
+                <button 
+                  className="proxy-config-btn"
+                  onClick={() => setShowProxyPanel(!showProxyPanel)}
+                >
+                  🔧
+                </button>
+              )}
+            </div>
+            
             <a
               className="button toolbar-banner-btn"
               title="Settings JSON"
@@ -291,11 +344,22 @@ function TestApp() {
               }}
             >
               <i className="ti ti-settings-cancel"></i>
-              {/* <span className="toolbar-icon">{ }</span> */}
             </a>
           </div>
         </div>
       </div>
+
+      {/* Proxy 设置面板 */}
+      {showProxyPanel && apiMode === 'proxy' && (
+        <div className="proxy-panel">
+          <ProxyConfig
+            onConnect={handleProxyConnect}
+            onDisconnect={handleProxyDisconnect}
+            connectionStatus={proxyStatus}
+            errorMessage={proxyError}
+          />
+        </div>
+      )}
 
       <div id="head" className="top-toolbar">
         <div className="toolbar-content">

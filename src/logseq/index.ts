@@ -3,34 +3,90 @@
  * License: MIT
  * 
  * Logseq API 统一接口
- * 根据环境提供一致的Logseq API接口
+ * 支持 Mock 和 Proxy 模式切换
  */
 
 import { ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import mockLogseq from './mock/index.ts';
-import '@logseq/libs'
+import '@logseq/libs';
 import logger from './logger.ts';
 
+type APIMode = 'mock' | 'proxy';
+
+let currentMode: APIMode = 'mock';
+
 /**
- * 获取Logseq API实例
- * @returns {any} Logseq API实例
+ * 初始化 Logseq
  */
-export const getLogseqAPI = (): ILSPluginUser => {
-  // 检查是否在测试模式下
-  const isTestMode = import.meta.env.MODE === 'test';
+export function initLogseq() {
+  logger.log('[Logseq] Initialized in Mock mode');
+}
 
-  if (isTestMode) {
-    logger.info('Using mock Logseq API (test mode)');
-    // 使用导入的mockLogseq
+/**
+ * 切换模式
+ */
+export function setMode(mode: APIMode) {
+  currentMode = mode;
+  logger.log(`[Logseq] Switched to ${mode} mode`);
+}
+
+/**
+ * 获取当前模式
+ */
+export function getMode(): APIMode {
+  return currentMode;
+}
+
+/**
+ * 获取当前 API
+ */
+function getLogseq(): ILSPluginUser {
+  if (currentMode === 'mock') {
     return mockLogseq;
-  } else {
-    logger.info('Using official Logseq API (production mode)');
-    // 直接返回官方的logseq对象
-    return logseq;
   }
-};
+  
+  // Proxy 模式：直接返回全局 logseq
+  return (window as any).logseq || mockLogseq;
+}
 
-// 导出统一的Logseq API实例
-export const logseqAPI = getLogseqAPI();
+/**
+ * Proxy 连接管理
+ */
+export async function connectProxy(url: string = 'http://localhost:12314') {
+  try {
+    logger.log(`[Proxy] Connecting to ${url}...`);
+    
+    // 简单检查连接
+    const response = await fetch(`${url}/health`);
+    if (response.ok) {
+      logger.log('[Proxy] Connected successfully');
+      return true;
+    } else {
+      logger.error('[Proxy] Connection failed');
+      return false;
+    }
+  } catch (error) {
+    logger.error('[Proxy] Connection error:', error);
+    return false;
+  }
+}
+
+export function disconnectProxy() {
+  logger.log('[Proxy] Disconnected');
+}
+
+/**
+ * 为了兼容现有代码，保持原有的属性访问方式
+ */
+export const logseqAPI = new Proxy(mockLogseq, {
+  get(target, prop) {
+    return getLogseq()[prop as keyof ILSPluginUser];
+  }
+}) as unknown as ILSPluginUser;
+
+/**
+ * 兼容旧的导出方式
+ */
+export const getLogseqAPI = (): ILSPluginUser => logseqAPI;
 
 export default logseqAPI;
