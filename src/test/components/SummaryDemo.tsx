@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SummaryType, TemplateType } from '../../lib/summary/types';
 import { getAllTemplates } from '../../lib/summary/templates';
 import { PageGenerator } from '../../lib/summary/PageGenerator';
+import logger from '../../lib/logger';
 import './SummaryDemo.css';
 
 const summaryTypes: { value: SummaryType; label: string }[] = [
@@ -28,6 +29,8 @@ export const SummaryDemo: React.FC<SummaryDemoProps> = ({ onGenerateSuccess }) =
 
   const handleGenerate = async () => {
     setIsGenerating(true);
+    logger.info('[SummaryDemo] 开始生成总结', { summaryType, templateType });
+    
     try {
       const generator = new PageGenerator();
       let start: Date | undefined;
@@ -36,6 +39,7 @@ export const SummaryDemo: React.FC<SummaryDemoProps> = ({ onGenerateSuccess }) =
       if (summaryType === 'custom' && customStart && customEnd) {
         start = new Date(customStart);
         end = new Date(customEnd);
+        logger.debug('[SummaryDemo] 自定义时间范围', { start, end });
       }
 
       const pageName = await generator.generate(
@@ -46,7 +50,8 @@ export const SummaryDemo: React.FC<SummaryDemoProps> = ({ onGenerateSuccess }) =
       );
 
       if (pageName) {
-        // 在 testAPP 中模拟展示生成的内容
+        logger.info('[SummaryDemo] 总结生成成功', { pageName });
+        
         const mockBlocks = [
           {
             id: 'block-1',
@@ -81,9 +86,10 @@ export const SummaryDemo: React.FC<SummaryDemoProps> = ({ onGenerateSuccess }) =
         setGeneratedContent(mockBlocks);
         setShowResult(true);
         onGenerateSuccess?.(pageName, mockBlocks);
+        logger.debug('[SummaryDemo] 展示生成的内容', { pageName, blocksCount: mockBlocks.length });
       }
     } catch (error) {
-      console.error('Generate summary failed:', error);
+      logger.error('[SummaryDemo] 生成总结失败', error);
       alert('生成总结失败，请查看控制台');
     } finally {
       setIsGenerating(false);

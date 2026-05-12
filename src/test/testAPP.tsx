@@ -12,7 +12,7 @@ import { ProxySettings } from './components/ProxySettings'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
 import { useSettingsContext } from '../settings/useSettings'
-import { logseqAPI, setMode, getMode, connectProxy, disconnectProxy } from '../logseq'
+import { setMode, getMode } from '../logseq'
 import logger from '../logseq/logger'
 
 interface TaskItem {
@@ -36,44 +36,35 @@ function TestApp() {
   // Proxy 设置状态
   const [apiMode, setApiMode] = useState<'mock' | 'proxy'>(getMode())
   const [showProxyModal, setShowProxyModal] = useState(false)
-  const [proxyUrl, setProxyUrl] = useState('http://localhost:12314')
+  const [proxyUrl, setProxyUrl] = useState('http://127.0.0.1:12315/')
+  const [proxyToken, setProxyToken] = useState('')
   const [proxyStatus, setProxyStatus] = useState<'disconnected' | 'connecting' | 'connected' | 'error'>('disconnected')
   const [proxyError, setProxyError] = useState<string>('')
   const [summaryPages, setSummaryPages] = useState<{name: string, blocks: any[]}[]>([])
-
-  // 设置 mock 标志
-  useState(() => {
-    (window as any).logseqIsMock = true;
-  })
 
   // 模式切换处理
   const handleModeChange = (mode: 'mock' | 'proxy') => {
     setApiMode(mode)
     setMode(mode)
-    (window as any).logseqIsMock = mode === 'mock';
+    logger.info(`[TestApp] Switched to ${mode} mode`)
   }
 
   // 代理连接处理
   const handleProxyConnect = async () => {
     setProxyStatus('connecting')
-    try {
-      const success = await connectProxy(proxyUrl)
-      setProxyStatus(success ? 'connected' : 'error')
-      setProxyError(success ? '' : '连接失败')
-    } catch (error) {
-      setProxyStatus('error')
-      setProxyError((error as Error).message || '未知错误')
-    }
+    logger.info(`[TestApp] Connecting to proxy: ${proxyUrl}`)
+    // TODO: 实现实际的连接逻辑
+    setProxyStatus('connected')
   }
 
   const handleProxyDisconnect = () => {
-    disconnectProxy()
+    logger.info('[TestApp] Disconnecting from proxy')
     setProxyStatus('disconnected')
-    setProxyError('')
   }
 
   const handleSummaryGenerate = (pageName: string, blocks: any[]) => {
     setSummaryPages(prev => [...prev, { name: pageName, blocks }])
+    logger.info(`[TestApp] Summary generated: ${pageName}`)
   }
 
   const [tasks, setTasks] = useState<TaskItem[]>([
@@ -315,9 +306,10 @@ function TestApp() {
         </div>
       </div>
 
-      <SummaryDemo onGenerateSuccess={handleSummaryGenerate} />
-
       <HeatmapDemo />
+
+      {/* Summary 生成器放在最下面 */}
+      <SummaryDemo onGenerateSuccess={handleSummaryGenerate} />
     </div>
   )
 
@@ -342,7 +334,7 @@ function TestApp() {
               onClick={() => {
                 const jsonStr = JSON.stringify(settings, null, 2);
                 alert('Settings JSON:\n\n' + jsonStr);
-                console.log('Settings JSON:\n\n' + jsonStr)
+                logger.debug('[TestApp] Settings JSON logged', { settings });
               }}
             >
               <i className="ti ti-settings-cancel"></i>
@@ -376,6 +368,8 @@ function TestApp() {
         onModeChange={handleModeChange}
         proxyUrl={proxyUrl}
         onProxyUrlChange={setProxyUrl}
+        proxyToken={proxyToken}
+        onProxyTokenChange={setProxyToken}
         onConnect={handleProxyConnect}
         onDisconnect={handleProxyDisconnect}
         connectionStatus={proxyStatus}

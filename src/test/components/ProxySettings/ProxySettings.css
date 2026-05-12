@@ -32,7 +32,8 @@
   line-height: 1.5;
 }
 
-.proxy-url-input {
+.proxy-url-input,
+.proxy-token-input {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--ls-border-color, #d1d5db);
@@ -44,14 +45,21 @@
   transition: border-color 0.2s;
 }
 
-.proxy-url-input:focus {
+.proxy-url-input:focus,
+.proxy-token-input:focus {
   outline: none;
   border-color: var(--ls-primary-color, #3b82f6);
 }
 
-.proxy-url-input:disabled {
+.proxy-url-input:disabled,
+.proxy-token-input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.proxy-token-input {
+  font-family: monospace;
+  letter-spacing: 2px;
 }
 
 .connection-status {
@@ -142,6 +150,7 @@
 }
 
 .dark .proxy-url-input,
+.dark .proxy-token-input,
 .dark .connection-status,
 .dark .action-btn.secondary {
   background: var(--ls-secondary-background-color, #374151);

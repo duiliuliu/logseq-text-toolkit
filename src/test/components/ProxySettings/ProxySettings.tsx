@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from '../../../components/Modal';
 import { Switch } from '../Switch';
 import './ProxySettings.css';
@@ -10,6 +10,8 @@ interface ProxySettingsProps {
   onModeChange: (mode: 'mock' | 'proxy') => void;
   proxyUrl: string;
   onProxyUrlChange: (url: string) => void;
+  proxyToken: string;
+  onProxyTokenChange: (token: string) => void;
   onConnect: () => Promise<void>;
   onDisconnect: () => void;
   connectionStatus: 'disconnected' | 'connecting' | 'connected' | 'error';
@@ -23,6 +25,8 @@ export const ProxySettings: React.FC<ProxySettingsProps> = ({
   onModeChange,
   proxyUrl,
   onProxyUrlChange,
+  proxyToken,
+  onProxyTokenChange,
   onConnect,
   onDisconnect,
   connectionStatus,
@@ -108,9 +112,19 @@ export const ProxySettings: React.FC<ProxySettingsProps> = ({
               type="text"
               value={proxyUrl}
               onChange={(e) => onProxyUrlChange(e.target.value)}
-              placeholder="http://localhost:12314"
+              placeholder="http://127.0.0.1:12315/"
               disabled={connectionStatus === 'connected'}
               className="proxy-url-input"
+            />
+
+            <h3>API Token</h3>
+            <input
+              type="password"
+              value={proxyToken}
+              onChange={(e) => onProxyTokenChange(e.target.value)}
+              placeholder="输入您的 API Token"
+              disabled={connectionStatus === 'connected'}
+              className="proxy-token-input"
             />
 
             <div className="connection-status">
@@ -149,6 +163,7 @@ export const ProxySettings: React.FC<ProxySettingsProps> = ({
           <h3>ℹ️ 使用说明</h3>
           <ul className="info-list">
             <li>在 Logseq 中启用 API Server (设置 → Advanced → Enable API Server)</li>
+            <li>获取 API Token (设置 → Advanced → API Token)</li>
             <li>确保 Logseq 正在运行</li>
             <li>在 Mock 模式下，使用模拟数据进行开发</li>
           </ul>

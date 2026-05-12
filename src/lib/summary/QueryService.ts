@@ -1,5 +1,6 @@
 import { logseqAPI } from '../../logseq';
 import { DateRange, BlockStats, TaskStats, PageStats } from './types';
+import logger from '../logger';
 
 export class QueryService {
   async queryBlocks(dateRange: DateRange): Promise<BlockStats> {
@@ -7,10 +8,7 @@ export class QueryService {
     const startStr = start.toISOString().split('T')[0];
     const endStr = end.toISOString().split('T')[0];
 
-    // Mock 模式下返回模拟数据
-    if ((window as any).logseqIsMock) {
-      return this.getMockBlockStats();
-    }
+    logger.debug('[QueryService] queryBlocks', { startStr, endStr });
 
     const createdBlocks = await logseqAPI.DB.datascriptQuery(`
       [:find (count ?b)
@@ -41,7 +39,6 @@ export class QueryService {
       const content = block[1] as string;
       totalContentLength += content.length;
       
-      // 简单的标签提取
       const tagMatches = content.match(/#\w+/g) || [];
       for (const tag of tagMatches) {
         const cleanTag = tag.substring(1);
@@ -52,6 +49,8 @@ export class QueryService {
     const created = createdBlocks.length > 0 ? Number(createdBlocks[0][0]) : 0;
     const modified = modifiedBlocks.length > 0 ? Number(modifiedBlocks[0][0]) : 0;
     const total = allBlocks.length;
+
+    logger.info('[QueryService] queryBlocks completed', { total, created, modified });
 
     return {
       total,
@@ -67,21 +66,20 @@ export class QueryService {
     const startStr = start.toISOString().split('T')[0];
     const endStr = end.toISOString().split('T')[0];
 
-    // Mock 模式下返回模拟数据
-    if ((window as any).logseqIsMock) {
-      return this.getMockTaskStats();
-    }
+    logger.debug('[QueryService] queryTasks', { startStr, endStr });
 
-    // 参考 taskProgress 的查询逻辑
+    // 查询任务，使用 create-at 时间过滤
+    // 同时获取 scheduled 日期用于判断是否逾期
     const tasks = await logseqAPI.DB.datascriptQuery(`
-      [:find (pull ?b [:block/uuid :block/content :block/properties]) ?status-title
+      [:find ?b (pull ?b [:block/uuid :block/content :block/properties]) ?marker ?scheduled
        :where
        [?b :block/content ?content]
-       [?b :logseq.property/status ?status]
-       [?status :block/title ?status-title]
-       [?b :block/scheduled ?scheduled]
-       [(>= ?scheduled "${startStr}")]
-       [(<= ?scheduled "${endStr}")]]
+       [?b :block/marker ?marker]
+       [(contains? #{"TODO" "DOING" "DONE" "NOW" "LATER" "WAITING" "CANCELED"} ?marker)]
+       [?b :block/created-at ?created]
+       [(>= ?created "${startStr}")]
+       [(<= ?created "${endStr}")]
+       (optional [?b :block/scheduled ?scheduled])]
     `);
 
     const total = tasks.length;
@@ -94,37 +92,42 @@ export class QueryService {
     const now = new Date();
 
     for (const task of tasks) {
-      if (!task || !Array.isArray(task) || task.length < 2) continue;
+      if (!task || !Array.isArray(task) || task.length < 4) continue;
       
-      const block = task[0];
-      const statusTitle = task[1];
-      const status = statusTitle ? statusTitle.toLowerCase() : 'todo';
+      const marker = task[2] as string;
+      const scheduled = task[3] as string | null;
+      const status = marker ? marker.toLowerCase() : 'todo';
       
-      if (status === 'done') {
+      if (status === 'done' || status === 'completed' || status === 'cancelled') {
         completed++;
-      } else if (status === 'doing' || status === 'in-progress') {
+      } else if (status === 'doing' || status === 'now') {
         inProgress++;
+      } else if (status === 'waiting' || status === 'later') {
+        // waiting 和 later 状态的任务不算入 inProgress
       } else {
         todo++;
       }
 
-      // 检查逾期
-      if (status !== 'done' && block?.properties?.scheduled) {
-        const scheduledDate = new Date(block.properties.scheduled);
+      // 检查是否逾期：如果有 scheduled 日期，且已过期的未完成任务
+      if (scheduled && status !== 'done' && status !== 'completed' && status !== 'cancelled') {
+        const scheduledDate = new Date(scheduled);
         if (scheduledDate < now) {
           overdue++;
         }
       }
 
-      // 简单的优先级分析
-      if (block?.content?.includes('A)') || block?.content?.includes('[] A')) {
+      // 优先级分析
+      const content = (task[1] as any)?.content || '';
+      if (content.includes('A)') || content.includes('[] A') || content.includes('#priority/A')) {
         byPriority['A'] = (byPriority['A'] || 0) + 1;
-      } else if (block?.content?.includes('B)') || block?.content?.includes('[] B')) {
+      } else if (content.includes('B)') || content.includes('[] B') || content.includes('#priority/B')) {
         byPriority['B'] = (byPriority['B'] || 0) + 1;
-      } else if (block?.content?.includes('C)') || block?.content?.includes('[] C')) {
+      } else if (content.includes('C)') || content.includes('[] C') || content.includes('#priority/C')) {
         byPriority['C'] = (byPriority['C'] || 0) + 1;
       }
     }
+
+    logger.info('[QueryService] queryTasks completed', { total, completed, inProgress, todo, overdue });
 
     return {
       total,
@@ -142,10 +145,7 @@ export class QueryService {
     const startStr = start.toISOString().split('T')[0];
     const endStr = end.toISOString().split('T')[0];
 
-    // Mock 模式下返回模拟数据
-    if ((window as any).logseqIsMock) {
-      return this.getMockPageStats();
-    }
+    logger.debug('[QueryService] queryPages', { startStr, endStr });
 
     const pages = await logseqAPI.DB.datascriptQuery(`
       [:find ?p ?name ?createdAt ?updatedAt
@@ -172,53 +172,14 @@ export class QueryService {
       }
     }
 
+    logger.info('[QueryService] queryPages completed', { total: pages.length, newPages, modifiedPages });
+
     return {
       total: pages.length,
       newPages,
       modifiedPages,
       byTag,
       byProperty,
-    };
-  }
-
-  private getMockBlockStats(): BlockStats {
-    return {
-      total: 42,
-      created: 15,
-      modified: 30,
-      avgContentLength: 120,
-      tags: {
-        'task': 8,
-        'project': 5,
-        'note': 3,
-        'idea': 2,
-      },
-    };
-  }
-
-  private getMockTaskStats(): TaskStats {
-    return {
-      total: 12,
-      completed: 7,
-      inProgress: 3,
-      todo: 2,
-      overdue: 1,
-      completionRate: 58,
-      byPriority: {
-        'A': 4,
-        'B': 5,
-        'C': 3,
-      },
-    };
-  }
-
-  private getMockPageStats(): PageStats {
-    return {
-      total: 5,
-      newPages: 2,
-      modifiedPages: 3,
-      byTag: {},
-      byProperty: {},
     };
   }
 }

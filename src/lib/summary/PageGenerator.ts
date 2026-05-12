@@ -2,6 +2,7 @@ import { logseqAPI } from '../../logseq';
 import { BlockNode, TemplateType, SummaryType } from './types';
 import { getTemplate } from './templates';
 import { DataAnalyzer } from './DataAnalyzer';
+import logger from '../logger';
 
 export class PageGenerator {
   private analyzer: DataAnalyzer;
@@ -17,25 +18,35 @@ export class PageGenerator {
     customEnd?: Date,
     params: Record<string, any> = {}
   ): Promise<string | null> {
+    logger.info('[PageGenerator] 开始生成总结', { templateType, summaryType });
+    
     try {
       const template = getTemplate(templateType);
       if (!template) {
+        logger.error('[PageGenerator] 模板未找到', { templateType });
         throw new Error(`Template ${templateType} not found`);
       }
 
+      logger.debug('[PageGenerator] 分析数据', { summaryType, customStart, customEnd });
       const data = await this.analyzer.analyze(summaryType, customStart, customEnd);
+      
+      logger.debug('[PageGenerator] 渲染模板');
       const blockTree = template.render(data, params);
 
       const pageName = this.generatePageName(summaryType, data.dateRange);
+      logger.info('[PageGenerator] 创建页面', { pageName });
+      
       const pageId = await this.createPage(pageName);
       
       if (pageId) {
+        logger.debug('[PageGenerator] 插入块树', { pageId, blocksCount: blockTree.length });
         await this.insertBlockTree(pageId, blockTree);
+        logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
       }
 
       return pageName;
     } catch (error) {
-      console.error('Failed to generate summary:', error);
+      logger.error('[PageGenerator] 生成总结失败', error);
       return null;
     }
   }
@@ -61,11 +72,16 @@ export class PageGenerator {
   }
 
   private async createPage(pageName: string): Promise<string | null> {
+    logger.debug('[PageGenerator] 查询页面是否存在', { pageName });
     const existingPage = await logseqAPI.Editor.getPage(pageName);
+    
     if (!existingPage) {
+      logger.debug('[PageGenerator] 创建新页面', { pageName });
       const page = await logseqAPI.Editor.createPage(pageName, {}, { createFirstBlock: false });
       return page?.uuid || page?.id || null;
     }
+    
+    logger.debug('[PageGenerator] 页面已存在', { pageName });
     return existingPage?.uuid || existingPage?.id || null;
   }
 
@@ -73,6 +89,8 @@ export class PageGenerator {
     parentId: string,
     blocks: BlockNode[]
   ): Promise<void> {
+    logger.debug('[PageGenerator] 插入块', { parentId, count: blocks.length });
+    
     for (const block of blocks) {
       const createdBlock = await logseqAPI.Editor.insertBlock(
         parentId,
@@ -84,5 +102,7 @@ export class PageGenerator {
         await this.insertBlockTree(createdBlock.uuid, block.children);
       }
     }
+    
+    logger.debug('[PageGenerator] 块插入完成', { parentId });
   }
 }
