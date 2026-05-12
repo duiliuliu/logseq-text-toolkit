@@ -27,8 +27,11 @@ export class PageGenerator {
       const blockTree = template.render(data, params);
 
       const pageName = this.generatePageName(summaryType, data.dateRange);
-      await this.createPage(pageName);
-      await this.insertBlockTree(pageName, blockTree);
+      const pageId = await this.createPage(pageName);
+      
+      if (pageId) {
+        await this.insertBlockTree(pageId, blockTree);
+      }
 
       return pageName;
     } catch (error) {
@@ -57,27 +60,28 @@ export class PageGenerator {
     }
   }
 
-  private async createPage(pageName: string): Promise<void> {
+  private async createPage(pageName: string): Promise<string | null> {
     const existingPage = await logseqAPI.Editor.getPage(pageName);
     if (!existingPage) {
-      await logseqAPI.Editor.createPage(pageName, {}, { createFirstBlock: false });
+      const page = await logseqAPI.Editor.createPage(pageName, {}, { createFirstBlock: false });
+      return page?.uuid || page?.id || null;
     }
+    return existingPage?.uuid || existingPage?.id || null;
   }
 
   private async insertBlockTree(
-    pageName: string,
-    blocks: BlockNode[],
-    parentId?: string
+    parentId: string,
+    blocks: BlockNode[]
   ): Promise<void> {
     for (const block of blocks) {
-      const createdBlock = await logseqAPI.Editor.createBlock(
-        parentId || pageName,
+      const createdBlock = await logseqAPI.Editor.insertBlock(
+        parentId,
         block.content,
-        { sibling: !!parentId }
+        'last'
       );
 
-      if (block.children?.length) {
-        await this.insertBlockTree(pageName, block.children, createdBlock?.uuid);
+      if (block.children?.length && createdBlock?.uuid) {
+        await this.insertBlockTree(createdBlock.uuid, block.children);
       }
     }
   }

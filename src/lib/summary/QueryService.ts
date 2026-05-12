@@ -7,27 +7,31 @@ export class QueryService {
     const startStr = start.toISOString().split('T')[0];
     const endStr = end.toISOString().split('T')[0];
 
+    // Mock 模式下返回模拟数据
+    if ((window as any).logseqIsMock) {
+      return this.getMockBlockStats();
+    }
+
     const createdBlocks = await logseqAPI.DB.datascriptQuery(`
       [:find (count ?b)
        :where [?b :block/created-at ?ca]
-       [(>= ?ca "${startStr}")]
-       [(<= ?ca "${endStr}")]]
+              [(>= ?ca "${startStr}")]
+              [(<= ?ca "${endStr}")]]
     `);
 
     const modifiedBlocks = await logseqAPI.DB.datascriptQuery(`
       [:find (count ?b)
        :where [?b :block/updated-at ?ua]
-       [(>= ?ua "${startStr}")]
-       [(<= ?ua "${endStr}")]]
+              [(>= ?ua "${startStr}")]
+              [(<= ?ua "${endStr}")]]
     `);
 
     const allBlocks = await logseqAPI.DB.datascriptQuery(`
-      [:find ?b ?content ?tags
+      [:find ?b ?content
        :where [?b :block/content ?content]
               [?b :block/created-at ?ca]
               [(>= ?ca "${startStr}")]
-              [(<= ?ca "${endStr}")]
-              (optional [?b :block/tags ?tags])]
+              [(<= ?ca "${endStr}")]]
     `);
 
     const tagCount: Record<string, number> = {};
@@ -35,12 +39,13 @@ export class QueryService {
 
     for (const block of allBlocks) {
       const content = block[1] as string;
-      const tags = block[2] as string[] || [];
-      
       totalContentLength += content.length;
       
-      for (const tag of tags) {
-        tagCount[tag] = (tagCount[tag] || 0) + 1;
+      // 简单的标签提取
+      const tagMatches = content.match(/#\w+/g) || [];
+      for (const tag of tagMatches) {
+        const cleanTag = tag.substring(1);
+        tagCount[cleanTag] = (tagCount[cleanTag] || 0) + 1;
       }
     }
 
@@ -62,16 +67,21 @@ export class QueryService {
     const startStr = start.toISOString().split('T')[0];
     const endStr = end.toISOString().split('T')[0];
 
+    // Mock 模式下返回模拟数据
+    if ((window as any).logseqIsMock) {
+      return this.getMockTaskStats();
+    }
+
+    // 参考 taskProgress 的查询逻辑
     const tasks = await logseqAPI.DB.datascriptQuery(`
-      [:find ?b ?content ?status ?priority ?scheduled
-       :where [?b :block/content ?content]
-              [?b :block/marker ?marker]
-              [(contains? #{"TODO" "DOING" "DONE"} ?marker)]
-              [?b :block/scheduled ?scheduled]
-              [(>= ?scheduled "${startStr}")]
-              [(<= ?scheduled "${endStr}")]
-              (optional [?b :block/priority ?priority])
-              (optional [?b :block/status ?status])]
+      [:find (pull ?b [:block/uuid :block/content :block/properties]) ?status-title
+       :where
+       [?b :block/content ?content]
+       [?b :logseq.property/status ?status]
+       [?status :block/title ?status-title]
+       [?b :block/scheduled ?scheduled]
+       [(>= ?scheduled "${startStr}")]
+       [(<= ?scheduled "${endStr}")]]
     `);
 
     const total = tasks.length;
@@ -84,25 +94,35 @@ export class QueryService {
     const now = new Date();
 
     for (const task of tasks) {
-      const content = task[1] as string;
-      const status = task[2] as string || '';
-      const priority = task[3] as string || '';
-      const scheduled = task[4] as string;
-
-      if (status === 'done' || content.includes('[x]') || content.includes('- [x]')) {
+      if (!task || !Array.isArray(task) || task.length < 2) continue;
+      
+      const block = task[0];
+      const statusTitle = task[1];
+      const status = statusTitle ? statusTitle.toLowerCase() : 'todo';
+      
+      if (status === 'done') {
         completed++;
-      } else if (status === 'doing' || content.includes('[~]') || content.includes('- [~]')) {
+      } else if (status === 'doing' || status === 'in-progress') {
         inProgress++;
       } else {
         todo++;
       }
 
-      if (scheduled && new Date(scheduled) < now && status !== 'done') {
-        overdue++;
+      // 检查逾期
+      if (status !== 'done' && block?.properties?.scheduled) {
+        const scheduledDate = new Date(block.properties.scheduled);
+        if (scheduledDate < now) {
+          overdue++;
+        }
       }
 
-      if (priority) {
-        byPriority[priority] = (byPriority[priority] || 0) + 1;
+      // 简单的优先级分析
+      if (block?.content?.includes('A)') || block?.content?.includes('[] A')) {
+        byPriority['A'] = (byPriority['A'] || 0) + 1;
+      } else if (block?.content?.includes('B)') || block?.content?.includes('[] B')) {
+        byPriority['B'] = (byPriority['B'] || 0) + 1;
+      } else if (block?.content?.includes('C)') || block?.content?.includes('[] C')) {
+        byPriority['C'] = (byPriority['C'] || 0) + 1;
       }
     }
 
@@ -122,13 +142,16 @@ export class QueryService {
     const startStr = start.toISOString().split('T')[0];
     const endStr = end.toISOString().split('T')[0];
 
+    // Mock 模式下返回模拟数据
+    if ((window as any).logseqIsMock) {
+      return this.getMockPageStats();
+    }
+
     const pages = await logseqAPI.DB.datascriptQuery(`
-      [:find ?p ?name ?createdAt ?updatedAt ?tags ?properties
+      [:find ?p ?name ?createdAt ?updatedAt
        :where [?p :page/name ?name]
               [?p :page/created-at ?createdAt]
-              [?p :page/updated-at ?updatedAt]
-              (optional [?p :page/tags ?tags])
-              (optional [?p :block/properties ?properties])]
+              [?p :page/updated-at ?updatedAt]]
     `);
 
     let newPages = 0;
@@ -139,8 +162,6 @@ export class QueryService {
     for (const page of pages) {
       const createdAt = page[2] as string;
       const updatedAt = page[3] as string;
-      const tags = page[4] as string[] || [];
-      const properties = page[5] as Record<string, any> || {};
 
       if (createdAt >= startStr && createdAt <= endStr) {
         newPages++;
@@ -148,18 +169,6 @@ export class QueryService {
 
       if (updatedAt >= startStr && updatedAt <= endStr) {
         modifiedPages++;
-      }
-
-      for (const tag of tags) {
-        byTag[tag] = (byTag[tag] || 0) + 1;
-      }
-
-      for (const [key, value] of Object.entries(properties)) {
-        if (!byProperty[key]) {
-          byProperty[key] = {};
-        }
-        const valueStr = String(value);
-        byProperty[key][valueStr] = (byProperty[key][valueStr] || 0) + 1;
       }
     }
 
@@ -169,6 +178,47 @@ export class QueryService {
       modifiedPages,
       byTag,
       byProperty,
+    };
+  }
+
+  private getMockBlockStats(): BlockStats {
+    return {
+      total: 42,
+      created: 15,
+      modified: 30,
+      avgContentLength: 120,
+      tags: {
+        'task': 8,
+        'project': 5,
+        'note': 3,
+        'idea': 2,
+      },
+    };
+  }
+
+  private getMockTaskStats(): TaskStats {
+    return {
+      total: 12,
+      completed: 7,
+      inProgress: 3,
+      todo: 2,
+      overdue: 1,
+      completionRate: 58,
+      byPriority: {
+        'A': 4,
+        'B': 5,
+        'C': 3,
+      },
+    };
+  }
+
+  private getMockPageStats(): PageStats {
+    return {
+      total: 5,
+      newPages: 2,
+      modifiedPages: 3,
+      byTag: {},
+      byProperty: {},
     };
   }
 }

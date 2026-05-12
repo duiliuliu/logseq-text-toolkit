@@ -7,8 +7,8 @@ import HiccupRenderer from './components/HiccupRenderer/index'
 import BlockRenderer from './components/BlockRenderer/index'
 import TaskProgressDemo from './components/TaskProgressDemo/index'
 import HeatmapDemo from './components/HeatmapDemo/index'
-import APIQueryDemo from './components/APIQueryDemo/index'
-import { ModeSwitch, ProxyConfig } from './components/ProxySettings/index'
+import { SummaryDemo } from './components/SummaryDemo'
+import { ProxySettings } from './components/ProxySettings'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
 import { useSettingsContext } from '../settings/useSettings'
@@ -35,28 +35,34 @@ function TestApp() {
   
   // Proxy 设置状态
   const [apiMode, setApiMode] = useState<'mock' | 'proxy'>(getMode())
-  const [showProxyPanel, setShowProxyPanel] = useState(false)
+  const [showProxyModal, setShowProxyModal] = useState(false)
+  const [proxyUrl, setProxyUrl] = useState('http://localhost:12314')
   const [proxyStatus, setProxyStatus] = useState<'disconnected' | 'connecting' | 'connected' | 'error'>('disconnected')
   const [proxyError, setProxyError] = useState<string>('')
+  const [summaryPages, setSummaryPages] = useState<{name: string, blocks: any[]}[]>([])
+
+  // 设置 mock 标志
+  useState(() => {
+    (window as any).logseqIsMock = true;
+  })
 
   // 模式切换处理
   const handleModeChange = (mode: 'mock' | 'proxy') => {
     setApiMode(mode)
     setMode(mode)
+    (window as any).logseqIsMock = mode === 'mock';
   }
 
   // 代理连接处理
-  const handleProxyConnect = async (url: string): Promise<boolean> => {
+  const handleProxyConnect = async () => {
     setProxyStatus('connecting')
     try {
-      const success = await connectProxy(url)
+      const success = await connectProxy(proxyUrl)
       setProxyStatus(success ? 'connected' : 'error')
       setProxyError(success ? '' : '连接失败')
-      return success
     } catch (error) {
       setProxyStatus('error')
       setProxyError((error as Error).message || '未知错误')
-      return false
     }
   }
 
@@ -64,6 +70,10 @@ function TestApp() {
     disconnectProxy()
     setProxyStatus('disconnected')
     setProxyError('')
+  }
+
+  const handleSummaryGenerate = (pageName: string, blocks: any[]) => {
+    setSummaryPages(prev => [...prev, { name: pageName, blocks }])
   }
 
   const [tasks, setTasks] = useState<TaskItem[]>([
@@ -305,7 +315,7 @@ function TestApp() {
         </div>
       </div>
 
-      <APIQueryDemo />
+      <SummaryDemo onGenerateSuccess={handleSummaryGenerate} />
 
       <HeatmapDemo />
     </div>
@@ -315,24 +325,16 @@ function TestApp() {
     <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div id="toolbar" className="toolbar-banner">
         <div className="toolbar-banner-content">
-          <span className="toolbar-banner-text">工具栏演示</span>
+          <span className="toolbar-banner-text">Text Toolkit - Test Mode</span>
           <div className="toolbar-banner-actions">
-            {/* Proxy 设置 */}
-            <div className="proxy-settings-bar">
-              <ModeSwitch 
-                currentMode={apiMode} 
-                onModeChange={handleModeChange} 
-              />
-              
-              {apiMode === 'proxy' && (
-                <button 
-                  className="proxy-config-btn"
-                  onClick={() => setShowProxyPanel(!showProxyPanel)}
-                >
-                  🔧
-                </button>
-              )}
-            </div>
+            {/* Proxy 设置按钮 */}
+            <button
+              className="button toolbar-banner-btn"
+              title="Proxy 设置"
+              onClick={() => setShowProxyModal(true)}
+            >
+              <span style={{ fontSize: '18px' }}>🔗</span>
+            </button>
             
             <a
               className="button toolbar-banner-btn"
@@ -349,21 +351,14 @@ function TestApp() {
         </div>
       </div>
 
-      {/* Proxy 设置面板 */}
-      {showProxyPanel && apiMode === 'proxy' && (
-        <div className="proxy-panel">
-          <ProxyConfig
-            onConnect={handleProxyConnect}
-            onDisconnect={handleProxyDisconnect}
-            connectionStatus={proxyStatus}
-            errorMessage={proxyError}
-          />
-        </div>
-      )}
-
       <div id="head" className="top-toolbar">
         <div className="toolbar-content">
           <h1>Text Toolkit Plugin (Test Mode)</h1>
+          <div className="mode-indicator">
+            <span className={`mode-badge ${apiMode}`}>
+              {apiMode === 'mock' ? '📱 Mock Mode' : '🔗 Proxy Mode'}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -371,6 +366,20 @@ function TestApp() {
         leftContent={leftContent}
         centerContent={centerContent}
         rightContent={rightContent}
+      />
+
+      {/* Proxy 设置 Modal */}
+      <ProxySettings
+        isOpen={showProxyModal}
+        onClose={() => setShowProxyModal(false)}
+        apiMode={apiMode}
+        onModeChange={handleModeChange}
+        proxyUrl={proxyUrl}
+        onProxyUrlChange={setProxyUrl}
+        onConnect={handleProxyConnect}
+        onDisconnect={handleProxyDisconnect}
+        connectionStatus={proxyStatus}
+        errorMessage={proxyError}
       />
 
       <ToastContainer />

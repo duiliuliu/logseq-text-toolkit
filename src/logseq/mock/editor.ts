@@ -76,9 +76,19 @@ const Editor: any = {
     if ((window as any).addToast) {
       (window as any).addToast(message, 'success', 3000);
     }
+    const pageId = `mock-page-uuid-${Date.now()}`;
+    // 存储页面数据以便后续使用
+    (window as any).mockPages = (window as any).mockPages || {};
+    (window as any).mockPages[pageName] = {
+      name: pageName,
+      uuid: pageId,
+      id: pageId,
+      'page/original-name': pageName,
+    };
     return Promise.resolve({
       name: pageName,
-      uuid: `mock-uuid-${Date.now()}`,
+      uuid: pageId,
+      id: pageId,
       'page/original-name': pageName,
     });
   },
