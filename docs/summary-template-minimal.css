@@ -1,13 +1,12 @@
 /* ==========================================
-   极简数据看板模版样式 v4.0
+   极简数据看板模版样式 - 优化版 v5.0
    Logseq Text Toolkit - Summary Module
    ========================================== */
 
 /* ========================================================
-   针对 test.html 实际结构的样式
+   KPI 指标卡片样式 (level 4)
    ======================================================== */
 
-/* 1. 给 level 4 块都做成极简卡片 */
 .ls-block[level="4"] {
   background: var(--ls-primary-background-color, #ffffff) !important;
   padding: 28px 20px !important;
@@ -38,16 +37,53 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* 2. 卡片内的文本样式 */
 .ls-block[level="4"] .block-title-wrap {
   font-size: 32px !important;
   font-weight: 700 !important;
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   line-height: 1.2 !important;
-  margin-bottom: 8px !important;
 }
 
-/* 3. 标题样式 */
+/* 隐藏卡片内的圆点和控制按钮 */
+.ls-block[level="4"] .block-control-wrap,
+.ls-block[level="4"] .bullet-link-wrap {
+  display: none !important;
+}
+
+.ls-block[level="4"] .block-content-wrapper {
+  padding-left: 0 !important;
+}
+
+/* ========================================================
+   两列布局卡片样式 (level 3)
+   ======================================================== */
+
+.ls-block[level="3"] {
+  background: var(--ls-primary-background-color, #ffffff) !important;
+  padding: 24px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--ls-border-color, #e5e7eb) !important;
+  display: inline-block !important;
+  width: calc(50% - 16px) !important;
+  margin: 8px !important;
+  vertical-align: top !important;
+  min-height: 200px !important;
+}
+
+/* 隐藏 level 3 卡片内的圆点 */
+.ls-block[level="3"] .block-control-wrap,
+.ls-block[level="3"] .bullet-link-wrap {
+  display: none !important;
+}
+
+.ls-block[level="3"] .block-content-wrapper {
+  padding-left: 0 !important;
+}
+
+/* ========================================================
+   标题样式
+   ======================================================== */
+
 h1.as-heading {
   color: var(--ls-primary-text-color, #1a1a1a) !important;
   font-size: 32px !important;
@@ -61,7 +97,6 @@ h2.as-heading {
   font-size: 18px !important;
   font-weight: 600 !important;
   margin: 0 0 20px 0 !important;
-  letter-spacing: 0 !important;
   text-transform: uppercase !important;
 }
 
@@ -74,7 +109,39 @@ h3.as-heading {
   letter-spacing: 0.5px !important;
 }
 
-/* 4. 暗色主题适配 */
+/* ========================================================
+   表格样式
+   ======================================================== */
+
+.ls-block[level="3"] table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 12px 0 !important;
+}
+
+.ls-block[level="3"] th,
+.ls-block[level="3"] td {
+  padding: 8px 0 !important;
+  text-align: left !important;
+  border-bottom: 1px solid var(--ls-border-color, #e5e7eb) !important;
+}
+
+.ls-block[level="3"] th {
+  background: transparent !important;
+  font-weight: 600 !important;
+  color: var(--ls-secondary-text-color, #6b7280) !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+}
+
+.ls-block[level="3"] td {
+  font-size: 14px !important;
+}
+
+/* ========================================================
+   暗色主题适配
+   ======================================================== */
+
 .dark .ls-block[level="4"] {
   background: var(--ls-primary-background-color, #1f2937) !important;
   border-color: var(--ls-border-color, #374151) !important;
@@ -84,14 +151,26 @@ h3.as-heading {
   background: var(--ls-primary-color, #60a5fa) !important;
 }
 
-/* 5. 响应式布局 */
-@media (max-width: 768px) {
+.dark .ls-block[level="3"] {
+  background: var(--ls-primary-background-color, #1f2937) !important;
+  border-color: var(--ls-border-color, #374151) !important;
+}
+
+/* ========================================================
+   响应式布局
+   ======================================================== */
+
+@media (max-width: 900px) {
   .ls-block[level="4"] {
     width: calc(50% - 16px) !important;
   }
+  
+  .ls-block[level="3"] {
+    width: calc(100% - 16px) !important;
+  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .ls-block[level="4"] {
     width: calc(100% - 16px) !important;
   }
