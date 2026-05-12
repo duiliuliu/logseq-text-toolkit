@@ -1,12 +1,12 @@
 import { SummaryData, DateRange, SummaryType } from './types';
-import { QueryService } from './QueryService';
+import { Query } from './query';
 import logger from '../logger';
 
 export class DataAnalyzer {
-  private queryService: QueryService;
+  private query: Query;
 
   constructor() {
-    this.queryService = new QueryService();
+    this.query = new Query();
   }
 
   calculateDateRange(type: SummaryType, customStart?: Date, customEnd?: Date): DateRange {
@@ -56,9 +56,9 @@ export class DataAnalyzer {
     logger.info('[DataAnalyzer] 开始分析数据', { type, dateRange });
 
     const [blocks, tasks, pages] = await Promise.all([
-      this.queryService.queryBlocks(dateRange),
-      this.queryService.queryTasks(dateRange),
-      this.queryService.queryPages(dateRange),
+      this.query.queryBlocks(dateRange),
+      this.query.queryTasks(dateRange),
+      this.query.queryPages(dateRange),
     ]);
 
     logger.info('[DataAnalyzer] 数据分析完成', {
