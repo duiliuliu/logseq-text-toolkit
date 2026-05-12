@@ -329,6 +329,11 @@ const Editor: any = {
     console.log('Register slash command:', name);
     globalThis.logseqSlashCommands = globalThis.logseqSlashCommands || {};
     globalThis.logseqSlashCommands[name] = callback;
+  },
+
+  scrollToBlockInPage: (pageName: string) => {
+    console.log('scrollToBlockInPage:', pageName);
+    return Promise.resolve();
   }
 };
 

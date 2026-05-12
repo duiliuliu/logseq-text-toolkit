@@ -11,5 +11,6 @@ module.exports = [
   "customsToolbarItems.css",
   "taskProgress.css",
   "customSelect.css",
-  "heatmap.css"
+  "heatmap.css",
+  "summary.css"
 ]
