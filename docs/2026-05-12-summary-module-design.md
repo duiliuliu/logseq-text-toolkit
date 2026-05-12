@@ -253,14 +253,14 @@ ls-block [level=0]
 // 示例数据结构
 const summaryTree: BlockNode[] = [
   {
-    content: '[:div.summary-page]',
+    content: '[:div.ltt-summary-page]',
     children: [
       { content: '# 📊 周度总结 - 2026年第19周' },
       {
         content: '## 📈 数据概览',
         children: [
           {
-            content: '[:div.summary-kpi-section]',
+            content: '[:div.ltt-summary-kpi-section]',
             children: [
               { content: '### 核心指标' },
               { content: '- 创建块数: 156' },
@@ -275,7 +275,7 @@ const summaryTree: BlockNode[] = [
         content: '## 📈 活跃度热力图',
         children: [
           {
-            content: '[:div.summary-heatmap-section]',
+            content: '[:div.ltt-summary-heatmap-section]',
             children: [
               { content: '{{renderer :heatmap :week :tag=work}}' }
             ]
@@ -283,7 +283,7 @@ const summaryTree: BlockNode[] = [
         ]
       },
       {
-        content: '[:div.summary-two-columns]',
+        content: '[:div.ltt-summary-two-columns]',
         children: [
           { content: '## ✅ 任务回顾',
             children: [
@@ -402,13 +402,13 @@ async function insertBlockTree(
 ```
 1. 创建页面 '周度总结-2026-19'
    ↓
-2. 插入 '[:div.summary-page]' (level 0)
+2. 插入 '[:div.ltt-summary-page]' (level 0)
    ↓
 3. 插入 '# 📊 周度总结...' (level 1, child)
    ↓
 4. 插入 '## 📈 数据概览' (level 1, sibling)
    ↓
-5. 插入 '[:div.summary-kpi-section]' (level 2, child)
+5. 插入 '[:div.ltt-summary-kpi-section]' (level 2, child)
    ↓
 6. 插入 '### 核心指标' (level 3, child)
    ↓
@@ -427,15 +427,15 @@ async function insertBlockTree(
 
 ```css
 /* 页面容器 */
-.summary-page {
+.ltt-summary-page {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
 }
 
 /* KPI 指标区域 - 使用 grid 布局 */
-/* 选择器: .summary-kpi-section → .ls-block → ul */
-.summary-kpi-section + div > ul {
+/* 选择器: .ltt-summary-kpi-section → .ls-block → ul */
+.ltt-summary-kpi-section + div > ul {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 16px !important;
@@ -444,7 +444,7 @@ async function insertBlockTree(
   margin: 24px 0 !important;
 }
 
-.summary-kpi-section + div > ul > li {
+.ltt-summary-kpi-section + div > ul > li {
   background: var(--ls-secondary-background-color) !important;
   padding: 20px !important;
   border-radius: 12px !important;
@@ -453,12 +453,12 @@ async function insertBlockTree(
   transition: transform 0.2s ease !important;
 }
 
-.summary-kpi-section + div > ul > li:hover {
+.ltt-summary-kpi-section + div > ul > li:hover {
   transform: translateY(-4px) !important;
 }
 
 /* 热力图区域 */
-.summary-heatmap-section {
+.ltt-summary-heatmap-section {
   margin: 24px 0 !important;
   padding: 16px !important;
   background: var(--ls-secondary-background-color) !important;
@@ -466,24 +466,24 @@ async function insertBlockTree(
 }
 
 /* 两列布局 */
-/* 选择器: .summary-two-columns → .ls-block (第一列, 第二列) */
-.summary-two-columns {
+/* 选择器: .ltt-summary-two-columns → .ls-block (第一列, 第二列) */
+.ltt-summary-two-columns {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
   gap: 32px !important;
   margin: 24px 0 !important;
 }
 
-.summary-two-columns > div {
+.ltt-summary-two-columns > div {
   background: var(--ls-secondary-background-color) !important;
   padding: 20px !important;
   border-radius: 12px !important;
 }
 
 /* 暗色主题适配 */
-.dark .summary-kpi-section + div > ul > li,
-.dark .summary-heatmap-section,
-.dark .summary-two-columns > div {
+.dark .ltt-summary-kpi-section + div > ul > li,
+.dark .ltt-summary-heatmap-section,
+.dark .ltt-summary-two-columns > div {
   background: rgba(45, 52, 73, 0.8) !important;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
 }
@@ -493,9 +493,9 @@ async function insertBlockTree(
 
 | 选择器模式 | 说明 | 示例 |
 |-----------|------|------|
-| `.summary-section + div` | 选择 Hiccup div 后的直接子块（ls-block） | `.summary-kpi-section + div` |
-| `.summary-section + div > ul` | 选择子块下的列表 | `.summary-kpi-section + div > ul` |
-| `:where()` | 降低选择器优先级，方便用户覆盖 | `:where(.summary-kpi-section) + div > ul` |
+| `.ltt-summary-section + div` | 选择 Hiccup div 后的直接子块（ls-block） | `.ltt-summary-kpi-section + div` |
+| `.ltt-summary-section + div > ul` | 选择子块下的列表 | `.ltt-summary-kpi-section + div > ul` |
+| `:where()` | 降低选择器优先级，方便用户覆盖 | `:where(.ltt-summary-kpi-section) + div > ul` |
 
 ### 5.3 CSSRegistry 集成（type: 'both'
 
@@ -565,14 +565,14 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
   render(data: SummaryData): BlockNode[] {
     return [
       {
-        content: '[:div.summary-page]',
+        content: '[:div.ltt-summary-page]',
         children: [
           { content: `# 📊 工作回顾 - ${this.formatDateRange(data.dateRange)}' },
           { 
             content: '## 📈 数据概览',
             children: [
               {
-                content: '[:div.summary-kpi-section]',
+                content: '[:div.ltt-summary-kpi-section]',
                 children: [
                   { content: '### 核心指标' },
                   { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}' },
@@ -587,7 +587,7 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
             content: '## 📈 工作热力图',
             children: [
               {
-                content: '[:div.summary-heatmap-section]',
+                content: '[:div.ltt-summary-heatmap-section]',
                 children: [
                   { content: '{{renderer :heatmap :week :tag=work}' }
                 ]
@@ -595,7 +595,7 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
             ]
           },
           {
-            content: '[:div.summary-two-columns]',
+            content: '[:div.ltt-summary-two-columns]',
             children: [
               {
                 content: '## ✅ 任务回顾',
