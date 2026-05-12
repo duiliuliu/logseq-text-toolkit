@@ -212,61 +212,101 @@ export interface SummarySettings {
 
 ### 4.1 设计原则
 
-1. **95% 纯 Markdown**：保持内容可读性和可编辑性
-2. **最小化 Hiccup**：仅在关键容器节点注入 class
-3. **CSS 负责布局**：通过 CSSRegistry 注入样式调整布局
+1. **99% 纯 Markdown**：保持内容可读性和可编辑性
+2. **极简 Hiccup**：仅在关键容器节点注入 class，立即结束 `]`
+3. **Logseq 原生缩进**：子内容通过缩进成为 Logseq 子节点
+4. **CSS 层级选择器**：通过 `.summary-kpi-section > div` 等选择器设置样式
 
 ### 4.2 输出示例（GTD 工作回顾模版）
 
 ```markdown
-[:div.summary-page
+[:div.summary-page]
 # 📊 周度总结 - 2026年第19周
 
 ## 📈 数据概览
 
-[:div.summary-kpi-section
-### 核心指标
-- 创建块数: 156
-- 完成任务: 28 / 35
-- 活跃天数: 6 / 7
-- 新增页面: 12]
+[:div.summary-kpi-section]
+  ### 核心指标
+  - 创建块数: 156
+  - 完成任务: 28 / 35
+  - 活跃天数: 6 / 7
+  - 新增页面: 12
 
 ## 📈 活跃度热力图
 
-[:div.summary-heatmap-section
-{{renderer :heatmap :week :tag=work}}]
+[:div.summary-heatmap-section]
+  {{renderer :heatmap :week :tag=work}}
 
-[:div.summary-two-columns
-## ✅ 任务回顾
+[:div.summary-two-columns]
+  ## ✅ 任务回顾
+  
+  ### 完成任务清单
+  - [x] 完成项目A设计
+  - [x] 代码评审
+  - [x] 团队周会
+  
+  ### 任务统计
+  | 状态 | 数量 |
+  |------|------|
+  | 完成 | 28 |
+  | 进行中 | 5 |
+  | 待办 | 2 |
 
-### 完成任务清单
-- [x] 完成项目A设计
-- [x] 代码评审
-- [x] 团队周会
-
-### 任务统计
-| 状态 | 数量 |
-|------|------|
-| 完成 | 28 |
-| 进行中 | 5 |
-| 待办 | 2 |
-
-## 📝 内容分析
-
-### 热门标签
-- #工作 (45)
-- #学习 (28)
-- #项目A (22)
-
-### 页面分布
-- 工作笔记: 8页
-- 学习笔记: 4页
-- 会议记录: 3页]
+  ## 📝 内容分析
+  
+  ### 热门标签
+  - #工作 (45)
+  - #学习 (28)
+  - #项目A (22)
+  
+  ### 页面分布
+  - 工作笔记: 8页
+  - 学习笔记: 4页
+  - 会议记录: 3页
 
 ## 🤖 AI 分析建议
 
 > [AI 生成的分析内容...]
-]
+```
+
+### 4.3 Logseq 渲染后的 HTML 结构示意
+
+```html
+<div class="ls-block">
+  <div class="summary-page">
+    <h1>📊 周度总结 - 2026年第19周</h1>
+    
+    <h2>📈 数据概览</h2>
+    
+    <div class="summary-kpi-section">
+      <div class="ls-block">
+        <h3>核心指标</h3>
+        <ul>
+          <li>创建块数: 156</li>
+          <li>完成任务: 28 / 35</li>
+          ...
+        </ul>
+      </div>
+    </div>
+    
+    <div class="summary-heatmap-section">
+      <div class="ls-block">
+        [Heatmap 组件]
+      </div>
+    </div>
+    
+    <div class="summary-two-columns">
+      <div class="ls-block">
+        <h2>✅ 任务回顾</h2>
+        ...
+      </div>
+      <div class="ls-block">
+        <h2>📝 内容分析</h2>
+        ...
+      </div>
+    </div>
+  </div>
+</div>
 ```
 
 ---
@@ -286,7 +326,8 @@ export interface SummarySettings {
 }
 
 /* KPI 指标区域 - 使用 grid 布局 */
-.summary-kpi-section > ul {
+/* 结构: .summary-kpi-section > .ls-block > ul */
+.summary-kpi-section > div > ul {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 16px !important;
@@ -295,7 +336,7 @@ export interface SummarySettings {
   margin: 24px 0 !important;
 }
 
-.summary-kpi-section > ul > li {
+.summary-kpi-section > div > ul > li {
   background: var(--ls-secondary-background-color) !important;
   padding: 20px !important;
   border-radius: 12px !important;
@@ -304,7 +345,7 @@ export interface SummarySettings {
   transition: transform 0.2s ease !important;
 }
 
-.summary-kpi-section > ul > li:hover {
+.summary-kpi-section > div > ul > li:hover {
   transform: translateY(-4px) !important;
 }
 
@@ -317,6 +358,7 @@ export interface SummarySettings {
 }
 
 /* 两列布局 */
+/* 结构: .summary-two-columns > .ls-block (第一列), .ls-block (第二列) */
 .summary-two-columns {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
@@ -331,13 +373,22 @@ export interface SummarySettings {
 }
 
 /* 暗色主题适配 */
-.dark .summary-kpi-section > ul > li,
+.dark .summary-kpi-section > div > ul > li,
 .dark .summary-heatmap-section,
 .dark .summary-two-columns > div {
   background: rgba(45, 52, 73, 0.8) !important;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
 }
 ```
+
+### 5.2 CSS 选择器策略说明
+
+| 选择器模式 | 说明 | 示例 |
+|-----------|------|------|
+| `.summary-section > div` | 选择直接子节点（ls-block） | `.summary-kpi-section > div` |
+| `.summary-section > div > ul` | 选择子节点下的列表 | `.summary-kpi-section > div > ul` |
+| `.summary-section > div:nth-child(1)` | 选择第 N 个子块 | 两列布局选择第一列 |
+| `:where()` | 降低选择器优先级，方便用户覆盖 | `:where(.summary-kpi-section) > div > ul` |
 
 ---
 
@@ -505,6 +556,36 @@ export function registerSummaryCSS() {
 
 ## 附录：布局草图（文本版）
 
+### A. Markdown 源码结构（含缩进）
+
+```
+[:div.summary-page]
+# 📊 周度总结 - 2026年第19周
+
+## 📈 数据概览
+
+[:div.summary-kpi-section]
+  ### 核心指标
+  - 创建块数: 156
+  - 完成任务: 28 / 35
+  - 活跃天数: 6 / 7
+  - 新增页面: 12
+
+## 📈 活跃度热力图
+
+[:div.summary-heatmap-section]
+  {{renderer :heatmap :week :tag=work}}
+
+[:div.summary-two-columns]
+  ## ✅ 任务回顾
+  ...
+  
+  ## 📝 内容分析
+  ...
+```
+
+### B. 渲染后可视化效果
+
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │  📊 周度总结 - 2026年第19周 (5月5日-5月11日)                        │
@@ -514,30 +595,30 @@ export function registerSummaryCSS() {
 │  │ 创建块数  │  │ 完成任务  │  │ 活跃天数  │  │ 新增页面  │          │
 │  │   156    │  │  28/35   │  │   6/7    │  │   12     │          │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘          │
+│  (summary-kpi-section)                                              │
 │                                                                     │
 ├─────────────────────────────────────────────────────────────────────┤
 │  📈 活跃度热力图                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐  │
 │  │  [Heatmap 组件]                                              │  │
 │  └─────────────────────────────────────────────────────────────┘  │
+│  (summary-heatmap-section)                                          │
 │                                                                     │
-├──────────────────────┬──────────────────────────────────────────────┤
-│  ✅ 任务回顾         │  📝 内容分析                                 │
-│  ┌────────────────┐  │  ┌───────────────────────────────────────┐ │
-│  │ • 完成: 28    │  │  │ 🔥 热门标签                            │ │
-│  │ • 进行中: 5   │  │  │  #工作 (45)  #学习 (28)                │ │
-│  │ • 待办: 2     │  │  │  #项目A (22)                           │ │
-│  │                │  │  │                                       │ │
-│  │ 📋 任务清单   │  │  │ 📚 页面分布                            │ │
-│  │ [列表...]     │  │  │  工作笔记: 8页                        │ │
-│  └────────────────┘  │  │  学习笔记: 4页                        │ │
-│                      │  │  会议记录: 3页                        │ │
-│                      │  └───────────────────────────────────────┘ │
-├──────────────────────┴──────────────────────────────────────────────┤
-│  🤖 AI 分析建议 (展开/收起)                                          │
-│  ┌─────────────────────────────────────────────────────────────┐  │
-│  │ [AI 生成的分析内容...]                                       │  │
-│  └─────────────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────────────┤
+│  [summary-two-columns] (grid 布局)                                  │
+│  ┌─────────────────────────────┬───────────────────────────────┐  │
+│  │  ✅ 任务回顾                │  📝 内容分析                  │  │
+│  │  ┌───────────────────────┐  │  ┌─────────────────────────┐  │  │
+│  │  │ • 完成: 28            │  │  │ 🔥 热门标签              │  │  │
+│  │  │ • 进行中: 5           │  │  │  #工作 (45)             │  │  │
+│  │  │ • 待办: 2             │  │  │  #学习 (28)             │  │  │
+│  │  └───────────────────────┘  │  └─────────────────────────┘  │  │
+│  │  📋 任务清单                │  📚 页面分布                 │  │
+│  │  [列表...]                 │  ...                          │  │
+│  └─────────────────────────────┴───────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────────────┤
+│  🤖 AI 分析建议                                                     │
+│  > [AI 生成的分析内容...]                                           │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
