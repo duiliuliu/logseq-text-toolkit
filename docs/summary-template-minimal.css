@@ -1,0 +1,214 @@
+/* ==========================================
+   极简数据看板模版样式
+   Logseq Text Toolkit - Summary Module
+   版本: v1.0
+   日期: 2026-05-12
+   ========================================== */
+
+/* 1. 页面容器 */
+.ltt-summary-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: transparent;
+}
+
+/* 2. KPI 指标区域 - 极简网格 */
+.ltt-summary-kpi-section + div > ul {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 24px !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 32px 0 !important;
+}
+
+.ltt-summary-kpi-section + div > ul > li {
+  background: var(--ls-primary-background-color, #ffffff) !important;
+  padding: 28px 20px !important;
+  border-radius: 8px !important;
+  text-align: left !important;
+  border: 1px solid var(--ls-border-color, #e5e7eb) !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.ltt-summary-kpi-section + div > ul > li::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 4px !important;
+  height: 100% !important;
+  background: var(--ls-primary-color, #3b82f6) !important;
+}
+
+.ltt-summary-kpi-section + div > ul > li:hover {
+  border-color: var(--ls-primary-color, #3b82f6) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 3. 热力图区域 */
+.ltt-summary-heatmap-section {
+  margin: 40px 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+/* 4. 两列布局 - 极简 */
+.ltt-summary-two-columns {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 32px !important;
+  margin: 40px 0 !important;
+}
+
+.ltt-summary-two-columns > div {
+  background: var(--ls-primary-background-color, #ffffff) !important;
+  padding: 28px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--ls-border-color, #e5e7eb) !important;
+}
+
+/* 5. 暗色主题适配 */
+.dark .ltt-summary-kpi-section + div > ul > li,
+.dark .ltt-summary-two-columns > div {
+  background: var(--ls-primary-background-color, #1f2937) !important;
+  border-color: var(--ls-border-color, #374151) !important;
+}
+
+.dark .ltt-summary-kpi-section + div > ul > li::before {
+  background: var(--ls-primary-color, #60a5fa) !important;
+}
+
+/* 6. 响应式布局 */
+@media (max-width: 768px) {
+  .ltt-summary-kpi-section + div > ul {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  
+  .ltt-summary-two-columns {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ltt-summary-kpi-section + div > ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 7. 标题样式 - 极简 */
+.ltt-summary-page h1 {
+  color: var(--ls-primary-text-color, #111827) !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  margin: 0 0 32px 0 !important;
+  letter-spacing: -0.5px !important;
+}
+
+.ltt-summary-page h2 {
+  color: var(--ls-primary-text-color, #111827) !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin: 0 0 20px 0 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  display: block !important;
+}
+
+.ltt-summary-page h3 {
+  color: var(--ls-secondary-text-color, #6b7280) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  margin: 0 0 12px 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* 8. 列表样式 - 极简 */
+.ltt-summary-page ul {
+  padding-left: 0 !important;
+  margin: 16px 0 !important;
+  list-style: none !important;
+}
+
+.ltt-summary-page li {
+  margin: 10px 0 !important;
+  padding: 10px 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--ls-border-color, #e5e7eb) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.ltt-summary-page li:last-child {
+  border-bottom: none !important;
+}
+
+/* 9. 任务完成样式 */
+.ltt-summary-page li input[type="checkbox"] {
+  margin-right: 12px !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* 10. 表格样式 - 极简 */
+.ltt-summary-page table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 20px 0 !important;
+}
+
+.ltt-summary-page th,
+.ltt-summary-page td {
+  padding: 12px 0 !important;
+  text-align: left !important;
+  border-bottom: 1px solid var(--ls-border-color, #e5e7eb) !important;
+}
+
+.ltt-summary-page th {
+  background: transparent !important;
+  font-weight: 600 !important;
+  color: var(--ls-secondary-text-color, #6b7280) !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.ltt-summary-page td {
+  color: var(--ls-primary-text-color, #111827) !important;
+}
+
+/* 11. 引用块样式 - 极简 */
+.ltt-summary-page blockquote {
+  margin: 24px 0 !important;
+  padding: 16px 20px !important;
+  background: var(--ls-secondary-background-color, #f9fafb) !important;
+  border-left: 3px solid var(--ls-primary-color, #3b82f6) !important;
+  border-radius: 0 !important;
+  font-style: normal !important;
+  color: var(--ls-secondary-text-color, #6b7280) !important;
+}
+
+/* 12. 数字强调 - KPI 值 */
+.ltt-summary-kpi-section + div > ul > li > div:first-child {
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  color: var(--ls-primary-text-color, #111827) !important;
+  line-height: 1.2 !important;
+  margin-bottom: 8px !important;
+}
+
+.ltt-summary-kpi-section + div > ul > li > div:last-child {
+  font-size: 13px !important;
+  color: var(--ls-secondary-text-color, #9ca3af) !important;
+  font-weight: 500 !important;
+}
