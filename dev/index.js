@@ -7216,7 +7216,7 @@ ${where}
         dateRange: { start: start.toISOString(), end: end.toISOString() },
         timestamps: { start: startTimestamp, end: endTimestamp }
       });
-      loggerProxy.debug("[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all blocks with page and tags");
+      loggerProxy.debug("[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all blocks with page");
       const allBlocks = await logseqAPI$1.DB.datascriptQuery(`
       [:find (pull ?b [*]) ?page-name
        :where
@@ -7237,6 +7237,17 @@ ${where}
        [(<= ?updated ${endTimestamp})]]
     `);
       loggerProxy.debug("[Query:queryBlocks] updatedBlocks result", { count: updatedBlocks.length });
+      loggerProxy.debug("[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all tags for blocks");
+      const blockTags = await logseqAPI$1.DB.datascriptQuery(`
+      [:find ?b ?tag-name
+       :where
+       [?b :block/tags ?t]
+       [?t :block/title ?tag-name]
+       [?b :block/created-at ?created]
+       [(>= ?created ${startTimestamp})]
+       [(<= ?created ${endTimestamp})]]
+    `);
+      loggerProxy.debug("[Query:queryBlocks] blockTags result", { count: blockTags.length });
       const tagCount = {};
       const pageCount = {};
       let totalContentLength = 0;
@@ -7249,19 +7260,12 @@ ${where}
         if (pageName) {
           pageCount[pageName] = (pageCount[pageName] || 0) + 1;
         }
-        const tagMatches = content.match(/#\w+/g) || [];
-        for (const tag of tagMatches) {
-          const cleanTag = tag.substring(1);
-          tagCount[cleanTag] = (tagCount[cleanTag] || 0) + 1;
-        }
-        const tags = blockData?.["tags"];
-        if (tags && Array.isArray(tags)) {
-          for (const tagRef of tags) {
-            if (tagRef?.["title"]) {
-              const tagName = tagRef["title"];
-              tagCount[tagName] = (tagCount[tagName] || 0) + 1;
-            }
-          }
+      }
+      for (const tagEntry of blockTags) {
+        if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
+        const tagName = tagEntry[1];
+        if (tagName) {
+          tagCount[tagName] = (tagCount[tagName] || 0) + 1;
         }
       }
       const created = allBlocks.length;
@@ -7396,6 +7400,14 @@ ${where}
               [?p :page/updated-at ?updatedAt]]
     `);
       loggerProxy.debug("[Query:queryPages] pages result", { count: pages.length });
+      loggerProxy.debug("[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get page tags");
+      const pageTags = await logseqAPI$1.DB.datascriptQuery(`
+      [:find ?p ?tag-name
+       :where
+       [?p :block/tags ?t]
+       [?t :block/title ?tag-name]]
+    `);
+      loggerProxy.debug("[Query:queryPages] pageTags result", { count: pageTags.length });
       let newPages = 0;
       let modifiedPages = 0;
       const byTag = {};
@@ -7413,14 +7425,12 @@ ${where}
           modifiedPages++;
           loggerProxy.debug("[Query:queryPages] modified page found", { pageName: pageData?.["name"] || pageData?.[":page/name"] });
         }
-        const tags = pageData?.["tags"];
-        if (tags && Array.isArray(tags)) {
-          for (const tagRef of tags) {
-            if (tagRef?.["title"]) {
-              const tagName = tagRef["title"];
-              byTag[tagName] = (byTag[tagName] || 0) + 1;
-            }
-          }
+      }
+      for (const tagEntry of pageTags) {
+        if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
+        const tagName = tagEntry[1];
+        if (tagName) {
+          byTag[tagName] = (byTag[tagName] || 0) + 1;
         }
       }
       loggerProxy.info("[Query:queryPages] completed", {
