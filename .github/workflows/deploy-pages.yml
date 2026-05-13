@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, master, dev-text-tool, trae/solo-agent-NO07mF, trae/solo-agent-q6WMP5, trae/solo-agent-AuShvf ]
+    branches: [ main, master, dev-text-tool, trae/solo-agent-NO07mF, trae/solo-agent-q6WMP5, trae/solo-agent-AuShvf, trae/solo-agent-14EEAQ ]
   workflow_dispatch:
 
 permissions:

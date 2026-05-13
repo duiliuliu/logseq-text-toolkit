@@ -2,7 +2,10 @@ export type SummaryType = 'weekly' | 'monthly' | 'yearly' | 'custom';
 
 export type TemplateType = 
   | 'gtd-work-review'
-  | 'minimal-dashboard';
+  | 'minimal-dashboard'
+  | 'bullet-journal'
+  | 'okr-review'
+  | 'study-summary';
 
 export interface DateRange {
   start: Date;
@@ -20,6 +23,7 @@ export interface BlockStats {
   modified: number;
   avgContentLength: number;
   tags: Record<string, number>;
+  pages?: Record<string, number>;
 }
 
 export interface TaskStats {

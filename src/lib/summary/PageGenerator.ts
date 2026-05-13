@@ -56,6 +56,45 @@ export class PageGenerator {
     }
   }
 
+  async generateWeeklyPage(year: number, weekNumber: number): Promise<string | null> {
+    logger.info('[PageGenerator] 开始生成周度页面', { year, weekNumber });
+    
+    const startDate = this.getWeekStartDate(year, weekNumber);
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 6);
+    
+    return this.generate('gtd-work-review', 'weekly', startDate, endDate, {
+      year,
+      weekNumber
+    });
+  }
+
+  async generateMonthlyPage(year: number, month: number): Promise<string | null> {
+    logger.info('[PageGenerator] 开始生成月度页面', { year, month });
+    
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0);
+    
+    return this.generate('gtd-work-review', 'monthly', startDate, endDate, {
+      year,
+      month
+    });
+  }
+
+  private getWeekStartDate(year: number, weekNumber: number): Date {
+    const startOfYear = new Date(year, 0, 1);
+    const daysToAdd = (weekNumber - 1) * 7;
+    const result = new Date(startOfYear);
+    result.setDate(result.getDate() + daysToAdd);
+    
+    // 调整到周一
+    const dayOfWeek = result.getDay();
+    const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    result.setDate(result.getDate() + diff);
+    
+    return result;
+  }
+
   private generatePageName(summaryType: SummaryType, dateRange: { start: Date }): string {
     const now = dateRange.start;
     const year = now.getFullYear();
@@ -67,8 +106,6 @@ export class PageGenerator {
         return `周度总结-${year}-W${weekNum}`;
       case 'monthly':
         return `月度总结-${year}-${month.toString().padStart(2, '0')}`;
-      case 'yearly':
-        return `年度总结-${year}`;
       case 'custom':
       default:
         const dateStr = now.toISOString().split('T')[0];
