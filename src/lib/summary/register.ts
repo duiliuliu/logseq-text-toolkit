@@ -1,5 +1,4 @@
 import { logseqAPI } from '../../logseq';
-import { registerCSS } from '../cssRegistry';
 import logger from '../logger';
 import { PageGenerator } from './PageGenerator';
 import { SummaryModal } from '../../components/Summary/SummaryModal';
@@ -42,17 +41,6 @@ export function toggleSummaryModal(): void {
     template: `<div id="${ID.SUMMARY_MODAL}"></div>`,
   });
   setTimeout(renderSummaryModal, 1);
-}
-
-export function registerSummaryCSS(): void {
-  import('../../components/Summary/summary.css?raw').then(({ default: summaryCSSRaw }) => {
-    registerCSS('summary', {
-      type: 'both',
-      inlineContent: summaryCSSRaw,
-      externalPath: 'summary.css',
-    });
-    logger.info('✅ Summary: CSS registered');
-  });
 }
 
 export function registerSummaryCommands(): void {

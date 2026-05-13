@@ -1,5 +1,6 @@
-import { SummaryTemplate, SummaryData, BlockNode, SummaryType } from '../types';
+import { TemplateType, SummaryTemplate, SummaryData, BlockNode, SummaryType } from '../types';
 import { DataAnalyzer } from '../DataAnalyzer';
+import { logger } from '../../../logseq/logger';
 
 export class GTDWorkReviewTemplate implements SummaryTemplate {
   id: TemplateType = 'gtd-work-review';
@@ -24,11 +25,15 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
           {
             content: '## 📈 数据概览',
             children: [
-              { content: '### 核心指标' },
-              { content: `- 创建块数: ${data.blocks.created}` },
-              { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
-              { content: `- 任务完成率: ${data.tasks.completionRate}%` },
-              { content: `- 新增页面: ${data.pages.newPages}` },
+              {
+                content: '### 核心指标',
+                children: [
+                  { content: `- 创建块数: ${data.blocks.created}` },
+                  { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
+                  { content: `- 任务完成率: ${data.tasks.completionRate}%` },
+                  { content: `- 新增页面: ${data.pages.newPages}` },
+                ]
+              },
             ],
           },
           {
@@ -40,32 +45,51 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
           {
             content: '## ✅ 任务回顾',
             children: [
-              { content: '### 任务统计' },
-              { content: '| 状态 | 数量 |' },
-              { content: '|------|------|' },
-              { content: `| 完成 | ${data.tasks.completed} |` },
-              { content: `| 进行中 | ${data.tasks.inProgress} |` },
-              { content: `| 待办 | ${data.tasks.todo} |` },
-              { content: `| 逾期 | ${data.tasks.overdue} |` },
-              { content: '### 优先级分布' },
-              ...this.renderPriorityDistribution(data.tasks.byPriority),
+              {
+                content: '### 任务统计',
+                children: [
+                  {
+                    content: `| 状态 | 数量 |
+                              |------|------|
+                              | 完成 | ${data.tasks.completed} |
+                              | 进行中 | ${data.tasks.inProgress} |
+                              | 待办 | ${data.tasks.todo} |
+                              | 逾期 | ${data.tasks.overdue} |`
+                  },
+                ]
+              },
+              {
+                content: '### 优先级分布',
+                children: [
+                  ...this.renderPriorityDistribution(data.tasks.byPriority)
+                ],
+              },
             ],
           },
           {
             content: '## 📝 内容分析',
             children: [
-              { content: '### 热门标签' },
-              ...topTags.map(([tag, count]) => ({ content: `- #${tag} (${count})` })),
-              { content: '### 页面统计' },
-              { content: `- 总页面数: ${data.pages.total}` },
-              { content: `- 新增页面: ${data.pages.newPages}` },
-              { content: `- 修改页面: ${data.pages.modifiedPages}` },
+              {
+                content: '### 热门标签',
+                children: [
+                  ...topTags.map(([tag, count]) => ({ content: `- #${tag} (${count})` }))
+                ]
+              },
+              {
+                content: '### 页面统计',
+                children: [
+                  { content: `- 总页面数: ${data.pages.total}` },
+                  { content: `- 新增页面: ${data.pages.newPages}` },
+                  { content: `- 修改页面: ${data.pages.modifiedPages}` },
+                ]
+              },
             ],
           },
           {
             content: '## 🤖 AI 分析建议',
             children: [
-              { content: '> 在此处添加 AI 生成的分析建议...' },
+              { content: 'AI 分析建议:' },
+              { content: `${data.aiSuggestions?.join("\n") || "暂无 AI 分析建议"}` },
             ],
           },
         ],
@@ -77,7 +101,7 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
     const year = data.dateRange.start.getFullYear();
     const weekNum = this.analyzer.getWeekNumber(data.dateRange.start);
     const monthName = data.dateRange.start.toLocaleDateString('zh-CN', { month: 'long' });
-    
+
     if (this.supportedTypes.includes('weekly')) {
       return `📊 周度总结 - ${year}年第${weekNum}周`;
     }

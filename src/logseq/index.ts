@@ -9,18 +9,22 @@
 import { ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import mockLogseq from './mock/index.ts';
 import '@logseq/libs';
-import logger from './logger.ts';
+import logger, { createLoggerProxy } from './logger.ts';
+import { createProxyLogseq } from './proxy.ts';
+
 
 type APIMode = 'mock' | 'proxy';
 
 let currentMode: APIMode = 'mock';
+let apiServer: string | null = null;
+let apiToken: string | null = null;
 
-/**
- * 初始化 Logseq
- */
-export function initLogseq() {
-  logger.log('[Logseq] Initialized in Mock mode');
+export function configureProxyMode(server: string, token: string) {
+  apiServer = server;
+  apiToken = token;
+  logger.info(`[Logseq] Proxy mode configured with server: ${server}`);
 }
+
 
 /**
  * 切换模式
@@ -38,55 +42,42 @@ export function getMode(): APIMode {
 }
 
 /**
- * 获取当前 API
- */
-function getLogseq(): ILSPluginUser {
-  if (currentMode === 'mock') {
-    return mockLogseq;
-  }
-  
-  // Proxy 模式：直接返回全局 logseq
-  return (window as any).logseq || mockLogseq;
-}
-
-/**
- * Proxy 连接管理
- */
-export async function connectProxy(url: string = 'http://localhost:12314') {
-  try {
-    logger.log(`[Proxy] Connecting to ${url}...`);
-    
-    // 简单检查连接
-    const response = await fetch(`${url}/health`);
-    if (response.ok) {
-      logger.log('[Proxy] Connected successfully');
-      return true;
-    } else {
-      logger.error('[Proxy] Connection failed');
-      return false;
-    }
-  } catch (error) {
-    logger.error('[Proxy] Connection error:', error);
-    return false;
-  }
-}
-
-export function disconnectProxy() {
-  logger.log('[Proxy] Disconnected');
-}
-
-/**
- * 为了兼容现有代码，保持原有的属性访问方式
- */
-export const logseqAPI = new Proxy(mockLogseq, {
-  get(target, prop) {
-    return getLogseq()[prop as keyof ILSPluginUser];
-  }
-}) as unknown as ILSPluginUser;
-
-/**
  * 兼容旧的导出方式
  */
-export const getLogseqAPI = (): ILSPluginUser => logseqAPI;
+export const getLogseqAPI = (): ILSPluginUser => {
+  logger.log('[Logseq] Initialized in Mock mode');
+
+  // 检查是否在测试模式下
+  const isTestMode = import.meta.env.MODE === 'test';
+
+  if (isTestMode) {
+    if (currentMode === 'proxy') {
+      // proxy 模式：使用代理的 logseq（如果存在）
+      logger.info('Using mock Logseq API (test proxy mode)');
+      const newProxyLogseq = createProxyLogseq(mockLogseq as ILSPluginUser, {}, {
+        apiServer: apiServer || '',
+        apiToken: apiToken || '',
+      });
+      return newProxyLogseq;
+    } else {
+      // mock 模式：使用导入的 mockLogseq
+      logger.info('Using mock Logseq API (test mode)');
+      return createLoggerProxy(mockLogseq as ILSPluginUser);
+    }
+  }
+
+  logger.info('Using official Logseq API (production mode)');
+  // 直接返回官方的logseq对象,并使用日志代理包装它
+  return logseq
+};
+
+export const resetLogseqAPI = () => {
+  logseqAPI = getLogseqAPI();
+  logger.info('[Logseq] API reset to current mode:', currentMode);
+}
+
+// 导出统一的Logseq API实例
+export let logseqAPI = getLogseqAPI();
 
 export default logseqAPI;
+

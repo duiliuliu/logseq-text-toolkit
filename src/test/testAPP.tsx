@@ -12,7 +12,7 @@ import { ProxySettings } from './components/ProxySettings'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
 import { useSettingsContext } from '../settings/useSettings'
-import { setMode, getMode } from '../logseq'
+import { setMode, getMode, configureProxyMode, resetLogseqAPI } from '../logseq'
 import logger from '../logseq/logger'
 
 interface TaskItem {
@@ -32,7 +32,7 @@ const statusOptions = [
 
 function TestApp() {
   const { settings } = useSettingsContext()
-  
+
   // Proxy 设置状态
   const [apiMode, setApiMode] = useState<'mock' | 'proxy'>(getMode())
   const [showProxyModal, setShowProxyModal] = useState(false)
@@ -40,7 +40,7 @@ function TestApp() {
   const [proxyToken, setProxyToken] = useState('')
   const [proxyStatus, setProxyStatus] = useState<'disconnected' | 'connecting' | 'connected' | 'error'>('disconnected')
   const [proxyError, setProxyError] = useState<string>('')
-  const [summaryPages, setSummaryPages] = useState<{name: string, blocks: any[]}[]>([])
+  const [summaryPages, setSummaryPages] = useState<{ name: string, blocks: any[] }[]>([])
 
   // 模式切换处理
   const handleModeChange = (mode: 'mock' | 'proxy') => {
@@ -54,12 +54,19 @@ function TestApp() {
     setProxyStatus('connecting')
     logger.info(`[TestApp] Connecting to proxy: ${proxyUrl}`)
     // TODO: 实现实际的连接逻辑
+    configureProxyMode(proxyUrl, proxyToken)
     setProxyStatus('connected')
+    resetLogseqAPI() // 重置 Logseq API 以应用新的代理设置
+    logger.info('[TestApp] Connected to proxy and Logseq API reset')
   }
 
   const handleProxyDisconnect = () => {
     logger.info('[TestApp] Disconnecting from proxy')
+    configureProxyMode('', '')
+    setMode('mock') // 切回 mock 模式
     setProxyStatus('disconnected')
+    resetLogseqAPI() // 重置 Logseq API 以应用新的设置
+    logger.info('[TestApp] Disconnected from proxy and switched to mock mode')
   }
 
   const handleSummaryGenerate = (pageName: string, blocks: any[]) => {
@@ -327,7 +334,7 @@ function TestApp() {
             >
               <span style={{ fontSize: '18px' }}>🔗</span>
             </button>
-            
+
             <a
               className="button toolbar-banner-btn"
               title="Settings JSON"

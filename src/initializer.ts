@@ -18,9 +18,7 @@ import { registerHeatmap, setHeatmapComponent } from './lib/heatmap/register'
 import { registerCSS } from './lib/cssRegistry'
 import {
   initSummaryModal,
-  registerSummaryCSS,
   registerSummaryCommands,
-  toggleSummaryModal,
 } from './lib/summary/register'
 import logseqAPI from './logseq'
 import { getDocument } from './logseq/utils'

@@ -46,7 +46,7 @@ export class Query {
     for (const block of allBlocks) {
       const content = block[1] as string;
       totalContentLength += content.length;
-      
+
       const tagMatches = content.match(/#\w+/g) || [];
       for (const tag of tagMatches) {
         const cleanTag = tag.substring(1);
@@ -90,14 +90,18 @@ export class Query {
     // 参考: {:query [:find (pull ?b [*]) :where [?b :block/tags ?t] [?t :block/title "Task"] [?b :block/created-at ?date] [(>= ?date 1777593600000)] [(<= ?date 1780185600000)]]}
     logger.debug('[Query:queryTasks] executing logseqAPI.DB.datascriptQuery: get tasks with tags "Task"');
     const tasks = await logseqAPI.DB.datascriptQuery(`
-      [:find (pull ?b [*]) ?scheduled
+      [:find (pull ?b [*]) ?status-title ?priority-title
        :where
        [?b :block/tags ?t]
        [?t :block/title "Task"]
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
        [(<= ?date ${endTimestamp})]
-       (optional [?b :logseq.property/scheduled ?scheduled])]
+       [?b :logseq.property/status ?status]
+       [?status :block/title ?status-title]
+       [?b :logseq.property/priority ?priority]
+       [?priority :block/title ?priority-title]
+      ]
     `);
     logger.debug('[Query:queryTasks] tasks result', { count: tasks.length });
 
@@ -112,40 +116,19 @@ export class Query {
 
     for (const task of tasks) {
       if (!task || !Array.isArray(task) || task.length < 1) continue;
-      
+
       const block = task[0] as any;
-      const scheduled = task[1] as number | null;
-      
-      // 从 block 数据中获取状态
-      let status = 'todo';
-      if (block) {
-        if (block[':logseq.property/status']) {
-          // 有 status 属性
-          status = 'custom';
-        } else if (block[':marker']) {
-          // 有 marker
-          const marker = block[':marker'].toLowerCase();
-          if (marker === 'done' || marker === 'completed' || marker === 'cancelled') {
-            status = 'done';
-          } else if (marker === 'doing' || marker === 'now') {
-            status = 'doing';
-          } else if (marker === 'waiting' || marker === 'later') {
-            status = 'waiting';
-          }
-        } else if (block['content']?.includes('[x]')) {
-          // 内容中有完成标记
-          status = 'done';
-        } else if (block['content']?.includes('[~]')) {
-          status = 'doing';
-        }
-      }
-      
+      const statusTitle = task[1] as string; // 直接从查询结果获取状态名称
+      const priorityTitle = task[2] as string; // 直接从查询结果获取优先级名称
+      const status = statusTitle ? statusTitle.toLowerCase() : 'todo';
+      const priority = priorityTitle ? priorityTitle.toLowerCase() : 'none';
+
       logger.debug('[Query:queryTasks] processing task', {
         blockId: block?.['uuid'],
         status,
-        scheduled
+        priority: priority
       });
-      
+
       if (status === 'done' || status === 'completed' || status === 'cancelled') {
         completed++;
         logger.debug('[Query:queryTasks] task completed', { blockId: block?.['uuid'] });
@@ -160,6 +143,7 @@ export class Query {
       }
 
       // 检查是否逾期：如果有 scheduled 日期，且已过期的未完成任务
+      const scheduled = block?.['scheduled'] || block?.[':logseq.property/scheduled'];
       if (scheduled && status !== 'done' && status !== 'completed' && status !== 'cancelled') {
         const scheduledDate = new Date(scheduled);
         if (scheduledDate < now) {
@@ -172,13 +156,14 @@ export class Query {
       }
 
       // 优先级分析
-      const content = block?.['content'] || '';
-      if (content.includes('A)') || content.includes('[] A') || content.includes('#priority/A')) {
-        byPriority['A'] = (byPriority['A'] || 0) + 1;
-      } else if (content.includes('B)') || content.includes('[] B') || content.includes('#priority/B')) {
-        byPriority['B'] = (byPriority['B'] || 0) + 1;
-      } else if (content.includes('C)') || content.includes('[] C') || content.includes('#priority/C')) {
-        byPriority['C'] = (byPriority['C'] || 0) + 1;
+      if (priority) {
+        const priorityKey = String(priority).toLowerCase();
+        byPriority[priorityKey] = (byPriority[priorityKey] || 0) + 1;
+        logger.debug('[Query:queryTasks] task priority found', {
+          blockId: block?.['uuid'],
+          priority: priorityKey,
+          count: byPriority[priorityKey]
+        });
       }
     }
 
