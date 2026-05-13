@@ -13,8 +13,8 @@ export class Query {
       timestamps: { start: startTimestamp, end: endTimestamp }
     });
 
-    // 查询所有块，包含页面信息和标签
-    logger.debug('[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all blocks with page and tags');
+    // 查询所有块，包含页面信息
+    logger.debug('[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all blocks with page');
     const allBlocks = await logseqAPI.DB.datascriptQuery(`
       [:find (pull ?b [*]) ?page-name
        :where
@@ -38,10 +38,24 @@ export class Query {
     `);
     logger.debug('[Query:queryBlocks] updatedBlocks result', { count: updatedBlocks.length });
 
+    // 查询所有标签，直接从查询获取
+    logger.debug('[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all tags for blocks');
+    const blockTags = await logseqAPI.DB.datascriptQuery(`
+      [:find ?b ?tag-name
+       :where
+       [?b :block/tags ?t]
+       [?t :block/title ?tag-name]
+       [?b :block/created-at ?created]
+       [(>= ?created ${startTimestamp})]
+       [(<= ?created ${endTimestamp})]]
+    `);
+    logger.debug('[Query:queryBlocks] blockTags result', { count: blockTags.length });
+
     const tagCount: Record<string, number> = {};
     const pageCount: Record<string, number> = {};
     let totalContentLength = 0;
 
+    // 统计页面和内容长度
     for (const block of allBlocks) {
       if (!block || !Array.isArray(block) || block.length < 1) continue;
       
@@ -55,23 +69,14 @@ export class Query {
       if (pageName) {
         pageCount[pageName] = (pageCount[pageName] || 0) + 1;
       }
+    }
 
-      // 统计标签（从内容中的 #tag 提取）
-      const tagMatches = content.match(/#\w+/g) || [];
-      for (const tag of tagMatches) {
-        const cleanTag = tag.substring(1);
-        tagCount[cleanTag] = (tagCount[cleanTag] || 0) + 1;
-      }
-
-      // 从块的 tags 属性获取标签
-      const tags = blockData?.['tags'];
-      if (tags && Array.isArray(tags)) {
-        for (const tagRef of tags) {
-          if (tagRef?.['title']) {
-            const tagName = tagRef['title'];
-            tagCount[tagName] = (tagCount[tagName] || 0) + 1;
-          }
-        }
+    // 统计标签
+    for (const tagEntry of blockTags) {
+      if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
+      const tagName = tagEntry[1] as string;
+      if (tagName) {
+        tagCount[tagName] = (tagCount[tagName] || 0) + 1;
       }
     }
 
@@ -230,6 +235,16 @@ export class Query {
     `);
     logger.debug('[Query:queryPages] pages result', { count: pages.length });
 
+    // 查询页面标签
+    logger.debug('[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get page tags');
+    const pageTags = await logseqAPI.DB.datascriptQuery(`
+      [:find ?p ?tag-name
+       :where
+       [?p :block/tags ?t]
+       [?t :block/title ?tag-name]]
+    `);
+    logger.debug('[Query:queryPages] pageTags result', { count: pageTags.length });
+
     let newPages = 0;
     let modifiedPages = 0;
     const byTag: Record<string, number> = {};
@@ -253,16 +268,14 @@ export class Query {
         modifiedPages++;
         logger.debug('[Query:queryPages] modified page found', { pageName: pageData?.['name'] || pageData?.[':page/name'] });
       }
+    }
 
-      // 统计页面标签
-      const tags = pageData?.['tags'];
-      if (tags && Array.isArray(tags)) {
-        for (const tagRef of tags) {
-          if (tagRef?.['title']) {
-            const tagName = tagRef['title'];
-            byTag[tagName] = (byTag[tagName] || 0) + 1;
-          }
-        }
+    // 统计标签
+    for (const tagEntry of pageTags) {
+      if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
+      const tagName = tagEntry[1] as string;
+      if (tagName) {
+        byTag[tagName] = (byTag[tagName] || 0) + 1;
       }
     }
 
