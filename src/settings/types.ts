@@ -77,8 +77,32 @@ export interface HeatmapSettings {
 }
 
 // Block View Settings
+export type TableTheme = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'custom';
+
+export interface CustomTableTheme {
+  borderColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  headerBorderColor?: string;
+  headerHeight?: string;
+  rowBgColor?: string;
+  rowHoverBgColor?: string;
+  rowBorderColor?: string;
+  cellPadding?: string;
+  tableBorderRadius?: string;
+}
+
+export interface BlockViewTableSettings {
+  defaultTheme: TableTheme;
+  defaultShowStriped: boolean;
+  defaultShowBorder: boolean;
+  customTheme?: CustomTableTheme;
+}
+
 export interface BlockViewSettings {
+  enabled: boolean;
   defaultView: 'list' | 'table' | 'gallery' | 'board';
+  table: BlockViewTableSettings;
   hideViewBar: boolean;
 }
 
