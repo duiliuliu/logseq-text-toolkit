@@ -1,4 +1,5 @@
 import { logseqAPI } from '../logseq'
+import { SummaryType, TemplateType } from '../lib/summary/types'
 
 export type ThemeType = 'light' | 'dark' | 'system'
 
@@ -151,6 +152,24 @@ export interface BlockViewSettings {
   board: BlockViewBoardSettings;
 }
 
+export interface AIConfig {
+  enabled: boolean;
+  provider: 'openai' | 'claude' | 'custom';
+  apiKey: string;
+  apiUrl?: string;
+  model?: string;
+  promptTemplate?: string;
+}
+
+export interface SummarySettings {
+  enabled: boolean;
+  defaultTemplate: TemplateType;
+  defaultType: SummaryType;
+  dateFormat: string;
+  ai: AIConfig;
+  pageNameTemplate: string;
+}
+
 export interface Settings {
   disabled?: boolean
   theme?: ThemeType
@@ -168,5 +187,6 @@ export interface Settings {
   taskProgress?: TaskProgressSettings
   heatmap?: HeatmapSettings
   blockView?: BlockViewSettings
+  summary?: SummarySettings
   ToolbarItems?: any[]
 }
