@@ -83,43 +83,35 @@
 .ltt-table-root .ltt-view-bar,
 .ltt-gallery-root .ltt-view-bar,
 .ltt-board-root .ltt-view-bar {
-  display: inline-flex;
-  margin-left: 12px;
-  vertical-align: middle;
-  width: fit-content;
+  display: inline-flex !important;
+  margin-left: 12px !important;
+  vertical-align: middle !important;
+  width: fit-content !important;
 }
 
 /* =========================================================
    LIST VIEW
 ========================================================= */
 
-.ltt-list-root {
-  /* List 视图 - 保持默认 Logseq 行为 */
-}
+/* List 视图 - 保持默认 Logseq 行为 */
 
 /* =========================================================
    TABLE VIEW
 ========================================================= */
 
-.ltt-table-root {
-  /* Table 视图样式已移到 tableView.css */
-}
+/* Table 视图样式已移到 tableView.css */
 
 /* =========================================================
    GALLERY VIEW
 ========================================================= */
 
-.ltt-gallery-root {
-  /* Gallery 视图样式已移到 galleryView.css */
-}
+/* Gallery 视图样式已移到 galleryView.css */
 
 /* =========================================================
    BOARD VIEW
 ========================================================= */
 
-.ltt-board-root {
-  /* Board 视图样式已移到 boardView.css */
-}
+/* Board 视图样式已移到 boardView.css */
 
 /* =========================================================
    THEME PRESETS
@@ -176,6 +168,7 @@
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
