@@ -52,14 +52,16 @@
   "blockView": {
     "enabled": true,
     "defaultView": "list",
+    "defaultTheme": "default",
+    "hideViewBar": false,
     "table": {
-      "defaultTheme": "default",
-      "defaultShowStriped": true,
-      "defaultShowBorder": true,
+      "showStriped": true,
+      "showBorder": true,
       "customTheme": {
         "borderColor": "#e2e8f0",
         "headerBgColor": "#f8fafc",
         "headerTextColor": "#374151",
+        "cellTextColor": "#475569",
         "headerBorderColor": "#cbd5e1",
         "headerHeight": "40px",
         "rowBgColor": "#ffffff",
@@ -69,7 +71,36 @@
         "tableBorderRadius": "8px"
       }
     },
-    "hideViewBar": false
+    "gallery": {
+      "showCardBorders": true,
+      "cardsPerRow": 3,
+      "customTheme": {
+        "borderColor": "#e2e8f0",
+        "cardBgColor": "#ffffff",
+        "cardHoverBgColor": "#f8fafc",
+        "headerBorderColor": "#e2e8f0",
+        "headerBgColor": "transparent",
+        "headerTextColor": "#374151",
+        "cardTextColor": "#475569",
+        "cardBorderRadius": "12px",
+        "cardShadow": "0 2px 8px rgba(0, 0, 0, 0.06)"
+      }
+    },
+    "board": {
+      "showColumnBorders": true,
+      "cardSpacing": "12px",
+      "customTheme": {
+        "borderColor": "#e2e8f0",
+        "columnBgColor": "#ffffff",
+        "columnHoverBgColor": "#f8fafc",
+        "headerBgColor": "transparent",
+        "headerTextColor": "#374151",
+        "cardBgColor": "#ffffff",
+        "cardTextColor": "#475569",
+        "cardBorderColor": "#e2e8f0",
+        "cardBorderRadius": "8px"
+      }
+    }
   },
   "meta": {
     "language": {

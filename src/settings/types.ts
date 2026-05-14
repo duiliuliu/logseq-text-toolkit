@@ -77,12 +77,13 @@ export interface HeatmapSettings {
 }
 
 // Block View Settings
-export type TableTheme = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'custom';
+export type BlockThemeType = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'tana' | 'custom';
 
 export interface CustomTableTheme {
   borderColor?: string;
   headerBgColor?: string;
   headerTextColor?: string;
+  cellTextColor?: string;
   headerBorderColor?: string;
   headerHeight?: string;
   rowBgColor?: string;
@@ -92,18 +93,62 @@ export interface CustomTableTheme {
   tableBorderRadius?: string;
 }
 
+export interface CustomGalleryTheme {
+  borderColor?: string;
+  cardBgColor?: string;
+  cardHoverBgColor?: string;
+  headerBorderColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cardTextColor?: string;
+  cardBorderRadius?: string;
+  cardShadow?: string;
+}
+
+export interface CustomBoardTheme {
+  borderColor?: string;
+  columnBgColor?: string;
+  columnHoverBgColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cardBgColor?: string;
+  cardTextColor?: string;
+  cardBorderColor?: string;
+  cardBorderRadius?: string;
+}
+
 export interface BlockViewTableSettings {
-  defaultTheme: TableTheme;
-  defaultShowStriped: boolean;
-  defaultShowBorder: boolean;
+  showStriped: boolean;
+  showBorder: boolean;
   customTheme?: CustomTableTheme;
+}
+
+export interface BlockViewGallerySettings {
+  showCardBorders: boolean;
+  cardsPerRow: number;
+  customTheme?: CustomGalleryTheme;
+}
+
+export interface BlockViewBoardSettings {
+  showColumnBorders: boolean;
+  cardSpacing: string;
+  customTheme?: CustomBoardTheme;
+}
+
+export interface ViewCustomThemeConfig {
+  table?: CustomTableTheme;
+  gallery?: CustomGalleryTheme;
+  board?: CustomBoardTheme;
 }
 
 export interface BlockViewSettings {
   enabled: boolean;
   defaultView: 'list' | 'table' | 'gallery' | 'board';
-  table: BlockViewTableSettings;
+  defaultTheme: BlockThemeType;
   hideViewBar: boolean;
+  table: BlockViewTableSettings;
+  gallery: BlockViewGallerySettings;
+  board: BlockViewBoardSettings;
 }
 
 export interface Settings {
