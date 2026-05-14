@@ -1,0 +1,64 @@
+.ltt-board-root {
+  /* Board 视图样式 - 看板布局 */
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  gap: 20px;
+  padding: 20px !important;
+  overflow-x: auto;
+  align-items: flex-start;
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  min-width: 300px;
+  max-width: 300px;
+  flex-shrink: 0;
+  background: var(--ls-secondary-background-color);
+  border: 1px solid var(--ls-border-color);
+  border-radius: 12px;
+  padding: 12px !important;
+  margin: 0 !important;
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: transparent;
+  border: none;
+  padding: 8px 12px !important;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: none !important;
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px !important;
+  min-height: 100px;
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  background: var(--ls-primary-background-color);
+  border: 1px solid var(--ls-border-color);
+  border-radius: 8px;
+  padding: 10px 12px !important;
+  margin: 0 !important;
+  transition: all 0.2s ease;
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+  display: flex !important;
+}
+
+.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  padding: 0 !important;
+}

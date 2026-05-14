@@ -1,0 +1,55 @@
+.ltt-gallery-root {
+  /* Gallery 视图样式 - 卡片网格布局 */
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px !important;
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  background: var(--ls-secondary-background-color);
+  border: 1px solid var(--ls-border-color);
+  border-radius: 12px;
+  padding: 16px !important;
+  margin: 0 !important;
+  transition: all 0.2s ease;
+  min-height: 120px;
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: transparent;
+  border: none;
+  padding: 0 0 12px 0 !important;
+  border-bottom: 1px solid var(--ls-border-color);
+  margin-bottom: 12px;
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: none !important;
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 8px 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+  display: flex !important;
+}
+
+.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  padding: 0 !important;
+}
