@@ -252,6 +252,7 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
       const type = typeParts[0]
       
       // Collect all args: inline args from firstPart + all remaining comma parts
+      // Only split by space for comma parts that don't contain '=' or nested '{{'
       const argTokens: string[] = []
       
       // Add inline args from firstPart (skip type itself at index 0)
@@ -261,12 +262,17 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
       
       // Add all subsequent comma parts
       for (let i = 1; i < commaParts.length; i++) {
-        // For remaining comma parts, also split by space to get inline args
-        const partParts = commaParts[i].split(/\s+/)
-        for (const part of partParts) {
-          if (part.trim()) {
-            argTokens.push(part.trim())
+        const part = commaParts[i]
+        // Only split by space if part doesn't contain '=' (named arg) or nested '{{'
+        if (!part.includes('=') && !part.includes('{{')) {
+          const subParts = part.split(/\s+/)
+          for (const subPart of subParts) {
+            if (subPart.trim()) {
+              argTokens.push(subPart.trim())
+            }
           }
+        } else {
+          argTokens.push(part)
         }
       }
       
@@ -288,12 +294,18 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
       
       // Apply updates
       const newArgs: Record<string, string> = { ...existingArgs }
+      const updatedPositionalKeys: string[] = []
       for (const [key, value] of Object.entries(updates)) {
         if (value === null) {
           delete newArgs[key]
           delete keepAsPositional[key]
         } else {
           newArgs[key] = value
+          // Only set positional format if this key wasn't originally in named format
+          if (positionalKeys.includes(key) && !keepAsPositional[key]) {
+            keepAsPositional[key] = true
+            updatedPositionalKeys.push(key)
+          }
         }
       }
       
