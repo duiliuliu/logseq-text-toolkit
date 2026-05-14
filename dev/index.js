@@ -916,14 +916,16 @@
   const blockView = {
   	enabled: true,
   	defaultView: "list",
+  	defaultTheme: "default",
+  	hideViewBar: false,
   	table: {
-  		defaultTheme: "default",
-  		defaultShowStriped: true,
-  		defaultShowBorder: true,
+  		showStriped: true,
+  		showBorder: true,
   		customTheme: {
   			borderColor: "#e2e8f0",
   			headerBgColor: "#f8fafc",
   			headerTextColor: "#374151",
+  			cellTextColor: "#475569",
   			headerBorderColor: "#cbd5e1",
   			headerHeight: "40px",
   			rowBgColor: "#ffffff",
@@ -933,7 +935,36 @@
   			tableBorderRadius: "8px"
   		}
   	},
-  	hideViewBar: false
+  	gallery: {
+  		showCardBorders: true,
+  		cardsPerRow: 3,
+  		customTheme: {
+  			borderColor: "#e2e8f0",
+  			cardBgColor: "#ffffff",
+  			cardHoverBgColor: "#f8fafc",
+  			headerBorderColor: "#e2e8f0",
+  			headerBgColor: "transparent",
+  			headerTextColor: "#374151",
+  			cardTextColor: "#475569",
+  			cardBorderRadius: "12px",
+  			cardShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
+  		}
+  	},
+  	board: {
+  		showColumnBorders: true,
+  		cardSpacing: "12px",
+  		customTheme: {
+  			borderColor: "#e2e8f0",
+  			columnBgColor: "#ffffff",
+  			columnHoverBgColor: "#f8fafc",
+  			headerBgColor: "transparent",
+  			headerTextColor: "#374151",
+  			cardBgColor: "#ffffff",
+  			cardTextColor: "#475569",
+  			cardBorderColor: "#e2e8f0",
+  			cardBorderRadius: "8px"
+  		}
+  	}
   };
   const meta = {
   	language: {
@@ -23787,14 +23818,16 @@ ${where}
     const blockViewSettings = settings?.blockView || {
       enabled: true,
       defaultView: "list",
+      defaultTheme: "default",
+      hideViewBar: false,
       table: {
-        defaultTheme: "default",
-        defaultShowStriped: true,
-        defaultShowBorder: true,
+        showStriped: true,
+        showBorder: true,
         customTheme: {
           borderColor: "#e2e8f0",
           headerBgColor: "#f8fafc",
           headerTextColor: "#374151",
+          cellTextColor: "#475569",
           headerBorderColor: "#cbd5e1",
           headerHeight: "40px",
           rowBgColor: "#ffffff",
@@ -23804,10 +23837,47 @@ ${where}
           tableBorderRadius: "8px"
         }
       },
-      hideViewBar: false
+      gallery: {
+        showCardBorders: true,
+        cardsPerRow: 3,
+        customTheme: {
+          borderColor: "#e2e8f0",
+          cardBgColor: "#ffffff",
+          cardHoverBgColor: "#f8fafc",
+          headerBorderColor: "#e2e8f0",
+          headerBgColor: "transparent",
+          headerTextColor: "#374151",
+          cardTextColor: "#475569",
+          cardBorderRadius: "12px",
+          cardShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
+        }
+      },
+      board: {
+        showColumnBorders: true,
+        cardSpacing: "12px",
+        customTheme: {
+          borderColor: "#e2e8f0",
+          columnBgColor: "#ffffff",
+          columnHoverBgColor: "#f8fafc",
+          headerBgColor: "transparent",
+          headerTextColor: "#374151",
+          cardBgColor: "#ffffff",
+          cardTextColor: "#475569",
+          cardBorderColor: "#e2e8f0",
+          cardBorderRadius: "8px"
+        }
+      }
     };
-    const [tableCollapsed, setTableCollapsed] = reactExports.useState(false);
-    const [customThemeCollapsed, setCustomThemeCollapsed] = reactExports.useState(false);
+    const [expandedViews, setExpandedViews] = reactExports.useState(/* @__PURE__ */ new Set(["table", "gallery", "board"]));
+    const toggleViewExpansion = (viewType) => {
+      const newExpanded = new Set(expandedViews);
+      if (newExpanded.has(viewType)) {
+        newExpanded.delete(viewType);
+      } else {
+        newExpanded.add(viewType);
+      }
+      setExpandedViews(newExpanded);
+    };
     const handleSettingChange = (key, value) => {
       setSettings((prev) => {
         if (!prev) return prev;
@@ -23820,32 +23890,32 @@ ${where}
         };
       });
     };
-    const handleTableSettingChange = (key, value) => {
+    const handleViewSettingChange = (viewType, key, value) => {
       setSettings((prev) => {
         if (!prev) return prev;
         return {
           ...prev,
           blockView: {
             ...blockViewSettings,
-            table: {
-              ...blockViewSettings.table,
+            [viewType]: {
+              ...blockViewSettings[viewType],
               [key]: value
             }
           }
         };
       });
     };
-    const handleCustomThemeSettingChange = (key, value) => {
+    const handleCustomThemeChange = (viewType, key, value) => {
       setSettings((prev) => {
         if (!prev) return prev;
         return {
           ...prev,
           blockView: {
             ...blockViewSettings,
-            table: {
-              ...blockViewSettings.table,
+            [viewType]: {
+              ...blockViewSettings[viewType],
               customTheme: {
-                ...blockViewSettings.table?.customTheme,
+                ...blockViewSettings[viewType].customTheme,
                 [key]: value
               }
             }
@@ -23860,14 +23930,15 @@ ${where}
       { value: "board", label: t("settings.blockView.viewBoard", language) }
     ];
     const themeOptions = [
-      { value: "default", label: t("settings.blockView.table.themeDefault", language) },
-      { value: "notion", label: t("settings.blockView.table.themeNotion", language) },
-      { value: "linear", label: t("settings.blockView.table.themeLinear", language) },
-      { value: "dark", label: t("settings.blockView.table.themeDark", language) },
-      { value: "gradient", label: t("settings.blockView.table.themeGradient", language) },
-      { value: "custom", label: t("settings.blockView.table.themeCustom", language) }
+      { value: "default", label: t("settings.blockView.themeDefault", language) },
+      { value: "notion", label: t("settings.blockView.themeNotion", language) },
+      { value: "linear", label: t("settings.blockView.themeLinear", language) },
+      { value: "dark", label: t("settings.blockView.themeDark", language) },
+      { value: "gradient", label: t("settings.blockView.themeGradient", language) },
+      { value: "tana", label: t("settings.blockView.themeTana", language) },
+      { value: "custom", label: t("settings.blockView.themeCustom", language) }
     ];
-    const ColorInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", style: { flex: 1 }, children: [
+    const ColorInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", style: { flex: 1, minWidth: "200px" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: label }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px", alignItems: "center", width: "100%" }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -23890,7 +23961,7 @@ ${where}
         )
       ] })
     ] });
-    const TextInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", style: { flex: 1 }, children: [
+    const TextInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", style: { flex: 1, minWidth: "200px" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: label }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "input",
@@ -23902,6 +23973,178 @@ ${where}
         }
       )
     ] });
+    const NumberInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", style: { flex: 1, minWidth: "200px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "number",
+          value,
+          onChange: (e) => onChange(parseInt(e.target.value)),
+          style: { width: "100%", padding: "6px 8px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "4px", fontSize: "12px" }
+        }
+      )
+    ] });
+    const renderViewSection = (viewType, titleKey, customFields) => {
+      const isExpanded = expandedViews.has(viewType);
+      const viewConfig = blockViewSettings[viewType];
+      const customThemeConfig = viewConfig?.customTheme || {};
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "16px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "8px", overflow: "hidden" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            style: {
+              padding: "12px 16px",
+              backgroundColor: "var(--ls-secondary-background, #f5f5f5)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              cursor: "pointer"
+            },
+            onClick: () => toggleViewExpansion(viewType),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: 0, display: "flex", alignItems: "center", gap: "8px", fontSize: "14px" }, children: t(`settings.blockView.${viewType}.title`, language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "18px", transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s" }, children: "▶" })
+            ]
+          }
+        ),
+        isExpanded && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "16px" }, children: [
+          viewType === "table" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.table.showStriped", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showStriped,
+                    onChange: (e) => handleViewSettingChange(viewType, "showStriped", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.table.showBorder", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showBorder,
+                    onChange: (e) => handleViewSettingChange(viewType, "showBorder", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] })
+          ] }),
+          viewType === "gallery" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.gallery.showCardBorders", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showCardBorders,
+                    onChange: (e) => handleViewSettingChange(viewType, "showCardBorders", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              NumberInput,
+              {
+                label: t("settings.blockView.gallery.cardsPerRow", language),
+                value: viewConfig.cardsPerRow,
+                onChange: (val) => handleViewSettingChange(viewType, "cardsPerRow", val)
+              }
+            )
+          ] }),
+          viewType === "board" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.board.showColumnBorders", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showColumnBorders,
+                    onChange: (e) => handleViewSettingChange(viewType, "showColumnBorders", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextInput,
+              {
+                label: t("settings.blockView.board.cardSpacing", language),
+                value: viewConfig.cardSpacing,
+                onChange: (val) => handleViewSettingChange(viewType, "cardSpacing", val)
+              }
+            )
+          ] }),
+          blockViewSettings.defaultTheme === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "16px", padding: "16px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "8px", backgroundColor: "var(--ls-tertiary-background, #fafafa)" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { style: { margin: "0 0 16px 0", fontSize: "13px", fontWeight: 600, color: "var(--ls-primary-text-color-plugin, #333)" }, children: t(`settings.blockView.${viewType}.customTheme.title`, language) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }, children: customFields.map((field) => field.type === "color" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ColorInput,
+              {
+                label: t(`settings.blockView.${viewType}.customTheme.${field.key}`, language),
+                value: customThemeConfig[field.key] || field.defaultValue,
+                onChange: (val) => handleCustomThemeChange(viewType, field.key, val)
+              },
+              field.key
+            ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextInput,
+              {
+                label: t(`settings.blockView.${viewType}.customTheme.${field.key}`, language),
+                value: customThemeConfig[field.key] || field.defaultValue,
+                onChange: (val) => handleCustomThemeChange(viewType, field.key, val)
+              },
+              field.key
+            )) })
+          ] })
+        ] })
+      ] });
+    };
+    const tableCustomFields = [
+      { key: "borderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "headerBgColor", type: "color", defaultValue: "#f8fafc" },
+      { key: "headerTextColor", type: "color", defaultValue: "#374151" },
+      { key: "cellTextColor", type: "color", defaultValue: "#475569" },
+      { key: "headerBorderColor", type: "color", defaultValue: "#cbd5e1" },
+      { key: "rowBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "rowHoverBgColor", type: "color", defaultValue: "#f1f5f9" },
+      { key: "rowBorderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "headerHeight", type: "text", defaultValue: "40px" },
+      { key: "cellPadding", type: "text", defaultValue: "8px 12px" },
+      { key: "tableBorderRadius", type: "text", defaultValue: "8px" }
+    ];
+    const galleryCustomFields = [
+      { key: "borderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "cardBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "cardTextColor", type: "color", defaultValue: "#475569" },
+      { key: "cardHoverBgColor", type: "color", defaultValue: "#f8fafc" },
+      { key: "headerBorderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "headerBgColor", type: "color", defaultValue: "transparent" },
+      { key: "headerTextColor", type: "color", defaultValue: "#374151" },
+      { key: "cardBorderRadius", type: "text", defaultValue: "12px" },
+      { key: "cardShadow", type: "text", defaultValue: "0 2px 8px rgba(0, 0, 0, 0.06)" }
+    ];
+    const boardCustomFields = [
+      { key: "borderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "columnBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "columnHoverBgColor", type: "color", defaultValue: "#f8fafc" },
+      { key: "headerBgColor", type: "color", defaultValue: "transparent" },
+      { key: "headerTextColor", type: "color", defaultValue: "#374151" },
+      { key: "cardBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "cardTextColor", type: "color", defaultValue: "#475569" },
+      { key: "cardBorderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "cardBorderRadius", type: "text", defaultValue: "8px" }
+    ];
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.blockView.description", language) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
@@ -23930,6 +24173,17 @@ ${where}
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.defaultTheme", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: themeOptions,
+            value: blockViewSettings.defaultTheme,
+            onChange: (value) => handleSettingChange("defaultTheme", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.hideViewBar", language) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -23944,169 +24198,9 @@ ${where}
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { margin: "16px 0", fontSize: "12px", color: "var(--ls-secondary-text-color-plugin, #999)", lineHeight: 1.4 }, children: t("settings.blockView.hideViewBarDescription", language) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "24px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "8px", overflow: "hidden" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "div",
-          {
-            style: {
-              padding: "12px 16px",
-              backgroundColor: "var(--ls-secondary-background, #f5f5f5)",
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center"
-            },
-            onClick: () => setTableCollapsed(!tableCollapsed),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: 0, display: "flex", alignItems: "center", gap: "8px", fontSize: "14px" }, children: t("settings.blockView.table.title", language) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "18px", transform: tableCollapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.2s" }, children: "▼" })
-            ]
-          }
-        ),
-        !tableCollapsed && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "16px" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.table.defaultTheme", language) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              CustomSelect,
-              {
-                options: themeOptions,
-                value: blockViewSettings.table?.defaultTheme || "default",
-                onChange: (value) => handleTableSettingChange("defaultTheme", value)
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.table.showStriped", language) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  type: "checkbox",
-                  checked: blockViewSettings.table?.defaultShowStriped ?? true,
-                  onChange: (e) => handleTableSettingChange("defaultShowStriped", e.target.checked)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.table.showBorder", language) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  type: "checkbox",
-                  checked: blockViewSettings.table?.defaultShowBorder ?? true,
-                  onChange: (e) => handleTableSettingChange("defaultShowBorder", e.target.checked)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
-            ] })
-          ] }),
-          blockViewSettings.table?.defaultTheme === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "16px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "6px", overflow: "hidden" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "div",
-              {
-                style: {
-                  padding: "10px 14px",
-                  backgroundColor: "var(--ls-tertiary-background, #fafafa)",
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center"
-                },
-                onClick: () => setCustomThemeCollapsed(!customThemeCollapsed),
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { style: { margin: 0, fontSize: "13px" }, children: t("settings.blockView.table.customTheme.title", language) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "16px", transform: customThemeCollapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.2s" }, children: "▼" })
-                ]
-              }
-            ),
-            !customThemeCollapsed && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { padding: "14px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", flexWrap: "wrap", gap: "12px" }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ColorInput,
-                {
-                  label: t("settings.blockView.table.customTheme.borderColor", language),
-                  value: blockViewSettings.table?.customTheme?.borderColor || "#e2e8f0",
-                  onChange: (val) => handleCustomThemeSettingChange("borderColor", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ColorInput,
-                {
-                  label: t("settings.blockView.table.customTheme.headerBgColor", language),
-                  value: blockViewSettings.table?.customTheme?.headerBgColor || "#f8fafc",
-                  onChange: (val) => handleCustomThemeSettingChange("headerBgColor", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ColorInput,
-                {
-                  label: t("settings.blockView.table.customTheme.headerTextColor", language),
-                  value: blockViewSettings.table?.customTheme?.headerTextColor || "#374151",
-                  onChange: (val) => handleCustomThemeSettingChange("headerTextColor", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ColorInput,
-                {
-                  label: t("settings.blockView.table.customTheme.headerBorderColor", language),
-                  value: blockViewSettings.table?.customTheme?.headerBorderColor || "#cbd5e1",
-                  onChange: (val) => handleCustomThemeSettingChange("headerBorderColor", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                TextInput,
-                {
-                  label: t("settings.blockView.table.customTheme.headerHeight", language),
-                  value: blockViewSettings.table?.customTheme?.headerHeight || "40px",
-                  onChange: (val) => handleCustomThemeSettingChange("headerHeight", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ColorInput,
-                {
-                  label: t("settings.blockView.table.customTheme.rowBgColor", language),
-                  value: blockViewSettings.table?.customTheme?.rowBgColor || "#ffffff",
-                  onChange: (val) => handleCustomThemeSettingChange("rowBgColor", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ColorInput,
-                {
-                  label: t("settings.blockView.table.customTheme.rowHoverBgColor", language),
-                  value: blockViewSettings.table?.customTheme?.rowHoverBgColor || "#f1f5f9",
-                  onChange: (val) => handleCustomThemeSettingChange("rowHoverBgColor", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                ColorInput,
-                {
-                  label: t("settings.blockView.table.customTheme.rowBorderColor", language),
-                  value: blockViewSettings.table?.customTheme?.rowBorderColor || "#e2e8f0",
-                  onChange: (val) => handleCustomThemeSettingChange("rowBorderColor", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                TextInput,
-                {
-                  label: t("settings.blockView.table.customTheme.cellPadding", language),
-                  value: blockViewSettings.table?.customTheme?.cellPadding || "8px 12px",
-                  onChange: (val) => handleCustomThemeSettingChange("cellPadding", val)
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                TextInput,
-                {
-                  label: t("settings.blockView.table.customTheme.tableBorderRadius", language),
-                  value: blockViewSettings.table?.customTheme?.tableBorderRadius || "8px",
-                  onChange: (val) => handleCustomThemeSettingChange("tableBorderRadius", val)
-                }
-              )
-            ] }) })
-          ] })
-        ] })
-      ] }),
+      renderViewSection("table", "table.title", tableCustomFields),
+      renderViewSection("gallery", "gallery.title", galleryCustomFields),
+      renderViewSection("board", "board.title", boardCustomFields),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
