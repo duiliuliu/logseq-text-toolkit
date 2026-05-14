@@ -14,11 +14,16 @@ import { getDocument } from '../../logseq/utils';
 import { getSettingsWithSystem } from '../../settings';
 import logger from '../logger/index';
 import { generateIndigoGradient } from './colorCalculator';
-import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs, createRendererArgUpdater } from '../render';
 
 const MACRO_PREFIX = ':heatmap';
 const MACRO_PREFIX_CN = ':热力图';
 const PLUGIN_ID = 'text-toolkit-heatmap';
+
+// Create updater instance
+const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX, MACRO_PREFIX_CN]);
+
+export { updateHeatmapRendererArgs };
 
 let HeatmapComponent: React.FC<any> | null = null;
 

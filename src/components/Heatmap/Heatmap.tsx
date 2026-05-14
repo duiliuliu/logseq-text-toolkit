@@ -9,6 +9,7 @@ import { ensurePageAndNavigate, formatDateForPage } from '../../lib/heatmap/page
 import logger from '../../lib/logger';
 import './heatmap.css';
 import { getDocument } from '../../logseq/utils';
+import { updateHeatmapRendererArgs } from '../../lib/heatmap/register';
 
 interface HeatmapProps {
   config: HeatmapConfig;
@@ -156,21 +157,9 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
           const currentBlock = await logseqAPI.Editor.getBlock(onBlockId);
           if (currentBlock) {
             const content = currentBlock.content || '';
-
-            // 🔥 匹配整个 {{renderer :heatmap ... }}
-            const rendererRegex = /({{renderer\s+:heatmap.*?}})/gi;
-
-            const updatedContent = content.replace(rendererRegex, (rendererStr) => {
-              const hasWidth = /containerWidth=[\w%]+/i.test(rendererStr);
-
-              if (hasWidth) {
-                // 有 → 替换
-                return rendererStr.replace(/containerWidth=[\w%]+/i, `containerWidth=${finalWidth}`);
-              } else {
-                // 无 → 智能插入到参数最后面
-                return rendererStr.replace(/\s*}}$/, `, containerWidth=${finalWidth}}}`);
-              }
-            });
+            
+            // 🔥 使用通用的宏参数更新函数
+            const updatedContent = updateHeatmapRendererArgs(content, { containerWidth: finalWidth });
 
             await logseqAPI.Editor.updateBlock(onBlockId, updatedContent);
             logger.debug('📐 Heatmap: Width updated to block', { onBlockId, finalWidth, updatedContent });

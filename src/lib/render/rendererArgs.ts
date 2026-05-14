@@ -64,3 +64,78 @@ export function parseRendererArgs(type: string, tokens: string[]): Record<string
 
   return map
 }
+
+export function createRendererArgUpdater(prefixes: string | string[]): {
+  updateRendererArgs: (content: string, updates: Record<string, string | null>) => string
+} {
+  const prefixList = Array.isArray(prefixes) ? prefixes : [prefixes]
+  
+  const updateRendererArgs = (content: string, updates: Record<string, string | null>): string => {
+    // Create regex to match any of the prefixes
+    const prefixPattern = prefixList.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+    const rendererRegex = new RegExp(`({{renderer\\s+(?:${prefixPattern})[^}]*?}})`, 'gi')
+    
+    return content.replace(rendererRegex, (rendererStr) => {
+      // Extract the inside part: ":heatmap foo bar, key=value"
+      const contentMatch = rendererStr.match(/{{renderer\s+([^}]+)}}/)
+      if (!contentMatch) return rendererStr
+      
+      const rawContent = contentMatch[1]
+      
+      // Split into type and rest parts - the first token is the type
+      const parts = rawContent.trim().split(/\s+/)
+      if (parts.length === 0) return rendererStr
+      
+      const type = parts[0]
+      const restParts = parts.slice(1).join(' ')
+      
+      // Tokenize rest parts using the same logic as splitRendererArgs
+      const tokens = restParts
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean)
+      
+      // Parse existing args
+      const existingArgs = parseRendererArgs(type, tokens)
+      
+      // Apply updates
+      const newArgs: Record<string, string> = { ...existingArgs }
+      for (const [key, value] of Object.entries(updates)) {
+        if (value === null) {
+          delete newArgs[key]
+        } else {
+          newArgs[key] = value
+        }
+      }
+      
+      // Rebuild tokens: combine positional (if any) and named args
+      const modelInfo = findModel(type)
+      const positionalKeys = modelInfo?.model?.positional || []
+      
+      const newTokens: string[] = []
+      
+      // Handle positional arguments first
+      for (const posKey of positionalKeys) {
+        if (newArgs[posKey] !== undefined) {
+          newTokens.push(newArgs[posKey])
+          delete newArgs[posKey] // Remove from named args
+        }
+      }
+      
+      // Add remaining as named args
+      for (const [key, value] of Object.entries(newArgs)) {
+        newTokens.push(`${key}=${value}`)
+      }
+      
+      // Build the new renderer string
+      const tokenStr = newTokens.join(', ')
+      const newRendererStr = tokenStr 
+        ? `{{renderer ${type}, ${tokenStr}}}`
+        : `{{renderer ${type}}}`
+      
+      return newRendererStr
+    })
+  }
+  
+  return { updateRendererArgs }
+}
