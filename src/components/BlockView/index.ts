@@ -1,2 +1,2 @@
-export { default as BlockView } from './BlockView';
-export { default as TableView } from './TableView';
+// Cleanup: BlockView - BlockView is implemented via CSS classes, no React component
+export {}

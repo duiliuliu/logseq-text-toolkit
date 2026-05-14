@@ -51,35 +51,6 @@ export interface ColorScheme {
   gradientSteps: number
 }
 
-// Block View 自定义主题设置
-export interface CustomTableTheme {
-  borderColor?: string
-  headerBgColor?: string
-  headerTextColor?: string
-  headerBorderColor?: string
-  headerHeight?: string
-  rowBgColor?: string
-  rowHoverBgColor?: string
-  rowBorderColor?: string
-  cellPadding?: string
-  tableBorderRadius?: string
-}
-
-// Block View 表格设置
-export interface BlockViewTableSettings {
-  defaultTheme: 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'custom'
-  defaultShowStriped: boolean
-  defaultShowBorder: boolean
-  customTheme?: CustomTableTheme
-}
-
-// Block View 设置
-export interface BlockViewSettings {
-  enabled: boolean
-  defaultViewType: 'table' | 'list' | 'card' | 'timeline'
-  table: BlockViewTableSettings
-}
-
 // 热力图设置
 export interface HeatmapSettings {
   enabled: boolean
@@ -103,6 +74,12 @@ export interface HeatmapSettings {
     pageNameTemplate?: string
     logseqTemplate?: string
   }
+}
+
+// Block View Settings
+export interface BlockViewSettings {
+  defaultView: 'list' | 'table' | 'gallery' | 'board';
+  hideViewBar: boolean;
 }
 
 export interface Settings {

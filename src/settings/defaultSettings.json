@@ -50,13 +50,8 @@
     }
   },
   "blockView": {
-    "enabled": true,
-    "defaultViewType": "table",
-    "table": {
-      "defaultTheme": "default",
-      "defaultShowStriped": true,
-      "defaultShowBorder": true
-    }
+    "defaultView": "list",
+    "hideViewBar": false
   },
   "meta": {
     "language": {

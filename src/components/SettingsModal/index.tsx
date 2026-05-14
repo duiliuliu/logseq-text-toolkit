@@ -90,15 +90,16 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     id: string
     component: React.ComponentType<TabComponentProps>
     label: string
+    icon: string
   }
 
   const tabs: Tab[] = [
-    { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language) },
-    { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language) },
-    { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language) },
-    { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language) },
-    { id: 'block-view', component: BlockViewSettings, label: language?.startsWith('zh') ? '块视图' : 'Block View' },
-    { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language) }
+    { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language), icon: '⚙️' },
+    { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '🔧' },
+    { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '📊' },
+    { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '🌡️' },
+    { id: 'block-view', component: BlockViewSettings, label: language?.startsWith('zh') ? '块视图' : 'Block View', icon: '📋' },
+    { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language), icon: '⚡' }
   ]
 
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
@@ -108,16 +109,17 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
       <div className="ltt-settings-container" data-theme={theme}>
         <div className="ltt-settings-header">
           <div className="ltt-settings-tabs">
-            {tabs.map(tab => (
-              <button 
-                key={tab.id}
-                className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          {tabs.map(tab => (
+            <button 
+              key={tab.id}
+              className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              <span style={{ marginRight: '4px' }}>{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </div>
         </div>
 
         <div className="ltt-settings-content">

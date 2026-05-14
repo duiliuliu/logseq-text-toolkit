@@ -1,223 +1,79 @@
-/**
- * Copyright (c) 2026 duiliuliu
- * License: MIT
- *
- * 块视图设置 Tab
- */
-
-import { t } from '../../../translations/i18n.ts'
-import CustomSelect from '../../CustomSelect/index.tsx'
-import { Settings, BlockViewSettings as BlockViewSettingsType, CustomTableTheme } from '../../../settings/types'
-import { TabComponentProps } from '../index'
-import { PRESET_THEMES } from '../../../lib/blockView/types'
+import React from 'react';
+import { t } from '../../../translations/i18n';
+import CustomSelect from '../../CustomSelect';
+import { TabComponentProps } from '../index';
+import { ViewType } from '../../../lib/blockView/ViewTypes';
 
 function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
-  const blockViewSettings: BlockViewSettingsType = settings.blockView || {
-    enabled: true,
-    defaultViewType: 'table',
-    table: {
-      defaultTheme: 'default',
-      defaultShowStriped: true,
-      defaultShowBorder: true,
-    },
-  }
+  const blockViewSettings = settings?.blockView || {
+    defaultView: 'list' as ViewType,
+    hideViewBar: false,
+  };
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: 'defaultView' | 'hideViewBar', value: any) => {
     setSettings(prev => {
-      if (!prev) return prev
+      if (!prev) return prev;
       return {
         ...prev,
         blockView: {
           ...blockViewSettings,
           [key]: value,
         },
-      }
-    })
-  }
+      };
+    });
+  };
 
-  const handleTableSettingChange = (key: string, value: any) => {
-    setSettings(prev => {
-      if (!prev) return prev
-      return {
-        ...prev,
-        blockView: {
-          ...blockViewSettings,
-          table: {
-            ...blockViewSettings.table,
-            [key]: value,
-          },
-        },
-      }
-    })
-  }
-
-  const handleCustomThemeChange = (key: keyof CustomTableTheme, value: string) => {
-    handleTableSettingChange('customTheme', {
-      ...blockViewSettings.table.customTheme,
-      [key]: value,
-    })
-  }
-
-  const viewTypeOptions = [
-    { value: 'table', label: language?.startsWith('zh') ? '表格' : 'Table' },
-    { value: 'list', label: language?.startsWith('zh') ? '列表' : 'List' },
-    { value: 'card', label: language?.startsWith('zh') ? '卡片' : 'Card' },
-    { value: 'timeline', label: language?.startsWith('zh') ? '时间线' : 'Timeline' },
-  ]
-
-  const themeOptions = [
-    { value: 'default', label: language?.startsWith('zh') ? '默认' : 'Default' },
-    { value: 'notion', label: 'Notion' },
-    { value: 'linear', label: 'Linear' },
-    { value: 'dark', label: language?.startsWith('zh') ? '深色' : 'Dark' },
-    { value: 'gradient', label: language?.startsWith('zh') ? '渐变' : 'Gradient' },
-    { value: 'custom', label: language?.startsWith('zh') ? '自定义' : 'Custom' },
-  ]
-
-  const isCustomTheme = blockViewSettings.table.defaultTheme === 'custom'
-  const activeCustomTheme = isCustomTheme
-    ? { ...PRESET_THEMES.default, ...blockViewSettings.table.customTheme }
-    : PRESET_THEMES.default
+  const viewOptions = [
+    { value: 'list', label: language?.startsWith('zh') ? 'List' : 'List' },
+    { value: 'table', label: language?.startsWith('zh') ? 'Table' : 'Table' },
+    { value: 'gallery', label: language?.startsWith('zh') ? 'Gallery' : 'Gallery' },
+    { value: 'board', label: language?.startsWith('zh') ? 'Board' : 'Board' },
+  ];
 
   return (
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">
-        {language?.startsWith('zh')
-          ? '块视图用于以不同方式展示子块，如表格、列表等。'
-          : 'Block view for displaying child blocks in different ways, such as tables, lists, etc.'}
+        {language?.startsWith('zh') ? '配置 Block 视图设置' : 'Configure block view settings'}
       </p>
 
       <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '启用' : 'Enabled'}</label>
-        <label className="ltt-switch">
-          <input
-            type="checkbox"
-            checked={blockViewSettings.enabled}
-            onChange={(e) => handleSettingChange('enabled', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '默认视图类型' : 'Default View Type'}</label>
+        <label>{language?.startsWith('zh') ? '默认视图' : 'Default view'}</label>
         <CustomSelect
-          options={viewTypeOptions}
-          value={blockViewSettings.defaultViewType}
-          onChange={(value) => handleSettingChange('defaultViewType', value)}
-        />
-      </div>
-
-      <div className="ltt-settings-section-title" style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 600, fontSize: '14px' }}>
-        {language?.startsWith('zh') ? '表格设置' : 'Table Settings'}
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '默认主题' : 'Default Theme'}</label>
-        <CustomSelect
-          options={themeOptions}
-          value={blockViewSettings.table.defaultTheme}
-          onChange={(value) => handleTableSettingChange('defaultTheme', value)}
+          options={viewOptions}
+          value={blockViewSettings.defaultView}
+          onChange={(value) => handleSettingChange('defaultView', value)}
         />
       </div>
 
       <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '显示斑马线' : 'Show Striped Rows'}</label>
+        <label>{language?.startsWith('zh') ? '隐藏视图切换栏' : 'Hide view switcher bar'}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
-            checked={blockViewSettings.table.defaultShowStriped}
-            onChange={(e) => handleTableSettingChange('defaultShowStriped', e.target.checked)}
+            checked={blockViewSettings.hideViewBar}
+            onChange={(e) => handleSettingChange('hideViewBar', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
-      <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '显示边框' : 'Show Border'}</label>
-        <label className="ltt-switch">
-          <input
-            type="checkbox"
-            checked={blockViewSettings.table.defaultShowBorder}
-            onChange={(e) => handleTableSettingChange('defaultShowBorder', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
+      <div style={{ margin: '-8px 0 16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
+        {language?.startsWith('zh')
+          ? '隐藏视图切换栏后，将使用默认视图展示，仍然可以通过修改宏参数 view=xxx 来切换视图'
+          : 'When view switcher bar is hidden, default view will be used. You can still switch views by modifying the macro parameter view=xxx'}
       </div>
-
-      {isCustomTheme && (
-        <>
-          <div className="ltt-settings-section-title" style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 600, fontSize: '14px' }}>
-            {language?.startsWith('zh') ? '自定义主题颜色' : 'Custom Theme Colors'}
-          </div>
-
-          <div className="ltt-setting-item">
-            <label>{language?.startsWith('zh') ? '边框颜色' : 'Border Color'}</label>
-            <input
-              type="color"
-              value={activeCustomTheme.borderColor}
-              onChange={(e) => handleCustomThemeChange('borderColor', e.target.value)}
-              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
-            />
-          </div>
-
-          <div className="ltt-setting-item">
-            <label>{language?.startsWith('zh') ? '表头背景' : 'Header Background'}</label>
-            <input
-              type="color"
-              value={activeCustomTheme.headerBgColor}
-              onChange={(e) => handleCustomThemeChange('headerBgColor', e.target.value)}
-              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
-            />
-          </div>
-
-          <div className="ltt-setting-item">
-            <label>{language?.startsWith('zh') ? '表头文字' : 'Header Text'}</label>
-            <input
-              type="color"
-              value={activeCustomTheme.headerTextColor}
-              onChange={(e) => handleCustomThemeChange('headerTextColor', e.target.value)}
-              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
-            />
-          </div>
-
-          <div className="ltt-setting-item">
-            <label>{language?.startsWith('zh') ? '行背景' : 'Row Background'}</label>
-            <input
-              type="color"
-              value={activeCustomTheme.rowBgColor}
-              onChange={(e) => handleCustomThemeChange('rowBgColor', e.target.value)}
-              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
-            />
-          </div>
-
-          <div className="ltt-setting-item">
-            <label>{language?.startsWith('zh') ? '行悬停背景' : 'Row Hover Background'}</label>
-            <input
-              type="color"
-              value={activeCustomTheme.rowHoverBgColor}
-              onChange={(e) => handleCustomThemeChange('rowHoverBgColor', e.target.value)}
-              style={{ width: '32px', height: '24px', padding: '0', border: '1px solid var(--ls-border-color-plugin, #ccc)', borderRadius: '4px', cursor: 'pointer' }}
-            />
-          </div>
-        </>
-      )}
 
       <div className="ltt-settings-actions">
-        <button
+        <button 
           className="ltt-settings-btn ltt-settings-btn-save"
           onClick={onSave}
           disabled={isSaving}
         >
-          {isSaving
-            ? t('settings.saving', language)
-            : language?.startsWith('zh')
-            ? '保存块视图设置'
-            : 'Save Block View Settings'}
+          {isSaving ? t('settings.saving', language) : language?.startsWith('zh') ? '保存设置' : 'Save Settings'}
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default BlockViewSettings
+export default BlockViewSettings;
