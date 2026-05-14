@@ -1,6 +1,6 @@
 # Block View Renderer 设计方案
 
-**版本**: v2.0
+**版本**: v3.0
 **日期**: 2026-05-14
 **状态**: 设计中
 **分支**: trae/solo-agent-14EEAQ
@@ -114,37 +114,7 @@ const VIEW_ICONS: Record<ViewType, string> = {
 }
 ```
 
-### 2.2 视图切换核心逻辑
-
-点击视图按钮后执行以下操作：
-
-```typescript
-async function switchView(blockId: string, viewType: ViewType): Promise<void> {
-  // 1. 构造元素ID
-  const elementId = `ls-block-${blockId}`;
-  
-  // 2. 获取 DOM 元素（使用 utils.ts）
-  const doc = getDocument();
-  const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`);
-  
-  if (!blockElement) return;
-  
-  // 3. 移除旧视图样式类
-  const VIEW_CLASSES = ['ltt-list-root', 'ltt-table-root', 'ltt-gallery-root', 'ltt-board-root'];
-  blockElement.classList.remove(...VIEW_CLASSES);
-  
-  // 4. 添加新视图样式类
-  const newClass = `ltt-${viewType}-root`;
-  if (!blockElement.classList.contains(newClass)) {
-    blockElement.classList.add(newClass);
-  }
-  
-  // 5. 更新 block property
-  await logseqAPI.Editor.upsertBlockProperty(blockId, 'ltt-view', viewType);
-}
-```
-
-### 2.3 视图类型定义
+### 2.2 视图类型定义
 
 ```typescript
 // src/lib/blockView/ViewTypes.ts
@@ -199,24 +169,29 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
 
 import { logseqAPI } from '../../logseq';
 import { getDocument } from '../../logseq/utils';
+import { getSettingsWithSystem } from '../../settings';
 import { VIEW_REGISTRY, ViewType } from './ViewTypes';
+import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import logger from '../logger';
 
 const MACRO_PREFIX = ':blockview';
 const PLUGIN_ID = 'text-toolkit-blockview';
 
+registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] });
+
 export function registerBlockView(): void {
   // 注册宏渲染器
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-    const args = payload.arguments || [];
-    const type = args[0]?.content || '';
+    const split = splitRendererArgs(payload.arguments);
+    const type = split?.type || '';
+    const tokens = split?.tokens || [];
     
     if (!type.startsWith(MACRO_PREFIX)) return;
     
     const blockId = payload.uuid;
-    logger.debug('[BlockView] Macro triggered', { blockId, type });
+    logger.debug('[BlockView] Macro triggered', { blockId, type, tokens });
     
-    await renderViewBar(blockId, slot);
+    await renderViewBar(blockId, slot, tokens);
   });
   
   // 注册斜杠命令
@@ -239,12 +214,24 @@ export function registerBlockView(): void {
 ### 3.2 渲染视图切换 Bar
 
 ```typescript
-async function renderViewBar(blockId: string, slot: string): Promise<void> {
+async function renderViewBar(blockId: string, slot: string, tokens: string[]): Promise<void> {
   const doc = getDocument();
   const containerId = `${PLUGIN_ID}__${slot}`;
   
-  // 获取当前视图类型（从 block property 读取）
-  const currentView = await getCurrentViewType(blockId);
+  // 获取 settings
+  const settings = await getSettingsWithSystem();
+  const blockViewSettings = settings?.blockView || { defaultView: 'list', hideViewBar: false };
+  
+  // 如果设置了隐藏视图 Bar，直接返回不渲染
+  if (blockViewSettings.hideViewBar) {
+    // 但还是要应用视图样式，通过宏参数获取视图类型
+    const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
+    await applyViewStyle(blockId, currentView);
+    return;
+  }
+  
+  // 从宏命令参数获取当前视图类型，没有则从 settings 获取默认值
+  const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
   
   // 生成视图 Bar HTML
   const viewBarHtml = `
@@ -270,6 +257,9 @@ async function renderViewBar(blockId: string, slot: string): Promise<void> {
     template: `<div id="${containerId}">${viewBarHtml}</div>`,
   });
   
+  // 立即应用视图样式
+  await applyViewStyle(blockId, currentView);
+  
   // 绑定点击事件
   setTimeout(() => {
     const container = doc.getElementById(containerId);
@@ -279,39 +269,27 @@ async function renderViewBar(blockId: string, slot: string): Promise<void> {
   }, 1);
 }
 
-async function getCurrentViewType(blockId: string): Promise<ViewType> {
-  try {
-    const block = await logseqAPI.Editor.getBlock(blockId);
-    const properties = block?.properties || {};
-    return (properties['ltt-view'] as ViewType) || 'list';
-  } catch {
-    return 'list';
-  }
-}
-
-function bindViewEvents(container: HTMLElement, blockId: string): void {
-  const buttons = container.querySelectorAll('.ltt-view-btn');
+function getCurrentViewFromParams(tokens: string[], defaultView: ViewType): ViewType {
+  const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
   
-  buttons.forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const viewType = btn.getAttribute('data-view') as ViewType;
-      if (!viewType) return;
-      
-      // 更新 UI 状态
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      // 切换视图
-      await switchView(blockId, viewType);
-    });
-  });
+  // 优先从参数获取
+  if (argMap.view && VIEW_REGISTRY[argMap.view as ViewType]) {
+    return argMap.view as ViewType;
+  }
+  
+  // 从位置参数获取
+  for (const token of tokens) {
+    const t = token.trim().toLowerCase();
+    if (t && VIEW_REGISTRY[t as ViewType]) {
+      return t as ViewType;
+    }
+  }
+  
+  // 使用默认值
+  return defaultView;
 }
-```
 
-### 3.3 视图切换核心逻辑
-
-```typescript
-async function switchView(blockId: string, viewType: ViewType): Promise<void> {
+async function applyViewStyle(blockId: string, viewType: ViewType): Promise<void> {
   const doc = getDocument();
   
   // 查找 block 元素
@@ -338,21 +316,262 @@ async function switchView(blockId: string, viewType: ViewType): Promise<void> {
     blockElement.classList.add(newClass);
   }
   
-  // 更新 block property 记录视图类型
+  logger.debug('[BlockView] View style applied', { blockId, viewType });
+}
+
+function bindViewEvents(container: HTMLElement, blockId: string): void {
+  const buttons = container.querySelectorAll('.ltt-view-btn');
+  
+  buttons.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const viewType = btn.getAttribute('data-view') as ViewType;
+      if (!viewType) return;
+      
+      // 更新 UI 状态
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // 切换视图并更新宏参数
+      await switchView(blockId, viewType);
+    });
+  });
+}
+```
+
+### 3.3 视图切换核心逻辑（更新宏参数）
+
+参考 Heatmap.tsx 中的宏参数更新逻辑：
+
+```typescript
+async function switchView(blockId: string, viewType: ViewType): Promise<void> {
+  const doc = getDocument();
+  
+  // 1. 查找 block 元素
+  const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`);
+  if (!blockElement) {
+    logger.warn('[BlockView] Block element not found', { blockId });
+    return;
+  }
+  
+  // 2. 定义所有视图 class
+  const VIEW_CLASSES = [
+    'ltt-list-root',
+    'ltt-table-root', 
+    'ltt-gallery-root',
+    'ltt-board-root'
+  ];
+  
+  // 3. 移除所有旧视图样式
+  blockElement.classList.remove(...VIEW_CLASSES);
+  
+  // 4. 添加新视图样式
+  const newClass = `ltt-${viewType}-root`;
+  if (!blockElement.classList.contains(newClass)) {
+    blockElement.classList.add(newClass);
+  }
+  
+  // 5. 更新 block 内容中的宏命令参数
   try {
-    await logseqAPI.Editor.upsertBlockProperty(blockId, 'ltt-view', viewType);
-    logger.debug('[BlockView] View switched', { blockId, viewType });
+    const currentBlock = await logseqAPI.Editor.getBlock(blockId);
+    if (currentBlock?.content) {
+      const content = currentBlock.content;
+      
+      // 匹配整个 {{renderer :blockview ... }}
+      const rendererRegex = /({{renderer\s+:blockview.*?}})/gi;
+      
+      const updatedContent = content.replace(rendererRegex, (rendererStr) => {
+        // 检查是否已有 view 参数
+        const hasViewParam = /view=[a-z]+/i.test(rendererStr);
+        
+        if (hasViewParam) {
+          // 已有 view 参数，替换
+          return rendererStr.replace(/view=[a-z]+/i, `view=${viewType}`);
+        } else {
+          // 没有 view 参数，智能插入到参数最后面
+          // 先看看有没有其他参数
+          if (rendererStr.includes(',') || rendererStr.includes(' ')) {
+            // 有其他参数，追加
+            return rendererStr.replace(/\s*}}/, `, view=${viewType}}}`);
+          } else {
+            // 没有其他参数，直接添加
+            return rendererStr.replace(/\s*}}/, `, view=${viewType}}}`);
+          }
+        }
+      });
+      
+      if (updatedContent !== content) {
+        await logseqAPI.Editor.updateBlock(blockId, updatedContent);
+        logger.debug('[BlockView] Macro parameter updated', { blockId, viewType });
+      }
+    }
   } catch (err) {
-    logger.error('[BlockView] Failed to update property', err);
+    logger.error('[BlockView] Failed to update macro parameter', err);
   }
 }
 ```
 
 ---
 
-## 4. CSS 架构
+## 4. Settings 配置
 
-### 4.1 显式 Root Class 策略
+### 4.1 Settings 类型定义
+
+```typescript
+// src/settings/types.ts
+
+// 在现有类型定义后添加
+export interface BlockViewSettings {
+  defaultView: 'list' | 'table' | 'gallery' | 'board';
+  hideViewBar: boolean;
+}
+
+// 在 Settings 接口中添加
+export interface Settings {
+  // ... 现有字段
+  blockView?: BlockViewSettings;
+}
+```
+
+### 4.2 BlockViewSettings Tab UI
+
+```tsx
+// src/components/SettingsModal/tabs/BlockViewSettings.tsx
+
+import { t } from '../../../translations/i18n';
+import CustomSelect from '../../CustomSelect';
+import { Settings, BlockViewSettings } from '../../../settings/types';
+import { TabComponentProps } from '../index';
+
+function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
+  const blockViewSettings: BlockViewSettings = settings?.blockView || {
+    defaultView: 'list',
+    hideViewBar: false,
+  };
+
+  const handleSettingChange = (key: keyof BlockViewSettings, value: any) => {
+    setSettings(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        blockView: {
+          ...blockViewSettings,
+          [key]: value,
+        },
+      };
+    });
+  };
+
+  const viewOptions = [
+    { value: 'list', label: t('settings.blockView.viewList', language) || 'List' },
+    { value: 'table', label: t('settings.blockView.viewTable', language) || 'Table' },
+    { value: 'gallery', label: t('settings.blockView.viewGallery', language) || 'Gallery' },
+    { value: 'board', label: t('settings.blockView.viewBoard', language) || 'Board' },
+  ];
+
+  return (
+    <div className="ltt-settings-tab-content">
+      <p className="ltt-tab-section-description-small">
+        {t('settings.blockView.description', language) || 'Configure block view settings'}
+      </p>
+      
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.defaultView', language) || 'Default view'}</label>
+        <CustomSelect
+          options={viewOptions}
+          value={blockViewSettings.defaultView}
+          onChange={(value) => handleSettingChange('defaultView', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.hideViewBar', language) || 'Hide view switcher bar'}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={blockViewSettings.hideViewBar}
+            onChange={(e) => handleSettingChange('hideViewBar', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div style={{ margin: '-8px 0 16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
+        {language?.startsWith('zh') 
+          ? '隐藏视图切换栏后，将使用默认视图展示，仍然可以通过修改宏参数 view=xxx 来切换视图'
+          : 'When view switcher bar is hidden, default view will be used. You can still switch views by modifying the macro parameter view=xxx'}
+      </div>
+
+      <div className="ltt-settings-actions">
+        <button 
+          className="ltt-settings-btn ltt-settings-btn-save"
+          onClick={onSave}
+          disabled={isSaving}
+        >
+          {isSaving ? t('settings.saving', language) : t('settings.saveBlockViewSettings', language) || 'Save Settings'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default BlockViewSettings;
+```
+
+### 4.3 更新 SettingsModal 主组件
+
+```tsx
+// src/components/SettingsModal/index.tsx
+
+// 1. 导入新组件
+import BlockViewSettings from './tabs/BlockViewSettings';
+
+// 2. 在 tabComponents 中添加
+const tabComponents: Record<string, React.FC<TabComponentProps>> = {
+  general: GeneralSettings,
+  toolbar: ToolbarSettings,
+  taskProgress: TaskProgressSettings,
+  heatmap: HeatmapSettings,
+  blockView: BlockViewSettings, // 新增
+  advanced: AdvancedSettings,
+};
+
+// 3. 在 tabs 配置中添加（在 heatmap 之后添加）
+const tabs = [
+  { id: 'general', icon: '⚙️', label: 'settings.general' },
+  { id: 'toolbar', icon: '🔧', label: 'settings.toolbar' },
+  { id: 'taskProgress', icon: '📊', label: 'settings.taskProgress' },
+  { id: 'heatmap', icon: '🌡️', label: 'settings.heatmap' },
+  { id: 'blockView', icon: '📋', label: 'settings.blockView' }, // 新增
+  { id: 'advanced', icon: '⚡', label: 'settings.advanced' },
+];
+```
+
+---
+
+## 5. 翻译配置
+
+```json
+// 在 src/translations/zh-CN.json 中添加
+{
+  "settings": {
+    "blockView": "Block 视图",
+    "blockView.description": "配置 Block 视图设置",
+    "blockView.defaultView": "默认视图",
+    "blockView.viewList": "列表",
+    "blockView.viewTable": "表格",
+    "blockView.viewGallery": "画廊",
+    "blockView.viewBoard": "看板",
+    "blockView.hideViewBar": "隐藏视图切换栏",
+    "saveBlockViewSettings": "保存设置"
+  }
+}
+```
+
+---
+
+## 6. CSS 架构
+
+### 6.1 显式 Root Class 策略
 
 ```css
 /* 正确 - 显式 root class，不向上污染 */
@@ -370,7 +589,7 @@ async function switchView(blockId: string, viewType: ViewType): Promise<void> {
 }
 ```
 
-### 4.2 Table 视图 CSS
+### 6.2 Table 视图 CSS
 
 ```css
 /* src/lib/blockView/css/tableView.css */
@@ -441,12 +660,12 @@ async function switchView(blockId: string, viewType: ViewType): Promise<void> {
 }
 ```
 
-### 4.3 Gallery 视图 CSS
+### 6.3 Gallery 视图 CSS
 
 ```css
 .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
   gap: 20px;
   padding: 20px !important;
 }
@@ -466,7 +685,7 @@ async function switchView(blockId: string, viewType: ViewType): Promise<void> {
 }
 ```
 
-### 4.4 Board 视图 CSS
+### 6.4 Board 视图 CSS
 
 ```css
 .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {
@@ -488,20 +707,27 @@ async function switchView(blockId: string, viewType: ViewType): Promise<void> {
 
 ---
 
-## 5. 文件结构
+## 7. 文件结构
 
 ```
 src/
+├── components/
+│   └── SettingsModal/
+│       └── tabs/
+│           └── BlockViewSettings.tsx  # 新增
+│
 ├── lib/
 │   └── blockView/
 │       ├── index.ts              # 入口
 │       ├── register.ts           # 宏命令注册
 │       ├── ViewTypes.ts          # 类型定义
-│       ├── ViewManager.ts        # 视图管理器
 │       └── css/
 │           ├── tableView.css
 │           ├── galleryView.css
 │           └── boardView.css
+│
+├── settings/
+│   └── types.ts                  # 添加 BlockViewSettings 类型
 │
 └── styles/
     └── blockView.css             # 视图 Bar 样式
@@ -509,27 +735,29 @@ src/
 
 ---
 
-## 6. 实现计划
+## 8. 实现计划
 
 ### P0
 - [ ] 宏命令注册 (`{{renderer :blockview}}`)
 - [ ] 视图切换 Bar UI
 - [ ] List 视图（默认）
 - [ ] Table 视图 CSS
-- [ ] 视图切换逻辑
+- [ ] 视图切换逻辑（带宏参数更新）
+- [ ] Settings Tab UI
+- [ ] Settings 类型定义
 
 ### P1
 - [ ] Gallery 视图
 - [ ] Table 列宽调整
-- [ ] Micro 宏命令参数支持
+- [ ] Micro 宏命令参数支持（更多样式参数）
 
 ### P2
 - [ ] Board 视图
-- [ ] Settings 配置面板
+- [ ] 增强美化效果
 
 ---
 
-## 7. API 参考
+## 9. API 参考
 
 ### Logseq API
 
@@ -540,8 +768,8 @@ logseqAPI.App.onMacroRendererSlotted(handler)
 // 获取 block
 logseqAPI.Editor.getBlock(blockId)
 
-// 更新 property
-logseqAPI.Editor.upsertBlockProperty(blockId, key, value)
+// 更新 block 内容
+logseqAPI.Editor.updateBlock(blockId, content)
 
 // 工具函数
 import { getDocument, getWindow } from '../../logseq/utils'
