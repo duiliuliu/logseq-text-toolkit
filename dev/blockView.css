@@ -75,13 +75,18 @@
 
 /* =========================================================
    VIEW BAR POSITIONING
-   Place below .block-title-wrap
+   Place below .block-title-wrap - consistent across all views
 ========================================================= */
 
-.block-main-container .ltt-view-bar {
+.block-main-container .ltt-view-bar,
+.ltt-list-root .ltt-view-bar,
+.ltt-table-root .ltt-view-bar,
+.ltt-gallery-root .ltt-view-bar,
+.ltt-board-root .ltt-view-bar {
   display: inline-flex;
   margin-left: 12px;
   vertical-align: middle;
+  width: fit-content;
 }
 
 /* =========================================================
