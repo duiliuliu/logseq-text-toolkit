@@ -13,5 +13,8 @@ module.exports = [
   "customSelect.css",
   "heatmap.css",
   "summary.css",
-  "blockView.css"
+  "blockView.css",
+  "tableView.css",
+  "galleryView.css",
+  "boardView.css"
 ]
