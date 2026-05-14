@@ -94,12 +94,12 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   }
 
   const tabs: Tab[] = [
-    { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language), icon: '⚙️' },
-    { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '🔧' },
-    { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '📊' },
-    { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '🌡️' },
-    { id: 'block-view', component: BlockViewSettings, label: language?.startsWith('zh') ? '块视图' : 'Block View', icon: '📋' },
-    { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language), icon: '⚡' }
+    { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language), icon: '' },
+    { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '' },
+    { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '' },
+    { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '' },
+    { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
+    { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language), icon: '' }
   ]
 
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component

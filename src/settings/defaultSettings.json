@@ -55,7 +55,19 @@
     "table": {
       "defaultTheme": "default",
       "defaultShowStriped": true,
-      "defaultShowBorder": true
+      "defaultShowBorder": true,
+      "customTheme": {
+        "borderColor": "#e2e8f0",
+        "headerBgColor": "#f8fafc",
+        "headerTextColor": "#374151",
+        "headerBorderColor": "#cbd5e1",
+        "headerHeight": "40px",
+        "rowBgColor": "#ffffff",
+        "rowHoverBgColor": "#f1f5f9",
+        "rowBorderColor": "#e2e8f0",
+        "cellPadding": "8px 12px",
+        "tableBorderRadius": "8px"
+      }
     },
     "hideViewBar": false
   },

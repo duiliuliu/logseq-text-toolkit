@@ -12,9 +12,24 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
       defaultTheme: 'default' as TableTheme,
       defaultShowStriped: true,
       defaultShowBorder: true,
+      customTheme: {
+        borderColor: '#e2e8f0',
+        headerBgColor: '#f8fafc',
+        headerTextColor: '#374151',
+        headerBorderColor: '#cbd5e1',
+        headerHeight: '40px',
+        rowBgColor: '#ffffff',
+        rowHoverBgColor: '#f1f5f9',
+        rowBorderColor: '#e2e8f0',
+        cellPadding: '8px 12px',
+        tableBorderRadius: '8px'
+      }
     },
     hideViewBar: false,
   };
+
+  const [tableCollapsed, setTableCollapsed] = useState(false);
+  const [customThemeCollapsed, setCustomThemeCollapsed] = useState(false);
 
   const handleSettingChange = (key: string, value: any) => {
     setSettings(prev => {
@@ -45,30 +60,81 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
     });
   };
 
+  const handleCustomThemeSettingChange = (key: string, value: any) => {
+    setSettings(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        blockView: {
+          ...blockViewSettings,
+          table: {
+            ...blockViewSettings.table,
+            customTheme: {
+              ...blockViewSettings.table?.customTheme,
+              [key]: value,
+            }
+          },
+        },
+      };
+    });
+  };
+
   const viewOptions = [
-    { value: 'list', label: 'List' },
-    { value: 'table', label: 'Table' },
-    { value: 'gallery', label: 'Gallery' },
-    { value: 'board', label: 'Board' },
+    { value: 'list', label: t('settings.blockView.viewList', language) },
+    { value: 'table', label: t('settings.blockView.viewTable', language) },
+    { value: 'gallery', label: t('settings.blockView.viewGallery', language) },
+    { value: 'board', label: t('settings.blockView.viewBoard', language) },
   ];
 
   const themeOptions = [
-    { value: 'default', label: language?.startsWith('zh') ? '默认' : 'Default' },
-    { value: 'notion', label: 'Notion' },
-    { value: 'linear', label: 'Linear' },
-    { value: 'dark', label: language?.startsWith('zh') ? '深色' : 'Dark' },
-    { value: 'gradient', label: language?.startsWith('zh') ? '渐变' : 'Gradient' },
-    { value: 'custom', label: language?.startsWith('zh') ? '自定义' : 'Custom' },
+    { value: 'default', label: t('settings.blockView.table.themeDefault', language) },
+    { value: 'notion', label: t('settings.blockView.table.themeNotion', language) },
+    { value: 'linear', label: t('settings.blockView.table.themeLinear', language) },
+    { value: 'dark', label: t('settings.blockView.table.themeDark', language) },
+    { value: 'gradient', label: t('settings.blockView.table.themeGradient', language) },
+    { value: 'custom', label: t('settings.blockView.table.themeCustom', language) },
   ];
+
+  const ColorInput = ({ label, value, onChange }: { label: string, value: string, onChange: (val: string) => void }) => (
+    <div className="ltt-setting-item" style={{ flex: 1 }}>
+      <label>{label}</label>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}>
+        <input
+          type="color"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ width: '40px', height: '32px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        />
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ flex: 1, padding: '6px 8px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '4px', fontSize: '12px' }}
+        />
+      </div>
+    </div>
+  );
+
+  const TextInput = ({ label, value, onChange }: { label: string, value: string, onChange: (val: string) => void }) => (
+    <div className="ltt-setting-item" style={{ flex: 1 }}>
+      <label>{label}</label>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        style={{ width: '100%', padding: '6px 8px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '4px', fontSize: '12px' }}
+      />
+    </div>
+  );
 
   return (
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">
-        {language?.startsWith('zh') ? '配置 Block 视图模块的全局默认行为' : 'Configure block view global settings'}
+        {t('settings.blockView.description', language)}
       </p>
 
       <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '启用 Block View' : 'Enable Block View'}</label>
+        <label>{t('settings.blockView.enabled', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -80,7 +146,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '默认视图类型' : 'Default View Type'}</label>
+        <label>{t('settings.blockView.defaultView', language)}</label>
         <CustomSelect
           options={viewOptions}
           value={blockViewSettings.defaultView}
@@ -89,7 +155,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '隐藏视图切换栏' : 'Hide View Switcher Bar'}</label>
+        <label>{t('settings.blockView.hideViewBar', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -101,68 +167,145 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div style={{ margin: '16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
-        {language?.startsWith('zh')
-          ? '隐藏视图切换栏后，将使用默认视图展示，仍然可以通过修改宏参数 view=xxx 来切换视图'
-          : 'When view switcher bar is hidden, default view will be used. You can still switch views by modifying the macro parameter view=xxx'}
+        {t('settings.blockView.hideViewBarDescription', language)}
       </div>
 
-      <div style={{ 
-        marginTop: '24px', 
-        padding: '16px', 
-        backgroundColor: 'var(--ls-secondary-background, #f5f5f5)', 
-        borderRadius: '8px',
-        border: '1px solid var(--ls-border-color, #e5e7eb)'
-      }}>
-        <h4 style={{ margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>📊</span>
-          {language?.startsWith('zh') ? 'Table 设置' : 'Table Settings'}
-        </h4>
-
-        <div className="ltt-setting-item">
-          <label>{language?.startsWith('zh') ? '默认主题' : 'Default Theme'}</label>
-          <CustomSelect
-            options={themeOptions}
-            value={blockViewSettings.table?.defaultTheme || 'default'}
-            onChange={(value) => handleTableSettingChange('defaultTheme', value)}
-          />
+      {/* Table Settings - Collapsible */}
+      <div style={{ marginTop: '24px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '8px', overflow: 'hidden' }}>
+        <div
+          style={{
+            padding: '12px 16px',
+            backgroundColor: 'var(--ls-secondary-background, #f5f5f5)',
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+          onClick={() => setTableCollapsed(!tableCollapsed)}
+        >
+          <h4 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+            {t('settings.blockView.table.title', language)}
+          </h4>
+          <span style={{ fontSize: '18px', transform: tableCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+            ▼
+          </span>
         </div>
 
-        <div className="ltt-setting-item">
-          <label>{language?.startsWith('zh') ? '显示斑马纹行' : 'Show Striped Rows'}</label>
-          <label className="ltt-switch">
-            <input
-              type="checkbox"
-              checked={blockViewSettings.table?.defaultShowStriped ?? true}
-              onChange={(e) => handleTableSettingChange('defaultShowStriped', e.target.checked)}
-            />
-            <span className="ltt-switch-slider"></span>
-          </label>
-        </div>
+        {!tableCollapsed && (
+          <div style={{ padding: '16px' }}>
+            <div className="ltt-setting-item">
+              <label>{t('settings.blockView.table.defaultTheme', language)}</label>
+              <CustomSelect
+                options={themeOptions}
+                value={blockViewSettings.table?.defaultTheme || 'default'}
+                onChange={(value) => handleTableSettingChange('defaultTheme', value)}
+              />
+            </div>
 
-        <div className="ltt-setting-item">
-          <label>{language?.startsWith('zh') ? '显示边框' : 'Show Borders'}</label>
-          <label className="ltt-switch">
-            <input
-              type="checkbox"
-              checked={blockViewSettings.table?.defaultShowBorder ?? true}
-              onChange={(e) => handleTableSettingChange('defaultShowBorder', e.target.checked)}
-            />
-            <span className="ltt-switch-slider"></span>
-          </label>
-        </div>
+            <div className="ltt-setting-item">
+              <label>{t('settings.blockView.table.showStriped', language)}</label>
+              <label className="ltt-switch">
+                <input
+                  type="checkbox"
+                  checked={blockViewSettings.table?.defaultShowStriped ?? true}
+                  onChange={(e) => handleTableSettingChange('defaultShowStriped', e.target.checked)}
+                />
+                <span className="ltt-switch-slider"></span>
+              </label>
+            </div>
 
-        {blockViewSettings.table?.defaultTheme === 'custom' && (
-          <div style={{ 
-            marginTop: '16px', 
-            padding: '12px', 
-            backgroundColor: 'var(--ls-tertiary-background, #fff)', 
-            borderRadius: '6px',
-            fontSize: '12px',
-            color: 'var(--ls-secondary-text-color-plugin, #666)'
-          }}>
-            {language?.startsWith('zh')
-              ? '自定义主题配置功能开发中...'
-              : 'Custom theme configuration coming soon...'}
+            <div className="ltt-setting-item">
+              <label>{t('settings.blockView.table.showBorder', language)}</label>
+              <label className="ltt-switch">
+                <input
+                  type="checkbox"
+                  checked={blockViewSettings.table?.defaultShowBorder ?? true}
+                  onChange={(e) => handleTableSettingChange('defaultShowBorder', e.target.checked)}
+                />
+                <span className="ltt-switch-slider"></span>
+              </label>
+            </div>
+
+            {/* Custom Theme Configuration - Collapsible */}
+            {blockViewSettings.table?.defaultTheme === 'custom' && (
+              <div style={{ marginTop: '16px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '6px', overflow: 'hidden' }}>
+                <div
+                  style={{
+                    padding: '10px 14px',
+                    backgroundColor: 'var(--ls-tertiary-background, #fafafa)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}
+                  onClick={() => setCustomThemeCollapsed(!customThemeCollapsed)}
+                >
+                  <h5 style={{ margin: 0, fontSize: '13px' }}>
+                    {t('settings.blockView.table.customTheme.title', language)}
+                  </h5>
+                  <span style={{ fontSize: '16px', transform: customThemeCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                    ▼
+                  </span>
+                </div>
+
+                {!customThemeCollapsed && (
+                  <div style={{ padding: '14px' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                      <ColorInput
+                        label={t('settings.blockView.table.customTheme.borderColor', language)}
+                        value={blockViewSettings.table?.customTheme?.borderColor || '#e2e8f0'}
+                        onChange={(val) => handleCustomThemeSettingChange('borderColor', val)}
+                      />
+                      <ColorInput
+                        label={t('settings.blockView.table.customTheme.headerBgColor', language)}
+                        value={blockViewSettings.table?.customTheme?.headerBgColor || '#f8fafc'}
+                        onChange={(val) => handleCustomThemeSettingChange('headerBgColor', val)}
+                      />
+                      <ColorInput
+                        label={t('settings.blockView.table.customTheme.headerTextColor', language)}
+                        value={blockViewSettings.table?.customTheme?.headerTextColor || '#374151'}
+                        onChange={(val) => handleCustomThemeSettingChange('headerTextColor', val)}
+                      />
+                      <ColorInput
+                        label={t('settings.blockView.table.customTheme.headerBorderColor', language)}
+                        value={blockViewSettings.table?.customTheme?.headerBorderColor || '#cbd5e1'}
+                        onChange={(val) => handleCustomThemeSettingChange('headerBorderColor', val)}
+                      />
+                      <TextInput
+                        label={t('settings.blockView.table.customTheme.headerHeight', language)}
+                        value={blockViewSettings.table?.customTheme?.headerHeight || '40px'}
+                        onChange={(val) => handleCustomThemeSettingChange('headerHeight', val)}
+                      />
+                      <ColorInput
+                        label={t('settings.blockView.table.customTheme.rowBgColor', language)}
+                        value={blockViewSettings.table?.customTheme?.rowBgColor || '#ffffff'}
+                        onChange={(val) => handleCustomThemeSettingChange('rowBgColor', val)}
+                      />
+                      <ColorInput
+                        label={t('settings.blockView.table.customTheme.rowHoverBgColor', language)}
+                        value={blockViewSettings.table?.customTheme?.rowHoverBgColor || '#f1f5f9'}
+                        onChange={(val) => handleCustomThemeSettingChange('rowHoverBgColor', val)}
+                      />
+                      <ColorInput
+                        label={t('settings.blockView.table.customTheme.rowBorderColor', language)}
+                        value={blockViewSettings.table?.customTheme?.rowBorderColor || '#e2e8f0'}
+                        onChange={(val) => handleCustomThemeSettingChange('rowBorderColor', val)}
+                      />
+                      <TextInput
+                        label={t('settings.blockView.table.customTheme.cellPadding', language)}
+                        value={blockViewSettings.table?.customTheme?.cellPadding || '8px 12px'}
+                        onChange={(val) => handleCustomThemeSettingChange('cellPadding', val)}
+                      />
+                      <TextInput
+                        label={t('settings.blockView.table.customTheme.tableBorderRadius', language)}
+                        value={blockViewSettings.table?.customTheme?.tableBorderRadius || '8px'}
+                        onChange={(val) => handleCustomThemeSettingChange('tableBorderRadius', val)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -173,7 +316,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           onClick={onSave}
           disabled={isSaving}
         >
-          {isSaving ? t('settings.saving', language) : language?.startsWith('zh') ? '保存 Block View 设置' : 'Save Block View Settings'}
+          {isSaving ? t('settings.saving', language) : t('settings.saveBlockViewSettings', language)}
         </button>
       </div>
     </div>
