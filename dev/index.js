@@ -914,7 +914,13 @@
   	}
   };
   const blockView = {
+  	enabled: true,
   	defaultView: "list",
+  	table: {
+  		defaultTheme: "default",
+  		defaultShowStriped: true,
+  		defaultShowBorder: true
+  	},
   	hideViewBar: false
   };
   const meta = {
@@ -23371,7 +23377,13 @@ ${where}
 
   function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }) {
     const blockViewSettings = settings?.blockView || {
+      enabled: true,
       defaultView: "list",
+      table: {
+        defaultTheme: "default",
+        defaultShowStriped: true,
+        defaultShowBorder: true
+      },
       hideViewBar: false
     };
     const handleSettingChange = (key, value) => {
@@ -23386,16 +23398,53 @@ ${where}
         };
       });
     };
+    const handleTableSettingChange = (key, value) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          blockView: {
+            ...blockViewSettings,
+            table: {
+              ...blockViewSettings.table,
+              [key]: value
+            }
+          }
+        };
+      });
+    };
     const viewOptions = [
-      { value: "list", label: language?.startsWith("zh") ? "List" : "List" },
-      { value: "table", label: language?.startsWith("zh") ? "Table" : "Table" },
-      { value: "gallery", label: language?.startsWith("zh") ? "Gallery" : "Gallery" },
-      { value: "board", label: language?.startsWith("zh") ? "Board" : "Board" }
+      { value: "list", label: "List" },
+      { value: "table", label: "Table" },
+      { value: "gallery", label: "Gallery" },
+      { value: "board", label: "Board" }
+    ];
+    const themeOptions = [
+      { value: "default", label: language?.startsWith("zh") ? "默认" : "Default" },
+      { value: "notion", label: "Notion" },
+      { value: "linear", label: "Linear" },
+      { value: "dark", label: language?.startsWith("zh") ? "深色" : "Dark" },
+      { value: "gradient", label: language?.startsWith("zh") ? "渐变" : "Gradient" },
+      { value: "custom", label: language?.startsWith("zh") ? "自定义" : "Custom" }
     ];
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: language?.startsWith("zh") ? "配置 Block 视图设置" : "Configure block view settings" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: language?.startsWith("zh") ? "配置 Block 视图模块的全局默认行为" : "Configure block view global settings" }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "默认视图" : "Default view" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "启用 Block View" : "Enable Block View" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: blockViewSettings.enabled,
+              onChange: (e) => handleSettingChange("enabled", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "默认视图类型" : "Default View Type" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           CustomSelect,
           {
@@ -23406,7 +23455,7 @@ ${where}
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "隐藏视图切换栏" : "Hide view switcher bar" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "隐藏视图切换栏" : "Hide View Switcher Bar" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
@@ -23419,14 +23468,73 @@ ${where}
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { margin: "-8px 0 16px 0", fontSize: "12px", color: "var(--ls-secondary-text-color-plugin, #999)", lineHeight: 1.4 }, children: language?.startsWith("zh") ? "隐藏视图切换栏后，将使用默认视图展示，仍然可以通过修改宏参数 view=xxx 来切换视图" : "When view switcher bar is hidden, default view will be used. You can still switch views by modifying the macro parameter view=xxx" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { margin: "16px 0", fontSize: "12px", color: "var(--ls-secondary-text-color-plugin, #999)", lineHeight: 1.4 }, children: language?.startsWith("zh") ? "隐藏视图切换栏后，将使用默认视图展示，仍然可以通过修改宏参数 view=xxx 来切换视图" : "When view switcher bar is hidden, default view will be used. You can still switch views by modifying the macro parameter view=xxx" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+        marginTop: "24px",
+        padding: "16px",
+        backgroundColor: "var(--ls-secondary-background, #f5f5f5)",
+        borderRadius: "8px",
+        border: "1px solid var(--ls-border-color, #e5e7eb)"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h4", { style: { margin: "0 0 16px 0", display: "flex", alignItems: "center", gap: "8px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "📊" }),
+          language?.startsWith("zh") ? "Table 设置" : "Table Settings"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "默认主题" : "Default Theme" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            CustomSelect,
+            {
+              options: themeOptions,
+              value: blockViewSettings.table?.defaultTheme || "default",
+              onChange: (value) => handleTableSettingChange("defaultTheme", value)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "显示斑马纹行" : "Show Striped Rows" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "checkbox",
+                checked: blockViewSettings.table?.defaultShowStriped ?? true,
+                onChange: (e) => handleTableSettingChange("defaultShowStriped", e.target.checked)
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "显示边框" : "Show Borders" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "checkbox",
+                checked: blockViewSettings.table?.defaultShowBorder ?? true,
+                onChange: (e) => handleTableSettingChange("defaultShowBorder", e.target.checked)
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+          ] })
+        ] }),
+        blockViewSettings.table?.defaultTheme === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+          marginTop: "16px",
+          padding: "12px",
+          backgroundColor: "var(--ls-tertiary-background, #fff)",
+          borderRadius: "6px",
+          fontSize: "12px",
+          color: "var(--ls-secondary-text-color-plugin, #666)"
+        }, children: language?.startsWith("zh") ? "自定义主题配置功能开发中..." : "Custom theme configuration coming soon..." })
+      ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
           className: "ltt-settings-btn ltt-settings-btn-save",
           onClick: onSave,
           disabled: isSaving,
-          children: isSaving ? t("settings.saving", language) : language?.startsWith("zh") ? "保存设置" : "Save Settings"
+          children: isSaving ? t("settings.saving", language) : language?.startsWith("zh") ? "保存 Block View 设置" : "Save Block View Settings"
         }
       ) })
     ] });
