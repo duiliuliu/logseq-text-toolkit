@@ -23987,7 +23987,7 @@ ${where}
     ] });
     const renderViewSection = (viewType, titleKey, customFields) => {
       const isExpanded = expandedViews.has(viewType);
-      const viewConfig = blockViewSettings[viewType];
+      const viewConfig = blockViewSettings?.[viewType] || {};
       const customThemeConfig = viewConfig?.customTheme || {};
       return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "16px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "8px", overflow: "hidden" }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
