@@ -8,6 +8,7 @@ import BlockRenderer from './components/BlockRenderer/index'
 import TaskProgressDemo from './components/TaskProgressDemo/index'
 import HeatmapDemo from './components/HeatmapDemo/index'
 import { SummaryDemo } from './components/SummaryDemo'
+import { BlockViewDemo } from './components/BlockViewDemo'
 import { ProxySettings } from './components/ProxySettings'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
@@ -314,6 +315,9 @@ function TestApp() {
       </div>
 
       <HeatmapDemo />
+
+      {/* Block View 演示 */}
+      <BlockViewDemo />
 
       {/* Summary 生成器放在最下面 */}
       <SummaryDemo onGenerateSuccess={handleSummaryGenerate} />
