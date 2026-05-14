@@ -1,3 +1,129 @@
+/* Summary Modal Styles */
+.summary-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ls-primary-text-color, #333);
+}
+
+.form-input,
+.form-select {
+  padding: 8px 12px;
+  border: 1px solid var(--ls-border-color, #e0e0e0);
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: var(--ls-primary-background-color, #fff);
+  color: var(--ls-primary-text-color, #333);
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--ls-primary-color, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--ls-border-color, #e0e0e0);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: var(--ls-primary-background-color, #fff);
+}
+
+.radio-label:hover {
+  background-color: var(--ls-secondary-background-color, #f5f5f5);
+}
+
+.radio-label.active {
+  border-color: var(--ls-primary-color, #3b82f6);
+  background-color: rgba(59, 130, 246, 0.08);
+  color: var(--ls-primary-color, #3b82f6);
+}
+
+.radio-label input[type="radio"] {
+  margin: 0;
+}
+
+.custom-date-section {
+  padding: 16px;
+  background-color: var(--ls-secondary-background-color, #f5f5f5);
+  border-radius: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--ls-primary-color, #3b82f6);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.btn-secondary {
+  background-color: var(--ls-secondary-background-color, #f5f5f5);
+  color: var(--ls-primary-text-color, #333);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--ls-border-color, #e0e0e0);
+}
+
+/* Summary Page Layout Styles (existing) */
 .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
   background: var(--ls-secondary-background-color, #f8f9fa) !important;
   padding: 24px 16px !important;
