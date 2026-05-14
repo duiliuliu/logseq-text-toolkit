@@ -71,32 +71,51 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
   const prefixList = Array.isArray(prefixes) ? prefixes : [prefixes]
   
   const updateRendererArgs = (content: string, updates: Record<string, string | null>): string => {
-    // Create regex to match any of the prefixes
     const prefixPattern = prefixList.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
     const rendererRegex = new RegExp(`({{renderer\\s+(?:${prefixPattern})[^}]*?}})`, 'gi')
     
     return content.replace(rendererRegex, (rendererStr) => {
-      // Extract the inside part: ":heatmap foo bar, key=value"
       const contentMatch = rendererStr.match(/{{renderer\s+([^}]+)}}/)
       if (!contentMatch) return rendererStr
       
-      const rawContent = contentMatch[1]
+      const rawContent = contentMatch[1].trim()
       
-      // Split into type and rest parts - the first token is the type
-      const parts = rawContent.trim().split(/\s+/)
-      if (parts.length === 0) return rendererStr
+      // Split by comma first - handles both "type, args" and "type args" formats
+      const commaParts = rawContent.split(',').map(s => s.trim())
       
-      const type = parts[0]
-      const restParts = parts.slice(1).join(' ')
+      // First part may be "type" or "type args" - split by space to extract type
+      const firstPart = commaParts[0]
+      const typeParts = firstPart.split(/\s+/)
+      const type = typeParts[0]
       
-      // Tokenize rest parts using the same logic as splitRendererArgs
-      const tokens = restParts
-        .split(',')
-        .map(s => s.trim())
-        .filter(Boolean)
+      // Collect all args from all comma parts
+      const argTokens: string[] = []
+      
+      // Add remaining args from first part (skip type itself)
+      for (let i = 1; i < typeParts.length; i++) {
+        argTokens.push(typeParts[i])
+      }
+      
+      // Add all subsequent comma parts
+      for (let i = 1; i < commaParts.length; i++) {
+        argTokens.push(commaParts[i])
+      }
       
       // Parse existing args
-      const existingArgs = parseRendererArgs(type, tokens)
+      const existingArgs = parseRendererArgs(type, argTokens)
+      const positionalKeys = findModel(type)?.model?.positional || []
+      
+      // Check which positional keys had positional format (no = sign)
+      const positionalFormat: Record<string, boolean> = {}
+      for (const token of argTokens) {
+        if (!token.includes('=')) {
+          for (const posKey of positionalKeys) {
+            if (existingArgs[posKey] === token) {
+              positionalFormat[posKey] = true
+            }
+          }
+        }
+      }
       
       // Apply updates
       const newArgs: Record<string, string> = { ...existingArgs }
@@ -108,17 +127,14 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
         }
       }
       
-      // Rebuild tokens: combine positional (if any) and named args
-      const modelInfo = findModel(type)
-      const positionalKeys = modelInfo?.model?.positional || []
-      
+      // Rebuild tokens - positionals first, then named args
       const newTokens: string[] = []
       
-      // Handle positional arguments first
+      // Add positional args first
       for (const posKey of positionalKeys) {
         if (newArgs[posKey] !== undefined) {
           newTokens.push(newArgs[posKey])
-          delete newArgs[posKey] // Remove from named args
+          delete newArgs[posKey]
         }
       }
       
@@ -127,10 +143,8 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
         newTokens.push(`${key}=${value}`)
       }
       
-      // Build the new renderer string
-      const tokenStr = newTokens.join(', ')
-      const newRendererStr = tokenStr 
-        ? `{{renderer ${type}, ${tokenStr}}}`
+      const newRendererStr = newTokens.length > 0
+        ? `{{renderer ${type}, ${newTokens.join(', ')}}}`
         : `{{renderer ${type}}}`
       
       return newRendererStr
