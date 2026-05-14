@@ -36,6 +36,7 @@
       "taskProgress": "📊 Task Progress",
       "heatmap": "📈 Heatmap",
       "blockView": "📋 Block View",
+      "summary": "📝 Summary Generator",
       "advanced": "⚡ Other Settings"
     },
     "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
@@ -133,6 +134,7 @@
     "saveTaskProgressSettings": "Save Task Progress Settings",
     "saveHeatmapSettings": "Save Heatmap Settings",
     "saveBlockViewSettings": "Save Block View Settings",
+    "saveSummarySettings": "Save Summary Settings",
     "blockView": {
       "description": "Configure the global default behavior of the block view module.",
       "enabled": "Enable Block View",
@@ -231,6 +233,33 @@
       "enableWeekPageCreation": "Enable Week Page Creation",
       "weekPageNameTemplate": "Page Name Template",
       "weekLogseqTemplate": "Logseq Template"
+    },
+    "summary": {
+      "description": "Configure default behavior and parameters for the summary generation feature.",
+      "enabled": "Enable Summary Feature",
+      "defaultTemplate": "Default Template",
+      "defaultType": "Default Summary Type",
+      "dateFormat": "Date Format",
+      "pageNameTemplate": "Page Name Template",
+      "templateGtdWorkReview": "GTD Work Review",
+      "templateMinimalDashboard": "Minimal Dashboard",
+      "templateBulletJournal": "Bullet Journal",
+      "templateOkrReview": "OKR Review",
+      "templateStudySummary": "Study Summary",
+      "typeWeekly": "Weekly",
+      "typeMonthly": "Monthly",
+      "typeYearly": "Yearly",
+      "typeCustom": "Custom",
+      "aiSettings": "🤖 AI Settings",
+      "aiEnabled": "Enable AI Enhancement",
+      "aiProvider": "AI Provider",
+      "aiProviderOpenAI": "OpenAI",
+      "aiProviderClaude": "Claude",
+      "aiProviderCustom": "Custom",
+      "aiApiKey": "API Key",
+      "aiApiUrl": "API URL",
+      "aiModel": "Model",
+      "aiPromptTemplate": "Prompt Template"
     }
   }
 }
