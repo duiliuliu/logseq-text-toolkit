@@ -19833,7 +19833,8 @@ ${where}
       return classes;
     };
     const renderBlockHTML = () => {
-      const html = `<div haschild="true" class="${getBlockClasses()}" level="0" blockid="6a03f979-2728-4739-bf02-399ca07cb19c" id="ls-block-6a03f979-2728-4739-bf02-399ca07cb19c" containerid="1">
+      return `<div haschild="true" class="${getBlockClasses()}" level="0" blockid="6a03f979-2728-4739-bf02-399ca07cb19c"
+    id="ls-block-6a03f979-2728-4739-bf02-399ca07cb19c" containerid="1">
     <div class="block-main-container flex flex-row gap-1">
         <div class="block-control-wrap flex flex-row items-center h-6"><a
                 id="control-6a03f979-2728-4739-bf02-399ca07cb19c" class="block-control"><span class="control-hide"><span
@@ -19859,8 +19860,8 @@ ${where}
                                             data-type="default" class="block-content inline " style="width: 100%;">
                                             <div class="flex flex-row justify-between block-content-inner">
                                                 <div class="block-head-wrap">
-                                                    <div class="w-full inline"><span class="block-title-wrap">Block View Demo
-                                                            - Table Header</span></div>
+                                                    <div class="w-full inline"><span class="block-title-wrap">ltt-table
+                                                            "table header"</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -19882,18 +19883,23 @@ ${where}
         <div class="block-children-left-border"></div>
         <div class="block-children w-full">
             <div data-level="1" class="blocks-list-wrap">
-                <div haschild="false" class="ls-block swipe-item" level="1"
-                    blockid="child1" id="ls-block-child1" containerid="1">
+                <div haschild="true" class="ls-block swipe-item " level="1"
+                    blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4" id="ls-block-6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                    containerid="1">
                     <div class="block-main-container flex flex-row gap-1">
-                        <div class="block-control-wrap flex flex-row items-center h-6">
-                            <a id="control-child1" class="block-control"><span class="control-hide"><span
-                                        class="rotating-arrow not-collapsed"></span></span></a>
-                            <a class="bullet-link-wrap" data-state="closed">
-                                <span id="dot-child1" blockid="child1" draggable="true"
-                                    class="bullet-container cursor">
-                                    <span blockid="child1" class="bullet"></span>
-                                </span>
-                            </a>
+                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                id="control-6a03f98e-daac-49fd-b523-5e7bd15868f4" class="block-control"><span
+                                    class="control-hide"><span class="rotating-arrow not-collapsed"><svg
+                                            aria-hidden="true" version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                            display="inline-block" class="h-4 w-4" style="margin-left: 2px;">
+                                            <path
+                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                fill-rule="evenodd"></path>
+                                        </svg></span></span></a><a class="bullet-link-wrap" data-state="closed"><span
+                                    id="dot-6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                                    blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4" draggable="true"
+                                    class="bullet-container cursor "><span
+                                        blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4" class="bullet"></span></span></a>
                         </div>
                         <div class="flex flex-col w-full">
                             <div class="flex flex-col w-full">
@@ -19902,23 +19908,25 @@ ${where}
                                         <div class="block-content-or-editor-wrap ">
                                             <div class="block-content-or-editor-inner">
                                                 <div class="block-row flex flex-1 flex-row gap-1 items-center">
-                                                    <div class="flex flex-1 w-full block-content-wrapper" style="display: flex;">
-                                                        <div id="block-content-child1"
-                                                            blockid="child1" containerid="1"
-                                                            data-type="default" class="block-content inline " style="width: 100%;">
-                                                            <div class="flex flex-row justify-between block-content-inner">
+                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                        style="display: flex;">
+                                                        <div id="block-content-6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                                                            blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                                                            containerid="1" data-type="default"
+                                                            class="block-content inline " style="width: 100%;">
+                                                            <div
+                                                                class="flex flex-row justify-between block-content-inner">
                                                                 <div class="block-head-wrap">
-                                                                    <div class="w-full inline">
-                                                                        <span class="block-title-wrap">
-                                                                            这是纵轴表头一：维度
-                                                                        </span>
+                                                                    <div class="w-full inline"><span
+                                                                            class="block-title-wrap">这是纵轴表头一：维度</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="flex flex-row items-center"></div>
                                                     </div>
-                                                    <div class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                    <div
+                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
                                                         <div class="opacity-70 hover:opacity-100"></div>
                                                     </div>
                                                 </div>
@@ -19928,21 +19936,303 @@ ${where}
                                 </div>
                             </div>
                         </div>
+                        <div class="ltt-resize-handle" data-col-index="0"></div>
                     </div>
                     <div style="padding-left: 45px;"></div>
+                    <div class="block-children-container flex">
+                        <div class="block-children-left-border"></div>
+                        <div class="block-children w-full">
+                            <div data-level="2" class="blocks-list-wrap">
+                                <div haschild="true" class="ls-block swipe-item " level="2"
+                                    blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                    id="ls-block-6a0401f2-d022-403c-a2ef-66cc0e7686cd" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                    blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                                            blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴第二列数据：微服务dadadaddadadddddddddada</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                    <div class="block-children-container flex">
+                                        <div class="block-children-left-border"></div>
+                                        <div class="block-children w-full">
+                                            <div data-level="3" class="blocks-list-wrap">
+                                                <div haschild="false" class="ls-block swipe-item " level="3"
+                                                    blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                    id="ls-block-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0" containerid="1">
+                                                    <div class="block-main-container flex flex-row gap-1">
+                                                        <div class="block-control-wrap flex flex-row items-center h-6">
+                                                            <a id="control-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                class="block-control"><span class="control-hide"><span
+                                                                        class="rotating-arrow not-collapsed"><svg
+                                                                            aria-hidden="true" version="1.1"
+                                                                            viewBox="0 0 192 512" fill="currentColor"
+                                                                            display="inline-block" class="h-4 w-4"
+                                                                            style="margin-left: 2px;">
+                                                                            <path
+                                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                                fill-rule="evenodd"></path>
+                                                                        </svg></span></span></a><a
+                                                                class="bullet-link-wrap" data-state="closed"><span
+                                                                    id="dot-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                    blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                    draggable="true"
+                                                                    class="bullet-container cursor "><span
+                                                                        blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                        class="bullet"></span></span></a></div>
+                                                        <div class="flex flex-col w-full">
+                                                            <div class="flex flex-col w-full">
+                                                                <div class="block-main-content flex flex-row gap-2">
+                                                                    <div class="flex flex-col w-full">
+                                                                        <div class="block-content-or-editor-wrap ">
+                                                                            <div class="block-content-or-editor-inner">
+                                                                                <div
+                                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                                        style="display: flex;">
+                                                                                        <div id="block-content-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                                            blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                                            containerid="1"
+                                                                                            data-type="default"
+                                                                                            class="block-content inline "
+                                                                                            style="width: 100%;">
+                                                                                            <div
+                                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                                <div
+                                                                                                    class="block-head-wrap">
+                                                                                                    <div
+                                                                                                        class="w-full inline">
+                                                                                                        <span
+                                                                                                            class="block-title-wrap">大l</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="flex flex-row items-center">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                                        <div
+                                                                                            class="opacity-70 hover:opacity-100">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-left: 45px;"></div>
+                                                </div>
+                                                <div haschild="false" class="ls-block swipe-item " level="3"
+                                                    blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                    id="ls-block-6a041012-0dfb-413a-9857-e699978aa46e" containerid="1">
+                                                    <div class="block-main-container flex flex-row gap-1">
+                                                        <div class="block-control-wrap flex flex-row items-center h-6">
+                                                            <a id="control-6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                class="block-control"><span class="control-hide"><span
+                                                                        class="rotating-arrow not-collapsed"><svg
+                                                                            aria-hidden="true" version="1.1"
+                                                                            viewBox="0 0 192 512" fill="currentColor"
+                                                                            display="inline-block" class="h-4 w-4"
+                                                                            style="margin-left: 2px;">
+                                                                            <path
+                                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                                fill-rule="evenodd"></path>
+                                                                        </svg></span></span></a><a
+                                                                class="bullet-link-wrap" data-state="closed"><span
+                                                                    id="dot-6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                    blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                    draggable="true"
+                                                                    class="bullet-container cursor "><span
+                                                                        blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                        class="bullet"></span></span></a></div>
+                                                        <div class="flex flex-col w-full">
+                                                            <div class="flex flex-col w-full">
+                                                                <div class="block-main-content flex flex-row gap-2">
+                                                                    <div class="flex flex-col w-full">
+                                                                        <div class="block-content-or-editor-wrap ">
+                                                                            <div class="block-content-or-editor-inner">
+                                                                                <div
+                                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                                        style="display: flex;">
+                                                                                        <div id="block-content-6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                                            blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                                            containerid="1"
+                                                                                            data-type="default"
+                                                                                            class="block-content inline "
+                                                                                            style="width: 100%;">
+                                                                                            <div
+                                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                                <div
+                                                                                                    class="block-head-wrap">
+                                                                                                    <div
+                                                                                                        class="w-full inline">
+                                                                                                        <span
+                                                                                                            class="block-title-wrap">看看</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="flex flex-row items-center">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                                        <div
+                                                                                            class="opacity-70 hover:opacity-100">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-left: 45px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                    id="ls-block-6a0405e9-4049-4d25-a1f3-4984501715e7" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                    blockid="6a0405e9-4049-4d25-a1f3-4984501715e7" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                                            blockid="6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">大声道</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div haschild="false" class="ls-block swipe-item" level="1"
-                    blockid="child2" id="ls-block-child2" containerid="1">
+                <div haschild="true" class="ls-block swipe-item " level="1"
+                    blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e" id="ls-block-6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                    containerid="1">
                     <div class="block-main-container flex flex-row gap-1">
-                        <div class="block-control-wrap flex flex-row items-center h-6">
-                            <a id="control-child2" class="block-control"><span class="control-hide"><span
-                                        class="rotating-arrow not-collapsed"></span></span></a>
-                            <a class="bullet-link-wrap" data-state="closed">
-                                <span id="dot-child2" blockid="child2" draggable="true"
-                                    class="bullet-container cursor">
-                                    <span blockid="child2" class="bullet"></span>
-                                </span>
-                            </a>
+                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                id="control-6a041f96-b598-4965-b1cb-f492cb1e7e6e" class="block-control"><span
+                                    class="control-hide"><span class="rotating-arrow not-collapsed"><svg
+                                            aria-hidden="true" version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                            display="inline-block" class="h-4 w-4" style="margin-left: 2px;">
+                                            <path
+                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                fill-rule="evenodd"></path>
+                                        </svg></span></span></a><a class="bullet-link-wrap" data-state="closed"><span
+                                    id="dot-6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                                    blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e" draggable="true"
+                                    class="bullet-container cursor "><span
+                                        blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e" class="bullet"></span></span></a>
                         </div>
                         <div class="flex flex-col w-full">
                             <div class="flex flex-col w-full">
@@ -19951,23 +20241,24 @@ ${where}
                                         <div class="block-content-or-editor-wrap ">
                                             <div class="block-content-or-editor-inner">
                                                 <div class="block-row flex flex-1 flex-row gap-1 items-center">
-                                                    <div class="flex flex-1 w-full block-content-wrapper" style="display: flex;">
-                                                        <div id="block-content-child2"
-                                                            blockid="child2" containerid="1"
-                                                            data-type="default" class="block-content inline " style="width: 100%;">
-                                                            <div class="flex flex-row justify-between block-content-inner">
+                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                        style="display: flex;">
+                                                        <div id="block-content-6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                                                            blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                                                            containerid="1" data-type="default"
+                                                            class="block-content inline " style="width: 100%;">
+                                                            <div
+                                                                class="flex flex-row justify-between block-content-inner">
                                                                 <div class="block-head-wrap">
-                                                                    <div class="w-full inline">
-                                                                        <span class="block-title-wrap">
-                                                                            这是纵轴表头二：代码结构
-                                                                        </span>
-                                                                    </div>
+                                                                    <div class="w-full inline"><span
+                                                                            class="block-title-wrap">打赏</span></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="flex flex-row items-center"></div>
                                                     </div>
-                                                    <div class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                    <div
+                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
                                                         <div class="opacity-70 hover:opacity-100"></div>
                                                     </div>
                                                 </div>
@@ -19977,14 +20268,403 @@ ${where}
                                 </div>
                             </div>
                         </div>
+                        <div class="ltt-resize-handle" data-col-index="1"></div>
                     </div>
                     <div style="padding-left: 45px;"></div>
+                    <div class="block-children-container flex">
+                        <div class="block-children-left-border"></div>
+                        <div class="block-children w-full">
+                            <div data-level="2" class="blocks-list-wrap">
+                                <div haschild="true" class="ls-block swipe-item " level="2"
+                                    blockid="6a0405ea-6cad-485c-a27b-8bd531878944"
+                                    id="ls-block-6a0405ea-6cad-485c-a27b-8bd531878944" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                    blockid="6a0405ea-6cad-485c-a27b-8bd531878944" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                                            blockid="6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">大声道</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                    <div class="block-children-container flex">
+                                        <div class="block-children-left-border"></div>
+                                        <div class="block-children w-full">
+                                            <div data-level="3" class="blocks-list-wrap">
+                                                <div haschild="false" class="ls-block swipe-item " level="3"
+                                                    blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                    id="ls-block-6a041fb1-2e4f-4814-8932-6f116f7741e4" containerid="1">
+                                                    <div class="block-main-container flex flex-row gap-1">
+                                                        <div class="block-control-wrap flex flex-row items-center h-6">
+                                                            <a id="control-6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                class="block-control"><span class="control-hide"><span
+                                                                        class="rotating-arrow not-collapsed"><svg
+                                                                            aria-hidden="true" version="1.1"
+                                                                            viewBox="0 0 192 512" fill="currentColor"
+                                                                            display="inline-block" class="h-4 w-4"
+                                                                            style="margin-left: 2px;">
+                                                                            <path
+                                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                                fill-rule="evenodd"></path>
+                                                                        </svg></span></span></a><a
+                                                                class="bullet-link-wrap" data-state="closed"><span
+                                                                    id="dot-6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                    blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                    draggable="true"
+                                                                    class="bullet-container cursor "><span
+                                                                        blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                        class="bullet"></span></span></a></div>
+                                                        <div class="flex flex-col w-full">
+                                                            <div class="flex flex-col w-full">
+                                                                <div class="block-main-content flex flex-row gap-2">
+                                                                    <div class="flex flex-col w-full">
+                                                                        <div class="block-content-or-editor-wrap ">
+                                                                            <div class="block-content-or-editor-inner">
+                                                                                <div
+                                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                                        style="display: flex;">
+                                                                                        <div id="block-content-6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                                            blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                                            containerid="1"
+                                                                                            data-type="default"
+                                                                                            class="block-content inline "
+                                                                                            style="width: 100%;">
+                                                                                            <div
+                                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                                <div
+                                                                                                    class="block-head-wrap">
+                                                                                                    <div
+                                                                                                        class="w-full inline">
+                                                                                                        <span
+                                                                                                            class="block-title-wrap">dad</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="flex flex-row items-center">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                                        <div
+                                                                                            class="opacity-70 hover:opacity-100">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-left: 45px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                    id="ls-block-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                    blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                                            blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴第三列数据：微服务大</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div haschild="true" class="ls-block swipe-item " level="1"
+                    blockid="6a03f998-9353-4483-aaf3-3586a42ac4da" id="ls-block-6a03f998-9353-4483-aaf3-3586a42ac4da"
+                    containerid="1">
+                    <div class="block-main-container flex flex-row gap-1">
+                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                id="control-6a03f998-9353-4483-aaf3-3586a42ac4da" class="block-control"><span
+                                    class="control-hide"><span class="rotating-arrow not-collapsed"><svg
+                                            aria-hidden="true" version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                            display="inline-block" class="h-4 w-4" style="margin-left: 2px;">
+                                            <path
+                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                fill-rule="evenodd"></path>
+                                        </svg></span></span></a><a class="bullet-link-wrap" data-state="closed"><span
+                                    id="dot-6a03f998-9353-4483-aaf3-3586a42ac4da"
+                                    blockid="6a03f998-9353-4483-aaf3-3586a42ac4da" draggable="true"
+                                    class="bullet-container cursor "><span
+                                        blockid="6a03f998-9353-4483-aaf3-3586a42ac4da" class="bullet"></span></span></a>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <div class="flex flex-col w-full">
+                                <div class="block-main-content flex flex-row gap-2">
+                                    <div class="flex flex-col w-full">
+                                        <div class="block-content-or-editor-wrap ">
+                                            <div class="block-content-or-editor-inner">
+                                                <div class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                        style="display: flex;">
+                                                        <div id="block-content-6a03f998-9353-4483-aaf3-3586a42ac4da"
+                                                            blockid="6a03f998-9353-4483-aaf3-3586a42ac4da"
+                                                            containerid="1" data-type="default"
+                                                            class="block-content inline " style="width: 100%;">
+                                                            <div
+                                                                class="flex flex-row justify-between block-content-inner">
+                                                                <div class="block-head-wrap">
+                                                                    <div class="w-full inline"><span
+                                                                            class="block-title-wrap">这是纵轴表头二：代码结构</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-row items-center"></div>
+                                                    </div>
+                                                    <div
+                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ltt-resize-handle" data-col-index="2"></div>
+                    </div>
+                    <div style="padding-left: 45px;"></div>
+                    <div class="block-children-container flex">
+                        <div class="block-children-left-border"></div>
+                        <div class="block-children w-full">
+                            <div data-level="2" class="blocks-list-wrap">
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                    id="ls-block-6a03fa71-29e8-4ed0-abf5-289eb24a08bd" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                    blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                                            blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴
+                                                                                            第二列数据：一个代码工程</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                    id="ls-block-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                    blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                                            blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴第三列数据：多个代码工程</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>`;
-      return html;
     };
     logger.debug("Rendering BlockViewDemo", {
       currentView,
@@ -21347,7 +22027,7 @@ ${where}
   }
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21358,7 +22038,7 @@ ${where}
   }).join(" ").trim();
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21367,7 +22047,7 @@ ${where}
   const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21379,7 +22059,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21392,7 +22072,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21411,7 +22091,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21461,7 +22141,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21486,7 +22166,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21502,7 +22182,7 @@ ${where}
   const Bold = createLucideIcon("bold", __iconNode$7);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21516,7 +22196,7 @@ ${where}
   const Highlighter = createLucideIcon("highlighter", __iconNode$6);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21531,7 +22211,7 @@ ${where}
   const Italic = createLucideIcon("italic", __iconNode$5);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21546,7 +22226,7 @@ ${where}
   const Menu = createLucideIcon("menu", __iconNode$4);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21561,7 +22241,7 @@ ${where}
   const Strikethrough = createLucideIcon("strikethrough", __iconNode$3);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21576,7 +22256,7 @@ ${where}
   const Type = createLucideIcon("type", __iconNode$2);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -21590,7 +22270,7 @@ ${where}
   const Underline = createLucideIcon("underline", __iconNode$1);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.15.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22121,6 +22801,8 @@ ${where}
   function CustomSelect({ options, value, onChange, placeholder = "" }) {
     const [isOpen, setIsOpen] = reactExports.useState(false);
     const selectRef = reactExports.useRef(null);
+    const menuRef = reactExports.useRef(null);
+    const [menuPosition, setMenuPosition] = reactExports.useState({ top: 0, left: 0, width: 0 });
     reactExports.useEffect(() => {
       const handleClickOutside = (event) => {
         if (selectRef.current && !selectRef.current.contains(event.target)) {
@@ -22133,6 +22815,18 @@ ${where}
         doc.removeEventListener("mousedown", handleClickOutside);
       };
     }, []);
+    reactExports.useEffect(() => {
+      if (isOpen && selectRef.current) {
+        const rect = selectRef.current.getBoundingClientRect();
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        setMenuPosition({
+          top: rect.bottom + scrollTop + 2,
+          left: rect.left + scrollLeft,
+          width: rect.width
+        });
+      }
+    }, [isOpen]);
     const handleOptionClick = (option) => {
       onChange(option.value);
       setIsOpen(false);
@@ -22150,18 +22844,31 @@ ${where}
           ]
         }
       ),
-      isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "custom-select__menu", children: options.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
-          className: `custom-select__option ${option.value === value ? "custom-select__option--selected" : ""}`,
-          onClick: () => handleOptionClick(option),
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-label", children: option.label }),
-            option.value === value && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-checkmark", children: "✓" })
-          ]
-        },
-        option.value
-      )) })
+          ref: menuRef,
+          className: "custom-select__menu",
+          style: {
+            position: "fixed",
+            top: menuPosition.top,
+            left: menuPosition.left,
+            width: menuPosition.width
+          },
+          children: options.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `custom-select__option ${option.value === value ? "custom-select__option--selected" : ""}`,
+              onClick: () => handleOptionClick(option),
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-label", children: option.label }),
+                option.value === value && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-checkmark", children: "✓" })
+              ]
+            },
+            option.value
+          ))
+        }
+      )
     ] });
   }
 
@@ -23738,7 +24445,7 @@ ${where}
 
   var blockViewCSSRaw = ".ltt-view-bar {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 6px 10px;\n  margin-bottom: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 8px;\n  font-size: 12px;\n  width: fit-content;\n}\n\n.ltt-view-btn {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: white;\n  font-weight: 500;\n}\n\n.ltt-view-btn svg {\n  width: 14px;\n  height: 14px;\n  flex-shrink: 0;\n}\n\n/* 视图基础样式 */\n.ltt-list-root {\n  /* List 视图 - 保持默认 Logseq 行为 */\n}\n\n.ltt-gallery-root {\n  /* Gallery 视图样式 */\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: grid !important;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 20px;\n  padding: 20px !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 12px;\n  padding: 16px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-board-root {\n  /* Board 视图样式 */\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  gap: 20px;\n  padding: 20px !important;\n  overflow-x: auto;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  min-width: 300px;\n  max-width: 300px;\n  background: var(--ls-secondary-background-color);\n  border-radius: 12px;\n  padding: 12px !important;\n  margin: 0 !important;\n}\n\n/* Table 视图样式 */\n.ltt-table-root {\n  --ltt-border: rgba(0, 0, 0, 0.065);\n  --ltt-border-strong: rgba(0, 0, 0, 0.1);\n  --ltt-hover: rgba(0, 0, 0, 0.022);\n  --ltt-header-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.035));\n  --ltt-cell-bg: rgba(255, 255, 255, 0.55);\n  --ltt-radius: 14px;\n  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.035);\n  --ltt-col-1-width: 260px;\n  margin: 26px 32px !important;\n}\n\n.dark .ltt-table-root {\n  --ltt-border: rgba(255, 255, 255, 0.075);\n  --ltt-border-strong: rgba(255, 255, 255, 0.12);\n  --ltt-hover: rgba(255, 255, 255, 0.03);\n  --ltt-header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.045));\n  --ltt-cell-bg: rgba(255, 255, 255, 0.015);\n  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);\n}\n\n.ltt-table-root > .block-children-container {\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius);\n  overflow-x: auto;\n  background: var(--ltt-cell-bg);\n  box-shadow: var(--ltt-shadow);\n  padding: 0 !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: grid !important;\n  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));\n  position: relative;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  position: sticky;\n  left: 0;\n  z-index: 20;\n  width: var(--ltt-col-1-width);\n  min-width: var(--ltt-col-1-width);\n  background: var(--ltt-header-bg);\n  border-right: 2px solid var(--ltt-border-strong);\n  font-weight: 600;\n  padding: 14px 18px !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: 1px solid var(--ltt-border);\n  background: var(--ltt-cell-bg);\n  padding: 14px 22px !important;\n}\n\n/* 隐藏 header 行 bullets */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* 恢复 cell 行 bullets */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.72;\n}\n\n/* Table 主题预设 */\n.ltt-table-root.ltt-theme-default {\n  --ltt-table-border: #e2e8f0;\n  --ltt-header-bg: #f8fafc;\n  --ltt-header-text: #374151;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f1f5f9;\n  --ltt-row-border: #e2e8f0;\n  --ltt-cell-padding: 8px 12px;\n  --ltt-table-radius: 8px;\n}\n\n.ltt-table-root.ltt-theme-notion {\n  --ltt-table-border: #e5e7eb;\n  --ltt-header-bg: #ffffff;\n  --ltt-header-text: #374151;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f9fafb;\n  --ltt-row-border: #e5e7eb;\n  --ltt-cell-padding: 8px 12px;\n  --ltt-table-radius: 6px;\n}\n\n.ltt-table-root.ltt-theme-linear {\n  --ltt-table-border: #e5e7eb;\n  --ltt-header-bg: #f9fafb;\n  --ltt-header-text: #374151;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f3f4f6;\n  --ltt-row-border: #e5e7eb;\n  --ltt-cell-padding: 6px 12px;\n  --ltt-table-radius: 4px;\n}\n\n.ltt-table-root.ltt-theme-dark {\n  --ltt-table-border: #374151;\n  --ltt-header-bg: #1f2937;\n  --ltt-header-text: #f9fafb;\n  --ltt-row-bg: #0f172a;\n  --ltt-row-hover: #1f2937;\n  --ltt-row-border: #374151;\n  --ltt-cell-padding: 8px 12px;\n  --ltt-table-radius: 8px;\n}\n\n.ltt-table-root.ltt-theme-gradient {\n  --ltt-table-border: #dbeafe;\n  --ltt-header-bg: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);\n  --ltt-header-text: #ffffff;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #eff6ff;\n  --ltt-row-border: #dbeafe;\n  --ltt-cell-padding: 10px 12px;\n  --ltt-table-radius: 12px;\n}\n\n/* 斑马纹支持 */\n.ltt-table-root.ltt-striped .ls-block:nth-child(odd) {\n  background-color: rgba(0, 0, 0, 0.02);\n}\n\n.ltt-table-root.ltt-striped.ltt-theme-dark .ls-block:nth-child(odd) {\n  background-color: rgba(255, 255, 255, 0.03);\n}\n\n/* 边框支持 */\n.ltt-table-root.ltt-bordered .ls-block {\n  border-bottom: 1px solid var(--ltt-row-border);\n}\n\n.ltt-table-root.ltt-bordered > .block-main-container {\n  border: 1px solid var(--ltt-table-border);\n  border-radius: var(--ltt-table-radius);\n  overflow: hidden;\n}\n";
 
-  var tableViewCSSRaw = ".ltt-table-root {\n  /* Table 视图样式 - 表格布局 */\n  --ltt-border: rgba(0, 0, 0, 0.065);\n  --ltt-border-strong: rgba(0, 0, 0, 0.1);\n  --ltt-hover: rgba(0, 0, 0, 0.022);\n  --ltt-header-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.035));\n  --ltt-cell-bg: rgba(255, 255, 255, 0.55);\n  --ltt-radius: 14px;\n  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.035);\n  --ltt-col-1-width: 260px;\n  margin: 26px 32px !important;\n}\n\n.dark .ltt-table-root {\n  --ltt-border: rgba(255, 255, 255, 0.075);\n  --ltt-border-strong: rgba(255, 255, 255, 0.12);\n  --ltt-hover: rgba(255, 255, 255, 0.03);\n  --ltt-header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.045));\n  --ltt-cell-bg: rgba(255, 255, 255, 0.015);\n  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);\n}\n\n.ltt-table-root > .block-children-container {\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius);\n  overflow-x: auto;\n  background: var(--ltt-cell-bg);\n  box-shadow: var(--ltt-shadow);\n  padding: 0 !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: grid !important;\n  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));\n  position: relative;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  position: sticky;\n  left: 0;\n  z-index: 20;\n  width: var(--ltt-col-1-width);\n  min-width: var(--ltt-col-1-width);\n  background: var(--ltt-header-bg);\n  border-right: 2px solid var(--ltt-border-strong);\n  font-weight: 600;\n  padding: 14px 18px !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: 1px solid var(--ltt-border);\n  background: var(--ltt-cell-bg);\n  padding: 14px 22px !important;\n}\n\n/* 隐藏 header 行 bullets */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* 恢复 cell 行 bullets */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.72;\n}\n\n/* Table 主题预设 */\n/* Default theme */\n.ltt-table-root.ltt-theme-default {\n  --ltt-table-border: #e2e8f0;\n  --ltt-header-bg: #f8fafc;\n  --ltt-header-text: #374151;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f1f5f9;\n  --ltt-row-border: #e2e8f0;\n  --ltt-cell-padding: 8px 12px;\n  --ltt-table-radius: 8px;\n}\n\n/* Notion theme */\n.ltt-table-root.ltt-theme-notion {\n  --ltt-table-border: #e5e7eb;\n  --ltt-header-bg: #ffffff;\n  --ltt-header-text: #374151;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f9fafb;\n  --ltt-row-border: #e5e7eb;\n  --ltt-cell-padding: 8px 12px;\n  --ltt-table-radius: 6px;\n}\n\n/* Linear theme */\n.ltt-table-root.ltt-theme-linear {\n  --ltt-table-border: #e5e7eb;\n  --ltt-header-bg: #f9fafb;\n  --ltt-header-text: #374151;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f3f4f6;\n  --ltt-row-border: #e5e7eb;\n  --ltt-cell-padding: 6px 12px;\n  --ltt-table-radius: 4px;\n}\n\n/* Dark theme */\n.ltt-table-root.ltt-theme-dark {\n  --ltt-table-border: #374151;\n  --ltt-header-bg: #1f2937;\n  --ltt-header-text: #f9fafb;\n  --ltt-row-bg: #0f172a;\n  --ltt-row-hover: #1f2937;\n  --ltt-row-border: #374151;\n  --ltt-cell-padding: 8px 12px;\n  --ltt-table-radius: 8px;\n}\n\n/* Gradient theme */\n.ltt-table-root.ltt-theme-gradient {\n  --ltt-table-border: #dbeafe;\n  --ltt-header-bg: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);\n  --ltt-header-text: #ffffff;\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #eff6ff;\n  --ltt-row-border: #dbeafe;\n  --ltt-cell-padding: 10px 12px;\n  --ltt-table-radius: 12px;\n}\n\n/* 斑马纹支持 */\n.ltt-table-root.ltt-striped .ls-block:nth-child(odd) {\n  background-color: rgba(0, 0, 0, 0.02);\n}\n\n.ltt-table-root.ltt-striped.ltt-theme-dark .ls-block:nth-child(odd) {\n  background-color: rgba(255, 255, 255, 0.03);\n}\n\n/* 边框支持 */\n.ltt-table-root.ltt-bordered .ls-block {\n  border-bottom: 1px solid var(--ltt-row-border);\n}\n\n.ltt-table-root.ltt-bordered > .block-main-container {\n  border: 1px solid var(--ltt-table-border);\n  border-radius: var(--ltt-table-radius);\n  overflow: hidden;\n}\n";
+  var tableViewCSSRaw = ".ltt-table-root {\n  /* Table 视图样式 - 表格布局 */\n  --ltt-border: rgba(0, 0, 0, 0.065);\n  --ltt-border-strong: rgba(0, 0, 0, 0.1);\n  --ltt-hover: rgba(0, 0, 0, 0.022);\n  --ltt-header-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.035));\n  --ltt-cell-bg: rgba(255, 255, 255, 0.55);\n  --ltt-radius: 14px;\n  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.035);\n  --ltt-col-1-width: 260px;\n  --ltt-header-text: #374151;\n  --ltt-row-hover: #f8fafc;\n  margin: 26px 32px !important;\n}\n\n.dark .ltt-table-root {\n  --ltt-border: rgba(255, 255, 255, 0.075);\n  --ltt-border-strong: rgba(255, 255, 255, 0.12);\n  --ltt-hover: rgba(255, 255, 255, 0.03);\n  --ltt-header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.045));\n  --ltt-cell-bg: rgba(255, 255, 255, 0.015);\n  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);\n  --ltt-header-text: #f9fafb;\n  --ltt-row-hover: #1f2937;\n}\n\n.ltt-table-root > .block-children-container {\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius);\n  overflow-x: auto;\n  overflow-y: visible;\n  background: var(--ltt-cell-bg);\n  box-shadow: var(--ltt-shadow);\n  padding: 0 !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: grid !important;\n  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));\n  position: relative;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  position: sticky;\n  left: 0;\n  z-index: 20;\n  width: var(--ltt-col-1-width);\n  min-width: var(--ltt-col-1-width);\n  background: var(--ltt-header-bg);\n  border-right: 2px solid var(--ltt-border-strong);\n  font-weight: 600;\n  padding: 14px 18px !important;\n  color: var(--ltt-header-text);\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: 1px solid var(--ltt-border);\n  background: var(--ltt-cell-bg);\n  padding: 14px 22px !important;\n  transition: background-color 0.2s ease;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background-color: var(--ltt-row-hover) !important;\n}\n\n/* 隐藏 header 行 bullets */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* 恢复 cell 行 bullets */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.72;\n}\n\n/* ============ TABLE 主题预设 - 增强版 ============ */\n\n/* Default 主题 - 简约清新风格 */\n.ltt-table-root.ltt-theme-default {\n  --ltt-border: #e2e8f0;\n  --ltt-border-strong: #cbd5e1;\n  --ltt-header-bg: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n  --ltt-cell-bg: #ffffff;\n  --ltt-row-hover: #f8fafc;\n  --ltt-radius: 12px;\n  --ltt-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n  --ltt-header-text: #1e293b;\n}\n\n.ltt-table-root.ltt-theme-default > .block-children-container {\n  border: 1px solid #e2e8f0;\n}\n\n.ltt-table-root.ltt-theme-default > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  border-bottom: 3px solid #3b82f6;\n  border-right: none;\n  box-shadow: inset 0 -1px 0 rgba(59, 130, 246, 0.1);\n}\n\n/* Notion 主题 - 扁平极简风格 */\n.ltt-table-root.ltt-theme-notion {\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e5e5e5;\n  --ltt-header-bg: #ffffff;\n  --ltt-cell-bg: #ffffff;\n  --ltt-row-hover: #fafafa;\n  --ltt-radius: 0px;\n  --ltt-shadow: none;\n  --ltt-header-text: #37352f;\n}\n\n.ltt-table-root.ltt-theme-notion > .block-children-container {\n  border: none;\n  border-top: 1px solid #e5e5e5;\n  border-bottom: 1px solid #e5e5e5;\n}\n\n.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  border-bottom: none;\n  border-right: none;\n  background: #ffffff;\n  font-weight: 500;\n  font-size: 14px;\n}\n\n.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: none;\n  border-bottom: 1px solid #f0f0f0;\n}\n\n.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background-color: #fafafa !important;\n}\n\n/* Linear 主题 - 紧凑专业风格 */\n.ltt-table-root.ltt-theme-linear {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-header-bg: #fafafa;\n  --ltt-cell-bg: #ffffff;\n  --ltt-row-hover: #f3f4f6;\n  --ltt-radius: 8px;\n  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-header-text: #5e6ad2;\n}\n\n.ltt-table-root.ltt-theme-linear > .block-children-container {\n  border: 1px solid #e5e7eb;\n  border-radius: 8px;\n}\n\n.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  border-bottom: 2px solid #5e6ad2;\n  border-right: none;\n  background: #fafafa;\n  font-size: 11px;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.8px;\n  color: #5e6ad2;\n}\n\n.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: none;\n  border-bottom: 1px solid #f3f4f6;\n}\n\n.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background-color: #f3f4f6 !important;\n}\n\n/* Dark 主题 - 深色沉浸风格 */\n.ltt-table-root.ltt-theme-dark {\n  --ltt-border: rgba(255, 255, 255, 0.08);\n  --ltt-border-strong: rgba(255, 255, 255, 0.12);\n  --ltt-header-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);\n  --ltt-cell-bg: #0f172a;\n  --ltt-row-hover: #1e293b;\n  --ltt-radius: 12px;\n  --ltt-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);\n  --ltt-header-text: #f8fafc;\n}\n\n.ltt-table-root.ltt-theme-dark > .block-children-container {\n  background: #0f172a;\n  border: 1px solid rgba(255, 255, 255, 0.1);\n}\n\n.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  border-bottom: 2px solid #3b82f6;\n  border-right: none;\n  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);\n  color: #f8fafc;\n}\n\n.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: none;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.05);\n  color: #cbd5e1;\n  background: #0f172a;\n}\n\n.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background-color: #1e293b !important;\n}\n\n/* Gradient 主题 - 渐变时尚风格 */\n.ltt-table-root.ltt-theme-gradient {\n  --ltt-border: #ddd6fe;\n  --ltt-border-strong: #8b5cf6;\n  --ltt-header-bg: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);\n  --ltt-cell-bg: #faf5ff;\n  --ltt-row-hover: #ede9fe;\n  --ltt-radius: 16px;\n  --ltt-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);\n  --ltt-header-text: #ffffff;\n}\n\n.ltt-table-root.ltt-theme-gradient > .block-children-container {\n  background: #faf5ff;\n  border: 2px solid #ddd6fe;\n  border-top: none;\n  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);\n}\n\n.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  border-bottom: none;\n  border-right: none;\n  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);\n  color: #ffffff;\n  font-weight: 600;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);\n}\n\n.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: none;\n  border-bottom: 1px solid #e9d5ff;\n  background: #faf5ff;\n}\n\n.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background-color: #ede9fe !important;\n}\n\n/* ============ 斑马纹支持 ============ */\n.ltt-table-root.ltt-striped > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {\n  background-color: rgba(0, 0, 0, 0.02);\n}\n\n.ltt-table-root.ltt-striped.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {\n  background-color: rgba(255, 255, 255, 0.03);\n}\n\n.ltt-table-root.ltt-striped.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {\n  background-color: #eff6ff;\n}\n\n/* ============ 边框支持 ============ */\n.ltt-table-root.ltt-bordered > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border: 1px solid var(--ltt-border);\n  border-collapse: collapse;\n}\n\n.ltt-table-root.ltt-bordered.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-radius: 6px;\n}\n";
 
   var galleryViewCSSRaw = ".ltt-gallery-root {\n  /* Gallery 视图样式 - 卡片网格布局 */\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: grid !important;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 20px;\n  padding: 20px !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 12px;\n  padding: 16px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n  min-height: 120px;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: transparent;\n  border: none;\n  padding: 0 0 12px 0 !important;\n  border-bottom: 1px solid var(--ls-border-color);\n  margin-bottom: 12px;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: transparent;\n  border: none;\n  border-radius: 0;\n  padding: 8px 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  transform: none !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  padding: 0 !important;\n}\n";
 

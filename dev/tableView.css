@@ -8,6 +8,8 @@
   --ltt-radius: 14px;
   --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.035);
   --ltt-col-1-width: 260px;
+  --ltt-header-text: #374151;
+  --ltt-row-hover: #f8fafc;
   margin: 26px 32px !important;
 }
 
@@ -18,12 +20,15 @@
   --ltt-header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.045));
   --ltt-cell-bg: rgba(255, 255, 255, 0.015);
   --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);
+  --ltt-header-text: #f9fafb;
+  --ltt-row-hover: #1f2937;
 }
 
 .ltt-table-root > .block-children-container {
   border: 1px solid var(--ltt-border);
   border-radius: var(--ltt-radius);
   overflow-x: auto;
+  overflow-y: visible;
   background: var(--ltt-cell-bg);
   box-shadow: var(--ltt-shadow);
   padding: 0 !important;
@@ -45,12 +50,18 @@
   border-right: 2px solid var(--ltt-border-strong);
   font-weight: 600;
   padding: 14px 18px !important;
+  color: var(--ltt-header-text);
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   border-right: 1px solid var(--ltt-border);
   background: var(--ltt-cell-bg);
   padding: 14px 22px !important;
+  transition: background-color 0.2s ease;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  background-color: var(--ltt-row-hover) !important;
 }
 
 /* 隐藏 header 行 bullets */
@@ -64,83 +75,195 @@
   opacity: 0.72;
 }
 
-/* Table 主题预设 */
-/* Default theme */
+/* ============ TABLE 主题预设 - 增强版 ============ */
+
+/* Default 主题 - 简约清新风格 */
 .ltt-table-root.ltt-theme-default {
-  --ltt-table-border: #e2e8f0;
-  --ltt-header-bg: #f8fafc;
-  --ltt-header-text: #374151;
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #f1f5f9;
-  --ltt-row-border: #e2e8f0;
-  --ltt-cell-padding: 8px 12px;
-  --ltt-table-radius: 8px;
+  --ltt-border: #e2e8f0;
+  --ltt-border-strong: #cbd5e1;
+  --ltt-header-bg: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  --ltt-cell-bg: #ffffff;
+  --ltt-row-hover: #f8fafc;
+  --ltt-radius: 12px;
+  --ltt-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --ltt-header-text: #1e293b;
 }
 
-/* Notion theme */
+.ltt-table-root.ltt-theme-default > .block-children-container {
+  border: 1px solid #e2e8f0;
+}
+
+.ltt-table-root.ltt-theme-default > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  border-bottom: 3px solid #3b82f6;
+  border-right: none;
+  box-shadow: inset 0 -1px 0 rgba(59, 130, 246, 0.1);
+}
+
+/* Notion 主题 - 扁平极简风格 */
 .ltt-table-root.ltt-theme-notion {
-  --ltt-table-border: #e5e7eb;
+  --ltt-border: #f0f0f0;
+  --ltt-border-strong: #e5e5e5;
   --ltt-header-bg: #ffffff;
-  --ltt-header-text: #374151;
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #f9fafb;
-  --ltt-row-border: #e5e7eb;
-  --ltt-cell-padding: 8px 12px;
-  --ltt-table-radius: 6px;
+  --ltt-cell-bg: #ffffff;
+  --ltt-row-hover: #fafafa;
+  --ltt-radius: 0px;
+  --ltt-shadow: none;
+  --ltt-header-text: #37352f;
 }
 
-/* Linear theme */
+.ltt-table-root.ltt-theme-notion > .block-children-container {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  border-bottom: none;
+  border-right: none;
+  background: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-right: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  background-color: #fafafa !important;
+}
+
+/* Linear 主题 - 紧凑专业风格 */
 .ltt-table-root.ltt-theme-linear {
-  --ltt-table-border: #e5e7eb;
-  --ltt-header-bg: #f9fafb;
-  --ltt-header-text: #374151;
-  --ltt-row-bg: #ffffff;
+  --ltt-border: #e5e7eb;
+  --ltt-border-strong: #d1d5db;
+  --ltt-header-bg: #fafafa;
+  --ltt-cell-bg: #ffffff;
   --ltt-row-hover: #f3f4f6;
-  --ltt-row-border: #e5e7eb;
-  --ltt-cell-padding: 6px 12px;
-  --ltt-table-radius: 4px;
+  --ltt-radius: 8px;
+  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --ltt-header-text: #5e6ad2;
 }
 
-/* Dark theme */
+.ltt-table-root.ltt-theme-linear > .block-children-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  border-bottom: 2px solid #5e6ad2;
+  border-right: none;
+  background: #fafafa;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #5e6ad2;
+}
+
+.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-right: none;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  background-color: #f3f4f6 !important;
+}
+
+/* Dark 主题 - 深色沉浸风格 */
 .ltt-table-root.ltt-theme-dark {
-  --ltt-table-border: #374151;
-  --ltt-header-bg: #1f2937;
-  --ltt-header-text: #f9fafb;
-  --ltt-row-bg: #0f172a;
-  --ltt-row-hover: #1f2937;
-  --ltt-row-border: #374151;
-  --ltt-cell-padding: 8px 12px;
-  --ltt-table-radius: 8px;
+  --ltt-border: rgba(255, 255, 255, 0.08);
+  --ltt-border-strong: rgba(255, 255, 255, 0.12);
+  --ltt-header-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  --ltt-cell-bg: #0f172a;
+  --ltt-row-hover: #1e293b;
+  --ltt-radius: 12px;
+  --ltt-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --ltt-header-text: #f8fafc;
 }
 
-/* Gradient theme */
+.ltt-table-root.ltt-theme-dark > .block-children-container {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  border-bottom: 2px solid #3b82f6;
+  border-right: none;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  color: #f8fafc;
+}
+
+.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-right: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  background: #0f172a;
+}
+
+.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  background-color: #1e293b !important;
+}
+
+/* Gradient 主题 - 渐变时尚风格 */
 .ltt-table-root.ltt-theme-gradient {
-  --ltt-table-border: #dbeafe;
-  --ltt-header-bg: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --ltt-border: #ddd6fe;
+  --ltt-border-strong: #8b5cf6;
+  --ltt-header-bg: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
+  --ltt-cell-bg: #faf5ff;
+  --ltt-row-hover: #ede9fe;
+  --ltt-radius: 16px;
+  --ltt-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
   --ltt-header-text: #ffffff;
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #eff6ff;
-  --ltt-row-border: #dbeafe;
-  --ltt-cell-padding: 10px 12px;
-  --ltt-table-radius: 12px;
 }
 
-/* 斑马纹支持 */
-.ltt-table-root.ltt-striped .ls-block:nth-child(odd) {
+.ltt-table-root.ltt-theme-gradient > .block-children-container {
+  background: #faf5ff;
+  border: 2px solid #ddd6fe;
+  border-top: none;
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
+}
+
+.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  border-bottom: none;
+  border-right: none;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-right: none;
+  border-bottom: 1px solid #e9d5ff;
+  background: #faf5ff;
+}
+
+.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  background-color: #ede9fe !important;
+}
+
+/* ============ 斑马纹支持 ============ */
+.ltt-table-root.ltt-striped > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
-.ltt-table-root.ltt-striped.ltt-theme-dark .ls-block:nth-child(odd) {
+.ltt-table-root.ltt-striped.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* 边框支持 */
-.ltt-table-root.ltt-bordered .ls-block {
-  border-bottom: 1px solid var(--ltt-row-border);
+.ltt-table-root.ltt-striped.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
+  background-color: #eff6ff;
 }
 
-.ltt-table-root.ltt-bordered > .block-main-container {
-  border: 1px solid var(--ltt-table-border);
-  border-radius: var(--ltt-table-radius);
-  overflow: hidden;
+/* ============ 边框支持 ============ */
+.ltt-table-root.ltt-bordered > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border: 1px solid var(--ltt-border);
+  border-collapse: collapse;
+}
+
+.ltt-table-root.ltt-bordered.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-radius: 6px;
 }
