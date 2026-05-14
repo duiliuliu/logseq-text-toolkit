@@ -425,9 +425,14 @@ function bindViewEvents(container: HTMLElement, blockId: string): void {
 
 ### 3.3 视图切换核心逻辑（更新宏参数）
 
-参考 Heatmap.tsx 中的宏参数更新逻辑：
+使用 `rendererArgs.ts` 中的 `createRendererArgUpdater` 来更新宏参数：
 
 ```typescript
+import { createRendererArgUpdater } from '../render/rendererArgs';
+
+// 创建 blockview 宏参数更新器
+const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([':blockview']);
+
 async function switchView(blockId: string, viewType: ViewType): Promise<void> {
   const doc = getDocument();
   
@@ -459,32 +464,9 @@ async function switchView(blockId: string, viewType: ViewType): Promise<void> {
   try {
     const currentBlock = await logseqAPI.Editor.getBlock(blockId);
     if (currentBlock?.content) {
-      const content = currentBlock.content;
+      const updatedContent = updateBlockViewArgs(currentBlock.content, { view: viewType });
       
-      // 匹配整个 {{renderer :blockview ... }}
-      const rendererRegex = /({{renderer\s+:blockview.*?}})/gi;
-      
-      const updatedContent = content.replace(rendererRegex, (rendererStr) => {
-        // 检查是否已有 view 参数
-        const hasViewParam = /view=[a-z]+/i.test(rendererStr);
-        
-        if (hasViewParam) {
-          // 已有 view 参数，替换
-          return rendererStr.replace(/view=[a-z]+/i, `view=${viewType}`);
-        } else {
-          // 没有 view 参数，智能插入到参数最后面
-          // 先看看有没有其他参数
-          if (rendererStr.includes(',') || rendererStr.includes(' ')) {
-            // 有其他参数，追加
-            return rendererStr.replace(/\s*}}/, `, view=${viewType}}}`);
-          } else {
-            // 没有其他参数，直接添加
-            return rendererStr.replace(/\s*}}/, `, view=${viewType}}}`);
-          }
-        }
-      });
-      
-      if (updatedContent !== content) {
+      if (updatedContent !== currentBlock.content) {
         await logseqAPI.Editor.updateBlock(blockId, updatedContent);
         logger.debug('[BlockView] Macro parameter updated', { blockId, viewType });
       }

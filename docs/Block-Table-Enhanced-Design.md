@@ -1,7 +1,7 @@
 # Block Table View 增强方案
 
-**版本**: v2.0
-**日期**: 2026-05-13
+**版本**: v3.0
+**日期**: 2026-05-14
 **状态**: 设计完成
 **分支**: trae/solo-agent-14EEAQ
 
@@ -11,630 +11,783 @@
 
 本方案在 [Block-View-Renderer-Design.md](./Block-View-Renderer-Design.md) 基础上，重点增强 **Table 视图** 的功能：
 
-1. **列宽手动调整** - 每个列都支持拖拽调整宽度
-2. **样式自定义** - 支持 Micro 宏命令和 Settings 全局设置
-3. **美化增强** - 更加精致的视觉效果
+1. **列宽手动调整** - 每个列都支持拖拽调整宽度，调整后保存到宏命令参数
+2. **样式自定义** - 支持宏命令和 Settings 全局设置（宏命令优先级 > Settings）
+3. **预设主题与自定义主题** - 简化参数，提供预设主题，自定义参数归为自定义主题
 
 ---
 
-## 2. 核心功能
+## 2. 宏命令设计
 
-### 2.1 列宽调整功能
+### 2.1 宏命令格式
 
-#### 功能说明
-- 每个列右侧都有 resize 拖拽手柄（悬停时显示）
-- 拖拽时实时调整所有行的对应列宽
-- 最小列宽限制（180px）
-- 调整后的宽度持久化保存到 localStorage
-
-#### 核心实现代码
-
-**核心 Resize Handler（生产级别实现）：**
-
-```javascript
-(() => {
-  if (window.__LTT_RESIZE_READY__) return;
-  window.__LTT_RESIZE_READY__ = true;
-
-  const MIN_WIDTH = 180;
-
-  function ensureHandles(root) {
-    const headers = root.querySelectorAll(
-      '.ls-block[level="1"] > .block-main-container'
-    );
-
-    headers.forEach((header, index) => {
-      if (header.querySelector('.ltt-resize-handle')) return;
-
-      const handle = document.createElement('div');
-      handle.className = 'ltt-resize-handle';
-      handle.dataset.colIndex = index;
-      header.appendChild(handle);
-    });
-  }
-
-  function setColumnWidth(root, colIndex, width) {
-    const rows = root.querySelectorAll('.ls-block[level="1"]');
-
-    rows.forEach(row => {
-      const cols = row.children;
-      const target = cols[colIndex];
-      if (!target) return;
-
-      target.style.width = `${width}px`;
-      target.style.minWidth = `${width}px`;
-      target.style.maxWidth = `${width}px`;
-      target.style.flex = 'none';
-    });
-
-    if (colIndex === 0) {
-      root.style.setProperty('--ltt-col-1-width', `${width}px`);
-    }
-  }
-
-  function init(root) {
-    ensureHandles(root);
-
-    root.addEventListener('pointerdown', (e) => {
-      const handle = e.target.closest('.ltt-resize-handle');
-      if (!handle) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const colIndex = Number(handle.dataset.colIndex);
-      const header = handle.parentElement;
-      const startX = e.clientX;
-      const startWidth = header.getBoundingClientRect().width;
-
-      document.body.style.cursor = 'col-resize';
-      document.body.style.userSelect = 'none';
-
-      function move(ev) {
-        const width = Math.max(MIN_WIDTH, startWidth + (ev.clientX - startX));
-        setColumnWidth(root, colIndex, width);
-      }
-
-      function up() {
-        document.body.style.cursor = '';
-        document.body.style.userSelect = '';
-        document.removeEventListener('pointermove', move);
-        document.removeEventListener('pointerup', up);
-      }
-
-      document.addEventListener('pointermove', move);
-      document.addEventListener('pointerup', up);
-    });
-  }
-
-  function boot() {
-    document.querySelectorAll('.ltt-table-root').forEach(init);
-  }
-
-  boot();
-
-  new MutationObserver(boot).observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-})();
-```
-
-#### 列宽持久化扩展
-
-```javascript
-function saveColumnWidths(root) {
-  const blockId = root.dataset.blockId;
-  if (!blockId) return;
-
-  const widths = [];
-  const firstRow = root.querySelector('.ls-block[level="1"]');
-
-  if (firstRow) {
-    Array.from(firstRow.children).forEach(col => {
-      widths.push(col.style.width || col.offsetWidth);
-    });
-  }
-
-  localStorage.setItem(`ltt-col-widths-${blockId}`, JSON.stringify(widths));
-}
-
-function loadColumnWidths(root) {
-  const blockId = root.dataset.blockId;
-  if (!blockId) return;
-
-  const saved = localStorage.getItem(`ltt-col-widths-${blockId}`);
-  if (!saved) return;
-
-  try {
-    const widths = JSON.parse(saved);
-    widths.forEach((width, index) => {
-      setColumnWidth(root, index, parseInt(width));
-    });
-  } catch (e) {
-    console.warn('Failed to load column widths:', e);
-  }
-}
-```
-
-#### 双击重置列宽
-
-```javascript
-root.addEventListener('dblclick', (e) => {
-  const handle = e.target.closest('.ltt-resize-handle');
-  if (!handle) return;
-
-  const colIndex = Number(handle.dataset.colIndex);
-  const defaultWidth = colIndex === 0 ? 260 : 180;
-  setColumnWidth(root, colIndex, defaultWidth);
-  saveColumnWidths(root);
-});
-```
-
----
-
-## 3. 样式自定义功能
-
-### 3.1 Micro 宏命令支持
-
-#### 宏命令格式
-
-```
-{{table :header-bg "#f0f9ff" :border-color "#e0e7ff" :text-color "#1e293b" :radius "8px"}}
-```
-
-#### 支持的参数
-
-| 参数 | 说明 | 默认值 | 示例 |
-| :--- | :--- | :--- | :--- |
-| `:header-bg` | 表头背景色 | `#f8fafc` | `#f0f9ff` |
-| `:header-text` | 表头文字颜色 | inherit | `#1e40af` |
-| `:border-color` | 边框颜色 | `#e2e8f0` | `#e0e7ff` |
-| `:border-radius` | 圆角大小 | `12px` | `8px` |
-| `:cell-bg` | 单元格背景 | `#ffffff` | `#fafafa` |
-| `:text-color` | 文字颜色 | inherit | `#1e293b` |
-| `:hover-bg` | 悬停背景 | `#f1f5f9` | `#f0f9ff` |
-| `:shadow` | 阴影效果 | subtle | `0 4px 12px rgba(0,0,0,0.1)` |
-| `:stripe` | 斑马纹 | false | true |
-
-#### 完整示例
+Table 视图通过 `:blockview` 宏命令的参数来配置：
 
 ```markdown
-{{table 
-  :header-bg "#1e293b" 
-  :header-text "#ffffff"
-  :border-color "#334155" 
-  :border-radius "12px"
-  :cell-bg "#0f172a"
-  :text-color "#e2e8f0"
-  :hover-bg "#1e293b"
-  :shadow "0 8px 32px rgba(0,0,0,0.3)"
-  :stripe true
-}}
+{{renderer :blockview table}}
+{{renderer :blockview table, theme=notion}}
+{{renderer :blockview table, theme=notion, colWidths=[260,200,180,220]}}
+```
+
+### 2.2 参数说明
+
+| 参数 | 类型 | 说明 | 默认值 |
+| :--- | :--- | :--- | :--- |
+| `view` | string | 视图类型 | Settings 中的 defaultView |
+| `theme` | string | 预设主题名称 | Settings 中的 defaultTheme |
+| `colWidths` | string | 列宽数组，格式 `[w1,w2,w3,...]` | 默认列宽 |
+
+### 2.3 预设主题
+
+| 主题名称 | 说明 |
+| :--- | :--- |
+| `default` | 默认简约风格 |
+| `notion` | Notion 风格 |
+| `linear` | Linear 风格 |
+| `dark` | 深色主题 |
+| `gradient` | 渐变风格 |
+| `custom` | 自定义主题（使用以下参数） |
+
+### 2.4 自定义主题参数（仅当 theme=custom 时生效）
+
+| 参数 | 说明 |
+| :--- | :--- |
+| `headerBg` | 表头背景色 |
+| `headerText` | 表头文字颜色 |
+| `borderColor` | 边框颜色 |
+| `borderRadius` | 圆角大小 |
+| `cellBg` | 单元格背景 |
+| `cellAltBg` | 斑马纹行背景 |
+| `textColor` | 文字颜色 |
+| `hoverBg` | 悬停背景 |
+| `shadow` | 阴影效果 |
+| `stripe` | 是否显示斑马纹 |
+| `glass` | 是否启用玻璃态效果 |
+| `glow` | 是否启用微光效果 |
+
+### 2.5 示例
+
+#### 基础用法
+```markdown
+{{renderer :blockview table}}
 
 任务名称 | 负责人 | 状态 | 优先级
 任务 A | 张三 | 进行中 | 高
 任务 B | 李四 | 已完成 | 中
-任务 C | 王五 | 待处理 | 低
 ```
 
-### 3.2 预设主题
-
-提供多个预设主题，可通过宏命令快速切换：
-
+#### 使用预设主题
 ```markdown
-{{table :theme "notion"}}
-{{table :theme "linear"}}
-{{table :theme "dark"}}
-{{table :theme "gradient"}}
+{{renderer :blockview table, theme=notion}}
+
+任务名称 | 负责人 | 状态 | 优先级
+任务 A | 张三 | 进行中 | 高
 ```
 
-#### Notion 风格
-```css
---ltt-header-bg: #f7f6f3;
---ltt-header-text: #37352f;
---ltt-border: #e9e9e7;
---ltt-cell-bg: #ffffff;
---ltt-text: #37352f;
---ltt-radius: 6px;
+#### 自定义主题
+```markdown
+{{renderer :blockview table, theme=custom, headerBg=#1e293b, headerText=#ffffff, borderColor=#334155, stripe=true}}
+
+任务名称 | 负责人 | 状态 | 优先级
+任务 A | 张三 | 进行中 | 高
 ```
 
-#### Linear 风格
-```css
---ltt-header-bg: linear-gradient(135deg, #5e6ad2, #7c3aed);
---ltt-header-text: #ffffff;
---ltt-border: #e2e8f0;
---ltt-cell-bg: #ffffff;
---ltt-text: #1a1a1a;
---ltt-radius: 8px;
+#### 自定义列宽
+```markdown
+{{renderer :blockview table, colWidths=[260,200,180,220]}}
+
+任务名称 | 负责人 | 状态 | 优先级
+任务 A | 张三 | 进行中 | 高
 ```
 
-#### Dark 风格
-```css
---ltt-header-bg: #1e1e1e;
---ltt-header-text: #ffffff;
---ltt-border: #333333;
---ltt-cell-bg: #252525;
---ltt-text: #e0e0e0;
---ltt-radius: 8px;
-```
+---
 
-### 3.3 Settings 全局设置
+## 3. Settings 配置
 
-在插件设置面板中添加 Table 视图配置：
+### 3.1 Settings 类型定义
 
 ```typescript
-interface TableSettings {
-  defaultHeaderBg: string;
-  defaultBorderColor: string;
-  defaultTextColor: string;
-  defaultRadius: string;
-  enableResize: boolean;
+// src/settings/types.ts
+
+export interface BlockViewSettings {
+  defaultView: 'list' | 'table' | 'gallery' | 'board';
+  hideViewBar: boolean;
+  defaultTableTheme: 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'custom';
+  defaultColWidths: number[];
   minColumnWidth: number;
-  showStripe: boolean;
-  enableTheme: 'auto' | 'light' | 'dark';
+  enableResize: boolean;
+  customTheme: TableTheme;
+}
+
+export interface TableTheme {
+  headerBg: string;
+  headerText: string;
+  borderColor: string;
+  borderRadius: string;
+  cellBg: string;
+  cellAltBg: string;
+  textColor: string;
+  hoverBg: string;
+  shadow: string;
+  stripe: boolean;
+  glass: boolean;
+  glow: boolean;
+}
+
+// 在 Settings 接口中添加
+export interface Settings {
+  // ... 现有字段
+  blockView?: BlockViewSettings;
 }
 ```
 
----
+### 3.2 BlockViewSettings Tab UI 更新
 
-## 4. 美化增强
-
-### 4.1 高级视觉效果
-
-#### 玻璃态效果（Glassmorphism）
-```css
-.ltt-table-root.ltt-glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.dark .ltt-table-root.ltt-glass {
-  background: rgba(30, 41, 59, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           Settings Modal                                         │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │  ⚙️ General   🔧 Toolbar   📊 Task Progress   🌡️ Heatmap   📋 Block View   ⚡ Advanced │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                                                                           │  │
+│  │  📋 Block 视图                                                             │  │
+│  │                                                                           │  │
+│  │  配置 Block 视图模块的全局默认行为                                           │  │
+│  │                                                                           │  │
+│  │  ┌─────────────────────────────────────────────────────────────────────┐  │  │
+│  │  │ 默认视图                                          [▼ List      ▾]   │  │  │
+│  │  ───────────────────────────────────────────────────────────────────────   │  │
+│  │  │ 隐藏视图切换栏                                      [  ○───●  ]     │  │  │
+│  │  ───────────────────────────────────────────────────────────────────────   │  │
+│  │  │ 默认 Table 主题                                   [▼ Default   ▾]   │  │  │
+│  │  ───────────────────────────────────────────────────────────────────────   │  │
+│  │  │ 最小列宽                                                      [180px]   │  │  │
+│  │  ───────────────────────────────────────────────────────────────────────   │  │
+│  │  │ 启用列宽调整                                              [✓]         │  │  │
+│  │  ───────────────────────────────────────────────────────────────────────   │  │
+│  │  │ [展开] 自定义主题配置                                              ▾   │  │  │
+│  │  │   表头背景色 [__________] 表头文字色 [__________]                     │  │  │
+│  │  │   边框颜色 [__________]  圆角大小 [_____px]                         │  │  │
+│  │  │   斑马纹 [✓] 玻璃态 [ ] 微光效果 [ ]                                │  │  │
+│  │  └─────────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                           │  │
+│  │                         [ 💾 保存设置 ]                                    │  │
+│  │                                                                           │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-#### 渐变边框
-```css
-.ltt-table-root.ltt-gradient-border {
-  position: relative;
-}
+### 3.3 Settings Modal Tab 组件
 
-.ltt-table-root.ltt-gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: inherit;
-  z-index: -1;
-}
-```
+```tsx
+// src/components/SettingsModal/tabs/BlockViewSettings.tsx
 
-#### 微光效果
-```css
-.ltt-table-root.ltt-glow {
-  box-shadow: 
-    0 0 20px rgba(102, 126, 234, 0.15),
-    0 8px 32px rgba(0, 0, 0, 0.08);
-}
-```
+import { t } from '../../../translations/i18n';
+import CustomSelect from '../../CustomSelect';
+import { Settings, BlockViewSettings, TableTheme } from '../../../settings/types';
+import { TabComponentProps } from '../index';
 
-### 4.2 动画效果
+const DEFAULT_TABLE_THEME: TableTheme = {
+  headerBg: '#f8fafc',
+  headerText: 'inherit',
+  borderColor: '#e2e8f0',
+  borderRadius: '12px',
+  cellBg: '#ffffff',
+  cellAltBg: '#f8fafc',
+  textColor: 'inherit',
+  hoverBg: '#f1f5f9',
+  shadow: '0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05)',
+  stripe: false,
+  glass: false,
+  glow: false,
+};
 
-#### 单元格悬停动画
-```css
-.ltt-table-cell {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
+const THEME_OPTIONS = [
+  { value: 'default', label: 'Default' },
+  { value: 'notion', label: 'Notion' },
+  { value: 'linear', label: 'Linear' },
+  { value: 'dark', label: 'Dark' },
+  { value: 'gradient', label: 'Gradient' },
+  { value: 'custom', label: 'Custom' },
+];
 
-.ltt-table-cell:hover {
-  background: var(--ltt-hover-bg);
-  transform: scale(1.01);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-```
+function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
+  const blockViewSettings: BlockViewSettings = settings?.blockView || {
+    defaultView: 'list',
+    hideViewBar: false,
+    defaultTableTheme: 'default',
+    defaultColWidths: [260, 200, 180],
+    minColumnWidth: 180,
+    enableResize: true,
+    customTheme: DEFAULT_TABLE_THEME,
+  };
 
-#### 列拖拽动画
-```css
-.ltt-resize-handle {
-  transition: opacity 0.15s ease, background 0.15s ease;
-}
+  const handleSettingChange = (key: keyof BlockViewSettings, value: any) => {
+    setSettings(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        blockView: {
+          ...blockViewSettings,
+          [key]: value,
+        },
+      };
+    });
+  };
 
-.ltt-resize-handle:hover,
-.ltt-resize-handle:active {
-  background: linear-gradient(
-    180deg,
-    rgba(59, 130, 246, 0.4),
-    rgba(59, 130, 246, 0.2)
+  const handleCustomThemeChange = (key: keyof TableTheme, value: any) => {
+    setSettings(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        blockView: {
+          ...blockViewSettings,
+          customTheme: {
+            ...blockViewSettings.customTheme,
+            [key]: value,
+          },
+        },
+      };
+    });
+  };
+
+  const viewOptions = [
+    { value: 'list', label: t('settings.blockView.viewList', language) || 'List' },
+    { value: 'table', label: t('settings.blockView.viewTable', language) || 'Table' },
+    { value: 'gallery', label: t('settings.blockView.viewGallery', language) || 'Gallery' },
+    { value: 'board', label: t('settings.blockView.viewBoard', language) || 'Board' },
+  ];
+
+  return (
+    <div className="ltt-settings-tab-content">
+      <p className="ltt-tab-section-description-small">
+        {t('settings.blockView.description', language) || 'Configure block view settings'}
+      </p>
+      
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.defaultView', language) || 'Default view'}</label>
+        <CustomSelect
+          options={viewOptions}
+          value={blockViewSettings.defaultView}
+          onChange={(value) => handleSettingChange('defaultView', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.hideViewBar', language) || 'Hide view switcher bar'}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={blockViewSettings.hideViewBar}
+            onChange={(e) => handleSettingChange('hideViewBar', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.defaultTableTheme', language) || 'Default Table theme'}</label>
+        <CustomSelect
+          options={THEME_OPTIONS}
+          value={blockViewSettings.defaultTableTheme}
+          onChange={(value) => handleSettingChange('defaultTableTheme', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.minColumnWidth', language) || 'Minimum column width (px)'}</label>
+        <input
+          type="number"
+          value={blockViewSettings.minColumnWidth}
+          onChange={(e) => handleSettingChange('minColumnWidth', parseInt(e.target.value))}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.enableResize', language) || 'Enable column resizing'}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={blockViewSettings.enableResize}
+            onChange={(e) => handleSettingChange('enableResize', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      {blockViewSettings.defaultTableTheme === 'custom' && (
+        <div className="ltt-setting-section">
+          <p className="ltt-tab-section-title">{t('settings.blockView.customTheme', language) || 'Custom theme'}</p>
+          
+          <div className="ltt-setting-item">
+            <label>Header background</label>
+            <input
+              type="color"
+              value={blockViewSettings.customTheme.headerBg}
+              onChange={(e) => handleCustomThemeChange('headerBg', e.target.value)}
+            />
+          </div>
+
+          <div className="ltt-setting-item">
+            <label>Header text</label>
+            <input
+              type="color"
+              value={blockViewSettings.customTheme.headerText}
+              onChange={(e) => handleCustomThemeChange('headerText', e.target.value)}
+            />
+          </div>
+
+          <div className="ltt-setting-item">
+            <label>Border color</label>
+            <input
+              type="color"
+              value={blockViewSettings.customTheme.borderColor}
+              onChange={(e) => handleCustomThemeChange('borderColor', e.target.value)}
+            />
+          </div>
+
+          <div className="ltt-setting-item">
+            <label>Border radius</label>
+            <input
+              type="text"
+              value={blockViewSettings.customTheme.borderRadius}
+              onChange={(e) => handleCustomThemeChange('borderRadius', e.target.value)}
+            />
+          </div>
+
+          <div className="ltt-setting-item">
+            <label>Stripe</label>
+            <label className="ltt-switch">
+              <input
+                type="checkbox"
+                checked={blockViewSettings.customTheme.stripe}
+                onChange={(e) => handleCustomThemeChange('stripe', e.target.checked)}
+              />
+              <span className="ltt-switch-slider"></span>
+            </label>
+          </div>
+
+          <div className="ltt-setting-item">
+            <label>Glass effect</label>
+            <label className="ltt-switch">
+              <input
+                type="checkbox"
+                checked={blockViewSettings.customTheme.glass}
+                onChange={(e) => handleCustomThemeChange('glass', e.target.checked)}
+              />
+              <span className="ltt-switch-slider"></span>
+            </label>
+          </div>
+
+          <div className="ltt-setting-item">
+            <label>Glow effect</label>
+            <label className="ltt-switch">
+              <input
+                type="checkbox"
+                checked={blockViewSettings.customTheme.glow}
+                onChange={(e) => handleCustomThemeChange('glow', e.target.checked)}
+              />
+              <span className="ltt-switch-slider"></span>
+            </label>
+          </div>
+        </div>
+      )}
+
+      <div className="ltt-settings-actions">
+        <button 
+          className="ltt-settings-btn ltt-settings-btn-save"
+          onClick={onSave}
+          disabled={isSaving}
+        >
+          {isSaving ? t('settings.saving', language) : t('settings.saveBlockViewSettings', language) || 'Save Settings'}
+        </button>
+      </div>
+    </div>
   );
 }
-```
 
-#### 表格加载动画
-```css
-.ltt-table-root.ltt-loading {
-  animation: tablePulse 1.5s ease-in-out infinite;
-}
-
-@keyframes tablePulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-```
-
-### 4.3 高级排版
-
-#### 列对齐选项
-```css
-.ltt-table-cell.ltt-align-left { text-align: left; }
-.ltt-table-cell.ltt-align-center { text-align: center; justify-content: center; }
-.ltt-table-cell.ltt-align-right { text-align: right; justify-content: flex-end; }
-.ltt-table-cell.ltt-valign-top { vertical-align: top; padding-top: 12px; }
-.ltt-table-cell.ltt-valign-middle { vertical-align: middle; }
-.ltt-table-cell.ltt-valign-bottom { vertical-align: bottom; padding-bottom: 12px; }
-```
-
-#### 字体样式
-```css
-.ltt-table-cell.ltt-font-bold { font-weight: 700; }
-.ltt-table-cell.ltt-font-italic { font-style: italic; }
-.ltt-table-cell.ltt-font-small { font-size: 12px; }
-.ltt-table-cell.ltt-font-large { font-size: 16px; }
+export default BlockViewSettings;
 ```
 
 ---
 
-## 5. CSS 架构（增强版）
+## 4. 列宽调整功能
 
-### 5.1 完整 CSS 变量表
+### 4.1 列宽拖拽手柄
+
+每个列的右侧都有 Resize Handle，悬停时显示：
+
+```typescript
+// src/lib/blockView/resizeHandler.ts
+
+import { getDocument } from '../../logseq/utils';
+import { createRendererArgUpdater } from '../render/rendererArgs';
+
+const MIN_WIDTH = 180;
+const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([':blockview']);
+
+export function initTableResizeHandlers(blockId: string) {
+  const doc = getDocument();
+  const tableRoot = doc.querySelector(`[data-block-id="${blockId}"]`);
+  
+  if (!tableRoot) return;
+
+  ensureResizeHandles(tableRoot as HTMLElement);
+  bindResizeEvents(tableRoot as HTMLElement, blockId);
+}
+
+function ensureResizeHandles(root: HTMLElement) {
+  const rows = root.querySelectorAll('.ls-block[level="1"]');
+  
+  rows.forEach((row) => {
+    const cells = Array.from(row.children);
+    cells.forEach((cell, index) => {
+      if (!cell.querySelector('.ltt-resize-handle')) {
+        const handle = document.createElement('div');
+        handle.className = 'ltt-resize-handle';
+        handle.dataset.colIndex = String(index);
+        cell.appendChild(handle);
+      }
+    });
+  });
+}
+
+function bindResizeEvents(root: HTMLElement, blockId: string) {
+  let isDragging = false;
+  let currentColIndex = 0;
+  let startX = 0;
+  let startWidth = 0;
+  let currentWidths: number[] = [];
+
+  root.addEventListener('pointerdown', (e) => {
+    const handle = e.target.closest('.ltt-resize-handle');
+    if (!handle) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    isDragging = true;
+    currentColIndex = parseInt(handle.dataset.colIndex || '0');
+    
+    const firstRow = root.querySelector('.ls-block[level="1"]');
+    const cells = firstRow ? Array.from(firstRow.children) : [];
+    currentWidths = cells.map(cell => cell.clientWidth);
+    
+    startX = e.clientX;
+    startWidth = currentWidths[currentColIndex];
+    
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+  });
+  
+  function onPointerMove(e: PointerEvent) {
+    if (!isDragging) return;
+    
+    const newWidth = Math.max(MIN_WIDTH, startWidth + (e.clientX - startX));
+    currentWidths[currentColIndex] = newWidth;
+    
+    applyColumnWidths(root, currentWidths);
+  }
+  
+  async function onPointerUp() {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+    
+    await saveColumnWidths(blockId, currentWidths);
+  }
+}
+
+function applyColumnWidths(root: HTMLElement, widths: number[]) {
+  const rows = root.querySelectorAll('.ls-block[level="1"]');
+  
+  rows.forEach(row => {
+    const cells = Array.from(row.children);
+    cells.forEach((cell, index) => {
+      if (widths[index]) {
+        cell.style.width = `${widths[index]}px`;
+        cell.style.minWidth = `${widths[index]}px`;
+        cell.style.maxWidth = `${widths[index]}px`;
+      }
+    });
+  });
+  
+  if (widths[0]) {
+    root.style.setProperty('--ltt-col-1-width', `${widths[0]}px`);
+  }
+}
+
+async function saveColumnWidths(blockId: string, widths: number[]) {
+  const colWidthsStr = `[${widths.join(',')}]`;
+  
+  try {
+    const currentBlock = await logseqAPI.Editor.getBlock(blockId);
+    if (currentBlock?.content) {
+      const updatedContent = updateBlockViewArgs(currentBlock.content, { colWidths: colWidthsStr });
+      
+      if (updatedContent !== currentBlock.content) {
+        await logseqAPI.Editor.updateBlock(blockId, updatedContent);
+      }
+    }
+  } catch (err) {
+    console.error('[BlockView] Failed to save column widths', err);
+  }
+}
+
+export function loadColumnWidths(root: HTMLElement, colWidthsStr: string | undefined) {
+  if (!colWidthsStr) return;
+  
+  try {
+    const widths = JSON.parse(colWidthsStr) as number[];
+    if (Array.isArray(widths)) {
+      applyColumnWidths(root, widths);
+    }
+  } catch (e) {
+    console.warn('[BlockView] Failed to parse column widths', e);
+  }
+}
+```
+
+---
+
+## 5. 主题系统
+
+### 5.1 预设主题定义
+
+```typescript
+// src/lib/blockView/themes.ts
+
+import { TableTheme } from '../../settings/types';
+
+export const PRESET_THEMES: Record<string, TableTheme> = {
+  default: {
+    headerBg: '#f8fafc',
+    headerText: 'inherit',
+    borderColor: '#e2e8f0',
+    borderRadius: '12px',
+    cellBg: '#ffffff',
+    cellAltBg: '#f8fafc',
+    textColor: 'inherit',
+    hoverBg: '#f1f5f9',
+    shadow: '0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05)',
+    stripe: false,
+    glass: false,
+    glow: false,
+  },
+  
+  notion: {
+    headerBg: '#f7f6f3',
+    headerText: '#37352f',
+    borderColor: '#e9e9e7',
+    borderRadius: '6px',
+    cellBg: '#ffffff',
+    cellAltBg: '#f8fafc',
+    textColor: '#37352f',
+    hoverBg: '#f7f6f3',
+    shadow: '0 1px 2px rgba(0,0,0,0.06)',
+    stripe: false,
+    glass: false,
+    glow: false,
+  },
+  
+  linear: {
+    headerBg: 'linear-gradient(135deg, #5e6ad2, #7c3aed)',
+    headerText: '#ffffff',
+    borderColor: '#e2e8f0',
+    borderRadius: '8px',
+    cellBg: '#ffffff',
+    cellAltBg: '#f8fafc',
+    textColor: '#1a1a1a',
+    hoverBg: '#f1f5f9',
+    shadow: '0 4px 12px rgba(124,58,237,0.15)',
+    stripe: false,
+    glass: false,
+    glow: true,
+  },
+  
+  dark: {
+    headerBg: '#1e293b',
+    headerText: '#ffffff',
+    borderColor: '#334155',
+    borderRadius: '8px',
+    cellBg: '#0f172a',
+    cellAltBg: '#1e293b',
+    textColor: '#e2e8f0',
+    hoverBg: '#1e293b',
+    shadow: '0 8px 32px rgba(0,0,0,0.3)',
+    stripe: true,
+    glass: false,
+    glow: false,
+  },
+  
+  gradient: {
+    headerBg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    headerText: '#ffffff',
+    borderColor: '#667eea',
+    borderRadius: '12px',
+    cellBg: '#ffffff',
+    cellAltBg: 'rgba(102,126,234,0.05)',
+    textColor: '#2d3748',
+    hoverBg: 'rgba(102,126,234,0.08)',
+    shadow: '0 4px 20px rgba(102,126,234,0.25)',
+    stripe: true,
+    glass: false,
+    glow: true,
+  },
+};
+
+export function getTheme(themeName: string, customTheme: TableTheme): TableTheme {
+  if (themeName === 'custom') {
+    return { ...PRESET_THEMES.default, ...customTheme };
+  }
+  return PRESET_THEMES[themeName] || PRESET_THEMES.default;
+}
+```
+
+### 5.2 主题应用
+
+```typescript
+// src/lib/blockView/themeApplier.ts
+
+import { getTheme } from './themes';
+import { getDocument } from '../../logseq/utils';
+import { BlockViewSettings } from '../../settings/types';
+
+export function applyTableTheme(
+  root: HTMLElement, 
+  themeName: string, 
+  customTheme: BlockViewSettings['customTheme'],
+  macroParams: Record<string, string>
+) {
+  const theme = getTheme(themeName, customTheme);
+  
+  // 应用宏命令参数覆盖
+  const finalTheme = { ...theme };
+  
+  if (themeName === 'custom') {
+    if (macroParams.headerBg) finalTheme.headerBg = macroParams.headerBg;
+    if (macroParams.headerText) finalTheme.headerText = macroParams.headerText;
+    if (macroParams.borderColor) finalTheme.borderColor = macroParams.borderColor;
+    if (macroParams.borderRadius) finalTheme.borderRadius = macroParams.borderRadius;
+    if (macroParams.cellBg) finalTheme.cellBg = macroParams.cellBg;
+    if (macroParams.cellAltBg) finalTheme.cellAltBg = macroParams.cellAltBg;
+    if (macroParams.textColor) finalTheme.textColor = macroParams.textColor;
+    if (macroParams.hoverBg) finalTheme.hoverBg = macroParams.hoverBg;
+    if (macroParams.shadow) finalTheme.shadow = macroParams.shadow;
+    if (macroParams.stripe) finalTheme.stripe = macroParams.stripe === 'true';
+    if (macroParams.glass) finalTheme.glass = macroParams.glass === 'true';
+    if (macroParams.glow) finalTheme.glow = macroParams.glow === 'true';
+  }
+  
+  // 应用 CSS 变量
+  root.style.setProperty('--ltt-header-bg', finalTheme.headerBg);
+  root.style.setProperty('--ltt-header-text', finalTheme.headerText);
+  root.style.setProperty('--ltt-border', finalTheme.borderColor);
+  root.style.setProperty('--ltt-cell-bg', finalTheme.cellBg);
+  root.style.setProperty('--ltt-cell-alt-bg', finalTheme.cellAltBg);
+  root.style.setProperty('--ltt-text', finalTheme.textColor);
+  root.style.setProperty('--ltt-hover-bg', finalTheme.hoverBg);
+  root.style.setProperty('--ltt-radius', finalTheme.borderRadius);
+  root.style.setProperty('--ltt-shadow', finalTheme.shadow);
+  
+  // 应用 class
+  root.classList.toggle('ltt-stripe', finalTheme.stripe);
+  root.classList.toggle('ltt-glass', finalTheme.glass);
+  root.classList.toggle('ltt-glow', finalTheme.glow);
+}
+```
+
+---
+
+## 6. 完整 Table 视图 CSS
 
 ```css
-/* =========================================================
-   TABLE VIEW - 增强版 CSS 变量
-========================================================= */
+/* src/lib/blockView/css/tableView.css */
 
 .ltt-table-root {
-  /* 基础颜色 */
-  --ltt-header-bg: #f8fafc;
-  --ltt-header-text: inherit;
   --ltt-border: #e2e8f0;
   --ltt-border-strong: #cbd5e1;
+  --ltt-hover: #f1f5f9;
+  --ltt-header-bg: #f8fafc;
+  --ltt-header-text: inherit;
   --ltt-cell-bg: #ffffff;
   --ltt-cell-alt-bg: #f8fafc;
   --ltt-text: inherit;
-  --ltt-hover-bg: #f1f5f9;
-  
-  /* 圆角与阴影 */
   --ltt-radius: 12px;
-  --ltt-radius-sm: 6px;
   --ltt-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
-  --ltt-shadow-lg: 0 4px 6px rgba(0,0,0,0.1), 0 12px 40px rgba(0,0,0,0.1);
-  
-  /* 列宽 */
   --ltt-col-1-width: 260px;
   --ltt-col-min-width: 180px;
-  --ltt-col-max-width: 600px;
-  
-  /* 间距 */
-  --ltt-cell-padding: 14px 18px;
-  --ltt-header-padding: 16px 18px;
-  
-  /* 动画 */
   --ltt-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --ltt-spring: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-```
-
-### 5.2 Resize Handle 样式
-
-```css
-/* =========================================================
-   RESIZE HANDLE - 列宽调整手柄
-========================================================= */
-
-.ltt-resize-handle {
-  position: absolute;
-  top: 0;
-  right: -4px;
-  width: 8px;
-  height: 100%;
-  cursor: col-resize;
-  z-index: 50;
-  opacity: 0;
-  transition: opacity var(--ltt-transition);
-  background: linear-gradient(
-    180deg,
-    rgba(59, 130, 246, 0.3),
-    rgba(59, 130, 246, 0.1)
-  );
-  border-radius: 0 4px 4px 0;
-}
-
-.ltt-table-row:hover .ltt-resize-handle {
-  opacity: 1;
-}
-
-.ltt-resize-handle:hover,
-.ltt-resize-handle:active {
-  opacity: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(59, 130, 246, 0.6),
-    rgba(59, 130, 246, 0.4)
-  );
-}
-
-/* 拖拽时显示的指示线 */
-.ltt-table-root.ltt-resizing {
-  cursor: col-resize;
-  user-select: none;
-}
-
-.ltt-table-root.ltt-resizing::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: rgba(59, 130, 246, 0.5);
-  pointer-events: none;
-  z-index: 100;
-}
-```
-
-### 5.3 完整 Table CSS
-
-```css
-/* =========================================================
-   ENHANCED TABLE VIEW - 完整实现
-========================================================= */
-
-/* =========================================================
-   ROOT
-========================================================= */
-
-.ltt-table-root {
-  display: flex !important;
-  align-items: flex-start;
-  opacity: 0.92;
-  transform: scale(0.98);
-  padding-left: 1.45em !important;
-  transition: opacity var(--ltt-transition);
-  
   margin: 24px 32px !important;
-  
   position: relative;
 }
-
-/* =========================================================
-   DARK MODE TOKENS
-========================================================= */
-
-.dark .ltt-table-root {
-  --ltt-header-bg: #1e293b;
-  --ltt-header-text: #f1f5f9;
-  --ltt-border: #334155;
-  --ltt-border-strong: #475569;
-  --ltt-cell-bg: #0f172a;
-  --ltt-cell-alt-bg: #1e293b;
-  --ltt-text: #e2e8f0;
-  --ltt-hover-bg: #334155;
-  
-  --ltt-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3);
-  --ltt-shadow-lg: 0 4px 6px rgba(0,0,0,0.4), 0 12px 40px rgba(0,0,0,0.4);
-}
-
-/* =========================================================
-   TABLE CONTAINER
-========================================================= */
 
 .ltt-table-root > .block-children-container {
   border: 1px solid var(--ltt-border);
   border-radius: var(--ltt-radius);
-  overflow: hidden;
+  overflow-x: auto;
   background: var(--ltt-cell-bg);
   box-shadow: var(--ltt-shadow);
-  position: relative;
   padding: 0 !important;
-  width: 100%;
 }
-
-/* =========================================================
-   TABLE ROW
-========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
   grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(var(--ltt-col-min-width), 1fr));
+  position: relative;
   align-items: stretch;
   min-width: 0;
-  position: relative;
   transition: background var(--ltt-transition);
 }
 
-/* Row separator */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--ltt-border);
-}
-
-/* Last row no border */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child::after {
-  display: none;
-}
-
-/* Hover effect */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background: var(--ltt-hover-bg);
-}
-
-/* Row index (optional) */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block.ltt-row-even {
-  background: var(--ltt-cell-alt-bg);
-}
-
-/* =========================================================
-   TABLE CELL
-========================================================= */
-
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  display: flex !important;
-  align-items: center;
-  min-height: 56px;
-  padding: var(--ltt-cell-padding) !important;
-  margin: 0 !important;
-  border-right: 1px solid var(--ltt-border);
-  background: var(--ltt-cell-bg);
-  box-sizing: border-box;
-  overflow: visible;
-  transition: all var(--ltt-transition);
-}
-
-/* First column (header) */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   position: sticky;
   left: 0;
   z-index: 20;
-  width: var(--ltt-col-1-width);
-  min-width: var(--ltt-col-1-width);
   background: var(--ltt-header-bg);
   color: var(--ltt-header-text);
   font-weight: 600;
   border-right: 2px solid var(--ltt-border-strong);
-  backdrop-filter: blur(8px);
+  padding: 14px 18px !important;
 }
 
-/* Cell content wrapper */
-.ltt-table-root .block-content-wrapper {
-  width: 100% !important;
-  overflow: visible !important;
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-right: 1px solid var(--ltt-border);
+  background: var(--ltt-cell-bg);
+  padding: 14px 22px !important;
 }
 
-/* Last column */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:last-child,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
-  border-right: none;
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
+  background: var(--ltt-cell-alt-bg);
 }
 
-/* Cell hover */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover > .block-main-container,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
   background: var(--ltt-hover-bg);
 }
 
-/* =========================================================
-   RESIZE HANDLE
-========================================================= */
+/* 隐藏 header bullets */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: none !important;
+}
 
+/* 恢复 cell bullets */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+  display: flex !important;
+  opacity: 0.6;
+}
+
+/* Resize Handle */
 .ltt-table-root .ltt-resize-handle {
   position: absolute;
   top: 0;
@@ -644,54 +797,37 @@ interface TableSettings {
   cursor: col-resize;
   z-index: 50;
   opacity: 0;
-  transition: opacity var(--ltt-transition);
-  background: linear-gradient(180deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+  transition: opacity 0.15s ease;
+  background: linear-gradient(180deg, rgba(59,130,246,0.3), rgba(59,130,246,0.1));
   border-radius: 0 4px 4px 0;
 }
 
-.ltt-table-root .ltt-table-row:hover .ltt-resize-handle {
+.ltt-table-root:hover .ltt-resize-handle {
   opacity: 1;
 }
 
 .ltt-table-root .ltt-resize-handle:hover,
 .ltt-table-root .ltt-resize-handle:active {
   opacity: 1;
-  background: linear-gradient(180deg, rgba(59, 130, 246, 0.6), rgba(59, 130, 246, 0.4));
+  background: linear-gradient(180deg, rgba(59,130,246,0.6), rgba(59,130,246,0.4));
 }
 
-/* =========================================================
-   BULLETS
-========================================================= */
-
-/* Hide bullets in header */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
-  display: none !important;
+/* 特殊效果 */
+.ltt-table-root.ltt-glass {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.5);
 }
 
-/* Show bullets in cells */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
-  display: flex !important;
-  opacity: 0.6;
-  transition: opacity var(--ltt-transition);
+.ltt-table-root.ltt-glow {
+  box-shadow: var(--ltt-shadow), 0 0 30px rgba(102,126,234,0.15);
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
-  opacity: 1;
+.ltt-table-root.ltt-stripe > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
+  background: var(--ltt-cell-alt-bg);
 }
 
-/* =========================================================
-   TREE LINE
-========================================================= */
-
-.ltt-table-root .block-children-left-border {
-  display: block !important;
-  opacity: 0.15;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
+/* 响应式 */
 @media (max-width: 900px) {
   .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
     grid-template-columns: 1fr !important;
@@ -700,102 +836,40 @@ interface TableSettings {
   .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
     position: relative !important;
     width: 100% !important;
-    min-width: 100% !important;
     border-right: none !important;
     border-bottom: 2px solid var(--ltt-border-strong) !important;
   }
-  
-  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-    border-right: none !important;
-    border-bottom: 1px solid var(--ltt-border) !important;
-  }
-  
-  .ltt-table-root .ltt-resize-handle {
-    display: none !important;
-  }
-}
-
-/* =========================================================
-   SPECIAL EFFECTS
-========================================================= */
-
-/* Glass effect */
-.ltt-table-root.ltt-glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.dark .ltt-table-root.ltt-glass {
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Glow effect */
-.ltt-table-root.ltt-glow {
-  box-shadow: var(--ltt-shadow-lg), 0 0 30px rgba(102, 126, 234, 0.15);
-}
-
-/* Stripe effect */
-.ltt-table-root.ltt-stripe > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
-  background: var(--ltt-cell-alt-bg);
 }
 ```
 
 ---
 
-## 6. 实现计划
+## 7. 参数优先级
 
-### 阶段一：核心功能 (P0)
-- [ ] Resize Handle 实现
-- [ ] 列宽拖拽功能
-- [ ] 宽度持久化
+1. **宏命令参数**（最高）
+2. **Settings 配置**
+3. **默认值**
 
-### 阶段二：样式自定义 (P0)
-- [ ] Micro 宏命令解析
-- [ ] 主题预设系统
-- [ ] Settings 配置面板
+---
 
-### 阶段三：美化增强 (P1)
-- [ ] 玻璃态效果
-- [ ] 渐变边框
-- [ ] 动画效果
+## 8. 实现计划
 
-### 阶段四：测试优化 (P1)
+### 阶段一：基础功能
+- [ ] 宏命令参数解析与更新（使用 rendererArgs.ts）
+- [ ] Table 视图基础布局
+
+### 阶段二：列宽调整
+- [ ] Resize Handler 实现
+- [ ] 列宽保存到宏参数
+
+### 阶段三：主题系统
+- [ ] 预设主题实现
+- [ ] 自定义主题支持
+- [ ] Settings Modal 集成
+
+### 阶段四：完整测试
 - [ ] 功能测试
 - [ ] 兼容性测试
-- [ ] 性能优化
-
----
-
-## 7. API 参考
-
-### 7.1 JavaScript API
-
-```typescript
-// 切换视图
-window.LTTBlockView.switchView(blockId, 'table');
-
-// 设置表格样式
-window.LTTBlockView.setTableStyle(blockId, {
-  headerBg: '#1e293b',
-  borderColor: '#334155',
-  textColor: '#ffffff',
-  radius: '12px'
-});
-
-// 应用预设主题
-window.LTTBlockView.applyTheme(blockId, 'dark');
-
-// 重置为默认样式
-window.LTTBlockView.resetStyle(blockId);
-
-// 获取当前列宽
-window.LTTBlockView.getColumnWidths(blockId);
-
-// 设置列宽
-window.LTTBlockView.setColumnWidths(blockId, [260, 200, 150, 180]);
-```
 
 ---
 
