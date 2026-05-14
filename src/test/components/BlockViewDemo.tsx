@@ -3,8 +3,43 @@ import React, { useState } from 'react';
 import { ViewType, VIEW_REGISTRY } from '../../lib/blockView/types';
 import '../../components/BlockView/blockView.css';
 
+const logger = {
+  debug: (message: string, data?: any) => {
+    console.log(`[BlockViewDemo DEBUG] ${message}`, data || '');
+  },
+  info: (message: string, data?: any) => {
+    console.log(`[BlockViewDemo INFO] ${message}`, data || '');
+  }
+};
+
 export const BlockViewDemo: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>('list');
+
+  logger.debug('Component mounted', { currentView });
+
+  const handleViewChange = (viewType: ViewType) => {
+    logger.debug('View button clicked', { 
+      previousView: currentView, 
+      newView: viewType,
+      timestamp: new Date().toISOString()
+    });
+    setCurrentView(viewType);
+    logger.info('View changed successfully', { newView: viewType });
+  };
+
+  const renderIcon = (iconSvg: string) => {
+    return (
+      <span 
+        dangerouslySetInnerHTML={{ __html: iconSvg }}
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center',
+          width: '14px',
+          height: '14px'
+        }}
+      />
+    );
+  };
 
   const renderBlockHTML = () => {
     const html = `<div haschild="true" class="ls-block swipe-item ltt-${currentView}-root" level="0" blockid="6a03f979-2728-4739-bf02-399ca07cb19c" id="ls-block-6a03f979-2728-4739-bf02-399ca07cb19c" containerid="1">
@@ -821,9 +856,14 @@ export const BlockViewDemo: React.FC = () => {
     return html;
   };
 
+  logger.debug('Rendering BlockViewDemo', { 
+    currentView, 
+    viewRegistryKeys: Object.keys(VIEW_REGISTRY) 
+  });
+
   return (
     <div style={{ padding: '16px' }}>
-      <h3 style={{ marginBottom: '16px' }}>Block View Demo</h3>
+      <h3 style={{ marginBottom: '16px' }}>Block View Demo - Current: {currentView}</h3>
       
       {/* View Switcher */}
       <div className="ltt-view-bar" style={{ marginBottom: '16px' }}>
@@ -831,10 +871,12 @@ export const BlockViewDemo: React.FC = () => {
           <button
             key={viewConfig.id}
             className={`ltt-view-btn ${currentView === viewConfig.id ? 'active' : ''}`}
-            onClick={() => setCurrentView(viewConfig.id)}
-            dangerouslySetInnerHTML={{ __html: viewConfig.icon }}
+            onClick={() => handleViewChange(viewConfig.id)}
             title={viewConfig.name}
-          />
+          >
+            {renderIcon(viewConfig.icon)}
+            <span style={{ marginLeft: '4px', fontSize: '12px' }}>{viewConfig.name}</span>
+          </button>
         ))}
       </div>
 
