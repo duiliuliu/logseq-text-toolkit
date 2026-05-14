@@ -144,7 +144,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
   const ColorInput = ({ label, value, onChange }: { label: string, value: string, onChange: (val: string) => void }) => (
     <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
       <label>{label}</label>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}>
+      <div style={{ display: 'flex', gap: '4px', alignItems: 'center', width: '80%' }}>
         <input
           type="color"
           value={value}
@@ -156,7 +156,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          style={{ flex: 1 }}
+          style={{ flex: 1, width: '26px' }}
         />
       </div>
     </div>
@@ -180,6 +180,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
         type="number"
         value={value}
         onChange={(e) => onChange(parseInt(e.target.value))}
+        style={{ width: '80%' }}
       />
     </div>
   );
@@ -291,7 +292,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
                 <h5 style={{ margin: '0 0 16px 0', fontSize: '13px', fontWeight: 600, color: 'var(--ls-primary-text-color-plugin, #333)' }}>
                   {t(`settings.blockView.${viewType}.customTheme.title`, language)}
                 </h5>
-                
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
                   {customFields.map((field) => (
                     field.type === 'color' ? (
