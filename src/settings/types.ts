@@ -71,6 +71,36 @@ export interface HeatmapSettings {
   };
 }
 
+// Block View 自定义主题设置
+export interface CustomTableTheme {
+  borderColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  headerBorderColor?: string;
+  headerHeight?: string;
+  rowBgColor?: string;
+  rowHoverBgColor?: string;
+  rowBorderColor?: string;
+  cellPadding?: string;
+  tableBorderRadius?: string;
+}
+
+// Block View 表格设置
+export interface BlockViewTableSettings {
+  defaultTheme: 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'custom';
+  defaultShowStriped: boolean;
+  defaultShowBorder: boolean;
+  defaultColumns: string[];
+  customTheme?: CustomTableTheme;
+}
+
+// Block View 设置
+export interface BlockViewSettings {
+  enabled: boolean;
+  defaultViewType: 'table' | 'list' | 'card' | 'timeline';
+  table: BlockViewTableSettings;
+}
+
 // 全局设置类型
 export interface Settings {
   // 主题和语言设置
@@ -112,6 +142,9 @@ export interface Settings {
 
   // 热力图设置
   heatmap?: HeatmapSettings;
+
+  // Block View 设置
+  blockView?: BlockViewSettings;
 
   // 元数据设置
   meta?: {

@@ -49,6 +49,16 @@
       "gradientSteps": 5
     }
   },
+  "blockView": {
+    "enabled": true,
+    "defaultViewType": "table",
+    "table": {
+      "defaultTheme": "default",
+      "defaultShowStriped": true,
+      "defaultShowBorder": true,
+      "defaultColumns": ["marker", "content", "page", "createdAt", "updatedAt"]
+    }
+  },
   "meta": {
     "language": {
       "languages": [

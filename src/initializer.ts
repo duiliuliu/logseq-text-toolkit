@@ -12,9 +12,11 @@ import CommentApp from './components/Comment/CommentApp'
 import SelectToolbar from './components/SelectToolbar'
 import SettingsModal from './components/SettingsModal'
 import Heatmap from './components/Heatmap/Heatmap'
+import { BlockView } from './components/BlockView'
 import { renderComponent } from './lib/render'
 import { registerTaskProgress } from './lib/taskProgress/register'
 import { registerHeatmap, setHeatmapComponent } from './lib/heatmap/register'
+import { registerBlockView, setBlockViewComponent } from './lib/blockView/register'
 import { registerCSS } from './lib/cssRegistry'
 import {
   initSummaryModal,
@@ -32,6 +34,7 @@ import taskProgressCSSRaw from './components/TaskProgress/taskProgress.css?raw'
 import customSelectCSSRaw from './components/CustomSelect/customSelect.css?raw'
 import heatmapCSSRaw from './components/Heatmap/heatmap.css?raw'
 import summaryCSSRaw from './components/Summary/summary.css?raw'
+import blockViewCSSRaw from './components/BlockView/blockView.css?raw'
 
 /* ============================================================================
    常量定义
@@ -128,6 +131,12 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: summaryCSSRaw,
     externalPath: 'summary.css'
+  })
+
+  registerCSS('blockView', {
+    type: 'both',
+    inlineContent: blockViewCSSRaw,
+    externalPath: 'blockView.css'
   })
 }
 
@@ -298,4 +307,17 @@ export async function initHeatmap(): Promise<void> {
 export async function initSummary(): Promise<void> {
   await initSummaryModal()
   registerSummaryCommands()
+}
+
+/* ============================================================================
+   BlockView 组件
+   ============================================================================ */
+
+/**
+ * BlockView 初始化
+ * 注册块视图宏渲染器和斜杠命令
+ */
+export async function initBlockView(): Promise<void> {
+  setBlockViewComponent(BlockView)
+  registerBlockView()
 }

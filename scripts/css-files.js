@@ -12,5 +12,6 @@ module.exports = [
   "taskProgress.css",
   "customSelect.css",
   "heatmap.css",
-  "summary.css"
+  "summary.css",
+  "blockView.css"
 ]
