@@ -1,5 +1,5 @@
 (function () {
-  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* Light theme variables - 参考 shadcn 和苹果设计 */\n:root {\n  --background-color-light: #ffffff;\n  --text-color-light: #000000;\n  --primary-text-color-light: #1e293b;\n  --secondary-text-color-light: #64748b;\n  --secondary-background-color-light: #f8fafc;\n  --border-color-light: #e2e8f0;\n  --accent-color-light: #3b82f6;\n  --hover-color-light: #f1f5f9;\n  --focus-color-light: #dbeafe;\n  \n  /* Dark theme variables - 参考 shadcn 和苹果设计 */\n  --background-color-dark: #0f172a;\n  --text-color-dark: #ffffff;\n  --primary-text-color-dark: #f1f5f9;\n  --secondary-text-color-dark: #94a3b8;\n  --secondary-background-color-dark: #1e293b;\n  --border-color-dark: #334155;\n  --accent-color-dark: #60a5fa;\n  --hover-color-dark: #334155;\n  --focus-color-dark: #1e3a8a;\n  \n  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n/* Media query for dark mode */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n  }\n}\n\n/* Theme classes */\n.light-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n}\n\n:root {\n  font-family: 'Roboto', 'Noto Sans JP', sans-serif;\n  line-height: 1.5;\n  font-weight: 400;\n  font-synthesis: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-text-size-adjust: 100%;\n  color-scheme: light;\n  color: #213547;\n  background-color: #ffffff;\n}\n\n/* 链接样式 */\na {\n  font-weight: 500;\n  color: #646cff;\n  text-decoration: inherit;\n}\na:hover {\n  color: #535bf2;\n}\n\n/* 按钮样式 */\nbutton {\n  border-radius: 8px;\n  border: 1px solid transparent;\n  padding: 0.6em 1.2em;\n  font-size: 1em;\n  font-weight: 500;\n  font-family: inherit;\n  background-color: #f9f9f9;\n  color: #213547;\n  cursor: pointer;\n  transition: border-color 0.25s;\n}\nbutton:hover {\n  border-color: #646cff;\n}\nbutton:focus,\nbutton:focus-visible {\n  outline: 4px auto -webkit-focus-ring-color;\n}\n\n/* 允许内容区域的文本被选择 */\n.content-section {\n  user-select: text;\n}\n\nbody {\n  width: auto;\n  height: 90%;\n  margin: 0;\n  place-items: center;\n  min-width: 320px;\n  min-height: 100vh;\n  overflow: auto;\n  background-color: transparent;\n}\n\n/* Dark mode button and link styles */\n.dark-mode button {\n  background-color: #1a1a1a !important;\n  color: rgba(255, 255, 255, 0.87) !important;\n}\n\n.dark-mode a {\n  color: #646cff !important;\n}\n\n.dark-mode a:hover {\n  color: #535bf2 !important;\n}/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n.ttk-block-view-container {\n  padding: 8px 0;\n  position: relative;\n}\n\n.ttk-block-view-viewbar {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n  padding-bottom: 8px;\n  border-bottom: 1px solid #e5e7eb;\n}\n\n.ttk-block-view-viewbar-btn {\n  padding: 6px 12px;\n  border: 1px solid #d1d5db;\n  background: #ffffff;\n  border-radius: 6px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.ttk-block-view-viewbar-btn:hover {\n  border-color: #3b82f6;\n  color: #3b82f6;\n}\n\n.ttk-block-view-viewbar-btn.active {\n  background: #3b82f6;\n  color: #ffffff;\n  border-color: #3b82f6;\n}\n\n.ttk-block-view-table-container {\n  width: 100%;\n  overflow-x: auto;\n}\n\n.ttk-block-view-table {\n  width: 100%;\n}\n\n.ttk-block-view-resizer {\n  opacity: 0;\n  transition: opacity 0.2s;\n}\n\n.ttk-block-view-th:hover .ttk-block-view-resizer {\n  opacity: 1;\n}\n\n.ttk-block-view-resizer:hover,\n.ttk-block-view-resizer.active {\n  opacity: 1;\n  background-color: #3b82f6 !important;\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n/*$vite$:1*/";document.head.appendChild(__vite_style__);
+  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* Light theme variables - 参考 shadcn 和苹果设计 */\n:root {\n  --background-color-light: #ffffff;\n  --text-color-light: #000000;\n  --primary-text-color-light: #1e293b;\n  --secondary-text-color-light: #64748b;\n  --secondary-background-color-light: #f8fafc;\n  --border-color-light: #e2e8f0;\n  --accent-color-light: #3b82f6;\n  --hover-color-light: #f1f5f9;\n  --focus-color-light: #dbeafe;\n  \n  /* Dark theme variables - 参考 shadcn 和苹果设计 */\n  --background-color-dark: #0f172a;\n  --text-color-dark: #ffffff;\n  --primary-text-color-dark: #f1f5f9;\n  --secondary-text-color-dark: #94a3b8;\n  --secondary-background-color-dark: #1e293b;\n  --border-color-dark: #334155;\n  --accent-color-dark: #60a5fa;\n  --hover-color-dark: #334155;\n  --focus-color-dark: #1e3a8a;\n  \n  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n/* Media query for dark mode */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n  }\n}\n\n/* Theme classes */\n.light-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n}\n\n:root {\n  font-family: 'Roboto', 'Noto Sans JP', sans-serif;\n  line-height: 1.5;\n  font-weight: 400;\n  font-synthesis: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-text-size-adjust: 100%;\n  color-scheme: light;\n  color: #213547;\n  background-color: #ffffff;\n}\n\n/* 链接样式 */\na {\n  font-weight: 500;\n  color: #646cff;\n  text-decoration: inherit;\n}\na:hover {\n  color: #535bf2;\n}\n\n/* 按钮样式 */\nbutton {\n  border-radius: 8px;\n  border: 1px solid transparent;\n  padding: 0.6em 1.2em;\n  font-size: 1em;\n  font-weight: 500;\n  font-family: inherit;\n  background-color: #f9f9f9;\n  color: #213547;\n  cursor: pointer;\n  transition: border-color 0.25s;\n}\nbutton:hover {\n  border-color: #646cff;\n}\nbutton:focus,\nbutton:focus-visible {\n  outline: 4px auto -webkit-focus-ring-color;\n}\n\n/* 允许内容区域的文本被选择 */\n.content-section {\n  user-select: text;\n}\n\nbody {\n  width: auto;\n  height: 90%;\n  margin: 0;\n  place-items: center;\n  min-width: 320px;\n  min-height: 100vh;\n  overflow: auto;\n  background-color: transparent;\n}\n\n/* Dark mode button and link styles */\n.dark-mode button {\n  background-color: #1a1a1a !important;\n  color: rgba(255, 255, 255, 0.87) !important;\n}\n\n.dark-mode a {\n  color: #646cff !important;\n}\n\n.dark-mode a:hover {\n  color: #535bf2 !important;\n}/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n/*$vite$:1*/";document.head.appendChild(__vite_style__);
 
   false&&(function polyfill() {
     const relList = document.createElement("link").relList;
@@ -914,13 +914,8 @@
   	}
   };
   const blockView = {
-  	enabled: true,
-  	defaultViewType: "table",
-  	table: {
-  		defaultTheme: "default",
-  		defaultShowStriped: true,
-  		defaultShowBorder: true
-  	}
+  	defaultView: "list",
+  	hideViewBar: false
   };
   const meta = {
   	language: {
@@ -4530,7 +4525,7 @@ ${nestingClauses}`;
     "#a5b4fc",
     "#3730a3"
   ];
-  const VIEW_TYPE_MAP$1 = {
+  const VIEW_TYPE_MAP = {
     "年度视图": "year",
     "year": "year",
     "yearly": "year",
@@ -5715,16 +5710,16 @@ ${where}
   }
 
   const MACRO_PREFIX$2 = ":heatmap";
-  const MACRO_PREFIX_CN$1 = ":热力图";
+  const MACRO_PREFIX_CN = ":热力图";
   const PLUGIN_ID$2 = "text-toolkit-heatmap";
-  const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX$2, MACRO_PREFIX_CN$1]);
+  const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX$2, MACRO_PREFIX_CN]);
   let HeatmapComponent = null;
   function setHeatmapComponent(component) {
     HeatmapComponent = component;
   }
   registerRendererArgModel(MACRO_PREFIX$2, { positional: ["view"] });
-  registerRendererArgModel(MACRO_PREFIX_CN$1, { positional: ["view"] });
-  function parseMacroArguments$1(tokens, argMap) {
+  registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
+  function parseMacroArguments(tokens, argMap) {
     let viewType;
     let queryType = "tag";
     let queryValue = "";
@@ -5742,7 +5737,7 @@ ${where}
     let weekPageTemplate;
     let weekPageLogseqTemplate;
     const applyViewType = (raw) => {
-      const v = VIEW_TYPE_MAP$1[raw.trim()] || VIEW_TYPE_MAP$1[raw.trim().toLowerCase()];
+      const v = VIEW_TYPE_MAP[raw.trim()] || VIEW_TYPE_MAP[raw.trim().toLowerCase()];
       if (v) viewType = v;
     };
     const applyDisplayMode = (raw) => {
@@ -5792,7 +5787,7 @@ ${where}
       const t = token.trim();
       if (!t) continue;
       if (t.includes("=")) continue;
-      if (VIEW_TYPE_MAP$1[t] || VIEW_TYPE_MAP$1[t.toLowerCase()]) {
+      if (VIEW_TYPE_MAP[t] || VIEW_TYPE_MAP[t.toLowerCase()]) {
         applyViewType(t);
         continue;
       }
@@ -5879,7 +5874,7 @@ ${where}
         enableWeekPageCreation,
         weekPageTemplate,
         weekPageLogseqTemplate
-      } = parseMacroArguments$1(tokens, argMap);
+      } = parseMacroArguments(tokens, argMap);
       const settings = await getSettingsWithSystem();
       const now = /* @__PURE__ */ new Date();
       let referenceDate;
@@ -5990,7 +5985,7 @@ ${where}
       const type = split?.type || "";
       const tokens = split?.tokens || [];
       const blockUuid = payload.uuid;
-      if (!type || !type.startsWith(MACRO_PREFIX$2) && !type.startsWith(MACRO_PREFIX_CN$1)) {
+      if (!type || !type.startsWith(MACRO_PREFIX$2) && !type.startsWith(MACRO_PREFIX_CN)) {
         return;
       }
       loggerProxy.debug("🌡️ Heatmap: Macro detected", { type, blockUuid });
@@ -8635,589 +8630,6 @@ ${where}
           generatedContent.map((block) => renderBlock(block))
         ] })
       ] })
-    ] });
-  };
-
-  async function getChildBlocks(blockUuid) {
-    try {
-      const block = await logseqAPI$1.Editor.getBlock(blockUuid);
-      if (!block) {
-        loggerProxy.warn("[BlockView] Block not found", { blockUuid });
-        return [];
-      }
-      const children = await logseqAPI$1.DB.q(
-        `[:find (pull ?b [*])
-        :where
-        [?b :block/parent ?parent]
-        [(= ?parent [:block/uuid "${blockUuid}"])]]`
-      );
-      return children.map((result) => result[0]);
-    } catch (err) {
-      loggerProxy.error("[BlockView] Query error", err);
-      return [];
-    }
-  }
-
-  const VIEW_TYPE_MAP = {
-    "table": "table",
-    "表格": "table",
-    "list": "list",
-    "列表": "list",
-    "card": "card",
-    "卡片": "card",
-    "timeline": "timeline",
-    "时间线": "timeline"
-  };
-  const TABLE_THEME_MAP = {
-    "default": "default",
-    "默认": "default",
-    "notion": "notion",
-    "linear": "linear",
-    "dark": "dark",
-    "gradient": "gradient",
-    "custom": "custom",
-    "自定义": "custom"
-  };
-  const PRESET_THEMES = {
-    default: {
-      borderColor: "#e5e7eb",
-      headerBgColor: "#f3f4f6",
-      headerTextColor: "#374151",
-      headerBorderColor: "#d1d5db",
-      headerHeight: "40px",
-      rowBgColor: "#ffffff",
-      rowHoverBgColor: "#f9fafb",
-      rowBorderColor: "#e5e7eb",
-      cellPadding: "8px 12px",
-      tableBorderRadius: "8px"
-    },
-    notion: {
-      borderColor: "#e5e7eb",
-      headerBgColor: "#ffffff",
-      headerTextColor: "#374151",
-      headerBorderColor: "#e5e7eb",
-      headerHeight: "40px",
-      rowBgColor: "#ffffff",
-      rowHoverBgColor: "#f9fafb",
-      rowBorderColor: "#e5e7eb",
-      cellPadding: "8px 12px",
-      tableBorderRadius: "6px"
-    },
-    linear: {
-      borderColor: "#e5e7eb",
-      headerBgColor: "#f9faff",
-      headerTextColor: "#374151",
-      headerBorderColor: "#e5e7eb",
-      headerHeight: "36px",
-      rowBgColor: "#ffffff",
-      rowHoverBgColor: "#f3f4f6",
-      rowBorderColor: "#e5e7eb",
-      cellPadding: "6px 12px",
-      tableBorderRadius: "4px"
-    },
-    dark: {
-      borderColor: "#374151",
-      headerBgColor: "#1f2937",
-      headerTextColor: "#f9fafb",
-      headerBorderColor: "#374151",
-      headerHeight: "40px",
-      rowBgColor: "#111827",
-      rowHoverBgColor: "#1f2937",
-      rowBorderColor: "#374151",
-      cellPadding: "8px 12px",
-      tableBorderRadius: "8px"
-    },
-    gradient: {
-      borderColor: "#dbeafe",
-      headerBgColor: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-      headerTextColor: "#ffffff",
-      headerBorderColor: "#2563eb",
-      headerHeight: "44px",
-      rowBgColor: "#ffffff",
-      rowHoverBgColor: "#eff6ff",
-      rowBorderColor: "#dbeafe",
-      cellPadding: "10px 12px",
-      tableBorderRadius: "12px"
-    }
-  };
-  const DEFAULT_COLUMN_ORDER = ["marker", "content", "page", "createdAt", "updatedAt"];
-
-  let BlockViewComponent = null;
-  const MACRO_PREFIX$1 = ":block-view";
-  const MACRO_PREFIX_CN = ":块视图";
-  const PLUGIN_ID$1 = "text-toolkit-block-view";
-  registerRendererArgModel(MACRO_PREFIX$1, { positional: ["view"] });
-  registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
-  const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([
-    MACRO_PREFIX$1,
-    MACRO_PREFIX_CN
-  ]);
-  function setBlockViewComponent(component) {
-    BlockViewComponent = component;
-  }
-  function parseMacroArguments(tokens, argMap) {
-    let viewType = "table";
-    let theme = "default";
-    let showStriped = true;
-    let showBorder = true;
-    let columnWidths;
-    if (argMap.view || argMap.viewType) {
-      const viewVal = VIEW_TYPE_MAP[argMap.view || argMap.viewType || ""];
-      if (viewVal) viewType = viewVal;
-    }
-    if (argMap.theme) {
-      const themeVal = TABLE_THEME_MAP[argMap.theme];
-      if (themeVal) theme = themeVal;
-    }
-    if (argMap.striped !== void 0) {
-      showStriped = argMap.striped === "true";
-    }
-    if (argMap.border !== void 0) {
-      showBorder = argMap.border === "true";
-    }
-    if (argMap.colWidths) {
-      try {
-        columnWidths = JSON.parse(argMap.colWidths);
-      } catch {
-      }
-    }
-    for (const token of tokens) {
-      const t = token.trim();
-      if (!t) continue;
-      if (t.includes("=")) continue;
-      if (VIEW_TYPE_MAP[t]) {
-        viewType = VIEW_TYPE_MAP[t];
-      }
-      if (TABLE_THEME_MAP[t]) {
-        theme = TABLE_THEME_MAP[t];
-      }
-    }
-    return {
-      viewType,
-      theme,
-      showStriped,
-      showBorder,
-      columnWidths
-    };
-  }
-  async function renderBlockView(slot, type, tokens, blockUuid) {
-    try {
-      loggerProxy.debug("[BlockView] Rendering", { type, blockUuid });
-      const argMap = parseRendererArgs(type, tokens);
-      const parsedArgs = parseMacroArguments(tokens, argMap);
-      const settings = await getSettingsWithSystem();
-      const resolvedViewType = parsedArgs.viewType || settings?.blockView?.defaultViewType || "table";
-      const resolvedTheme = parsedArgs.theme || settings?.blockView?.table?.defaultTheme || "default";
-      const resolvedShowStriped = parsedArgs.showStriped ?? settings?.blockView?.table?.defaultShowStriped ?? true;
-      const resolvedShowBorder = parsedArgs.showBorder ?? settings?.blockView?.table?.defaultShowBorder ?? true;
-      const resolvedCustomTheme = resolvedTheme === "custom" ? { ...PRESET_THEMES.default, ...settings?.blockView?.table?.customTheme } : void 0;
-      const blocks = blockUuid ? await getChildBlocks(blockUuid) : [];
-      if (!BlockViewComponent) {
-        loggerProxy.warn("[BlockView] Component not registered");
-        return false;
-      }
-      const config = {
-        viewType: resolvedViewType,
-        table: {
-          theme: resolvedTheme,
-          showRowStriped: resolvedShowStriped,
-          showBorder: resolvedShowBorder,
-          customTheme: resolvedCustomTheme,
-          columnWidths: parsedArgs.columnWidths
-        }
-      };
-      const containerId = `${PLUGIN_ID$1}__${slot}`;
-      logseqAPI$1.provideUI({
-        key: containerId,
-        slot,
-        reset: true,
-        template: `<div id="${containerId}"></div>`
-      });
-      setTimeout(() => {
-        const container = getDocument().getElementById(containerId);
-        if (container) {
-          renderComponent(container, BlockViewComponent, {
-            blocks,
-            config,
-            onBlockId: blockUuid
-          });
-        }
-      }, 1);
-      return true;
-    } catch (err) {
-      loggerProxy.error("[BlockView] Render error", err);
-      return false;
-    }
-  }
-  function registerBlockView() {
-    logseqAPI$1.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-      const split = splitRendererArgs(payload.arguments);
-      const type = split?.type || "";
-      const tokens = split?.tokens || [];
-      const blockUuid = payload.uuid;
-      if (!type || !type.startsWith(MACRO_PREFIX$1) && !type.startsWith(MACRO_PREFIX_CN)) {
-        return;
-      }
-      await renderBlockView(slot, type, tokens, blockUuid);
-    });
-    logseqAPI$1.Editor.registerSlashCommand(
-      "[Text Toolkit] Insert Block View",
-      async () => {
-        await logseqAPI$1.Editor.insertAtEditingCursor(
-          `{{renderer ${MACRO_PREFIX$1}, view=table, theme=default}}`
-        );
-      }
-    );
-    loggerProxy.info("[BlockView] Registered successfully");
-  }
-
-  const TableView = ({
-    blocks,
-    config,
-    onColumnWidthChange
-  }) => {
-    const [columnWidths, setColumnWidths] = reactExports.useState(
-      config.columnWidths || {}
-    );
-    const [isResizing, setIsResizing] = reactExports.useState(null);
-    const [startX, setStartX] = reactExports.useState(0);
-    const [startWidth, setStartWidth] = reactExports.useState(0);
-    const tableRef = reactExports.useRef(null);
-    const resizingRef = reactExports.useRef(null);
-    const activeTheme = reactExports.useMemo(() => {
-      if (config.theme === "custom" && config.customTheme) {
-        return { ...PRESET_THEMES.default, ...config.customTheme };
-      }
-      return PRESET_THEMES[config.theme] || PRESET_THEMES.default;
-    }, [config.theme, config.customTheme]);
-    const columnsToShow = DEFAULT_COLUMN_ORDER;
-    const handleMouseDown = (e, columnKey, initialWidth) => {
-      e.preventDefault();
-      setIsResizing(columnKey);
-      resizingRef.current = columnKey;
-      setStartX(e.clientX);
-      setStartWidth(initialWidth);
-    };
-    reactExports.useEffect(() => {
-      const handleMouseMove = (e) => {
-        if (!resizingRef.current) return;
-        const diff = e.clientX - startX;
-        const newWidth = Math.max(50, startWidth + diff);
-        setColumnWidths((prev) => ({
-          ...prev,
-          [resizingRef.current]: newWidth
-        }));
-      };
-      const handleMouseUp = () => {
-        if (resizingRef.current && onColumnWidthChange) {
-          onColumnWidthChange(resizingRef.current, columnWidths[resizingRef.current]);
-        }
-        setIsResizing(null);
-        resizingRef.current = null;
-      };
-      if (isResizing) {
-        document.addEventListener("mousemove", handleMouseMove);
-        document.addEventListener("mouseup", handleMouseUp);
-        document.body.style.cursor = "col-resize";
-        document.body.style.userSelect = "none";
-      }
-      return () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
-        document.body.style.cursor = "";
-        document.body.style.userSelect = "";
-      };
-    }, [isResizing, startX, startWidth, columnWidths, onColumnWidthChange]);
-    const getCellContent = (block, columnKey) => {
-      switch (columnKey) {
-        case "marker":
-          return block["block/marker"] || "";
-        case "content":
-          return block["block/content"] || "";
-        case "page":
-          return block["block/page"]?.["block/name"] || "";
-        case "createdAt":
-          return block["block/created-at"] ? new Date(block["block/created-at"]).toLocaleString() : "";
-        case "updatedAt":
-          return block["block/updated-at"] ? new Date(block["block/updated-at"]).toLocaleString() : "";
-        default:
-          return "";
-      }
-    };
-    const getColumnHeader = (columnKey) => {
-      switch (columnKey) {
-        case "marker":
-          return "状态";
-        case "content":
-          return "内容";
-        case "page":
-          return "页面";
-        case "createdAt":
-          return "创建时间";
-        case "updatedAt":
-          return "更新时间";
-        default:
-          return columnKey;
-      }
-    };
-    const tableStyle = {
-      borderCollapse: "separate",
-      borderSpacing: 0,
-      width: "100%",
-      borderRadius: activeTheme.tableBorderRadius,
-      overflow: "hidden",
-      border: config.showBorder ? `1px solid ${activeTheme.borderColor}` : "none"
-    };
-    const headerStyle = {
-      backgroundColor: activeTheme.headerBgColor,
-      color: activeTheme.headerTextColor,
-      height: activeTheme.headerHeight
-    };
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ttk-block-view-table-container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { ref: tableRef, style: tableStyle, className: "ttk-block-view-table", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: headerStyle, children: columnsToShow.map((columnKey, index) => {
-        const width = columnWidths[columnKey];
-        return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "th",
-          {
-            style: {
-              padding: activeTheme.cellPadding,
-              textAlign: "left",
-              borderBottom: `1px solid ${activeTheme.headerBorderColor}`,
-              ...width ? { width: `${width}px`, minWidth: `${width}px` } : {},
-              position: "relative"
-            },
-            children: [
-              getColumnHeader(columnKey),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "div",
-                {
-                  className: "ttk-block-view-resizer",
-                  style: {
-                    position: "absolute",
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: "5px",
-                    cursor: "col-resize",
-                    backgroundColor: isResizing === columnKey ? "#3b82f6" : "transparent"
-                  },
-                  onMouseDown: (e) => handleMouseDown(e, columnKey, width || 100)
-                }
-              )
-            ]
-          },
-          columnKey
-        );
-      }) }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: blocks.map((block, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "tr",
-        {
-          style: {
-            backgroundColor: config.showRowStriped && index % 2 === 1 ? activeTheme.rowBgColor : "transparent"
-          },
-          onMouseEnter: (e) => {
-            e.currentTarget.style.backgroundColor = activeTheme.rowHoverBgColor || "";
-          },
-          onMouseLeave: (e) => {
-            e.currentTarget.style.backgroundColor = config.showRowStriped && index % 2 === 1 ? activeTheme.rowBgColor || "" : "transparent";
-          },
-          children: columnsToShow.map((columnKey) => {
-            const width = columnWidths[columnKey];
-            return /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "td",
-              {
-                style: {
-                  padding: activeTheme.cellPadding,
-                  borderBottom: `1px solid ${activeTheme.rowBorderColor}`,
-                  ...width ? { width: `${width}px`, minWidth: `${width}px` } : {}
-                },
-                children: getCellContent(block, columnKey)
-              },
-              columnKey
-            );
-          })
-        },
-        typeof block["block/uuid"] === "string" ? block["block/uuid"] : block["block/uuid"]?.["$uuid$"] || index
-      )) })
-    ] }) });
-  };
-
-  const BlockView = ({
-    blocks,
-    config,
-    onBlockId
-  }) => {
-    const [currentViewType, setCurrentViewType] = reactExports.useState(
-      config.viewType
-    );
-    reactExports.useEffect(() => {
-      setCurrentViewType(config.viewType);
-    }, [config.viewType]);
-    const handleViewTypeChange = reactExports.useCallback(async (viewType) => {
-      setCurrentViewType(viewType);
-      if (onBlockId) {
-        try {
-          const currentBlock = await logseqAPI$1.Editor.getBlock(onBlockId);
-          if (currentBlock) {
-            const content = currentBlock.content || "";
-            const updatedContent = updateBlockViewArgs(content, { view: viewType });
-            await logseqAPI$1.Editor.updateBlock(onBlockId, updatedContent);
-            loggerProxy.debug("[BlockView] View type updated", { onBlockId, viewType });
-          }
-        } catch (err) {
-          loggerProxy.error("[BlockView] Failed to update view type:", err);
-        }
-      }
-    }, [onBlockId]);
-    const handleTableColumnWidthChange = reactExports.useCallback(async (columnKey, width, currentWidths) => {
-      if (onBlockId) {
-        try {
-          const currentBlock = await logseqAPI$1.Editor.getBlock(onBlockId);
-          if (currentBlock) {
-            const content = currentBlock.content || "";
-            const newWidths = {
-              ...currentWidths,
-              [columnKey]: width
-            };
-            const updatedContent = updateBlockViewArgs(content, {
-              colWidths: JSON.stringify(newWidths)
-            });
-            await logseqAPI$1.Editor.updateBlock(onBlockId, updatedContent);
-            loggerProxy.debug("[BlockView] Column width updated", { onBlockId, columnKey, width });
-          }
-        } catch (err) {
-          loggerProxy.error("[BlockView] Failed to update column width:", err);
-        }
-      }
-    }, [onBlockId]);
-    const renderContent = () => {
-      switch (currentViewType) {
-        case "table":
-          return /* @__PURE__ */ jsxRuntimeExports.jsx(
-            TableView,
-            {
-              blocks,
-              config: config.table || {
-                theme: "default",
-                showRowStriped: true,
-                showBorder: true,
-                columnWidths: config.table?.columnWidths
-              },
-              onColumnWidthChange: (columnKey, width) => handleTableColumnWidthChange(columnKey, width, config.table?.columnWidths)
-            }
-          );
-        case "list":
-        case "card":
-        case "timeline":
-          return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ttk-block-view-placeholder", children: [
-            currentViewType,
-            " 视图开发中..."
-          ] });
-        default:
-          return null;
-      }
-    };
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ttk-block-view-container", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ttk-block-view-viewbar", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            className: `ttk-block-view-viewbar-btn ${currentViewType === "table" ? "active" : ""}`,
-            onClick: () => handleViewTypeChange("table"),
-            children: "表格"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            className: `ttk-block-view-viewbar-btn ${currentViewType === "list" ? "active" : ""}`,
-            onClick: () => handleViewTypeChange("list"),
-            children: "列表"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            className: `ttk-block-view-viewbar-btn ${currentViewType === "card" ? "active" : ""}`,
-            onClick: () => handleViewTypeChange("card"),
-            children: "卡片"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            className: `ttk-block-view-viewbar-btn ${currentViewType === "timeline" ? "active" : ""}`,
-            onClick: () => handleViewTypeChange("timeline"),
-            children: "时间线"
-          }
-        )
-      ] }),
-      renderContent()
-    ] });
-  };
-
-  const sampleBlocks = [
-    {
-      "block/uuid": "6a027ff3-6924-40ff-8847-aa24c68d0b34",
-      "block/marker": "TODO",
-      "block/content": "创建块数: 156",
-      "block/page": { "block/name": "周度总结 - 2026年第19周" },
-      "block/created-at": Date.now() - 864e5 * 3,
-      "block/updated-at": Date.now() - 864e5 * 2
-    },
-    {
-      "block/uuid": "6a027ff3-0cc1-4be3-9656-ac3eedf104d3",
-      "block/marker": "DONE",
-      "block/content": "完成任务: 28 / 35",
-      "block/page": { "block/name": "周度总结 - 2026年第19周" },
-      "block/created-at": Date.now() - 864e5 * 2,
-      "block/updated-at": Date.now() - 864e5
-    },
-    {
-      "block/uuid": "6a027ff3-6174-401b-bf41-57e0c947c46a",
-      "block/marker": "DOING",
-      "block/content": "活跃天数: 6 / 7",
-      "block/page": { "block/name": "周度总结 - 2026年第19周" },
-      "block/created-at": Date.now() - 864e5,
-      "block/updated-at": Date.now() - 36e5
-    },
-    {
-      "block/uuid": "6a027ff3-400e-467b-8018-a1701c7cc22e",
-      "block/marker": "TODO",
-      "block/content": "新增页面: 12",
-      "block/page": { "block/name": "周度总结 - 2026年第19周" },
-      "block/created-at": Date.now() - 36e5,
-      "block/updated-at": Date.now() - 18e5
-    },
-    {
-      "block/uuid": "6a027ff3-fbf0-4989-871b-ed6afca27c4a",
-      "block/marker": "WAITING",
-      "block/content": "活跃度热力图 - 展示本周活跃情况",
-      "block/page": { "block/name": "周度总结 - 2026年第19周" },
-      "block/created-at": Date.now() - 18e5,
-      "block/updated-at": Date.now() - 6e4
-    }
-  ];
-  const BlockViewDemo = () => {
-    const config = {
-      viewType: "table",
-      table: {
-        theme: "default",
-        showRowStriped: true,
-        showBorder: true
-      }
-    };
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "block-view-demo", style: { marginTop: "24px", padding: "16px", backgroundColor: "#e3f2fd", borderRadius: "8px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 16px 0" }, children: "📊 Block View 演示" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginBottom: "12px", fontSize: "12px", color: "#666" }, children: "示例数据来自 Logseq 真实块结构，包含 marker、content、page、createdAt、updatedAt 等字段" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "block-view-demo-container", style: { backgroundColor: "#fff", padding: "12px", borderRadius: "6px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        BlockView,
-        {
-          blocks: sampleBlocks,
-          config,
-          onBlockId: "demo-block-id"
-        }
-      ) })
     ] });
   };
 
@@ -20609,7 +20021,53 @@ ${where}
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(HeatmapDemo, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockViewDemo, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+        marginTop: "24px",
+        padding: "16px",
+        backgroundColor: "#e3f2fd",
+        borderRadius: "8px"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 16px 0" }, children: "📋 BlockView 说明" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "BlockView 通过以下方式启用：" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { style: { margin: "12px 0", paddingLeft: "20px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+            "在 Logseq 块中使用宏：",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("code", { children: `{{renderer :blockview}}` })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "通过 Settings 配置默认视图和隐藏视图切换栏" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "点击视图按钮会自动保存到宏参数中" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: "12px", color: "#666" }, children: "视图切换 Bar 会显示在块上方，应用相应 CSS 类来调整子块显示。" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+        marginTop: "16px",
+        padding: "16px",
+        backgroundColor: "#f5f5f5",
+        borderRadius: "8px"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 16px 0" }, children: "📊 真实 Block 结构示例 (来自 test.html)" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "创建块数:" }),
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#1976d2", fontWeight: "bold" }, children: "156" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "完成任务:" }),
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#388e3c", fontWeight: "bold" }, children: "28 / 35" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "活跃天数:" }),
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#f57c00", fontWeight: "bold" }, children: "6 / 7" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "新增页面:" }),
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#7b1fa2", fontWeight: "bold" }, children: "12" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: "12px", color: "#666" }, children: "真实 Block 结构包含 marker、content、page、created-at、updated-at 等字段，可根据宏命令参数调整视图样式。" })
+      ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryDemo, { onGenerateSuccess: handleSummaryGenerate })
     ] });
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "app-container", className: `app ${settings?.theme === "dark" ? "dark-mode" : "light-mode"}`, children: [
@@ -23065,14 +22523,9 @@ ${where}
   }
 
   function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }) {
-    const blockViewSettings = settings.blockView || {
-      enabled: true,
-      defaultViewType: "table",
-      table: {
-        defaultTheme: "default",
-        defaultShowStriped: true,
-        defaultShowBorder: true
-      }
+    const blockViewSettings = settings?.blockView || {
+      defaultView: "list",
+      hideViewBar: false
     };
     const handleSettingChange = (key, value) => {
       setSettings((prev) => {
@@ -23086,180 +22539,47 @@ ${where}
         };
       });
     };
-    const handleTableSettingChange = (key, value) => {
-      setSettings((prev) => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          blockView: {
-            ...blockViewSettings,
-            table: {
-              ...blockViewSettings.table,
-              [key]: value
-            }
-          }
-        };
-      });
-    };
-    const handleCustomThemeChange = (key, value) => {
-      handleTableSettingChange("customTheme", {
-        ...blockViewSettings.table.customTheme,
-        [key]: value
-      });
-    };
-    const viewTypeOptions = [
-      { value: "table", label: language?.startsWith("zh") ? "表格" : "Table" },
-      { value: "list", label: language?.startsWith("zh") ? "列表" : "List" },
-      { value: "card", label: language?.startsWith("zh") ? "卡片" : "Card" },
-      { value: "timeline", label: language?.startsWith("zh") ? "时间线" : "Timeline" }
+    const viewOptions = [
+      { value: "list", label: language?.startsWith("zh") ? "List" : "List" },
+      { value: "table", label: language?.startsWith("zh") ? "Table" : "Table" },
+      { value: "gallery", label: language?.startsWith("zh") ? "Gallery" : "Gallery" },
+      { value: "board", label: language?.startsWith("zh") ? "Board" : "Board" }
     ];
-    const themeOptions = [
-      { value: "default", label: language?.startsWith("zh") ? "默认" : "Default" },
-      { value: "notion", label: "Notion" },
-      { value: "linear", label: "Linear" },
-      { value: "dark", label: language?.startsWith("zh") ? "深色" : "Dark" },
-      { value: "gradient", label: language?.startsWith("zh") ? "渐变" : "Gradient" },
-      { value: "custom", label: language?.startsWith("zh") ? "自定义" : "Custom" }
-    ];
-    const isCustomTheme = blockViewSettings.table.defaultTheme === "custom";
-    const activeCustomTheme = isCustomTheme ? { ...PRESET_THEMES.default, ...blockViewSettings.table.customTheme } : PRESET_THEMES.default;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: language?.startsWith("zh") ? "块视图用于以不同方式展示子块，如表格、列表等。" : "Block view for displaying child blocks in different ways, such as tables, lists, etc." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: language?.startsWith("zh") ? "配置 Block 视图设置" : "Configure block view settings" }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "启用" : "Enabled" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "checkbox",
-              checked: blockViewSettings.enabled,
-              onChange: (e) => handleSettingChange("enabled", e.target.checked)
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "默认视图类型" : "Default View Type" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "默认视图" : "Default view" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           CustomSelect,
           {
-            options: viewTypeOptions,
-            value: blockViewSettings.defaultViewType,
-            onChange: (value) => handleSettingChange("defaultViewType", value)
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-section-title", style: { marginTop: "24px", marginBottom: "12px", fontWeight: 600, fontSize: "14px" }, children: language?.startsWith("zh") ? "表格设置" : "Table Settings" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "默认主题" : "Default Theme" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          CustomSelect,
-          {
-            options: themeOptions,
-            value: blockViewSettings.table.defaultTheme,
-            onChange: (value) => handleTableSettingChange("defaultTheme", value)
+            options: viewOptions,
+            value: blockViewSettings.defaultView,
+            onChange: (value) => handleSettingChange("defaultView", value)
           }
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "显示斑马线" : "Show Striped Rows" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "隐藏视图切换栏" : "Hide view switcher bar" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "checkbox",
-              checked: blockViewSettings.table.defaultShowStriped,
-              onChange: (e) => handleTableSettingChange("defaultShowStriped", e.target.checked)
+              checked: blockViewSettings.hideViewBar,
+              onChange: (e) => handleSettingChange("hideViewBar", e.target.checked)
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "显示边框" : "Show Border" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "checkbox",
-              checked: blockViewSettings.table.defaultShowBorder,
-              onChange: (e) => handleTableSettingChange("defaultShowBorder", e.target.checked)
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
-        ] })
-      ] }),
-      isCustomTheme && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-section-title", style: { marginTop: "24px", marginBottom: "12px", fontWeight: 600, fontSize: "14px" }, children: language?.startsWith("zh") ? "自定义主题颜色" : "Custom Theme Colors" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "边框颜色" : "Border Color" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "color",
-              value: activeCustomTheme.borderColor,
-              onChange: (e) => handleCustomThemeChange("borderColor", e.target.value),
-              style: { width: "32px", height: "24px", padding: "0", border: "1px solid var(--ls-border-color-plugin, #ccc)", borderRadius: "4px", cursor: "pointer" }
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "表头背景" : "Header Background" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "color",
-              value: activeCustomTheme.headerBgColor,
-              onChange: (e) => handleCustomThemeChange("headerBgColor", e.target.value),
-              style: { width: "32px", height: "24px", padding: "0", border: "1px solid var(--ls-border-color-plugin, #ccc)", borderRadius: "4px", cursor: "pointer" }
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "表头文字" : "Header Text" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "color",
-              value: activeCustomTheme.headerTextColor,
-              onChange: (e) => handleCustomThemeChange("headerTextColor", e.target.value),
-              style: { width: "32px", height: "24px", padding: "0", border: "1px solid var(--ls-border-color-plugin, #ccc)", borderRadius: "4px", cursor: "pointer" }
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "行背景" : "Row Background" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "color",
-              value: activeCustomTheme.rowBgColor,
-              onChange: (e) => handleCustomThemeChange("rowBgColor", e.target.value),
-              style: { width: "32px", height: "24px", padding: "0", border: "1px solid var(--ls-border-color-plugin, #ccc)", borderRadius: "4px", cursor: "pointer" }
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "行悬停背景" : "Row Hover Background" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "color",
-              value: activeCustomTheme.rowHoverBgColor,
-              onChange: (e) => handleCustomThemeChange("rowHoverBgColor", e.target.value),
-              style: { width: "32px", height: "24px", padding: "0", border: "1px solid var(--ls-border-color-plugin, #ccc)", borderRadius: "4px", cursor: "pointer" }
-            }
-          )
-        ] })
-      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { margin: "-8px 0 16px 0", fontSize: "12px", color: "var(--ls-secondary-text-color-plugin, #999)", lineHeight: 1.4 }, children: language?.startsWith("zh") ? "隐藏视图切换栏后，将使用默认视图展示，仍然可以通过修改宏参数 view=xxx 来切换视图" : "When view switcher bar is hidden, default view will be used. You can still switch views by modifying the macro parameter view=xxx" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
           className: "ltt-settings-btn ltt-settings-btn-save",
           onClick: onSave,
           disabled: isSaving,
-          children: isSaving ? t("settings.saving", language) : language?.startsWith("zh") ? "保存块视图设置" : "Save Block View Settings"
+          children: isSaving ? t("settings.saving", language) : language?.startsWith("zh") ? "保存设置" : "Save Settings"
         }
       ) })
     ] });
@@ -23305,21 +22625,24 @@ ${where}
     }
     const language = settings.language || "zh-CN";
     const tabs = [
-      { id: "general", component: GeneralSettings, label: t("settings.tabs.general", language) },
-      { id: "toolbar", component: ToolbarSettings, label: t("settings.tabs.toolbar", language) },
-      { id: "task-progress", component: TaskProgressSettings, label: t("settings.tabs.taskProgress", language) },
-      { id: "heatmap", component: HeatmapSettings, label: t("settings.tabs.heatmap", language) },
-      { id: "block-view", component: BlockViewSettings, label: language?.startsWith("zh") ? "块视图" : "Block View" },
-      { id: "advanced", component: AdvancedSettings, label: t("settings.tabs.advanced", language) }
+      { id: "general", component: GeneralSettings, label: t("settings.tabs.general", language), icon: "⚙️" },
+      { id: "toolbar", component: ToolbarSettings, label: t("settings.tabs.toolbar", language), icon: "🔧" },
+      { id: "task-progress", component: TaskProgressSettings, label: t("settings.tabs.taskProgress", language), icon: "📊" },
+      { id: "heatmap", component: HeatmapSettings, label: t("settings.tabs.heatmap", language), icon: "🌡️" },
+      { id: "block-view", component: BlockViewSettings, label: language?.startsWith("zh") ? "块视图" : "Block View", icon: "📋" },
+      { id: "advanced", component: AdvancedSettings, label: t("settings.tabs.advanced", language), icon: "⚡" }
     ];
     const TabComponent = tabs.find((tab) => tab.id === activeTab)?.component;
     return /* @__PURE__ */ jsxRuntimeExports.jsx(Modal, { isOpen, onClose, title: t("settings.title", language), theme, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-container", "data-theme": theme, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-tabs", children: tabs.map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-tabs", children: tabs.map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "button",
         {
           className: `ltt-settings-tab ${activeTab === tab.id ? "active" : ""}`,
           onClick: () => setActiveTab(tab.id),
-          children: tab.label
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { marginRight: "4px" }, children: tab.icon }),
+            tab.label
+          ]
         },
         tab.id
       )) }) }),
@@ -23336,9 +22659,9 @@ ${where}
     ] }) });
   }
 
-  const MACRO_PREFIX = ":taskprogress";
-  const PLUGIN_ID = "text-toolkit-taskprogress";
-  registerRendererArgModel(MACRO_PREFIX, { positional: ["display", "size"] });
+  const MACRO_PREFIX$1 = ":taskprogress";
+  const PLUGIN_ID$1 = "text-toolkit-taskprogress";
+  registerRendererArgModel(MACRO_PREFIX$1, { positional: ["display", "size"] });
   const DISPLAY_TYPE_MAP = {
     "mini-circle": "mini-circle",
     "minicircle": "mini-circle",
@@ -23368,14 +22691,14 @@ ${where}
       const argMap = type ? parseRendererArgs(type, split?.tokens || []) : {};
       const displayTypeArg = argMap.display;
       const sizeArg = argMap.size;
-      if (!type || !type.startsWith(MACRO_PREFIX)) {
+      if (!type || !type.startsWith(MACRO_PREFIX$1)) {
         return;
       }
       let blockId = null;
-      if (type === MACRO_PREFIX) {
+      if (type === MACRO_PREFIX$1) {
         blockId = payload.uuid;
       } else {
-        blockId = type.substring(MACRO_PREFIX.length + 1);
+        blockId = type.substring(MACRO_PREFIX$1.length + 1);
       }
       if (blockId) {
         loggerProxy.debug("📊 TaskProgress: Rendering progress", { blockId, displayTypeArg });
@@ -23395,7 +22718,7 @@ ${where}
         const progressData = await calculateTaskProgress(blockId, { nestingLevel, onlyLeaves });
         if (!progressData) {
           logseqAPI$1.provideUI({
-            key: PLUGIN_ID + "__" + slot,
+            key: PLUGIN_ID$1 + "__" + slot,
             slot,
             reset: true,
             template: ""
@@ -23403,9 +22726,9 @@ ${where}
           return;
         }
         const lang = settings?.language || "zh-CN";
-        const containerId = PLUGIN_ID + slot;
+        const containerId = PLUGIN_ID$1 + slot;
         logseqAPI$1.provideUI({
-          key: PLUGIN_ID + "__" + slot,
+          key: PLUGIN_ID$1 + "__" + slot,
           slot,
           reset: true,
           template: `<div id="${containerId}"></div>`
@@ -23432,12 +22755,186 @@ ${where}
         const block = await logseqAPI$1.Editor.getCurrentBlock();
         if (block?.uuid) {
           await logseqAPI$1.Editor.insertAtEditingCursor(
-            `{{renderer ${MACRO_PREFIX}, display=mini-circle}}`
+            `{{renderer ${MACRO_PREFIX$1}, display=mini-circle}}`
           );
         }
       }
     );
     loggerProxy.info("✅ TaskProgress: Registered successfully");
+  }
+
+  const VIEW_ICONS = {
+    list: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+    <path d="M3 3.5h8"/><path d="M3 7h8"/><path d="M3 10.5h8"/>
+    <circle cx="1.5" cy="3.5" r=".5" fill="currentColor" stroke="none"/>
+    <circle cx="1.5" cy="7" r=".5" fill="currentColor" stroke="none"/>
+    <circle cx="1.5" cy="10.5" r=".5" fill="currentColor" stroke="none"/>
+  </svg>`,
+    table: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="1.5" y="2" width="11" height="10" rx="2"/>
+    <path d="M5 2v10"/><path d="M1.5 5.5h11"/>
+  </svg>`,
+    gallery: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="1.5" y="2" width="4" height="4" rx="1"/>
+    <rect x="8.5" y="2" width="4" height="4" rx="1"/>
+    <rect x="1.5" y="8" width="4" height="4" rx="1"/>
+    <rect x="8.5" y="8" width="4" height="4" rx="1"/>
+  </svg>`,
+    board: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="1.5" y="2" width="3" height="10" rx="1"/>
+    <rect x="5.5" y="2" width="3" height="7" rx="1"/>
+    <rect x="9.5" y="2" width="3" height="8" rx="1"/>
+  </svg>`
+  };
+  const VIEW_REGISTRY = {
+    "list": {
+      id: "list",
+      name: "List",
+      icon: VIEW_ICONS.list,
+      cssClass: "ltt-list-root"
+    },
+    "table": {
+      id: "table",
+      name: "Table",
+      icon: VIEW_ICONS.table,
+      cssClass: "ltt-table-root"
+    },
+    "gallery": {
+      id: "gallery",
+      name: "Gallery",
+      icon: VIEW_ICONS.gallery,
+      cssClass: "ltt-gallery-root"
+    },
+    "board": {
+      id: "board",
+      name: "Board",
+      icon: VIEW_ICONS.board,
+      cssClass: "ltt-board-root"
+    }
+  };
+
+  const MACRO_PREFIX = ":blockview";
+  const PLUGIN_ID = "text-toolkit-blockview";
+  registerRendererArgModel(MACRO_PREFIX, { positional: ["view"] });
+  const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
+  async function applyViewStyle(blockId, viewType) {
+    const doc = getDocument();
+    const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
+    if (!blockElement) {
+      loggerProxy.warn("[BlockView] Block element not found", { blockId });
+      return;
+    }
+    const VIEW_CLASSES = [
+      "ltt-list-root",
+      "ltt-table-root",
+      "ltt-gallery-root",
+      "ltt-board-root"
+    ];
+    blockElement.classList.remove(...VIEW_CLASSES);
+    const newClass = `ltt-${viewType}-root`;
+    if (!blockElement.classList.contains(newClass)) {
+      blockElement.classList.add(newClass);
+    }
+    loggerProxy.debug("[BlockView] View style applied", { blockId, viewType });
+  }
+  function getCurrentViewFromParams(tokens, defaultView) {
+    const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+    if (argMap.view && VIEW_REGISTRY[argMap.view]) {
+      return argMap.view;
+    }
+    for (const token of tokens) {
+      const t = token.trim().toLowerCase();
+      if (t && VIEW_REGISTRY[t]) {
+        return t;
+      }
+    }
+    return defaultView;
+  }
+  async function switchView(blockId, viewType) {
+    await applyViewStyle(blockId, viewType);
+    try {
+      const currentBlock = await logseqAPI$1.Editor.getBlock(blockId);
+      if (currentBlock?.content) {
+        const updatedContent = updateBlockViewArgs(currentBlock.content, { view: viewType });
+        if (updatedContent !== currentBlock.content) {
+          await logseqAPI$1.Editor.updateBlock(blockId, updatedContent);
+          loggerProxy.debug("[BlockView] Macro parameter updated", { blockId, viewType });
+        }
+      }
+    } catch (err) {
+      loggerProxy.error("[BlockView] Failed to update macro parameter", err);
+    }
+  }
+  function bindViewEvents(container, blockId) {
+    const buttons = container.querySelectorAll(".ltt-view-btn");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const viewType = btn.getAttribute("data-view");
+        if (!viewType) return;
+        buttons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        await switchView(blockId, viewType);
+      });
+    });
+  }
+  async function renderViewBar(blockId, slot, tokens) {
+    const doc = getDocument();
+    const containerId = `${PLUGIN_ID}__${slot}`;
+    const settings = await getSettingsWithSystem();
+    const blockViewSettings = settings?.blockView || { defaultView: "list", hideViewBar: false };
+    if (blockViewSettings.hideViewBar) {
+      const currentView2 = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
+      await applyViewStyle(blockId, currentView2);
+      return;
+    }
+    const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
+    const viewBarHtml = `
+    <div class="ltt-view-bar" data-block-id="${blockId}">
+      ${Object.values(VIEW_REGISTRY).map((view) => `
+        <button 
+          class="ltt-view-btn ${view.id === currentView ? "active" : ""}"
+          data-view="${view.id}"
+          title="${view.name}"
+        >
+          ${view.icon}
+          <span>${view.name}</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+    logseqAPI$1.provideUI({
+      key: containerId,
+      slot,
+      reset: true,
+      template: `<div id="${containerId}">${viewBarHtml}</div>`
+    });
+    await applyViewStyle(blockId, currentView);
+    setTimeout(() => {
+      const container = doc.getElementById(containerId);
+      if (container) {
+        bindViewEvents(container, blockId);
+      }
+    }, 1);
+  }
+  function registerBlockView() {
+    logseqAPI$1.App.onMacroRendererSlotted(async ({ payload, slot }) => {
+      const split = splitRendererArgs(payload.arguments);
+      const type = split?.type || "";
+      const tokens = split?.tokens || [];
+      if (!type.startsWith(MACRO_PREFIX)) return;
+      const blockId = payload.uuid;
+      loggerProxy.debug("[BlockView] Macro triggered", { blockId, type, tokens });
+      await renderViewBar(blockId, slot, tokens);
+    });
+    logseqAPI$1.Editor.registerSlashCommand(
+      "[Text Toolkit] Insert Block View",
+      async () => {
+        await logseqAPI$1.Editor.insertAtEditingCursor(
+          `{{renderer ${MACRO_PREFIX}}}`
+        );
+      }
+    );
+    loggerProxy.info("[BlockView] Registered successfully");
   }
 
   const summaryTypes = [
@@ -23637,7 +23134,7 @@ ${where}
 
   var summaryCSSRaw = ".ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: var(--ls-secondary-background-color, #f8f9fa) !important;\n  padding: 24px 16px !important;\n  border-radius: 12px !important;\n  text-align: center !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(25% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  transition: all 0.3s ease !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"]:hover {\n  transform: translateY(-4px) !important;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 24px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(50% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 200px !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] table {\n  width: 100% !important;\n  border-collapse: collapse !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] td {\n  padding: 8px 12px !important;\n  text-align: left !important;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(59, 130, 246, 0.08) !important;\n  font-weight: 600 !important;\n  font-size: 13px !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(96, 165, 250, 0.15) !important;\n}\n\n@media (max-width: 900px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(50% - 16px) !important;\n  }\n  \n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n@media (max-width: 500px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(100% - 16px) !important;\n  }\n}";
 
-  var blockViewCSSRaw = ".ttk-block-view-container {\n  padding: 8px 0;\n  position: relative;\n}\n\n.ttk-block-view-viewbar {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n  padding-bottom: 8px;\n  border-bottom: 1px solid #e5e7eb;\n}\n\n.ttk-block-view-viewbar-btn {\n  padding: 6px 12px;\n  border: 1px solid #d1d5db;\n  background: #ffffff;\n  border-radius: 6px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.ttk-block-view-viewbar-btn:hover {\n  border-color: #3b82f6;\n  color: #3b82f6;\n}\n\n.ttk-block-view-viewbar-btn.active {\n  background: #3b82f6;\n  color: #ffffff;\n  border-color: #3b82f6;\n}\n\n.ttk-block-view-table-container {\n  width: 100%;\n  overflow-x: auto;\n}\n\n.ttk-block-view-table {\n  width: 100%;\n}\n\n.ttk-block-view-resizer {\n  opacity: 0;\n  transition: opacity 0.2s;\n}\n\n.ttk-block-view-th:hover .ttk-block-view-resizer {\n  opacity: 1;\n}\n\n.ttk-block-view-resizer:hover,\n.ttk-block-view-resizer.active {\n  opacity: 1;\n  background-color: #3b82f6 !important;\n}\n";
+  var blockViewCSSRaw = ".ltt-view-bar {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 6px 10px;\n  margin-bottom: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 8px;\n  font-size: 12px;\n  width: fit-content;\n}\n\n.ltt-view-btn {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: white;\n  font-weight: 500;\n}\n\n.ltt-view-btn svg {\n  width: 14px;\n  height: 14px;\n  flex-shrink: 0;\n}\n\n/* 视图基础样式 */\n.ltt-list-root {\n}\n\n.ltt-table-root {\n}\n\n.ltt-gallery-root {\n}\n\n.ltt-board-root {\n}\n";
 
   const ID = {
     TOOLBAR: "text-toolkit-toolbar",
@@ -23802,7 +23299,6 @@ ${where}
     registerSummaryCommands();
   }
   async function initBlockView() {
-    setBlockViewComponent(BlockView);
     registerBlockView();
   }
 
