@@ -919,14 +919,7 @@
   	table: {
   		defaultTheme: "default",
   		defaultShowStriped: true,
-  		defaultShowBorder: true,
-  		defaultColumns: [
-  			"marker",
-  			"content",
-  			"page",
-  			"createdAt",
-  			"updatedAt"
-  		]
+  		defaultShowBorder: true
   	}
   };
   const meta = {
@@ -8645,6 +8638,26 @@ ${where}
     ] });
   };
 
+  async function getChildBlocks(blockUuid) {
+    try {
+      const block = await logseqAPI$1.Editor.getBlock(blockUuid);
+      if (!block) {
+        loggerProxy.warn("[BlockView] Block not found", { blockUuid });
+        return [];
+      }
+      const children = await logseqAPI$1.DB.q(
+        `[:find (pull ?b [*])
+        :where
+        [?b :block/parent ?parent]
+        [(= ?parent [:block/uuid "${blockUuid}"])]]`
+      );
+      return children.map((result) => result[0]);
+    } catch (err) {
+      loggerProxy.error("[BlockView] Query error", err);
+      return [];
+    }
+  }
+
   const VIEW_TYPE_MAP = {
     "table": "table",
     "表格": "table",
@@ -8692,7 +8705,7 @@ ${where}
     },
     linear: {
       borderColor: "#e5e7eb",
-      headerBgColor: "#f9fafb",
+      headerBgColor: "#f9faff",
       headerTextColor: "#374151",
       headerBorderColor: "#e5e7eb",
       headerHeight: "36px",
@@ -8727,27 +8740,7 @@ ${where}
       tableBorderRadius: "12px"
     }
   };
-  const DEFAULT_COLUMNS = ["marker", "content", "page", "createdAt", "updatedAt"];
-
-  async function getChildBlocks(blockUuid) {
-    try {
-      const block = await logseqAPI$1.Editor.getBlock(blockUuid);
-      if (!block) {
-        loggerProxy.warn("[BlockView] Block not found", { blockUuid });
-        return [];
-      }
-      const children = await logseqAPI$1.DB.q(
-        `[:find (pull ?b [*])
-        :where
-        [?b :block/parent ?parent]
-        [(= ?parent [:block/uuid "${blockUuid}"])]]`
-      );
-      return children.map((result) => result[0]);
-    } catch (err) {
-      loggerProxy.error("[BlockView] Query error", err);
-      return [];
-    }
-  }
+  const DEFAULT_COLUMN_ORDER = ["marker", "content", "page", "createdAt", "updatedAt"];
 
   let BlockViewComponent = null;
   const MACRO_PREFIX$1 = ":block-view";
@@ -8767,7 +8760,6 @@ ${where}
     let theme = "default";
     let showStriped = true;
     let showBorder = true;
-    let showColumns = [...DEFAULT_COLUMNS];
     let columnWidths;
     if (argMap.view || argMap.viewType) {
       const viewVal = VIEW_TYPE_MAP[argMap.view || argMap.viewType || ""];
@@ -8782,9 +8774,6 @@ ${where}
     }
     if (argMap.border !== void 0) {
       showBorder = argMap.border === "true";
-    }
-    if (argMap.columns) {
-      showColumns = argMap.columns.split(",").map((c) => c.trim());
     }
     if (argMap.colWidths) {
       try {
@@ -8808,7 +8797,6 @@ ${where}
       theme,
       showStriped,
       showBorder,
-      showColumns,
       columnWidths
     };
   }
@@ -8822,7 +8810,6 @@ ${where}
       const resolvedTheme = parsedArgs.theme || settings?.blockView?.table?.defaultTheme || "default";
       const resolvedShowStriped = parsedArgs.showStriped ?? settings?.blockView?.table?.defaultShowStriped ?? true;
       const resolvedShowBorder = parsedArgs.showBorder ?? settings?.blockView?.table?.defaultShowBorder ?? true;
-      const resolvedShowColumns = parsedArgs.showColumns || settings?.blockView?.table?.defaultColumns || DEFAULT_COLUMNS;
       const resolvedCustomTheme = resolvedTheme === "custom" ? { ...PRESET_THEMES.default, ...settings?.blockView?.table?.customTheme } : void 0;
       const blocks = blockUuid ? await getChildBlocks(blockUuid) : [];
       if (!BlockViewComponent) {
@@ -8835,7 +8822,6 @@ ${where}
           theme: resolvedTheme,
           showRowStriped: resolvedShowStriped,
           showBorder: resolvedShowBorder,
-          showColumns: resolvedShowColumns,
           customTheme: resolvedCustomTheme,
           columnWidths: parsedArgs.columnWidths
         }
@@ -8904,7 +8890,7 @@ ${where}
       }
       return PRESET_THEMES[config.theme] || PRESET_THEMES.default;
     }, [config.theme, config.customTheme]);
-    const columnsToShow = config.showColumns || DEFAULT_COLUMNS;
+    const columnsToShow = DEFAULT_COLUMN_ORDER;
     const handleMouseDown = (e, columnKey, initialWidth) => {
       e.preventDefault();
       setIsResizing(columnKey);
@@ -9115,7 +9101,6 @@ ${where}
                 theme: "default",
                 showRowStriped: true,
                 showBorder: true,
-                showColumns: DEFAULT_COLUMNS,
                 columnWidths: config.table?.columnWidths
               },
               onColumnWidthChange: (columnKey, width) => handleTableColumnWidthChange(columnKey, width, config.table?.columnWidths)
@@ -9173,42 +9158,42 @@ ${where}
 
   const sampleBlocks = [
     {
-      "block/uuid": "block-1",
-      "block/marker": "DONE",
-      "block/content": "完成项目计划文档 #task",
-      "block/page": { "block/name": "Text Toolkit" },
+      "block/uuid": "6a027ff3-6924-40ff-8847-aa24c68d0b34",
+      "block/marker": "TODO",
+      "block/content": "创建块数: 156",
+      "block/page": { "block/name": "周度总结 - 2026年第19周" },
       "block/created-at": Date.now() - 864e5 * 3,
       "block/updated-at": Date.now() - 864e5 * 2
     },
     {
-      "block/uuid": "block-2",
-      "block/marker": "TODO",
-      "block/content": "设计UI界面原型 #task",
-      "block/page": { "block/name": "Text Toolkit" },
+      "block/uuid": "6a027ff3-0cc1-4be3-9656-ac3eedf104d3",
+      "block/marker": "DONE",
+      "block/content": "完成任务: 28 / 35",
+      "block/page": { "block/name": "周度总结 - 2026年第19周" },
       "block/created-at": Date.now() - 864e5 * 2,
       "block/updated-at": Date.now() - 864e5
     },
     {
-      "block/uuid": "block-3",
+      "block/uuid": "6a027ff3-6174-401b-bf41-57e0c947c46a",
       "block/marker": "DOING",
-      "block/content": "实现核心功能模块 #task",
-      "block/page": { "block/name": "Text Toolkit" },
+      "block/content": "活跃天数: 6 / 7",
+      "block/page": { "block/name": "周度总结 - 2026年第19周" },
       "block/created-at": Date.now() - 864e5,
       "block/updated-at": Date.now() - 36e5
     },
     {
-      "block/uuid": "block-4",
-      "block/marker": "WAITING",
-      "block/content": "编写测试用例 #task",
-      "block/page": { "block/name": "Text Toolkit" },
+      "block/uuid": "6a027ff3-400e-467b-8018-a1701c7cc22e",
+      "block/marker": "TODO",
+      "block/content": "新增页面: 12",
+      "block/page": { "block/name": "周度总结 - 2026年第19周" },
       "block/created-at": Date.now() - 36e5,
       "block/updated-at": Date.now() - 18e5
     },
     {
-      "block/uuid": "block-5",
-      "block/marker": "TODO",
-      "block/content": "部署到生产环境 #task",
-      "block/page": { "block/name": "Text Toolkit" },
+      "block/uuid": "6a027ff3-fbf0-4989-871b-ed6afca27c4a",
+      "block/marker": "WAITING",
+      "block/content": "活跃度热力图 - 展示本周活跃情况",
+      "block/page": { "block/name": "周度总结 - 2026年第19周" },
       "block/created-at": Date.now() - 18e5,
       "block/updated-at": Date.now() - 6e4
     }
@@ -9219,19 +9204,12 @@ ${where}
       table: {
         theme: "default",
         showRowStriped: true,
-        showBorder: true,
-        showColumns: ["marker", "content", "page", "createdAt", "updatedAt"],
-        columnWidths: {
-          marker: 60,
-          content: 300,
-          page: 120,
-          createdAt: 150,
-          updatedAt: 150
-        }
+        showBorder: true
       }
     };
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "block-view-demo", style: { marginTop: "24px", padding: "16px", backgroundColor: "#e3f2fd", borderRadius: "8px" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 16px 0" }, children: "📊 Block View 演示" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginBottom: "12px", fontSize: "12px", color: "#666" }, children: "示例数据来自 Logseq 真实块结构，包含 marker、content、page、createdAt、updatedAt 等字段" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "block-view-demo-container", style: { backgroundColor: "#fff", padding: "12px", borderRadius: "6px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         BlockView,
         {
@@ -23093,8 +23071,7 @@ ${where}
       table: {
         defaultTheme: "default",
         defaultShowStriped: true,
-        defaultShowBorder: true,
-        defaultColumns: ["marker", "content", "page", "createdAt", "updatedAt"]
+        defaultShowBorder: true
       }
     };
     const handleSettingChange = (key, value) => {
@@ -23144,20 +23121,8 @@ ${where}
       { value: "gradient", label: language?.startsWith("zh") ? "渐变" : "Gradient" },
       { value: "custom", label: language?.startsWith("zh") ? "自定义" : "Custom" }
     ];
-    const columnOptions = [
-      { value: "marker", label: language?.startsWith("zh") ? "状态" : "Status" },
-      { value: "content", label: language?.startsWith("zh") ? "内容" : "Content" },
-      { value: "page", label: language?.startsWith("zh") ? "页面" : "Page" },
-      { value: "createdAt", label: language?.startsWith("zh") ? "创建时间" : "Created At" },
-      { value: "updatedAt", label: language?.startsWith("zh") ? "更新时间" : "Updated At" }
-    ];
     const isCustomTheme = blockViewSettings.table.defaultTheme === "custom";
     const activeCustomTheme = isCustomTheme ? { ...PRESET_THEMES.default, ...blockViewSettings.table.customTheme } : PRESET_THEMES.default;
-    const handleColumnToggle = (column, checked) => {
-      const currentColumns = blockViewSettings.table.defaultColumns || [];
-      const newColumns = checked ? [...currentColumns, column] : currentColumns.filter((c) => c !== column);
-      handleTableSettingChange("defaultColumns", newColumns);
-    };
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: language?.startsWith("zh") ? "块视图用于以不同方式展示子块，如表格、列表等。" : "Block view for displaying child blocks in different ways, such as tables, lists, etc." }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
@@ -23224,20 +23189,6 @@ ${where}
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
         ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: language?.startsWith("zh") ? "显示列" : "Show Columns" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", flexDirection: "column", gap: "8px", marginTop: "8px" }, children: columnOptions.map((col) => /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "checkbox",
-              checked: (blockViewSettings.table.defaultColumns || []).includes(col.value),
-              onChange: (e) => handleColumnToggle(col.value, e.target.checked)
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: col.label })
-        ] }, col.value)) })
       ] }),
       isCustomTheme && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-section-title", style: { marginTop: "24px", marginBottom: "12px", fontWeight: 600, fontSize: "14px" }, children: language?.startsWith("zh") ? "自定义主题颜色" : "Custom Theme Colors" }),
