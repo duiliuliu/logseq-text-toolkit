@@ -15,7 +15,7 @@ import {
   VIEW_TYPE_MAP,
   TABLE_THEME_MAP,
   PRESET_THEMES,
-  DEFAULT_COLUMNS,
+  DEFAULT_COLUMN_ORDER,
   CustomTableTheme
 } from './types';
 import type {
@@ -55,8 +55,6 @@ interface ParsedMacroArgs {
   theme: TableTheme;
   showStriped: boolean;
   showBorder: boolean;
-  showColumns: string[];
-  customTheme?: CustomTableTheme;
   columnWidths?: ColumnWidths;
 }
 
@@ -69,7 +67,6 @@ function parseMacroArguments(
   let theme: TableTheme = 'default';
   let showStriped = true;
   let showBorder = true;
-  let showColumns = [...DEFAULT_COLUMNS];
   let columnWidths: ColumnWidths | undefined;
 
   // 从 argMap 读取
@@ -86,9 +83,6 @@ function parseMacroArguments(
   }
   if (argMap.border !== undefined) {
     showBorder = argMap.border === 'true';
-  }
-  if (argMap.columns) {
-    showColumns = argMap.columns.split(',').map(c => c.trim());
   }
   if (argMap.colWidths) {
     try {
@@ -117,7 +111,6 @@ function parseMacroArguments(
     theme,
     showStriped,
     showBorder,
-    showColumns,
     columnWidths
   };
 }
@@ -143,8 +136,6 @@ async function renderBlockView(
       parsedArgs.showStriped ?? settings?.blockView?.table?.defaultShowStriped ?? true;
     const resolvedShowBorder =
       parsedArgs.showBorder ?? settings?.blockView?.table?.defaultShowBorder ?? true;
-    const resolvedShowColumns =
-      parsedArgs.showColumns || settings?.blockView?.table?.defaultColumns || DEFAULT_COLUMNS;
     const resolvedCustomTheme =
       (resolvedTheme === 'custom'
         ? { ...PRESET_THEMES.default, ...settings?.blockView?.table?.customTheme }
@@ -164,7 +155,6 @@ async function renderBlockView(
         theme: resolvedTheme,
         showRowStriped: resolvedShowStriped,
         showBorder: resolvedShowBorder,
-        showColumns: resolvedShowColumns,
         customTheme: resolvedCustomTheme,
         columnWidths: parsedArgs.columnWidths
       }

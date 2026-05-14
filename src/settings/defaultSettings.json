@@ -55,8 +55,7 @@
     "table": {
       "defaultTheme": "default",
       "defaultShowStriped": true,
-      "defaultShowBorder": true,
-      "defaultColumns": ["marker", "content", "page", "createdAt", "updatedAt"]
+      "defaultShowBorder": true
     }
   },
   "meta": {

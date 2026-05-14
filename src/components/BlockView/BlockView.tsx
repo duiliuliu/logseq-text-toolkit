@@ -2,14 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { BlockEntity } from '../../lib/heatmap/types';
 import {
   BlockViewType,
-  BlockViewConfig,
-  VIEW_TYPE_MAP,
-  PRESET_THEMES,
-  DEFAULT_COLUMNS
+  BlockViewConfig
 } from '../../lib/blockView/types';
 import { updateBlockViewArgs } from '../../lib/blockView/register';
 import { logseqAPI } from '../../logseq';
-import { getDocument } from '../../logseq/utils';
 import logger from '../../lib/logger';
 import TableView from './TableView';
 import './blockView.css';
@@ -82,7 +78,6 @@ const BlockView: React.FC<BlockViewProps> = ({
               theme: 'default',
               showRowStriped: true,
               showBorder: true,
-              showColumns: DEFAULT_COLUMNS,
               columnWidths: config.table?.columnWidths
             }}
             onColumnWidthChange={(columnKey: string, width: number) => 
@@ -93,7 +88,6 @@ const BlockView: React.FC<BlockViewProps> = ({
       case 'list':
       case 'card':
       case 'timeline':
-        // TODO: 实现其他视图
         return (
           <div className="ttk-block-view-placeholder">
             {currentViewType} 视图开发中...
@@ -106,7 +100,6 @@ const BlockView: React.FC<BlockViewProps> = ({
 
   return (
     <div className="ttk-block-view-container">
-      {/* View type bar - 视图切换条 */}
       <div className="ttk-block-view-viewbar">
         <button
           className={`ttk-block-view-viewbar-btn ${
@@ -142,7 +135,6 @@ const BlockView: React.FC<BlockViewProps> = ({
         </button>
       </div>
 
-      {/* Render content - 渲染内容 */}
       {renderContent()}
     </div>
   );

@@ -19,7 +19,6 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
       defaultTheme: 'default',
       defaultShowStriped: true,
       defaultShowBorder: true,
-      defaultColumns: ['marker', 'content', 'page', 'createdAt', 'updatedAt'],
     },
   }
 
@@ -75,26 +74,10 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
     { value: 'custom', label: language?.startsWith('zh') ? '自定义' : 'Custom' },
   ]
 
-  const columnOptions = [
-    { value: 'marker', label: language?.startsWith('zh') ? '状态' : 'Status' },
-    { value: 'content', label: language?.startsWith('zh') ? '内容' : 'Content' },
-    { value: 'page', label: language?.startsWith('zh') ? '页面' : 'Page' },
-    { value: 'createdAt', label: language?.startsWith('zh') ? '创建时间' : 'Created At' },
-    { value: 'updatedAt', label: language?.startsWith('zh') ? '更新时间' : 'Updated At' },
-  ]
-
   const isCustomTheme = blockViewSettings.table.defaultTheme === 'custom'
   const activeCustomTheme = isCustomTheme
     ? { ...PRESET_THEMES.default, ...blockViewSettings.table.customTheme }
     : PRESET_THEMES.default
-
-  const handleColumnToggle = (column: string, checked: boolean) => {
-    const currentColumns = blockViewSettings.table.defaultColumns || []
-    const newColumns = checked
-      ? [...currentColumns, column]
-      : currentColumns.filter(c => c !== column)
-    handleTableSettingChange('defaultColumns', newColumns)
-  }
 
   return (
     <div className="ltt-settings-tab-content">
@@ -160,22 +143,6 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           />
           <span className="ltt-switch-slider"></span>
         </label>
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{language?.startsWith('zh') ? '显示列' : 'Show Columns'}</label>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
-          {columnOptions.map((col) => (
-            <label key={col.value} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={(blockViewSettings.table.defaultColumns || []).includes(col.value)}
-                onChange={(e) => handleColumnToggle(col.value, e.target.checked)}
-              />
-              <span>{col.label}</span>
-            </label>
-          ))}
-        </div>
       </div>
 
       {isCustomTheme && (

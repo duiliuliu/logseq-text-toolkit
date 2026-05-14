@@ -3,7 +3,7 @@ import { BlockEntity } from '../../lib/heatmap/types';
 import {
   TableConfig,
   PRESET_THEMES,
-  DEFAULT_COLUMNS
+  DEFAULT_COLUMN_ORDER
 } from '../../lib/blockView/types';
 import './blockView.css';
 
@@ -35,8 +35,8 @@ const TableView: React.FC<TableViewProps> = ({
     return PRESET_THEMES[config.theme as keyof typeof PRESET_THEMES] || PRESET_THEMES.default;
   }, [config.theme, config.customTheme]);
 
-  // Column display config - 列显示配置
-  const columnsToShow = config.showColumns || DEFAULT_COLUMNS;
+  // Column display order - 列显示顺序
+  const columnsToShow = DEFAULT_COLUMN_ORDER;
 
   // Resize handlers - 调整大小处理
   const handleMouseDown = (e: React.MouseEvent, columnKey: string, initialWidth: number) => {

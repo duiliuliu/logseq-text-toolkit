@@ -10,7 +10,7 @@ export type TableTheme = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' |
 
 // Column width configuration - 列宽配置
 export interface ColumnWidths {
-  [columnKey: string]: number; // key 是列的标识符（如 'content'、'page'、'createdAt'、'updatedAt'、'marker' 等
+  [columnKey: string]: number;
 }
 
 // Custom theme colors - 自定义主题颜色
@@ -32,7 +32,6 @@ export interface TableConfig {
   theme: TableTheme;
   showRowStriped?: boolean;
   showBorder?: boolean;
-  showColumns?: string[];
   customTheme?: CustomTableTheme;
   columnWidths?: ColumnWidths;
 }
@@ -73,7 +72,6 @@ export interface BlockViewSettings {
     defaultTheme: TableTheme;
     defaultShowStriped: boolean;
     defaultShowBorder: boolean;
-    defaultColumns: string[];
     customTheme?: CustomTableTheme;
   };
 }
@@ -130,7 +128,7 @@ export const PRESET_THEMES: Record<Exclude<TableTheme, 'custom'>, CustomTableThe
   },
   linear: {
     borderColor: '#e5e7eb',
-    headerBgColor: '#f9fafb',
+    headerBgColor: '#f9faff',
     headerTextColor: '#374151',
     headerBorderColor: '#e5e7eb',
     headerHeight: '36px',
@@ -166,5 +164,5 @@ export const PRESET_THEMES: Record<Exclude<TableTheme, 'custom'>, CustomTableThe
   }
 };
 
-// Column keys - 列键定义
-export const DEFAULT_COLUMNS = ['marker', 'content', 'page', 'createdAt', 'updatedAt'];
+// Default column order for display - 默认列顺序
+export const DEFAULT_COLUMN_ORDER = ['marker', 'content', 'page', 'createdAt', 'updatedAt'];
