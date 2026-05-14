@@ -23945,7 +23945,7 @@ ${where}
     ];
     const ColorInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", style: { flexDirection: "column", alignItems: "flex-start" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: label }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px", alignItems: "center", width: "100%" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "4px", alignItems: "center", width: "80%" }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
@@ -23962,7 +23962,7 @@ ${where}
             type: "text",
             value,
             onChange: (e) => onChange(e.target.value),
-            style: { flex: 1 }
+            style: { flex: 1, width: "26px" }
           }
         )
       ] })
@@ -23985,7 +23985,8 @@ ${where}
         {
           type: "number",
           value,
-          onChange: (e) => onChange(parseInt(e.target.value))
+          onChange: (e) => onChange(parseInt(e.target.value)),
+          style: { width: "80%" }
         }
       )
     ] });
