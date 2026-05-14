@@ -1,7 +1,7 @@
 import { logseqAPI } from '../../logseq';
 import { getDocument } from '../../logseq/utils';
 import { getSettingsWithSystem } from '../../settings';
-import { VIEW_REGISTRY, ViewType } from './types';
+import { VIEW_REGISTRY, ViewType, ThemeType } from './types';
 import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import { createRendererArgUpdater } from '../render/rendererArgs';
 import logger from '../logger';
@@ -13,7 +13,7 @@ registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] });
 
 const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
 
-async function applyViewStyle(blockId: string, viewType: ViewType): Promise<void> {
+async function applyViewStyle(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
   const doc = getDocument();
 
   const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
@@ -29,14 +29,29 @@ async function applyViewStyle(blockId: string, viewType: ViewType): Promise<void
     'ltt-board-root'
   ];
 
-  blockElement.classList.remove(...VIEW_CLASSES);
+  const THEME_CLASSES = [
+    'theme-default',
+    'theme-notion',
+    'theme-linear',
+    'theme-dark',
+    'theme-gradient',
+    'theme-tana',
+    'theme-custom'
+  ];
 
-  const newClass = `ltt-${viewType}-root`;
-  if (!blockElement.classList.contains(newClass)) {
-    blockElement.classList.add(newClass);
+  blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
+
+  const newViewClass = `ltt-${viewType}-root`;
+  if (!blockElement.classList.contains(newViewClass)) {
+    blockElement.classList.add(newViewClass);
   }
 
-  logger.debug('[BlockView] View style applied', { blockId, viewType });
+  const newThemeClass = `theme-${themeType}`;
+  if (!blockElement.classList.contains(newThemeClass)) {
+    blockElement.classList.add(newThemeClass);
+  }
+
+  logger.debug('[BlockView] View & theme applied', { blockId, viewType, themeType });
 }
 
 function getCurrentViewFromParams(tokens: string[], defaultView: ViewType): ViewType {
@@ -56,8 +71,18 @@ function getCurrentViewFromParams(tokens: string[], defaultView: ViewType): View
   return defaultView;
 }
 
-async function switchView(blockId: string, viewType: ViewType): Promise<void> {
-  await applyViewStyle(blockId, viewType);
+function getCurrentThemeFromParams(tokens: string[], defaultTheme: ThemeType): ThemeType {
+  const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+
+  if (argMap.theme && ['default', 'notion', 'linear', 'dark', 'gradient', 'tana', 'custom'].includes(argMap.theme)) {
+    return argMap.theme as ThemeType;
+  }
+
+  return defaultTheme;
+}
+
+async function switchView(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
+  await applyViewStyle(blockId, viewType, themeType);
 
   try {
     const currentBlock = await logseqAPI.Editor.getBlock(blockId);
@@ -73,7 +98,7 @@ async function switchView(blockId: string, viewType: ViewType): Promise<void> {
   }
 }
 
-function bindViewEvents(container: HTMLElement, blockId: string): void {
+function bindViewEvents(container: HTMLElement, blockId: string, themeType: ThemeType): void {
   const buttons = container.querySelectorAll('.ltt-view-btn');
 
   buttons.forEach(btn => {
@@ -84,7 +109,7 @@ function bindViewEvents(container: HTMLElement, blockId: string): void {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      await switchView(blockId, viewType);
+      await switchView(blockId, viewType, themeType);
     });
   });
 }
@@ -94,15 +119,19 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   const containerId = `${PLUGIN_ID}__${slot}`;
 
   const settings = await getSettingsWithSystem();
-  const blockViewSettings = settings?.blockView || { defaultView: 'list' as ViewType, hideViewBar: false };
-
-  if (blockViewSettings.hideViewBar) {
-    const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
-    await applyViewStyle(blockId, currentView);
-    return;
-  }
+  const blockViewSettings = settings?.blockView || { 
+    defaultView: 'list' as ViewType, 
+    defaultTheme: 'default' as ThemeType,
+    hideViewBar: false 
+  };
 
   const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
+  const currentTheme = getCurrentThemeFromParams(tokens, blockViewSettings.defaultTheme);
+
+  if (blockViewSettings.hideViewBar) {
+    await applyViewStyle(blockId, currentView, currentTheme);
+    return;
+  }
 
   const viewBarHtml = `
     <div class="ltt-view-bar" data-block-id="${blockId}">
@@ -126,12 +155,12 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
     template: `<div id="${containerId}">${viewBarHtml}</div>`,
   });
 
-  await applyViewStyle(blockId, currentView);
+  await applyViewStyle(blockId, currentView, currentTheme);
 
   setTimeout(() => {
     const container = doc.getElementById(containerId);
     if (container) {
-      bindViewEvents(container, blockId);
+      bindViewEvents(container, blockId, currentTheme);
     }
   }, 1);
 }
