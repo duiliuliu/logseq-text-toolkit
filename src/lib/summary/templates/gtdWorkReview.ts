@@ -14,9 +14,10 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
     this.analyzer = new DataAnalyzer();
   }
 
-  render(data: SummaryData, _params: Record<string, any>): BlockNode[] {
+  render(data: SummaryData, params: Record<string, any> = {}): BlockNode[] {
     const topTags = this.analyzer.getTopTags(data.blocks.tags);
-    const title = this.getTitle(data);
+    const summaryType = params.summaryType || 'weekly';
+    const title = this.getTitle(data, summaryType);
 
     return [
       {
@@ -97,15 +98,19 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
     ];
   }
 
-  private getTitle(data: SummaryData): string {
+  private getTitle(data: SummaryData, summaryType: SummaryType): string {
     const year = data.dateRange.start.getFullYear();
     const weekNum = this.analyzer.getWeekNumber(data.dateRange.start);
     const monthName = data.dateRange.start.toLocaleDateString('zh-CN', { month: 'long' });
 
-    if (this.supportedTypes.includes('weekly')) {
+    if (summaryType === 'weekly') {
       return `📊 周度总结 - ${year}年第${weekNum}周`;
+    } else if (summaryType === 'monthly') {
+      return `📊 月度总结 - ${year}年${monthName}`;
+    } else if (summaryType === 'yearly') {
+      return `📊 年度总结 - ${year}年`;
     }
-    return `📊 月度总结 - ${year}年${monthName}`;
+    return `📊 自定义总结`;
   }
 
   private renderPriorityDistribution(byPriority: Record<string, number>): BlockNode[] {

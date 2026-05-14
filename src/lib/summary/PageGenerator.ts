@@ -31,7 +31,7 @@ export class PageGenerator {
       const data = await this.analyzer.analyze(summaryType, customStart, customEnd);
 
       logger.debug('[PageGenerator] 渲染模板');
-      const blockTree = template.render(data, params);
+      const blockTree = template.render(data, { ...params, summaryType });
 
       const pageName = this.generatePageName(summaryType, data.dateRange);
       logger.info('[PageGenerator] 创建页面', { pageName });

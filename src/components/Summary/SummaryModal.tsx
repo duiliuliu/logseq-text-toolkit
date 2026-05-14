@@ -3,6 +3,7 @@ import Modal from '../Modal';
 import { SummaryType, TemplateType } from '../../lib/summary/types';
 import { getAllTemplates } from '../../lib/summary/templates';
 import { generateSummary } from '../../lib/summary/register';
+import './summary.css';
 
 interface SummaryModalProps {
   isOpen: boolean;
