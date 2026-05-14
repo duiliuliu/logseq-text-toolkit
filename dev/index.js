@@ -24395,7 +24395,7 @@ ${where}
   const PLUGIN_ID = "text-toolkit-blockview";
   registerRendererArgModel(MACRO_PREFIX, { positional: ["view"] });
   const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
-  async function applyViewStyle(blockId, viewType) {
+  async function applyViewStyle(blockId, viewType, themeType) {
     const doc = getDocument();
     const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
     if (!blockElement) {
@@ -24408,12 +24408,25 @@ ${where}
       "ltt-gallery-root",
       "ltt-board-root"
     ];
-    blockElement.classList.remove(...VIEW_CLASSES);
-    const newClass = `ltt-${viewType}-root`;
-    if (!blockElement.classList.contains(newClass)) {
-      blockElement.classList.add(newClass);
+    const THEME_CLASSES = [
+      "theme-default",
+      "theme-notion",
+      "theme-linear",
+      "theme-dark",
+      "theme-gradient",
+      "theme-tana",
+      "theme-custom"
+    ];
+    blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
+    const newViewClass = `ltt-${viewType}-root`;
+    if (!blockElement.classList.contains(newViewClass)) {
+      blockElement.classList.add(newViewClass);
     }
-    loggerProxy.debug("[BlockView] View style applied", { blockId, viewType });
+    const newThemeClass = `theme-${themeType}`;
+    if (!blockElement.classList.contains(newThemeClass)) {
+      blockElement.classList.add(newThemeClass);
+    }
+    loggerProxy.debug("[BlockView] View & theme applied", { blockId, viewType, themeType });
   }
   function getCurrentViewFromParams(tokens, defaultView) {
     const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
@@ -24428,8 +24441,15 @@ ${where}
     }
     return defaultView;
   }
-  async function switchView(blockId, viewType) {
-    await applyViewStyle(blockId, viewType);
+  function getCurrentThemeFromParams(tokens, defaultTheme) {
+    const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+    if (argMap.theme && ["default", "notion", "linear", "dark", "gradient", "tana", "custom"].includes(argMap.theme)) {
+      return argMap.theme;
+    }
+    return defaultTheme;
+  }
+  async function switchView(blockId, viewType, themeType) {
+    await applyViewStyle(blockId, viewType, themeType);
     try {
       const currentBlock = await logseqAPI$1.Editor.getBlock(blockId);
       if (currentBlock?.content) {
@@ -24443,7 +24463,7 @@ ${where}
       loggerProxy.error("[BlockView] Failed to update macro parameter", err);
     }
   }
-  function bindViewEvents(container, blockId) {
+  function bindViewEvents(container, blockId, themeType) {
     const buttons = container.querySelectorAll(".ltt-view-btn");
     buttons.forEach((btn) => {
       btn.addEventListener("click", async () => {
@@ -24451,7 +24471,7 @@ ${where}
         if (!viewType) return;
         buttons.forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        await switchView(blockId, viewType);
+        await switchView(blockId, viewType, themeType);
       });
     });
   }
@@ -24459,13 +24479,17 @@ ${where}
     const doc = getDocument();
     const containerId = `${PLUGIN_ID}__${slot}`;
     const settings = await getSettingsWithSystem();
-    const blockViewSettings = settings?.blockView || { defaultView: "list", hideViewBar: false };
+    const blockViewSettings = settings?.blockView || {
+      defaultView: "list",
+      defaultTheme: "default",
+      hideViewBar: false
+    };
+    const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
+    const currentTheme = getCurrentThemeFromParams(tokens, blockViewSettings.defaultTheme);
     if (blockViewSettings.hideViewBar) {
-      const currentView2 = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
-      await applyViewStyle(blockId, currentView2);
+      await applyViewStyle(blockId, currentView, currentTheme);
       return;
     }
-    const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
     const viewBarHtml = `
     <div class="ltt-view-bar" data-block-id="${blockId}">
       ${Object.values(VIEW_REGISTRY).map((view) => `
@@ -24486,11 +24510,11 @@ ${where}
       reset: true,
       template: `<div id="${containerId}">${viewBarHtml}</div>`
     });
-    await applyViewStyle(blockId, currentView);
+    await applyViewStyle(blockId, currentView, currentTheme);
     setTimeout(() => {
       const container = doc.getElementById(containerId);
       if (container) {
-        bindViewEvents(container, blockId);
+        bindViewEvents(container, blockId, currentTheme);
       }
     }, 1);
   }
