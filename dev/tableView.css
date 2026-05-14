@@ -1,130 +1,176 @@
 /* =========================================================
-   TANA TABLE · RELATIVE LEVEL VERSION
-   Ultra Polished · Notion / Tana / Linear Hybrid
+   BLOCK VIEW TABLE STYLES
+   Advanced Theme System with Multiple Presets
 
    特性：
-   1. 不依赖 level="1" / level="2"
-   2. 支持动态层级
-   3. sticky 第一列
-   4. 全列 resize
-   5. 子 block 保持正常 tree flow
-   6. bullets / collapse / 编辑体验正常
+   1. 多主题支持 (Default, Notion, Linear, Dark, Gradient, Tana)
+   2. CSS 变量驱动的设计系统
+   3. 支持自定义主题颜色配置
+   4. 优化的单元格和表头样式
+   5. 响应式设计
 ========================================================= */
 
+/* =========================================================
+   THEME VARIABLES - DEFAULT
+========================================================= */
+
+:root,
+.light {
+  --ltt-border: #e2e8f0;
+  --ltt-border-strong: #cbd5e1;
+  --ltt-hover: rgba(0, 0, 0, 0.04);
+  --ltt-header-bg: #f8fafc;
+  --ltt-header-text: #374151;
+  --ltt-cell-text: #475569;
+  --ltt-cell-bg: rgba(255, 255, 255, 0.7);
+  --ltt-row-bg: #ffffff;
+  --ltt-row-hover: #f1f5f9;
+  --ltt-radius: 8px;
+  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+  --ltt-col-1-width: 280px;
+  --ltt-cell-padding: 12px 16px;
+  --ltt-header-height: 48px;
+}
 
 /* =========================================================
-   ROOT TOKENS
+   THEME: NOTION
+========================================================= */
+
+.theme-notion,
+[data-theme="notion"] {
+  --ltt-border: #e5e7eb;
+  --ltt-border-strong: #d1d5db;
+  --ltt-hover: rgba(0, 0, 0, 0.02);
+  --ltt-header-bg: #ffffff;
+  --ltt-header-text: #2d2d2d;
+  --ltt-cell-text: #2d2d2d;
+  --ltt-cell-bg: rgba(255, 255, 255, 0.9);
+  --ltt-row-bg: #ffffff;
+  --ltt-row-hover: #f9fafb;
+  --ltt-radius: 6px;
+  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --ltt-header-shadow: none;
+  --ltt-col-1-width: 260px;
+  --ltt-cell-padding: 10px 14px;
+  --ltt-header-height: 44px;
+}
+
+/* =========================================================
+   THEME: LINEAR
+========================================================= */
+
+.theme-linear,
+[data-theme="linear"] {
+  --ltt-border: #e5e7eb;
+  --ltt-border-strong: #d1d5db;
+  --ltt-hover: rgba(94, 106, 210, 0.04);
+  --ltt-header-bg: #f9fafb;
+  --ltt-header-text: #5e6ad2;
+  --ltt-cell-text: #475569;
+  --ltt-cell-bg: rgba(255, 255, 255, 0.8);
+  --ltt-row-bg: #ffffff;
+  --ltt-row-hover: #f3f4f6;
+  --ltt-radius: 4px;
+  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ltt-header-shadow: inset 0 -2px 0 #5e6ad2;
+  --ltt-col-1-width: 240px;
+  --ltt-cell-padding: 8px 14px;
+  --ltt-header-height: 40px;
+}
+
+/* =========================================================
+   THEME: DARK
+========================================================= */
+
+.dark,
+.theme-dark,
+[data-theme="dark"] {
+  --ltt-border: rgba(255, 255, 255, 0.1);
+  --ltt-border-strong: rgba(255, 255, 255, 0.15);
+  --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: #1f2937;
+  --ltt-header-text: #f8fafc;
+  --ltt-cell-text: #cbd5e1;
+  --ltt-cell-bg: rgba(15, 23, 42, 0.8);
+  --ltt-row-bg: #0f172a;
+  --ltt-row-hover: #1e293b;
+  --ltt-radius: 8px;
+  --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  --ltt-col-1-width: 280px;
+  --ltt-cell-padding: 12px 16px;
+  --ltt-header-height: 48px;
+}
+
+/* =========================================================
+   THEME: GRADIENT
+========================================================= */
+
+.theme-gradient,
+[data-theme="gradient"] {
+  --ltt-border: #dbeafe;
+  --ltt-border-strong: #bfdbfe;
+  --ltt-hover: rgba(59, 130, 246, 0.06);
+  --ltt-header-bg: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #2563eb 100%);
+  --ltt-header-text: #ffffff;
+  --ltt-cell-text: #1e40af;
+  --ltt-cell-bg: rgba(255, 255, 255, 0.85);
+  --ltt-row-bg: #ffffff;
+  --ltt-row-hover: #eff6ff;
+  --ltt-radius: 12px;
+  --ltt-shadow: 0 4px 20px rgba(59, 130, 246, 0.2), 0 8px 32px rgba(0, 0, 0, 0.1);
+  --ltt-header-shadow: none;
+  --ltt-col-1-width: 300px;
+  --ltt-cell-padding: 14px 18px;
+  --ltt-header-height: 52px;
+}
+
+/* =========================================================
+   THEME: TANA (NEW)
+========================================================= */
+
+.theme-tana,
+[data-theme="tana"] {
+  --ltt-border: #a7f3d0;
+  --ltt-border-strong: #6ee7b7;
+  --ltt-hover: rgba(16, 185, 129, 0.08);
+  --ltt-header-bg: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+  --ltt-header-text: #ffffff;
+  --ltt-cell-text: #065f46;
+  --ltt-cell-bg: rgba(236, 253, 245, 0.9);
+  --ltt-row-bg: #ffffff;
+  --ltt-row-hover: #d1fae5;
+  --ltt-radius: 14px;
+  --ltt-shadow: 0 8px 32px rgba(16, 185, 129, 0.25), 0 16px 48px rgba(0, 0, 0, 0.08);
+  --ltt-header-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  --ltt-col-1-width: 300px;
+  --ltt-cell-padding: 14px 18px;
+  --ltt-header-height: 52px;
+}
+
+/* =========================================================
+   ROOT CONTAINER
 ========================================================= */
 
 .ltt-table-root {
-
-  --ltt-border:
-    rgba(0, 0, 0, .065);
-
-  --ltt-border-strong:
-    rgba(0, 0, 0, .1);
-
-  --ltt-hover:
-    rgba(0, 0, 0, .022);
-
-  --ltt-header-bg:
-    linear-gradient(180deg,
-      rgba(0, 0, 0, .05),
-      rgba(0, 0, 0, .035));
-
-  --ltt-cell-bg:
-    rgba(255, 255, 255, .55);
-
-  --ltt-radius: 14px;
-
-  --ltt-shadow:
-    0 1px 2px rgba(0, 0, 0, .03),
-    0 8px 24px rgba(0, 0, 0, .035);
-
-  --ltt-header-shadow:
-    inset -1px 0 0 rgba(255, 255, 255, .25);
-
-  --ltt-col-1-width: 260px;
-
-  margin:
-    26px 32px !important;
-}
-
-/* =========================================================
-   DARK
-========================================================= */
-
-.dark .ltt-table-root {
-
-  --ltt-border:
-    rgba(255, 255, 255, .075);
-
-  --ltt-border-strong:
-    rgba(255, 255, 255, .12);
-
-  --ltt-hover:
-    rgba(255, 255, 255, .03);
-
-  --ltt-header-bg:
-    linear-gradient(180deg,
-      rgba(255, 255, 255, .07),
-      rgba(255, 255, 255, .045));
-
-  --ltt-cell-bg:
-    rgba(255, 255, 255, .015);
-
-  --ltt-shadow:
-    0 1px 2px rgba(0, 0, 0, .35),
-    0 10px 30px rgba(0, 0, 0, .28);
-
-  --ltt-header-shadow:
-    inset -1px 0 0 rgba(255, 255, 255, .05);
-}
-
-/* =========================================================
-   ROOT HEADER
-========================================================= */
-
-.ltt-table-root>.block-main-container {
-
-  margin-bottom: 12px;
-}
-
-/* hide root bullet */
-
-.ltt-table-root>.block-main-container .block-control-wrap {
-
-  display: none !important;
+  margin: 24px 32px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* =========================================================
    TABLE SHELL
 ========================================================= */
 
-.ltt-table-root>.block-children-container {
-
-  border:
-    1px solid var(--ltt-border);
-
-  border-radius:
-    var(--ltt-radius);
-
+.ltt-table-root > .block-children-container {
+  border: 1px solid var(--ltt-border);
+  border-radius: var(--ltt-radius);
   overflow-x: auto;
   overflow-y: hidden;
-
-  background:
-    linear-gradient(180deg,
-      rgba(255, 255, 255, .02),
-      transparent);
-
-  backdrop-filter:
-    blur(10px);
-
-  box-shadow:
-    var(--ltt-shadow);
-
+  background: var(--ltt-cell-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--ltt-shadow);
   position: relative;
-
   padding: 0 !important;
 }
 
@@ -133,154 +179,85 @@
 ========================================================= */
 
 .ltt-table-root .block-children-left-border {
-
   display: none !important;
 }
 
 .ltt-table-root .block-children-container {
-
   padding-left: 0 !important;
+}
+
+/* =========================================================
+   ROOT HEADER
+========================================================= */
+
+.ltt-table-root > .block-main-container {
+  margin-bottom: 12px;
+}
+
+.ltt-table-root > .block-main-container .block-control-wrap {
+  display: none !important;
 }
 
 /* =========================================================
    ROW
 ========================================================= */
 
-/*
-row =
-table direct children
-*/
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-
-  grid-template-columns:
-    var(--ltt-col-1-width) repeat(999,
-      minmax(220px, 1fr));
-
+  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));
   align-items: stretch;
-
   min-width: fit-content;
-
   position: relative;
-
-  transition:
-    background .12s ease;
+  transition: background 0.15s ease;
+  background: var(--ltt-row-bg);
 }
 
 /* row separator */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block::after {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::after {
   content: "";
-
   position: absolute;
-
   left: 0;
   right: 0;
   bottom: 0;
-
   height: 1px;
-
-  background:
-    var(--ltt-border);
-
+  background: var(--ltt-border);
   pointer-events: none;
 }
 
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:last-child::after {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child::after {
   display: none;
 }
 
 /* hover */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
-
-  background:
-    var(--ltt-hover);
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  background: var(--ltt-row-hover);
 }
 
 /* =========================================================
-   FIRST COLUMN
+   FIRST COLUMN (HEADER)
 ========================================================= */
 
-/*
-header =
-row direct block-main-container
-*/
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   display: block !important;
-
-  min-height: 58px;
-
-  padding:
-    14px 18px !important;
-
+  min-height: var(--ltt-header-height);
+  padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
-
   position: sticky;
-
   left: 0;
-
   z-index: 20;
-
-  width:
-    var(--ltt-col-1-width);
-
-  min-width:
-    var(--ltt-col-1-width);
-
-  background:
-    var(--ltt-header-bg);
-
-  border-right:
-    1px solid var(--ltt-border);
-
-  box-shadow:
-    var(--ltt-header-shadow);
-
+  width: var(--ltt-col-1-width);
+  min-width: var(--ltt-col-1-width);
+  background: var(--ltt-header-bg);
+  border-right: 1px solid var(--ltt-border);
+  box-shadow: var(--ltt-header-shadow);
   font-weight: 600;
-
-  backdrop-filter:
-    blur(18px);
-
+  backdrop-filter: blur(18px);
   overflow: visible;
 }
 
-/* sticky separator */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container::before {
-
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  right: -12px;
-
-  width: 12px;
-  height: 100%;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(to right,
-      rgba(0, 0, 0, .06),
-      transparent);
-
-  opacity: .12;
-}
-
 /* align */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container>.block-content-wrapper {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
   min-height: 100%;
-
   display: flex;
   align-items: center;
 }
@@ -290,54 +267,32 @@ row direct block-main-container
 ========================================================= */
 
 .ltt-table-root .ltt-resize-handle {
-
   position: absolute;
-
   top: 0;
   right: -4px;
-
   width: 8px;
   height: 100%;
-
   cursor: col-resize;
-
   z-index: 50;
-
   opacity: 0;
-
-  transition:
-    opacity .15s ease,
-    background .15s ease;
+  transition: opacity 0.15s ease, background 0.15s ease;
 }
 
-/* visible */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .ltt-resize-handle {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .ltt-resize-handle {
   opacity: 1;
-
-  background:
-    linear-gradient(180deg,
-      rgba(59, 130, 246, .18),
-      rgba(59, 130, 246, .08));
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
 }
-
-/* active */
 
 .ltt-table-root .ltt-resize-handle:hover {
-
   opacity: 1;
-
-  background:
-    rgba(59, 130, 246, .28);
+  background: rgba(59, 130, 246, 0.3);
 }
 
 /* =========================================================
    REMOVE FAKE PADDING
 ========================================================= */
 
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>div[style="padding-left: 45px;"] {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > div[style*="padding-left"] {
   display: none !important;
 }
 
@@ -345,12 +300,9 @@ row direct block-main-container
    FLATTEN CHILDREN
 ========================================================= */
 
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container,
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children,
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .blocks-list-wrap {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container,
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children,
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .blocks-list-wrap {
   display: contents !important;
 }
 
@@ -358,114 +310,33 @@ row direct block-main-container
    CELL
 ========================================================= */
 
-/*
-cell =
-row children
-*/
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: block !important;
-
-  min-height: 58px;
-
-  padding:
-    14px 22px !important;
-
+  min-height: var(--ltt-header-height);
+  padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
-
-  border-right:
-    1px solid var(--ltt-border);
-
-  background:
-    var(--ltt-cell-bg);
-
+  border-right: 1px solid var(--ltt-border);
+  background: var(--ltt-cell-bg);
   box-sizing: border-box;
-
   overflow: visible;
-
-  transition:
-    background .12s ease;
+  transition: background 0.15s ease;
 }
 
-/* last col */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:last-child {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
   border-right: none;
 }
 
-/* hover */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
-
-  background:
-    rgba(127, 127, 127, .03);
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  background: var(--ltt-hover);
 }
 
 /* =========================================================
    CELL CONTENT
 ========================================================= */
 
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-content-wrapper {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-content-wrapper {
   width: 100% !important;
-
   overflow: visible !important;
-}
-
-/* =========================================================
-   BULLETS
-========================================================= */
-
-/* hide row bullets */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {
-
-  display: none !important;
-}
-
-/* restore bullets in cells */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {
-
-  display: flex !important;
-
-  opacity: .72;
-
-  transition:
-    opacity .12s ease;
-}
-
-/* hover */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .block-control-wrap {
-
-  opacity: 1;
-}
-
-/* =========================================================
-   TREE LINE
-========================================================= */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-children-left-border {
-
-  display: block !important;
-
-  opacity: .22;
-}
-
-/* =========================================================
-   CHILD FLOW
-========================================================= */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-children-container {
-
-  padding-left:
-    1.45em !important;
-
-  margin-top:
-    6px !important;
 }
 
 /* =========================================================
@@ -473,24 +344,54 @@ row children
 ========================================================= */
 
 .ltt-table-root .block-title-wrap {
-
   font-size: 14px;
-
-  line-height: 1.65;
-
+  line-height: 1.6;
   white-space: normal;
-
   word-break: break-word;
-
-  color:
-    var(--ls-primary-text-color);
+  color: var(--ltt-cell-text);
+  transition: color 0.15s ease;
 }
 
-/* stronger first col */
-
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-title-wrap {
-
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {
   font-weight: 650;
+  color: var(--ltt-header-text);
+  font-size: 14.5px;
+}
+
+/* =========================================================
+   BULLETS
+========================================================= */
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: none !important;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+  display: flex !important;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
+  opacity: 1;
+}
+
+/* =========================================================
+   TREE LINE
+========================================================= */
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-children-left-border {
+  display: block !important;
+  opacity: 0.2;
+}
+
+/* =========================================================
+   CHILD FLOW
+========================================================= */
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-children-container {
+  padding-left: 1.5em !important;
+  margin-top: 8px !important;
 }
 
 /* =========================================================
@@ -498,78 +399,98 @@ row children
 ========================================================= */
 
 .ltt-table-root textarea {
-
   resize: none !important;
-
   overflow: hidden !important;
-
   white-space: pre-wrap !important;
-
   width: 100% !important;
+  color: var(--ltt-cell-text);
 }
 
 /* =========================================================
    SCROLLBAR
 ========================================================= */
 
-.ltt-table-root>.block-children-container::-webkit-scrollbar {
-
+.ltt-table-root > .block-children-container::-webkit-scrollbar {
   height: 10px;
 }
 
-.ltt-table-root>.block-children-container::-webkit-scrollbar-thumb {
-
-  background:
-    rgba(120, 120, 120, .18);
-
+.ltt-table-root > .block-children-container::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 120, 0.2);
   border-radius: 999px;
-
   border: 2px solid transparent;
-
   background-clip: padding-box;
 }
 
+.ltt-table-root > .block-children-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 120, 0.35);
+}
+
 /* =========================================================
-   MOBILE
+   CUSTOM THEME OVERRIDES
+========================================================= */
+
+.ltt-table-root[data-custom-theme="true"] {
+  --ltt-border: var(--custom-border-color, #e2e8f0);
+  --ltt-border-strong: var(--custom-header-border-color, #cbd5e1);
+  --ltt-hover: var(--custom-row-hover, rgba(0, 0, 0, 0.04));
+  --ltt-header-bg: var(--custom-header-bg, #f8fafc);
+  --ltt-header-text: var(--custom-header-text, #374151);
+  --ltt-cell-text: var(--custom-cell-text, #475569);
+  --ltt-cell-bg: var(--custom-row-bg, rgba(255, 255, 255, 0.7));
+  --ltt-row-bg: var(--custom-row-bg, #ffffff);
+  --ltt-row-hover: var(--custom-row-hover, #f1f5f9);
+  --ltt-radius: var(--custom-radius, 8px);
+  --ltt-header-height: var(--custom-header-height, 48px);
+  --ltt-cell-padding: var(--custom-cell-padding, 12px 16px);
+}
+
+/* =========================================================
+   RESPONSIVE
 ========================================================= */
 
 @media (max-width: 900px) {
-
-  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-
+  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
     grid-template-columns: 1fr;
   }
 
-  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
-
+  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
     position: relative;
-
     width: 100%;
     min-width: 100%;
-
     border-right: none;
-
-    border-bottom:
-      1px solid var(--ltt-border);
+    border-bottom: 1px solid var(--ltt-border);
   }
 
-  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-
+  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
     border-right: none;
-
-    border-bottom:
-      1px solid var(--ltt-border);
-
+    border-bottom: 1px solid var(--ltt-border);
     min-width: 100%;
   }
 
-  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:last-child {
-
+  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
     border-bottom: none;
   }
 
   .ltt-table-root .ltt-resize-handle {
-
     display: none;
   }
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes ltt-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ltt-table-root > .block-children-container {
+  animation: ltt-fade-in 0.2s ease-out;
 }

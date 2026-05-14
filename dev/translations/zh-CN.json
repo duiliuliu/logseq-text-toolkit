@@ -143,15 +143,16 @@
       "viewBoard": "看板",
       "hideViewBar": "隐藏视图切换栏",
       "hideViewBarDescription": "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
+      "defaultTheme": "默认主题",
+      "themeDefault": "默认",
+      "themeNotion": "Notion",
+      "themeLinear": "Linear",
+      "themeDark": "深色",
+      "themeGradient": "渐变",
+      "themeTana": "Tana",
+      "themeCustom": "自定义",
       "table": {
         "title": "📊 Table 设置",
-        "defaultTheme": "默认主题",
-        "themeDefault": "默认",
-        "themeNotion": "Notion",
-        "themeLinear": "Linear",
-        "themeDark": "深色",
-        "themeGradient": "渐变",
-        "themeCustom": "自定义",
         "showStriped": "显示斑马纹行",
         "showBorder": "显示边框",
         "customTheme": {
@@ -159,6 +160,7 @@
           "borderColor": "边框颜色",
           "headerBgColor": "表头背景色",
           "headerTextColor": "表头文字色",
+          "cellTextColor": "单元格文字色",
           "headerBorderColor": "表头边框色",
           "headerHeight": "表头高度",
           "rowBgColor": "行背景色",
@@ -166,6 +168,40 @@
           "rowBorderColor": "行边框色",
           "cellPadding": "单元格内边距",
           "tableBorderRadius": "表格圆角"
+        }
+      },
+      "gallery": {
+        "title": "🖼️ Gallery 设置",
+        "showCardBorders": "显示卡片边框",
+        "cardsPerRow": "每行卡片数量",
+        "customTheme": {
+          "title": "🔧 自定义主题配置",
+          "borderColor": "边框颜色",
+          "cardBgColor": "卡片背景色",
+          "cardHoverBgColor": "卡片悬停背景色",
+          "headerBorderColor": "表头边框色",
+          "headerBgColor": "表头背景色",
+          "headerTextColor": "表头文字色",
+          "cardTextColor": "卡片文字色",
+          "cardBorderRadius": "卡片圆角",
+          "cardShadow": "卡片阴影"
+        }
+      },
+      "board": {
+        "title": "📋 Board 设置",
+        "showColumnBorders": "显示列边框",
+        "cardSpacing": "卡片间距",
+        "customTheme": {
+          "title": "🔧 自定义主题配置",
+          "borderColor": "边框颜色",
+          "columnBgColor": "列背景色",
+          "columnHoverBgColor": "列悬停背景色",
+          "headerBgColor": "表头背景色",
+          "headerTextColor": "表头文字色",
+          "cardBgColor": "卡片背景色",
+          "cardTextColor": "卡片文字色",
+          "cardBorderColor": "卡片边框色",
+          "cardBorderRadius": "卡片圆角"
         }
       }
     },

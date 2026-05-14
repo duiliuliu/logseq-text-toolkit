@@ -31,11 +31,13 @@
   "settings": {
     "title": "設定",
     "tabs": {
-    "general": "⚙️ 一般設定",
-    "toolbar": "🛠️ ツールバー設定",
-    "taskProgress": "📊 タスク進捗",
-    "advanced": "⚡ その他の設定"
-  },
+      "general": "⚙️ 一般設定",
+      "toolbar": "🛠️ ツールバー設定",
+      "taskProgress": "📊 タスク進捗",
+      "heatmap": "📈 ヒートマップ",
+      "blockView": "📋 ブロックビュー",
+      "advanced": "⚡ その他の設定"
+    },
     "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
     "generalSettings": "一般設定",
     "theme": "テーマ",
@@ -128,6 +130,107 @@
         "total": "合計"
       }
     },
-    "saveTaskProgressSettings": "タスク進捗設定を保存"
+    "saveTaskProgressSettings": "タスク進捗設定を保存",
+    "saveHeatmapSettings": "ヒートマップ設定を保存",
+    "saveBlockViewSettings": "ブロックビュー設定を保存",
+    "blockView": {
+      "description": "ブロックビューモジュールのグローバルなデフォルト動作を設定します。",
+      "enabled": "ブロックビューを有効化",
+      "defaultView": "デフォルトビュータイプ",
+      "viewList": "リスト",
+      "viewTable": "テーブル",
+      "viewGallery": "ギャラリー",
+      "viewBoard": "ボード",
+      "hideViewBar": "ビュー切り替えバーを隠す",
+      "hideViewBarDescription": "隠した場合はデフォルトビューを使用します。view=xxxパラメータでビューを切り替え可能",
+      "defaultTheme": "デフォルトテーマ",
+      "themeDefault": "デフォルト",
+      "themeNotion": "Notion",
+      "themeLinear": "Linear",
+      "themeDark": "ダーク",
+      "themeGradient": "グラデーション",
+      "themeTana": "Tana",
+      "themeCustom": "カスタム",
+      "table": {
+        "title": "📊 テーブル設定",
+        "showStriped": "ストライプ行を表示",
+        "showBorder": "境界線を表示",
+        "customTheme": {
+          "title": "🔧 カスタムテーマ設定",
+          "borderColor": "境界線の色",
+          "headerBgColor": "ヘッダー背景色",
+          "headerTextColor": "ヘッダー文字色",
+          "cellTextColor": "セル文字色",
+          "headerBorderColor": "ヘッダー境界線色",
+          "headerHeight": "ヘッダーの高さ",
+          "rowBgColor": "行背景色",
+          "rowHoverBgColor": "行ホバー背景色",
+          "rowBorderColor": "行境界線色",
+          "cellPadding": "セルパディング",
+          "tableBorderRadius": "テーブル角丸"
+        }
+      },
+      "gallery": {
+        "title": "🖼️ ギャラリー設定",
+        "showCardBorders": "カード境界線を表示",
+        "cardsPerRow": "1行あたりのカード数",
+        "customTheme": {
+          "title": "🔧 カスタムテーマ設定",
+          "borderColor": "境界線の色",
+          "cardBgColor": "カード背景色",
+          "cardHoverBgColor": "カードホバー背景色",
+          "headerBorderColor": "ヘッダー境界線色",
+          "headerBgColor": "ヘッダー背景色",
+          "headerTextColor": "ヘッダー文字色",
+          "cardTextColor": "カード文字色",
+          "cardBorderRadius": "カード角丸",
+          "cardShadow": "カードシャドウ"
+        }
+      },
+      "board": {
+        "title": "📋 ボード設定",
+        "showColumnBorders": "列境界線を表示",
+        "cardSpacing": "カード間隔",
+        "customTheme": {
+          "title": "🔧 カスタムテーマ設定",
+          "borderColor": "境界線の色",
+          "columnBgColor": "列背景色",
+          "columnHoverBgColor": "列ホバー背景色",
+          "headerBgColor": "ヘッダー背景色",
+          "headerTextColor": "ヘッダー文字色",
+          "cardBgColor": "カード背景色",
+          "cardTextColor": "カード文字色",
+          "cardBorderColor": "カード境界線色",
+          "cardBorderRadius": "カード角丸"
+        }
+      }
+    },
+    "heatmap": {
+      "description": "ヒートマップ表示機能と外観を設定します。",
+      "enabled": "ヒートマップを有効化",
+      "defaultViewType": "デフォルトビュー",
+      "viewTypeYear": "年ビュー",
+      "viewTypeMonth": "月ビュー",
+      "viewTypeWeek": "週ビュー",
+      "defaultDisplayMode": "デフォルト表示モード",
+      "displayModeFull": "フルモード",
+      "displayModeBasic": " 베이シックモード",
+      "displayModeMinimal": "ミニマルモード",
+      "defaultColorFormula": "色計算式",
+      "colorFormulaSimple": "シンプル",
+      "colorFormulaWeighted": "ウェイト付き",
+      "colorScheme": "カラースキーム",
+      "minColor": "最小色",
+      "maxColor": "最大色",
+      "preview": "プレビュー",
+      "monthPageCreation": "月ページ作成",
+      "enableMonthPageCreation": "月ページ作成を有効化",
+      "monthPageNameTemplate": "ページ名テンプレート",
+      "monthLogseqTemplate": "Logseqテンプレート",
+      "weekPageCreation": "週ページ作成",
+      "enableWeekPageCreation": "週ページ作成を有効化",
+      "weekPageNameTemplate": "ページ名テンプレート",
+      "weekLogseqTemplate": "Logseqテンプレート"
+    }
   }
 }

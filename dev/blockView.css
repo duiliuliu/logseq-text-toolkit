@@ -1,19 +1,37 @@
+/* =========================================================
+   BLOCK VIEW STYLES
+   Advanced View System with Multiple Themes
+
+   特性：
+   1. 优化的视图切换栏
+   2. 多主题支持
+   3. 响应式设计
+========================================================= */
+
+/* =========================================================
+   VIEW BAR
+========================================================= */
+
 .ltt-view-bar {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 10px;
-  margin-bottom: 8px;
+  padding: 4px 8px;
+  margin-top: 8px;
   background: var(--ls-secondary-background-color);
   border: 1px solid var(--ls-border-color);
-  border-radius: 8px;
-  font-size: 12px;
+  border-radius: 6px;
+  font-size: 11px;
   width: fit-content;
+  min-height: 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
 }
 
 .ltt-view-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   padding: 4px 8px;
   border: none;
@@ -23,213 +41,167 @@
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .ltt-view-btn:hover {
   background: var(--ls-hover-color);
   color: var(--ls-primary-text-color);
+  transform: translateY(-1px);
 }
 
 .ltt-view-btn.active {
   background: var(--ls-primary-color);
   color: var(--ls-primary-text-color);
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ltt-view-btn.active:hover {
+  transform: translateY(0);
 }
 
 .ltt-view-btn svg {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   flex-shrink: 0;
 }
 
-/* 视图基础样式 */
+.ltt-view-btn span {
+  font-size: 11px;
+}
+
+/* =========================================================
+   VIEW BAR POSITIONING
+   Place below .block-title-wrap
+========================================================= */
+
+.block-main-container .ltt-view-bar {
+  display: inline-flex;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+
+/* =========================================================
+   LIST VIEW
+========================================================= */
+
 .ltt-list-root {
   /* List 视图 - 保持默认 Logseq 行为 */
 }
 
+/* =========================================================
+   TABLE VIEW
+========================================================= */
+
+.ltt-table-root {
+  /* Table 视图样式已移到 tableView.css */
+}
+
+/* =========================================================
+   GALLERY VIEW
+========================================================= */
+
 .ltt-gallery-root {
-  /* Gallery 视图样式 */
+  /* Gallery 视图样式已移到 galleryView.css */
 }
 
-.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 20px !important;
-}
-
-.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-  background: var(--ls-secondary-background-color);
-  border: 1px solid var(--ls-border-color);
-  border-radius: 12px;
-  padding: 16px !important;
-  margin: 0 !important;
-  transition: all 0.2s ease;
-}
-
-.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
+/* =========================================================
+   BOARD VIEW
+========================================================= */
 
 .ltt-board-root {
-  /* Board 视图样式 */
+  /* Board 视图样式已移到 boardView.css */
 }
 
-.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {
-  display: flex !important;
-  gap: 20px;
-  padding: 20px !important;
-  overflow-x: auto;
+/* =========================================================
+   THEME PRESETS
+========================================================= */
+
+/* Default Theme */
+.ltt-table-root.ltt-theme-default,
+.ltt-gallery-root.ltt-theme-default,
+.ltt-board-root.ltt-theme-default {
+  --ltt-primary-color: #3b82f6;
 }
 
-.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-  min-width: 300px;
-  max-width: 300px;
-  background: var(--ls-secondary-background-color);
-  border-radius: 12px;
-  padding: 12px !important;
-  margin: 0 !important;
+/* Notion Theme */
+.ltt-table-root.ltt-theme-notion,
+.ltt-gallery-root.ltt-theme-notion,
+.ltt-board-root.ltt-theme-notion {
+  --ltt-primary-color: #2d2d2d;
 }
 
-/* Table 视图样式 */
-.ltt-table-root {
-  --ltt-border: rgba(0, 0, 0, 0.065);
-  --ltt-border-strong: rgba(0, 0, 0, 0.1);
-  --ltt-hover: rgba(0, 0, 0, 0.022);
-  --ltt-header-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.035));
-  --ltt-cell-bg: rgba(255, 255, 255, 0.55);
-  --ltt-radius: 14px;
-  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.035);
-  --ltt-col-1-width: 260px;
-  margin: 26px 32px !important;
+/* Linear Theme */
+.ltt-table-root.ltt-theme-linear,
+.ltt-gallery-root.ltt-theme-linear,
+.ltt-board-root.ltt-theme-linear {
+  --ltt-primary-color: #5e6ad2;
 }
 
-.dark .ltt-table-root {
-  --ltt-border: rgba(255, 255, 255, 0.075);
-  --ltt-border-strong: rgba(255, 255, 255, 0.12);
-  --ltt-hover: rgba(255, 255, 255, 0.03);
-  --ltt-header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.045));
-  --ltt-cell-bg: rgba(255, 255, 255, 0.015);
-  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);
+/* Dark Theme */
+.ltt-table-root.ltt-theme-dark,
+.ltt-gallery-root.ltt-theme-dark,
+.ltt-board-root.ltt-theme-dark {
+  --ltt-primary-color: #3b82f6;
 }
 
-.ltt-table-root>.block-children-container {
-  border: 1px solid var(--ltt-border);
-  border-radius: var(--ltt-radius);
-  overflow-x: auto;
-  background: var(--ltt-cell-bg);
-  box-shadow: var(--ltt-shadow);
-  padding: 0 !important;
+/* Gradient Theme */
+.ltt-table-root.ltt-theme-gradient,
+.ltt-gallery-root.ltt-theme-gradient,
+.ltt-board-root.ltt-theme-gradient {
+  --ltt-primary-color: #8b5cf6;
 }
 
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-  display: grid !important;
-  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));
-  position: relative;
+/* Tana Theme */
+.ltt-table-root.ltt-theme-tana,
+.ltt-gallery-root.ltt-theme-tana,
+.ltt-board-root.ltt-theme-tana {
+  --ltt-primary-color: #10b981;
 }
 
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
-  position: sticky;
-  left: 0;
-  z-index: 20;
-  width: var(--ltt-col-1-width);
-  min-width: var(--ltt-col-1-width);
-  background: var(--ltt-header-bg);
-  border-right: 2px solid var(--ltt-border-strong);
-  font-weight: 600;
-  padding: 14px 18px !important;
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes ltt-view-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
-  border-right: 1px solid var(--ltt-border);
-  background: var(--ltt-cell-bg);
-  padding: 14px 22px !important;
+.ltt-view-bar {
+  animation: ltt-view-fade-in 0.2s ease-out;
 }
 
-/* 隐藏 header 行 bullets */
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {
-  display: none !important;
-}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-/* 恢复 cell 行 bullets */
-.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {
-  display: flex !important;
-  opacity: 0.72;
-}
+@media (max-width: 768px) {
+  .ltt-view-bar {
+    padding: 3px 6px;
+    gap: 3px;
+  }
 
-/* Table 主题预设 */
-.ltt-table-root.ltt-theme-default {
-  --ltt-table-border: #e2e8f0;
-  --ltt-header-bg: #f8fafc;
-  --ltt-header-text: #374151;
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #f1f5f9;
-  --ltt-row-border: #e2e8f0;
-  --ltt-cell-padding: 8px 12px;
-  --ltt-table-radius: 8px;
-}
+  .ltt-view-btn {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
 
-.ltt-table-root.ltt-theme-notion {
-  --ltt-table-border: #e5e7eb;
-  --ltt-header-bg: #ffffff;
-  --ltt-header-text: #374151;
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #f9fafb;
-  --ltt-row-border: #e5e7eb;
-  --ltt-cell-padding: 8px 12px;
-  --ltt-table-radius: 6px;
-}
+  .ltt-view-btn svg {
+    width: 10px;
+    height: 10px;
+  }
 
-.ltt-table-root.ltt-theme-linear {
-  --ltt-table-border: #e5e7eb;
-  --ltt-header-bg: #f9fafb;
-  --ltt-header-text: #374151;
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #f3f4f6;
-  --ltt-row-border: #e5e7eb;
-  --ltt-cell-padding: 6px 12px;
-  --ltt-table-radius: 4px;
-}
-
-.ltt-table-root.ltt-theme-dark {
-  --ltt-table-border: #374151;
-  --ltt-header-bg: #1f2937;
-  --ltt-header-text: #f9fafb;
-  --ltt-row-bg: #0f172a;
-  --ltt-row-hover: #1f2937;
-  --ltt-row-border: #374151;
-  --ltt-cell-padding: 8px 12px;
-  --ltt-table-radius: 8px;
-}
-
-.ltt-table-root.ltt-theme-gradient {
-  --ltt-table-border: #dbeafe;
-  --ltt-header-bg: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  --ltt-header-text: #ffffff;
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #eff6ff;
-  --ltt-row-border: #dbeafe;
-  --ltt-cell-padding: 10px 12px;
-  --ltt-table-radius: 12px;
-}
-
-/* 斑马纹支持 */
-.ltt-table-root.ltt-striped .ls-block:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.02);
-}
-
-.ltt-table-root.ltt-striped.ltt-theme-dark .ls-block:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.03);
-}
-
-/* 边框支持 */
-.ltt-table-root.ltt-bordered .ls-block {
-  border-bottom: 1px solid var(--ltt-row-border);
-}
-
-.ltt-table-root.ltt-bordered>.block-main-container {
-  border: 1px solid var(--ltt-table-border);
-  border-radius: var(--ltt-table-radius);
-  overflow: hidden;
+  .ltt-view-btn span {
+    font-size: 10px;
+  }
 }
