@@ -32,7 +32,7 @@
 
 .ltt-view-btn.active {
   background: var(--ls-primary-color);
-  color: white;
+  color: var(--ls-primary-text-color);
   font-weight: 500;
 }
 
@@ -51,14 +51,14 @@
   /* Gallery 视图样式 */
 }
 
-.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
   padding: 20px !important;
 }
 
-.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
   background: var(--ls-secondary-background-color);
   border: 1px solid var(--ls-border-color);
   border-radius: 12px;
@@ -67,7 +67,7 @@
   transition: all 0.2s ease;
 }
 
-.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
@@ -76,14 +76,14 @@
   /* Board 视图样式 */
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {
   display: flex !important;
   gap: 20px;
   padding: 20px !important;
   overflow-x: auto;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
   min-width: 300px;
   max-width: 300px;
   background: var(--ls-secondary-background-color);
@@ -114,7 +114,7 @@
   --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);
 }
 
-.ltt-table-root > .block-children-container {
+.ltt-table-root>.block-children-container {
   border: 1px solid var(--ltt-border);
   border-radius: var(--ltt-radius);
   overflow-x: auto;
@@ -123,13 +123,13 @@
   padding: 0 !important;
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
   display: grid !important;
   grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));
   position: relative;
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
   position: sticky;
   left: 0;
   z-index: 20;
@@ -141,19 +141,19 @@
   padding: 14px 18px !important;
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
   border-right: 1px solid var(--ltt-border);
   background: var(--ltt-cell-bg);
   padding: 14px 22px !important;
 }
 
 /* 隐藏 header 行 bullets */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {
   display: none !important;
 }
 
 /* 恢复 cell 行 bullets */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {
   display: flex !important;
   opacity: 0.72;
 }
@@ -228,7 +228,7 @@
   border-bottom: 1px solid var(--ltt-row-border);
 }
 
-.ltt-table-root.ltt-bordered > .block-main-container {
+.ltt-table-root.ltt-bordered>.block-main-container {
   border: 1px solid var(--ltt-table-border);
   border-radius: var(--ltt-table-radius);
   overflow: hidden;

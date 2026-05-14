@@ -1,269 +1,575 @@
+/* =========================================================
+   TANA TABLE · RELATIVE LEVEL VERSION
+   Ultra Polished · Notion / Tana / Linear Hybrid
+
+   特性：
+   1. 不依赖 level="1" / level="2"
+   2. 支持动态层级
+   3. sticky 第一列
+   4. 全列 resize
+   5. 子 block 保持正常 tree flow
+   6. bullets / collapse / 编辑体验正常
+========================================================= */
+
+
+/* =========================================================
+   ROOT TOKENS
+========================================================= */
+
 .ltt-table-root {
-  /* Table 视图样式 - 表格布局 */
-  --ltt-border: rgba(0, 0, 0, 0.065);
-  --ltt-border-strong: rgba(0, 0, 0, 0.1);
-  --ltt-hover: rgba(0, 0, 0, 0.022);
-  --ltt-header-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.035));
-  --ltt-cell-bg: rgba(255, 255, 255, 0.55);
+
+  --ltt-border:
+    rgba(0, 0, 0, .065);
+
+  --ltt-border-strong:
+    rgba(0, 0, 0, .1);
+
+  --ltt-hover:
+    rgba(0, 0, 0, .022);
+
+  --ltt-header-bg:
+    linear-gradient(180deg,
+      rgba(0, 0, 0, .05),
+      rgba(0, 0, 0, .035));
+
+  --ltt-cell-bg:
+    rgba(255, 255, 255, .55);
+
   --ltt-radius: 14px;
-  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.035);
+
+  --ltt-shadow:
+    0 1px 2px rgba(0, 0, 0, .03),
+    0 8px 24px rgba(0, 0, 0, .035);
+
+  --ltt-header-shadow:
+    inset -1px 0 0 rgba(255, 255, 255, .25);
+
   --ltt-col-1-width: 260px;
-  --ltt-header-text: #374151;
-  --ltt-row-hover: #f8fafc;
-  margin: 26px 32px !important;
+
+  margin:
+    26px 32px !important;
 }
+
+/* =========================================================
+   DARK
+========================================================= */
 
 .dark .ltt-table-root {
-  --ltt-border: rgba(255, 255, 255, 0.075);
-  --ltt-border-strong: rgba(255, 255, 255, 0.12);
-  --ltt-hover: rgba(255, 255, 255, 0.03);
-  --ltt-header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.045));
-  --ltt-cell-bg: rgba(255, 255, 255, 0.015);
-  --ltt-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.28);
-  --ltt-header-text: #f9fafb;
-  --ltt-row-hover: #1f2937;
+
+  --ltt-border:
+    rgba(255, 255, 255, .075);
+
+  --ltt-border-strong:
+    rgba(255, 255, 255, .12);
+
+  --ltt-hover:
+    rgba(255, 255, 255, .03);
+
+  --ltt-header-bg:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, .07),
+      rgba(255, 255, 255, .045));
+
+  --ltt-cell-bg:
+    rgba(255, 255, 255, .015);
+
+  --ltt-shadow:
+    0 1px 2px rgba(0, 0, 0, .35),
+    0 10px 30px rgba(0, 0, 0, .28);
+
+  --ltt-header-shadow:
+    inset -1px 0 0 rgba(255, 255, 255, .05);
 }
 
-.ltt-table-root > .block-children-container {
-  border: 1px solid var(--ltt-border);
-  border-radius: var(--ltt-radius);
-  overflow-x: auto;
-  overflow-y: visible;
-  background: var(--ltt-cell-bg);
-  box-shadow: var(--ltt-shadow);
-  padding: 0 !important;
+/* =========================================================
+   ROOT HEADER
+========================================================= */
+
+.ltt-table-root>.block-main-container {
+
+  margin-bottom: 12px;
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  display: grid !important;
-  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));
-  position: relative;
-}
+/* hide root bullet */
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  position: sticky;
-  left: 0;
-  z-index: 20;
-  width: var(--ltt-col-1-width);
-  min-width: var(--ltt-col-1-width);
-  background: var(--ltt-header-bg);
-  border-right: 2px solid var(--ltt-border-strong);
-  font-weight: 600;
-  padding: 14px 18px !important;
-  color: var(--ltt-header-text);
-}
+.ltt-table-root>.block-main-container .block-control-wrap {
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right: 1px solid var(--ltt-border);
-  background: var(--ltt-cell-bg);
-  padding: 14px 22px !important;
-  transition: background-color 0.2s ease;
-}
-
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background-color: var(--ltt-row-hover) !important;
-}
-
-/* 隐藏 header 行 bullets */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
   display: none !important;
 }
 
-/* 恢复 cell 行 bullets */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+/* =========================================================
+   TABLE SHELL
+========================================================= */
+
+.ltt-table-root>.block-children-container {
+
+  border:
+    1px solid var(--ltt-border);
+
+  border-radius:
+    var(--ltt-radius);
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, .02),
+      transparent);
+
+  backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    var(--ltt-shadow);
+
+  position: relative;
+
+  padding: 0 !important;
+}
+
+/* =========================================================
+   REMOVE TREE STYLE
+========================================================= */
+
+.ltt-table-root .block-children-left-border {
+
+  display: none !important;
+}
+
+.ltt-table-root .block-children-container {
+
+  padding-left: 0 !important;
+}
+
+/* =========================================================
+   ROW
+========================================================= */
+
+/*
+row =
+table direct children
+*/
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
+
+  display: grid !important;
+
+  grid-template-columns:
+    var(--ltt-col-1-width) repeat(999,
+      minmax(220px, 1fr));
+
+  align-items: stretch;
+
+  min-width: fit-content;
+
+  position: relative;
+
+  transition:
+    background .12s ease;
+}
+
+/* row separator */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 1px;
+
+  background:
+    var(--ltt-border);
+
+  pointer-events: none;
+}
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:last-child::after {
+
+  display: none;
+}
+
+/* hover */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
+
+  background:
+    var(--ltt-hover);
+}
+
+/* =========================================================
+   FIRST COLUMN
+========================================================= */
+
+/*
+header =
+row direct block-main-container
+*/
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
+
+  display: block !important;
+
+  min-height: 58px;
+
+  padding:
+    14px 18px !important;
+
+  margin: 0 !important;
+
+  position: sticky;
+
+  left: 0;
+
+  z-index: 20;
+
+  width:
+    var(--ltt-col-1-width);
+
+  min-width:
+    var(--ltt-col-1-width);
+
+  background:
+    var(--ltt-header-bg);
+
+  border-right:
+    1px solid var(--ltt-border);
+
+  box-shadow:
+    var(--ltt-header-shadow);
+
+  font-weight: 600;
+
+  backdrop-filter:
+    blur(18px);
+
+  overflow: visible;
+}
+
+/* sticky separator */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  right: -12px;
+
+  width: 12px;
+  height: 100%;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(to right,
+      rgba(0, 0, 0, .06),
+      transparent);
+
+  opacity: .12;
+}
+
+/* align */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container>.block-content-wrapper {
+
+  min-height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================================
+   RESIZE HANDLE
+========================================================= */
+
+.ltt-table-root .ltt-resize-handle {
+
+  position: absolute;
+
+  top: 0;
+  right: -4px;
+
+  width: 8px;
+  height: 100%;
+
+  cursor: col-resize;
+
+  z-index: 50;
+
+  opacity: 0;
+
+  transition:
+    opacity .15s ease,
+    background .15s ease;
+}
+
+/* visible */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .ltt-resize-handle {
+
+  opacity: 1;
+
+  background:
+    linear-gradient(180deg,
+      rgba(59, 130, 246, .18),
+      rgba(59, 130, 246, .08));
+}
+
+/* active */
+
+.ltt-table-root .ltt-resize-handle:hover {
+
+  opacity: 1;
+
+  background:
+    rgba(59, 130, 246, .28);
+}
+
+/* =========================================================
+   REMOVE FAKE PADDING
+========================================================= */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>div[style="padding-left: 45px;"] {
+
+  display: none !important;
+}
+
+/* =========================================================
+   FLATTEN CHILDREN
+========================================================= */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container,
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children,
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .blocks-list-wrap {
+
+  display: contents !important;
+}
+
+/* =========================================================
+   CELL
+========================================================= */
+
+/*
+cell =
+row children
+*/
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
+
+  display: block !important;
+
+  min-height: 58px;
+
+  padding:
+    14px 22px !important;
+
+  margin: 0 !important;
+
+  border-right:
+    1px solid var(--ltt-border);
+
+  background:
+    var(--ltt-cell-bg);
+
+  box-sizing: border-box;
+
+  overflow: visible;
+
+  transition:
+    background .12s ease;
+}
+
+/* last col */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:last-child {
+
+  border-right: none;
+}
+
+/* hover */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
+
+  background:
+    rgba(127, 127, 127, .03);
+}
+
+/* =========================================================
+   CELL CONTENT
+========================================================= */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-content-wrapper {
+
+  width: 100% !important;
+
+  overflow: visible !important;
+}
+
+/* =========================================================
+   BULLETS
+========================================================= */
+
+/* hide row bullets */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {
+
+  display: none !important;
+}
+
+/* restore bullets in cells */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {
+
   display: flex !important;
-  opacity: 0.72;
+
+  opacity: .72;
+
+  transition:
+    opacity .12s ease;
 }
 
-/* ============ TABLE 主题预设 - 增强版 ============ */
+/* hover */
 
-/* Default 主题 - 简约清新风格 */
-.ltt-table-root.ltt-theme-default {
-  --ltt-border: #e2e8f0;
-  --ltt-border-strong: #cbd5e1;
-  --ltt-header-bg: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-  --ltt-cell-bg: #ffffff;
-  --ltt-row-hover: #f8fafc;
-  --ltt-radius: 12px;
-  --ltt-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --ltt-header-text: #1e293b;
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .block-control-wrap {
+
+  opacity: 1;
 }
 
-.ltt-table-root.ltt-theme-default > .block-children-container {
-  border: 1px solid #e2e8f0;
+/* =========================================================
+   TREE LINE
+========================================================= */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-children-left-border {
+
+  display: block !important;
+
+  opacity: .22;
 }
 
-.ltt-table-root.ltt-theme-default > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  border-bottom: 3px solid #3b82f6;
-  border-right: none;
-  box-shadow: inset 0 -1px 0 rgba(59, 130, 246, 0.1);
+/* =========================================================
+   CHILD FLOW
+========================================================= */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-children-container {
+
+  padding-left:
+    1.45em !important;
+
+  margin-top:
+    6px !important;
 }
 
-/* Notion 主题 - 扁平极简风格 */
-.ltt-table-root.ltt-theme-notion {
-  --ltt-border: #f0f0f0;
-  --ltt-border-strong: #e5e5e5;
-  --ltt-header-bg: #ffffff;
-  --ltt-cell-bg: #ffffff;
-  --ltt-row-hover: #fafafa;
-  --ltt-radius: 0px;
-  --ltt-shadow: none;
-  --ltt-header-text: #37352f;
-}
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
 
-.ltt-table-root.ltt-theme-notion > .block-children-container {
-  border: none;
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
-}
+.ltt-table-root .block-title-wrap {
 
-.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  border-bottom: none;
-  border-right: none;
-  background: #ffffff;
-  font-weight: 500;
   font-size: 14px;
+
+  line-height: 1.65;
+
+  white-space: normal;
+
+  word-break: break-word;
+
+  color:
+    var(--ls-primary-text-color);
 }
 
-.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right: none;
-  border-bottom: 1px solid #f0f0f0;
+/* stronger first col */
+
+.ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-title-wrap {
+
+  font-weight: 650;
 }
 
-.ltt-table-root.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background-color: #fafafa !important;
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.ltt-table-root textarea {
+
+  resize: none !important;
+
+  overflow: hidden !important;
+
+  white-space: pre-wrap !important;
+
+  width: 100% !important;
 }
 
-/* Linear 主题 - 紧凑专业风格 */
-.ltt-table-root.ltt-theme-linear {
-  --ltt-border: #e5e7eb;
-  --ltt-border-strong: #d1d5db;
-  --ltt-header-bg: #fafafa;
-  --ltt-cell-bg: #ffffff;
-  --ltt-row-hover: #f3f4f6;
-  --ltt-radius: 8px;
-  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --ltt-header-text: #5e6ad2;
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.ltt-table-root>.block-children-container::-webkit-scrollbar {
+
+  height: 10px;
 }
 
-.ltt-table-root.ltt-theme-linear > .block-children-container {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+.ltt-table-root>.block-children-container::-webkit-scrollbar-thumb {
+
+  background:
+    rgba(120, 120, 120, .18);
+
+  border-radius: 999px;
+
+  border: 2px solid transparent;
+
+  background-clip: padding-box;
 }
 
-.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  border-bottom: 2px solid #5e6ad2;
-  border-right: none;
-  background: #fafafa;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #5e6ad2;
-}
+/* =========================================================
+   MOBILE
+========================================================= */
 
-.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right: none;
-  border-bottom: 1px solid #f3f4f6;
-}
+@media (max-width: 900px) {
 
-.ltt-table-root.ltt-theme-linear > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background-color: #f3f4f6 !important;
-}
+  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
 
-/* Dark 主题 - 深色沉浸风格 */
-.ltt-table-root.ltt-theme-dark {
-  --ltt-border: rgba(255, 255, 255, 0.08);
-  --ltt-border-strong: rgba(255, 255, 255, 0.12);
-  --ltt-header-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-  --ltt-cell-bg: #0f172a;
-  --ltt-row-hover: #1e293b;
-  --ltt-radius: 12px;
-  --ltt-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --ltt-header-text: #f8fafc;
-}
+    grid-template-columns: 1fr;
+  }
 
-.ltt-table-root.ltt-theme-dark > .block-children-container {
-  background: #0f172a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
 
-.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  border-bottom: 2px solid #3b82f6;
-  border-right: none;
-  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-  color: #f8fafc;
-}
+    position: relative;
 
-.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: #cbd5e1;
-  background: #0f172a;
-}
+    width: 100%;
+    min-width: 100%;
 
-.ltt-table-root.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background-color: #1e293b !important;
-}
+    border-right: none;
 
-/* Gradient 主题 - 渐变时尚风格 */
-.ltt-table-root.ltt-theme-gradient {
-  --ltt-border: #ddd6fe;
-  --ltt-border-strong: #8b5cf6;
-  --ltt-header-bg: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
-  --ltt-cell-bg: #faf5ff;
-  --ltt-row-hover: #ede9fe;
-  --ltt-radius: 16px;
-  --ltt-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
-  --ltt-header-text: #ffffff;
-}
+    border-bottom:
+      1px solid var(--ltt-border);
+  }
 
-.ltt-table-root.ltt-theme-gradient > .block-children-container {
-  background: #faf5ff;
-  border: 2px solid #ddd6fe;
-  border-top: none;
-  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
-}
+  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
 
-.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  border-bottom: none;
-  border-right: none;
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
-  color: #ffffff;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-}
+    border-right: none;
 
-.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right: none;
-  border-bottom: 1px solid #e9d5ff;
-  background: #faf5ff;
-}
+    border-bottom:
+      1px solid var(--ltt-border);
 
-.ltt-table-root.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background-color: #ede9fe !important;
-}
+    min-width: 100%;
+  }
 
-/* ============ 斑马纹支持 ============ */
-.ltt-table-root.ltt-striped > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.02);
-}
+  .ltt-table-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:last-child {
 
-.ltt-table-root.ltt-striped.ltt-theme-dark > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.03);
-}
+    border-bottom: none;
+  }
 
-.ltt-table-root.ltt-striped.ltt-theme-gradient > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(odd) {
-  background-color: #eff6ff;
-}
+  .ltt-table-root .ltt-resize-handle {
 
-/* ============ 边框支持 ============ */
-.ltt-table-root.ltt-bordered > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border: 1px solid var(--ltt-border);
-  border-collapse: collapse;
-}
-
-.ltt-table-root.ltt-bordered.ltt-theme-notion > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-radius: 6px;
+    display: none;
+  }
 }
