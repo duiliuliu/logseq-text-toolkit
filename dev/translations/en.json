@@ -35,6 +35,7 @@
     "toolbar": "🛠️ Toolbar Settings",
     "taskProgress": "📊 Task Progress",
     "heatmap": "📈 Heatmap",
+    "blockView": "📋 Block View",
     "advanced": "⚡ Other Settings"
   },
     "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
@@ -131,6 +132,43 @@
     },
     "saveTaskProgressSettings": "Save Task Progress Settings",
     "saveHeatmapSettings": "Save Heatmap Settings",
+    "saveBlockViewSettings": "Save Block View Settings",
+    "blockView": {
+      "description": "Configure global default behavior for block view module.",
+      "enabled": "Enable Block View",
+      "defaultView": "Default View Type",
+      "viewList": "List",
+      "viewTable": "Table",
+      "viewGallery": "Gallery",
+      "viewBoard": "Board",
+      "hideViewBar": "Hide View Switcher Bar",
+      "hideViewBarDescription": "Use default view when hidden, can still switch via macro parameter view=xxx",
+      "table": {
+        "title": "📊 Table Settings",
+        "defaultTheme": "Default Theme",
+        "themeDefault": "Default",
+        "themeNotion": "Notion",
+        "themeLinear": "Linear",
+        "themeDark": "Dark",
+        "themeGradient": "Gradient",
+        "themeCustom": "Custom",
+        "showStriped": "Show Striped Rows",
+        "showBorder": "Show Border",
+        "customTheme": {
+          "title": "🔧 Custom Theme Configuration",
+          "borderColor": "Border Color",
+          "headerBgColor": "Header Background",
+          "headerTextColor": "Header Text",
+          "headerBorderColor": "Header Border",
+          "headerHeight": "Header Height",
+          "rowBgColor": "Row Background",
+          "rowHoverBgColor": "Row Hover Background",
+          "rowBorderColor": "Row Border",
+          "cellPadding": "Cell Padding",
+          "tableBorderRadius": "Table Border Radius"
+        }
+      }
+    },
     "heatmap": {
       "description": "Configure heatmap display settings and appearance.",
       "enabled": "Enable Heatmap",

@@ -35,6 +35,7 @@
     "toolbar": "🛠️ 工具栏设置",
     "taskProgress": "📊 任务进度",
     "heatmap": "📈 热力图",
+    "blockView": "📋 块视图",
     "advanced": "⚡ 其他设置"
   },
     "saveSuccessRestart": "保存成功，请重启应用生效",
@@ -131,6 +132,43 @@
     },
     "saveTaskProgressSettings": "保存任务进度设置",
     "saveHeatmapSettings": "保存热力图设置",
+    "saveBlockViewSettings": "保存块视图设置",
+    "blockView": {
+      "description": "配置块视图模块的全局默认行为。",
+      "enabled": "启用块视图功能",
+      "defaultView": "默认视图类型",
+      "viewList": "列表",
+      "viewTable": "表格",
+      "viewGallery": "画廊",
+      "viewBoard": "看板",
+      "hideViewBar": "隐藏视图切换栏",
+      "hideViewBarDescription": "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
+      "table": {
+        "title": "📊 Table 设置",
+        "defaultTheme": "默认主题",
+        "themeDefault": "默认",
+        "themeNotion": "Notion",
+        "themeLinear": "Linear",
+        "themeDark": "深色",
+        "themeGradient": "渐变",
+        "themeCustom": "自定义",
+        "showStriped": "显示斑马纹行",
+        "showBorder": "显示边框",
+        "customTheme": {
+          "title": "🔧 自定义主题配置",
+          "borderColor": "边框颜色",
+          "headerBgColor": "表头背景色",
+          "headerTextColor": "表头文字色",
+          "headerBorderColor": "表头边框色",
+          "headerHeight": "表头高度",
+          "rowBgColor": "行背景色",
+          "rowHoverBgColor": "行悬停背景色",
+          "rowBorderColor": "行边框色",
+          "cellPadding": "单元格内边距",
+          "tableBorderRadius": "表格圆角"
+        }
+      }
+    },
     "heatmap": {
       "description": "配置热力图展示功能和显示效果。",
       "enabled": "启用热力图功能",
