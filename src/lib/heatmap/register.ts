@@ -109,6 +109,9 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
     const [k, v] = argMap.property.split('::')
     propertyKey = (k || '').trim()
     queryValue = (v || '').trim()
+  } else {
+    // 默认查询所有 blocks，按 created-at 聚合
+    queryType = 'all'
   }
 
   if (argMap.year) referenceYear = tryInt(argMap.year)
@@ -361,7 +364,7 @@ export function registerHeatmap(): void {
     '[Text Toolkit] Insert Heatmap',
     async () => {
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}, view=year, tag=work}}`
+        `{{renderer ${MACRO_PREFIX}, view=year, tag=Task}}`
       );
     }
   );

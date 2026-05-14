@@ -13,55 +13,40 @@ export class Query {
       timestamps: { start: startTimestamp, end: endTimestamp }
     });
 
-    // 查询所有块，包含页面信息
-    logger.debug('[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all blocks with page');
-    const allBlocks = await logseqAPI.DB.datascriptQuery(`
-      [:find (pull ?b [*]) ?page-name
+    // 合并查询：一次获取 blocks + page-name + tags + updated-at
+    // 使用 or-join 处理可选的 tags，避免多次查询
+    logger.debug('[Query:queryBlocks] executing combined query for blocks, pages, tags, and updated info');
+    const allBlocksWithMeta = await logseqAPI.DB.datascriptQuery(`
+      [:find (pull ?b [*]) ?page-name ?tag-name ?updated
        :where
        [?b :block/content ?content]
        [?b :block/created-at ?created]
        [(>= ?created ${startTimestamp})]
        [(<= ?created ${endTimestamp})]
        [?b :block/page ?page]
-       [?page :page/name ?page-name]]
-    `);
-    logger.debug('[Query:queryBlocks] allBlocks result', { count: allBlocks.length });
-
-    // 查询所有在时间范围内更新的块
-    logger.debug('[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get updated blocks');
-    const updatedBlocks = await logseqAPI.DB.datascriptQuery(`
-      [:find ?b
-       :where
+       [?page :page/name ?page-name]
        [?b :block/updated-at ?updated]
-       [(>= ?updated ${startTimestamp})]
-       [(<= ?updated ${endTimestamp})]]
+       (or-join [?b ?tag-name]
+         (and [?b :block/tags ?t] [?t :block/title ?tag-name])
+         (and [(identity nil) ?tag-name]))]
     `);
-    logger.debug('[Query:queryBlocks] updatedBlocks result', { count: updatedBlocks.length });
-
-    // 查询所有标签，直接从查询获取
-    logger.debug('[Query:queryBlocks] executing logseqAPI.DB.datascriptQuery: get all tags for blocks');
-    const blockTags = await logseqAPI.DB.datascriptQuery(`
-      [:find ?b ?tag-name
-       :where
-       [?b :block/tags ?t]
-       [?t :block/title ?tag-name]
-       [?b :block/created-at ?created]
-       [(>= ?created ${startTimestamp})]
-       [(<= ?created ${endTimestamp})]]
-    `);
-    logger.debug('[Query:queryBlocks] blockTags result', { count: blockTags.length });
+    logger.debug('[Query:queryBlocks] allBlocksWithMeta result', { count: allBlocksWithMeta.length });
 
     const tagCount: Record<string, number> = {};
     const pageCount: Record<string, number> = {};
+    const updatedBlockIds = new Set<string>();
     let totalContentLength = 0;
 
-    // 统计页面和内容长度
-    for (const block of allBlocks) {
-      if (!block || !Array.isArray(block) || block.length < 1) continue;
+    // 统计页面、标签、内容长度和更新信息
+    for (const row of allBlocksWithMeta) {
+      if (!row || !Array.isArray(row) || row.length < 1) continue;
       
-      const blockData = block[0] as any;
-      const pageName = block[1] as string;
+      const blockData = row[0] as any;
+      const pageName = row[1] as string;
+      const tagName = row[2] as string | null;
+      const updatedAt = row[3] as number;
       const content = blockData?.['content'] || '';
+      const blockId = blockData?.['uuid'] || blockData?.[':block/uuid'];
       
       totalContentLength += content.length;
 
@@ -69,20 +54,23 @@ export class Query {
       if (pageName) {
         pageCount[pageName] = (pageCount[pageName] || 0) + 1;
       }
-    }
 
-    // 统计标签
-    for (const tagEntry of blockTags) {
-      if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
-      const tagName = tagEntry[1] as string;
+      // 统计标签（可能为 null）
       if (tagName) {
         tagCount[tagName] = (tagCount[tagName] || 0) + 1;
       }
+
+      // 统计更新的块（在时间范围内更新）
+      if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
+        if (blockId) {
+          updatedBlockIds.add(blockId);
+        }
+      }
     }
 
-    const created = allBlocks.length;
-    const modified = updatedBlocks.length;
-    const total = allBlocks.length;
+    const created = allBlocksWithMeta.length;
+    const modified = updatedBlockIds.size;
+    const total = allBlocksWithMeta.length;
 
     logger.info('[Query:queryBlocks] completed', {
       total,

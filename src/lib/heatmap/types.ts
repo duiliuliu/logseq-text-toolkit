@@ -35,7 +35,7 @@ export interface HeatmapDataPoint {
 }
 
 export interface HeatmapQueryParams {
-  type: 'tag' | 'page' | 'property';
+  type: 'tag' | 'page' | 'property' | 'all';
   value?: string;
   propertyKey?: string;
   year?: number;

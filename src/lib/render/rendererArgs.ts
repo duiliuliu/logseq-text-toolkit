@@ -105,8 +105,8 @@ const models = new Map<string, RendererArgModel>()
  * @param model - 参数模型配置
  * 
  * @example
- * registerRendererArgModel(':heatmap', { positional: ['view'] });
- * registerRendererArgModel(':热力图', { positional: ['view'] });
+ * registerRendererArgModel(':heatmap', { positional: ['view', 'displayMode'] });
+ * registerRendererArgModel(':热力图', { positional: ['view', 'displayMode'] });
  */
 export function registerRendererArgModel(prefix: string, model: RendererArgModel): void {
   models.set(prefix, model)
