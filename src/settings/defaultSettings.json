@@ -50,6 +50,7 @@
     }
   },
   "blockView": {
+    "enabled": true,
     "defaultViewType": "table",
     "table": {
       "defaultTheme": "default",

@@ -96,6 +96,7 @@ export interface BlockViewTableSettings {
 
 // Block View 设置
 export interface BlockViewSettings {
+  enabled: boolean;
   defaultViewType: 'table' | 'list' | 'card' | 'timeline';
   table: BlockViewTableSettings;
 }
