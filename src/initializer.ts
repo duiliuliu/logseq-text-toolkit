@@ -34,6 +34,9 @@ import customSelectCSSRaw from './components/CustomSelect/customSelect.css?raw'
 import heatmapCSSRaw from './components/Heatmap/heatmap.css?raw'
 import summaryCSSRaw from './components/Summary/summary.css?raw'
 import blockViewCSSRaw from './components/BlockView/blockView.css?raw'
+import tableViewCSSRaw from './components/BlockView/tableView.css?raw'
+import galleryViewCSSRaw from './components/BlockView/galleryView.css?raw'
+import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
 
 /* ============================================================================
    常量定义
@@ -136,6 +139,24 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: blockViewCSSRaw,
     externalPath: 'blockView.css'
+  })
+
+  registerCSS('tableView', {
+    type: 'both',
+    inlineContent: tableViewCSSRaw,
+    externalPath: 'tableView.css'
+  })
+
+  registerCSS('galleryView', {
+    type: 'both',
+    inlineContent: galleryViewCSSRaw,
+    externalPath: 'galleryView.css'
+  })
+
+  registerCSS('boardView', {
+    type: 'both',
+    inlineContent: boardViewCSSRaw,
+    externalPath: 'boardView.css'
   })
 }
 
