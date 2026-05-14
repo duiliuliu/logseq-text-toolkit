@@ -272,7 +272,7 @@
   const httpClient = new LogseqHTTPClient();
 
   const eventListeners = /* @__PURE__ */ new Map();
-  const logger$1 = {
+  const logger$2 = {
     info: (message, ...args) => console.log(`[INFO] ${message}`, ...args),
     warn: (message, ...args) => console.warn(`[WARN] ${message}`, ...args),
     error: (message, ...args) => console.error(`[ERROR] ${message}`, ...args)
@@ -282,10 +282,10 @@
     setHTTPAPIConfig: (config) => {
       if (config) {
         httpClient.setConfig(config.baseUrl, config.token);
-        logger$1.info("[Mock App] HTTP API configured:", config.baseUrl);
+        logger$2.info("[Mock App] HTTP API configured:", config.baseUrl);
       } else {
         httpClient.disable();
-        logger$1.info("[Mock App] HTTP API disabled");
+        logger$2.info("[Mock App] HTTP API disabled");
       }
     },
     useHTTPAPI: function(baseUrl, token) {
@@ -300,7 +300,7 @@
             try {
               return await httpClient.callMethod(methodName, args);
             } catch (err) {
-              logger$1.warn(`[Mock App] HTTP call failed for ${key}, falling back to mock:`, err);
+              logger$2.warn(`[Mock App] HTTP call failed for ${key}, falling back to mock:`, err);
             }
           }
           return App[key].call(self, ...args);
@@ -359,7 +359,7 @@
         try {
           return await httpClient.getUserConfigs();
         } catch (err) {
-          logger$1.warn("[Mock App] HTTP getUserConfigs failed, using mock:", err);
+          logger$2.warn("[Mock App] HTTP getUserConfigs failed, using mock:", err);
         }
       }
       return Promise.resolve({
@@ -446,7 +446,7 @@
       listeners?.forEach((callback) => callback(...args));
     },
     pushState: (page, params) => {
-      logger$1.info(`[Mock] App.pushState: ${page}`, params);
+      logger$2.info(`[Mock] App.pushState: ${page}`, params);
       const message = params.date ? `跳转到日期页面: ${params.date}` : params.name ? `跳转到页面: ${params.name}` : `跳转到页面: ${page}`;
       if (window.addToast) {
         window.addToast(message, "info", 3e3);
@@ -456,7 +456,7 @@
     }
   };
 
-  const logger = {
+  const logger$1 = {
     info: (message, ...args) => console.log(`[INFO] ${message}`, ...args),
     warn: (message, ...args) => console.warn(`[WARN] ${message}`, ...args),
     error: (message, ...args) => console.error(`[ERROR] ${message}`, ...args)
@@ -493,10 +493,10 @@
         try {
           return await httpClient.getPage(pageName);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP getPage failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP getPage failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.getPage: ${pageName}`);
+      logger$1.info(`[Mock] Editor.getPage: ${pageName}`);
       return Promise.resolve(null);
     },
     createPage: async function(pageName, content, options) {
@@ -504,10 +504,10 @@
         try {
           return await httpClient.createPage(pageName, content, options);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP createPage failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP createPage failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.createPage: ${pageName}`, options);
+      logger$1.info(`[Mock] Editor.createPage: ${pageName}`, options);
       const message = `创建页面: ${pageName}`;
       if (window.addToast) {
         window.addToast(message, "success", 3e3);
@@ -532,7 +532,7 @@
         try {
           return await httpClient.getBlock(blockUuid);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP getBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP getBlock failed, using mock:", err);
         }
       }
       console.log("Get block:", blockUuid);
@@ -553,7 +553,7 @@
         try {
           return await httpClient.updateBlock(blockUuid, content);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP updateBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP updateBlock failed, using mock:", err);
         }
       }
       console.log("Update block:", blockUuid, content);
@@ -572,10 +572,10 @@
         try {
           return await httpClient.upsertBlockProperty(blockUuid, property, value);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP upsertBlockProperty failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP upsertBlockProperty failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.upsertBlockProperty: ${blockUuid}`, { property, value });
+      logger$1.info(`[Mock] Editor.upsertBlockProperty: ${blockUuid}`, { property, value });
       return Promise.resolve(true);
     },
     renamePage: async function(oldName, newName) {
@@ -583,10 +583,10 @@
         try {
           return await httpClient.renamePage(oldName, newName);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP renamePage failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP renamePage failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.renamePage: ${oldName} -> ${newName}`);
+      logger$1.info(`[Mock] Editor.renamePage: ${oldName} -> ${newName}`);
       return Promise.resolve(true);
     },
     insertBlock: async function(parentUuid, content, position = "last") {
@@ -594,10 +594,10 @@
         try {
           return await httpClient.insertBlock(parentUuid, content, position);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP insertBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP insertBlock failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.insertBlock: parent=${parentUuid}, content=${content}, position=${position}`);
+      logger$1.info(`[Mock] Editor.insertBlock: parent=${parentUuid}, content=${content}, position=${position}`);
       return Promise.resolve({ uuid: `mock-block-${Date.now()}`, content });
     },
     deleteBlock: async function(blockUuid) {
@@ -605,10 +605,10 @@
         try {
           return await httpClient.deleteBlock(blockUuid);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP deleteBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP deleteBlock failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.deleteBlock: ${blockUuid}`);
+      logger$1.info(`[Mock] Editor.deleteBlock: ${blockUuid}`);
       return Promise.resolve(true);
     },
     addTag: async function(blockUuid, tagName) {
@@ -616,10 +616,10 @@
         try {
           return await httpClient.addTag(blockUuid, tagName);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP addTag failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP addTag failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.addTag: ${blockUuid} -> ${tagName}`);
+      logger$1.info(`[Mock] Editor.addTag: ${blockUuid} -> ${tagName}`);
       return Promise.resolve(true);
     },
     getBlockChildren: (blockId) => {
@@ -19698,8 +19698,40 @@ ${where}
     }
   };
 
+  const logger = {
+    debug: (message, data) => {
+      console.log(`[BlockViewDemo DEBUG] ${message}`, data || "");
+    },
+    info: (message, data) => {
+      console.log(`[BlockViewDemo INFO] ${message}`, data || "");
+    }
+  };
   const BlockViewDemo = () => {
     const [currentView, setCurrentView] = reactExports.useState("list");
+    logger.debug("Component mounted", { currentView });
+    const handleViewChange = (viewType) => {
+      logger.debug("View button clicked", {
+        previousView: currentView,
+        newView: viewType,
+        timestamp: (/* @__PURE__ */ new Date()).toISOString()
+      });
+      setCurrentView(viewType);
+      logger.info("View changed successfully", { newView: viewType });
+    };
+    const renderIcon = (iconSvg) => {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "span",
+        {
+          dangerouslySetInnerHTML: { __html: iconSvg },
+          style: {
+            display: "flex",
+            alignItems: "center",
+            width: "14px",
+            height: "14px"
+          }
+        }
+      );
+    };
     const renderBlockHTML = () => {
       const html = `<div haschild="true" class="ls-block swipe-item ltt-${currentView}-root" level="0" blockid="6a03f979-2728-4739-bf02-399ca07cb19c" id="ls-block-6a03f979-2728-4739-bf02-399ca07cb19c" containerid="1">
     <div class="block-main-container flex flex-row gap-1">
@@ -20514,15 +20546,25 @@ ${where}
             </div>`;
       return html;
     };
+    logger.debug("Rendering BlockViewDemo", {
+      currentView,
+      viewRegistryKeys: Object.keys(VIEW_REGISTRY)
+    });
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "16px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { marginBottom: "16px" }, children: "Block View Demo" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-view-bar", style: { marginBottom: "16px" }, children: Object.values(VIEW_REGISTRY).map((viewConfig) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { style: { marginBottom: "16px" }, children: [
+        "Block View Demo - Current: ",
+        currentView
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-view-bar", style: { marginBottom: "16px" }, children: Object.values(VIEW_REGISTRY).map((viewConfig) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "button",
         {
           className: `ltt-view-btn ${currentView === viewConfig.id ? "active" : ""}`,
-          onClick: () => setCurrentView(viewConfig.id),
-          dangerouslySetInnerHTML: { __html: viewConfig.icon },
-          title: viewConfig.name
+          onClick: () => handleViewChange(viewConfig.id),
+          title: viewConfig.name,
+          children: [
+            renderIcon(viewConfig.icon),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { marginLeft: "4px", fontSize: "12px" }, children: viewConfig.name })
+          ]
         },
         viewConfig.id
       )) }),
