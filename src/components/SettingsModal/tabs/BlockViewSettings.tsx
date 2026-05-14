@@ -191,7 +191,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
     customFields: any[]
   ) => {
     const isExpanded = expandedViews.has(viewType);
-    const viewConfig = blockViewSettings[viewType];
+    const viewConfig = blockViewSettings?.[viewType] || {};
     const customThemeConfig = viewConfig?.customTheme || {};
 
     return (
