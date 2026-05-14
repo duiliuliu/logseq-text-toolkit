@@ -1,0 +1,58 @@
+.ttk-block-view-container {
+  padding: 8px 0;
+  position: relative;
+}
+
+.ttk-block-view-viewbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ttk-block-view-viewbar-btn {
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.ttk-block-view-viewbar-btn:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.ttk-block-view-viewbar-btn.active {
+  background: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+
+.ttk-block-view-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ttk-block-view-table {
+  width: 100%;
+}
+
+.ttk-block-view-resizer {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.ttk-block-view-th:hover .ttk-block-view-resizer {
+  opacity: 1;
+}
+
+.ttk-block-view-resizer:hover,
+.ttk-block-view-resizer.active {
+  opacity: 1;
+  background-color: #3b82f6 !important;
+}
