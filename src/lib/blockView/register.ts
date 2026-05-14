@@ -1,7 +1,7 @@
 import { logseqAPI } from '../../logseq';
 import { getDocument } from '../../logseq/utils';
 import { getSettingsWithSystem } from '../../settings';
-import { VIEW_REGISTRY, ViewType } from './ViewTypes';
+import { VIEW_REGISTRY, ViewType } from './types';
 import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import { createRendererArgUpdater } from '../render/rendererArgs';
 import logger from '../logger';

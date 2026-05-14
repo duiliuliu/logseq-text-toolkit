@@ -9,6 +9,7 @@ import TaskProgressDemo from './components/TaskProgressDemo/index'
 import HeatmapDemo from './components/HeatmapDemo/index'
 import { SummaryDemo } from './components/SummaryDemo'
 import { ProxySettings } from './components/ProxySettings'
+import { BlockViewDemo } from './components/BlockViewDemo'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
 import { useSettingsContext } from '../settings/useSettings'
@@ -315,53 +316,8 @@ function TestApp() {
 
       <HeatmapDemo />
 
-      {/* BlockView 演示说明 */}
-      <div style={{ 
-        marginTop: '24px', 
-        padding: '16px', 
-        backgroundColor: '#e3f2fd', 
-        borderRadius: '8px' 
-      }}>
-        <h3 style={{ margin: '0 0 16px 0' }}>📋 BlockView 说明</h3>
-        <p>BlockView 通过以下方式启用：</p>
-        <ul style={{ margin: '12px 0', paddingLeft: '20px' }}>
-          <li>在 Logseq 块中使用宏：<code>{`{{renderer :blockview}}`}</code></li>
-          <li>通过 Settings 配置默认视图和隐藏视图切换栏</li>
-          <li>点击视图按钮会自动保存到宏参数中</li>
-        </ul>
-        <p style={{ fontSize: '12px', color: '#666' }}>
-          视图切换 Bar 会显示在块上方，应用相应 CSS 类来调整子块显示。
-        </p>
-      </div>
-
-      <div style={{ 
-        marginTop: '16px', 
-        padding: '16px', 
-        backgroundColor: '#f5f5f5', 
-        borderRadius: '8px' 
-      }}>
-        <h3 style={{ margin: '0 0 16px 0' }}>📊 真实 Block 结构示例 (来自 test.html)</h3>
-        
-        <div style={{ marginBottom: '16px' }}>
-          <strong>创建块数:</strong> <span style={{ color: '#1976d2', fontWeight: 'bold' }}>156</span>
-        </div>
-        
-        <div style={{ marginBottom: '16px' }}>
-          <strong>完成任务:</strong> <span style={{ color: '#388e3c', fontWeight: 'bold' }}>28 / 35</span>
-        </div>
-        
-        <div style={{ marginBottom: '16px' }}>
-          <strong>活跃天数:</strong> <span style={{ color: '#f57c00', fontWeight: 'bold' }}>6 / 7</span>
-        </div>
-        
-        <div style={{ marginBottom: '16px' }}>
-          <strong>新增页面:</strong> <span style={{ color: '#7b1fa2', fontWeight: 'bold' }}>12</span>
-        </div>
-
-        <p style={{ fontSize: '12px', color: '#666' }}>
-          真实 Block 结构包含 marker、content、page、created-at、updated-at 等字段，可根据宏命令参数调整视图样式。
-        </p>
-      </div>
+      {/* BlockView 演示 */}
+      <BlockViewDemo />
 
       {/* Summary 生成器放在最下面 */}
       <SummaryDemo onGenerateSuccess={handleSummaryGenerate} />
