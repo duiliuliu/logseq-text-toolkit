@@ -246,33 +246,41 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
       
       // First part may be "type" or "type args" - split by space to extract type
       const firstPart = commaParts[0]
+      
+      // Split firstPart by space to get type and any inline args
       const typeParts = firstPart.split(/\s+/)
       const type = typeParts[0]
       
-      // Collect all args from all comma parts
+      // Collect all args: inline args from firstPart + all remaining comma parts
       const argTokens: string[] = []
       
-      // Add remaining args from first part (skip type itself)
+      // Add inline args from firstPart (skip type itself at index 0)
       for (let i = 1; i < typeParts.length; i++) {
         argTokens.push(typeParts[i])
       }
       
       // Add all subsequent comma parts
       for (let i = 1; i < commaParts.length; i++) {
-        argTokens.push(commaParts[i])
+        // For remaining comma parts, also split by space to get inline args
+        const partParts = commaParts[i].split(/\s+/)
+        for (const part of partParts) {
+          if (part.trim()) {
+            argTokens.push(part.trim())
+          }
+        }
       }
       
       // Parse existing args
       const existingArgs = parseRendererArgs(type, argTokens)
       const positionalKeys = findModel(type)?.model?.positional || []
       
-      // Check which positional keys had positional format (no = sign)
-      const positionalFormat: Record<string, boolean> = {}
+      // Check which positional keys had positional format (no = sign) in original tokens
+      const keepAsPositional: Record<string, boolean> = {}
       for (const token of argTokens) {
         if (!token.includes('=')) {
           for (const posKey of positionalKeys) {
             if (existingArgs[posKey] === token) {
-              positionalFormat[posKey] = true
+              keepAsPositional[posKey] = true
             }
           }
         }
@@ -283,6 +291,7 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
       for (const [key, value] of Object.entries(updates)) {
         if (value === null) {
           delete newArgs[key]
+          delete keepAsPositional[key]
         } else {
           newArgs[key] = value
         }
@@ -294,7 +303,11 @@ export function createRendererArgUpdater(prefixes: string | string[]): {
       // Add positional args first
       for (const posKey of positionalKeys) {
         if (newArgs[posKey] !== undefined) {
-          newTokens.push(newArgs[posKey])
+          if (keepAsPositional[posKey]) {
+            newTokens.push(newArgs[posKey])
+          } else {
+            newTokens.push(`${posKey}=${newArgs[posKey]}`)
+          }
           delete newArgs[posKey]
         }
       }
