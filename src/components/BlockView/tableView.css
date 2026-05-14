@@ -29,7 +29,7 @@
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
   --ltt-col-1-width: 280px;
-  --ltt-cell-padding: 12px 16px;
+  --ltt-cell-padding: 12px 4px;
   --ltt-header-height: 48px;
 }
 
@@ -370,6 +370,10 @@
   display: flex !important;
   opacity: 0.6;
   transition: opacity 0.15s ease;
+}
+
+.ltt-table-root .block-control {
+  display: none !important; 
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
