@@ -142,45 +142,44 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
   ];
 
   const ColorInput = ({ label, value, onChange }: { label: string, value: string, onChange: (val: string) => void }) => (
-    <div className="ltt-setting-item" style={{ flex: 1, minWidth: '200px' }}>
+    <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
       <label>{label}</label>
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}>
         <input
           type="color"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          style={{ width: '40px', height: '32px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+          className="ltt-color-input"
+          style={{ width: '36px', height: '28px', padding: 0 }}
         />
         <input
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          style={{ flex: 1, padding: '6px 8px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '4px', fontSize: '12px' }}
+          style={{ flex: 1 }}
         />
       </div>
     </div>
   );
 
   const TextInput = ({ label, value, onChange }: { label: string, value: string, onChange: (val: string) => void }) => (
-    <div className="ltt-setting-item" style={{ flex: 1, minWidth: '200px' }}>
+    <div className="ltt-setting-item">
       <label>{label}</label>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        style={{ width: '100%', padding: '6px 8px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '4px', fontSize: '12px' }}
       />
     </div>
   );
 
   const NumberInput = ({ label, value, onChange }: { label: string, value: number, onChange: (val: number) => void }) => (
-    <div className="ltt-setting-item" style={{ flex: 1, minWidth: '200px' }}>
+    <div className="ltt-setting-item">
       <label>{label}</label>
       <input
         type="number"
         value={value}
         onChange={(e) => onChange(parseInt(e.target.value))}
-        style={{ width: '100%', padding: '6px 8px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '4px', fontSize: '12px' }}
       />
     </div>
   );
@@ -288,7 +287,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
 
             {/* Custom Theme Configuration */}
             {blockViewSettings.defaultTheme === 'custom' && (
-              <div style={{ marginTop: '16px', padding: '16px', border: '1px solid var(--ls-border-color, #e5e7eb)', borderRadius: '8px', backgroundColor: 'var(--ls-tertiary-background, #fafafa)' }}>
+              <div className="ltt-setting-item-group">
                 <h5 style={{ margin: '0 0 16px 0', fontSize: '13px', fontWeight: 600, color: 'var(--ls-primary-text-color-plugin, #333)' }}>
                   {t(`settings.blockView.${viewType}.customTheme.title`, language)}
                 </h5>
