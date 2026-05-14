@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import Modal from '../Modal';
-import { SummaryType, TemplateType } from '../../lib/summary/types';
-import { getAllTemplates } from '../../lib/summary/templates';
-import { generateSummary } from '../../lib/summary/register';
-import { t } from '../../translations/i18n';
-import './summary.css';
+import React, { useState, useEffect } from 'react'
+import Modal from '../Modal'
+import { SummaryType, TemplateType } from '../../lib/summary/types'
+import { getAllTemplates } from '../../lib/summary/templates'
+import { generateSummary } from '../../lib/summary/register'
+import { t } from '../../translations/i18n'
+import { useSettingsContext } from '../../settings/useSettings'
+import './summary.css'
 
 interface SummaryModalProps {
   isOpen: boolean;
@@ -17,16 +18,24 @@ const summaryTypes: { value: SummaryType; label: string }[] = [
   { value: 'monthly', label: '月度总结' },
   { value: 'yearly', label: '年度总结' },
   { value: 'custom', label: '自定义时间范围' },
-];
+]
 
 export const SummaryModal: React.FC<SummaryModalProps> = ({ isOpen, onClose, theme = 'light' }) => {
-  const [summaryType, setSummaryType] = useState<SummaryType>('weekly');
-  const [templateType, setTemplateType] = useState<TemplateType>('gtd-work-review');
-  const [customStart, setCustomStart] = useState('');
-  const [customEnd, setCustomEnd] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
+  const { settings } = useSettingsContext()
+  const [summaryType, setSummaryType] = useState<SummaryType>('weekly')
+  const [templateType, setTemplateType] = useState<TemplateType>('gtd-work-review')
+  const [customStart, setCustomStart] = useState('')
+  const [customEnd, setCustomEnd] = useState('')
+  const [isGenerating, setIsGenerating] = useState(false)
 
-  const templates = getAllTemplates();
+  const templates = getAllTemplates()
+
+  useEffect(() => {
+    if (isOpen && settings?.summary) {
+      setSummaryType(settings.summary.defaultType || 'weekly')
+      setTemplateType(settings.summary.defaultTemplate || 'gtd-work-review')
+    }
+  }, [isOpen, settings]);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -61,7 +70,7 @@ export const SummaryModal: React.FC<SummaryModalProps> = ({ isOpen, onClose, the
       width="480px"
       theme={theme}
     >
-      <div className="ltt-settings-container" data-theme={theme}>
+      <div className="summary-modal-container" data-theme={theme}>
         <div className="ltt-settings-tab-content">
           <p className="ltt-tab-section-description-small">选择总结类型和模版</p>
           

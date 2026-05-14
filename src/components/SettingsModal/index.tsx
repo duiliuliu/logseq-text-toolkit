@@ -8,6 +8,7 @@ import AdvancedSettings from './tabs/AdvancedSettings'
 import TaskProgressSettings from './tabs/TaskProgressSettings'
 import HeatmapSettings from './tabs/HeatmapSettings'
 import BlockViewSettings from './tabs/BlockViewSettings'
+import SummarySettings from './tabs/SummarySettings'
 import { t, getCurrentLanguage } from '../../translations/i18n'
 import { ThemeType, Settings } from '../../settings/types'
 import { logseqAPI } from '../../logseq/index.ts'
@@ -99,6 +100,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '' },
     { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '' },
     { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
+    { id: 'summary', component: SummarySettings, label: t('settings.tabs.summary', language), icon: '' },
     { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language), icon: '' }
   ]
 

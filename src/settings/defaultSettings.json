@@ -102,6 +102,21 @@
       }
     }
   },
+  "summary": {
+    "enabled": true,
+    "defaultTemplate": "gtd-work-review",
+    "defaultType": "weekly",
+    "dateFormat": "yyyy-MM-dd EEE",
+    "pageNameTemplate": "{{type}}-总结-{{date}}",
+    "ai": {
+      "enabled": false,
+      "provider": "openai",
+      "apiKey": "",
+      "apiUrl": "",
+      "model": "gpt-3.5-turbo",
+      "promptTemplate": ""
+    }
+  },
   "meta": {
     "language": {
       "languages": [
