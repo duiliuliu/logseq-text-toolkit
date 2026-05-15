@@ -24,8 +24,8 @@ export class BulletJournalTemplate implements SummaryTemplate {
           {
             content: '## 📅 日志概览',
             children: [
-              { content: `- 时间段: ${dateRangeStr}` },
-              { content: `- 记录条数: ${data.blocks.total}` },
+              { content: `时间段: ${dateRangeStr}` },
+              { content: `记录条数: ${data.blocks.total}` },
             ],
           },
           {
@@ -42,29 +42,29 @@ export class BulletJournalTemplate implements SummaryTemplate {
           {
             content: '## 💡 想法记录',
             children: [
-              { content: '- 本周/本月收集的想法和灵感' },
-              { content: '- 待进一步探索的主题' },
+              { content: '本周/本月收集的想法和灵感' },
+              { content: '待进一步探索的主题' },
             ],
           },
           {
             content: '## 📚 阅读笔记',
             children: [
-              { content: '- 阅读的书籍/文章' },
-              { content: '- 关键要点摘录' },
+              { content: '阅读的书籍/文章' },
+              { content: '关键要点摘录' },
             ],
           },
           {
             content: '## 🏷️ 标签云',
             children: topTags.map(([tag, count]) => ({
-              content: `- #${tag}: ${count}`,
+              content: `${tag}: ${count}`,
             })),
           },
           {
             content: '## 🎯 下周/下月目标',
             children: [
-              { content: '- [ ] 目标一' },
-              { content: '- [ ] 目标二' },
-              { content: '- [ ] 目标三' },
+              { content: '[ ] 目标一' },
+              { content: '[ ] 目标二' },
+              { content: '[ ] 目标三' },
             ],
           },
         ],

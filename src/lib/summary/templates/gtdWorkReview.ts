@@ -29,10 +29,10 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
               {
                 content: '### 核心指标',
                 children: [
-                  { content: `- 创建块数: ${data.blocks.created}` },
-                  { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
-                  { content: `- 任务完成率: ${data.tasks.completionRate}%` },
-                  { content: `- 新增页面: ${data.pages.newPages}` },
+                  { content: `创建块数: ${data.blocks.created}` },
+                  { content: `完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
+                  { content: `任务完成率: ${data.tasks.completionRate}%` },
+                  { content: `新增页面: ${data.pages.newPages}` },
                 ]
               },
             ],
@@ -73,15 +73,15 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
               {
                 content: '### 热门标签',
                 children: [
-                  ...topTags.map(([tag, count]) => ({ content: `- #${tag} (${count})` }))
+                  ...topTags.map(([tag, count]) => ({ content: `${tag} (${count})` }))
                 ]
               },
               {
                 content: '### 页面统计',
                 children: [
-                  { content: `- 总页面数: ${data.pages.total}` },
-                  { content: `- 新增页面: ${data.pages.newPages}` },
-                  { content: `- 修改页面: ${data.pages.modifiedPages}` },
+                  { content: `总页面数: ${data.pages.total}` },
+                  { content: `新增页面: ${data.pages.newPages}` },
+                  { content: `修改页面: ${data.pages.modifiedPages}` },
                 ]
               },
             ],
