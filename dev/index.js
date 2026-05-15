@@ -971,7 +971,9 @@
   	defaultTemplate: "gtd-work-review",
   	defaultType: "weekly",
   	dateFormat: "yyyy-MM-dd EEE",
-  	pageNameTemplate: "{{type}}-总结-{{date}}",
+  	weeklyPageNameTemplate: "周度总结-{{year}}-W{{week}}",
+  	monthlyPageNameTemplate: "月度总结-{{year}}-{{month}}",
+  	customPageNameTemplate: "自定义总结-{{date}}",
   	ai: {
   		enabled: false,
   		provider: "openai",
@@ -3190,7 +3192,10 @@
   		defaultTemplate: "Default Template",
   		defaultType: "Default Summary Type",
   		dateFormat: "Date Format",
-  		pageNameTemplate: "Page Name Template",
+  		weeklyPageNameTemplate: "Weekly Page Name Template",
+  		monthlyPageNameTemplate: "Monthly Page Name Template",
+  		customPageNameTemplate: "Custom Page Name Template",
+  		pageNameTemplateHelp: "Available placeholders: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
   		templateGtdWorkReview: "GTD Work Review",
   		templateMinimalDashboard: "Minimal Dashboard",
   		templateBulletJournal: "Bullet Journal",
@@ -3738,7 +3743,10 @@
   		defaultTemplate: "默认模板",
   		defaultType: "默认总结类型",
   		dateFormat: "日期格式",
-  		pageNameTemplate: "页面名称模板",
+  		weeklyPageNameTemplate: "周度页面名称模板",
+  		monthlyPageNameTemplate: "月度页面名称模板",
+  		customPageNameTemplate: "自定义页面名称模板",
+  		pageNameTemplateHelp: "可用占位符: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
   		templateGtdWorkReview: "GTD 工作回顾",
   		templateMinimalDashboard: "极简仪表盘",
   		templateBulletJournal: "子弹日记",
@@ -3753,7 +3761,7 @@
   		aiSettings: "🤖 AI 设置",
   		aiEnabled: "启用 AI 增强",
   		aiProvider: "AI 提供商",
-  		aiProviderOpenAI: "OpenAI",
+  		aiProviderOpenai: "OpenAI",
   		aiProviderClaude: "Claude",
   		aiProviderCustom: "自定义",
   		aiApiKey: "API Key",
@@ -8004,49 +8012,49 @@ ${where}
         dateRange: { start: start.toISOString(), end: end.toISOString() },
         timestamps: { start: startTimestamp, end: endTimestamp }
       });
-      loggerProxy.debug("[Query:queryBlocks] executing combined query for blocks, pages, tags, and updated info");
+      loggerProxy.debug("[Query:queryBlocks] executing query for blocks");
       const allBlocksWithMeta = await logseqAPI$1.DB.datascriptQuery(`
-      [:find (pull ?b [*]) ?page-name ?tag-name ?updated
+      [:find  (pull ?b 
+                 [:block/content 
+                  :block/created-at
+                  {:block/page [:block/title]}
+                  {:block/tags [:block/title]}
+                  {:block/refs [:block/name]}])
        :where
-       [?b :block/content ?content]
-       [?b :block/created-at ?created]
-       [(>= ?created ${startTimestamp})]
-       [(<= ?created ${endTimestamp})]
-       [?b :block/page ?page]
-       [?page :page/name ?page-name]
-       [?b :block/updated-at ?updated]
-       (or-join [?b ?tag-name]
-         (and [?b :block/tags ?t] [?t :block/title ?tag-name])
-         (and [(identity nil) ?tag-name]))]
+       [?b :block/created-at ?date]
+       [(>= ?date ${startTimestamp})]
+       [(<= ?date ${endTimestamp})]
+       [?b :block/refs ?ref]
+       [?ref :block/name ?ref-name]]
     `);
       loggerProxy.debug("[Query:queryBlocks] allBlocksWithMeta result", { count: allBlocksWithMeta.length });
       const tagCount = {};
       const pageCount = {};
-      const updatedBlockIds = /* @__PURE__ */ new Set();
       let totalContentLength = 0;
       for (const row of allBlocksWithMeta) {
         if (!row || !Array.isArray(row) || row.length < 1) continue;
         const blockData = row[0];
-        const pageName = row[1];
-        const tagName = row[2];
-        const updatedAt = row[3];
-        const content = blockData?.["content"] || "";
-        const blockId = blockData?.["uuid"] || blockData?.[":block/uuid"];
+        const content = blockData?.["content"] || blockData?.[":block/content"] || "";
+        const pageData = blockData?.["page"] || blockData?.[":block/page"];
+        const tagsData = blockData?.["tags"] || blockData?.[":block/tags"];
         totalContentLength += content.length;
-        if (pageName) {
-          pageCount[pageName] = (pageCount[pageName] || 0) + 1;
-        }
-        if (tagName) {
-          tagCount[tagName] = (tagCount[tagName] || 0) + 1;
-        }
-        if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
-          if (blockId) {
-            updatedBlockIds.add(blockId);
+        if (pageData) {
+          const pageName = pageData["title"] || pageData[":block/title"];
+          if (pageName) {
+            pageCount[pageName] = (pageCount[pageName] || 0) + 1;
           }
+        }
+        if (tagsData && Array.isArray(tagsData)) {
+          tagsData.forEach((tagData) => {
+            const tagName = tagData?.["title"] || tagData?.[":block/title"];
+            if (tagName) {
+              tagCount[tagName] = (tagCount[tagName] || 0) + 1;
+            }
+          });
         }
       }
       const created = allBlocksWithMeta.length;
-      const modified = updatedBlockIds.size;
+      const modified = 0;
       const total = allBlocksWithMeta.length;
       loggerProxy.info("[Query:queryBlocks] completed", {
         total,
@@ -8074,20 +8082,22 @@ ${where}
         start: start.toISOString(),
         end: end.toISOString()
       });
-      loggerProxy.debug('[Query:queryTasks] executing logseqAPI.DB.datascriptQuery: get tasks with tags "Task"');
+      loggerProxy.debug("[Query:queryTasks] executing query for tasks");
       const tasks = await logseqAPI$1.DB.datascriptQuery(`
-      [:find (pull ?b [*]) ?status-title ?priority-title
+      [:find  (pull ?b 
+                 [:block/content 
+                  :block/created-at
+                  {:block/page [:block/title]}
+                  {:block/tags [:block/title]}
+                  :logseq.property/status
+                  :logseq.property/priority
+                  :logseq.property/scheduled])
        :where
-       [?b :block/tags ?t]
-       [?t :block/title "Task"]
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
        [(<= ?date ${endTimestamp})]
-       [?b :logseq.property/status ?status]
-       [?status :block/title ?status-title]
-       [?b :logseq.property/priority ?priority]
-       [?priority :block/title ?priority-title]
-      ]
+       [?b :block/tags ?t]
+       [?t :block/title "Task"]]
     `);
       loggerProxy.debug("[Query:queryTasks] tasks result", { count: tasks.length });
       const total = tasks.length;
@@ -8100,46 +8110,31 @@ ${where}
       for (const task of tasks) {
         if (!task || !Array.isArray(task) || task.length < 1) continue;
         const block = task[0];
-        const statusTitle = task[1];
-        const priorityTitle = task[2];
-        const status = statusTitle ? statusTitle.toLowerCase() : "todo";
-        const priority = priorityTitle ? priorityTitle.toLowerCase() : "none";
-        loggerProxy.debug("[Query:queryTasks] processing task", {
-          blockId: block?.["uuid"],
-          status,
-          priority
-        });
+        const statusTag = block?.["tags"]?.find(
+          (t) => (t?.["title"] || t?.[":block/title"])?.toLowerCase() === "done" || (t?.["title"] || t?.[":block/title"])?.toLowerCase() === "doing" || (t?.["title"] || t?.[":block/title"])?.toLowerCase() === "todo"
+        );
+        const status = statusTag ? (statusTag?.["title"] || statusTag?.[":block/title"])?.toLowerCase() : "todo";
+        const priorityTag = block?.["tags"]?.find(
+          (t) => (t?.["title"] || t?.[":block/title"])?.toLowerCase().startsWith("priority")
+        );
+        const priority = priorityTag ? (priorityTag?.["title"] || priorityTag?.[":block/title"])?.toLowerCase() : "none";
         if (status === "done" || status === "completed" || status === "cancelled") {
           completed++;
-          loggerProxy.debug("[Query:queryTasks] task completed", { blockId: block?.["uuid"] });
         } else if (status === "doing" || status === "now") {
           inProgress++;
-          loggerProxy.debug("[Query:queryTasks] task in-progress", { blockId: block?.["uuid"] });
-        } else if (status === "waiting" || status === "later") {
-          loggerProxy.debug("[Query:queryTasks] task waiting/later", { blockId: block?.["uuid"] });
-        } else {
+        } else if (status === "waiting" || status === "later") ; else {
           todo++;
-          loggerProxy.debug("[Query:queryTasks] task todo", { blockId: block?.["uuid"] });
         }
         const scheduled = block?.["scheduled"] || block?.[":logseq.property/scheduled"];
         if (scheduled && status !== "done" && status !== "completed" && status !== "cancelled") {
           const scheduledDate = new Date(scheduled);
           if (scheduledDate < now) {
             overdue++;
-            loggerProxy.debug("[Query:queryTasks] task overdue", {
-              blockId: block?.["uuid"],
-              scheduled
-            });
           }
         }
         if (priority) {
           const priorityKey = String(priority).toLowerCase();
           byPriority[priorityKey] = (byPriority[priorityKey] || 0) + 1;
-          loggerProxy.debug("[Query:queryTasks] task priority found", {
-            blockId: block?.["uuid"],
-            priority: priorityKey,
-            count: byPriority[priorityKey]
-          });
         }
       }
       loggerProxy.info("[Query:queryTasks] completed", {
@@ -8169,22 +8164,19 @@ ${where}
         dateRange: { start: start.toISOString(), end: end.toISOString() },
         timestamps: { start: startTimestamp, end: endTimestamp }
       });
-      loggerProxy.debug("[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get all pages");
+      loggerProxy.debug("[Query:queryPages] executing query for pages");
       const pages = await logseqAPI$1.DB.datascriptQuery(`
-      [:find (pull ?p [*])
-       :where [?p :page/name ?name]
-              [?p :page/created-at ?createdAt]
-              [?p :page/updated-at ?updatedAt]]
+      [:find  (pull ?p 
+                 [:page/name
+                  :page/title
+                  :page/created-at
+                  :page/updated-at
+                  {:block/tags [:block/title]}])
+       :where
+       [?p :page/name ?name]
+       [?p :page/created-at ?createdAt]]
     `);
       loggerProxy.debug("[Query:queryPages] pages result", { count: pages.length });
-      loggerProxy.debug("[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get page tags");
-      const pageTags = await logseqAPI$1.DB.datascriptQuery(`
-      [:find ?p ?tag-name
-       :where
-       [?p :block/tags ?t]
-       [?t :block/title ?tag-name]]
-    `);
-      loggerProxy.debug("[Query:queryPages] pageTags result", { count: pageTags.length });
       let newPages = 0;
       let modifiedPages = 0;
       const byTag = {};
@@ -8194,20 +8186,20 @@ ${where}
         const pageData = page[0];
         const createdAt = pageData?.["created-at"] || pageData?.[":page/created-at"];
         const updatedAt = pageData?.["updated-at"] || pageData?.[":page/updated-at"];
+        const tagsData = pageData?.["tags"] || pageData?.[":block/tags"];
         if (createdAt && createdAt >= startTimestamp && createdAt <= endTimestamp) {
           newPages++;
-          loggerProxy.debug("[Query:queryPages] new page found", { pageName: pageData?.["name"] || pageData?.[":page/name"] });
         }
         if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
           modifiedPages++;
-          loggerProxy.debug("[Query:queryPages] modified page found", { pageName: pageData?.["name"] || pageData?.[":page/name"] });
         }
-      }
-      for (const tagEntry of pageTags) {
-        if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
-        const tagName = tagEntry[1];
-        if (tagName) {
-          byTag[tagName] = (byTag[tagName] || 0) + 1;
+        if (tagsData && Array.isArray(tagsData)) {
+          tagsData.forEach((tagData) => {
+            const tagName = tagData?.["title"] || tagData?.[":block/title"];
+            if (tagName) {
+              byTag[tagName] = (byTag[tagName] || 0) + 1;
+            }
+          });
         }
       }
       loggerProxy.info("[Query:queryPages] completed", {
@@ -8744,7 +8736,7 @@ ${where}
         const data = await this.analyzer.analyze(summaryType, customStart, customEnd);
         loggerProxy.debug("[PageGenerator] 渲染模板");
         const blockTree = template.render(data, { ...params, summaryType });
-        const pageName = this.generatePageName(summaryType, data.dateRange);
+        const pageName = this.generatePageName(summaryType, data.dateRange, params.pageNameTemplate);
         loggerProxy.info("[PageGenerator] 创建页面", { pageName });
         const pageId = await this.createPage(pageName);
         if (pageId) {
@@ -8763,23 +8755,25 @@ ${where}
         return null;
       }
     }
-    async generateWeeklyPage(year, weekNumber) {
-      loggerProxy.info("[PageGenerator] 开始生成周度页面", { year, weekNumber });
+    async generateWeeklyPage(year, weekNumber, pageNameTemplate) {
+      loggerProxy.info("[PageGenerator] 开始生成周度页面", { year, weekNumber, pageNameTemplate });
       const startDate = this.getWeekStartDate(year, weekNumber);
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
       return this.generate("gtd-work-review", "weekly", startDate, endDate, {
         year,
-        weekNumber
+        weekNumber,
+        pageNameTemplate
       });
     }
-    async generateMonthlyPage(year, month) {
-      loggerProxy.info("[PageGenerator] 开始生成月度页面", { year, month });
+    async generateMonthlyPage(year, month, pageNameTemplate) {
+      loggerProxy.info("[PageGenerator] 开始生成月度页面", { year, month, pageNameTemplate });
       const startDate = new Date(year, month - 1, 1);
       const endDate = new Date(year, month, 0);
       return this.generate("gtd-work-review", "monthly", startDate, endDate, {
         year,
-        month
+        month,
+        pageNameTemplate
       });
     }
     getWeekStartDate(year, weekNumber) {
@@ -8792,11 +8786,44 @@ ${where}
       result.setDate(result.getDate() + diff);
       return result;
     }
-    generatePageName(summaryType, dateRange) {
+    generatePageName(summaryType, dateRange, pageNameTemplate) {
       const now = dateRange.start;
       const year = now.getFullYear();
       const month = now.getMonth() + 1;
       const weekNum = this.analyzer.getWeekNumber(now);
+      const dateStr = now.toISOString().split("T")[0];
+      if (pageNameTemplate) {
+        return this.replacePageNamePlaceholders(pageNameTemplate, {
+          year,
+          month,
+          week: weekNum,
+          date: dateStr,
+          type: summaryType
+        });
+      }
+      const settings = getSettings();
+      let template;
+      switch (summaryType) {
+        case "weekly":
+          template = settings.summary?.weeklyPageNameTemplate;
+          break;
+        case "monthly":
+          template = settings.summary?.monthlyPageNameTemplate;
+          break;
+        case "custom":
+        default:
+          template = settings.summary?.customPageNameTemplate;
+          break;
+      }
+      if (template) {
+        return this.replacePageNamePlaceholders(template, {
+          year,
+          month,
+          week: weekNum,
+          date: dateStr,
+          type: summaryType
+        });
+      }
       switch (summaryType) {
         case "weekly":
           return `周度总结-${year}-W${weekNum}`;
@@ -8804,9 +8831,11 @@ ${where}
           return `月度总结-${year}-${month.toString().padStart(2, "0")}`;
         case "custom":
         default:
-          const dateStr = now.toISOString().split("T")[0];
           return `自定义总结-${dateStr}`;
       }
+    }
+    replacePageNamePlaceholders(template, vars) {
+      return template.replace(/\{\{year\}\}/g, String(vars.year)).replace(/\{\{month\}\}/g, String(vars.month).padStart(2, "0")).replace(/\{\{week\}\}/g, String(vars.week)).replace(/\{\{date\}\}/g, vars.date).replace(/\{\{type\}\}/g, vars.type);
     }
     async createPage(pageName) {
       loggerProxy.debug("[PageGenerator] 查询页面是否存在", { pageName });
@@ -24352,7 +24381,9 @@ ${where}
       defaultTemplate: "gtd-work-review",
       defaultType: "weekly",
       dateFormat: "yyyy-MM-dd EEE",
-      pageNameTemplate: "{{type}}-总结-{{date}}",
+      weeklyPageNameTemplate: "周度总结-{{year}}-W{{week}}",
+      monthlyPageNameTemplate: "月度总结-{{year}}-{{month}}",
+      customPageNameTemplate: "自定义总结-{{date}}",
       ai: {
         enabled: false,
         provider: "openai",
@@ -24446,17 +24477,42 @@ ${where}
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.pageNameTemplate", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.weeklyPageNameTemplate", language) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
             type: "text",
-            value: summarySettings.pageNameTemplate,
-            onChange: (e) => handleSettingChange("pageNameTemplate", e.target.value),
-            placeholder: "{{type}}-总结-{{date}}"
+            value: summarySettings.weeklyPageNameTemplate,
+            onChange: (e) => handleSettingChange("weeklyPageNameTemplate", e.target.value),
+            placeholder: "周度总结-{{year}}-W{{week}}"
           }
         )
       ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.monthlyPageNameTemplate", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: summarySettings.monthlyPageNameTemplate,
+            onChange: (e) => handleSettingChange("monthlyPageNameTemplate", e.target.value),
+            placeholder: "月度总结-{{year}}-{{month}}"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.customPageNameTemplate", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: summarySettings.customPageNameTemplate,
+            onChange: (e) => handleSettingChange("customPageNameTemplate", e.target.value),
+            placeholder: "自定义总结-{{date}}"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", style: { color: "#666", fontSize: "12px", marginTop: "-8px", marginBottom: "16px" }, children: t("settings.summary.pageNameTemplateHelp", language) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-section-title", style: { marginTop: "24px", marginBottom: "12px", fontWeight: 600, fontSize: "14px" }, children: t("settings.summary.aiSettings", language) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.aiEnabled", language) }),
