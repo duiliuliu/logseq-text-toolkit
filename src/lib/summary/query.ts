@@ -25,8 +25,6 @@ export class Query {
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
        [(<= ?date ${endTimestamp})]
-       [?b :block/refs ?ref]
-       [?ref :block/name ?ref-name]]
     `);
     logger.debug('[Query:queryBlocks] allBlocksWithMeta result', { count: allBlocksWithMeta.length });
 
