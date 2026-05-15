@@ -313,6 +313,222 @@
 | invokeParams | object | 命令参数 |
 | hidden | boolean | 是否隐藏按钮 |
 
+### 4.6 自定义语言和国际化
+
+插件支持多语言扩展，您可以添加新的语言包或修改现有翻译。
+
+#### 语言文件位置
+
+语言文件位于 `dist/translations/` 目录，包含以下文件：
+- `zh-CN.json` - 简体中文
+- `en.json` - English
+- `ja.json` - 日本語
+
+#### 添加新语言
+
+**步骤 1：创建语言文件**
+
+在 `dist/translations/` 目录创建新的 JSON 文件（如 `de.json` 表示德语）：
+
+```json
+{
+  "toolbar": {
+    "bold": "Fett",
+    "highlight": "Hervorheben"
+  },
+  "settings": {
+    "title": "Einstellungen"
+  }
+}
+```
+
+**步骤 2：注册新语言**
+
+在源代码 `src/translations/translations.ts` 中添加新的语言类型：
+
+```typescript
+export type SupportedLanguage = 'en' | 'ja' | 'zh-CN' | 'system' | 'de'; // 添加 'de'
+```
+
+**步骤 3：导入语言文件**
+
+在 `src/translations/i18n.ts` 中导入并注册新语言：
+
+```typescript
+import de from './de.json';
+
+const translations: Translations = {
+  en: enTranslations,
+  ja: jaTranslations,
+  'zh-CN': zhCNTranslations,
+  de: de, // 添加德语翻译
+};
+```
+
+**步骤 4：重新构建插件**
+
+```bash
+npm run build
+```
+
+#### 修改现有翻译
+
+如果您只想修改部分翻译，可以直接编辑 `dist/translations/` 目录下的对应 JSON 文件：
+
+```bash
+# 编辑中文翻译
+vim dist/translations/zh-CN.json
+
+# 编辑英文翻译  
+vim dist/translations/en.json
+```
+
+修改后需要重启插件使更改生效。
+
+#### 翻译文件结构说明
+
+每个语言 JSON 文件的结构：
+
+```json
+{
+  "toolbar": {
+    "bold": "加粗",
+    "highlight": "高亮",
+    "fileLink": "文件链接",
+    "comment": "评论"
+  },
+  "settings": {
+    "title": "设置",
+    "tabs": {
+      "general": "⚙️ 通用设置",
+      "toolbar": "🛠️ 工具栏设置"
+    },
+    "enabled": "启用",
+    "disabled": "禁用"
+  },
+  "blockView": {
+    "description": "配置块视图模块的全局默认行为。",
+    "enabled": "启用块视图功能"
+  }
+}
+```
+
+### 4.7 自定义 CSS 样式
+
+插件的 CSS 文件位于 `dist/` 目录，您可以通过修改 CSS 文件来自定义样式。
+
+#### CSS 文件说明
+
+| 文件名 | 说明 |
+|--------|------|
+| `toolbar.css` | 工具栏样式 |
+| `taskProgress.css` | 任务进度样式 |
+| `heatmap.css` | 热力图样式 |
+| `blockView.css` | 块视图基础样式 |
+| `tableView.css` | 表格视图样式 |
+| `galleryView.css` | 画廊视图样式 |
+| `boardView.css` | 看板视图样式 |
+| `settingsModal.css` | 设置面板样式 |
+| `summary.css` | 总结生成样式 |
+| `customSelect.css` | 自定义下拉框样式 |
+
+#### 自定义样式方法
+
+**方法一：直接修改 CSS 文件（推荐用于深度定制）**
+
+1. 找到 `dist/` 目录下的对应 CSS 文件
+2. 修改 CSS 规则
+3. 重启插件使更改生效
+
+```bash
+# 编辑工具栏样式
+vim dist/toolbar.css
+
+# 编辑表格视图样式
+vim dist/tableView.css
+```
+
+**方法二：使用 Logseq CSS 覆盖（推荐用于简单定制）**
+
+在 Logseq 的 `custom.css` 文件中添加覆盖样式：
+
+```css
+/* 自定义工具栏样式 */
+.ltt-toolbar {
+  --ltt-bg: #ffffff;
+  --ltt-border: #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 自定义任务进度颜色 */
+.ltt-task-progress {
+  --ltt-done-color: #22c55e;
+  --ltt-todo-color: #94a3b8;
+}
+
+/* 自定义表格视图样式 */
+.ltt-table-root {
+  --ltt-border: #e2e8f0;
+  --ltt-header-bg: #f8fafc;
+  --ltt-radius: 8px;
+}
+
+/* 自定义块视图切换栏 */
+.ltt-view-bar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 6px;
+}
+
+/* 深色模式自定义 */
+.dark .ltt-toolbar {
+  --ltt-bg: #1e2128;
+  --ltt-border: rgba(255, 255, 255, 0.1);
+}
+```
+
+#### CSS 变量参考
+
+| 变量名 | 说明 | 示例值 |
+|--------|------|--------|
+| `--ltt-bg` | 背景色 | `#ffffff` |
+| `--ltt-border` | 边框色 | `#e5e7eb` |
+| `--ltt-text` | 文字色 | `#333333` |
+| `--ltt-primary` | 主色调 | `#3b82f6` |
+| `--ltt-hover` | 悬停色 | `rgba(0,0,0,0.05)` |
+
+#### 自定义主题示例
+
+**Notion 风格主题**：
+
+```css
+.ltt-table-root.theme-notion {
+  --ltt-border: #f0f0f0;
+  --ltt-header-bg: #ffffff;
+  --ltt-radius: 0px;
+  --ltt-shadow: none;
+}
+```
+
+**深色科技风格**：
+
+```css
+.dark .ltt-table-root.theme-linear {
+  --ltt-border: rgba(255, 255, 255, 0.08);
+  --ltt-header-bg: #1e2128;
+  --ltt-header-text: #5e6ad2;
+  --ltt-cell-text: #b8c0cc;
+}
+```
+
+#### 注意事项
+
+1. **优先级**：Logseq 的 custom.css 优先级高于插件自带 CSS
+2. **覆盖方式**：使用 `!important` 可以强制覆盖
+3. **深色模式**：插件会自动跟随 Logseq 的深色模式，建议同时配置 `.dark` 选择器
+4. **备份**：修改前建议备份原始 CSS 文件
+5. **调试**：使用浏览器开发者工具查看实际应用的样式
+
 ---
 
 ## 五、开发说明
@@ -345,12 +561,6 @@ src/
 ├── translations/    # 国际化文件
 └── utils/          # 工具函数
 ```
-
-### 添加新语言
-
-1. 在 `src/translations/` 目录创建新的 JSON 文件（如 `de.json`）
-2. 在 `translations.ts` 中添加新的语言类型
-3. 在 `i18n.ts` 中导入并注册新语言
 
 ### CSS 变量
 

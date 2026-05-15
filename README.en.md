@@ -278,7 +278,7 @@ Select text → Toolbar auto-pops up → Click button
 | Theme | Features | Use Case |
 |-------|----------|----------|
 | Default | Clean and clear | General use |
-| Notion | Borderless, minimalist |追求简洁 |
+| Notion | Borderless, minimalist | Pursue simplicity |
 | Linear | Tech-focused | Programmers |
 | Dark | Dark color scheme | Night use |
 | Gradient | Gradient effects | Aesthetic appeal |
@@ -313,6 +313,222 @@ Configure toolbar elements via JSON in Settings:
 | invokeParams | object | Command parameters |
 | hidden | boolean | Hide button |
 
+### 4.6 Custom Languages and Internationalization
+
+The plugin supports multi-language extension. You can add new language packs or modify existing translations.
+
+#### Language Files Location
+
+Language files are located in `dist/translations/` directory, containing:
+- `zh-CN.json` - Simplified Chinese
+- `en.json` - English
+- `ja.json` - Japanese
+
+#### Adding New Languages
+
+**Step 1: Create Language File**
+
+Create a new JSON file in `dist/translations/` (e.g., `de.json` for German):
+
+```json
+{
+  "toolbar": {
+    "bold": "Fett",
+    "highlight": "Hervorheben"
+  },
+  "settings": {
+    "title": "Einstellungen"
+  }
+}
+```
+
+**Step 2: Register New Language**
+
+Add new language type in source code `src/translations/translations.ts`:
+
+```typescript
+export type SupportedLanguage = 'en' | 'ja' | 'zh-CN' | 'system' | 'de'; // Add 'de'
+```
+
+**Step 3: Import Language File**
+
+Import and register the new language in `src/translations/i18n.ts`:
+
+```typescript
+import de from './de.json';
+
+const translations: Translations = {
+  en: enTranslations,
+  ja: jaTranslations,
+  'zh-CN': zhCNTranslations,
+  de: de, // Add German translation
+};
+```
+
+**Step 4: Rebuild Plugin**
+
+```bash
+npm run build
+```
+
+#### Modifying Existing Translations
+
+If you only want to modify some translations, you can directly edit the corresponding JSON file in `dist/translations/`:
+
+```bash
+# Edit Chinese translation
+vim dist/translations/zh-CN.json
+
+# Edit English translation
+vim dist/translations/en.json
+```
+
+You need to restart the plugin for changes to take effect.
+
+#### Translation File Structure
+
+Each language JSON file structure:
+
+```json
+{
+  "toolbar": {
+    "bold": "Bold",
+    "highlight": "Highlight",
+    "fileLink": "File Link",
+    "comment": "Comment"
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "general": "⚙️ General Settings",
+      "toolbar": "🛠️ Toolbar Settings"
+    },
+    "enabled": "Enable",
+    "disabled": "Disable"
+  },
+  "blockView": {
+    "description": "Configure the global default behavior of the block view module.",
+    "enabled": "Enable Block View"
+  }
+}
+```
+
+### 4.7 Custom CSS Styles
+
+The plugin's CSS files are located in `dist/` directory. You can customize styles by modifying CSS files.
+
+#### CSS Files Description
+
+| Filename | Description |
+|----------|-------------|
+| `toolbar.css` | Toolbar styles |
+| `taskProgress.css` | Task progress styles |
+| `heatmap.css` | Heatmap styles |
+| `blockView.css` | Block view base styles |
+| `tableView.css` | Table view styles |
+| `galleryView.css` | Gallery view styles |
+| `boardView.css` | Board view styles |
+| `settingsModal.css` | Settings panel styles |
+| `summary.css` | Summary generation styles |
+| `customSelect.css` | Custom dropdown styles |
+
+#### Custom Style Methods
+
+**Method 1: Directly Modify CSS Files (Recommended for Deep Customization)**
+
+1. Find the corresponding CSS file in `dist/` directory
+2. Modify CSS rules
+3. Restart the plugin for changes to take effect
+
+```bash
+# Edit toolbar styles
+vim dist/toolbar.css
+
+# Edit table view styles
+vim dist/tableView.css
+```
+
+**Method 2: Use Logseq CSS Override (Recommended for Simple Customization)**
+
+Add override styles in Logseq's `custom.css` file:
+
+```css
+/* Custom toolbar styles */
+.ltt-toolbar {
+  --ltt-bg: #ffffff;
+  --ltt-border: #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom task progress colors */
+.ltt-task-progress {
+  --ltt-done-color: #22c55e;
+  --ltt-todo-color: #94a3b8;
+}
+
+/* Custom table view styles */
+.ltt-table-root {
+  --ltt-border: #e2e8f0;
+  --ltt-header-bg: #f8fafc;
+  --ltt-radius: 8px;
+}
+
+/* Custom view switcher bar */
+.ltt-view-bar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 6px;
+}
+
+/* Dark mode customization */
+.dark .ltt-toolbar {
+  --ltt-bg: #1e2128;
+  --ltt-border: rgba(255, 255, 255, 0.1);
+}
+```
+
+#### CSS Variables Reference
+
+| Variable | Description | Example Value |
+|----------|-------------|---------------|
+| `--ltt-bg` | Background color | `#ffffff` |
+| `--ltt-border` | Border color | `#e5e7eb` |
+| `--ltt-text` | Text color | `#333333` |
+| `--ltt-primary` | Primary color | `#3b82f6` |
+| `--ltt-hover` | Hover color | `rgba(0,0,0,0.05)` |
+
+#### Custom Theme Examples
+
+**Notion Style Theme**:
+
+```css
+.ltt-table-root.theme-notion {
+  --ltt-border: #f0f0f0;
+  --ltt-header-bg: #ffffff;
+  --ltt-radius: 0px;
+  --ltt-shadow: none;
+}
+```
+
+**Dark Tech Style**:
+
+```css
+.dark .ltt-table-root.theme-linear {
+  --ltt-border: rgba(255, 255, 255, 0.08);
+  --ltt-header-bg: #1e2128;
+  --ltt-header-text: #5e6ad2;
+  --ltt-cell-text: #b8c0cc;
+}
+```
+
+#### Notes
+
+1. **Priority**: Logseq's custom.css has higher priority than plugin's built-in CSS
+2. **Override Method**: Use `!important` to force override
+3. **Dark Mode**: Plugin automatically follows Logseq's dark mode. It is recommended to configure `.dark` selector as well
+4. **Backup**: It is recommended to backup original CSS files before modification
+5. **Debugging**: Use browser developer tools to view actually applied styles
+
 ---
 
 ## 五、Development Guide
@@ -345,12 +561,6 @@ src/
 ├── translations/    # Internationalization files
 └── utils/          # Utility functions
 ```
-
-### Adding New Languages
-
-1. Create a new JSON file in `src/translations/` (e.g., `de.json`)
-2. Add new language type in `translations.ts`
-3. Import and register the new language in `i18n.ts`
 
 ### CSS Variables
 
