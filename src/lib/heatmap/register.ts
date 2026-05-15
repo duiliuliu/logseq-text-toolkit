@@ -14,11 +14,16 @@ import { getDocument } from '../../logseq/utils';
 import { getSettingsWithSystem } from '../../settings';
 import logger from '../logger/index';
 import { generateIndigoGradient } from './colorCalculator';
-import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs, createRendererArgUpdater } from '../render';
 
 const MACRO_PREFIX = ':heatmap';
 const MACRO_PREFIX_CN = ':热力图';
 const PLUGIN_ID = 'text-toolkit-heatmap';
+
+// Create updater instance
+const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX, MACRO_PREFIX_CN]);
+
+export { updateHeatmapRendererArgs };
 
 let HeatmapComponent: React.FC<any> | null = null;
 
@@ -104,6 +109,9 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
     const [k, v] = argMap.property.split('::')
     propertyKey = (k || '').trim()
     queryValue = (v || '').trim()
+  } else {
+    // 默认查询所有 blocks，按 created-at 聚合
+    queryType = 'all'
   }
 
   if (argMap.year) referenceYear = tryInt(argMap.year)
@@ -356,7 +364,7 @@ export function registerHeatmap(): void {
     '[Text Toolkit] Insert Heatmap',
     async () => {
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}, view=year, tag=work}}`
+        `{{renderer ${MACRO_PREFIX}, view=year, tag=Task}}`
       );
     }
   );

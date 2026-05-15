@@ -19,6 +19,8 @@ import {
   initSettingsModal,
   initTaskProgress,
   initHeatmap,
+  initSummary,
+  initBlockView,
   registerLogseqButton,
   settingToggle,
   registerAllCSS,
@@ -107,6 +109,12 @@ export async function initializeComponent(): Promise<void> {
 
   await initCommentApp()
   logger.info('💬 Plugin: CommentApp ready')
+
+  await initSummary()
+  logger.info('📋 Plugin: Summary ready')
+
+  await initBlockView()
+  logger.info('📊 Plugin: BlockView ready')
 
   cleanupFunctions.push(() => logger.info('🧹 Plugin: Cleaning up...'))
   logger.info('✅ Plugin: Components initialized')

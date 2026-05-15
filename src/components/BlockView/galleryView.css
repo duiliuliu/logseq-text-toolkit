@@ -1,0 +1,375 @@
+/* =========================================================
+   BLOCK VIEW GALLERY STYLES
+   Advanced Theme System with Multiple Presets
+
+   特性：
+   1. 多主题支持 (Default, Notion, Linear, Dark, Gradient, Tana)
+   2. CSS 变量驱动的设计系统
+   3. 支持自定义主题颜色配置
+   4. 优化的卡片网格布局
+   5. 响应式设计
+========================================================= */
+
+/* =========================================================
+   THEME VARIABLES - DEFAULT
+========================================================= */
+
+.ltt-gallery-root {
+  --ltt-border: #e2e8f0;
+  --ltt-border-strong: #cbd5e1;
+  --ltt-hover: rgba(0, 0, 0, 0.04);
+  --ltt-header-bg: transparent;
+  --ltt-header-text: #374151;
+  --ltt-card-bg: #ffffff;
+  --ltt-card-text: #475569;
+  --ltt-card-hover: #f8fafc;
+  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --ltt-card-radius: 12px;
+  --ltt-gap: 20px;
+  --ltt-padding: 24px;
+}
+
+/* =========================================================
+   THEME: NOTION
+========================================================= */
+
+.theme-notion,
+[data-theme="notion"] {
+  --ltt-border: #e5e7eb;
+  --ltt-border-strong: #d1d5db;
+  --ltt-hover: rgba(0, 0, 0, 0.02);
+  --ltt-header-bg: transparent;
+  --ltt-header-text: #2d2d2d;
+  --ltt-card-bg: #ffffff;
+  --ltt-card-text: #2d2d2d;
+  --ltt-card-hover: #f9fafb;
+  --ltt-card-shadow: none;
+  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --ltt-card-radius: 0px;
+  --ltt-gap: 16px;
+  --ltt-padding: 20px;
+}
+
+/* =========================================================
+   THEME: LINEAR
+========================================================= */
+
+.theme-linear,
+[data-theme="linear"] {
+  --ltt-border: #e5e7eb;
+  --ltt-border-strong: #d1d5db;
+  --ltt-hover: rgba(94, 106, 210, 0.04);
+  --ltt-header-bg: #fafafa;
+  --ltt-header-text: #5e6ad2;
+  --ltt-card-bg: #ffffff;
+  --ltt-card-text: #475569;
+  --ltt-card-hover: #f3f4f6;
+  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --ltt-card-hover-shadow: 0 4px 16px rgba(94, 106, 210, 0.15);
+  --ltt-card-radius: 8px;
+  --ltt-gap: 18px;
+  --ltt-padding: 20px;
+}
+
+/* =========================================================
+   THEME: DARK
+========================================================= */
+
+.dark,
+.theme-dark,
+[data-theme="dark"] {
+  --ltt-border: rgba(255, 255, 255, 0.1);
+  --ltt-border-strong: rgba(255, 255, 255, 0.15);
+  --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: transparent;
+  --ltt-header-text: #f8fafc;
+  --ltt-card-bg: #0f172a;
+  --ltt-card-text: #cbd5e1;
+  --ltt-card-hover: #1f2937;
+  --ltt-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --ltt-card-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --ltt-card-radius: 12px;
+  --ltt-gap: 20px;
+  --ltt-padding: 24px;
+}
+
+/* =========================================================
+   THEME: GRADIENT
+========================================================= */
+
+.theme-gradient,
+[data-theme="gradient"] {
+  --ltt-border: #ddd6fe;
+  --ltt-border-strong: #c4b5fd;
+  --ltt-hover: rgba(139, 92, 246, 0.06);
+  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);
+  --ltt-header-text: #6b21a8;
+  --ltt-card-bg: #faf5ff;
+  --ltt-card-text: #6b21a8;
+  --ltt-card-hover: #ede9fe;
+  --ltt-card-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
+  --ltt-card-hover-shadow: 0 16px 48px rgba(139, 92, 246, 0.35);
+  --ltt-card-radius: 16px;
+  --ltt-gap: 24px;
+  --ltt-padding: 28px;
+}
+
+/* =========================================================
+   THEME: TANA (NEW)
+========================================================= */
+
+.theme-tana,
+[data-theme="tana"] {
+  --ltt-border: #a7f3d0;
+  --ltt-border-strong: #6ee7b7;
+  --ltt-hover: rgba(16, 185, 129, 0.08);
+  --ltt-header-bg: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, transparent 100%);
+  --ltt-header-text: #065f46;
+  --ltt-card-bg: #ecfdf5;
+  --ltt-card-text: #065f46;
+  --ltt-card-hover: #d1fae5;
+  --ltt-card-shadow: 0 12px 40px rgba(16, 185, 129, 0.25);
+  --ltt-card-hover-shadow: 0 16px 48px rgba(16, 185, 129, 0.35);
+  --ltt-card-radius: 16px;
+  --ltt-gap: 24px;
+  --ltt-padding: 28px;
+}
+
+/* =========================================================
+   ROOT CONTAINER
+========================================================= */
+
+.ltt-gallery-root {
+  margin: 24px 32px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* =========================================================
+   ROOT HEADER
+========================================================= */
+
+/* .ltt-gallery-root>.block-main-container {
+  margin-bottom: 12px;
+} */
+
+/* .ltt-gallery-root>.block-main-container .block-control-wrap {
+  display: none !important;
+} */
+
+.ltt-gallery-root>.block-main-container .block-content-inner .block-title-wrap {
+  margin-left: 0.6rem !important;
+}
+
+
+/* =========================================================
+   GRID LAYOUT
+========================================================= */
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--ltt-gap);
+  padding: var(--ltt-padding) !important;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
+  background: var(--ltt-card-bg);
+  border: 1px solid var(--ltt-border);
+  border-radius: var(--ltt-card-radius);
+  padding: 20px !important;
+  margin: 0 !important;
+  transition: all 0.2s ease;
+  min-height: 140px;
+  box-shadow: var(--ltt-card-shadow);
+  position: relative;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--ltt-card-hover-shadow);
+  border-color: var(--ltt-border-strong);
+}
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
+  background: var(--ltt-header-bg);
+  border: none;
+  padding: 0 0 16px 0 !important;
+  border-bottom: 1px solid var(--ltt-border);
+  margin-bottom: 16px;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {
+  display: none !important;
+}
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 10px 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  min-height: auto;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {
+  display: flex !important;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-gallery-root .block-control {
+  display: none !important;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .block-control-wrap {
+  opacity: 1;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+.ltt-gallery-root .block-title-wrap {
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: normal;
+  word-break: break-word;
+  color: var(--ltt-card-text);
+  transition: color 0.15s ease;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-title-wrap {
+  font-weight: 600;
+  color: var(--ltt-header-text);
+  font-size: 15px;
+}
+
+/* =========================================================
+   REMOVE TREE STYLE
+========================================================= */
+
+/* .ltt-gallery-root .block-children-left-border {
+  display: none !important;
+  width: 0 !important;
+  border: none !important;
+} */
+
+.ltt-gallery-root .block-main-container .block-children-left-border {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-gallery-root .block-main-container:hover .block-children-left-border {
+  opacity: 0.18;
+}
+
+.ltt-gallery-root .block-control-wrap {
+  border-left: none !important;
+  /* 移除边框型竖线 */
+}
+
+.ltt-gallery-root .block-control-wrap::before {
+  display: none !important;
+  /* 移除伪元素竖线 */
+}
+
+.ltt-gallery-root .block-children-container {
+  padding-left: 0 !important; 
+}
+
+.ltt-gallery-root >.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container {
+  margin-left: -1px !important;
+}
+
+/* .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+  display: none !important; 
+} */
+
+/* =========================================================
+   CUSTOM THEME OVERRIDES
+========================================================= */
+
+.ltt-gallery-root[data-custom-theme="true"] {
+  --ltt-border: var(--custom-border-color, #e2e8f0);
+  --ltt-card-bg: var(--custom-card-bg, #ffffff);
+  --ltt-card-text: var(--custom-card-text, #475569);
+  --ltt-card-hover: var(--custom-card-hover, #f8fafc);
+  --ltt-card-shadow: var(--custom-card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));
+  --ltt-card-hover-shadow: var(--custom-card-hover-shadow, 0 8px 24px rgba(0, 0, 0, 0.12));
+  --ltt-card-radius: var(--custom-card-radius, 12px);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px !important;
+  }
+
+  .ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
+    min-height: 120px;
+  }
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes ltt-gallery-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
+  animation: ltt-gallery-fade-in 0.3s ease-out;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(5) {
+  animation-delay: 0.2s;
+}
+
+.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(n+6) {
+  animation-delay: 0.25s;
+}

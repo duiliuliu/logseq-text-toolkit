@@ -15,6 +15,10 @@ const buildWhereClause = (params: HeatmapQueryParams): string => {
   const value = params.value || '';
   const key = params.propertyKey || '';
 
+  if (params.type === 'all') {
+    return `[?b :block/content ?content]`;
+  }
+
   if (params.type === 'tag') {
     return `
 [?b :block/tags ?t]
@@ -101,7 +105,8 @@ export async function fetchHeatmapData(
   view: HeatmapViewType,
   formula: ColorFormula
 ): Promise<HeatmapDataPoint[]> {
-  if (!params.value?.trim() && !params.propertyKey?.trim()) return [];
+  // type='all' 时不需要 value，其他类型需要
+  if (params.type !== 'all' && !params.value?.trim() && !params.propertyKey?.trim()) return [];
 
   const now = new Date();
   const year = params.year ?? now.getFullYear();
@@ -179,4 +184,8 @@ export async function queryByPage(page: string, view: HeatmapViewType, formula: 
 
 export async function queryByProperty(propertyKey: string, propertyValue: string, view: HeatmapViewType, formula: ColorFormula, year?: number, month?: number): Promise<HeatmapDataPoint[]> {
   return fetchHeatmapData({ type: 'property', propertyKey, value: propertyValue, year, month }, view, formula);
+}
+
+export async function queryAllBlocks(view: HeatmapViewType, formula: ColorFormula, year?: number, month?: number): Promise<HeatmapDataPoint[]> {
+  return fetchHeatmapData({ type: 'all', year, month }, view, formula);
 }

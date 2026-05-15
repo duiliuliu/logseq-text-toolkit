@@ -11,5 +11,11 @@ module.exports = [
   "customsToolbarItems.css",
   "taskProgress.css",
   "customSelect.css",
-  "heatmap.css"
+  "heatmap.css",
+  "summary.css",
+  "blockView.css",
+  "tableView.css",
+  "galleryView.css",
+  "boardView.css",
+  "listView.css"
 ]

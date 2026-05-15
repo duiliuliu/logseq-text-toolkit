@@ -17,5 +17,6 @@ export {
   registerRendererArgModel,
   splitRendererArgs,
   parseRendererArgs,
+  createRendererArgUpdater,
   type RendererArgModel,
 } from './rendererArgs'

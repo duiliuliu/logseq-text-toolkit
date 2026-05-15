@@ -15,7 +15,12 @@ import Heatmap from './components/Heatmap/Heatmap'
 import { renderComponent } from './lib/render'
 import { registerTaskProgress } from './lib/taskProgress/register'
 import { registerHeatmap, setHeatmapComponent } from './lib/heatmap/register'
+import { registerBlockView } from './lib/blockView/register'
 import { registerCSS } from './lib/cssRegistry'
+import {
+  initSummaryModal,
+  registerSummaryCommands,
+} from './lib/summary/register'
 import logseqAPI from './logseq'
 import { getDocument } from './logseq/utils'
 
@@ -27,6 +32,13 @@ import customsToolbarItemsCSSRaw from './components/SelectToolbar/customsToolbar
 import taskProgressCSSRaw from './components/TaskProgress/taskProgress.css?raw'
 import customSelectCSSRaw from './components/CustomSelect/customSelect.css?raw'
 import heatmapCSSRaw from './components/Heatmap/heatmap.css?raw'
+import summaryCSSRaw from './components/Summary/summary.css?raw'
+import blockViewCSSRaw from './components/BlockView/blockView.css?raw'
+import tableViewCSSRaw from './components/BlockView/tableView.css?raw'
+import galleryViewCSSRaw from './components/BlockView/galleryView.css?raw'
+import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
+import listViewCssRaw from './components/BlockView/listView.css?raw'
+
 
 /* ============================================================================
    常量定义
@@ -117,6 +129,42 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: heatmapCSSRaw,
     externalPath: 'heatmap.css'
+  })
+
+  registerCSS('summary', {
+    type: 'both',
+    inlineContent: summaryCSSRaw,
+    externalPath: 'summary.css'
+  })
+
+  registerCSS('blockView', {
+    type: 'both',
+    inlineContent: blockViewCSSRaw,
+    externalPath: 'blockView.css'
+  })
+
+  registerCSS('tableView', {
+    type: 'both',
+    inlineContent: tableViewCSSRaw,
+    externalPath: 'tableView.css'
+  })
+
+  registerCSS('galleryView', {
+    type: 'both',
+    inlineContent: galleryViewCSSRaw,
+    externalPath: 'galleryView.css'
+  })
+
+  registerCSS('boardView', {
+    type: 'both',
+    inlineContent: boardViewCSSRaw,
+    externalPath: 'boardView.css'
+  })
+
+  registerCSS('listView', {
+    type: 'both',
+    inlineContent: listViewCssRaw,
+    externalPath: 'listView.css'
   })
 }
 
@@ -274,4 +322,29 @@ export async function initTaskProgress(): Promise<void> {
 export async function initHeatmap(): Promise<void> {
   setHeatmapComponent(Heatmap)
   registerHeatmap()
+}
+
+/* ============================================================================
+   Summary 组件
+   ============================================================================ */
+
+/**
+ * Summary 初始化
+ * 注册总结模块的弹窗和斜杠命令
+ */
+export async function initSummary(): Promise<void> {
+  await initSummaryModal()
+  registerSummaryCommands()
+}
+
+/* ============================================================================
+   BlockView 组件
+   ============================================================================ */
+
+/**
+ * BlockView 初始化
+ * 注册块视图宏渲染器和斜杠命令
+ */
+export async function initBlockView(): Promise<void> {
+  registerBlockView()
 }

@@ -1,0 +1,104 @@
+/* ==========================================
+   GTD 工作回顾模版样式 - 简化版 v6.0
+   Logseq Text Toolkit - Summary Module
+   使用 .ltt-summary-page 限定范围
+   ========================================== */
+
+/* 只有包含 .ltt-summary-page 的页面才会应用这些样式 */
+
+/* KPI 指标卡片样式 (level 4) */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
+  background: var(--ls-secondary-background-color, #f8f9fa) !important;
+  padding: 24px 16px !important;
+  border-radius: 12px !important;
+  text-align: center !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  display: inline-block !important;
+  width: calc(25% - 16px) !important;
+  margin: 8px !important;
+  vertical-align: top !important;
+  transition: all 0.3s ease !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"]:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* 隐藏 level 4 卡片内的圆点和控制按钮 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-control-wrap,
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .bullet-link-wrap {
+  display: none !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] .block-content-wrapper {
+  padding-left: 0 !important;
+}
+
+/* level 3 卡片样式（任务回顾、内容分析等） */
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
+  background: var(--ls-secondary-background-color, #ffffff) !important;
+  padding: 24px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  margin: 12px 0 !important;
+}
+
+/* 隐藏 level 3 卡片内的圆点 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .block-control-wrap,
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .bullet-link-wrap {
+  display: none !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="3"] .block-content-wrapper {
+  padding-left: 0 !important;
+}
+
+/* 表格样式 */
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] th,
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] td {
+  padding: 8px 12px !important;
+  text-align: left !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.ls-block:has(.ltt-summary-page) .ls-block[level="4"] th {
+  background: rgba(59, 130, 246, 0.08) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+/* 暗色主题适配 */
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
+  background: rgba(45, 52, 73, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="3"] {
+  background: rgba(45, 52, 73, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .ls-block:has(.ltt-summary-page) .ls-block[level="4"] th {
+  background: rgba(96, 165, 250, 0.15) !important;
+}
+
+/* 响应式布局 */
+@media (max-width: 900px) {
+  .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
+    width: calc(50% - 16px) !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .ls-block:has(.ltt-summary-page) .ls-block[level="4"] {
+    width: calc(100% - 16px) !important;
+  }
+}

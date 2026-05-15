@@ -30,16 +30,16 @@ const App: any = {
     }
   },
 
-  useHTTPAPI: function(this: any, baseUrl: string, token: string): any {
+  useHTTPAPI: function (this: any, baseUrl: string, token: string): any {
     httpClient.setConfig(baseUrl, token);
-    
+
     const wrappedApp: any = {};
     const self = this;
 
     for (const key of Object.keys(App)) {
       if (key === 'useHTTPAPI' || key === 'httpClient' || key === 'setHTTPAPIConfig') continue;
-      
-      wrappedApp[key] = async function(...args: any[]) {
+
+      wrappedApp[key] = async function (...args: any[]) {
         if (httpClient.isEnabled()) {
           const methodName = `logseq.App.${key}`;
           try {
@@ -58,15 +58,15 @@ const App: any = {
   registerCommand: (command: any) => {
     console.log('Registered command:', command);
   },
-  
+
   on: (event: string, callback: (...args: any[]) => void) => {
     console.log('Registered event listener:', event);
-    
+
     if (!eventListeners.has(event)) {
       eventListeners.set(event, []);
     }
     eventListeners.get(event)?.push(callback);
-    
+
     if (event === 'selectionChange') {
       const doc = getDocument();
       doc.addEventListener('mouseup', () => {
@@ -91,10 +91,10 @@ const App: any = {
       App.off(event, callback);
     };
   },
-  
+
   off: (event: string, callback?: (...args: any[]) => void) => {
     console.log('Unregistered event listener:', event);
-    
+
     if (callback && eventListeners.has(event)) {
       const listeners = eventListeners.get(event);
       if (listeners) {
@@ -108,7 +108,7 @@ const App: any = {
     }
   },
 
-  getUserConfigs: async function(this: any) {
+  getUserConfigs: async function (this: any) {
     if (httpClient.isEnabled()) {
       try {
         return await httpClient.getUserConfigs();
@@ -129,7 +129,7 @@ const App: any = {
       enabledJournals: true
     });
   },
-  
+
   getAppInfo: () => {
     console.log('Get app info');
     return Promise.resolve({
@@ -142,10 +142,10 @@ const App: any = {
     console.log('[Mock App] onThemeModeChanged registered');
     return () => console.log('[Mock App] onThemeModeChanged unregistered');
   },
-  
+
   registerUIItem: (slot: string, config: any) => {
     console.log('Registered UI item:', slot, config);
-    
+
     const tryAddUIItem = () => {
       const doc = getDocument();
       const toolbarElement = doc.getElementById('toolbar');
@@ -154,13 +154,13 @@ const App: any = {
         if (existingElement) {
           existingElement.remove();
         }
-        
+
         const element = doc.createElement('div');
         element.id = config.key;
         element.innerHTML = config.template;
         toolbarElement.appendChild(element);
         console.log('Added UI item to toolbar:', config.key);
-        
+
         const clickableElements = element.querySelectorAll('[data-on-click]');
         clickableElements.forEach(clickable => {
           clickable.addEventListener('click', (e) => {
@@ -175,25 +175,25 @@ const App: any = {
             }
           });
         });
-        
+
         return true;
       }
       return false;
     };
-    
+
     if (!tryAddUIItem()) {
       const observer = new MutationObserver((_, obs) => {
         if (tryAddUIItem()) {
           obs.disconnect();
         }
       });
-      
+
       const doc = getDocument();
       observer.observe(doc.body, {
         childList: true,
         subtree: true
       });
-      
+
       setTimeout(() => {
         observer.disconnect();
         console.warn('Timeout waiting for toolbar element, UI item not added:', config.key);
@@ -205,18 +205,18 @@ const App: any = {
     console.log('Mock App.onMacroRendererSlotted registered');
     globalThis.logseqMacroRendererCallback = callback;
   },
-  
+
   trigger: (event: string, ...args: any[]) => {
     console.log('Trigger event:', event, args);
     const listeners = eventListeners.get(event);
     listeners?.forEach(callback => callback(...args));
   },
-  
+
   pushState: (page: string, params: any) => {
     logger.info(`[Mock] App.pushState: ${page}`, params);
-    const message = params.date 
-      ? `跳转到日期页面: ${params.date}` 
-      : params.name 
+    const message = params.date
+      ? `跳转到日期页面: ${params.date}`
+      : params.name
         ? `跳转到页面: ${params.name}`
         : `跳转到页面: ${page}`;
     if ((window as any).addToast) {

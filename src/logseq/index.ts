@@ -3,34 +3,81 @@
  * License: MIT
  * 
  * Logseq API 统一接口
- * 根据环境提供一致的Logseq API接口
+ * 支持 Mock 和 Proxy 模式切换
  */
 
 import { ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import mockLogseq from './mock/index.ts';
-import '@logseq/libs'
-import logger from './logger.ts';
+import '@logseq/libs';
+import logger, { createLoggerProxy } from './logger.ts';
+import { createProxyLogseq } from './proxy.ts';
+
+
+type APIMode = 'mock' | 'proxy';
+
+let currentMode: APIMode = 'mock';
+let apiServer: string | null = null;
+let apiToken: string | null = null;
+
+export function configureProxyMode(server: string, token: string) {
+  apiServer = server;
+  apiToken = token;
+  logger.info(`[Logseq] Proxy mode configured with server: ${server}`);
+}
+
 
 /**
- * 获取Logseq API实例
- * @returns {any} Logseq API实例
+ * 切换模式
+ */
+export function setMode(mode: APIMode) {
+  currentMode = mode;
+  logger.log(`[Logseq] Switched to ${mode} mode`);
+}
+
+/**
+ * 获取当前模式
+ */
+export function getMode(): APIMode {
+  return currentMode;
+}
+
+/**
+ * 兼容旧的导出方式
  */
 export const getLogseqAPI = (): ILSPluginUser => {
+  logger.log('[Logseq] Initialized in Mock mode');
+
   // 检查是否在测试模式下
   const isTestMode = import.meta.env.MODE === 'test';
 
   if (isTestMode) {
-    logger.info('Using mock Logseq API (test mode)');
-    // 使用导入的mockLogseq
-    return mockLogseq;
-  } else {
-    logger.info('Using official Logseq API (production mode)');
-    // 直接返回官方的logseq对象
-    return logseq;
+    if (currentMode === 'proxy') {
+      // proxy 模式：使用代理的 logseq（如果存在）
+      logger.info('Using mock Logseq API (test proxy mode)');
+      const newProxyLogseq = createProxyLogseq(mockLogseq as ILSPluginUser, {}, {
+        apiServer: apiServer || '',
+        apiToken: apiToken || '',
+      });
+      return newProxyLogseq;
+    } else {
+      // mock 模式：使用导入的 mockLogseq
+      logger.info('Using mock Logseq API (test mode)');
+      return createLoggerProxy(mockLogseq as ILSPluginUser);
+    }
   }
+
+  logger.info('Using official Logseq API (production mode)');
+  // 直接返回官方的logseq对象,并使用日志代理包装它
+  return logseq
 };
 
+export const resetLogseqAPI = () => {
+  logseqAPI = getLogseqAPI();
+  logger.info('[Logseq] API reset to current mode:', currentMode);
+}
+
 // 导出统一的Logseq API实例
-export const logseqAPI = getLogseqAPI();
+export let logseqAPI = getLogseqAPI();
 
 export default logseqAPI;
+

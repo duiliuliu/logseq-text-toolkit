@@ -7,10 +7,14 @@ import HiccupRenderer from './components/HiccupRenderer/index'
 import BlockRenderer from './components/BlockRenderer/index'
 import TaskProgressDemo from './components/TaskProgressDemo/index'
 import HeatmapDemo from './components/HeatmapDemo/index'
-import APIQueryDemo from './components/APIQueryDemo/index'
+import { SummaryDemo } from './components/SummaryDemo'
+import { ProxySettings } from './components/ProxySettings'
+import { BlockViewDemo } from './components/BlockViewDemo'
 import ToastContainer from '../components/Toast/Toast'
 import testConfig from './testConfig'
 import { useSettingsContext } from '../settings/useSettings'
+import { setMode, getMode, configureProxyMode, resetLogseqAPI } from '../logseq'
+import logger from '../logseq/logger'
 
 interface TaskItem {
   id: string
@@ -29,6 +33,47 @@ const statusOptions = [
 
 function TestApp() {
   const { settings } = useSettingsContext()
+
+  // Proxy 设置状态
+  const [apiMode, setApiMode] = useState<'mock' | 'proxy'>(getMode())
+  const [showProxyModal, setShowProxyModal] = useState(false)
+  const [proxyUrl, setProxyUrl] = useState('http://127.0.0.1:12315/')
+  const [proxyToken, setProxyToken] = useState('')
+  const [proxyStatus, setProxyStatus] = useState<'disconnected' | 'connecting' | 'connected' | 'error'>('disconnected')
+  const [proxyError, setProxyError] = useState<string>('')
+  const [summaryPages, setSummaryPages] = useState<{ name: string, blocks: any[] }[]>([])
+
+  // 模式切换处理
+  const handleModeChange = (mode: 'mock' | 'proxy') => {
+    setApiMode(mode)
+    setMode(mode)
+    logger.info(`[TestApp] Switched to ${mode} mode`)
+  }
+
+  // 代理连接处理
+  const handleProxyConnect = async () => {
+    setProxyStatus('connecting')
+    logger.info(`[TestApp] Connecting to proxy: ${proxyUrl}`)
+    // TODO: 实现实际的连接逻辑
+    configureProxyMode(proxyUrl, proxyToken)
+    setProxyStatus('connected')
+    resetLogseqAPI() // 重置 Logseq API 以应用新的代理设置
+    logger.info('[TestApp] Connected to proxy and Logseq API reset')
+  }
+
+  const handleProxyDisconnect = () => {
+    logger.info('[TestApp] Disconnecting from proxy')
+    configureProxyMode('', '')
+    setMode('mock') // 切回 mock 模式
+    setProxyStatus('disconnected')
+    resetLogseqAPI() // 重置 Logseq API 以应用新的设置
+    logger.info('[TestApp] Disconnected from proxy and switched to mock mode')
+  }
+
+  const handleSummaryGenerate = (pageName: string, blocks: any[]) => {
+    setSummaryPages(prev => [...prev, { name: pageName, blocks }])
+    logger.info(`[TestApp] Summary generated: ${pageName}`)
+  }
 
   const [tasks, setTasks] = useState<TaskItem[]>([
     { id: 'task-child-1', content: 'Design the UI #task', status: 'done' },
@@ -269,9 +314,13 @@ function TestApp() {
         </div>
       </div>
 
-      <APIQueryDemo />
-
       <HeatmapDemo />
+
+      {/* BlockView 演示 */}
+      <BlockViewDemo />
+
+      {/* Summary 生成器放在最下面 */}
+      <SummaryDemo onGenerateSuccess={handleSummaryGenerate} />
     </div>
   )
 
@@ -279,19 +328,27 @@ function TestApp() {
     <div id="app-container" className={`app ${settings?.theme === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div id="toolbar" className="toolbar-banner">
         <div className="toolbar-banner-content">
-          <span className="toolbar-banner-text">工具栏演示</span>
+          <span className="toolbar-banner-text">Text Toolkit - Test Mode</span>
           <div className="toolbar-banner-actions">
+            {/* Proxy 设置按钮 */}
+            <button
+              className="button toolbar-banner-btn"
+              title="Proxy 设置"
+              onClick={() => setShowProxyModal(true)}
+            >
+              <span style={{ fontSize: '18px' }}>🔗</span>
+            </button>
+
             <a
               className="button toolbar-banner-btn"
               title="Settings JSON"
               onClick={() => {
                 const jsonStr = JSON.stringify(settings, null, 2);
                 alert('Settings JSON:\n\n' + jsonStr);
-                console.log('Settings JSON:\n\n' + jsonStr)
+                logger.debug('[TestApp] Settings JSON logged', { settings });
               }}
             >
               <i className="ti ti-settings-cancel"></i>
-              {/* <span className="toolbar-icon">{ }</span> */}
             </a>
           </div>
         </div>
@@ -300,6 +357,11 @@ function TestApp() {
       <div id="head" className="top-toolbar">
         <div className="toolbar-content">
           <h1>Text Toolkit Plugin (Test Mode)</h1>
+          <div className="mode-indicator">
+            <span className={`mode-badge ${apiMode}`}>
+              {apiMode === 'mock' ? '📱 Mock Mode' : '🔗 Proxy Mode'}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -307,6 +369,22 @@ function TestApp() {
         leftContent={leftContent}
         centerContent={centerContent}
         rightContent={rightContent}
+      />
+
+      {/* Proxy 设置 Modal */}
+      <ProxySettings
+        isOpen={showProxyModal}
+        onClose={() => setShowProxyModal(false)}
+        apiMode={apiMode}
+        onModeChange={handleModeChange}
+        proxyUrl={proxyUrl}
+        onProxyUrlChange={setProxyUrl}
+        proxyToken={proxyToken}
+        onProxyTokenChange={setProxyToken}
+        onConnect={handleProxyConnect}
+        onDisconnect={handleProxyDisconnect}
+        connectionStatus={proxyStatus}
+        errorMessage={proxyError}
       />
 
       <ToastContainer />

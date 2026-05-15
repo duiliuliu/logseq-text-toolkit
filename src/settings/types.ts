@@ -1,135 +1,192 @@
-/**
- * Copyright (c) 2026 duiliuliu
- * License: MIT
- */
+import { logseqAPI } from '../logseq'
+import { SummaryType, TemplateType } from '../lib/summary/types'
 
-// Re-export ToolbarItem and ToolbarGroup from components
-export type { ToolbarItem, ToolbarGroup } from '../components/Toolbar/types';
+export type ThemeType = 'light' | 'dark' | 'system'
 
-// 主题类型
-export type ThemeType = 'light' | 'dark' | 'system';
+export type ViewType = 'mini-circle' | 'dot-matrix' | 'progress-bar' | 'fraction'
 
-// 嵌套层级类型
-export type NestingLevel = 1 | 2 | 3 | 'all';
+export type LabelFormat = 'fraction' | 'percentage' | 'progress'
 
-// 语言类型
-export type LanguageType = 'zh-CN' | 'en' | 'ja' | 'system';
-
-// 语言配置类型
-export interface LanguageConfig {
-  code: string;       // 语言代码，如 zh-CN, en, ja
-  name: string;       // 语言名称，如 "中文", "English", "日本語"
-  path: string;       // 语言文件路径，相对于插件根目录
-  isDefault?: boolean; // 是否为默认语言
+export interface StatusColors {
+  todo: string
+  doing: string
+  done: string
+  waiting: string
+  canceled: string
+  'in-review': string
 }
 
-export interface LanguageMeta {
-  languages: LanguageConfig[];  // 语言列表
-  fallbackLanguage: string;     // 降级语言代码
+export interface DisplayOptions {
+  'mini-circle': {
+    size?: 'small' | 'medium' | 'large'
+  }
+  'dot-matrix': {
+    maxDots?: number
+    size?: 'small' | 'medium' | 'large'
+  }
+  'progress-bar': {
+    showLabel?: boolean
+    height?: string
+  }
 }
 
-// Toolbar item type - 已移除，统一从 components/Toolbar/types.ts 导出
-
-// Toolbar group type - 已移除，统一从 components/Toolbar/types.ts 导出
-
-// 任务状态颜色配置
-export interface TaskStatusConfig {
-  status: string;      // 状态名称
-  color: string;       // 颜色值
-  icon?: string;       // 图标（可选）
-  label?: string;      // 显示标签（可选）
+export interface TaskProgressSettings {
+  enabled: boolean
+  defaultDisplayType: ViewType
+  showLabel: boolean
+  labelFormat: LabelFormat
+  displayOptions: DisplayOptions
+  nestingLevel: number
+  onlyLeaves: boolean
+  showNestingIndicator: boolean
+  statusColors: StatusColors
 }
 
-// 任务进度元数据
-export interface TaskProgressMeta {
-  statusColors: Record<string, string>;  // 状态到颜色的映射
-  customStatuses?: TaskStatusConfig[];   // 自定义状态列表
+export type HeatmapViewType = 'year' | 'month' | 'week'
+export type HeatmapDisplayMode = 'minimal' | 'basic' | 'full'
+export type HeatmapColorFormula = 'simple' | 'weighted'
+
+export interface ColorScheme {
+  minColor: string
+  maxColor: string
+  gradientSteps: number
 }
 
 // 热力图设置
 export interface HeatmapSettings {
-  enabled: boolean;
-  defaultViewType: 'year' | 'month' | 'week';
-  defaultDisplayMode: 'minimal' | 'basic' | 'full';
-  defaultColorFormula: 'simple' | 'weighted';
+  enabled: boolean
+  defaultViewType: 'year' | 'month' | 'week'
+  defaultDisplayMode: 'minimal' | 'basic' | 'full'
+  defaultColorFormula: 'simple' | 'weighted'
   colorScheme: {
-    minColor: string;
-    maxColor: string;
-    gradientSteps: number;
-  };
+    minColor: string
+    maxColor: string
+    gradientSteps: number
+  }
   // Month page creation settings
   monthPageCreation?: {
-    enabled: boolean;
-    pageNameTemplate?: string;
-    logseqTemplate?: string;
-  };
+    enabled: boolean
+    pageNameTemplate?: string
+    logseqTemplate?: string
+  }
   // Week page creation settings
   weekPageCreation?: {
-    enabled: boolean;
-    pageNameTemplate?: string;
-    logseqTemplate?: string;
-  };
+    enabled: boolean
+    pageNameTemplate?: string
+    logseqTemplate?: string
+  }
 }
 
-// 全局设置类型
-export interface Settings {
-  // 主题和语言设置
-  theme: ThemeType;
-  language: LanguageType;
-  useSystemTheme: boolean;
-  useSystemLanguage: boolean;
-  dateFormat: string;
+// Block View Settings
+export type BlockThemeType = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'tana' | 'custom';
 
-  // 工具栏设置
-  toolbar: boolean;
-  disabled: boolean;
-  toolbarShortcut?: string;  // 可选字段，暂时未使用
+export interface CustomTableTheme {
+  borderColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cellTextColor?: string;
+  headerBorderColor?: string;
+  headerHeight?: string;
+  rowBgColor?: string;
+  rowHoverBgColor?: string;
+  rowBorderColor?: string;
+  cellPadding?: string;
+  tableBorderRadius?: string;
+}
+
+export interface CustomGalleryTheme {
+  borderColor?: string;
+  cardBgColor?: string;
+  cardHoverBgColor?: string;
+  headerBorderColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cardTextColor?: string;
+  cardBorderRadius?: string;
+  cardShadow?: string;
+}
+
+export interface CustomBoardTheme {
+  borderColor?: string;
+  columnBgColor?: string;
+  columnHoverBgColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cardBgColor?: string;
+  cardTextColor?: string;
+  cardBorderColor?: string;
+  cardBorderRadius?: string;
+}
+
+export interface BlockViewTableSettings {
+  showStriped: boolean;
   showBorder: boolean;
-  width: string;
-  height: string;
-  hoverDelay: number;
-  sponsorEnabled: boolean;
-  developerMode: boolean;
-
-  // 工具栏元素配置
-  ToolbarItems: Array<ToolbarItem | ToolbarGroup>;
-
-  // 任务进度设置
-  taskProgress?: {
-    enabled: boolean;
-    defaultDisplayType: 'mini-circle' | 'dot-matrix' | 'status-cursor' | 'progress-capsule' | 'step-progress';
-    showLabel?: boolean;
-    labelFormat?: 'fraction' | 'percentage';
-    displayOptions?: {
-      [key: string]: Record<string, any>;
-    };
-    // V2 嵌套层级配置
-    nestingLevel?: NestingLevel;
-    onlyLeaves?: boolean;
-    showNestingIndicator?: boolean;
-    statusColors: Record<string, string>;  // 状态到颜色的映射
-  };
-
-  // 热力图设置
-  heatmap?: HeatmapSettings;
-
-  // 元数据设置
-  meta?: {
-    language?: LanguageMeta;
-    taskProgress?: TaskProgressMeta;  // 任务进度元数据（存储动态状态颜色）
-  };
-
-  [key: string]: any;
+  customTheme?: CustomTableTheme;
 }
 
-// Settings Context 类型
-export interface SettingsContextType {
-  settings: Settings | null;
-  isLoading: boolean;
-  isSaving: boolean;
-  error: Error | null;
-  loadSettings: () => Promise<Settings | null>;
-  saveSettings: (settings: Partial<Settings>) => Promise<boolean>;
-  resetSettings: () => Promise<boolean>;
-  theme: 'light' | 'dark';
+export interface BlockViewGallerySettings {
+  showCardBorders: boolean;
+  cardsPerRow: number;
+  customTheme?: CustomGalleryTheme;
+}
+
+export interface BlockViewBoardSettings {
+  showColumnBorders: boolean;
+  cardSpacing: string;
+  customTheme?: CustomBoardTheme;
+}
+
+export interface ViewCustomThemeConfig {
+  table?: CustomTableTheme;
+  gallery?: CustomGalleryTheme;
+  board?: CustomBoardTheme;
+}
+
+export interface BlockViewSettings {
+  enabled: boolean;
+  defaultView: 'list' | 'table' | 'gallery' | 'board';
+  defaultTheme: BlockThemeType;
+  hideViewBar: boolean;
+  table: BlockViewTableSettings;
+  gallery: BlockViewGallerySettings;
+  board: BlockViewBoardSettings;
+}
+
+export interface AIConfig {
+  enabled: boolean;
+  provider: 'openai' | 'claude' | 'custom';
+  apiKey: string;
+  apiUrl?: string;
+  model?: string;
+  promptTemplate?: string;
+}
+
+export interface SummarySettings {
+  enabled: boolean;
+  defaultTemplate: TemplateType;
+  defaultType: SummaryType;
+  dateFormat: string;
+  ai: AIConfig;
+  pageNameTemplate: string;
+}
+
+export interface Settings {
+  disabled?: boolean
+  theme?: ThemeType
+  language?: string
+  toolbar?: boolean
+  dateFormat?: string
+  useSystemTheme?: boolean
+  useSystemLanguage?: boolean
+  showBorder?: boolean
+  width?: string
+  height?: string
+  hoverDelay?: number
+  sponsorEnabled?: boolean
+  developerMode?: boolean
+  taskProgress?: TaskProgressSettings
+  heatmap?: HeatmapSettings
+  blockView?: BlockViewSettings
+  summary?: SummarySettings
+  ToolbarItems?: any[]
 }
