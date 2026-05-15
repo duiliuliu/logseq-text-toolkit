@@ -1,0 +1,46 @@
+.ltt-list-root .block-title-wrap {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1px !important;
+}
+
+.ltt-list-root .lsp-hook-ui-slot {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    width: auto !important;
+    min-height: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.ltt-list-root .ltt-view-bar {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    width: auto !important;
+    flex: 0 0 auto !important;
+
+    margin: 0px !important;
+    padding: 0 !important;
+
+    vertical-align: middle !important;
+}
+
+/* =========================================================
+   ROOT HEADER
+========================================================= */
+
+/* .ltt-list-root>.block-main-container {
+  margin-bottom: 12px;
+} */
+
+/* .ltt-list-root>.block-main-container .block-control-wrap {
+  display: none !important;
+} */
+
+.ltt-list-root>.block-main-container .block-content-inner .block-title-wrap {
+    margin-left: 0.4rem !important;
+}
