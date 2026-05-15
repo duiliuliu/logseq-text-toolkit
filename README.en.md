@@ -14,29 +14,29 @@ English Version | [中文版本](README.md)
   <tr>
     <td align="center">
       <img width="280" alt="文本操作" src="https://github.com/user-attachments/assets/4be36305-3d06-443d-8548-a121894cb46d" />
-      <br>文本操作
+      <br>Text Formatting
     </td>
     <td align="center">
       <img width="280" alt="工具栏" src="https://github.com/user-attachments/assets/ff0810d8-b201-4680-b316-683e03013133" />
-      <br>工具栏按钮
+      <br>Toolbar
     </td>
       <td align="center">
       <img width="280" alt="任务进度" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
-      <br>任务进度追踪
+      <br>Task Progress
     </td>
   </tr>
   <tr>
     <td align="center">
        <img width="280" alt="toolbar设置面板" src="https://github.com/user-attachments/assets/383a176b-f94a-4f1c-b50a-a4f738d0ac0f" />
-      <br>toolbar设置面板
+      <br>Toolbar Settings
     </td>
       <td align="center">
        <img width="280" alt="taskprogress设置面板" src="https://github.com/user-attachments/assets/73c9eb90-2c4f-4ace-99ea-a9eb510f7bcf" />
-      <br>taskprogress设置面板
+      <br>Task Progress Settings
     </td>
     <td align="center">
       <img width="280" alt="heatmap" src="docs/screenshots/heatmap.png" />
-      <br>heatmap
+      <br>Heatmap
     </td>
   </tr>
 </table>
@@ -63,12 +63,44 @@ English Version | [中文版本](README.md)
 | Custom Colors | Customizable status colors |
 | 🎆 Achievement Fireworks | Fireworks when all tasks complete (toggleable) |
 
-### 🔥 heatmap
+### 🔥 Heatmap
 | Feature | Description |
 |---------|-------------|
 | Views | year / month / week |
 | Query | tag / page / property |
 | Colors | min/max gradient and two formulas |
+
+### 📋 Block View 🆕
+| Feature | Description |
+|---------|-------------|
+| View Types | List, Table, Gallery, Board |
+| Theme Support | Default, Notion, Linear, Dark, Gradient, Tana, Custom |
+| Custom Themes | Independent color, border, radius configuration per view |
+| View Switcher | Show/hide toggle |
+
+**Usage**:
+```markdown
+{{renderer :block-view}}
+{{renderer :block-view, view=table}}
+{{renderer :block-view, view=gallery}}
+{{renderer :block-view, view=board}}
+```
+
+**Specify Theme**:
+```markdown
+{{renderer :block-view, theme=notion}}
+{{renderer :block-view, view=table, theme=linear}}
+```
+
+### 📝 Summary Generator (Summary) ⚠️ **Currently Unavailable**
+| Feature | Description |
+|---------|-------------|
+| Summary Types | Weekly, Monthly, Yearly, Custom |
+| Templates | GTD Work Review, Minimal Dashboard, Bullet Journal, OKR Review, Study Summary |
+| AI Enhancement | OpenAI/Claude support |
+| Data Analysis | Blocks, Tasks, Pages statistics |
+
+> ⚠️ Summary feature is under development and currently unavailable.
 
 ### 🎛️ Toolbar
 - Auto-popup when text is selected
@@ -117,7 +149,7 @@ Select text → Toolbar auto-pops up → Click button
 ```
 Supported styles: mini-circle, dot-matrix, status-cursor, progress-capsule, step-progress
 
-### heatmap
+### Heatmap
 ```markdown
 {{renderer :heatmap, month, tag=work}}
 ```
@@ -127,6 +159,21 @@ More examples (recommended key=value):
 {{renderer :heatmap, view=month, page=My Page}}
 {{renderer :heatmap, view=week, property=category::work, week=20, year=2026}}
 ```
+
+### Block View
+```markdown
+{{renderer :block-view}}
+{{renderer :block-view, view=table}}
+{{renderer :block-view, view=gallery}}
+{{renderer :block-view, view=board}}
+```
+
+**Parameters**:
+| Parameter | Description | Values |
+|-----------|-------------|--------|
+| view | View Type | list, table, gallery, board |
+| theme | Theme Style | default, notion, linear, dark, gradient, tana, custom |
+| hideBar | Hide Switcher | true, false |
 
 ---
 
@@ -186,6 +233,14 @@ Configure toolbar elements via JSON in Settings:
 | hidden | boolean | Hide button |
 | binding | string | Shortcut key binding (in development) |
 | subItems | array | Group with multiple sub-items |
+
+---
+
+## User Guide
+
+For detailed operation instructions, please refer to:
+- [中文用户手册](docs/USER_GUIDE.md)
+- [English User Guide](docs/USER_GUIDE.en.md)
 
 ---
 

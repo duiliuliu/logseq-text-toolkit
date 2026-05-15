@@ -51,6 +51,67 @@ async function applyViewStyle(blockId: string, viewType: ViewType, themeType: Th
     blockElement.classList.add(newThemeClass);
   }
 
+  // Apply custom theme CSS variables
+  if (themeType === 'custom') {
+    const settings = await getSettingsWithSystem();
+    const viewSettings = settings?.blockView?.[viewType as 'table' | 'gallery' | 'board'];
+    const customTheme = viewSettings?.customTheme;
+
+    if (customTheme) {
+      // Set data attribute to enable custom theme
+      blockElement.setAttribute('data-custom-theme', 'true');
+
+      // Apply custom theme colors as CSS variables
+      const cssVariables: string[] = [];
+      
+      if (viewType === 'table') {
+        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
+        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || '#f8fafc'}`);
+        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
+        cssVariables.push(`--custom-cell-text: ${customTheme.cellTextColor || '#475569'}`);
+        cssVariables.push(`--custom-header-border: ${customTheme.headerBorderColor || '#cbd5e1'}`);
+        cssVariables.push(`--custom-row-bg: ${customTheme.rowBgColor || '#ffffff'}`);
+        cssVariables.push(`--custom-row-hover: ${customTheme.rowHoverBgColor || '#f1f5f9'}`);
+        cssVariables.push(`--custom-radius: ${customTheme.tableBorderRadius || '8px'}`);
+        cssVariables.push(`--custom-header-height: ${customTheme.headerHeight || '48px'}`);
+        cssVariables.push(`--custom-cell-padding: ${customTheme.cellPadding || '12px 16px'}`);
+      } else if (viewType === 'gallery') {
+        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
+        cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || '#ffffff'}`);
+        cssVariables.push(`--custom-card-hover: ${customTheme.cardHoverBgColor || '#f8fafc'}`);
+        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || 'transparent'}`);
+        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
+        cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || '#475569'}`);
+        cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || '12px'}`);
+        cssVariables.push(`--custom-card-shadow: ${customTheme.cardShadow || '0 2px 8px rgba(0, 0, 0, 0.06)'}`);
+      } else if (viewType === 'board') {
+        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
+        cssVariables.push(`--custom-column-bg: ${customTheme.columnBgColor || '#ffffff'}`);
+        cssVariables.push(`--custom-column-hover: ${customTheme.columnHoverBgColor || '#f8fafc'}`);
+        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || 'transparent'}`);
+        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
+        cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || '#ffffff'}`);
+        cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || '#475569'}`);
+        cssVariables.push(`--custom-card-border: ${customTheme.cardBorderColor || '#e2e8f0'}`);
+        cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || '8px'}`);
+      }
+
+      blockElement.style.cssText += cssVariables.join('; ') + ';';
+    }
+  } else {
+    blockElement.setAttribute('data-custom-theme', 'false');
+    // Clear custom CSS variables
+    const cssVars = [
+      '--custom-border-color', '--custom-header-bg', '--custom-header-text',
+      '--custom-cell-text', '--custom-header-border', '--custom-row-bg',
+      '--custom-row-hover', '--custom-radius', '--custom-header-height',
+      '--custom-cell-padding', '--custom-card-bg', '--custom-card-hover',
+      '--custom-card-text', '--custom-card-radius', '--custom-card-shadow',
+      '--custom-column-bg', '--custom-column-hover', '--custom-card-border'
+    ];
+    cssVars.forEach(v => blockElement.style.removeProperty(v));
+  }
+
   logger.debug('[BlockView] View & theme applied', { blockId, viewType, themeType });
 }
 

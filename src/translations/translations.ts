@@ -69,6 +69,153 @@ export interface InlineCommentTranslation {
   comment: string;
 }
 
+export interface TableThemeTranslation {
+  title: string;
+  showStriped: string;
+  showBorder: string;
+  customTheme: {
+    title: string;
+    borderColor: string;
+    headerBgColor: string;
+    headerTextColor: string;
+    cellTextColor: string;
+    headerBorderColor: string;
+    headerHeight: string;
+    rowBgColor: string;
+    rowHoverBgColor: string;
+    rowBorderColor: string;
+    cellPadding: string;
+    tableBorderRadius: string;
+  };
+}
+
+export interface GalleryThemeTranslation {
+  title: string;
+  showCardBorders: string;
+  cardsPerRow: string;
+  customTheme: {
+    title: string;
+    borderColor: string;
+    cardBgColor: string;
+    cardHoverBgColor: string;
+    headerBorderColor: string;
+    headerBgColor: string;
+    headerTextColor: string;
+    cardTextColor: string;
+    cardBorderRadius: string;
+    cardShadow: string;
+  };
+}
+
+export interface BoardThemeTranslation {
+  title: string;
+  showColumnBorders: string;
+  cardSpacing: string;
+  customTheme: {
+    title: string;
+    borderColor: string;
+    columnBgColor: string;
+    columnHoverBgColor: string;
+    headerBgColor: string;
+    headerTextColor: string;
+    cardBgColor: string;
+    cardTextColor: string;
+    cardBorderColor: string;
+    cardBorderRadius: string;
+  };
+}
+
+export interface BlockViewTranslation {
+  description: string;
+  enabled: string;
+  defaultView: string;
+  viewList: string;
+  viewTable: string;
+  viewGallery: string;
+  viewBoard: string;
+  hideViewBar: string;
+  hideViewBarDescription: string;
+  defaultTheme: string;
+  themeDefault: string;
+  themeNotion: string;
+  themeLinear: string;
+  themeDark: string;
+  themeGradient: string;
+  themeTana: string;
+  themeCustom: string;
+  table: TableThemeTranslation;
+  gallery: GalleryThemeTranslation;
+  board: BoardThemeTranslation;
+}
+
+export interface HeatmapTranslation {
+  description: string;
+  enabled: string;
+  defaultViewType: string;
+  viewTypeYear: string;
+  viewTypeMonth: string;
+  viewTypeWeek: string;
+  defaultDisplayMode: string;
+  displayModeFull: string;
+  displayModeBasic: string;
+  displayModeMinimal: string;
+  defaultColorFormula: string;
+  colorFormulaSimple: string;
+  colorFormulaWeighted: string;
+  colorScheme: string;
+  minColor: string;
+  maxColor: string;
+  preview: string;
+  monthPageCreation: string;
+  enableMonthPageCreation: string;
+  monthPageNameTemplate: string;
+  monthLogseqTemplate: string;
+  weekPageCreation: string;
+  enableWeekPageCreation: string;
+  weekPageNameTemplate: string;
+  weekLogseqTemplate: string;
+}
+
+export interface SummaryTranslation {
+  description: string;
+  enabled: string;
+  defaultTemplate: string;
+  defaultType: string;
+  dateFormat: string;
+  pageNameTemplate: string;
+  templateGtdWorkReview: string;
+  templateMinimalDashboard: string;
+  templateBulletJournal: string;
+  templateOkrReview: string;
+  templateStudySummary: string;
+  typeWeekly: string;
+  typeMonthly: string;
+  typeYearly: string;
+  typeCustom: string;
+  startDate: string;
+  endDate: string;
+  aiSettings: string;
+  aiEnabled: string;
+  aiProvider: string;
+  aiProviderOpenAI: string;
+  aiProviderClaude: string;
+  aiProviderCustom: string;
+  aiApiKey: string;
+  aiApiUrl: string;
+  aiModel: string;
+  aiPromptTemplate: string;
+}
+
+export interface SettingsTabsTranslation {
+  general: string;
+  toolbar: string;
+  taskProgress: string;
+  heatmap: string;
+  blockView: string;
+  summary: string;
+  advanced: string;
+}
+
 export interface TranslationKeys {
   taskProgress?: {
     nestingLevel: string;
@@ -83,13 +230,7 @@ export interface TranslationKeys {
   };
   settings: {
     title: string;
-    tabs: {
-      general: string;
-      toolbar: string;
-      taskProgress: string;
-      heatmap: string;
-      advanced: string;
-    };
+    tabs: SettingsTabsTranslation;
     saveSuccessRestart?: string;
     generalSettings: string;
     theme: string;
@@ -142,6 +283,12 @@ export interface TranslationKeys {
     taskProgressDescription: string;
     taskProgress: TaskProgressTranslation;
     saveTaskProgressSettings: string;
+    saveHeatmapSettings: string;
+    saveBlockViewSettings: string;
+    saveSummarySettings: string;
+    blockView: BlockViewTranslation;
+    heatmap: HeatmapTranslation;
+    summary: SummaryTranslation;
   };
 }
 
