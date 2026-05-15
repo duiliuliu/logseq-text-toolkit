@@ -6412,6 +6412,7 @@ ${where}
   }
 
   const Heatmap = ({ config, data, theme, onBlockId }) => {
+    const language = getSettings()?.language || "zh-CN";
     const containerClass = theme === "dark" ? `heatmap-container heatmap-${config.displayMode} dark` : `heatmap-container heatmap-${config.displayMode}`;
     const [viewType, setViewType] = reactExports.useState(config.viewType);
     const [currentDate, setCurrentDate] = reactExports.useState(config.referenceDate || /* @__PURE__ */ new Date());
@@ -6544,13 +6545,19 @@ ${where}
       const el = containerRef.current;
       if (!el) return;
       const blockElementId = "ls-block-" + onBlockId;
+      let animationFrameId = null;
       const ro = new ResizeObserver(() => {
-        const blockEl2 = getDocument().getElementById(blockElementId);
-        if (!blockEl2) return;
-        const containerWidth2 = el.getBoundingClientRect().width;
-        const blockWidth = blockEl2.getBoundingClientRect().width;
-        const safeWidth = Math.min(containerWidth2, blockWidth);
-        setContainerWidth(safeWidth);
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+        animationFrameId = requestAnimationFrame(() => {
+          const blockEl2 = getDocument().getElementById(blockElementId);
+          if (!blockEl2) return;
+          const containerWidth2 = el.getBoundingClientRect().width;
+          const blockWidth = blockEl2.getBoundingClientRect().width;
+          const safeWidth = Math.min(containerWidth2, blockWidth);
+          setContainerWidth(safeWidth);
+        });
       });
       ro.observe(el);
       const blockEl = getDocument().getElementById(blockElementId);
@@ -6561,7 +6568,12 @@ ${where}
         initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
       );
       setContainerWidth(initialWidth);
-      return () => ro.disconnect();
+      return () => {
+        ro.disconnect();
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      };
     }, [onBlockId]);
     const dynamicStyle = reactExports.useMemo(() => {
       const el = containerRef.current;
@@ -6706,7 +6718,7 @@ ${where}
             {
               className: `view-btn ${viewType === "year" ? "active" : ""}`,
               onClick: () => handleViewChange("year"),
-              children: "Year"
+              children: t("settings.heatmap.viewTypeYear", language)
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -6714,7 +6726,7 @@ ${where}
             {
               className: `view-btn ${viewType === "month" ? "active" : ""}`,
               onClick: () => handleViewChange("month"),
-              children: "Month"
+              children: t("settings.heatmap.viewTypeMonth", language)
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -6722,7 +6734,7 @@ ${where}
             {
               className: `view-btn ${viewType === "week" ? "active" : ""}`,
               onClick: () => handleViewChange("week"),
-              children: "Week"
+              children: t("settings.heatmap.viewTypeWeek", language)
             }
           )
         ] }),
@@ -21067,11 +21079,17 @@ ${where}
     ] });
   };
 
+  let toastIdCounter = 0;
+  const generateToastId = () => {
+    const timestamp = Date.now().toString(36);
+    const counter = (++toastIdCounter).toString(36).padStart(3, "0");
+    return `toast-${timestamp}-${counter}`;
+  };
   const ToastContainer = ({ position = "top-right" }) => {
     const [toasts, setToasts] = reactExports.useState([]);
     const containerRef = reactExports.useRef(null);
     const addToast = (message, type = "info", timeout = 3e3) => {
-      const id = Math.random().toString(36).substr(2, 9);
+      const id = generateToastId();
       const newToast = { id, message, type, timeout };
       setToasts((prev) => [...prev, newToast]);
       setTimeout(() => {
@@ -21082,9 +21100,10 @@ ${where}
       setToasts((prev) => prev.filter((toast2) => toast2.id !== id));
     };
     reactExports.useEffect(() => {
-      window.addToast = addToast;
+      const win = getWindow();
+      win.addToast = addToast;
       return () => {
-        delete window.addToast;
+        delete win.addToast;
       };
     }, []);
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `toast-container toast-${position}`, ref: containerRef, children: toasts.map((toast2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -24709,29 +24728,45 @@ ${where}
   const PLUGIN_ID = "text-toolkit-blockview";
   registerRendererArgModel(MACRO_PREFIX, { positional: ["view"] });
   const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
-  async function applyViewStyle(blockId, viewType, themeType) {
-    const doc = getDocument();
-    const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
-    if (!blockElement) {
-      loggerProxy.warn("[BlockView] Block element not found", { blockId });
-      return;
-    }
-    const VIEW_CLASSES = [
-      "ltt-list-root",
-      "ltt-table-root",
-      "ltt-gallery-root",
-      "ltt-board-root"
-    ];
-    const THEME_CLASSES = [
-      "theme-default",
-      "theme-notion",
-      "theme-linear",
-      "theme-dark",
-      "theme-gradient",
-      "theme-tana",
-      "theme-custom"
-    ];
+  const VIEW_CLASSES = [
+    "ltt-list-root",
+    "ltt-table-root",
+    "ltt-gallery-root",
+    "ltt-board-root"
+  ];
+  const THEME_CLASSES = [
+    "theme-default",
+    "theme-notion",
+    "theme-linear",
+    "theme-dark",
+    "theme-gradient",
+    "theme-tana",
+    "theme-custom"
+  ];
+  const CUSTOM_CSS_VARS = [
+    "--custom-border-color",
+    "--custom-header-bg",
+    "--custom-header-text",
+    "--custom-cell-text",
+    "--custom-header-border",
+    "--custom-row-bg",
+    "--custom-row-hover",
+    "--custom-radius",
+    "--custom-header-height",
+    "--custom-cell-padding",
+    "--custom-card-bg",
+    "--custom-card-hover",
+    "--custom-card-text",
+    "--custom-card-radius",
+    "--custom-card-shadow",
+    "--custom-column-bg",
+    "--custom-column-hover",
+    "--custom-card-border"
+  ];
+  function removeViewStyles(blockElement) {
     blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
+  }
+  function applyViewStyles(blockElement, viewType, themeType) {
     const newViewClass = `ltt-${viewType}-root`;
     if (!blockElement.classList.contains(newViewClass)) {
       blockElement.classList.add(newViewClass);
@@ -24740,69 +24775,65 @@ ${where}
     if (!blockElement.classList.contains(newThemeClass)) {
       blockElement.classList.add(newThemeClass);
     }
-    if (themeType === "custom") {
-      const settings = await getSettingsWithSystem();
-      const viewSettings = settings?.blockView?.[viewType];
-      const customTheme = viewSettings?.customTheme;
-      if (customTheme) {
-        blockElement.setAttribute("data-custom-theme", "true");
-        const cssVariables = [];
-        if (viewType === "table") {
-          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
-          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "#f8fafc"}`);
-          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
-          cssVariables.push(`--custom-cell-text: ${customTheme.cellTextColor || "#475569"}`);
-          cssVariables.push(`--custom-header-border: ${customTheme.headerBorderColor || "#cbd5e1"}`);
-          cssVariables.push(`--custom-row-bg: ${customTheme.rowBgColor || "#ffffff"}`);
-          cssVariables.push(`--custom-row-hover: ${customTheme.rowHoverBgColor || "#f1f5f9"}`);
-          cssVariables.push(`--custom-radius: ${customTheme.tableBorderRadius || "8px"}`);
-          cssVariables.push(`--custom-header-height: ${customTheme.headerHeight || "48px"}`);
-          cssVariables.push(`--custom-cell-padding: ${customTheme.cellPadding || "12px 16px"}`);
-        } else if (viewType === "gallery") {
-          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
-          cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
-          cssVariables.push(`--custom-card-hover: ${customTheme.cardHoverBgColor || "#f8fafc"}`);
-          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
-          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
-          cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
-          cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "12px"}`);
-          cssVariables.push(`--custom-card-shadow: ${customTheme.cardShadow || "0 2px 8px rgba(0, 0, 0, 0.06)"}`);
-        } else if (viewType === "board") {
-          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
-          cssVariables.push(`--custom-column-bg: ${customTheme.columnBgColor || "#ffffff"}`);
-          cssVariables.push(`--custom-column-hover: ${customTheme.columnHoverBgColor || "#f8fafc"}`);
-          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
-          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
-          cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
-          cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
-          cssVariables.push(`--custom-card-border: ${customTheme.cardBorderColor || "#e2e8f0"}`);
-          cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "8px"}`);
-        }
-        blockElement.style.cssText += cssVariables.join("; ") + ";";
+  }
+  async function applyCustomTheme(blockElement, viewType) {
+    const settings = await getSettingsWithSystem();
+    const viewSettings = settings?.blockView?.[viewType];
+    const customTheme = viewSettings?.customTheme;
+    if (customTheme) {
+      blockElement.setAttribute("data-custom-theme", "true");
+      const cssVariables = [];
+      if (viewType === "table") {
+        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "#f8fafc"}`);
+        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+        cssVariables.push(`--custom-cell-text: ${customTheme.cellTextColor || "#475569"}`);
+        cssVariables.push(`--custom-header-border: ${customTheme.headerBorderColor || "#cbd5e1"}`);
+        cssVariables.push(`--custom-row-bg: ${customTheme.rowBgColor || "#ffffff"}`);
+        cssVariables.push(`--custom-row-hover: ${customTheme.rowHoverBgColor || "#f1f5f9"}`);
+        cssVariables.push(`--custom-radius: ${customTheme.tableBorderRadius || "8px"}`);
+        cssVariables.push(`--custom-header-height: ${customTheme.headerHeight || "48px"}`);
+        cssVariables.push(`--custom-cell-padding: ${customTheme.cellPadding || "12px 16px"}`);
+      } else if (viewType === "gallery") {
+        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+        cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
+        cssVariables.push(`--custom-card-hover: ${customTheme.cardHoverBgColor || "#f8fafc"}`);
+        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
+        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+        cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
+        cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "12px"}`);
+        cssVariables.push(`--custom-card-shadow: ${customTheme.cardShadow || "0 2px 8px rgba(0, 0, 0, 0.06)"}`);
+      } else if (viewType === "board") {
+        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+        cssVariables.push(`--custom-column-bg: ${customTheme.columnBgColor || "#ffffff"}`);
+        cssVariables.push(`--custom-column-hover: ${customTheme.columnHoverBgColor || "#f8fafc"}`);
+        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
+        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+        cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
+        cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
+        cssVariables.push(`--custom-card-border: ${customTheme.cardBorderColor || "#e2e8f0"}`);
+        cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "8px"}`);
       }
+      blockElement.style.cssText += cssVariables.join("; ") + ";";
     } else {
       blockElement.setAttribute("data-custom-theme", "false");
-      const cssVars = [
-        "--custom-border-color",
-        "--custom-header-bg",
-        "--custom-header-text",
-        "--custom-cell-text",
-        "--custom-header-border",
-        "--custom-row-bg",
-        "--custom-row-hover",
-        "--custom-radius",
-        "--custom-header-height",
-        "--custom-cell-padding",
-        "--custom-card-bg",
-        "--custom-card-hover",
-        "--custom-card-text",
-        "--custom-card-radius",
-        "--custom-card-shadow",
-        "--custom-column-bg",
-        "--custom-column-hover",
-        "--custom-card-border"
-      ];
-      cssVars.forEach((v) => blockElement.style.removeProperty(v));
+      CUSTOM_CSS_VARS.forEach((v) => blockElement.style.removeProperty(v));
+    }
+  }
+  async function applyViewStyle(blockId, viewType, themeType) {
+    const doc = getDocument();
+    const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
+    if (!blockElement) {
+      loggerProxy.warn("[BlockView] Block element not found", { blockId });
+      return;
+    }
+    removeViewStyles(blockElement);
+    applyViewStyles(blockElement, viewType, themeType);
+    if (themeType === "custom") {
+      await applyCustomTheme(blockElement, viewType);
+    } else {
+      blockElement.setAttribute("data-custom-theme", "false");
+      CUSTOM_CSS_VARS.forEach((v) => blockElement.style.removeProperty(v));
     }
     loggerProxy.debug("[BlockView] View & theme applied", { blockId, viewType, themeType });
   }
@@ -24871,7 +24902,7 @@ ${where}
     const viewBarHtml = `
     <div class="ltt-view-bar" data-block-id="${blockId}">
       ${Object.values(VIEW_REGISTRY).map((view) => `
-        <button 
+        <button
           class="ltt-view-btn ${view.id === currentView ? "active" : ""}"
           data-view="${view.id}"
           title="${view.name}"
