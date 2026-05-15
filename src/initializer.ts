@@ -37,6 +37,8 @@ import blockViewCSSRaw from './components/BlockView/blockView.css?raw'
 import tableViewCSSRaw from './components/BlockView/tableView.css?raw'
 import galleryViewCSSRaw from './components/BlockView/galleryView.css?raw'
 import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
+import listViewCssRaw from './components/BlockView/listView.css?raw'
+
 
 /* ============================================================================
    常量定义
@@ -157,6 +159,12 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: boardViewCSSRaw,
     externalPath: 'boardView.css'
+  })
+
+  registerCSS('listView', {
+    type: 'both',
+    inlineContent: listViewCssRaw,
+    externalPath: 'listView.css'
   })
 }
 

@@ -163,11 +163,29 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+
+/* =========================================================
+   ROOT HEADER
+========================================================= */
+
+/* .ltt-board-root>.block-main-container {
+  margin-bottom: 12px;
+} */
+
+/* .ltt-board-root>.block-main-container .block-control-wrap {
+  display: none !important;
+} */
+
+.ltt-board-root>.block-main-container .block-content-inner .block-title-wrap {
+  margin-left: 0.6rem !important;
+}
+
+
 /* =========================================================
    BOARD LAYOUT
 ========================================================= */
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {
   display: flex !important;
   gap: var(--ltt-gap);
   padding: var(--ltt-padding) !important;
@@ -179,7 +197,7 @@
    COLUMN
 ========================================================= */
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
   min-width: var(--ltt-column-width);
   max-width: var(--ltt-column-width);
   flex-shrink: 0;
@@ -191,7 +209,7 @@
   transition: all 0.2s ease;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
   border-color: var(--ltt-border-strong);
 }
 
@@ -199,7 +217,7 @@
    COLUMN HEADER
 ========================================================= */
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
   background: var(--ltt-header-bg);
   border: none;
   padding: 10px 12px !important;
@@ -208,11 +226,11 @@
   margin-bottom: 8px;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {
   display: none !important;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-title-wrap {
   color: var(--ltt-header-text);
 }
 
@@ -220,7 +238,7 @@
    COLUMN CONTENT (CARD CONTAINER)
 ========================================================= */
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap {
   display: flex !important;
   flex-direction: column;
   gap: 10px;
@@ -232,7 +250,7 @@
    CARD
 ========================================================= */
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
   background: var(--ltt-card-bg);
   border: 1px solid var(--ltt-card-border);
   border-radius: var(--ltt-card-radius);
@@ -243,23 +261,23 @@
   position: relative;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {
   box-shadow: var(--ltt-card-hover-shadow);
   transform: translateY(-2px);
   border-color: var(--ltt-border-strong);
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {
   display: flex !important;
   opacity: 0.6;
   transition: opacity 0.15s ease;
 }
 
 .ltt-board-root .block-control {
-  display: none !important; 
+  display: none !important;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .block-control-wrap {
   opacity: 1;
 }
 
@@ -267,11 +285,11 @@
    CARD INNER CONTENT - ALIGN LEFT WITH HEADER
 ========================================================= */
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {
   padding: 0 !important;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-content-wrapper {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-content-wrapper {
   width: 100% !important;
 }
 
@@ -292,21 +310,42 @@
    REMOVE TREE STYLE
 ========================================================= */
 
-.ltt-board-root .block-children-left-border {
+/* .ltt-board-root .block-children-left-border {
   display: none !important;
+  width: 0 !important;
+  border: none !important;
+} */
+
+.ltt-board-root .block-main-container .block-children-left-border {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-board-root .block-main-container:hover .block-children-left-border {
+  opacity: 0.18;
+}
+
+.ltt-board-root .block-control-wrap {
+  border-left: none !important;
+  /* 移除边框型竖线 */
+}
+
+.ltt-board-root .block-control-wrap::before {
+  display: none !important;
+  /* 移除伪元素竖线 */
 }
 
 .ltt-board-root .block-children-container {
   padding-left: 0 !important;
-  margin-left: -1px !important;
 }
-.ltt-board-root >.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container {
+
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container {
   margin-left: -1px !important;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+/* .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
   display: none !important; 
-}
+} */
 
 /* =========================================================
    CUSTOM THEME OVERRIDES
@@ -329,11 +368,11 @@
 ========================================================= */
 
 @media (max-width: 1024px) {
-  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {
+  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {
     flex-wrap: wrap;
   }
 
-  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
     min-width: 280px;
     max-width: 100%;
     flex: 1 1 calc(50% - var(--ltt-gap));
@@ -341,12 +380,12 @@
 }
 
 @media (max-width: 768px) {
-  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {
+  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {
     flex-direction: column;
     overflow-x: visible;
   }
 
-  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
     min-width: 100%;
     max-width: 100%;
     flex: 1 1 100%;
@@ -362,17 +401,29 @@
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
   }
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {
   animation: ltt-board-slide-in 0.3s ease-out;
 }
 
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) { animation-delay: 0s; }
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) { animation-delay: 0.1s; }
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) { animation-delay: 0.2s; }
-.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+4) { animation-delay: 0.3s; }
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(n+4) {
+  animation-delay: 0.3s;
+}

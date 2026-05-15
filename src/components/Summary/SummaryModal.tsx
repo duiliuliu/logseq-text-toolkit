@@ -67,7 +67,7 @@ export const SummaryModal: React.FC<SummaryModalProps> = ({ isOpen, onClose, the
       title="📊 生成总结"
       isOpen={isOpen}
       onClose={handleClose}
-      width="480px"
+      width="520px"
       theme={theme}
     >
       <div className="summary-modal-container" data-theme={theme}>
