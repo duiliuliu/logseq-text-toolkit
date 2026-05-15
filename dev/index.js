@@ -8113,6 +8113,7 @@ ${where}
       let inProgress = 0;
       let todo = 0;
       let overdue = 0;
+      let cancelled = 0;
       const byPriority = {};
       const now = /* @__PURE__ */ new Date();
       for (const task of tasks) {
@@ -8122,8 +8123,10 @@ ${where}
         const priorityData = block?.["logseq.property/priority"];
         const status = statusData?.[":block/title"]?.toLowerCase() || statusData?.["title"]?.toLowerCase() || "todo";
         const priority = priorityData?.[":block/title"]?.toLowerCase() || priorityData?.["title"]?.toLowerCase() || "none";
-        if (status === "done" || status === "completed" || status === "cancelled") {
+        if (status === "done" || status === "completed") {
           completed++;
+        } else if (status === "cancelled") {
+          cancelled++;
         } else if (status === "doing" || status === "now") {
           inProgress++;
         } else if (status === "waiting" || status === "later") ; else {
@@ -8147,6 +8150,7 @@ ${where}
         inProgress,
         todo,
         overdue,
+        cancelled,
         completionRate: total > 0 ? Math.round(completed / total * 100) : 0,
         byPriority
       });
@@ -8156,6 +8160,7 @@ ${where}
         inProgress,
         todo,
         overdue,
+        cancelled,
         completionRate: total > 0 ? Math.round(completed / total * 100) : 0,
         byPriority
       };
