@@ -146,6 +146,23 @@
 }
 
 /* =========================================================
+   ROOT HEADER
+========================================================= */
+
+/* .ltt-gallery-root>.block-main-container {
+  margin-bottom: 12px;
+} */
+
+/* .ltt-gallery-root>.block-main-container .block-control-wrap {
+  display: none !important;
+} */
+
+.ltt-gallery-root>.block-main-container .block-content-inner .block-title-wrap {
+  margin-left: 0.6rem !important;
+}
+
+
+/* =========================================================
    GRID LAYOUT
 ========================================================= */
 
@@ -246,8 +263,29 @@
    REMOVE TREE STYLE
 ========================================================= */
 
-.ltt-gallery-root .block-children-left-border {
+/* .ltt-gallery-root .block-children-left-border {
   display: none !important;
+  width: 0 !important;
+  border: none !important;
+} */
+
+.ltt-gallery-root .block-main-container .block-children-left-border {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-gallery-root .block-main-container:hover .block-children-left-border {
+  opacity: 0.18;
+}
+
+.ltt-gallery-root .block-control-wrap {
+  border-left: none !important;
+  /* 移除边框型竖线 */
+}
+
+.ltt-gallery-root .block-control-wrap::before {
+  display: none !important;
+  /* 移除伪元素竖线 */
 }
 
 .ltt-gallery-root .block-children-container {
@@ -258,9 +296,9 @@
   margin-left: -1px !important;
 }
 
-.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+/* .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
   display: none !important; 
-}
+} */
 
 /* =========================================================
    CUSTOM THEME OVERRIDES
