@@ -142,7 +142,7 @@
       "viewList": "リスト",
       "viewTable": "テーブル",
       "viewGallery": "ギャラリー",
-      "viewBoard": "ボード",
+      "viewBoard": "カンバン",
       "hideViewBar": "ビュー切り替えバーを隠す",
       "hideViewBarDescription": "隠した場合はデフォルトビューを使用します。view=xxxパラメータでビューを切り替え可能",
       "defaultTheme": "デフォルトテーマ",

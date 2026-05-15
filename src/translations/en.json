@@ -142,7 +142,7 @@
       "viewList": "List",
       "viewTable": "Table",
       "viewGallery": "Gallery",
-      "viewBoard": "Board",
+      "viewBoard": "Kanban",
       "hideViewBar": "Hide View Switcher Bar",
       "hideViewBarDescription": "When hidden, default view will be used. You can still switch views with view=xxx parameter",
       "defaultTheme": "Default Theme",
@@ -190,7 +190,7 @@
         }
       },
       "board": {
-        "title": "📋 Board Settings",
+        "title": "📋 Kanban Settings",
         "showColumnBorders": "Show Column Borders",
         "cardSpacing": "Card Spacing",
         "customTheme": {

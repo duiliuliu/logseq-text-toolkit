@@ -56,7 +56,7 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
   },
   'board': {
     id: 'board',
-    name: 'Board',
+    name: 'Kanban',
     icon: VIEW_ICONS.board,
     cssClass: 'ltt-board-root',
   },
