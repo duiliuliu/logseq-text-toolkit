@@ -326,9 +326,7 @@
 
 #### 添加新语言
 
-**步骤 1：创建语言文件**
-
-在 `dist/translations/` 目录创建新的 JSON 文件（如 `de.json` 表示德语）：
+只需在 `dist/translations/` 目录创建新的 JSON 文件（如 `de.json` 表示德语），插件会自动加载：
 
 ```json
 {
@@ -342,38 +340,9 @@
 }
 ```
 
-**步骤 2：注册新语言**
-
-在源代码 `src/translations/translations.ts` 中添加新的语言类型：
-
-```typescript
-export type SupportedLanguage = 'en' | 'ja' | 'zh-CN' | 'system' | 'de'; // 添加 'de'
-```
-
-**步骤 3：导入语言文件**
-
-在 `src/translations/i18n.ts` 中导入并注册新语言：
-
-```typescript
-import de from './de.json';
-
-const translations: Translations = {
-  en: enTranslations,
-  ja: jaTranslations,
-  'zh-CN': zhCNTranslations,
-  de: de, // 添加德语翻译
-};
-```
-
-**步骤 4：重新构建插件**
-
-```bash
-npm run build
-```
-
 #### 修改现有翻译
 
-如果您只想修改部分翻译，可以直接编辑 `dist/translations/` 目录下的对应 JSON 文件：
+直接编辑 `dist/translations/` 目录下的对应 JSON 文件：
 
 ```bash
 # 编辑中文翻译
@@ -436,9 +405,7 @@ vim dist/translations/en.json
 
 **方法一：直接修改 CSS 文件（推荐用于深度定制）**
 
-1. 找到 `dist/` 目录下的对应 CSS 文件
-2. 修改 CSS 规则
-3. 重启插件使更改生效
+找到 `dist/` 目录下的对应 CSS 文件进行修改，重启插件使更改生效：
 
 ```bash
 # 编辑工具栏样式

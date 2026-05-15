@@ -326,9 +326,7 @@ Language files are located in `dist/translations/` directory, containing:
 
 #### Adding New Languages
 
-**Step 1: Create Language File**
-
-Create a new JSON file in `dist/translations/` (e.g., `de.json` for German):
+Simply create a new JSON file in `dist/translations/` (e.g., `de.json` for German), and the plugin will automatically load it:
 
 ```json
 {
@@ -342,38 +340,9 @@ Create a new JSON file in `dist/translations/` (e.g., `de.json` for German):
 }
 ```
 
-**Step 2: Register New Language**
-
-Add new language type in source code `src/translations/translations.ts`:
-
-```typescript
-export type SupportedLanguage = 'en' | 'ja' | 'zh-CN' | 'system' | 'de'; // Add 'de'
-```
-
-**Step 3: Import Language File**
-
-Import and register the new language in `src/translations/i18n.ts`:
-
-```typescript
-import de from './de.json';
-
-const translations: Translations = {
-  en: enTranslations,
-  ja: jaTranslations,
-  'zh-CN': zhCNTranslations,
-  de: de, // Add German translation
-};
-```
-
-**Step 4: Rebuild Plugin**
-
-```bash
-npm run build
-```
-
 #### Modifying Existing Translations
 
-If you only want to modify some translations, you can directly edit the corresponding JSON file in `dist/translations/`:
+Directly edit the corresponding JSON file in `dist/translations/`:
 
 ```bash
 # Edit Chinese translation
@@ -436,9 +405,7 @@ The plugin's CSS files are located in `dist/` directory. You can customize style
 
 **Method 1: Directly Modify CSS Files (Recommended for Deep Customization)**
 
-1. Find the corresponding CSS file in `dist/` directory
-2. Modify CSS rules
-3. Restart the plugin for changes to take effect
+Find and modify the corresponding CSS file in `dist/` directory, restart the plugin for changes to take effect:
 
 ```bash
 # Edit toolbar styles
