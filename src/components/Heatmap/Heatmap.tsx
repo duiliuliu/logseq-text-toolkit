@@ -10,6 +10,8 @@ import logger from '../../lib/logger';
 import './heatmap.css';
 import { getDocument } from '../../logseq/utils';
 import { updateHeatmapRendererArgs } from '../../lib/heatmap/register';
+import { t } from '../../translations/i18n';
+import { getSettings } from '../../settings';
 
 interface HeatmapProps {
   config: HeatmapConfig;
@@ -19,6 +21,8 @@ interface HeatmapProps {
 }
 
 const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => {
+
+  const language = getSettings()?.language || 'zh-CN';
 
   const containerClass = theme === 'dark'
     ? `heatmap-container heatmap-${config.displayMode} dark`
@@ -186,15 +190,22 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     if (!el) return;
 
     const blockElementId = "ls-block-" + onBlockId;
+    let animationFrameId: number | null = null;
+
     const ro = new ResizeObserver(() => {
-      const blockEl = getDocument().getElementById(blockElementId);
-      if (!blockEl) return;
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      animationFrameId = requestAnimationFrame(() => {
+        const blockEl = getDocument().getElementById(blockElementId);
+        if (!blockEl) return;
 
-      const containerWidth = el.getBoundingClientRect().width;
-      const blockWidth = blockEl.getBoundingClientRect().width;
-      const safeWidth = Math.min(containerWidth, blockWidth);
+        const containerWidth = el.getBoundingClientRect().width;
+        const blockWidth = blockEl.getBoundingClientRect().width;
+        const safeWidth = Math.min(containerWidth, blockWidth);
 
-      setContainerWidth(safeWidth);
+        setContainerWidth(safeWidth);
+      });
     });
 
     ro.observe(el);
@@ -208,7 +219,12 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     );
     setContainerWidth(initialWidth);
 
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, [onBlockId]);
 
   const dynamicStyle = useMemo(() => {
@@ -373,19 +389,19 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
               className={`view-btn ${viewType === 'year' ? 'active' : ''}`}
               onClick={() => handleViewChange('year')}
             >
-              Year
+              {t('settings.heatmap.viewTypeYear', language)}
             </button>
             <button
               className={`view-btn ${viewType === 'month' ? 'active' : ''}`}
               onClick={() => handleViewChange('month')}
             >
-              Month
+              {t('settings.heatmap.viewTypeMonth', language)}
             </button>
             <button
               className={`view-btn ${viewType === 'week' ? 'active' : ''}`}
               onClick={() => handleViewChange('week')}
             >
-              Week
+              {t('settings.heatmap.viewTypeWeek', language)}
             </button>
           </div>
 
