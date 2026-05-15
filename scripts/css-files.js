@@ -16,5 +16,6 @@ module.exports = [
   "blockView.css",
   "tableView.css",
   "galleryView.css",
-  "boardView.css"
+  "boardView.css",
+  "listView.css"
 ]
