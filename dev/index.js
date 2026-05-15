@@ -8341,10 +8341,10 @@ ${where}
                 {
                   content: "### 核心指标",
                   children: [
-                    { content: `- 创建块数: ${data.blocks.created}` },
-                    { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
-                    { content: `- 任务完成率: ${data.tasks.completionRate}%` },
-                    { content: `- 新增页面: ${data.pages.newPages}` }
+                    { content: `创建块数: ${data.blocks.created}` },
+                    { content: `完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
+                    { content: `任务完成率: ${data.tasks.completionRate}%` },
+                    { content: `新增页面: ${data.pages.newPages}` }
                   ]
                 }
               ]
@@ -8385,15 +8385,15 @@ ${where}
                 {
                   content: "### 热门标签",
                   children: [
-                    ...topTags.map(([tag, count]) => ({ content: `- #${tag} (${count})` }))
+                    ...topTags.map(([tag, count]) => ({ content: `${tag} (${count})` }))
                   ]
                 },
                 {
                   content: "### 页面统计",
                   children: [
-                    { content: `- 总页面数: ${data.pages.total}` },
-                    { content: `- 新增页面: ${data.pages.newPages}` },
-                    { content: `- 修改页面: ${data.pages.modifiedPages}` }
+                    { content: `总页面数: ${data.pages.total}` },
+                    { content: `新增页面: ${data.pages.newPages}` },
+                    { content: `修改页面: ${data.pages.modifiedPages}` }
                   ]
                 }
               ]
@@ -8452,40 +8452,40 @@ ${where}
               content: "## 📊 概览",
               children: [
                 { content: `### 时间段` },
-                { content: `- ${dateRangeStr}` }
+                { content: `${dateRangeStr}` }
               ]
             },
             {
               content: "## 📝 内容统计",
               children: [
-                { content: `- 总块数: ${data.blocks.total}` },
-                { content: `- 创建: ${data.blocks.created}` },
-                { content: `- 修改: ${data.blocks.modified}` },
-                { content: `- 平均长度: ${data.blocks.avgContentLength} 字符` }
+                { content: `总块数: ${data.blocks.total}` },
+                { content: `创建: ${data.blocks.created}` },
+                { content: `修改: ${data.blocks.modified}` },
+                { content: `平均长度: ${data.blocks.avgContentLength} 字符` }
               ]
             },
             {
               content: "## ✅ 任务状态",
               children: [
-                { content: `- 总计: ${data.tasks.total}` },
-                { content: `- 完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
-                { content: `- 进行中: ${data.tasks.inProgress}` },
-                { content: `- 待办: ${data.tasks.todo}` },
-                { content: `- 逾期: ${data.tasks.overdue}` }
+                { content: `总计: ${data.tasks.total}` },
+                { content: `完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
+                { content: `进行中: ${data.tasks.inProgress}` },
+                { content: `待办: ${data.tasks.todo}` },
+                { content: `逾期: ${data.tasks.overdue}` }
               ]
             },
             {
               content: "## 📄 页面",
               children: [
-                { content: `- 总数: ${data.pages.total}` },
-                { content: `- 新增: ${data.pages.newPages}` },
-                { content: `- 修改: ${data.pages.modifiedPages}` }
+                { content: `总数: ${data.pages.total}` },
+                { content: `新增: ${data.pages.newPages}` },
+                { content: `修改: ${data.pages.modifiedPages}` }
               ]
             },
             {
               content: "## 🏷️ 热门标签",
               children: topTags.map(([tag, count]) => ({
-                content: `- #${tag}: ${count}`
+                content: `${tag}: ${count}`
               }))
             }
           ]
@@ -8513,8 +8513,8 @@ ${where}
             {
               content: "## 📅 日志概览",
               children: [
-                { content: `- 时间段: ${dateRangeStr}` },
-                { content: `- 记录条数: ${data.blocks.total}` }
+                { content: `时间段: ${dateRangeStr}` },
+                { content: `记录条数: ${data.blocks.total}` }
               ]
             },
             {
@@ -8531,29 +8531,29 @@ ${where}
             {
               content: "## 💡 想法记录",
               children: [
-                { content: "- 本周/本月收集的想法和灵感" },
-                { content: "- 待进一步探索的主题" }
+                { content: "本周/本月收集的想法和灵感" },
+                { content: "待进一步探索的主题" }
               ]
             },
             {
               content: "## 📚 阅读笔记",
               children: [
-                { content: "- 阅读的书籍/文章" },
-                { content: "- 关键要点摘录" }
+                { content: "阅读的书籍/文章" },
+                { content: "关键要点摘录" }
               ]
             },
             {
               content: "## 🏷️ 标签云",
               children: topTags.map(([tag, count]) => ({
-                content: `- #${tag}: ${count}`
+                content: `${tag}: ${count}`
               }))
             },
             {
               content: "## 🎯 下周/下月目标",
               children: [
-                { content: "- [ ] 目标一" },
-                { content: "- [ ] 目标二" },
-                { content: "- [ ] 目标三" }
+                { content: "[ ] 目标一" },
+                { content: "[ ] 目标二" },
+                { content: "[ ] 目标三" }
               ]
             }
           ]
@@ -8585,9 +8585,9 @@ ${where}
             {
               content: "## 📊 OKR 完成概览",
               children: [
-                { content: `- 时间段: ${dateRangeStr}` },
-                { content: `- 总目标数: ${objectives.length}` },
-                { content: `- 平均完成率: ${Math.round(objectives.reduce((sum, o) => sum + o.progress, 0) / objectives.length)}%` }
+                { content: `时间段: ${dateRangeStr}` },
+                { content: `总目标数: ${objectives.length}` },
+                { content: `平均完成率: ${Math.round(objectives.reduce((sum, o) => sum + o.progress, 0) / objectives.length)}%` }
               ]
             },
             {
@@ -8605,30 +8605,30 @@ ${where}
             {
               content: "## ✅ 任务完成情况",
               children: [
-                { content: `- 总任务数: ${data.tasks.total}` },
-                { content: `- 已完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
-                { content: `- 逾期任务: ${data.tasks.overdue}` }
+                { content: `总任务数: ${data.tasks.total}` },
+                { content: `已完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
+                { content: `逾期任务: ${data.tasks.overdue}` }
               ]
             },
             {
               content: "## 💡 洞察与反思",
               children: [
                 { content: "### 做得好的地方" },
-                { content: "- " },
+                { content: "" },
                 { content: "### 需要改进的地方" },
-                { content: "- " },
+                { content: "" },
                 { content: "### 下月行动项" },
-                { content: "- [ ] " },
-                { content: "- [ ] " },
-                { content: "- [ ] " }
+                { content: "[ ] " },
+                { content: "[ ] " },
+                { content: "[ ] " }
               ]
             },
             {
               content: "## 📈 数据指标",
               children: [
-                { content: `- 创建块数: ${data.blocks.created}` },
-                { content: `- 新增页面: ${data.pages.newPages}` },
-                { content: `- 修改页面: ${data.pages.modifiedPages}` }
+                { content: `创建块数: ${data.blocks.created}` },
+                { content: `新增页面: ${data.pages.newPages}` },
+                { content: `修改页面: ${data.pages.modifiedPages}` }
               ]
             }
           ]
@@ -8663,8 +8663,8 @@ ${where}
             {
               content: "## 📊 学习概览",
               children: [
-                { content: `- 时间段: ${dateRangeStr}` },
-                { content: `- 学习记录数: ${data.blocks.total}` }
+                { content: `时间段: ${dateRangeStr}` },
+                { content: `学习记录数: ${data.blocks.total}` }
               ]
             },
             {
@@ -8672,9 +8672,9 @@ ${where}
               children: studyTopics.map((topic, index) => ({
                 content: `### ${index + 1}. ${topic}`,
                 children: [
-                  { content: "- 学习内容:" },
-                  { content: "- 关键知识点:" },
-                  { content: "- 待复习:" }
+                  { content: "学习内容:" },
+                  { content: "关键知识点:" },
+                  { content: "待复习:" }
                 ]
               }))
             },
@@ -8691,23 +8691,23 @@ ${where}
             {
               content: "## 🏷️ 知识标签",
               children: topTags.map(([tag, count]) => ({
-                content: `- #${tag}: ${count}`
+                content: `${tag}: ${count}`
               }))
             },
             {
               content: "## 💡 学习心得",
               children: [
-                { content: "- 本周学到的最重要的知识点:" },
-                { content: "- 遇到的难点和解决方法:" },
-                { content: "- 下一步学习计划:" }
+                { content: "本周学到的最重要的知识点:" },
+                { content: "遇到的难点和解决方法:" },
+                { content: "下一步学习计划:" }
               ]
             },
             {
               content: "## 🎯 学习目标",
               children: [
-                { content: "- [ ] 完成课程章节" },
-                { content: "- [ ] 练习项目" },
-                { content: "- [ ] 复习巩固" }
+                { content: "[ ] 完成课程章节" },
+                { content: "[ ] 练习项目" },
+                { content: "[ ] 复习巩固" }
               ]
             }
           ]
