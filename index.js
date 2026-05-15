@@ -1,5 +1,5 @@
 (function () {
-  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* Light theme variables - 参考 shadcn 和苹果设计 */\n:root {\n  --background-color-light: #ffffff;\n  --text-color-light: #000000;\n  --primary-text-color-light: #1e293b;\n  --secondary-text-color-light: #64748b;\n  --secondary-background-color-light: #f8fafc;\n  --border-color-light: #e2e8f0;\n  --accent-color-light: #3b82f6;\n  --hover-color-light: #f1f5f9;\n  --focus-color-light: #dbeafe;\n  \n  /* Dark theme variables - 参考 shadcn 和苹果设计 */\n  --background-color-dark: #0f172a;\n  --text-color-dark: #ffffff;\n  --primary-text-color-dark: #f1f5f9;\n  --secondary-text-color-dark: #94a3b8;\n  --secondary-background-color-dark: #1e293b;\n  --border-color-dark: #334155;\n  --accent-color-dark: #60a5fa;\n  --hover-color-dark: #334155;\n  --focus-color-dark: #1e3a8a;\n  \n  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n/* Media query for dark mode */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n  }\n}\n\n/* Theme classes */\n.light-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n}\n\n:root {\n  font-family: 'Roboto', 'Noto Sans JP', sans-serif;\n  line-height: 1.5;\n  font-weight: 400;\n  font-synthesis: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-text-size-adjust: 100%;\n  color-scheme: light;\n  color: #213547;\n  background-color: #ffffff;\n}\n\n/* 链接样式 */\na {\n  font-weight: 500;\n  color: #646cff;\n  text-decoration: inherit;\n}\na:hover {\n  color: #535bf2;\n}\n\n/* 按钮样式 */\nbutton {\n  border-radius: 8px;\n  border: 1px solid transparent;\n  padding: 0.6em 1.2em;\n  font-size: 1em;\n  font-weight: 500;\n  font-family: inherit;\n  background-color: #f9f9f9;\n  color: #213547;\n  cursor: pointer;\n  transition: border-color 0.25s;\n}\nbutton:hover {\n  border-color: #646cff;\n}\nbutton:focus,\nbutton:focus-visible {\n  outline: 4px auto -webkit-focus-ring-color;\n}\n\n/* 允许内容区域的文本被选择 */\n.content-section {\n  user-select: text;\n}\n\nbody {\n  width: auto;\n  height: 90%;\n  margin: 0;\n  place-items: center;\n  min-width: 320px;\n  min-height: 100vh;\n  overflow: auto;\n  background-color: transparent;\n}\n\n/* Dark mode button and link styles */\n.dark-mode button {\n  background-color: #1a1a1a !important;\n  color: rgba(255, 255, 255, 0.87) !important;\n}\n\n.dark-mode a {\n  color: #646cff !important;\n}\n\n.dark-mode a:hover {\n  color: #535bf2 !important;\n}/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n/*$vite$:1*/";document.head.appendChild(__vite_style__);
+  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* Light theme variables - 参考 shadcn 和苹果设计 */\n:root {\n  --background-color-light: #ffffff;\n  --text-color-light: #000000;\n  --primary-text-color-light: #1e293b;\n  --secondary-text-color-light: #64748b;\n  --secondary-background-color-light: #f8fafc;\n  --border-color-light: #e2e8f0;\n  --accent-color-light: #3b82f6;\n  --hover-color-light: #f1f5f9;\n  --focus-color-light: #dbeafe;\n  \n  /* Dark theme variables - 参考 shadcn 和苹果设计 */\n  --background-color-dark: #0f172a;\n  --text-color-dark: #ffffff;\n  --primary-text-color-dark: #f1f5f9;\n  --secondary-text-color-dark: #94a3b8;\n  --secondary-background-color-dark: #1e293b;\n  --border-color-dark: #334155;\n  --accent-color-dark: #60a5fa;\n  --hover-color-dark: #334155;\n  --focus-color-dark: #1e3a8a;\n  \n  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n/* Media query for dark mode */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n  }\n}\n\n/* Theme classes */\n.light-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n}\n\n:root {\n  font-family: 'Roboto', 'Noto Sans JP', sans-serif;\n  line-height: 1.5;\n  font-weight: 400;\n  font-synthesis: none;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-text-size-adjust: 100%;\n  color-scheme: light;\n  color: #213547;\n  background-color: #ffffff;\n}\n\n/* 链接样式 */\na {\n  font-weight: 500;\n  color: #646cff;\n  text-decoration: inherit;\n}\na:hover {\n  color: #535bf2;\n}\n\n/* 按钮样式 */\nbutton {\n  border-radius: 8px;\n  border: 1px solid transparent;\n  padding: 0.6em 1.2em;\n  font-size: 1em;\n  font-weight: 500;\n  font-family: inherit;\n  background-color: #f9f9f9;\n  color: #213547;\n  cursor: pointer;\n  transition: border-color 0.25s;\n}\nbutton:hover {\n  border-color: #646cff;\n}\nbutton:focus,\nbutton:focus-visible {\n  outline: 4px auto -webkit-focus-ring-color;\n}\n\n/* 允许内容区域的文本被选择 */\n.content-section {\n  user-select: text;\n}\n\nbody {\n  width: auto;\n  height: 90%;\n  margin: 0;\n  place-items: center;\n  min-width: 320px;\n  min-height: 100vh;\n  overflow: auto;\n  background-color: transparent;\n}\n\n/* Dark mode button and link styles */\n.dark-mode button {\n  background-color: #1a1a1a !important;\n  color: rgba(255, 255, 255, 0.87) !important;\n}\n\n.dark-mode a {\n  color: #646cff !important;\n}\n\n.dark-mode a:hover {\n  color: #535bf2 !important;\n}/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  margin-top: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 6px;\n  font-size: 11px;\n  width: fit-content;\n  min-height: 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  transition: all 0.2s ease;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 11px;\n  font-weight: 500;\n  line-height: 1.4;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: var(--ls-primary-text-color);\n  font-weight: 600;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n}\n\n.ltt-view-btn svg {\n  width: 12px;\n  height: 12px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 11px;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 3px 6px;\n    gap: 3px;\n  }\n\n  .ltt-view-btn {\n    padding: 3px 6px;\n    font-size: 10px;\n  }\n\n  .ltt-view-btn svg {\n    width: 10px;\n    height: 10px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 10px;\n  }\n}.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}\n/*$vite$:1*/";document.head.appendChild(__vite_style__);
 
   false&&(function polyfill() {
     const relList = document.createElement("link").relList;
@@ -272,7 +272,7 @@
   const httpClient = new LogseqHTTPClient();
 
   const eventListeners = /* @__PURE__ */ new Map();
-  const logger$1 = {
+  const logger$2 = {
     info: (message, ...args) => console.log(`[INFO] ${message}`, ...args),
     warn: (message, ...args) => console.warn(`[WARN] ${message}`, ...args),
     error: (message, ...args) => console.error(`[ERROR] ${message}`, ...args)
@@ -282,10 +282,10 @@
     setHTTPAPIConfig: (config) => {
       if (config) {
         httpClient.setConfig(config.baseUrl, config.token);
-        logger$1.info("[Mock App] HTTP API configured:", config.baseUrl);
+        logger$2.info("[Mock App] HTTP API configured:", config.baseUrl);
       } else {
         httpClient.disable();
-        logger$1.info("[Mock App] HTTP API disabled");
+        logger$2.info("[Mock App] HTTP API disabled");
       }
     },
     useHTTPAPI: function(baseUrl, token) {
@@ -300,7 +300,7 @@
             try {
               return await httpClient.callMethod(methodName, args);
             } catch (err) {
-              logger$1.warn(`[Mock App] HTTP call failed for ${key}, falling back to mock:`, err);
+              logger$2.warn(`[Mock App] HTTP call failed for ${key}, falling back to mock:`, err);
             }
           }
           return App[key].call(self, ...args);
@@ -359,7 +359,7 @@
         try {
           return await httpClient.getUserConfigs();
         } catch (err) {
-          logger$1.warn("[Mock App] HTTP getUserConfigs failed, using mock:", err);
+          logger$2.warn("[Mock App] HTTP getUserConfigs failed, using mock:", err);
         }
       }
       return Promise.resolve({
@@ -446,7 +446,7 @@
       listeners?.forEach((callback) => callback(...args));
     },
     pushState: (page, params) => {
-      logger$1.info(`[Mock] App.pushState: ${page}`, params);
+      logger$2.info(`[Mock] App.pushState: ${page}`, params);
       const message = params.date ? `跳转到日期页面: ${params.date}` : params.name ? `跳转到页面: ${params.name}` : `跳转到页面: ${page}`;
       if (window.addToast) {
         window.addToast(message, "info", 3e3);
@@ -456,7 +456,7 @@
     }
   };
 
-  const logger = {
+  const logger$1 = {
     info: (message, ...args) => console.log(`[INFO] ${message}`, ...args),
     warn: (message, ...args) => console.warn(`[WARN] ${message}`, ...args),
     error: (message, ...args) => console.error(`[ERROR] ${message}`, ...args)
@@ -493,10 +493,10 @@
         try {
           return await httpClient.getPage(pageName);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP getPage failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP getPage failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.getPage: ${pageName}`);
+      logger$1.info(`[Mock] Editor.getPage: ${pageName}`);
       return Promise.resolve(null);
     },
     createPage: async function(pageName, content, options) {
@@ -504,17 +504,26 @@
         try {
           return await httpClient.createPage(pageName, content, options);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP createPage failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP createPage failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.createPage: ${pageName}`, options);
+      logger$1.info(`[Mock] Editor.createPage: ${pageName}`, options);
       const message = `创建页面: ${pageName}`;
       if (window.addToast) {
         window.addToast(message, "success", 3e3);
       }
+      const pageId = `mock-page-uuid-${Date.now()}`;
+      window.mockPages = window.mockPages || {};
+      window.mockPages[pageName] = {
+        name: pageName,
+        uuid: pageId,
+        id: pageId,
+        "page/original-name": pageName
+      };
       return Promise.resolve({
         name: pageName,
-        uuid: `mock-uuid-${Date.now()}`,
+        uuid: pageId,
+        id: pageId,
         "page/original-name": pageName
       });
     },
@@ -523,7 +532,7 @@
         try {
           return await httpClient.getBlock(blockUuid);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP getBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP getBlock failed, using mock:", err);
         }
       }
       console.log("Get block:", blockUuid);
@@ -544,7 +553,7 @@
         try {
           return await httpClient.updateBlock(blockUuid, content);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP updateBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP updateBlock failed, using mock:", err);
         }
       }
       console.log("Update block:", blockUuid, content);
@@ -563,10 +572,10 @@
         try {
           return await httpClient.upsertBlockProperty(blockUuid, property, value);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP upsertBlockProperty failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP upsertBlockProperty failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.upsertBlockProperty: ${blockUuid}`, { property, value });
+      logger$1.info(`[Mock] Editor.upsertBlockProperty: ${blockUuid}`, { property, value });
       return Promise.resolve(true);
     },
     renamePage: async function(oldName, newName) {
@@ -574,10 +583,10 @@
         try {
           return await httpClient.renamePage(oldName, newName);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP renamePage failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP renamePage failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.renamePage: ${oldName} -> ${newName}`);
+      logger$1.info(`[Mock] Editor.renamePage: ${oldName} -> ${newName}`);
       return Promise.resolve(true);
     },
     insertBlock: async function(parentUuid, content, position = "last") {
@@ -585,10 +594,10 @@
         try {
           return await httpClient.insertBlock(parentUuid, content, position);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP insertBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP insertBlock failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.insertBlock: parent=${parentUuid}, content=${content}, position=${position}`);
+      logger$1.info(`[Mock] Editor.insertBlock: parent=${parentUuid}, content=${content}, position=${position}`);
       return Promise.resolve({ uuid: `mock-block-${Date.now()}`, content });
     },
     deleteBlock: async function(blockUuid) {
@@ -596,10 +605,10 @@
         try {
           return await httpClient.deleteBlock(blockUuid);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP deleteBlock failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP deleteBlock failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.deleteBlock: ${blockUuid}`);
+      logger$1.info(`[Mock] Editor.deleteBlock: ${blockUuid}`);
       return Promise.resolve(true);
     },
     addTag: async function(blockUuid, tagName) {
@@ -607,10 +616,10 @@
         try {
           return await httpClient.addTag(blockUuid, tagName);
         } catch (err) {
-          logger.warn("[Mock Editor] HTTP addTag failed, using mock:", err);
+          logger$1.warn("[Mock Editor] HTTP addTag failed, using mock:", err);
         }
       }
-      logger.info(`[Mock] Editor.addTag: ${blockUuid} -> ${tagName}`);
+      logger$1.info(`[Mock] Editor.addTag: ${blockUuid} -> ${tagName}`);
       return Promise.resolve(true);
     },
     getBlockChildren: (blockId) => {
@@ -728,6 +737,10 @@
       console.log("Register slash command:", name);
       globalThis.logseqSlashCommands = globalThis.logseqSlashCommands || {};
       globalThis.logseqSlashCommands[name] = callback;
+    },
+    scrollToBlockInPage: (pageName) => {
+      console.log("scrollToBlockInPage:", pageName);
+      return Promise.resolve();
     }
   };
   function generateBlockId(element) {
@@ -898,6 +911,74 @@
   		minColor: "#eef2ff",
   		maxColor: "#3730a3",
   		gradientSteps: 5
+  	}
+  };
+  const blockView = {
+  	enabled: true,
+  	defaultView: "list",
+  	defaultTheme: "default",
+  	hideViewBar: false,
+  	table: {
+  		showStriped: true,
+  		showBorder: true,
+  		customTheme: {
+  			borderColor: "#e2e8f0",
+  			headerBgColor: "#f8fafc",
+  			headerTextColor: "#374151",
+  			cellTextColor: "#475569",
+  			headerBorderColor: "#cbd5e1",
+  			headerHeight: "40px",
+  			rowBgColor: "#ffffff",
+  			rowHoverBgColor: "#f1f5f9",
+  			rowBorderColor: "#e2e8f0",
+  			cellPadding: "8px 12px",
+  			tableBorderRadius: "8px"
+  		}
+  	},
+  	gallery: {
+  		showCardBorders: true,
+  		cardsPerRow: 3,
+  		customTheme: {
+  			borderColor: "#e2e8f0",
+  			cardBgColor: "#ffffff",
+  			cardHoverBgColor: "#f8fafc",
+  			headerBorderColor: "#e2e8f0",
+  			headerBgColor: "transparent",
+  			headerTextColor: "#374151",
+  			cardTextColor: "#475569",
+  			cardBorderRadius: "12px",
+  			cardShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
+  		}
+  	},
+  	board: {
+  		showColumnBorders: true,
+  		cardSpacing: "12px",
+  		customTheme: {
+  			borderColor: "#e2e8f0",
+  			columnBgColor: "#ffffff",
+  			columnHoverBgColor: "#f8fafc",
+  			headerBgColor: "transparent",
+  			headerTextColor: "#374151",
+  			cardBgColor: "#ffffff",
+  			cardTextColor: "#475569",
+  			cardBorderColor: "#e2e8f0",
+  			cardBorderRadius: "8px"
+  		}
+  	}
+  };
+  const summary = {
+  	enabled: true,
+  	defaultTemplate: "gtd-work-review",
+  	defaultType: "weekly",
+  	dateFormat: "yyyy-MM-dd EEE",
+  	pageNameTemplate: "{{type}}-总结-{{date}}",
+  	ai: {
+  		enabled: false,
+  		provider: "openai",
+  		apiKey: "",
+  		apiUrl: "",
+  		model: "gpt-3.5-turbo",
+  		promptTemplate: ""
   	}
   };
   const meta = {
@@ -1175,6 +1256,8 @@
   	developerMode: developerMode,
   	taskProgress: taskProgress$3,
   	heatmap: heatmap,
+  	blockView: blockView,
+  	summary: summary,
   	meta: meta,
   	ToolbarItems: ToolbarItems
   };
@@ -1301,7 +1384,7 @@
     // beforeunload 方法
     beforeunload: (callback) => {
       console.log("beforeunload callback registered");
-      window.addEventListener("beforeunload", async (e) => {
+      window.addEventListener("beforeunload", async (_e) => {
         await callback();
       });
     },
@@ -1578,13 +1661,136 @@
 
   lsplugin_user.exports;
 
+  function createLoggerModuleProxy(module, moduleName, logger = loggerProxy) {
+    return new Proxy(module, {
+      get(target, prop) {
+        const propName = String(prop);
+        const value = Reflect.get(target, prop);
+        const fullMethod = `logseq.${moduleName}.${propName}`;
+        if (typeof value === "function") {
+          if (value.constructor.name !== "AsyncFunction") {
+            logger.debug(`[同步调用] → ${fullMethod}`);
+            return value;
+          }
+          return async (...args) => {
+            logger.debug(`调用 → ${fullMethod}`, ...args);
+            try {
+              const result = await value.apply(target, args);
+              logger.debug(`返回 ← ${fullMethod}`, result);
+              return result;
+            } catch (err) {
+              logger.error(`异常 ✕ ${fullMethod}`, err);
+              throw err;
+            }
+          };
+        }
+        if (typeof value === "object" && value !== null && value !== target) {
+          return createLoggerModuleProxy(value, `${moduleName}.${propName}`, logger);
+        }
+        return value;
+      }
+    });
+  }
+  function createLoggerProxy(rawLogseq, logger = loggerProxy) {
+    const logseq = { ...rawLogseq };
+    const LOGSEQ_MODULES = [
+      "App",
+      "Editor",
+      "DB",
+      "Git",
+      "UI",
+      "Assets",
+      "FileStorage"
+    ];
+    for (const mod of LOGSEQ_MODULES) {
+      if (logseq[mod]) {
+        logseq[mod] = createLoggerModuleProxy(logseq[mod], mod, logger);
+      }
+    }
+    return logseq;
+  }
+
+  const LOGSEQ_MODULES = ["App", "Editor", "DB", "Git", "UI", "Assets", "FileStorage"];
+  const fetchLogseqApi = async (config, method, args) => {
+    const baseUrl = config.apiServer.replace(/\/$/, "");
+    const url = `${baseUrl}/api`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${config.apiToken}`
+      },
+      body: JSON.stringify({ method, args })
+    });
+    const contentType = res.headers.get("Content-Type") || "";
+    if (contentType.includes("application/json")) {
+      return await res.json();
+    }
+    return res.text();
+  };
+  function createModuleProxy(config, moduleName) {
+    return new Proxy({}, {
+      get(_target, propKey) {
+        return async (...args) => {
+          const method = `logseq.${moduleName}.${propKey.toString()}`;
+          loggerProxy.debug("[ProxyLogseq] call:", method);
+          const data = await fetchLogseqApi(config, method, args);
+          if (data?.error) {
+            loggerProxy.error("[ProxyLogseq] error:", method, data.error);
+          }
+          return data;
+        };
+      }
+    });
+  }
+  function createProxyLogseq(rawLogseq, settings, config) {
+    const proxyLogseq = { ...rawLogseq };
+    for (const mod of LOGSEQ_MODULES) {
+      proxyLogseq[mod] = createModuleProxy(config, mod);
+    }
+    proxyLogseq.hideMainUI = () => {
+      alert("Proxy call to logseq.hideMainUI()");
+    };
+    proxyLogseq.settings = settings;
+    return proxyLogseq;
+  }
+
+  let currentMode = "mock";
+  let apiServer = null;
+  let apiToken = null;
+  function configureProxyMode(server, token) {
+    apiServer = server;
+    apiToken = token;
+    loggerProxy.info(`[Logseq] Proxy mode configured with server: ${server}`);
+  }
+  function setMode(mode) {
+    currentMode = mode;
+    loggerProxy.log(`[Logseq] Switched to ${mode} mode`);
+  }
+  function getMode() {
+    return currentMode;
+  }
   const getLogseqAPI = () => {
+    loggerProxy.log("[Logseq] Initialized in Mock mode");
     {
-      loggerProxy.info("Using mock Logseq API (test mode)");
-      return mockLogseq;
+      if (currentMode === "proxy") {
+        loggerProxy.info("Using mock Logseq API (test proxy mode)");
+        const newProxyLogseq = createProxyLogseq(mockLogseq, {}, {
+          apiServer: apiServer || "",
+          apiToken: apiToken || ""
+        });
+        return newProxyLogseq;
+      } else {
+        loggerProxy.info("Using mock Logseq API (test mode)");
+        return createLoggerProxy(mockLogseq);
+      }
     }
   };
-  const logseqAPI$1 = getLogseqAPI();
+  const resetLogseqAPI = () => {
+    logseqAPI$1 = getLogseqAPI();
+    loggerProxy.info("[Logseq] API reset to current mode:", currentMode);
+  };
+  let logseqAPI$1 = getLogseqAPI();
 
   var jsxRuntime = {exports: {}};
 
@@ -2282,6 +2488,80 @@
     }
     return map;
   }
+  function createRendererArgUpdater(prefixes) {
+    const prefixList = Array.isArray(prefixes) ? prefixes : [prefixes];
+    const updateRendererArgs = (content, updates) => {
+      const prefixPattern = prefixList.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+      const rendererRegex = new RegExp(`({{renderer\\s+(?:${prefixPattern})[^}]*?}})`, "gi");
+      return content.replace(rendererRegex, (rendererStr) => {
+        const contentMatch = rendererStr.match(/{{renderer\s+([^}]+)}}/);
+        if (!contentMatch) return rendererStr;
+        const rawContent = contentMatch[1].trim();
+        const commaParts = rawContent.split(",").map((s) => s.trim());
+        const firstPart = commaParts[0];
+        const typeParts = firstPart.split(/\s+/);
+        const type = typeParts[0];
+        const argTokens = [];
+        for (let i = 1; i < typeParts.length; i++) {
+          argTokens.push(typeParts[i]);
+        }
+        for (let i = 1; i < commaParts.length; i++) {
+          const part = commaParts[i];
+          if (!part.includes("=") && !part.includes("{{")) {
+            const subParts = part.split(/\s+/);
+            for (const subPart of subParts) {
+              if (subPart.trim()) {
+                argTokens.push(subPart.trim());
+              }
+            }
+          } else {
+            argTokens.push(part);
+          }
+        }
+        const existingArgs = parseRendererArgs(type, argTokens);
+        const positionalKeys = findModel(type)?.model?.positional || [];
+        const keepAsPositional = {};
+        for (const token of argTokens) {
+          if (!token.includes("=")) {
+            for (const posKey of positionalKeys) {
+              if (existingArgs[posKey] === token) {
+                keepAsPositional[posKey] = true;
+              }
+            }
+          }
+        }
+        const newArgs = { ...existingArgs };
+        for (const [key, value] of Object.entries(updates)) {
+          if (value === null) {
+            delete newArgs[key];
+            delete keepAsPositional[key];
+          } else {
+            newArgs[key] = value;
+            if (positionalKeys.includes(key) && !keepAsPositional[key]) {
+              keepAsPositional[key] = true;
+            }
+          }
+        }
+        const newTokens = [];
+        for (const posKey of positionalKeys) {
+          if (newArgs[posKey] !== void 0) {
+            if (keepAsPositional[posKey]) {
+              newTokens.push(newArgs[posKey]);
+            } else {
+              newTokens.push(`${posKey}=${newArgs[posKey]}`);
+            }
+            delete newArgs[posKey];
+          }
+        }
+        for (const [key, value] of Object.entries(newArgs)) {
+          newTokens.push(`${key}=${value}`);
+        }
+        const newRendererStr = newTokens.length > 0 ? `{{renderer ${type}, ${newTokens.join(", ")}}}` : `{{renderer ${type}}}`;
+        return newRendererStr;
+      });
+    };
+    return { updateRendererArgs };
+  }
 
   function TestLayout({ leftContent, centerContent, rightContent }) {
     const [leftCollapsed, setLeftCollapsed] = reactExports.useState(true);
@@ -2677,16 +2957,16 @@
   	highlight: "Highlight",
   	fileLink: "File Link",
   	comment: "Comment",
-  	noSelection: "Please select text to process",
+  	noSelection: "Please select the text to process",
   	replaceFailed: "Text replacement failed",
-  	noBlockContent: "Unable to get block content",
-  	buttonTooltip: "✨ Text Toolkit Plugin - Make your notes more fun!"
+  	noBlockContent: "Cannot get block content",
+  	buttonTooltip: "✨ Text Toolkit Plugin - Make your notes more interesting!"
   };
   const inlineComment$2 = {
   	text: "Text",
   	placeholder: "Enter your comment or annotation...",
-  	save: "Add Comment",
-  	title: "Add Comment",
+  	save: "Inline Comment",
+  	title: "Add Annotation",
   	addComment: "Add Comment",
   	selectedText: "Selected Text",
   	annotate: "Annotate",
@@ -2705,6 +2985,8 @@
   		toolbar: "🛠️ Toolbar Settings",
   		taskProgress: "📊 Task Progress",
   		heatmap: "📈 Heatmap",
+  		blockView: "📋 Block View",
+  		summary: "📝 Summary Generator",
   		advanced: "⚡ Other Settings"
   	},
   	saveSuccessRestart: "Saved successfully, please restart the application to take effect",
@@ -2714,14 +2996,14 @@
   	language: "Language",
   	languageFollowSystem: "Follow System",
   	toolbarSettings: "Toolbar Settings",
-  	enabled: "Enabled",
-  	disabled: "Disabled",
+  	enabled: "Enable",
+  	disabled: "Disable",
   	showBorder: "Show Border",
   	width: "Width",
   	height: "Height",
   	hoverDelay: "Hover Delay (ms)",
   	toolbarShortcut: "Toolbar Shortcut",
-  	toolbarShortcutPlaceholder: "Enter shortcut",
+  	toolbarShortcutPlaceholder: "Please enter shortcut",
   	sponsorEnabled: "Sponsor Bar",
   	developerMode: "Developer Mode",
   	toolbarElements: "Toolbar Elements",
@@ -2739,35 +3021,35 @@
   	saving: "Saving...",
   	loading: "Loading settings...",
   	error: "Failed to load settings",
-  	confirmReset: "Are you sure you want to reset all settings to default?",
-  	confirmResetItems: "Are you sure you want to reset toolbar elements to default?",
-  	subtitle: "Manage application configurations, each section can be saved independently",
-  	generalSettingsDescription: "Configure app theme and language",
-  	toolbarSettingsDescription: "Configure toolbar appearance and behavior",
+  	confirmReset: "Are you sure you want to reset all settings to default values?",
+  	confirmResetItems: "Are you sure you want to reset toolbar elements to default values?",
+  	subtitle: "Manage various configurations of the application, each area can be saved independently",
+  	generalSettingsDescription: "Configure the theme and language of the application",
+  	toolbarSettingsDescription: "Configure the display and behavior of the toolbar",
   	advancedSettings: "Advanced Settings",
-  	advancedSettingsDescription: "Advanced features configuration coming soon",
+  	advancedSettingsDescription: "Advanced feature configurations to be added",
   	lightTheme: "Light",
   	darkTheme: "Dark",
-  	chinese: "Simplified Chinese",
+  	chinese: "简体中文",
   	english: "English",
-  	japanese: "Japanese",
+  	japanese: "日本語",
   	saveGeneralSettings: "Save General Settings",
   	saveToolbarSettings: "Save Toolbar Settings",
   	saveSuccess: "Saved successfully!",
   	settingsNotConfigured: "This settings area is not configured yet",
   	comingSoon: "More features coming soon...",
-  	taskProgressDescription: "Configure task progress tracking display and behavior.",
+  	taskProgressDescription: "Configure the display mode and behavior of task progress tracking.",
   	taskProgress: {
-  		enabled: "Enable Task Progress",
+  		enabled: "Enable Task Progress Feature",
   		nestingSettings: "Nesting Settings",
   		nestingLevel: "Nesting Level",
-  		nestingLevel1: "Current level only",
-  		nestingLevel2: "2 levels deep",
-  		nestingLevel3: "3 levels deep",
-  		nestingLevelAll: "All levels",
-  		onlyLeaves: "Count leaf tasks only",
-  		onlyLeavesDescription: "Only count tasks without child tasks",
-  		showNestingIndicator: "Show nesting indicator",
+  		nestingLevel1: "Current Level Only",
+  		nestingLevel2: "2 Levels Deep",
+  		nestingLevel3: "3 Levels Deep",
+  		nestingLevelAll: "All Levels",
+  		onlyLeaves: "Count Only Leaf Tasks",
+  		onlyLeavesDescription: "Only count tasks without subtasks",
+  		showNestingIndicator: "Show Nesting Indicator",
   		showNestingIndicatorDescription: "Display task nesting depth indicator",
   		defaultDisplayType: "Default Display Type",
   		miniCircle: "Mini Circle",
@@ -2780,7 +3062,7 @@
   		sizeMedium: "Medium",
   		sizeLarge: "Large",
   		showLabel: "Show Label",
-  		fireworksOnComplete: "Show fireworks when all tasks complete",
+  		fireworksOnComplete: "Fireworks on Complete All Tasks",
   		labelFormat: "Label Format",
   		labelFraction: "Fraction (10/20)",
   		labelPercentage: "Percentage (50%)",
@@ -2801,20 +3083,94 @@
   	},
   	saveTaskProgressSettings: "Save Task Progress Settings",
   	saveHeatmapSettings: "Save Heatmap Settings",
+  	saveBlockViewSettings: "Save Block View Settings",
+  	saveSummarySettings: "Save Summary Settings",
+  	blockView: {
+  		description: "Configure the global default behavior of the block view module.",
+  		enabled: "Enable Block View",
+  		defaultView: "Default View Type",
+  		viewList: "List",
+  		viewTable: "Table",
+  		viewGallery: "Gallery",
+  		viewBoard: "Board",
+  		hideViewBar: "Hide View Switcher Bar",
+  		hideViewBarDescription: "When hidden, default view will be used. You can still switch views with view=xxx parameter",
+  		defaultTheme: "Default Theme",
+  		themeDefault: "Default",
+  		themeNotion: "Notion",
+  		themeLinear: "Linear",
+  		themeDark: "Dark",
+  		themeGradient: "Gradient",
+  		themeTana: "Tana",
+  		themeCustom: "Custom",
+  		table: {
+  			title: "📊 Table Settings",
+  			showStriped: "Show Striped Rows",
+  			showBorder: "Show Borders",
+  			customTheme: {
+  				title: "🔧 Custom Theme Configuration",
+  				borderColor: "Border Color",
+  				headerBgColor: "Header Background",
+  				headerTextColor: "Header Text Color",
+  				cellTextColor: "Cell Text Color",
+  				headerBorderColor: "Header Border Color",
+  				headerHeight: "Header Height",
+  				rowBgColor: "Row Background",
+  				rowHoverBgColor: "Row Hover Background",
+  				rowBorderColor: "Row Border Color",
+  				cellPadding: "Cell Padding",
+  				tableBorderRadius: "Table Border Radius"
+  			}
+  		},
+  		gallery: {
+  			title: "🖼️ Gallery Settings",
+  			showCardBorders: "Show Card Borders",
+  			cardsPerRow: "Cards Per Row",
+  			customTheme: {
+  				title: "🔧 Custom Theme Configuration",
+  				borderColor: "Border Color",
+  				cardBgColor: "Card Background",
+  				cardHoverBgColor: "Card Hover Background",
+  				headerBorderColor: "Header Border Color",
+  				headerBgColor: "Header Background",
+  				headerTextColor: "Header Text Color",
+  				cardTextColor: "Card Text Color",
+  				cardBorderRadius: "Card Border Radius",
+  				cardShadow: "Card Shadow"
+  			}
+  		},
+  		board: {
+  			title: "📋 Board Settings",
+  			showColumnBorders: "Show Column Borders",
+  			cardSpacing: "Card Spacing",
+  			customTheme: {
+  				title: "🔧 Custom Theme Configuration",
+  				borderColor: "Border Color",
+  				columnBgColor: "Column Background",
+  				columnHoverBgColor: "Column Hover Background",
+  				headerBgColor: "Header Background",
+  				headerTextColor: "Header Text Color",
+  				cardBgColor: "Card Background",
+  				cardTextColor: "Card Text Color",
+  				cardBorderColor: "Card Border Color",
+  				cardBorderRadius: "Card Border Radius"
+  			}
+  		}
+  	},
   	heatmap: {
-  		description: "Configure heatmap display settings and appearance.",
-  		enabled: "Enable Heatmap",
+  		description: "Configure heatmap display functionality and appearance.",
+  		enabled: "Enable Heatmap Feature",
   		defaultViewType: "Default View",
   		viewTypeYear: "Year View",
   		viewTypeMonth: "Month View",
   		viewTypeWeek: "Week View",
-  		defaultDisplayMode: "Display Mode",
+  		defaultDisplayMode: "Default Display Mode",
   		displayModeFull: "Full Mode",
   		displayModeBasic: "Basic Mode",
   		displayModeMinimal: "Minimal Mode",
-  		defaultColorFormula: "Color Formula",
-  		colorFormulaSimple: "Simple",
-  		colorFormulaWeighted: "Weighted",
+  		defaultColorFormula: "Color Calculation Formula",
+  		colorFormulaSimple: "Simple Mode",
+  		colorFormulaWeighted: "Weighted Mode",
   		colorScheme: "Color Scheme",
   		minColor: "Min Color",
   		maxColor: "Max Color",
@@ -2827,6 +3183,35 @@
   		enableWeekPageCreation: "Enable Week Page Creation",
   		weekPageNameTemplate: "Page Name Template",
   		weekLogseqTemplate: "Logseq Template"
+  	},
+  	summary: {
+  		description: "Configure default behavior and parameters for the summary generation feature.",
+  		enabled: "Enable Summary Feature",
+  		defaultTemplate: "Default Template",
+  		defaultType: "Default Summary Type",
+  		dateFormat: "Date Format",
+  		pageNameTemplate: "Page Name Template",
+  		templateGtdWorkReview: "GTD Work Review",
+  		templateMinimalDashboard: "Minimal Dashboard",
+  		templateBulletJournal: "Bullet Journal",
+  		templateOkrReview: "OKR Review",
+  		templateStudySummary: "Study Summary",
+  		typeWeekly: "Weekly",
+  		typeMonthly: "Monthly",
+  		typeYearly: "Yearly",
+  		typeCustom: "Custom",
+  		startDate: "Start Date",
+  		endDate: "End Date",
+  		aiSettings: "🤖 AI Settings",
+  		aiEnabled: "Enable AI Enhancement",
+  		aiProvider: "AI Provider",
+  		aiProviderOpenAI: "OpenAI",
+  		aiProviderClaude: "Claude",
+  		aiProviderCustom: "Custom",
+  		aiApiKey: "API Key",
+  		aiApiUrl: "API URL",
+  		aiModel: "Model",
+  		aiPromptTemplate: "Prompt Template"
   	}
   };
   var en$1 = {
@@ -2873,6 +3258,9 @@
   		general: "⚙️ 一般設定",
   		toolbar: "🛠️ ツールバー設定",
   		taskProgress: "📊 タスク進捗",
+  		heatmap: "📈 ヒートマップ",
+  		blockView: "📋 ブロックビュー",
+  		summary: "📝 まとめ生成",
   		advanced: "⚡ その他の設定"
   	},
   	saveSuccessRestart: "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
@@ -2967,7 +3355,138 @@
   			total: "合計"
   		}
   	},
-  	saveTaskProgressSettings: "タスク進捗設定を保存"
+  	saveTaskProgressSettings: "タスク進捗設定を保存",
+  	saveHeatmapSettings: "ヒートマップ設定を保存",
+  	saveBlockViewSettings: "ブロックビュー設定を保存",
+  	saveSummarySettings: "サマリー設定を保存",
+  	blockView: {
+  		description: "ブロックビューモジュールのグローバルなデフォルト動作を設定します。",
+  		enabled: "ブロックビューを有効化",
+  		defaultView: "デフォルトビュータイプ",
+  		viewList: "リスト",
+  		viewTable: "テーブル",
+  		viewGallery: "ギャラリー",
+  		viewBoard: "ボード",
+  		hideViewBar: "ビュー切り替えバーを隠す",
+  		hideViewBarDescription: "隠した場合はデフォルトビューを使用します。view=xxxパラメータでビューを切り替え可能",
+  		defaultTheme: "デフォルトテーマ",
+  		themeDefault: "デフォルト",
+  		themeNotion: "Notion",
+  		themeLinear: "Linear",
+  		themeDark: "ダーク",
+  		themeGradient: "グラデーション",
+  		themeTana: "Tana",
+  		themeCustom: "カスタム",
+  		table: {
+  			title: "📊 テーブル設定",
+  			showStriped: "ストライプ行を表示",
+  			showBorder: "境界線を表示",
+  			customTheme: {
+  				title: "🔧 カスタムテーマ設定",
+  				borderColor: "境界線の色",
+  				headerBgColor: "ヘッダー背景色",
+  				headerTextColor: "ヘッダー文字色",
+  				cellTextColor: "セル文字色",
+  				headerBorderColor: "ヘッダー境界線色",
+  				headerHeight: "ヘッダーの高さ",
+  				rowBgColor: "行背景色",
+  				rowHoverBgColor: "行ホバー背景色",
+  				rowBorderColor: "行境界線色",
+  				cellPadding: "セルパディング",
+  				tableBorderRadius: "テーブル角丸"
+  			}
+  		},
+  		gallery: {
+  			title: "🖼️ ギャラリー設定",
+  			showCardBorders: "カード境界線を表示",
+  			cardsPerRow: "1行あたりのカード数",
+  			customTheme: {
+  				title: "🔧 カスタムテーマ設定",
+  				borderColor: "境界線の色",
+  				cardBgColor: "カード背景色",
+  				cardHoverBgColor: "カードホバー背景色",
+  				headerBorderColor: "ヘッダー境界線色",
+  				headerBgColor: "ヘッダー背景色",
+  				headerTextColor: "ヘッダー文字色",
+  				cardTextColor: "カード文字色",
+  				cardBorderRadius: "カード角丸",
+  				cardShadow: "カードシャドウ"
+  			}
+  		},
+  		board: {
+  			title: "📋 ボード設定",
+  			showColumnBorders: "列境界線を表示",
+  			cardSpacing: "カード間隔",
+  			customTheme: {
+  				title: "🔧 カスタムテーマ設定",
+  				borderColor: "境界線の色",
+  				columnBgColor: "列背景色",
+  				columnHoverBgColor: "列ホバー背景色",
+  				headerBgColor: "ヘッダー背景色",
+  				headerTextColor: "ヘッダー文字色",
+  				cardBgColor: "カード背景色",
+  				cardTextColor: "カード文字色",
+  				cardBorderColor: "カード境界線色",
+  				cardBorderRadius: "カード角丸"
+  			}
+  		}
+  	},
+  	heatmap: {
+  		description: "ヒートマップ表示機能と外観を設定します。",
+  		enabled: "ヒートマップを有効化",
+  		defaultViewType: "デフォルトビュー",
+  		viewTypeYear: "年ビュー",
+  		viewTypeMonth: "月ビュー",
+  		viewTypeWeek: "週ビュー",
+  		defaultDisplayMode: "デフォルト表示モード",
+  		displayModeFull: "フルモード",
+  		displayModeBasic: " 베이シックモード",
+  		displayModeMinimal: "ミニマルモード",
+  		defaultColorFormula: "色計算式",
+  		colorFormulaSimple: "シンプル",
+  		colorFormulaWeighted: "ウェイト付き",
+  		colorScheme: "カラースキーム",
+  		minColor: "最小色",
+  		maxColor: "最大色",
+  		preview: "プレビュー",
+  		monthPageCreation: "月ページ作成",
+  		enableMonthPageCreation: "月ページ作成を有効化",
+  		monthPageNameTemplate: "ページ名テンプレート",
+  		monthLogseqTemplate: "Logseqテンプレート",
+  		weekPageCreation: "週ページ作成",
+  		enableWeekPageCreation: "週ページ作成を有効化",
+  		weekPageNameTemplate: "ページ名テンプレート",
+  		weekLogseqTemplate: "Logseqテンプレート"
+  	},
+  	summary: {
+  		description: "サマリー生成機能のデフォルト動作とパラメータを設定します。",
+  		enabled: "サマリー機能を有効化",
+  		defaultTemplate: "デフォルトテンプレート",
+  		defaultType: "デフォルトサマリータイプ",
+  		dateFormat: "日付形式",
+  		pageNameTemplate: "ページ名テンプレート",
+  		templateGtdWorkReview: "GTD 作業レビュー",
+  		templateMinimalDashboard: "ミニマルダッシュボード",
+  		templateBulletJournal: "バレットジャーナル",
+  		templateOkrReview: "OKR レビュー",
+  		templateStudySummary: "学習サマリー",
+  		typeWeekly: "週次",
+  		typeMonthly: "月次",
+  		typeYearly: "年次",
+  		typeCustom: "カスタム",
+  		startDate: "開始日",
+  		endDate: "終了日",
+  		aiSettings: "🤖 AI設定",
+  		aiEnabled: "AI拡張を有効化",
+  		aiProvider: "AIプロバイダー",
+  		aiProviderOpenAI: "OpenAI",
+  		aiProviderClaude: "Claude",
+  		aiProviderCustom: "カスタム",
+  		aiApiKey: "APIキー",
+  		aiApiUrl: "APIアドレス",
+  		aiModel: "モデル",
+  		aiPromptTemplate: "プロンプトテンプレート"
+  	}
   };
   var ja = {
   	taskProgress: taskProgress$1,
@@ -3014,6 +3533,8 @@
   		toolbar: "🛠️ 工具栏设置",
   		taskProgress: "📊 任务进度",
   		heatmap: "📈 热力图",
+  		blockView: "📋 块视图",
+  		summary: "📝 总结生成",
   		advanced: "⚡ 其他设置"
   	},
   	saveSuccessRestart: "保存成功，请重启应用生效",
@@ -3110,6 +3631,80 @@
   	},
   	saveTaskProgressSettings: "保存任务进度设置",
   	saveHeatmapSettings: "保存热力图设置",
+  	saveBlockViewSettings: "保存块视图设置",
+  	saveSummarySettings: "保存总结设置",
+  	blockView: {
+  		description: "配置块视图模块的全局默认行为。",
+  		enabled: "启用块视图功能",
+  		defaultView: "默认视图类型",
+  		viewList: "列表",
+  		viewTable: "表格",
+  		viewGallery: "画廊",
+  		viewBoard: "看板",
+  		hideViewBar: "隐藏视图切换栏",
+  		hideViewBarDescription: "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
+  		defaultTheme: "默认主题",
+  		themeDefault: "默认",
+  		themeNotion: "Notion",
+  		themeLinear: "Linear",
+  		themeDark: "深色",
+  		themeGradient: "渐变",
+  		themeTana: "Tana",
+  		themeCustom: "自定义",
+  		table: {
+  			title: "📊 Table 设置",
+  			showStriped: "显示斑马纹行",
+  			showBorder: "显示边框",
+  			customTheme: {
+  				title: "🔧 自定义主题配置",
+  				borderColor: "边框颜色",
+  				headerBgColor: "表头背景色",
+  				headerTextColor: "表头文字色",
+  				cellTextColor: "单元格文字色",
+  				headerBorderColor: "表头边框色",
+  				headerHeight: "表头高度",
+  				rowBgColor: "行背景色",
+  				rowHoverBgColor: "行悬停背景色",
+  				rowBorderColor: "行边框色",
+  				cellPadding: "单元格内边距",
+  				tableBorderRadius: "表格圆角"
+  			}
+  		},
+  		gallery: {
+  			title: "🖼️ Gallery 设置",
+  			showCardBorders: "显示卡片边框",
+  			cardsPerRow: "每行卡片数量",
+  			customTheme: {
+  				title: "🔧 自定义主题配置",
+  				borderColor: "边框颜色",
+  				cardBgColor: "卡片背景色",
+  				cardHoverBgColor: "卡片悬停背景色",
+  				headerBorderColor: "表头边框色",
+  				headerBgColor: "表头背景色",
+  				headerTextColor: "表头文字色",
+  				cardTextColor: "卡片文字色",
+  				cardBorderRadius: "卡片圆角",
+  				cardShadow: "卡片阴影"
+  			}
+  		},
+  		board: {
+  			title: "📋 Board 设置",
+  			showColumnBorders: "显示列边框",
+  			cardSpacing: "卡片间距",
+  			customTheme: {
+  				title: "🔧 自定义主题配置",
+  				borderColor: "边框颜色",
+  				columnBgColor: "列背景色",
+  				columnHoverBgColor: "列悬停背景色",
+  				headerBgColor: "表头背景色",
+  				headerTextColor: "表头文字色",
+  				cardBgColor: "卡片背景色",
+  				cardTextColor: "卡片文字色",
+  				cardBorderColor: "卡片边框色",
+  				cardBorderRadius: "卡片圆角"
+  			}
+  		}
+  	},
   	heatmap: {
   		description: "配置热力图展示功能和显示效果。",
   		enabled: "启用热力图功能",
@@ -3136,6 +3731,35 @@
   		enableWeekPageCreation: "启用周度页面创建",
   		weekPageNameTemplate: "页面名称模板",
   		weekLogseqTemplate: "Logseq 模板"
+  	},
+  	summary: {
+  		description: "配置总结生成功能的默认行为和参数。",
+  		enabled: "启用总结功能",
+  		defaultTemplate: "默认模板",
+  		defaultType: "默认总结类型",
+  		dateFormat: "日期格式",
+  		pageNameTemplate: "页面名称模板",
+  		templateGtdWorkReview: "GTD 工作回顾",
+  		templateMinimalDashboard: "极简仪表盘",
+  		templateBulletJournal: "子弹日记",
+  		templateOkrReview: "OKR 回顾",
+  		templateStudySummary: "学习总结",
+  		typeWeekly: "周度",
+  		typeMonthly: "月度",
+  		typeYearly: "年度",
+  		typeCustom: "自定义",
+  		startDate: "开始日期",
+  		endDate: "结束日期",
+  		aiSettings: "🤖 AI 设置",
+  		aiEnabled: "启用 AI 增强",
+  		aiProvider: "AI 提供商",
+  		aiProviderOpenAI: "OpenAI",
+  		aiProviderClaude: "Claude",
+  		aiProviderCustom: "自定义",
+  		aiApiKey: "API Key",
+  		aiApiUrl: "API 地址",
+  		aiModel: "模型",
+  		aiPromptTemplate: "提示词模板"
   	}
   };
   var zhCN = {
@@ -5353,6 +5977,440 @@ ${nestingClauses}`;
     }
   }
 
+  const getCreatedAt$1 = (block) => {
+    const v = block?.["created-at"] ?? block?.["block/created-at"] ?? block?.createdAt ?? block?.created_at;
+    const n = typeof v === "number" ? v : Number(v);
+    return Number.isFinite(n) ? n : null;
+  };
+  const formatDate = (d) => d.toISOString().split("T")[0];
+  const buildWhereClause$1 = (params) => {
+    const value = params.value || "";
+    const key = params.propertyKey || "";
+    if (params.type === "all") {
+      return `[?b :block/content ?content]`;
+    }
+    if (params.type === "tag") {
+      return `
+[?b :block/tags ?t]
+[?t :block/title "${value}"]`;
+    }
+    if (params.type === "page") {
+      return `
+[?p :block/name "${value}"]
+[?b :block/page ?p]`;
+    }
+    if (params.type === "property") {
+      if (!key) {
+        return `
+[?b :block/properties ?props]
+[(some? ?props)]`;
+      }
+      if (value) {
+        return `
+[?b :logseq.property/${key} ?val]
+[?val :block/title "${value}"]`;
+      }
+      return `
+[?b :logseq.property/${key} ?val]
+[(some? ?val)]`;
+    }
+    return "";
+  };
+  const buildQuery$1 = (params, startMs, endMs) => {
+    const where = buildWhereClause$1(params);
+    return `
+[:find (pull ?b [*])
+ :where
+${where}
+[?b :block/created-at ?date]
+[(>= ?date ${startMs})]
+[(<= ?date ${endMs})]]`;
+  };
+  const getWeekBounds = (ref) => {
+    const d = new Date(ref);
+    const day = d.getDay();
+    const monday = new Date(d);
+    monday.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+    monday.setHours(0, 0, 0, 0);
+    return { start: monday, end: new Date(monday.getTime() + 7 * 864e5) };
+  };
+  const bucketByDay = (blocks, startMs, endMs) => {
+    const buckets = {};
+    for (const b of blocks) {
+      const ts = getCreatedAt$1(b);
+      if (!ts || ts < startMs || ts >= endMs) continue;
+      const key = formatDate(new Date(ts));
+      if (!buckets[key]) buckets[key] = [];
+      buckets[key].push(b);
+    }
+    return buckets;
+  };
+  const bucketByWeekCell = (blocks, startMs) => {
+    const buckets = {};
+    for (const b of blocks) {
+      const ts = getCreatedAt$1(b);
+      if (!ts) continue;
+      const dayIdx = Math.floor((ts - startMs) / 864e5);
+      if (dayIdx < 0 || dayIdx >= 7) continue;
+      const hourIdx = Math.floor(ts % 864e5 / 144e5);
+      const key = `${dayIdx}-${hourIdx}`;
+      if (!buckets[key]) buckets[key] = [];
+      buckets[key].push(b);
+    }
+    return buckets;
+  };
+  const calcCount = (blocks, formula) => formula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks);
+  async function fetchHeatmapData(params, view, formula) {
+    if (params.type !== "all" && !params.value?.trim() && !params.propertyKey?.trim()) return [];
+    const now = /* @__PURE__ */ new Date();
+    const year = params.year ?? now.getFullYear();
+    const month = params.month ?? now.getMonth() + 1;
+    const ref = new Date(year, month - 1, 1);
+    loggerProxy.debug("[Heatmap] fetchHeatmapData", { params, view, year, month });
+    let start, end;
+    if (view === "week") {
+      const bounds = getWeekBounds(ref);
+      start = bounds.start;
+      end = bounds.end;
+    } else if (view === "month") {
+      start = new Date(year, month - 1, 1);
+      end = new Date(year, month, 1);
+    } else {
+      start = new Date(year, 0, 1);
+      end = new Date(year + 1, 0, 1);
+    }
+    const startMs = start.getTime();
+    const endMs = end.getTime();
+    const query = buildQuery$1(params, startMs, endMs);
+    loggerProxy.debug("[Heatmap] query", query);
+    const raw = await logseqAPI$1.DB.datascriptQuery(query);
+    const blocks = (raw || []).flat().filter(Boolean);
+    loggerProxy.debug("[Heatmap] result count:", blocks.length, "sample:", blocks[0]?.["created-at"]);
+    const data = [];
+    if (view === "week") {
+      const buckets = bucketByWeekCell(blocks, startMs);
+      for (let h = 0; h < 6; h++) {
+        for (let d = 0; d < 7; d++) {
+          const key = `${d}-${h}`;
+          const cellBlocks = buckets[key] || [];
+          const day = new Date(start);
+          day.setDate(start.getDate() + d);
+          day.setHours(h * 4, 0, 0, 0);
+          data.push({
+            date: day.toISOString().replace(".000Z", "Z"),
+            count: calcCount(cellBlocks, formula),
+            blocks: cellBlocks
+          });
+        }
+      }
+    } else {
+      const buckets = bucketByDay(blocks, startMs, endMs);
+      for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
+        const key = formatDate(new Date(d));
+        const dayBlocks = buckets[key] || [];
+        data.push({
+          date: key,
+          count: calcCount(dayBlocks, formula),
+          blocks: dayBlocks
+        });
+      }
+    }
+    return data;
+  }
+
+  const MACRO_PREFIX$2 = ":heatmap";
+  const MACRO_PREFIX_CN = ":热力图";
+  const PLUGIN_ID$2 = "text-toolkit-heatmap";
+  const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX$2, MACRO_PREFIX_CN]);
+  let HeatmapComponent = null;
+  function setHeatmapComponent(component) {
+    HeatmapComponent = component;
+  }
+  registerRendererArgModel(MACRO_PREFIX$2, { positional: ["view"] });
+  registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
+  function parseMacroArguments(tokens, argMap) {
+    let viewType;
+    let queryType = "tag";
+    let queryValue = "";
+    let propertyKey = "";
+    let displayMode;
+    let colorFormula;
+    let referenceYear;
+    let referenceMonth;
+    let referenceWeek;
+    let containerWidth;
+    let enableMonthPageCreation;
+    let monthPageTemplate;
+    let monthPageLogseqTemplate;
+    let enableWeekPageCreation;
+    let weekPageTemplate;
+    let weekPageLogseqTemplate;
+    const applyViewType = (raw) => {
+      const v = VIEW_TYPE_MAP[raw.trim()] || VIEW_TYPE_MAP[raw.trim().toLowerCase()];
+      if (v) viewType = v;
+    };
+    const applyDisplayMode = (raw) => {
+      const v = DISPLAY_MODE_MAP[raw.trim()] || DISPLAY_MODE_MAP[raw.trim().toLowerCase()];
+      if (v) displayMode = v;
+    };
+    const applyColorFormula = (raw) => {
+      const v = COLOR_FORMULA_MAP[raw.trim()] || COLOR_FORMULA_MAP[raw.trim().toLowerCase()];
+      if (v) colorFormula = v;
+    };
+    const tryInt = (raw) => {
+      const n = parseInt(raw, 10);
+      return Number.isFinite(n) ? n : void 0;
+    };
+    const directView = argMap.viewType || argMap.view;
+    if (directView) applyViewType(directView);
+    const directDisplay = argMap.displayMode || argMap.display;
+    if (directDisplay) applyDisplayMode(directDisplay);
+    const directFormula = argMap.colorFormula || argMap.formula;
+    if (directFormula) applyColorFormula(directFormula);
+    if (argMap.tag) {
+      queryType = "tag";
+      queryValue = argMap.tag;
+    } else if (argMap.page) {
+      queryType = "page";
+      queryValue = argMap.page;
+    } else if (argMap.property) {
+      queryType = "property";
+      const [k, v] = argMap.property.split("::");
+      propertyKey = (k || "").trim();
+      queryValue = (v || "").trim();
+    } else {
+      queryType = "all";
+    }
+    if (argMap.year) referenceYear = tryInt(argMap.year);
+    if (argMap.month) referenceMonth = tryInt(argMap.month);
+    if (argMap.week) referenceWeek = tryInt(argMap.week);
+    if (argMap.width) containerWidth = argMap.width;
+    if (argMap.containerWidth) containerWidth = argMap.containerWidth;
+    if (argMap.enableMonthPage) enableMonthPageCreation = argMap.enableMonthPage === "true";
+    if (argMap.monthPageTemplate) monthPageTemplate = argMap.monthPageTemplate;
+    if (argMap.monthPageLogseqTemplate) monthPageLogseqTemplate = argMap.monthPageLogseqTemplate;
+    if (argMap.enableWeekPage) enableWeekPageCreation = argMap.enableWeekPage === "true";
+    if (argMap.weekPageTemplate) weekPageTemplate = argMap.weekPageTemplate;
+    if (argMap.weekPageLogseqTemplate) weekPageLogseqTemplate = argMap.weekPageLogseqTemplate;
+    for (const token of tokens) {
+      const t = token.trim();
+      if (!t) continue;
+      if (t.includes("=")) continue;
+      if (VIEW_TYPE_MAP[t] || VIEW_TYPE_MAP[t.toLowerCase()]) {
+        applyViewType(t);
+        continue;
+      }
+      if (DISPLAY_MODE_MAP[t] || DISPLAY_MODE_MAP[t.toLowerCase()]) {
+        applyDisplayMode(t);
+        continue;
+      }
+      if (COLOR_FORMULA_MAP[t] || COLOR_FORMULA_MAP[t.toLowerCase()]) {
+        applyColorFormula(t);
+        continue;
+      }
+      if (t.startsWith("tag=")) {
+        queryType = "tag";
+        queryValue = t.slice(4);
+        continue;
+      }
+      if (t.startsWith("page=")) {
+        queryType = "page";
+        queryValue = t.slice(5);
+        continue;
+      }
+      if (t.startsWith("property=")) {
+        queryType = "property";
+        const propertyStr = t.slice(9);
+        const [k, v] = propertyStr.split("::");
+        propertyKey = (k || "").trim();
+        queryValue = (v || "").trim();
+        continue;
+      }
+      if (t.startsWith("year=")) referenceYear = tryInt(t.slice(5));
+      if (t.startsWith("month=")) referenceMonth = tryInt(t.slice(6));
+      if (t.startsWith("week=")) referenceWeek = tryInt(t.slice(5));
+      if (t.startsWith("width=")) containerWidth = t.slice(6);
+      if (t.startsWith("enableMonthPage=")) enableMonthPageCreation = t.slice(15) === "true";
+      if (t.startsWith("monthPageTemplate=")) monthPageTemplate = t.slice(18);
+      if (t.startsWith("monthPageLogseqTemplate=")) monthPageLogseqTemplate = t.slice(23);
+      if (t.startsWith("enableWeekPage=")) enableWeekPageCreation = t.slice(14) === "true";
+      if (t.startsWith("weekPageTemplate=")) weekPageTemplate = t.slice(16);
+      if (t.startsWith("weekPageLogseqTemplate=")) weekPageLogseqTemplate = t.slice(21);
+    }
+    return {
+      viewType,
+      queryType,
+      queryValue,
+      propertyKey,
+      displayMode,
+      colorFormula,
+      referenceYear,
+      referenceMonth,
+      referenceWeek,
+      containerWidth,
+      enableMonthPageCreation,
+      monthPageTemplate,
+      monthPageLogseqTemplate,
+      enableWeekPageCreation,
+      weekPageTemplate,
+      weekPageLogseqTemplate
+    };
+  }
+  function getDateOfWeek(week, year) {
+    const d = new Date(year, 0, 1);
+    d.getDay();
+    const diff = d.getTimezoneOffset() * 6e4;
+    const oneWeek = 6048e5;
+    return new Date(d.getTime() - diff + (week - 1) * oneWeek);
+  }
+  async function renderHeatmap(slot, type, tokens, blockUuid) {
+    try {
+      const argMap = parseRendererArgs(type, tokens);
+      const {
+        viewType,
+        queryType,
+        queryValue,
+        propertyKey,
+        displayMode,
+        colorFormula,
+        referenceYear,
+        referenceMonth,
+        referenceWeek,
+        containerWidth,
+        enableMonthPageCreation,
+        monthPageTemplate,
+        monthPageLogseqTemplate,
+        enableWeekPageCreation,
+        weekPageTemplate,
+        weekPageLogseqTemplate
+      } = parseMacroArguments(tokens, argMap);
+      const settings = await getSettingsWithSystem();
+      const now = /* @__PURE__ */ new Date();
+      let referenceDate;
+      if (viewType === "week" && referenceWeek) {
+        const weekStart = getDateOfWeek(referenceWeek, referenceYear || now.getFullYear());
+        referenceDate = weekStart;
+      } else {
+        referenceDate = new Date(
+          referenceYear || now.getFullYear(),
+          referenceMonth !== void 0 ? referenceMonth - 1 : now.getMonth(),
+          1
+        );
+      }
+      const resolvedTheme = settings?.theme === "dark" ? "dark" : "light";
+      const heatmapConfig = {
+        viewType: viewType || settings?.heatmap?.defaultViewType || "year",
+        displayMode: displayMode || settings?.heatmap?.defaultDisplayMode || "full",
+        colorFormula: colorFormula || settings?.heatmap?.defaultColorFormula || "simple",
+        colorScheme: {
+          name: "indigo",
+          colors: generateIndigoGradient(
+            settings?.heatmap?.colorScheme?.minColor || "#eef2ff",
+            settings?.heatmap?.colorScheme?.maxColor || "#3730a3",
+            settings?.heatmap?.colorScheme?.gradientSteps || 5
+          )
+        },
+        minColor: settings?.heatmap?.colorScheme?.minColor || "#eef2ff",
+        maxColor: settings?.heatmap?.colorScheme?.maxColor || "#3730a3",
+        language: settings?.language || "en",
+        referenceDate,
+        containerWidth,
+        // Merge settings with macro parameters - macro takes precedence
+        enableMonthPageCreation: enableMonthPageCreation ?? settings?.heatmap?.monthPageCreation?.enabled ?? false,
+        monthPageTemplate: monthPageTemplate || settings?.heatmap?.monthPageCreation?.pageNameTemplate || "",
+        monthPageLogseqTemplate: monthPageLogseqTemplate || settings?.heatmap?.monthPageCreation?.logseqTemplate || "",
+        enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.weekPageCreation?.enabled ?? false,
+        weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageCreation?.pageNameTemplate || "",
+        weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || "",
+        dateFormat: settings?.dateFormat || ""
+      };
+      loggerProxy.debug("🌡️ Heatmap: Configuration resolved", {
+        displayMode,
+        defaultDisplayMode: settings?.heatmap?.defaultDisplayMode,
+        colorFormula,
+        defaultColorFormula: settings?.heatmap?.defaultColorFormula,
+        languageSetting: settings?.language,
+        containerWidth
+      });
+      loggerProxy.debug("🌡️ Heatmap: Rendering heatmap", {
+        queryType,
+        queryValue,
+        propertyKey,
+        viewType,
+        colorFormula,
+        referenceDate,
+        enableMonthPageCreation,
+        enableWeekPageCreation
+      });
+      const heatmapData = await fetchHeatmapData({
+        type: queryType,
+        value: queryValue,
+        propertyKey,
+        year: referenceYear,
+        month: referenceMonth,
+        week: referenceWeek
+      }, viewType, colorFormula);
+      loggerProxy.debug("🌡️ Heatmap: Data loaded", {
+        dataPoints: heatmapData.length,
+        totalCount: heatmapData.reduce((sum, d) => sum + d.count, 0),
+        firstDate: heatmapData[0]?.date,
+        lastDate: heatmapData[heatmapData.length - 1]?.date
+      });
+      if (!HeatmapComponent) {
+        loggerProxy.warn("⚠️ Heatmap: Component not registered");
+        return false;
+      }
+      const containerId = PLUGIN_ID$2 + "__" + slot;
+      loggerProxy.debug("🌡️ Heatmap: Container created", { containerId });
+      logseqAPI$1.provideUI({
+        key: containerId,
+        slot,
+        reset: true,
+        template: `<div id="${containerId}"></div>`
+      });
+      setTimeout(() => {
+        const container = getDocument().getElementById(containerId);
+        if (container) {
+          loggerProxy.debug("🌡️ Heatmap: Rendering component", { containerId });
+          renderComponent(container, HeatmapComponent, {
+            config: heatmapConfig,
+            data: heatmapData,
+            theme: resolvedTheme,
+            onBlockId: blockUuid
+          });
+        } else {
+          loggerProxy.warn("🌡️ Heatmap: Container not found", { containerId });
+        }
+      }, 1);
+      return true;
+    } catch (err) {
+      loggerProxy.error("❌ Heatmap: Render error", err);
+      return false;
+    }
+  }
+  function registerHeatmap() {
+    logseqAPI$1.App.onMacroRendererSlotted(async ({ payload, slot }) => {
+      const split = splitRendererArgs(payload.arguments);
+      const type = split?.type || "";
+      const tokens = split?.tokens || [];
+      const blockUuid = payload.uuid;
+      if (!type || !type.startsWith(MACRO_PREFIX$2) && !type.startsWith(MACRO_PREFIX_CN)) {
+        return;
+      }
+      loggerProxy.debug("🌡️ Heatmap: Macro detected", { type, blockUuid });
+      await renderHeatmap(slot, type, tokens, blockUuid);
+    });
+    logseqAPI$1.Editor.registerSlashCommand(
+      "[Text Toolkit] Insert Heatmap",
+      async () => {
+        await logseqAPI$1.Editor.insertAtEditingCursor(
+          `{{renderer ${MACRO_PREFIX$2}, view=year, tag=Task}}`
+        );
+      }
+    );
+    loggerProxy.info("✅ Heatmap: Registered successfully");
+  }
+
   const Heatmap = ({ config, data, theme, onBlockId }) => {
     const containerClass = theme === "dark" ? `heatmap-container heatmap-${config.displayMode} dark` : `heatmap-container heatmap-${config.displayMode}`;
     const [viewType, setViewType] = reactExports.useState(config.viewType);
@@ -5465,15 +6523,7 @@ ${nestingClauses}`;
             const currentBlock = await logseqAPI$1.Editor.getBlock(onBlockId);
             if (currentBlock) {
               const content = currentBlock.content || "";
-              const rendererRegex = /({{renderer\s+:heatmap.*?}})/gi;
-              const updatedContent = content.replace(rendererRegex, (rendererStr) => {
-                const hasWidth = /containerWidth=[\w%]+/i.test(rendererStr);
-                if (hasWidth) {
-                  return rendererStr.replace(/containerWidth=[\w%]+/i, `containerWidth=${finalWidth}`);
-                } else {
-                  return rendererStr.replace(/\s*}}$/, `, containerWidth=${finalWidth}}}`);
-                }
-              });
+              const updatedContent = updateHeatmapRendererArgs(content, { containerWidth: finalWidth });
               await logseqAPI$1.Editor.updateBlock(onBlockId, updatedContent);
               loggerProxy.debug("📐 Heatmap: Width updated to block", { onBlockId, finalWidth, updatedContent });
             }
@@ -5729,144 +6779,6 @@ ${nestingClauses}`;
       default:
         return data;
     }
-  }
-
-  const getCreatedAt$1 = (block) => {
-    const v = block?.["created-at"] ?? block?.["block/created-at"] ?? block?.createdAt ?? block?.created_at;
-    const n = typeof v === "number" ? v : Number(v);
-    return Number.isFinite(n) ? n : null;
-  };
-  const formatDate = (d) => d.toISOString().split("T")[0];
-  const buildWhereClause$1 = (params) => {
-    const value = params.value || "";
-    const key = params.propertyKey || "";
-    if (params.type === "tag") {
-      return `
-[?b :block/tags ?t]
-[?t :block/title "${value}"]`;
-    }
-    if (params.type === "page") {
-      return `
-[?p :block/name "${value}"]
-[?b :block/page ?p]`;
-    }
-    if (params.type === "property") {
-      if (!key) {
-        return `
-[?b :block/properties ?props]
-[(some? ?props)]`;
-      }
-      if (value) {
-        return `
-[?b :logseq.property/${key} ?val]
-[?val :block/title "${value}"]`;
-      }
-      return `
-[?b :logseq.property/${key} ?val]
-[(some? ?val)]`;
-    }
-    return "";
-  };
-  const buildQuery$1 = (params, startMs, endMs) => {
-    const where = buildWhereClause$1(params);
-    return `
-[:find (pull ?b [*])
- :where
-${where}
-[?b :block/created-at ?date]
-[(>= ?date ${startMs})]
-[(<= ?date ${endMs})]]`;
-  };
-  const getWeekBounds = (ref) => {
-    const d = new Date(ref);
-    const day = d.getDay();
-    const monday = new Date(d);
-    monday.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
-    monday.setHours(0, 0, 0, 0);
-    return { start: monday, end: new Date(monday.getTime() + 7 * 864e5) };
-  };
-  const bucketByDay = (blocks, startMs, endMs) => {
-    const buckets = {};
-    for (const b of blocks) {
-      const ts = getCreatedAt$1(b);
-      if (!ts || ts < startMs || ts >= endMs) continue;
-      const key = formatDate(new Date(ts));
-      if (!buckets[key]) buckets[key] = [];
-      buckets[key].push(b);
-    }
-    return buckets;
-  };
-  const bucketByWeekCell = (blocks, startMs) => {
-    const buckets = {};
-    for (const b of blocks) {
-      const ts = getCreatedAt$1(b);
-      if (!ts) continue;
-      const dayIdx = Math.floor((ts - startMs) / 864e5);
-      if (dayIdx < 0 || dayIdx >= 7) continue;
-      const hourIdx = Math.floor(ts % 864e5 / 144e5);
-      const key = `${dayIdx}-${hourIdx}`;
-      if (!buckets[key]) buckets[key] = [];
-      buckets[key].push(b);
-    }
-    return buckets;
-  };
-  const calcCount = (blocks, formula) => formula === "simple" ? calculateColorValueSimple(blocks) : calculateColorValueWeighted(blocks);
-  async function fetchHeatmapData(params, view, formula) {
-    if (!params.value?.trim() && !params.propertyKey?.trim()) return [];
-    const now = /* @__PURE__ */ new Date();
-    const year = params.year ?? now.getFullYear();
-    const month = params.month ?? now.getMonth() + 1;
-    const ref = new Date(year, month - 1, 1);
-    loggerProxy.debug("[Heatmap] fetchHeatmapData", { params, view, year, month });
-    let start, end;
-    if (view === "week") {
-      const bounds = getWeekBounds(ref);
-      start = bounds.start;
-      end = bounds.end;
-    } else if (view === "month") {
-      start = new Date(year, month - 1, 1);
-      end = new Date(year, month, 1);
-    } else {
-      start = new Date(year, 0, 1);
-      end = new Date(year + 1, 0, 1);
-    }
-    const startMs = start.getTime();
-    const endMs = end.getTime();
-    const query = buildQuery$1(params, startMs, endMs);
-    loggerProxy.debug("[Heatmap] query", query);
-    const raw = await logseqAPI$1.DB.datascriptQuery(query);
-    const blocks = (raw || []).flat().filter(Boolean);
-    loggerProxy.debug("[Heatmap] result count:", blocks.length, "sample:", blocks[0]?.["created-at"]);
-    const data = [];
-    if (view === "week") {
-      const buckets = bucketByWeekCell(blocks, startMs);
-      for (let h = 0; h < 6; h++) {
-        for (let d = 0; d < 7; d++) {
-          const key = `${d}-${h}`;
-          const cellBlocks = buckets[key] || [];
-          const day = new Date(start);
-          day.setDate(start.getDate() + d);
-          day.setHours(h * 4, 0, 0, 0);
-          data.push({
-            date: day.toISOString().replace(".000Z", "Z"),
-            count: calcCount(cellBlocks, formula),
-            blocks: cellBlocks
-          });
-        }
-      }
-    } else {
-      const buckets = bucketByDay(blocks, startMs, endMs);
-      for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
-        const key = formatDate(new Date(d));
-        const dayBlocks = buckets[key] || [];
-        data.push({
-          date: key,
-          count: calcCount(dayBlocks, formula),
-          blocks: dayBlocks
-        });
-      }
-    }
-    return data;
   }
 
   const API_BASE_URL = "http://127.0.0.1:12315/api";
@@ -7071,885 +7983,1069 @@ ${where}
     ] });
   };
 
-  const APIQueryDemo = () => {
-    const settings = getSettings();
-    const currentLang = settings?.language || "zh-CN";
-    const [enabled, setEnabled] = reactExports.useState(false);
-    const [apiToken, setApiToken] = reactExports.useState("");
-    const [blockUuid, setBlockUuid] = reactExports.useState("");
-    const [nestingLevel, setNestingLevel] = reactExports.useState(1);
-    const [onlyLeaves, setOnlyLeaves] = reactExports.useState(false);
-    const [healthStatus, setHealthStatus] = reactExports.useState(null);
-    const [loading, setLoading] = reactExports.useState(false);
-    const [tasks, setTasks] = reactExports.useState([]);
-    const [error, setError] = reactExports.useState(null);
-    const [blockTitle, setBlockTitle] = reactExports.useState("");
-    reactExports.useEffect(() => {
-      if (enabled && apiToken) {
-        logseqAPI.setToken(apiToken);
-        checkConnection();
-      }
-    }, [enabled, apiToken]);
-    reactExports.useEffect(() => {
-      if (enabled && apiToken && blockUuid) {
-        queryTasks();
-      }
-    }, [enabled, apiToken, blockUuid, nestingLevel, onlyLeaves]);
-    const checkConnection = async () => {
-      try {
-        const status = await logseqAPI.checkHealth();
-        setHealthStatus(status);
-        if (!status.connected) {
-          setError(status.error === "invalid_token" ? "Invalid API token. Check your token in Logseq settings." : "Cannot connect to Logseq. Make sure the API server is enabled.");
-        } else {
-          setError(null);
+  class Query {
+    async queryBlocks(dateRange) {
+      const { start, end } = dateRange;
+      const startTimestamp = start.getTime();
+      const endTimestamp = end.getTime();
+      loggerProxy.debug("[Query:queryBlocks] method called", {
+        dateRange: { start: start.toISOString(), end: end.toISOString() },
+        timestamps: { start: startTimestamp, end: endTimestamp }
+      });
+      loggerProxy.debug("[Query:queryBlocks] executing combined query for blocks, pages, tags, and updated info");
+      const allBlocksWithMeta = await logseqAPI$1.DB.datascriptQuery(`
+      [:find (pull ?b [*]) ?page-name ?tag-name ?updated
+       :where
+       [?b :block/content ?content]
+       [?b :block/created-at ?created]
+       [(>= ?created ${startTimestamp})]
+       [(<= ?created ${endTimestamp})]
+       [?b :block/page ?page]
+       [?page :page/name ?page-name]
+       [?b :block/updated-at ?updated]
+       (or-join [?b ?tag-name]
+         (and [?b :block/tags ?t] [?t :block/title ?tag-name])
+         (and [(identity nil) ?tag-name]))]
+    `);
+      loggerProxy.debug("[Query:queryBlocks] allBlocksWithMeta result", { count: allBlocksWithMeta.length });
+      const tagCount = {};
+      const pageCount = {};
+      const updatedBlockIds = /* @__PURE__ */ new Set();
+      let totalContentLength = 0;
+      for (const row of allBlocksWithMeta) {
+        if (!row || !Array.isArray(row) || row.length < 1) continue;
+        const blockData = row[0];
+        const pageName = row[1];
+        const tagName = row[2];
+        const updatedAt = row[3];
+        const content = blockData?.["content"] || "";
+        const blockId = blockData?.["uuid"] || blockData?.[":block/uuid"];
+        totalContentLength += content.length;
+        if (pageName) {
+          pageCount[pageName] = (pageCount[pageName] || 0) + 1;
         }
-      } catch (err) {
-        setHealthStatus({ connected: false, graphName: null, error: "connection_refused" });
-        setError(err.message);
-      }
-    };
-    const queryTasks = async () => {
-      if (!blockUuid.trim()) {
-        setTasks([]);
-        setError(null);
-        return;
-      }
-      setLoading(true);
-      setError(null);
-      try {
-        const block = await logseqAPI.queryBlockByUuid(blockUuid.trim());
-        if (block) {
-          setBlockTitle(block["block/title"] || block.title || block["block/content"] || "");
-        } else {
-          setBlockTitle("");
+        if (tagName) {
+          tagCount[tagName] = (tagCount[tagName] || 0) + 1;
         }
-        const results = await logseqAPI.queryTasksByBlockUuid(blockUuid.trim(), nestingLevel, onlyLeaves);
-        setTasks(results);
-        if (results.length === 0) {
-          setError("No tasks found in this block.");
+        if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
+          if (blockId) {
+            updatedBlockIds.add(blockId);
+          }
         }
-      } catch (err) {
-        setError(err.message);
-        setTasks([]);
-      } finally {
-        setLoading(false);
       }
-    };
-    const calculateProgress = () => {
-      if (tasks.length === 0) return null;
-      const statusCounts = {};
-      for (const task of tasks) {
-        const status = task.status || "todo";
-        statusCounts[status] = (statusCounts[status] || 0) + 1;
-      }
-      const statusStats = [];
-      let totalTasks = 0;
-      let completedTasks = 0;
-      for (const [status, count] of Object.entries(statusCounts)) {
-        totalTasks += count;
-        if (status.toLowerCase() === "done") {
-          completedTasks = count;
-        }
-        statusStats.push({
-          status,
-          count,
-          color: STATUS_COLORS[status.toLowerCase()] || STATUS_COLORS[status] || "#6b7280"
-        });
-      }
-      const progress = Math.round(completedTasks / totalTasks * 100);
+      const created = allBlocksWithMeta.length;
+      const modified = updatedBlockIds.size;
+      const total = allBlocksWithMeta.length;
+      loggerProxy.info("[Query:queryBlocks] completed", {
+        total,
+        created,
+        modified,
+        avgContentLength: total > 0 ? Math.round(totalContentLength / total) : 0,
+        tagsCount: Object.keys(tagCount).length,
+        pagesCount: Object.keys(pageCount).length
+      });
       return {
-        blockId: blockUuid,
-        parentBlockId: blockUuid,
-        totalTasks,
-        completedTasks,
-        statusStats,
-        progress,
-        nestingLevel,
-        leafTasksOnly: onlyLeaves
+        total,
+        created,
+        modified,
+        avgContentLength: total > 0 ? Math.round(totalContentLength / total) : 0,
+        tags: tagCount,
+        pages: pageCount
       };
-    };
-    const progressData = calculateProgress();
-    const getStatusNameDisplay = (status) => {
-      const key = `settings.taskProgress.statusNames.${status}`;
-      const translation = t(key, currentLang);
-      return translation !== key ? translation : status;
-    };
-    const statusOptions = [
-      { value: "todo", label: "● Todo", color: "#f59e0b" },
-      { value: "doing", label: "○ Doing", color: "#3b82f6" },
-      { value: "in-review", label: "⊛ In Review", color: "#06b6d4" },
-      { value: "done", label: "✓ Done", color: "#10b981" },
-      { value: "waiting", label: "◐ Waiting", color: "#8b5cf6" },
-      { value: "canceled", label: "✗ Canceled", color: "#ef4444" }
-    ];
-    const normalizeStatus = (status) => {
-      if (!status) return "todo";
-      const strStatus = String(status).toLowerCase();
-      if (statusOptions.some((o) => o.value === strStatus)) {
-        return strStatus;
+    }
+    async queryTasks(dateRange) {
+      const { start, end } = dateRange;
+      const startTimestamp = start.getTime();
+      const endTimestamp = end.getTime();
+      loggerProxy.debug("[Query:queryTasks] method called", {
+        dateRange: { startTimestamp, endTimestamp },
+        start: start.toISOString(),
+        end: end.toISOString()
+      });
+      loggerProxy.debug('[Query:queryTasks] executing logseqAPI.DB.datascriptQuery: get tasks with tags "Task"');
+      const tasks = await logseqAPI$1.DB.datascriptQuery(`
+      [:find (pull ?b [*]) ?status-title ?priority-title
+       :where
+       [?b :block/tags ?t]
+       [?t :block/title "Task"]
+       [?b :block/created-at ?date]
+       [(>= ?date ${startTimestamp})]
+       [(<= ?date ${endTimestamp})]
+       [?b :logseq.property/status ?status]
+       [?status :block/title ?status-title]
+       [?b :logseq.property/priority ?priority]
+       [?priority :block/title ?priority-title]
+      ]
+    `);
+      loggerProxy.debug("[Query:queryTasks] tasks result", { count: tasks.length });
+      const total = tasks.length;
+      let completed = 0;
+      let inProgress = 0;
+      let todo = 0;
+      let overdue = 0;
+      const byPriority = {};
+      const now = /* @__PURE__ */ new Date();
+      for (const task of tasks) {
+        if (!task || !Array.isArray(task) || task.length < 1) continue;
+        const block = task[0];
+        const statusTitle = task[1];
+        const priorityTitle = task[2];
+        const status = statusTitle ? statusTitle.toLowerCase() : "todo";
+        const priority = priorityTitle ? priorityTitle.toLowerCase() : "none";
+        loggerProxy.debug("[Query:queryTasks] processing task", {
+          blockId: block?.["uuid"],
+          status,
+          priority
+        });
+        if (status === "done" || status === "completed" || status === "cancelled") {
+          completed++;
+          loggerProxy.debug("[Query:queryTasks] task completed", { blockId: block?.["uuid"] });
+        } else if (status === "doing" || status === "now") {
+          inProgress++;
+          loggerProxy.debug("[Query:queryTasks] task in-progress", { blockId: block?.["uuid"] });
+        } else if (status === "waiting" || status === "later") {
+          loggerProxy.debug("[Query:queryTasks] task waiting/later", { blockId: block?.["uuid"] });
+        } else {
+          todo++;
+          loggerProxy.debug("[Query:queryTasks] task todo", { blockId: block?.["uuid"] });
+        }
+        const scheduled = block?.["scheduled"] || block?.[":logseq.property/scheduled"];
+        if (scheduled && status !== "done" && status !== "completed" && status !== "cancelled") {
+          const scheduledDate = new Date(scheduled);
+          if (scheduledDate < now) {
+            overdue++;
+            loggerProxy.debug("[Query:queryTasks] task overdue", {
+              blockId: block?.["uuid"],
+              scheduled
+            });
+          }
+        }
+        if (priority) {
+          const priorityKey = String(priority).toLowerCase();
+          byPriority[priorityKey] = (byPriority[priorityKey] || 0) + 1;
+          loggerProxy.debug("[Query:queryTasks] task priority found", {
+            blockId: block?.["uuid"],
+            priority: priorityKey,
+            count: byPriority[priorityKey]
+          });
+        }
       }
-      return "todo";
-    };
-    const getStatusIcon = (status) => {
-      const normalizedStatus = normalizeStatus(status);
-      const option = statusOptions.find((o) => o.value === normalizedStatus);
-      return option?.label?.charAt(0) || "●";
-    };
-    const getStatusColor = (status) => {
-      const normalizedStatus = normalizeStatus(status);
-      const option = statusOptions.find((o) => o.value === normalizedStatus);
-      return option?.color || "#6b7280";
-    };
-    if (!enabled) {
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-        marginTop: "24px",
-        padding: "20px",
-        backgroundColor: "#f8fafc",
-        borderRadius: "12px",
-        border: "1px solid #e2e8f0"
-      }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "14px", fontWeight: "600", color: "#334155" }, children: "Enable Logseq API Query" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
+      loggerProxy.info("[Query:queryTasks] completed", {
+        total,
+        completed,
+        inProgress,
+        todo,
+        overdue,
+        completionRate: total > 0 ? Math.round(completed / total * 100) : 0,
+        byPriority
+      });
+      return {
+        total,
+        completed,
+        inProgress,
+        todo,
+        overdue,
+        completionRate: total > 0 ? Math.round(completed / total * 100) : 0,
+        byPriority
+      };
+    }
+    async queryPages(dateRange) {
+      const { start, end } = dateRange;
+      const startTimestamp = start.getTime();
+      const endTimestamp = end.getTime();
+      loggerProxy.debug("[Query:queryPages] method called", {
+        dateRange: { start: start.toISOString(), end: end.toISOString() },
+        timestamps: { start: startTimestamp, end: endTimestamp }
+      });
+      loggerProxy.debug("[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get all pages");
+      const pages = await logseqAPI$1.DB.datascriptQuery(`
+      [:find (pull ?p [*])
+       :where [?p :page/name ?name]
+              [?p :page/created-at ?createdAt]
+              [?p :page/updated-at ?updatedAt]]
+    `);
+      loggerProxy.debug("[Query:queryPages] pages result", { count: pages.length });
+      loggerProxy.debug("[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get page tags");
+      const pageTags = await logseqAPI$1.DB.datascriptQuery(`
+      [:find ?p ?tag-name
+       :where
+       [?p :block/tags ?t]
+       [?t :block/title ?tag-name]]
+    `);
+      loggerProxy.debug("[Query:queryPages] pageTags result", { count: pageTags.length });
+      let newPages = 0;
+      let modifiedPages = 0;
+      const byTag = {};
+      const byProperty = {};
+      for (const page of pages) {
+        if (!page || !Array.isArray(page) || page.length < 1) continue;
+        const pageData = page[0];
+        const createdAt = pageData?.["created-at"] || pageData?.[":page/created-at"];
+        const updatedAt = pageData?.["updated-at"] || pageData?.[":page/updated-at"];
+        if (createdAt && createdAt >= startTimestamp && createdAt <= endTimestamp) {
+          newPages++;
+          loggerProxy.debug("[Query:queryPages] new page found", { pageName: pageData?.["name"] || pageData?.[":page/name"] });
+        }
+        if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
+          modifiedPages++;
+          loggerProxy.debug("[Query:queryPages] modified page found", { pageName: pageData?.["name"] || pageData?.[":page/name"] });
+        }
+      }
+      for (const tagEntry of pageTags) {
+        if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
+        const tagName = tagEntry[1];
+        if (tagName) {
+          byTag[tagName] = (byTag[tagName] || 0) + 1;
+        }
+      }
+      loggerProxy.info("[Query:queryPages] completed", {
+        total: pages.length,
+        newPages,
+        modifiedPages,
+        byTagCount: Object.keys(byTag).length,
+        byPropertyCount: Object.keys(byProperty).length
+      });
+      return {
+        total: pages.length,
+        newPages,
+        modifiedPages,
+        byTag,
+        byProperty
+      };
+    }
+  }
+
+  class DataAnalyzer {
+    query;
+    constructor() {
+      this.query = new Query();
+    }
+    calculateDateRange(type, customStart, customEnd) {
+      loggerProxy.debug("[DataAnalyzer] 计算时间范围", { type, customStart, customEnd });
+      const now = /* @__PURE__ */ new Date();
+      let start;
+      let end;
+      switch (type) {
+        case "weekly":
+          const dayOfWeek = now.getDay();
+          const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+          start = new Date(now);
+          start.setDate(now.getDate() + diff);
+          start.setHours(0, 0, 0, 0);
+          end = new Date(start);
+          end.setDate(start.getDate() + 6);
+          end.setHours(23, 59, 59, 999);
+          break;
+        case "monthly":
+          start = new Date(now.getFullYear(), now.getMonth(), 1);
+          end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+          end.setHours(23, 59, 59, 999);
+          break;
+        case "yearly":
+          start = new Date(now.getFullYear(), 0, 1);
+          end = new Date(now.getFullYear(), 11, 31);
+          end.setHours(23, 59, 59, 999);
+          break;
+        case "custom":
+        default:
+          start = customStart || now;
+          end = customEnd || now;
+          break;
+      }
+      loggerProxy.debug("[DataAnalyzer] 时间范围计算完成", { start, end });
+      return { start, end };
+    }
+    async analyze(type, customStart, customEnd) {
+      const dateRange = this.calculateDateRange(type, customStart, customEnd);
+      loggerProxy.info("[DataAnalyzer] 开始分析数据", { type, dateRange });
+      const [blocks, tasks, pages] = await Promise.all([
+        this.query.queryBlocks(dateRange),
+        this.query.queryTasks(dateRange),
+        this.query.queryPages(dateRange)
+      ]);
+      loggerProxy.info("[DataAnalyzer] 数据分析完成", {
+        blocks: blocks.total,
+        tasks: tasks.total,
+        pages: pages.total
+      });
+      return {
+        dateRange,
+        blocks,
+        tasks,
+        pages
+      };
+    }
+    formatDateRange(range) {
+      const formatDate = (date) => {
+        return date.toLocaleDateString("zh-CN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      };
+      return `${formatDate(range.start)} - ${formatDate(range.end)}`;
+    }
+    getWeekNumber(date) {
+      const startOfYear = new Date(date.getFullYear(), 0, 1);
+      const diff = date.getTime() - startOfYear.getTime();
+      const oneWeek = 6048e5;
+      return Math.ceil(diff / oneWeek);
+    }
+    getTopTags(tags, limit = 5) {
+      return Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, limit);
+    }
+    getTopProperties(properties, limit = 3) {
+      return Object.entries(properties).sort((a, b) => {
+        const countA = Object.values(a[1]).reduce((sum, val) => sum + val, 0);
+        const countB = Object.values(b[1]).reduce((sum, val) => sum + val, 0);
+        return countB - countA;
+      }).slice(0, limit);
+    }
+  }
+
+  class GTDWorkReviewTemplate {
+    id = "gtd-work-review";
+    name = "GTD 工作回顾";
+    description = "基于 GTD 方法的工作回顾模版";
+    supportedTypes = ["weekly", "monthly"];
+    analyzer;
+    constructor() {
+      this.analyzer = new DataAnalyzer();
+    }
+    render(data, params = {}) {
+      const topTags = this.analyzer.getTopTags(data.blocks.tags);
+      const summaryType = params.summaryType || "weekly";
+      const title = this.getTitle(data, summaryType);
+      return [
+        {
+          content: `[:div.ltt-summary-page "${title}"]`,
+          children: [
             {
-              onClick: () => setEnabled(true),
-              style: {
-                padding: "6px 16px",
-                backgroundColor: "#3b82f6",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                fontSize: "13px",
-                fontWeight: "500"
-              },
-              children: "Enable"
+              content: "## 📈 数据概览",
+              children: [
+                {
+                  content: "### 核心指标",
+                  children: [
+                    { content: `- 创建块数: ${data.blocks.created}` },
+                    { content: `- 完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
+                    { content: `- 任务完成率: ${data.tasks.completionRate}%` },
+                    { content: `- 新增页面: ${data.pages.newPages}` }
+                  ]
+                }
+              ]
+            },
+            {
+              content: "## 📈 活跃度热力图",
+              children: [
+                { content: "{{renderer :heatmap :week}}" }
+              ]
+            },
+            {
+              content: "## ✅ 任务回顾",
+              children: [
+                {
+                  content: "### 任务统计",
+                  children: [
+                    {
+                      content: `| 状态 | 数量 |
+                              |------|------|
+                              | 完成 | ${data.tasks.completed} |
+                              | 进行中 | ${data.tasks.inProgress} |
+                              | 待办 | ${data.tasks.todo} |
+                              | 逾期 | ${data.tasks.overdue} |`
+                    }
+                  ]
+                },
+                {
+                  content: "### 优先级分布",
+                  children: [
+                    ...this.renderPriorityDistribution(data.tasks.byPriority)
+                  ]
+                }
+              ]
+            },
+            {
+              content: "## 📝 内容分析",
+              children: [
+                {
+                  content: "### 热门标签",
+                  children: [
+                    ...topTags.map(([tag, count]) => ({ content: `- #${tag} (${count})` }))
+                  ]
+                },
+                {
+                  content: "### 页面统计",
+                  children: [
+                    { content: `- 总页面数: ${data.pages.total}` },
+                    { content: `- 新增页面: ${data.pages.newPages}` },
+                    { content: `- 修改页面: ${data.pages.modifiedPages}` }
+                  ]
+                }
+              ]
+            },
+            {
+              content: "## 🤖 AI 分析建议",
+              children: [
+                { content: "AI 分析建议:" },
+                { content: `${data.aiSuggestions?.join("\n") || "暂无 AI 分析建议"}` }
+              ]
+            }
+          ]
+        }
+      ];
+    }
+    getTitle(data, summaryType) {
+      const year = data.dateRange.start.getFullYear();
+      const weekNum = this.analyzer.getWeekNumber(data.dateRange.start);
+      const monthName = data.dateRange.start.toLocaleDateString("zh-CN", { month: "long" });
+      if (summaryType === "weekly") {
+        return `📊 周度总结 - ${year}年第${weekNum}周`;
+      } else if (summaryType === "monthly") {
+        return `📊 月度总结 - ${year}年${monthName}`;
+      } else if (summaryType === "yearly") {
+        return `📊 年度总结 - ${year}年`;
+      }
+      return `📊 自定义总结`;
+    }
+    renderPriorityDistribution(byPriority) {
+      if (Object.keys(byPriority).length === 0) {
+        return [{ content: "- 暂无优先级数据" }];
+      }
+      return Object.entries(byPriority).map(([priority, count]) => ({
+        content: `- ${priority}: ${count} 个`
+      }));
+    }
+  }
+
+  class MinimalDashboardTemplate {
+    id = "minimal-dashboard";
+    name = "极简数据看板";
+    description = "简洁的数据概览看板";
+    supportedTypes = ["weekly", "monthly", "yearly", "custom"];
+    analyzer;
+    constructor() {
+      this.analyzer = new DataAnalyzer();
+    }
+    render(data, _params) {
+      const topTags = this.analyzer.getTopTags(data.blocks.tags, 3);
+      const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
+      return [
+        {
+          content: `[:div.ltt-summary-page "${dateRangeStr}"]`,
+          children: [
+            {
+              content: "## 📊 概览",
+              children: [
+                { content: `### 时间段` },
+                { content: `- ${dateRangeStr}` }
+              ]
+            },
+            {
+              content: "## 📝 内容统计",
+              children: [
+                { content: `- 总块数: ${data.blocks.total}` },
+                { content: `- 创建: ${data.blocks.created}` },
+                { content: `- 修改: ${data.blocks.modified}` },
+                { content: `- 平均长度: ${data.blocks.avgContentLength} 字符` }
+              ]
+            },
+            {
+              content: "## ✅ 任务状态",
+              children: [
+                { content: `- 总计: ${data.tasks.total}` },
+                { content: `- 完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
+                { content: `- 进行中: ${data.tasks.inProgress}` },
+                { content: `- 待办: ${data.tasks.todo}` },
+                { content: `- 逾期: ${data.tasks.overdue}` }
+              ]
+            },
+            {
+              content: "## 📄 页面",
+              children: [
+                { content: `- 总数: ${data.pages.total}` },
+                { content: `- 新增: ${data.pages.newPages}` },
+                { content: `- 修改: ${data.pages.modifiedPages}` }
+              ]
+            },
+            {
+              content: "## 🏷️ 热门标签",
+              children: topTags.map(([tag, count]) => ({
+                content: `- #${tag}: ${count}`
+              }))
+            }
+          ]
+        }
+      ];
+    }
+  }
+
+  class BulletJournalTemplate {
+    id = "bullet-journal";
+    name = "子弹日记";
+    description = "基于子弹日记方法的记录模板";
+    supportedTypes = ["weekly", "monthly"];
+    analyzer;
+    constructor() {
+      this.analyzer = new DataAnalyzer();
+    }
+    render(data, _params) {
+      const topTags = this.analyzer.getTopTags(data.blocks.tags, 5);
+      const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
+      return [
+        {
+          content: `[:div.ltt-summary-page "📔 ${dateRangeStr}"]`,
+          children: [
+            {
+              content: "## 📅 日志概览",
+              children: [
+                { content: `- 时间段: ${dateRangeStr}` },
+                { content: `- 记录条数: ${data.blocks.total}` }
+              ]
+            },
+            {
+              content: "## ✅ 任务追踪",
+              children: [
+                { content: `| 状态 | 数量 | 占比 |` },
+                { content: `|------|------|------|` },
+                { content: `| 完成 | ${data.tasks.completed} | ${data.tasks.completionRate}% |` },
+                { content: `| 进行中 | ${data.tasks.inProgress} | ${data.tasks.total > 0 ? Math.round(data.tasks.inProgress / data.tasks.total * 100) : 0}% |` },
+                { content: `| 待办 | ${data.tasks.todo} | ${data.tasks.total > 0 ? Math.round(data.tasks.todo / data.tasks.total * 100) : 0}% |` },
+                { content: `| 逾期 | ${data.tasks.overdue} | ${data.tasks.total > 0 ? Math.round(data.tasks.overdue / data.tasks.total * 100) : 0}% |` }
+              ]
+            },
+            {
+              content: "## 💡 想法记录",
+              children: [
+                { content: "- 本周/本月收集的想法和灵感" },
+                { content: "- 待进一步探索的主题" }
+              ]
+            },
+            {
+              content: "## 📚 阅读笔记",
+              children: [
+                { content: "- 阅读的书籍/文章" },
+                { content: "- 关键要点摘录" }
+              ]
+            },
+            {
+              content: "## 🏷️ 标签云",
+              children: topTags.map(([tag, count]) => ({
+                content: `- #${tag}: ${count}`
+              }))
+            },
+            {
+              content: "## 🎯 下周/下月目标",
+              children: [
+                { content: "- [ ] 目标一" },
+                { content: "- [ ] 目标二" },
+                { content: "- [ ] 目标三" }
+              ]
+            }
+          ]
+        }
+      ];
+    }
+  }
+
+  class OKRReviewTemplate {
+    id = "okr-review";
+    name = "OKR 回顾";
+    description = "基于 OKR 方法论的目标回顾模板";
+    supportedTypes = ["monthly"];
+    analyzer;
+    constructor() {
+      this.analyzer = new DataAnalyzer();
+    }
+    render(data, params) {
+      const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
+      const objectives = params.objectives || [
+        { name: "目标一", progress: 80, keyResults: ["KR1", "KR2"] },
+        { name: "目标二", progress: 60, keyResults: ["KR3"] },
+        { name: "目标三", progress: 100, keyResults: ["KR4", "KR5", "KR6"] }
+      ];
+      return [
+        {
+          content: `[:div.ltt-summary-page "🎯 ${dateRangeStr} OKR 回顾"]`,
+          children: [
+            {
+              content: "## 📊 OKR 完成概览",
+              children: [
+                { content: `- 时间段: ${dateRangeStr}` },
+                { content: `- 总目标数: ${objectives.length}` },
+                { content: `- 平均完成率: ${Math.round(objectives.reduce((sum, o) => sum + o.progress, 0) / objectives.length)}%` }
+              ]
+            },
+            {
+              content: "## 🎯 目标详情",
+              children: objectives.map((obj, index) => ({
+                content: `### ${index + 1}. ${obj.name}`,
+                children: [
+                  { content: `**进度**: ${obj.progress}%` },
+                  { content: "**关键结果**:", children: obj.keyResults.map((kr, i) => ({ content: `${i + 1}. ${kr}` })) },
+                  { content: `**状态**: ${this.getStatusText(obj.progress)}` },
+                  { content: "**反思**: " }
+                ]
+              }))
+            },
+            {
+              content: "## ✅ 任务完成情况",
+              children: [
+                { content: `- 总任务数: ${data.tasks.total}` },
+                { content: `- 已完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
+                { content: `- 逾期任务: ${data.tasks.overdue}` }
+              ]
+            },
+            {
+              content: "## 💡 洞察与反思",
+              children: [
+                { content: "### 做得好的地方" },
+                { content: "- " },
+                { content: "### 需要改进的地方" },
+                { content: "- " },
+                { content: "### 下月行动项" },
+                { content: "- [ ] " },
+                { content: "- [ ] " },
+                { content: "- [ ] " }
+              ]
+            },
+            {
+              content: "## 📈 数据指标",
+              children: [
+                { content: `- 创建块数: ${data.blocks.created}` },
+                { content: `- 新增页面: ${data.pages.newPages}` },
+                { content: `- 修改页面: ${data.pages.modifiedPages}` }
+              ]
+            }
+          ]
+        }
+      ];
+    }
+    getStatusText(progress) {
+      if (progress >= 90) return "✅ 达成";
+      if (progress >= 70) return "🔄 进行中";
+      if (progress >= 50) return "⚠️ 需关注";
+      return "❌ 风险";
+    }
+  }
+
+  class StudySummaryTemplate {
+    id = "study-summary";
+    name = "学习总结";
+    description = "学习进度和成果的总结模板";
+    supportedTypes = ["weekly", "monthly"];
+    analyzer;
+    constructor() {
+      this.analyzer = new DataAnalyzer();
+    }
+    render(data, params) {
+      const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
+      const topTags = this.analyzer.getTopTags(data.blocks.tags, 5);
+      const studyTopics = params.topics || ["编程", "英语", "阅读", "数学"];
+      return [
+        {
+          content: `[:div.ltt-summary-page "📚 ${dateRangeStr} 学习总结"]`,
+          children: [
+            {
+              content: "## 📊 学习概览",
+              children: [
+                { content: `- 时间段: ${dateRangeStr}` },
+                { content: `- 学习记录数: ${data.blocks.total}` }
+              ]
+            },
+            {
+              content: "## 📖 学习主题",
+              children: studyTopics.map((topic, index) => ({
+                content: `### ${index + 1}. ${topic}`,
+                children: [
+                  { content: "- 学习内容:" },
+                  { content: "- 关键知识点:" },
+                  { content: "- 待复习:" }
+                ]
+              }))
+            },
+            {
+              content: "## ✅ 学习任务",
+              children: [
+                { content: `| 状态 | 数量 |` },
+                { content: `|------|------|` },
+                { content: `| 完成 | ${data.tasks.completed} |` },
+                { content: `| 进行中 | ${data.tasks.inProgress} |` },
+                { content: `| 待办 | ${data.tasks.todo} |` }
+              ]
+            },
+            {
+              content: "## 🏷️ 知识标签",
+              children: topTags.map(([tag, count]) => ({
+                content: `- #${tag}: ${count}`
+              }))
+            },
+            {
+              content: "## 💡 学习心得",
+              children: [
+                { content: "- 本周学到的最重要的知识点:" },
+                { content: "- 遇到的难点和解决方法:" },
+                { content: "- 下一步学习计划:" }
+              ]
+            },
+            {
+              content: "## 🎯 学习目标",
+              children: [
+                { content: "- [ ] 完成课程章节" },
+                { content: "- [ ] 练习项目" },
+                { content: "- [ ] 复习巩固" }
+              ]
+            }
+          ]
+        }
+      ];
+    }
+  }
+
+  const TemplateRegistry = {
+    "gtd-work-review": new GTDWorkReviewTemplate(),
+    "minimal-dashboard": new MinimalDashboardTemplate(),
+    "bullet-journal": new BulletJournalTemplate(),
+    "okr-review": new OKRReviewTemplate(),
+    "study-summary": new StudySummaryTemplate()
+  };
+  function getTemplate(type) {
+    return TemplateRegistry[type];
+  }
+  function getAllTemplates() {
+    return Object.values(TemplateRegistry);
+  }
+
+  class PageGenerator {
+    analyzer;
+    constructor() {
+      this.analyzer = new DataAnalyzer();
+    }
+    async generate(templateType, summaryType, customStart, customEnd, params = {}) {
+      loggerProxy.info("[PageGenerator] 开始生成总结", { templateType, summaryType });
+      try {
+        const template = getTemplate(templateType);
+        if (!template) {
+          loggerProxy.error("[PageGenerator] 模板未找到", { templateType });
+          throw new Error(`Template ${templateType} not found`);
+        }
+        loggerProxy.debug("[PageGenerator] 分析数据", { summaryType, customStart, customEnd });
+        const data = await this.analyzer.analyze(summaryType, customStart, customEnd);
+        loggerProxy.debug("[PageGenerator] 渲染模板");
+        const blockTree = template.render(data, { ...params, summaryType });
+        const pageName = this.generatePageName(summaryType, data.dateRange);
+        loggerProxy.info("[PageGenerator] 创建页面", { pageName });
+        const pageId = await this.createPage(pageName);
+        if (pageId) {
+          loggerProxy.debug("[PageGenerator] 插入块树", { pageId, blocksCount: blockTree.length });
+          await this.insertBlockTree(pageId, blockTree);
+          loggerProxy.info("[PageGenerator] 总结生成成功", { pageName, pageId });
+        } else {
+          loggerProxy.debug("[PageGenerator] 插入块树", { pageId, blocksCount: blockTree.length });
+          await this.insertBlockTree(pageName, blockTree);
+          loggerProxy.info("[PageGenerator] 总结生成成功", { pageName, pageId });
+        }
+        return pageName;
+      } catch (error) {
+        loggerProxy.error("[PageGenerator] 生成总结失败", error);
+        logseqAPI$1.UI.showMsg(`生成总结失败: ${error instanceof Error ? error.message : String(error)}`, "error");
+        return null;
+      }
+    }
+    async generateWeeklyPage(year, weekNumber) {
+      loggerProxy.info("[PageGenerator] 开始生成周度页面", { year, weekNumber });
+      const startDate = this.getWeekStartDate(year, weekNumber);
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 6);
+      return this.generate("gtd-work-review", "weekly", startDate, endDate, {
+        year,
+        weekNumber
+      });
+    }
+    async generateMonthlyPage(year, month) {
+      loggerProxy.info("[PageGenerator] 开始生成月度页面", { year, month });
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 0);
+      return this.generate("gtd-work-review", "monthly", startDate, endDate, {
+        year,
+        month
+      });
+    }
+    getWeekStartDate(year, weekNumber) {
+      const startOfYear = new Date(year, 0, 1);
+      const daysToAdd = (weekNumber - 1) * 7;
+      const result = new Date(startOfYear);
+      result.setDate(result.getDate() + daysToAdd);
+      const dayOfWeek = result.getDay();
+      const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+      result.setDate(result.getDate() + diff);
+      return result;
+    }
+    generatePageName(summaryType, dateRange) {
+      const now = dateRange.start;
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      const weekNum = this.analyzer.getWeekNumber(now);
+      switch (summaryType) {
+        case "weekly":
+          return `周度总结-${year}-W${weekNum}`;
+        case "monthly":
+          return `月度总结-${year}-${month.toString().padStart(2, "0")}`;
+        case "custom":
+        default:
+          const dateStr = now.toISOString().split("T")[0];
+          return `自定义总结-${dateStr}`;
+      }
+    }
+    async createPage(pageName) {
+      loggerProxy.debug("[PageGenerator] 查询页面是否存在", { pageName });
+      const existingPage = await logseqAPI$1.Editor.getPage(pageName);
+      if (!existingPage) {
+        const page = await logseqAPI$1.Editor.createPage(pageName, {}, { createFirstBlock: true });
+        loggerProxy.debug("[PageGenerator] 页面创建成功", { pageName, pageId: page?.uuid || page?.id });
+        if (!page) {
+          const existingPage2 = await logseqAPI$1.Editor.getPage(pageName);
+          loggerProxy.debug("[PageGenerator] 页面创建失败，重新查询页面", { pageName, existingPageId: existingPage2?.uuid || existingPage2?.id });
+          return existingPage2?.uuid || existingPage2?.id || null;
+        }
+        return page?.uuid || page?.id || null;
+      }
+      loggerProxy.debug("[PageGenerator] 页面已存在", { pageName });
+      return existingPage?.uuid || existingPage?.id || null;
+    }
+    async insertBlockTree(parentId, blocks) {
+      loggerProxy.debug("[PageGenerator] 插入块", { parentId, count: blocks.length });
+      for (const block of blocks) {
+        const createdBlock = await logseqAPI$1.Editor.insertBlock(
+          parentId,
+          block.content
+        );
+        if (block.children?.length && createdBlock?.uuid) {
+          await this.insertBlockTree(createdBlock.uuid, block.children);
+        }
+      }
+      loggerProxy.debug("[PageGenerator] 块插入完成", { parentId });
+    }
+  }
+
+  const summaryTypes$1 = [
+    { value: "weekly", label: "周度总结" },
+    { value: "monthly", label: "月度总结" },
+    { value: "yearly", label: "年度总结" },
+    { value: "custom", label: "自定义" }
+  ];
+  const SummaryDemo = ({ onGenerateSuccess }) => {
+    const [summaryType, setSummaryType] = reactExports.useState("weekly");
+    const [templateType, setTemplateType] = reactExports.useState("gtd-work-review");
+    const [customStart, setCustomStart] = reactExports.useState("");
+    const [customEnd, setCustomEnd] = reactExports.useState("");
+    const [isGenerating, setIsGenerating] = reactExports.useState(false);
+    const [generatedContent, setGeneratedContent] = reactExports.useState([]);
+    const [showResult, setShowResult] = reactExports.useState(false);
+    const templates = getAllTemplates();
+    const handleGenerate = async () => {
+      setIsGenerating(true);
+      loggerProxy.info("[SummaryDemo] 开始生成总结", { summaryType, templateType });
+      try {
+        const generator = new PageGenerator();
+        let start;
+        let end;
+        if (summaryType === "custom" && customStart && customEnd) {
+          start = new Date(customStart);
+          end = new Date(customEnd);
+          loggerProxy.debug("[SummaryDemo] 自定义时间范围", { start, end });
+        }
+        const pageName = await generator.generate(
+          templateType,
+          summaryType,
+          start,
+          end
+        );
+        if (pageName) {
+          loggerProxy.info("[SummaryDemo] 总结生成成功", { pageName });
+          const mockBlocks = [
+            {
+              id: "block-0",
+              content: `[:div.ltt-summary-page "📊 周度总结 - 2026年第20周"]`,
+              level: 0
+            },
+            {
+              id: "block-1",
+              content: "## 📈 数据概览",
+              level: 1,
+              children: [
+                { id: "block-1-1", content: "### 核心指标", level: 2 },
+                { id: "block-1-2", content: "- 创建块数: 156", level: 3 },
+                { id: "block-1-3", content: "- 完成任务: 28 / 35", level: 3 },
+                { id: "block-1-4", content: "- 活跃天数: 6 / 7", level: 3 },
+                { id: "block-1-5", content: "- 新增页面: 12", level: 3 }
+              ]
+            },
+            {
+              id: "block-2",
+              content: "## 📈 活跃度热力图",
+              level: 1,
+              children: [
+                { id: "block-2-1", content: "{{renderer :heatmap :week :tag=work}}", level: 2 }
+              ]
+            },
+            {
+              id: "block-3",
+              content: "## ✅ 任务回顾",
+              level: 1,
+              children: [
+                { id: "block-3-1", content: "### 完成任务清单", level: 2 },
+                { id: "block-3-2", content: "- [x] 完成项目A设计", level: 3 },
+                { id: "block-3-3", content: "- [x] 代码评审", level: 3 },
+                { id: "block-3-4", content: "- [x] 团队周会", level: 3 },
+                { id: "block-3-5", content: "### 任务统计", level: 2 },
+                { id: "block-3-6", content: "| 状态 | 数量 |", level: 3 },
+                { id: "block-3-7", content: "|------|------|", level: 3 },
+                { id: "block-3-8", content: "| 完成 | 28 |", level: 3 },
+                { id: "block-3-9", content: "| 进行中 | 5 |", level: 3 },
+                { id: "block-3-10", content: "| 待办 | 2 |", level: 3 },
+                { id: "block-3-11", content: "### 优先级分布", level: 2 },
+                { id: "block-3-12", content: "- A: 8", level: 3 },
+                { id: "block-3-13", content: "- B: 12", level: 3 },
+                { id: "block-3-14", content: "- C: 7", level: 3 }
+              ]
+            },
+            {
+              id: "block-4",
+              content: "## 📝 内容分析",
+              level: 1,
+              children: [
+                { id: "block-4-1", content: "### 热门标签", level: 2 },
+                { id: "block-4-2", content: "- [[工作]] (45)", level: 3 },
+                { id: "block-4-3", content: "- [[学习]] (28)", level: 3 },
+                { id: "block-4-4", content: "- [[项目A]] (22)", level: 3 },
+                { id: "block-4-5", content: "### 页面分布", level: 2 },
+                { id: "block-4-6", content: "- 工作笔记: 8页", level: 3 },
+                { id: "block-4-7", content: "- 学习笔记: 4页", level: 3 },
+                { id: "block-4-8", content: "- 会议记录: 3页", level: 3 }
+              ]
+            },
+            {
+              id: "block-5",
+              content: "## 🤖 AI 分析建议",
+              level: 1,
+              children: [
+                { id: "block-5-1", content: "> 本周任务完成率较高，建议继续保持。", level: 2 },
+                { id: "block-5-2", content: "> 学习时间较上周有所增加，继续保持。", level: 2 },
+                { id: "block-5-3", content: "> 建议关注B优先级任务，避免延误。", level: 2 }
+              ]
+            }
+          ];
+          setGeneratedContent(mockBlocks);
+          setShowResult(true);
+          onGenerateSuccess?.(pageName, mockBlocks);
+          loggerProxy.debug("[SummaryDemo] 展示生成的内容", { pageName, blocksCount: mockBlocks.length });
+        }
+      } catch (error) {
+        loggerProxy.error("[SummaryDemo] 生成总结失败", error);
+        alert("生成总结失败，请查看控制台");
+      } finally {
+        setIsGenerating(false);
+      }
+    };
+    const renderBlock = (block, indent = 0) => {
+      const indentStyle = { marginLeft: `${indent * 20}px` };
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-block", style: indentStyle, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-block-content", children: block.content }),
+        block.children?.map((child) => renderBlock(child, indent + 1))
+      ] }, block.id);
+    };
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-demo", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "📋 Summary 生成器" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-config", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "config-group", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "总结类型" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "select",
+            {
+              value: summaryType,
+              onChange: (e) => setSummaryType(e.target.value),
+              children: summaryTypes$1.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type.value, children: type.label }, type.value))
             }
           )
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: "13px", color: "#64748b", margin: 0 }, children: "Connect to local Logseq server to query tasks from any block" })
-      ] });
-    }
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-      marginTop: "24px",
-      padding: "20px",
-      backgroundColor: "#f8fafc",
-      borderRadius: "12px",
-      border: "1px solid #e2e8f0"
-    }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "14px", fontWeight: "600", color: "#334155" }, children: "Enable Logseq API Query" }),
+        summaryType === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "config-row", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "config-group", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "开始日期" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "date",
+                value: customStart,
+                onChange: (e) => setCustomStart(e.target.value)
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "config-group", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "结束日期" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "date",
+                value: customEnd,
+                onChange: (e) => setCustomEnd(e.target.value)
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "config-group", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "模板" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "select",
+            {
+              value: templateType,
+              onChange: (e) => setTemplateType(e.target.value),
+              children: templates.map((template) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: template.id, children: [
+                template.name,
+                " - ",
+                template.description
+              ] }, template.id))
+            }
+          )
+        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: () => {
-              setEnabled(false);
-              setTasks([]);
-              setError(null);
-              setHealthStatus(null);
-            },
-            style: {
-              padding: "6px 16px",
-              backgroundColor: "#ef4444",
-              color: "white",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontSize: "13px",
-              fontWeight: "500"
-            },
-            children: "Disable"
+            className: "generate-btn",
+            onClick: handleGenerate,
+            disabled: isGenerating,
+            children: isGenerating ? "生成中..." : "生成总结"
           }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", fontSize: "12px", fontWeight: "500", color: "#64748b", marginBottom: "6px" }, children: "API Token (from Logseq Settings)" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "password",
-              value: apiToken,
-              onChange: (e) => setApiToken(e.target.value),
-              placeholder: "Enter your Logseq API token",
-              style: {
-                width: "100%",
-                padding: "8px 12px",
-                border: "1px solid #d1d5db",
-                borderRadius: "6px",
-                fontSize: "13px",
-                outline: "none"
-              }
-            }
-          )
+      showResult && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-result", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-header", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "✅ 生成成功！" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setShowResult(false), children: "关闭" })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", fontSize: "12px", fontWeight: "500", color: "#64748b", marginBottom: "6px" }, children: "Block UUID" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "text",
-              value: blockUuid,
-              onChange: (e) => setBlockUuid(e.target.value),
-              placeholder: "e.g., 69fab8da-af37-4c02-b0d8-7439bbd54587",
-              style: {
-                width: "100%",
-                padding: "8px 12px",
-                border: "1px solid #d1d5db",
-                borderRadius: "6px",
-                fontSize: "13px",
-                outline: "none"
-              }
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", fontSize: "12px", fontWeight: "500", color: "#64748b", marginBottom: "6px" }, children: "Nesting Level" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "select",
-            {
-              value: nestingLevel,
-              onChange: (e) => setNestingLevel(Number(e.target.value)),
-              style: {
-                padding: "8px 12px",
-                border: "1px solid #d1d5db",
-                borderRadius: "6px",
-                fontSize: "13px",
-                outline: "none"
-              },
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: 1, children: "Level 1" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: 2, children: "Level 1-2" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: 3, children: "Level 1-3" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: 10, children: "All Levels" })
-              ]
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", alignItems: "flex-end", gap: "8px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "#475569", cursor: "pointer" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "checkbox",
-              checked: onlyLeaves,
-              onChange: (e) => setOnlyLeaves(e.target.checked),
-              style: { width: "16px", height: "16px" }
-            }
-          ),
-          "Only Leaf Tasks"
-        ] }) })
-      ] }),
-      healthStatus && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-        padding: "10px 12px",
-        backgroundColor: healthStatus.connected ? "#ecfdf5" : "#fef2f2",
-        borderRadius: "6px",
-        marginBottom: "16px",
-        fontSize: "13px",
-        color: healthStatus.connected ? "#059669" : "#dc2626"
-      }, children: healthStatus.connected ? `✓ Connected to graph: ${healthStatus.graphName}` : healthStatus.error === "invalid_token" ? "✗ Invalid API token" : "✗ Cannot connect to Logseq server" }),
-      error && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-        padding: "10px 12px",
-        backgroundColor: "#fef2f2",
-        borderRadius: "6px",
-        marginBottom: "16px",
-        fontSize: "13px",
-        color: "#dc2626"
-      }, children: error }),
-      loading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-        padding: "20px",
-        textAlign: "center",
-        color: "#64748b",
-        fontSize: "13px"
-      }, children: "Loading..." }),
-      !loading && progressData && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        blockTitle && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-          marginBottom: "16px",
-          padding: "12px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          border: "1px solid #e2e8f0"
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h4", { style: { margin: "0 0 8px 0", fontSize: "14px", fontWeight: "600", color: "#334155" }, children: [
-            "Block: ",
-            blockTitle
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: 0, fontSize: "12px", color: "#64748b" }, children: [
-            "UUID: ",
-            blockUuid
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-          marginBottom: "16px",
-          padding: "16px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          border: "1px solid #e2e8f0"
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "16px", marginBottom: "12px" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "24px", fontWeight: "bold", color: "#334155" }, children: [
-              progressData.progress,
-              "%"
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-content", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-stats-grid", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-stat-card", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-value", children: "156" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-label", children: "创建块数" })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { flex: 1 }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "13px", color: "#64748b" }, children: [
-                "Total: ",
-                progressData.totalTasks,
-                " tasks"
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "13px", color: "#64748b" }, children: [
-                "Completed: ",
-                progressData.completedTasks
-              ] })
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }, children: progressData.statusStats.map((stat) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "4px 10px",
-            backgroundColor: "#f1f5f9",
-            borderRadius: "4px",
-            fontSize: "12px"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              backgroundColor: stat.color
-            } }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { color: "#475569" }, children: [
-              getStatusNameDisplay(stat.status),
-              ": ",
-              stat.count
-            ] })
-          ] }, stat.status)) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "12px" }, children: ["mini-circle", "dot-matrix", "progress-capsule"].map((type) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "8px 12px",
-            backgroundColor: "#f8fafc",
-            borderRadius: "6px"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontSize: "12px", color: "#64748b", minWidth: "80px" }, children: [
-              type,
-              ":"
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-stat-card", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-value", children: "28/35" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-label", children: "完成任务" })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              TaskProgress,
-              {
-                progressData,
-                displayType: type,
-                config: {
-                  showLabel: true,
-                  labelFormat: "percentage"
-                },
-                lang: currentLang
-              }
-            )
-          ] }, type)) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-          padding: "16px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          border: "1px solid #e2e8f0"
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h4", { style: { margin: "0 0 12px 0", fontSize: "14px", fontWeight: "600", color: "#334155" }, children: [
-            "Task Details (",
-            tasks.length,
-            ")"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { maxHeight: "300px", overflowY: "auto" }, children: tasks.map((task, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            padding: "8px",
-            borderBottom: "1px solid #f1f5f9",
-            fontSize: "13px"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-              width: "20px",
-              height: "20px",
-              borderRadius: "50%",
-              backgroundColor: getStatusColor(task.status),
-              color: "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "10px"
-            }, children: getStatusIcon(task.status) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { flex: 1, color: "#334155" }, children: task.title || "(No title)" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-              padding: "2px 8px",
-              backgroundColor: "#f1f5f9",
-              borderRadius: "4px",
-              fontSize: "11px",
-              color: "#64748b"
-            }, children: getStatusNameDisplay(task.status) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: {
-              fontSize: "10px",
-              color: "#94a3b8",
-              fontFamily: "monospace"
-            }, children: [
-              task.uuid?.slice(0, 8),
-              "..."
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-stat-card", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-value", children: "6/7" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-label", children: "活跃天数" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-stat-card", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-value", children: "12" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-stat-label", children: "新增页面" })
             ] })
-          ] }, task.uuid || index)) })
+          ] }),
+          generatedContent.map((block) => renderBlock(block))
         ] })
-      ] }),
-      !loading && !progressData && !error && blockUuid && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-        padding: "20px",
-        textAlign: "center",
-        color: "#64748b",
-        fontSize: "13px"
-      }, children: "Enter a valid Block UUID to query tasks" })
+      ] })
     ] });
   };
-
-  const ToastContainer = ({ position = "top-right" }) => {
-    const [toasts, setToasts] = reactExports.useState([]);
-    const containerRef = reactExports.useRef(null);
-    const addToast = (message, type = "info", timeout = 3e3) => {
-      const id = Math.random().toString(36).substr(2, 9);
-      const newToast = { id, message, type, timeout };
-      setToasts((prev) => [...prev, newToast]);
-      setTimeout(() => {
-        setToasts((prev) => prev.filter((toast2) => toast2.id !== id));
-      }, timeout);
-    };
-    const removeToast = (id) => {
-      setToasts((prev) => prev.filter((toast2) => toast2.id !== id));
-    };
-    reactExports.useEffect(() => {
-      window.addToast = addToast;
-      return () => {
-        delete window.addToast;
-      };
-    }, []);
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `toast-container toast-${position}`, ref: containerRef, children: toasts.map((toast2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        className: `toast toast-${toast2.type}`,
-        onAnimationEnd: (e) => {
-          if (e.animationName === "toastExit") {
-            removeToast(toast2.id);
-          }
-        },
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "toast-content", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "toast-message", children: toast2.message }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "toast-close",
-              onClick: () => removeToast(toast2.id),
-              children: "×"
-            }
-          )
-        ]
-      },
-      toast2.id
-    )) });
-  };
-
-  const testConfig = {
-    // 左侧面板配置
-    leftPanel: {
-      title: "测试面板",
-      sections: [
-        {
-          title: "功能测试",
-          items: [
-            { id: "text-formatting", label: "文本格式化" },
-            { id: "color-highlighting", label: "颜色和高亮" },
-            { id: "template-variables", label: "模板变量" }
-          ]
-        },
-        {
-          title: "设置",
-          items: [
-            { id: "theme-settings", label: "主题设置" },
-            { id: "toolbar-config", label: "工具栏配置" }
-          ]
-        }
-      ]
-    },
-    // 右侧面板配置
-    rightPanel: {
-      title: "快捷操作",
-      actions: [
-        { id: "clear-all", label: "清空内容" },
-        { id: "reset-settings", label: "重置设置" },
-        { id: "toggle-theme", label: "切换主题" }
-      ]
-    }};
-
-  const statusOptions = [
-    { value: "todo", label: "● Todo", color: "#f59e0b" },
-    { value: "doing", label: "○ Doing", color: "#3b82f6" },
-    { value: "in-review", label: "⊛ In Review", color: "#06b6d4" },
-    { value: "done", label: "✓ Done", color: "#10b981" },
-    { value: "waiting", label: "◐ Waiting", color: "#8b5cf6" },
-    { value: "canceled", label: "✗ Canceled", color: "#ef4444" }
-  ];
-  function TestApp() {
-    const { settings } = useSettingsContext();
-    const [tasks, setTasks] = reactExports.useState([
-      { id: "task-child-1", content: "Design the UI #task", status: "done" },
-      { id: "task-child-2", content: "Setup project #task", status: "done" },
-      { id: "task-child-3", content: "Implement the logic #task", status: "doing" },
-      { id: "task-child-4", content: "Write documentation #task", status: "todo" },
-      { id: "task-child-5", content: "Create examples #task", status: "todo" },
-      { id: "task-child-6", content: "Write tests #task", status: "waiting" }
-    ]);
-    const [newTaskContent, setNewTaskContent] = reactExports.useState("");
-    const [newTaskStatus, setNewTaskStatus] = reactExports.useState("todo");
-    const [taskCounter, setTaskCounter] = reactExports.useState(7);
-    const addTask = () => {
-      if (!newTaskContent.trim()) return;
-      const newTask = {
-        id: `task-child-${taskCounter}`,
-        content: newTaskContent.trim(),
-        status: newTaskStatus
-      };
-      setTasks((prev) => [...prev, newTask]);
-      setTaskCounter((prev) => prev + 1);
-      setNewTaskContent("");
-      setNewTaskStatus("todo");
-    };
-    const removeTask = (taskId) => {
-      setTasks((prev) => prev.filter((task) => task.id !== taskId));
-    };
-    const updateTaskStatus = (taskId, newStatus) => {
-      setTasks((prev) => prev.map(
-        (task) => task.id === taskId ? { ...task, status: newStatus } : task
-      ));
-    };
-    const getStatusIcon = (status) => {
-      const option = statusOptions.find((o) => o.value === status);
-      return option?.label?.charAt(0) || "●";
-    };
-    const getStatusColor = (status) => {
-      const option = statusOptions.find((o) => o.value === status);
-      return option?.color || "#6b7280";
-    };
-    const leftContent = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "left-panel", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: testConfig.leftPanel.title }),
-      testConfig.leftPanel.sections.map((section, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel-section", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: section.title }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { children: section.items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item.label }, item.id)) })
-      ] }, index))
-    ] });
-    const rightContent = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "right-panel", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: testConfig.rightPanel.title }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "actions", children: testConfig.rightPanel.actions.map((action) => /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "action-btn", children: action.label }, action.id)) })
-    ] });
-    const centerContent = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "center-content", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(TextSelectionDemo, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hiccup-renderer-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HiccupRenderer, {}) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "block-demo-container", style: { marginTop: "24px", padding: "16px", backgroundColor: "#f5f5f5", borderRadius: "8px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Block 渲染演示" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "task-parent-block", className: "block", "data-block-id": "task-parent-block", style: { marginBottom: "12px" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            BlockRenderer,
-            {
-              blockId: "#task-parent-block",
-              content: "My Project Tasks {{renderer :taskprogress}}",
-              properties: {}
-            }
-          ),
-          tasks.map((task) => {
-            const icon = getStatusIcon(task.status);
-            const color = getStatusColor(task.status);
-            return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "div",
-              {
-                className: "block",
-                "data-block-id": task.id,
-                style: {
-                  padding: "8px",
-                  marginBottom: "4px",
-                  backgroundColor: "#fff",
-                  borderRadius: "4px",
-                  marginLeft: "20px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px"
-                },
-                "data-properties": JSON.stringify({ status: task.status }),
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color }, children: icon }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { flex: 1 }, children: [
-                    task.content,
-                    " (",
-                    task.status,
-                    ")"
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "select",
-                    {
-                      value: task.status,
-                      onChange: (e) => updateTaskStatus(task.id, e.target.value),
-                      style: {
-                        padding: "2px 6px",
-                        fontSize: "12px",
-                        borderRadius: "4px",
-                        border: "1px solid #ddd"
-                      },
-                      children: statusOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: () => removeTask(task.id),
-                      style: {
-                        background: "none",
-                        border: "none",
-                        color: "#ef4444",
-                        cursor: "pointer",
-                        fontSize: "16px",
-                        padding: "0 4px"
-                      },
-                      children: "×"
-                    }
-                  )
-                ]
-              },
-              task.id
-            );
-          })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-          marginTop: "16px",
-          padding: "12px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          display: "flex",
-          gap: "8px",
-          alignItems: "center"
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "text",
-              placeholder: "任务内容",
-              value: newTaskContent,
-              onChange: (e) => setNewTaskContent(e.target.value),
-              onKeyPress: (e) => e.key === "Enter" && addTask(),
-              style: {
-                flex: 1,
-                padding: "6px 10px",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "13px"
-              }
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "select",
-            {
-              value: newTaskStatus,
-              onChange: (e) => setNewTaskStatus(e.target.value),
-              style: {
-                padding: "6px 10px",
-                fontSize: "13px",
-                borderRadius: "4px",
-                border: "1px solid #ddd"
-              },
-              children: statusOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: addTask,
-              disabled: !newTaskContent.trim(),
-              style: {
-                padding: "6px 16px",
-                backgroundColor: "#3b82f6",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "13px"
-              },
-              children: "+ 添加任务"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(TaskProgressDemo, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "nested-task-parent", className: "block", "data-block-id": "nested-task-parent", style: { marginTop: "24px", padding: "12px", backgroundColor: "#e8f5e9", borderRadius: "8px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: "0 0 8px 0" }, children: "嵌套任务演示" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "div",
-          {
-            id: "nested-task-1",
-            className: "block",
-            "data-block-id": "nested-task-1",
-            "data-properties": JSON.stringify({ status: "doing" }),
-            style: { padding: "8px", marginBottom: "4px", marginLeft: "20px", backgroundColor: "#fff", borderRadius: "4px" },
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "# Level 1 - Planning #task" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "div",
-                {
-                  id: "nested-task-1-1",
-                  className: "block",
-                  "data-block-id": "nested-task-1-1",
-                  "data-properties": JSON.stringify({ status: "done" }),
-                  style: { padding: "8px", marginBottom: "4px", marginLeft: "40px", backgroundColor: "#f5f5f5", borderRadius: "4px" },
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "## Level 2 - Research #task" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "div",
-                      {
-                        id: "nested-task-1-1-1",
-                        className: "block",
-                        "data-block-id": "nested-task-1-1-1",
-                        "data-properties": JSON.stringify({ status: "done" }),
-                        style: { padding: "8px", marginBottom: "4px", marginLeft: "60px", backgroundColor: "#fff", borderRadius: "4px" },
-                        children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "### Level 3 - Done #task" })
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "div",
-                      {
-                        id: "nested-task-1-1-2",
-                        className: "block",
-                        "data-block-id": "nested-task-1-1-2",
-                        "data-properties": JSON.stringify({ status: "todo" }),
-                        style: { padding: "8px", marginLeft: "60px", backgroundColor: "#fff", borderRadius: "4px" },
-                        children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "### Level 3 - Todo #task" })
-                      }
-                    )
-                  ]
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "div",
-                {
-                  id: "nested-task-1-2",
-                  className: "block",
-                  "data-block-id": "nested-task-1-2",
-                  "data-properties": JSON.stringify({ status: "todo" }),
-                  style: { padding: "8px", marginLeft: "40px", backgroundColor: "#f5f5f5", borderRadius: "4px" },
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "## Level 2 - Design #task" })
-                }
-              )
-            ]
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            id: "nested-task-2",
-            className: "block",
-            "data-block-id": "nested-task-2",
-            "data-properties": JSON.stringify({ status: "done" }),
-            style: { padding: "8px", marginLeft: "20px", backgroundColor: "#fff", borderRadius: "4px" },
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "# Level 1 - Execution #task" })
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(APIQueryDemo, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(HeatmapDemo, {})
-    ] });
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "app-container", className: `app ${settings?.theme === "dark" ? "dark-mode" : "light-mode"}`, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "toolbar", className: "toolbar-banner", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "toolbar-banner-content", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "toolbar-banner-text", children: "工具栏演示" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "toolbar-banner-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "a",
-          {
-            className: "button toolbar-banner-btn",
-            title: "Settings JSON",
-            onClick: () => {
-              const jsonStr = JSON.stringify(settings, null, 2);
-              alert("Settings JSON:\n\n" + jsonStr);
-              console.log("Settings JSON:\n\n" + jsonStr);
-            },
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "ti ti-settings-cancel" })
-          }
-        ) })
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "head", className: "top-toolbar", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "toolbar-content", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { children: "Text Toolkit Plugin (Test Mode)" }) }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TestLayout,
-        {
-          leftContent,
-          centerContent,
-          rightContent
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(ToastContainer, {})
-    ] });
-  }
-
-  const registrations = /* @__PURE__ */ new Map();
-  function registerCSS(name, source) {
-    if (registrations.has(name)) {
-      loggerProxy.warn(`⚠️ CSSRegistry: CSS "${name}" already registered, skipping`);
-      return;
-    }
-    registrations.set(name, { name, source });
-    loggerProxy.debug(`🎨 CSSRegistry: Registered CSS: ${name}`);
-  }
-  async function loadAllCSS() {
-    loggerProxy.info(`🎨 CSSRegistry: Loading ${registrations.size} CSS resources...`);
-    for (const reg of registrations.values()) {
-      if (reg.loaded) continue;
-      try {
-        await loadCSSResource(reg);
-        reg.loaded = true;
-      } catch (error) {
-        loggerProxy.error(`❌ CSSRegistry: Failed to load CSS "${reg.name}"`, error);
-      }
-    }
-    loggerProxy.info("✅ CSSRegistry: CSS loading completed");
-  }
-  async function loadCSSResource(reg) {
-    const { name, source } = reg;
-    if (source.type === "inline") {
-      logseqAPI$1.provideStyle(source.content);
-      loggerProxy.info(`🎨 CSSRegistry: Loaded inline CSS: ${name}`);
-    } else if (source.type === "external") {
-      await loadExternalCSS(name, source.path);
-    } else if (source.type === "both") {
-      logseqAPI$1.provideStyle(source.inlineContent);
-      loggerProxy.info(`🎨 CSSRegistry: Loaded inline CSS: ${name}`);
-      if (source.externalPath) {
-        await loadExternalCSS(name, source.externalPath);
-      }
-    }
-  }
-  async function loadExternalCSS(name, path) {
-    try {
-      const response = await fetch(`./${path}`);
-      if (response.ok) {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("text/css")) {
-          const content = await response.text();
-          if (content.trim()) {
-            logseqAPI$1.provideStyle(content);
-            loggerProxy.info(`🎨 CSSRegistry: Loaded external CSS: ${name} from ${path}`);
-          } else {
-            loggerProxy.warn(`⚠️ CSSRegistry: External CSS is empty: ${name} from ${path}`);
-          }
-        } else {
-          loggerProxy.warn(`⚠️ CSSRegistry: Response is not CSS: ${name} from ${path}`);
-        }
-      } else {
-        loggerProxy.warn(`⚠️ CSSRegistry: CSS file not found: ${name} from ${path}`);
-      }
-    } catch (error) {
-      loggerProxy.error(`❌ CSSRegistry: Error loading external CSS ${name}`, error);
-    }
-  }
 
   const LayoutGroupContext = reactExports.createContext({});
 
@@ -18747,6 +19843,1734 @@ ${where}
 
   const motion = /*@__PURE__*/ createMotionProxy(featureBundle, createDomVisualElement);
 
+  const Modal = ({ title, onClose, children, isOpen = false, width = "90vw", theme = "light" }) => {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      motion.div,
+      {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        transition: { duration: 0.2 },
+        className: "modal-overlay",
+        onClick: onClose,
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          motion.div,
+          {
+            initial: { opacity: 0, scale: 0.9, y: 20 },
+            animate: { opacity: 1, scale: 1, y: 0 },
+            exit: { opacity: 0, scale: 0.9, y: 20 },
+            transition: {
+              type: "spring",
+              stiffness: 300,
+              damping: 25,
+              duration: 0.25
+            },
+            className: `modal-container modal-${theme}`,
+            style: { width },
+            onClick: (e) => e.stopPropagation(),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "modal-header", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "modal-title", children: title }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "modal-close", onClick: onClose, children: "×" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "modal-content", children })
+            ]
+          }
+        )
+      }
+    ) });
+  };
+
+  const Switch = ({
+    checked,
+    onChange,
+    label,
+    disabled = false
+  }) => {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "switch-label", children: [
+      label && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "switch-text", children: label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "switch-wrapper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "checkbox",
+            className: "switch-input",
+            checked,
+            onChange: (e) => onChange(e.target.checked),
+            disabled
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `switch-track ${checked ? "checked" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `switch-thumb ${checked ? "checked" : ""}` }) })
+      ] })
+    ] });
+  };
+
+  const ProxySettings = ({
+    isOpen,
+    onClose,
+    apiMode,
+    onModeChange,
+    proxyUrl,
+    onProxyUrlChange,
+    proxyToken,
+    onProxyTokenChange,
+    onConnect,
+    onDisconnect,
+    connectionStatus,
+    errorMessage
+  }) => {
+    const handleSwitchMode = (checked) => {
+      onModeChange(checked ? "proxy" : "mock");
+    };
+    const getStatusIndicator = () => {
+      switch (connectionStatus) {
+        case "connected":
+          return "●";
+        case "connecting":
+          return "◐";
+        case "disconnected":
+          return "○";
+        case "error":
+          return "✗";
+        default:
+          return "○";
+      }
+    };
+    const getStatusText = () => {
+      switch (connectionStatus) {
+        case "connected":
+          return `已连接 (${proxyUrl})`;
+        case "connecting":
+          return "连接中...";
+        case "disconnected":
+          return "未连接";
+        case "error":
+          return `错误: ${errorMessage}`;
+        default:
+          return "未连接";
+      }
+    };
+    const getStatusColor = () => {
+      switch (connectionStatus) {
+        case "connected":
+          return "#10b981";
+        case "connecting":
+          return "#f59e0b";
+        case "disconnected":
+          return "#6b7280";
+        case "error":
+          return "#ef4444";
+        default:
+          return "#6b7280";
+      }
+    };
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Modal,
+      {
+        title: "🔗 Proxy 设置",
+        isOpen,
+        onClose,
+        width: "500px",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "proxy-settings-modal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "setting-section", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "setting-header", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "API 模式" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Switch,
+                {
+                  checked: apiMode === "proxy",
+                  onChange: handleSwitchMode
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "setting-description", children: apiMode === "mock" ? "Mock 模式：使用模拟数据进行开发测试" : "Proxy 模式：连接到真实的 Logseq 实例" })
+          ] }),
+          apiMode === "proxy" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "setting-section", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Logseq 实例地址" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "text",
+                value: proxyUrl,
+                onChange: (e) => onProxyUrlChange(e.target.value),
+                placeholder: "http://127.0.0.1:12315/",
+                disabled: connectionStatus === "connected",
+                className: "proxy-url-input"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "API Token" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "password",
+                value: proxyToken,
+                onChange: (e) => onProxyTokenChange(e.target.value),
+                placeholder: "输入您的 API Token",
+                disabled: connectionStatus === "connected",
+                className: "proxy-token-input"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "connection-status", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "span",
+                {
+                  className: "status-indicator",
+                  style: { color: getStatusColor() },
+                  children: getStatusIndicator()
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "status-text", children: getStatusText() })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "connection-actions", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: onConnect,
+                  disabled: connectionStatus === "connected" || connectionStatus === "connecting",
+                  className: "action-btn primary",
+                  children: "连接"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: onDisconnect,
+                  disabled: connectionStatus !== "connected",
+                  className: "action-btn secondary",
+                  children: "断开"
+                }
+              )
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "setting-section info-section", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "ℹ️ 使用说明" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "info-list", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "在 Logseq 中启用 API Server (设置 → Advanced → Enable API Server)" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "获取 API Token (设置 → Advanced → API Token)" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "确保 Logseq 正在运行" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "在 Mock 模式下，使用模拟数据进行开发" })
+            ] })
+          ] })
+        ] })
+      }
+    );
+  };
+
+  const VIEW_ICONS = {
+    list: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+    <path d="M3 3.5h8"/><path d="M3 7h8"/><path d="M3 10.5h8"/>
+    <circle cx="1.5" cy="3.5" r=".5" fill="currentColor" stroke="none"/>
+    <circle cx="1.5" cy="7" r=".5" fill="currentColor" stroke="none"/>
+    <circle cx="1.5" cy="10.5" r=".5" fill="currentColor" stroke="none"/>
+  </svg>`,
+    table: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="1.5" y="2" width="11" height="10" rx="2"/>
+    <path d="M5 2v10"/><path d="M1.5 5.5h11"/>
+  </svg>`,
+    gallery: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="1.5" y="2" width="4" height="4" rx="1"/>
+    <rect x="8.5" y="2" width="4" height="4" rx="1"/>
+    <rect x="1.5" y="8" width="4" height="4" rx="1"/>
+    <rect x="8.5" y="8" width="4" height="4" rx="1"/>
+  </svg>`,
+    board: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="1.5" y="2" width="3" height="10" rx="1"/>
+    <rect x="5.5" y="2" width="3" height="7" rx="1"/>
+    <rect x="9.5" y="2" width="3" height="8" rx="1"/>
+  </svg>`
+  };
+  const VIEW_REGISTRY = {
+    "list": {
+      id: "list",
+      name: "List",
+      icon: VIEW_ICONS.list,
+      cssClass: "ltt-list-root"
+    },
+    "table": {
+      id: "table",
+      name: "Table",
+      icon: VIEW_ICONS.table,
+      cssClass: "ltt-table-root"
+    },
+    "gallery": {
+      id: "gallery",
+      name: "Gallery",
+      icon: VIEW_ICONS.gallery,
+      cssClass: "ltt-gallery-root"
+    },
+    "board": {
+      id: "board",
+      name: "Board",
+      icon: VIEW_ICONS.board,
+      cssClass: "ltt-board-root"
+    }
+  };
+
+  const logger = {
+    debug: (message, data) => {
+      console.log(`[BlockViewDemo DEBUG] ${message}`, data || "");
+    },
+    info: (message, data) => {
+      console.log(`[BlockViewDemo INFO] ${message}`, data || "");
+    }
+  };
+  const BlockViewDemo = () => {
+    const [currentView, setCurrentView] = reactExports.useState("list");
+    const [currentTheme, setCurrentTheme] = reactExports.useState("default");
+    const [showStriped, setShowStriped] = reactExports.useState(true);
+    const [showBorder, setShowBorder] = reactExports.useState(true);
+    logger.debug("Component mounted", { currentView, currentTheme });
+    const handleViewChange = (viewType) => {
+      logger.debug("View button clicked", {
+        previousView: currentView,
+        newView: viewType,
+        timestamp: (/* @__PURE__ */ new Date()).toISOString()
+      });
+      setCurrentView(viewType);
+      logger.info("View changed successfully", { newView: viewType });
+    };
+    const renderIcon = (iconSvg) => {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "span",
+        {
+          dangerouslySetInnerHTML: { __html: iconSvg },
+          style: {
+            display: "flex",
+            alignItems: "center",
+            width: "14px",
+            height: "14px"
+          }
+        }
+      );
+    };
+    const getBlockClasses = () => {
+      let classes = `ls-block swipe-item ltt-${currentView}-root`;
+      if (currentView === "table") {
+        classes += ` ltt-theme-${currentTheme}`;
+        if (showStriped) classes += " ltt-striped";
+        if (showBorder) classes += " ltt-bordered";
+      }
+      return classes;
+    };
+    const renderBlockHTML = () => {
+      return `<div haschild="true" class="${getBlockClasses()}" level="0" blockid="6a03f979-2728-4739-bf02-399ca07cb19c"
+    id="ls-block-6a03f979-2728-4739-bf02-399ca07cb19c" containerid="1">
+    <div class="block-main-container flex flex-row gap-1">
+        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                id="control-6a03f979-2728-4739-bf02-399ca07cb19c" class="block-control"><span class="control-hide"><span
+                        class="rotating-arrow not-collapsed"><svg aria-hidden="true" version="1.1" viewBox="0 0 192 512"
+                            fill="currentColor" display="inline-block" class="h-4 w-4" style="margin-left: 2px;">
+                            <path
+                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                fill-rule="evenodd"></path>
+                        </svg></span></span></a><a class="bullet-link-wrap" data-state="closed"><span
+                    id="dot-6a03f979-2728-4739-bf02-399ca07cb19c" blockid="6a03f979-2728-4739-bf02-399ca07cb19c"
+                    draggable="true" class="bullet-container cursor "><span
+                        blockid="6a03f979-2728-4739-bf02-399ca07cb19c" class="bullet"></span></span></a></div>
+        <div class="flex flex-col w-full">
+            <div class="flex flex-col w-full">
+                <div class="block-main-content flex flex-row gap-2">
+                    <div class="flex flex-col w-full">
+                        <div class="block-content-or-editor-wrap ">
+                            <div class="block-content-or-editor-inner">
+                                <div class="block-row flex flex-1 flex-row gap-1 items-center">
+                                    <div class="flex flex-1 w-full block-content-wrapper" style="display: flex;">
+                                        <div id="block-content-6a03f979-2728-4739-bf02-399ca07cb19c"
+                                            blockid="6a03f979-2728-4739-bf02-399ca07cb19c" containerid="1"
+                                            data-type="default" class="block-content inline " style="width: 100%;">
+                                            <div class="flex flex-row justify-between block-content-inner">
+                                                <div class="block-head-wrap">
+                                                    <div class="w-full inline"><span class="block-title-wrap">ltt-table
+                                                            "table header"</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row items-center"></div>
+                                    </div>
+                                    <div class="ls-block-right flex flex-row items-center self-start gap-1">
+                                        <div class="opacity-70 hover:opacity-100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-left: 45px;"></div>
+    <div class="block-children-container flex">
+        <div class="block-children-left-border"></div>
+        <div class="block-children w-full">
+            <div data-level="1" class="blocks-list-wrap">
+                <div haschild="true" class="ls-block swipe-item " level="1"
+                    blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4" id="ls-block-6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                    containerid="1">
+                    <div class="block-main-container flex flex-row gap-1">
+                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                id="control-6a03f98e-daac-49fd-b523-5e7bd15868f4" class="block-control"><span
+                                    class="control-hide"><span class="rotating-arrow not-collapsed"><svg
+                                            aria-hidden="true" version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                            display="inline-block" class="h-4 w-4" style="margin-left: 2px;">
+                                            <path
+                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                fill-rule="evenodd"></path>
+                                        </svg></span></span></a><a class="bullet-link-wrap" data-state="closed"><span
+                                    id="dot-6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                                    blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4" draggable="true"
+                                    class="bullet-container cursor "><span
+                                        blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4" class="bullet"></span></span></a>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <div class="flex flex-col w-full">
+                                <div class="block-main-content flex flex-row gap-2">
+                                    <div class="flex flex-col w-full">
+                                        <div class="block-content-or-editor-wrap ">
+                                            <div class="block-content-or-editor-inner">
+                                                <div class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                        style="display: flex;">
+                                                        <div id="block-content-6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                                                            blockid="6a03f98e-daac-49fd-b523-5e7bd15868f4"
+                                                            containerid="1" data-type="default"
+                                                            class="block-content inline " style="width: 100%;">
+                                                            <div
+                                                                class="flex flex-row justify-between block-content-inner">
+                                                                <div class="block-head-wrap">
+                                                                    <div class="w-full inline"><span
+                                                                            class="block-title-wrap">这是纵轴表头一：维度</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-row items-center"></div>
+                                                    </div>
+                                                    <div
+                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ltt-resize-handle" data-col-index="0"></div>
+                    </div>
+                    <div style="padding-left: 45px;"></div>
+                    <div class="block-children-container flex">
+                        <div class="block-children-left-border"></div>
+                        <div class="block-children w-full">
+                            <div data-level="2" class="blocks-list-wrap">
+                                <div haschild="true" class="ls-block swipe-item " level="2"
+                                    blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                    id="ls-block-6a0401f2-d022-403c-a2ef-66cc0e7686cd" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                    blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                                            blockid="6a0401f2-d022-403c-a2ef-66cc0e7686cd"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴第二列数据：微服务dadadaddadadddddddddada</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                    <div class="block-children-container flex">
+                                        <div class="block-children-left-border"></div>
+                                        <div class="block-children w-full">
+                                            <div data-level="3" class="blocks-list-wrap">
+                                                <div haschild="false" class="ls-block swipe-item " level="3"
+                                                    blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                    id="ls-block-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0" containerid="1">
+                                                    <div class="block-main-container flex flex-row gap-1">
+                                                        <div class="block-control-wrap flex flex-row items-center h-6">
+                                                            <a id="control-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                class="block-control"><span class="control-hide"><span
+                                                                        class="rotating-arrow not-collapsed"><svg
+                                                                            aria-hidden="true" version="1.1"
+                                                                            viewBox="0 0 192 512" fill="currentColor"
+                                                                            display="inline-block" class="h-4 w-4"
+                                                                            style="margin-left: 2px;">
+                                                                            <path
+                                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                                fill-rule="evenodd"></path>
+                                                                        </svg></span></span></a><a
+                                                                class="bullet-link-wrap" data-state="closed"><span
+                                                                    id="dot-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                    blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                    draggable="true"
+                                                                    class="bullet-container cursor "><span
+                                                                        blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                        class="bullet"></span></span></a></div>
+                                                        <div class="flex flex-col w-full">
+                                                            <div class="flex flex-col w-full">
+                                                                <div class="block-main-content flex flex-row gap-2">
+                                                                    <div class="flex flex-col w-full">
+                                                                        <div class="block-content-or-editor-wrap ">
+                                                                            <div class="block-content-or-editor-inner">
+                                                                                <div
+                                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                                        style="display: flex;">
+                                                                                        <div id="block-content-6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                                            blockid="6a0405e2-e4a7-4974-96d5-9e8d2348b8e0"
+                                                                                            containerid="1"
+                                                                                            data-type="default"
+                                                                                            class="block-content inline "
+                                                                                            style="width: 100%;">
+                                                                                            <div
+                                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                                <div
+                                                                                                    class="block-head-wrap">
+                                                                                                    <div
+                                                                                                        class="w-full inline">
+                                                                                                        <span
+                                                                                                            class="block-title-wrap">大l</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="flex flex-row items-center">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                                        <div
+                                                                                            class="opacity-70 hover:opacity-100">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-left: 45px;"></div>
+                                                </div>
+                                                <div haschild="false" class="ls-block swipe-item " level="3"
+                                                    blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                    id="ls-block-6a041012-0dfb-413a-9857-e699978aa46e" containerid="1">
+                                                    <div class="block-main-container flex flex-row gap-1">
+                                                        <div class="block-control-wrap flex flex-row items-center h-6">
+                                                            <a id="control-6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                class="block-control"><span class="control-hide"><span
+                                                                        class="rotating-arrow not-collapsed"><svg
+                                                                            aria-hidden="true" version="1.1"
+                                                                            viewBox="0 0 192 512" fill="currentColor"
+                                                                            display="inline-block" class="h-4 w-4"
+                                                                            style="margin-left: 2px;">
+                                                                            <path
+                                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                                fill-rule="evenodd"></path>
+                                                                        </svg></span></span></a><a
+                                                                class="bullet-link-wrap" data-state="closed"><span
+                                                                    id="dot-6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                    blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                    draggable="true"
+                                                                    class="bullet-container cursor "><span
+                                                                        blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                        class="bullet"></span></span></a></div>
+                                                        <div class="flex flex-col w-full">
+                                                            <div class="flex flex-col w-full">
+                                                                <div class="block-main-content flex flex-row gap-2">
+                                                                    <div class="flex flex-col w-full">
+                                                                        <div class="block-content-or-editor-wrap ">
+                                                                            <div class="block-content-or-editor-inner">
+                                                                                <div
+                                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                                        style="display: flex;">
+                                                                                        <div id="block-content-6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                                            blockid="6a041012-0dfb-413a-9857-e699978aa46e"
+                                                                                            containerid="1"
+                                                                                            data-type="default"
+                                                                                            class="block-content inline "
+                                                                                            style="width: 100%;">
+                                                                                            <div
+                                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                                <div
+                                                                                                    class="block-head-wrap">
+                                                                                                    <div
+                                                                                                        class="w-full inline">
+                                                                                                        <span
+                                                                                                            class="block-title-wrap">看看</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="flex flex-row items-center">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                                        <div
+                                                                                            class="opacity-70 hover:opacity-100">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-left: 45px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                    id="ls-block-6a0405e9-4049-4d25-a1f3-4984501715e7" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                    blockid="6a0405e9-4049-4d25-a1f3-4984501715e7" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                                            blockid="6a0405e9-4049-4d25-a1f3-4984501715e7"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">大声道</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div haschild="true" class="ls-block swipe-item " level="1"
+                    blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e" id="ls-block-6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                    containerid="1">
+                    <div class="block-main-container flex flex-row gap-1">
+                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                id="control-6a041f96-b598-4965-b1cb-f492cb1e7e6e" class="block-control"><span
+                                    class="control-hide"><span class="rotating-arrow not-collapsed"><svg
+                                            aria-hidden="true" version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                            display="inline-block" class="h-4 w-4" style="margin-left: 2px;">
+                                            <path
+                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                fill-rule="evenodd"></path>
+                                        </svg></span></span></a><a class="bullet-link-wrap" data-state="closed"><span
+                                    id="dot-6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                                    blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e" draggable="true"
+                                    class="bullet-container cursor "><span
+                                        blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e" class="bullet"></span></span></a>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <div class="flex flex-col w-full">
+                                <div class="block-main-content flex flex-row gap-2">
+                                    <div class="flex flex-col w-full">
+                                        <div class="block-content-or-editor-wrap ">
+                                            <div class="block-content-or-editor-inner">
+                                                <div class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                        style="display: flex;">
+                                                        <div id="block-content-6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                                                            blockid="6a041f96-b598-4965-b1cb-f492cb1e7e6e"
+                                                            containerid="1" data-type="default"
+                                                            class="block-content inline " style="width: 100%;">
+                                                            <div
+                                                                class="flex flex-row justify-between block-content-inner">
+                                                                <div class="block-head-wrap">
+                                                                    <div class="w-full inline"><span
+                                                                            class="block-title-wrap">打赏</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-row items-center"></div>
+                                                    </div>
+                                                    <div
+                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ltt-resize-handle" data-col-index="1"></div>
+                    </div>
+                    <div style="padding-left: 45px;"></div>
+                    <div class="block-children-container flex">
+                        <div class="block-children-left-border"></div>
+                        <div class="block-children w-full">
+                            <div data-level="2" class="blocks-list-wrap">
+                                <div haschild="true" class="ls-block swipe-item " level="2"
+                                    blockid="6a0405ea-6cad-485c-a27b-8bd531878944"
+                                    id="ls-block-6a0405ea-6cad-485c-a27b-8bd531878944" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                    blockid="6a0405ea-6cad-485c-a27b-8bd531878944" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                                            blockid="6a0405ea-6cad-485c-a27b-8bd531878944"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">大声道</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                    <div class="block-children-container flex">
+                                        <div class="block-children-left-border"></div>
+                                        <div class="block-children w-full">
+                                            <div data-level="3" class="blocks-list-wrap">
+                                                <div haschild="false" class="ls-block swipe-item " level="3"
+                                                    blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                    id="ls-block-6a041fb1-2e4f-4814-8932-6f116f7741e4" containerid="1">
+                                                    <div class="block-main-container flex flex-row gap-1">
+                                                        <div class="block-control-wrap flex flex-row items-center h-6">
+                                                            <a id="control-6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                class="block-control"><span class="control-hide"><span
+                                                                        class="rotating-arrow not-collapsed"><svg
+                                                                            aria-hidden="true" version="1.1"
+                                                                            viewBox="0 0 192 512" fill="currentColor"
+                                                                            display="inline-block" class="h-4 w-4"
+                                                                            style="margin-left: 2px;">
+                                                                            <path
+                                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                                fill-rule="evenodd"></path>
+                                                                        </svg></span></span></a><a
+                                                                class="bullet-link-wrap" data-state="closed"><span
+                                                                    id="dot-6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                    blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                    draggable="true"
+                                                                    class="bullet-container cursor "><span
+                                                                        blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                        class="bullet"></span></span></a></div>
+                                                        <div class="flex flex-col w-full">
+                                                            <div class="flex flex-col w-full">
+                                                                <div class="block-main-content flex flex-row gap-2">
+                                                                    <div class="flex flex-col w-full">
+                                                                        <div class="block-content-or-editor-wrap ">
+                                                                            <div class="block-content-or-editor-inner">
+                                                                                <div
+                                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                                        style="display: flex;">
+                                                                                        <div id="block-content-6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                                            blockid="6a041fb1-2e4f-4814-8932-6f116f7741e4"
+                                                                                            containerid="1"
+                                                                                            data-type="default"
+                                                                                            class="block-content inline "
+                                                                                            style="width: 100%;">
+                                                                                            <div
+                                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                                <div
+                                                                                                    class="block-head-wrap">
+                                                                                                    <div
+                                                                                                        class="w-full inline">
+                                                                                                        <span
+                                                                                                            class="block-title-wrap">dad</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="flex flex-row items-center">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                                        <div
+                                                                                            class="opacity-70 hover:opacity-100">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-left: 45px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                    id="ls-block-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                    blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                                            blockid="6a03fa5c-0261-4ced-b6bd-3a9a4e449ccd"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴第三列数据：微服务大</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div haschild="true" class="ls-block swipe-item " level="1"
+                    blockid="6a03f998-9353-4483-aaf3-3586a42ac4da" id="ls-block-6a03f998-9353-4483-aaf3-3586a42ac4da"
+                    containerid="1">
+                    <div class="block-main-container flex flex-row gap-1">
+                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                id="control-6a03f998-9353-4483-aaf3-3586a42ac4da" class="block-control"><span
+                                    class="control-hide"><span class="rotating-arrow not-collapsed"><svg
+                                            aria-hidden="true" version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                            display="inline-block" class="h-4 w-4" style="margin-left: 2px;">
+                                            <path
+                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                fill-rule="evenodd"></path>
+                                        </svg></span></span></a><a class="bullet-link-wrap" data-state="closed"><span
+                                    id="dot-6a03f998-9353-4483-aaf3-3586a42ac4da"
+                                    blockid="6a03f998-9353-4483-aaf3-3586a42ac4da" draggable="true"
+                                    class="bullet-container cursor "><span
+                                        blockid="6a03f998-9353-4483-aaf3-3586a42ac4da" class="bullet"></span></span></a>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <div class="flex flex-col w-full">
+                                <div class="block-main-content flex flex-row gap-2">
+                                    <div class="flex flex-col w-full">
+                                        <div class="block-content-or-editor-wrap ">
+                                            <div class="block-content-or-editor-inner">
+                                                <div class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                        style="display: flex;">
+                                                        <div id="block-content-6a03f998-9353-4483-aaf3-3586a42ac4da"
+                                                            blockid="6a03f998-9353-4483-aaf3-3586a42ac4da"
+                                                            containerid="1" data-type="default"
+                                                            class="block-content inline " style="width: 100%;">
+                                                            <div
+                                                                class="flex flex-row justify-between block-content-inner">
+                                                                <div class="block-head-wrap">
+                                                                    <div class="w-full inline"><span
+                                                                            class="block-title-wrap">这是纵轴表头二：代码结构</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-row items-center"></div>
+                                                    </div>
+                                                    <div
+                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ltt-resize-handle" data-col-index="2"></div>
+                    </div>
+                    <div style="padding-left: 45px;"></div>
+                    <div class="block-children-container flex">
+                        <div class="block-children-left-border"></div>
+                        <div class="block-children w-full">
+                            <div data-level="2" class="blocks-list-wrap">
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                    id="ls-block-6a03fa71-29e8-4ed0-abf5-289eb24a08bd" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                    blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                                            blockid="6a03fa71-29e8-4ed0-abf5-289eb24a08bd"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴
+                                                                                            第二列数据：一个代码工程</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                                <div haschild="false" class="ls-block swipe-item " level="2"
+                                    blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                    id="ls-block-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8" containerid="1">
+                                    <div class="block-main-container flex flex-row gap-1">
+                                        <div class="block-control-wrap flex flex-row items-center h-6"><a
+                                                id="control-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                class="block-control"><span class="control-hide"><span
+                                                        class="rotating-arrow not-collapsed"><svg aria-hidden="true"
+                                                            version="1.1" viewBox="0 0 192 512" fill="currentColor"
+                                                            display="inline-block" class="h-4 w-4"
+                                                            style="margin-left: 2px;">
+                                                            <path
+                                                                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"
+                                                                fill-rule="evenodd"></path>
+                                                        </svg></span></span></a><a class="bullet-link-wrap"
+                                                data-state="closed"><span id="dot-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                    blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8" draggable="true"
+                                                    class="bullet-container cursor "><span
+                                                        blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                        class="bullet"></span></span></a></div>
+                                        <div class="flex flex-col w-full">
+                                            <div class="flex flex-col w-full">
+                                                <div class="block-main-content flex flex-row gap-2">
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="block-content-or-editor-wrap ">
+                                                            <div class="block-content-or-editor-inner">
+                                                                <div
+                                                                    class="block-row flex flex-1 flex-row gap-1 items-center">
+                                                                    <div class="flex flex-1 w-full block-content-wrapper"
+                                                                        style="display: flex;">
+                                                                        <div id="block-content-6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                                            blockid="6a03fa74-5fc6-427c-aa1d-a49b4d658cd8"
+                                                                            containerid="1" data-type="default"
+                                                                            class="block-content inline "
+                                                                            style="width: 100%;">
+                                                                            <div
+                                                                                class="flex flex-row justify-between block-content-inner">
+                                                                                <div class="block-head-wrap">
+                                                                                    <div class="w-full inline"><span
+                                                                                            class="block-title-wrap">这是纵轴第三列数据：多个代码工程</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex flex-row items-center"></div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="ls-block-right flex flex-row items-center self-start gap-1">
+                                                                        <div class="opacity-70 hover:opacity-100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 45px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`;
+    };
+    logger.debug("Rendering BlockViewDemo", {
+      currentView,
+      viewRegistryKeys: Object.keys(VIEW_REGISTRY)
+    });
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "16px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { style: { marginBottom: "16px" }, children: [
+        "Block View Demo - Current: ",
+        currentView
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-view-bar", style: { marginBottom: "16px" }, children: Object.values(VIEW_REGISTRY).map((viewConfig) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          className: `ltt-view-btn ${currentView === viewConfig.id ? "active" : ""}`,
+          onClick: () => handleViewChange(viewConfig.id),
+          title: viewConfig.name,
+          children: [
+            renderIcon(viewConfig.icon),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { marginLeft: "4px", fontSize: "12px" }, children: viewConfig.name })
+          ]
+        },
+        viewConfig.id
+      )) }),
+      currentView === "table" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px", padding: "12px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "8px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: "0 0 12px 0" }, children: "Table Theme Settings" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "12px" }, children: ["default", "notion", "linear", "dark", "gradient"].map((theme) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setCurrentTheme(theme),
+            style: {
+              padding: "6px 12px",
+              border: currentTheme === theme ? "2px solid var(--ls-primary-color)" : "1px solid var(--ls-border-color)",
+              borderRadius: "4px",
+              backgroundColor: currentTheme === theme ? "var(--ls-primary-color)" : "transparent",
+              color: currentTheme === theme ? "white" : "var(--ls-primary-text-color)",
+              cursor: "pointer",
+              fontSize: "12px"
+            },
+            children: theme.charAt(0).toUpperCase() + theme.slice(1)
+          },
+          theme
+        )) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "16px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "12px" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "checkbox",
+                checked: showStriped,
+                onChange: (e) => setShowStriped(e.target.checked)
+              }
+            ),
+            "Show Striped"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "12px" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "checkbox",
+                checked: showBorder,
+                onChange: (e) => setShowBorder(e.target.checked)
+              }
+            ),
+            "Show Border"
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          style: {
+            border: "1px solid #e5e7eb",
+            borderRadius: "8px",
+            padding: "16px",
+            backgroundColor: "#fff"
+          },
+          dangerouslySetInnerHTML: { __html: renderBlockHTML() }
+        }
+      )
+    ] });
+  };
+
+  const ToastContainer = ({ position = "top-right" }) => {
+    const [toasts, setToasts] = reactExports.useState([]);
+    const containerRef = reactExports.useRef(null);
+    const addToast = (message, type = "info", timeout = 3e3) => {
+      const id = Math.random().toString(36).substr(2, 9);
+      const newToast = { id, message, type, timeout };
+      setToasts((prev) => [...prev, newToast]);
+      setTimeout(() => {
+        setToasts((prev) => prev.filter((toast2) => toast2.id !== id));
+      }, timeout);
+    };
+    const removeToast = (id) => {
+      setToasts((prev) => prev.filter((toast2) => toast2.id !== id));
+    };
+    reactExports.useEffect(() => {
+      window.addToast = addToast;
+      return () => {
+        delete window.addToast;
+      };
+    }, []);
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `toast-container toast-${position}`, ref: containerRef, children: toasts.map((toast2) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: `toast toast-${toast2.type}`,
+        onAnimationEnd: (e) => {
+          if (e.animationName === "toastExit") {
+            removeToast(toast2.id);
+          }
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "toast-content", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "toast-message", children: toast2.message }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "toast-close",
+              onClick: () => removeToast(toast2.id),
+              children: "×"
+            }
+          )
+        ]
+      },
+      toast2.id
+    )) });
+  };
+
+  const testConfig = {
+    // 左侧面板配置
+    leftPanel: {
+      title: "测试面板",
+      sections: [
+        {
+          title: "功能测试",
+          items: [
+            { id: "text-formatting", label: "文本格式化" },
+            { id: "color-highlighting", label: "颜色和高亮" },
+            { id: "template-variables", label: "模板变量" }
+          ]
+        },
+        {
+          title: "设置",
+          items: [
+            { id: "theme-settings", label: "主题设置" },
+            { id: "toolbar-config", label: "工具栏配置" }
+          ]
+        }
+      ]
+    },
+    // 右侧面板配置
+    rightPanel: {
+      title: "快捷操作",
+      actions: [
+        { id: "clear-all", label: "清空内容" },
+        { id: "reset-settings", label: "重置设置" },
+        { id: "toggle-theme", label: "切换主题" }
+      ]
+    }};
+
+  const statusOptions = [
+    { value: "todo", label: "● Todo", color: "#f59e0b" },
+    { value: "doing", label: "○ Doing", color: "#3b82f6" },
+    { value: "in-review", label: "⊛ In Review", color: "#06b6d4" },
+    { value: "done", label: "✓ Done", color: "#10b981" },
+    { value: "waiting", label: "◐ Waiting", color: "#8b5cf6" },
+    { value: "canceled", label: "✗ Canceled", color: "#ef4444" }
+  ];
+  function TestApp() {
+    const { settings } = useSettingsContext();
+    const [apiMode, setApiMode] = reactExports.useState(getMode());
+    const [showProxyModal, setShowProxyModal] = reactExports.useState(false);
+    const [proxyUrl, setProxyUrl] = reactExports.useState("http://127.0.0.1:12315/");
+    const [proxyToken, setProxyToken] = reactExports.useState("");
+    const [proxyStatus, setProxyStatus] = reactExports.useState("disconnected");
+    const [proxyError, setProxyError] = reactExports.useState("");
+    const [summaryPages, setSummaryPages] = reactExports.useState([]);
+    const handleModeChange = (mode) => {
+      setApiMode(mode);
+      setMode(mode);
+      loggerProxy.info(`[TestApp] Switched to ${mode} mode`);
+    };
+    const handleProxyConnect = async () => {
+      setProxyStatus("connecting");
+      loggerProxy.info(`[TestApp] Connecting to proxy: ${proxyUrl}`);
+      configureProxyMode(proxyUrl, proxyToken);
+      setProxyStatus("connected");
+      resetLogseqAPI();
+      loggerProxy.info("[TestApp] Connected to proxy and Logseq API reset");
+    };
+    const handleProxyDisconnect = () => {
+      loggerProxy.info("[TestApp] Disconnecting from proxy");
+      configureProxyMode("", "");
+      setMode("mock");
+      setProxyStatus("disconnected");
+      resetLogseqAPI();
+      loggerProxy.info("[TestApp] Disconnected from proxy and switched to mock mode");
+    };
+    const handleSummaryGenerate = (pageName, blocks) => {
+      setSummaryPages((prev) => [...prev, { name: pageName, blocks }]);
+      loggerProxy.info(`[TestApp] Summary generated: ${pageName}`);
+    };
+    const [tasks, setTasks] = reactExports.useState([
+      { id: "task-child-1", content: "Design the UI #task", status: "done" },
+      { id: "task-child-2", content: "Setup project #task", status: "done" },
+      { id: "task-child-3", content: "Implement the logic #task", status: "doing" },
+      { id: "task-child-4", content: "Write documentation #task", status: "todo" },
+      { id: "task-child-5", content: "Create examples #task", status: "todo" },
+      { id: "task-child-6", content: "Write tests #task", status: "waiting" }
+    ]);
+    const [newTaskContent, setNewTaskContent] = reactExports.useState("");
+    const [newTaskStatus, setNewTaskStatus] = reactExports.useState("todo");
+    const [taskCounter, setTaskCounter] = reactExports.useState(7);
+    const addTask = () => {
+      if (!newTaskContent.trim()) return;
+      const newTask = {
+        id: `task-child-${taskCounter}`,
+        content: newTaskContent.trim(),
+        status: newTaskStatus
+      };
+      setTasks((prev) => [...prev, newTask]);
+      setTaskCounter((prev) => prev + 1);
+      setNewTaskContent("");
+      setNewTaskStatus("todo");
+    };
+    const removeTask = (taskId) => {
+      setTasks((prev) => prev.filter((task) => task.id !== taskId));
+    };
+    const updateTaskStatus = (taskId, newStatus) => {
+      setTasks((prev) => prev.map(
+        (task) => task.id === taskId ? { ...task, status: newStatus } : task
+      ));
+    };
+    const getStatusIcon = (status) => {
+      const option = statusOptions.find((o) => o.value === status);
+      return option?.label?.charAt(0) || "●";
+    };
+    const getStatusColor = (status) => {
+      const option = statusOptions.find((o) => o.value === status);
+      return option?.color || "#6b7280";
+    };
+    const leftContent = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "left-panel", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: testConfig.leftPanel.title }),
+      testConfig.leftPanel.sections.map((section, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel-section", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: section.title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { children: section.items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: item.label }, item.id)) })
+      ] }, index))
+    ] });
+    const rightContent = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "right-panel", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: testConfig.rightPanel.title }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "actions", children: testConfig.rightPanel.actions.map((action) => /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "action-btn", children: action.label }, action.id)) })
+    ] });
+    const centerContent = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "center-content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(TextSelectionDemo, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hiccup-renderer-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HiccupRenderer, {}) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "block-demo-container", style: { marginTop: "24px", padding: "16px", backgroundColor: "#f5f5f5", borderRadius: "8px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Block 渲染演示" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "task-parent-block", className: "block", "data-block-id": "task-parent-block", style: { marginBottom: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            BlockRenderer,
+            {
+              blockId: "#task-parent-block",
+              content: "My Project Tasks {{renderer :taskprogress}}",
+              properties: {}
+            }
+          ),
+          tasks.map((task) => {
+            const icon = getStatusIcon(task.status);
+            const color = getStatusColor(task.status);
+            return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "block",
+                "data-block-id": task.id,
+                style: {
+                  padding: "8px",
+                  marginBottom: "4px",
+                  backgroundColor: "#fff",
+                  borderRadius: "4px",
+                  marginLeft: "20px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px"
+                },
+                "data-properties": JSON.stringify({ status: task.status }),
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color }, children: icon }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { flex: 1 }, children: [
+                    task.content,
+                    " (",
+                    task.status,
+                    ")"
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "select",
+                    {
+                      value: task.status,
+                      onChange: (e) => updateTaskStatus(task.id, e.target.value),
+                      style: {
+                        padding: "2px 6px",
+                        fontSize: "12px",
+                        borderRadius: "4px",
+                        border: "1px solid #ddd"
+                      },
+                      children: statusOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: () => removeTask(task.id),
+                      style: {
+                        background: "none",
+                        border: "none",
+                        color: "#ef4444",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        padding: "0 4px"
+                      },
+                      children: "×"
+                    }
+                  )
+                ]
+              },
+              task.id
+            );
+          })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+          marginTop: "16px",
+          padding: "12px",
+          backgroundColor: "#fff",
+          borderRadius: "8px",
+          display: "flex",
+          gap: "8px",
+          alignItems: "center"
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "text",
+              placeholder: "任务内容",
+              value: newTaskContent,
+              onChange: (e) => setNewTaskContent(e.target.value),
+              onKeyPress: (e) => e.key === "Enter" && addTask(),
+              style: {
+                flex: 1,
+                padding: "6px 10px",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "13px"
+              }
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "select",
+            {
+              value: newTaskStatus,
+              onChange: (e) => setNewTaskStatus(e.target.value),
+              style: {
+                padding: "6px 10px",
+                fontSize: "13px",
+                borderRadius: "4px",
+                border: "1px solid #ddd"
+              },
+              children: statusOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: addTask,
+              disabled: !newTaskContent.trim(),
+              style: {
+                padding: "6px 16px",
+                backgroundColor: "#3b82f6",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "13px"
+              },
+              children: "+ 添加任务"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(TaskProgressDemo, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "nested-task-parent", className: "block", "data-block-id": "nested-task-parent", style: { marginTop: "24px", padding: "12px", backgroundColor: "#e8f5e9", borderRadius: "8px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: "0 0 8px 0" }, children: "嵌套任务演示" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            id: "nested-task-1",
+            className: "block",
+            "data-block-id": "nested-task-1",
+            "data-properties": JSON.stringify({ status: "doing" }),
+            style: { padding: "8px", marginBottom: "4px", marginLeft: "20px", backgroundColor: "#fff", borderRadius: "4px" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "# Level 1 - Planning #task" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  id: "nested-task-1-1",
+                  className: "block",
+                  "data-block-id": "nested-task-1-1",
+                  "data-properties": JSON.stringify({ status: "done" }),
+                  style: { padding: "8px", marginBottom: "4px", marginLeft: "40px", backgroundColor: "#f5f5f5", borderRadius: "4px" },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "## Level 2 - Research #task" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        id: "nested-task-1-1-1",
+                        className: "block",
+                        "data-block-id": "nested-task-1-1-1",
+                        "data-properties": JSON.stringify({ status: "done" }),
+                        style: { padding: "8px", marginBottom: "4px", marginLeft: "60px", backgroundColor: "#fff", borderRadius: "4px" },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "### Level 3 - Done #task" })
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        id: "nested-task-1-1-2",
+                        className: "block",
+                        "data-block-id": "nested-task-1-1-2",
+                        "data-properties": JSON.stringify({ status: "todo" }),
+                        style: { padding: "8px", marginLeft: "60px", backgroundColor: "#fff", borderRadius: "4px" },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "### Level 3 - Todo #task" })
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  id: "nested-task-1-2",
+                  className: "block",
+                  "data-block-id": "nested-task-1-2",
+                  "data-properties": JSON.stringify({ status: "todo" }),
+                  style: { padding: "8px", marginLeft: "40px", backgroundColor: "#f5f5f5", borderRadius: "4px" },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "## Level 2 - Design #task" })
+                }
+              )
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            id: "nested-task-2",
+            className: "block",
+            "data-block-id": "nested-task-2",
+            "data-properties": JSON.stringify({ status: "done" }),
+            style: { padding: "8px", marginLeft: "20px", backgroundColor: "#fff", borderRadius: "4px" },
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "# Level 1 - Execution #task" })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(HeatmapDemo, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockViewDemo, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryDemo, { onGenerateSuccess: handleSummaryGenerate })
+    ] });
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "app-container", className: `app ${settings?.theme === "dark" ? "dark-mode" : "light-mode"}`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "toolbar", className: "toolbar-banner", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "toolbar-banner-content", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "toolbar-banner-text", children: "Text Toolkit - Test Mode" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "toolbar-banner-actions", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "button toolbar-banner-btn",
+              title: "Proxy 设置",
+              onClick: () => setShowProxyModal(true),
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "18px" }, children: "🔗" })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "a",
+            {
+              className: "button toolbar-banner-btn",
+              title: "Settings JSON",
+              onClick: () => {
+                const jsonStr = JSON.stringify(settings, null, 2);
+                alert("Settings JSON:\n\n" + jsonStr);
+                loggerProxy.debug("[TestApp] Settings JSON logged", { settings });
+              },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "ti ti-settings-cancel" })
+            }
+          )
+        ] })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "head", className: "top-toolbar", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "toolbar-content", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { children: "Text Toolkit Plugin (Test Mode)" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mode-indicator", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `mode-badge ${apiMode}`, children: apiMode === "mock" ? "📱 Mock Mode" : "🔗 Proxy Mode" }) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TestLayout,
+        {
+          leftContent,
+          centerContent,
+          rightContent
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ProxySettings,
+        {
+          isOpen: showProxyModal,
+          onClose: () => setShowProxyModal(false),
+          apiMode,
+          onModeChange: handleModeChange,
+          proxyUrl,
+          onProxyUrlChange: setProxyUrl,
+          proxyToken,
+          onProxyTokenChange: setProxyToken,
+          onConnect: handleProxyConnect,
+          onDisconnect: handleProxyDisconnect,
+          connectionStatus: proxyStatus,
+          errorMessage: proxyError
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ToastContainer, {})
+    ] });
+  }
+
+  const registrations = /* @__PURE__ */ new Map();
+  function registerCSS(name, source) {
+    if (registrations.has(name)) {
+      loggerProxy.warn(`⚠️ CSSRegistry: CSS "${name}" already registered, skipping`);
+      return;
+    }
+    registrations.set(name, { name, source });
+    loggerProxy.debug(`🎨 CSSRegistry: Registered CSS: ${name}`);
+  }
+  async function loadAllCSS() {
+    loggerProxy.info(`🎨 CSSRegistry: Loading ${registrations.size} CSS resources...`);
+    for (const reg of registrations.values()) {
+      if (reg.loaded) continue;
+      try {
+        await loadCSSResource(reg);
+        reg.loaded = true;
+      } catch (error) {
+        loggerProxy.error(`❌ CSSRegistry: Failed to load CSS "${reg.name}"`, error);
+      }
+    }
+    loggerProxy.info("✅ CSSRegistry: CSS loading completed");
+  }
+  async function loadCSSResource(reg) {
+    const { name, source } = reg;
+    if (source.type === "inline") {
+      logseqAPI$1.provideStyle(source.content);
+      loggerProxy.info(`🎨 CSSRegistry: Loaded inline CSS: ${name}`);
+    } else if (source.type === "external") {
+      await loadExternalCSS(name, source.path);
+    } else if (source.type === "both") {
+      logseqAPI$1.provideStyle(source.inlineContent);
+      loggerProxy.info(`🎨 CSSRegistry: Loaded inline CSS: ${name}`);
+      if (source.externalPath) {
+        await loadExternalCSS(name, source.externalPath);
+      }
+    }
+  }
+  async function loadExternalCSS(name, path) {
+    try {
+      const response = await fetch(`./${path}`);
+      if (response.ok) {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("text/css")) {
+          const content = await response.text();
+          if (content.trim()) {
+            logseqAPI$1.provideStyle(content);
+            loggerProxy.info(`🎨 CSSRegistry: Loaded external CSS: ${name} from ${path}`);
+          } else {
+            loggerProxy.warn(`⚠️ CSSRegistry: External CSS is empty: ${name} from ${path}`);
+          }
+        } else {
+          loggerProxy.warn(`⚠️ CSSRegistry: Response is not CSS: ${name} from ${path}`);
+        }
+      } else {
+        loggerProxy.warn(`⚠️ CSSRegistry: CSS file not found: ${name} from ${path}`);
+      }
+    } catch (error) {
+      loggerProxy.error(`❌ CSSRegistry: Error loading external CSS ${name}`, error);
+    }
+  }
+
   const Textarea = reactExports.forwardRef(
     ({ className, ...props }, ref) => {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -19523,7 +22347,7 @@ ${where}
   }
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19534,7 +22358,7 @@ ${where}
   }).join(" ").trim();
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19543,7 +22367,7 @@ ${where}
   const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19555,7 +22379,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19568,7 +22392,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19587,7 +22411,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19637,7 +22461,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19662,7 +22486,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19678,7 +22502,7 @@ ${where}
   const Bold = createLucideIcon("bold", __iconNode$7);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19692,7 +22516,7 @@ ${where}
   const Highlighter = createLucideIcon("highlighter", __iconNode$6);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19707,7 +22531,7 @@ ${where}
   const Italic = createLucideIcon("italic", __iconNode$5);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19722,7 +22546,7 @@ ${where}
   const Menu = createLucideIcon("menu", __iconNode$4);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19737,7 +22561,7 @@ ${where}
   const Strikethrough = createLucideIcon("strikethrough", __iconNode$3);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19752,7 +22576,7 @@ ${where}
   const Type = createLucideIcon("type", __iconNode$2);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -19766,7 +22590,7 @@ ${where}
   const Underline = createLucideIcon("underline", __iconNode$1);
 
   /**
-   * @license lucide-react v1.14.0 - ISC
+   * @license lucide-react v1.16.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -20294,47 +23118,11 @@ ${where}
     ) });
   }
 
-  const Modal = ({ title, onClose, children, isOpen = false, width = "90vw", theme = "light" }) => {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
-      motion.div,
-      {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        exit: { opacity: 0 },
-        transition: { duration: 0.2 },
-        className: "modal-overlay",
-        onClick: onClose,
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          motion.div,
-          {
-            initial: { opacity: 0, scale: 0.9, y: 20 },
-            animate: { opacity: 1, scale: 1, y: 0 },
-            exit: { opacity: 0, scale: 0.9, y: 20 },
-            transition: {
-              type: "spring",
-              stiffness: 300,
-              damping: 25,
-              duration: 0.25
-            },
-            className: `modal-container modal-${theme}`,
-            style: { width },
-            onClick: (e) => e.stopPropagation(),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "modal-header", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "modal-title", children: title }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "modal-close", onClick: onClose, children: "×" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "modal-content", children })
-            ]
-          }
-        )
-      }
-    ) });
-  };
-
   function CustomSelect({ options, value, onChange, placeholder = "" }) {
     const [isOpen, setIsOpen] = reactExports.useState(false);
     const selectRef = reactExports.useRef(null);
+    const menuRef = reactExports.useRef(null);
+    const [menuPosition, setMenuPosition] = reactExports.useState({ top: 0, left: 0, width: 0 });
     reactExports.useEffect(() => {
       const handleClickOutside = (event) => {
         if (selectRef.current && !selectRef.current.contains(event.target)) {
@@ -20347,6 +23135,18 @@ ${where}
         doc.removeEventListener("mousedown", handleClickOutside);
       };
     }, []);
+    reactExports.useEffect(() => {
+      if (isOpen && selectRef.current) {
+        const rect = selectRef.current.getBoundingClientRect();
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        setMenuPosition({
+          top: rect.bottom + scrollTop + 2,
+          left: rect.left + scrollLeft,
+          width: rect.width
+        });
+      }
+    }, [isOpen]);
     const handleOptionClick = (option) => {
       onChange(option.value);
       setIsOpen(false);
@@ -20364,18 +23164,31 @@ ${where}
           ]
         }
       ),
-      isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "custom-select__menu", children: options.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
-          className: `custom-select__option ${option.value === value ? "custom-select__option--selected" : ""}`,
-          onClick: () => handleOptionClick(option),
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-label", children: option.label }),
-            option.value === value && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-checkmark", children: "✓" })
-          ]
-        },
-        option.value
-      )) })
+          ref: menuRef,
+          className: "custom-select__menu",
+          style: {
+            position: "fixed",
+            top: menuPosition.top,
+            left: menuPosition.left,
+            width: menuPosition.width
+          },
+          children: options.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `custom-select__option ${option.value === value ? "custom-select__option--selected" : ""}`,
+              onClick: () => handleOptionClick(option),
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-label", children: option.label }),
+                option.value === value && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "custom-select__option-checkmark", children: "✓" })
+              ]
+            },
+            option.value
+          ))
+        }
+      )
     ] });
   }
 
@@ -21115,6 +23928,604 @@ ${where}
     ] });
   }
 
+  function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }) {
+    const blockViewSettings = settings?.blockView || {
+      enabled: true,
+      defaultView: "list",
+      defaultTheme: "default",
+      hideViewBar: false,
+      table: {
+        showStriped: true,
+        showBorder: true,
+        customTheme: {
+          borderColor: "#e2e8f0",
+          headerBgColor: "#f8fafc",
+          headerTextColor: "#374151",
+          cellTextColor: "#475569",
+          headerBorderColor: "#cbd5e1",
+          headerHeight: "40px",
+          rowBgColor: "#ffffff",
+          rowHoverBgColor: "#f1f5f9",
+          rowBorderColor: "#e2e8f0",
+          cellPadding: "8px 12px",
+          tableBorderRadius: "8px"
+        }
+      },
+      gallery: {
+        showCardBorders: true,
+        cardsPerRow: 3,
+        customTheme: {
+          borderColor: "#e2e8f0",
+          cardBgColor: "#ffffff",
+          cardHoverBgColor: "#f8fafc",
+          headerBorderColor: "#e2e8f0",
+          headerBgColor: "transparent",
+          headerTextColor: "#374151",
+          cardTextColor: "#475569",
+          cardBorderRadius: "12px",
+          cardShadow: "0 2px 8px rgba(0, 0, 0, 0.06)"
+        }
+      },
+      board: {
+        showColumnBorders: true,
+        cardSpacing: "12px",
+        customTheme: {
+          borderColor: "#e2e8f0",
+          columnBgColor: "#ffffff",
+          columnHoverBgColor: "#f8fafc",
+          headerBgColor: "transparent",
+          headerTextColor: "#374151",
+          cardBgColor: "#ffffff",
+          cardTextColor: "#475569",
+          cardBorderColor: "#e2e8f0",
+          cardBorderRadius: "8px"
+        }
+      }
+    };
+    const [expandedViews, setExpandedViews] = reactExports.useState(/* @__PURE__ */ new Set(["table", "gallery", "board"]));
+    const toggleViewExpansion = (viewType) => {
+      const newExpanded = new Set(expandedViews);
+      if (newExpanded.has(viewType)) {
+        newExpanded.delete(viewType);
+      } else {
+        newExpanded.add(viewType);
+      }
+      setExpandedViews(newExpanded);
+    };
+    const handleSettingChange = (key, value) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          blockView: {
+            ...blockViewSettings,
+            [key]: value
+          }
+        };
+      });
+    };
+    const handleViewSettingChange = (viewType, key, value) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          blockView: {
+            ...blockViewSettings,
+            [viewType]: {
+              ...blockViewSettings[viewType],
+              [key]: value
+            }
+          }
+        };
+      });
+    };
+    const handleCustomThemeChange = (viewType, key, value) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          blockView: {
+            ...blockViewSettings,
+            [viewType]: {
+              ...blockViewSettings[viewType],
+              customTheme: {
+                ...blockViewSettings[viewType].customTheme,
+                [key]: value
+              }
+            }
+          }
+        };
+      });
+    };
+    const viewOptions = [
+      { value: "list", label: t("settings.blockView.viewList", language) },
+      { value: "table", label: t("settings.blockView.viewTable", language) },
+      { value: "gallery", label: t("settings.blockView.viewGallery", language) },
+      { value: "board", label: t("settings.blockView.viewBoard", language) }
+    ];
+    const themeOptions = [
+      { value: "default", label: t("settings.blockView.themeDefault", language) },
+      { value: "notion", label: t("settings.blockView.themeNotion", language) },
+      { value: "linear", label: t("settings.blockView.themeLinear", language) },
+      { value: "dark", label: t("settings.blockView.themeDark", language) },
+      { value: "gradient", label: t("settings.blockView.themeGradient", language) },
+      { value: "tana", label: t("settings.blockView.themeTana", language) },
+      { value: "custom", label: t("settings.blockView.themeCustom", language) }
+    ];
+    const ColorInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", style: { flexDirection: "column", alignItems: "flex-start" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "4px", alignItems: "center", width: "80%" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "color",
+            value,
+            onChange: (e) => onChange(e.target.value),
+            className: "ltt-color-input",
+            style: { width: "36px", height: "28px", padding: 0 }
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value,
+            onChange: (e) => onChange(e.target.value),
+            style: { flex: 1, width: "26px" }
+          }
+        )
+      ] })
+    ] });
+    const TextInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "text",
+          value,
+          onChange: (e) => onChange(e.target.value)
+        }
+      )
+    ] });
+    const NumberInput = ({ label, value, onChange }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "number",
+          value,
+          onChange: (e) => onChange(parseInt(e.target.value)),
+          style: { width: "80%" }
+        }
+      )
+    ] });
+    const renderViewSection = (viewType, titleKey, customFields) => {
+      const isExpanded = expandedViews.has(viewType);
+      const viewConfig = blockViewSettings?.[viewType] || {};
+      const customThemeConfig = viewConfig?.customTheme || {};
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "16px", border: "1px solid var(--ls-border-color, #e5e7eb)", borderRadius: "8px", overflow: "hidden" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            style: {
+              padding: "12px 16px",
+              backgroundColor: "var(--ls-secondary-background, #f5f5f5)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              cursor: "pointer"
+            },
+            onClick: () => toggleViewExpansion(viewType),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: 0, display: "flex", alignItems: "center", gap: "8px", fontSize: "14px" }, children: t(`settings.blockView.${viewType}.title`, language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "18px", transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s" }, children: "▶" })
+            ]
+          }
+        ),
+        isExpanded && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "16px" }, children: [
+          viewType === "table" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.table.showStriped", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showStriped,
+                    onChange: (e) => handleViewSettingChange(viewType, "showStriped", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.table.showBorder", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showBorder,
+                    onChange: (e) => handleViewSettingChange(viewType, "showBorder", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] })
+          ] }),
+          viewType === "gallery" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.gallery.showCardBorders", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showCardBorders,
+                    onChange: (e) => handleViewSettingChange(viewType, "showCardBorders", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              NumberInput,
+              {
+                label: t("settings.blockView.gallery.cardsPerRow", language),
+                value: viewConfig.cardsPerRow,
+                onChange: (val) => handleViewSettingChange(viewType, "cardsPerRow", val)
+              }
+            )
+          ] }),
+          viewType === "board" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.board.showColumnBorders", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "checkbox",
+                    checked: viewConfig.showColumnBorders,
+                    onChange: (e) => handleViewSettingChange(viewType, "showColumnBorders", e.target.checked)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextInput,
+              {
+                label: t("settings.blockView.board.cardSpacing", language),
+                value: viewConfig.cardSpacing,
+                onChange: (val) => handleViewSettingChange(viewType, "cardSpacing", val)
+              }
+            )
+          ] }),
+          blockViewSettings.defaultTheme === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item-group", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { style: { margin: "0 0 16px 0", fontSize: "13px", fontWeight: 600, color: "var(--ls-primary-text-color-plugin, #333)" }, children: t(`settings.blockView.${viewType}.customTheme.title`, language) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }, children: customFields.map((field) => field.type === "color" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ColorInput,
+              {
+                label: t(`settings.blockView.${viewType}.customTheme.${field.key}`, language),
+                value: customThemeConfig[field.key] || field.defaultValue,
+                onChange: (val) => handleCustomThemeChange(viewType, field.key, val)
+              },
+              field.key
+            ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextInput,
+              {
+                label: t(`settings.blockView.${viewType}.customTheme.${field.key}`, language),
+                value: customThemeConfig[field.key] || field.defaultValue,
+                onChange: (val) => handleCustomThemeChange(viewType, field.key, val)
+              },
+              field.key
+            )) })
+          ] })
+        ] })
+      ] });
+    };
+    const tableCustomFields = [
+      { key: "borderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "headerBgColor", type: "color", defaultValue: "#f8fafc" },
+      { key: "headerTextColor", type: "color", defaultValue: "#374151" },
+      { key: "cellTextColor", type: "color", defaultValue: "#475569" },
+      { key: "headerBorderColor", type: "color", defaultValue: "#cbd5e1" },
+      { key: "rowBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "rowHoverBgColor", type: "color", defaultValue: "#f1f5f9" },
+      { key: "rowBorderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "headerHeight", type: "text", defaultValue: "40px" },
+      { key: "cellPadding", type: "text", defaultValue: "8px 12px" },
+      { key: "tableBorderRadius", type: "text", defaultValue: "8px" }
+    ];
+    const galleryCustomFields = [
+      { key: "borderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "cardBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "cardTextColor", type: "color", defaultValue: "#475569" },
+      { key: "cardHoverBgColor", type: "color", defaultValue: "#f8fafc" },
+      { key: "headerBorderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "headerBgColor", type: "color", defaultValue: "transparent" },
+      { key: "headerTextColor", type: "color", defaultValue: "#374151" },
+      { key: "cardBorderRadius", type: "text", defaultValue: "12px" },
+      { key: "cardShadow", type: "text", defaultValue: "0 2px 8px rgba(0, 0, 0, 0.06)" }
+    ];
+    const boardCustomFields = [
+      { key: "borderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "columnBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "columnHoverBgColor", type: "color", defaultValue: "#f8fafc" },
+      { key: "headerBgColor", type: "color", defaultValue: "transparent" },
+      { key: "headerTextColor", type: "color", defaultValue: "#374151" },
+      { key: "cardBgColor", type: "color", defaultValue: "#ffffff" },
+      { key: "cardTextColor", type: "color", defaultValue: "#475569" },
+      { key: "cardBorderColor", type: "color", defaultValue: "#e2e8f0" },
+      { key: "cardBorderRadius", type: "text", defaultValue: "8px" }
+    ];
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.blockView.description", language) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.enabled", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: blockViewSettings.enabled,
+              onChange: (e) => handleSettingChange("enabled", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.defaultView", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: viewOptions,
+            value: blockViewSettings.defaultView,
+            onChange: (value) => handleSettingChange("defaultView", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.defaultTheme", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: themeOptions,
+            value: blockViewSettings.defaultTheme,
+            onChange: (value) => handleSettingChange("defaultTheme", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.blockView.hideViewBar", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: blockViewSettings.hideViewBar,
+              onChange: (e) => handleSettingChange("hideViewBar", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { margin: "16px 0", fontSize: "12px", color: "var(--ls-secondary-text-color-plugin, #999)", lineHeight: 1.4 }, children: t("settings.blockView.hideViewBarDescription", language) }),
+      renderViewSection("table", "table.title", tableCustomFields),
+      renderViewSection("gallery", "gallery.title", galleryCustomFields),
+      renderViewSection("board", "board.title", boardCustomFields),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          className: "ltt-settings-btn ltt-settings-btn-save",
+          onClick: onSave,
+          disabled: isSaving,
+          children: isSaving ? t("settings.saving", language) : t("settings.saveBlockViewSettings", language)
+        }
+      ) })
+    ] });
+  }
+
+  function SummarySettings({ settings, setSettings, onSave, isSaving, language }) {
+    const summarySettings = settings.summary || {
+      enabled: true,
+      defaultTemplate: "gtd-work-review",
+      defaultType: "weekly",
+      dateFormat: "yyyy-MM-dd EEE",
+      pageNameTemplate: "{{type}}-总结-{{date}}",
+      ai: {
+        enabled: false,
+        provider: "openai",
+        apiKey: "",
+        apiUrl: "",
+        model: "gpt-3.5-turbo",
+        promptTemplate: ""
+      }
+    };
+    const templates = getAllTemplates();
+    const handleSettingChange = (key, value) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          summary: {
+            ...summarySettings,
+            [key]: value
+          }
+        };
+      });
+    };
+    const handleAiSettingChange = (key, value) => {
+      handleSettingChange("ai", {
+        ...summarySettings.ai,
+        [key]: value
+      });
+    };
+    const templateOptions = templates.map((template) => ({
+      value: template.id,
+      label: t(`settings.summary.template${template.id.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join("")}`, language) || template.name
+    }));
+    const typeOptions = [
+      { value: "weekly", label: t("settings.summary.typeWeekly", language) },
+      { value: "monthly", label: t("settings.summary.typeMonthly", language) },
+      { value: "yearly", label: t("settings.summary.typeYearly", language) },
+      { value: "custom", label: t("settings.summary.typeCustom", language) }
+    ];
+    const providerOptions = [
+      { value: "openai", label: t("settings.summary.aiProviderOpenAI", language) },
+      { value: "claude", label: t("settings.summary.aiProviderClaude", language) },
+      { value: "custom", label: t("settings.summary.aiProviderCustom", language) }
+    ];
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.summary.description", language) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.enabled", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: summarySettings.enabled,
+              onChange: (e) => handleSettingChange("enabled", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.defaultTemplate", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: templateOptions,
+            value: summarySettings.defaultTemplate,
+            onChange: (value) => handleSettingChange("defaultTemplate", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.defaultType", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: typeOptions,
+            value: summarySettings.defaultType,
+            onChange: (value) => handleSettingChange("defaultType", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.dateFormat", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: summarySettings.dateFormat,
+            onChange: (e) => handleSettingChange("dateFormat", e.target.value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.pageNameTemplate", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: summarySettings.pageNameTemplate,
+            onChange: (e) => handleSettingChange("pageNameTemplate", e.target.value),
+            placeholder: "{{type}}-总结-{{date}}"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-section-title", style: { marginTop: "24px", marginBottom: "12px", fontWeight: 600, fontSize: "14px" }, children: t("settings.summary.aiSettings", language) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.aiEnabled", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: summarySettings.ai.enabled,
+              onChange: (e) => handleAiSettingChange("enabled", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      summarySettings.ai.enabled && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.aiProvider", language) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            CustomSelect,
+            {
+              options: providerOptions,
+              value: summarySettings.ai.provider,
+              onChange: (value) => handleAiSettingChange("provider", value)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.aiApiKey", language) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "password",
+              value: summarySettings.ai.apiKey,
+              onChange: (e) => handleAiSettingChange("apiKey", e.target.value),
+              placeholder: "sk-..."
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.aiApiUrl", language) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "text",
+              value: summarySettings.ai.apiUrl || "",
+              onChange: (e) => handleAiSettingChange("apiUrl", e.target.value),
+              placeholder: "https://api.openai.com/v1"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.aiModel", language) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "text",
+              value: summarySettings.ai.model || "",
+              onChange: (e) => handleAiSettingChange("model", e.target.value),
+              placeholder: "gpt-3.5-turbo"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.summary.aiPromptTemplate", language) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "textarea",
+            {
+              value: summarySettings.ai.promptTemplate || "",
+              onChange: (e) => handleAiSettingChange("promptTemplate", e.target.value),
+              placeholder: "请根据以下内容生成一个总结...",
+              style: { width: "100%", minHeight: "80px" }
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          className: "ltt-settings-btn ltt-settings-btn-save",
+          onClick: onSave,
+          disabled: isSaving,
+          children: isSaving ? t("settings.saving", language) : t("settings.saveSummarySettings", language)
+        }
+      ) })
+    ] });
+  }
+
   function SettingsModal({ isOpen, onClose, theme }) {
     const {
       settings: loadedSettings,
@@ -21155,20 +24566,25 @@ ${where}
     }
     const language = settings.language || "zh-CN";
     const tabs = [
-      { id: "general", component: GeneralSettings, label: t("settings.tabs.general", language) },
-      { id: "toolbar", component: ToolbarSettings, label: t("settings.tabs.toolbar", language) },
-      { id: "task-progress", component: TaskProgressSettings, label: t("settings.tabs.taskProgress", language) },
-      { id: "heatmap", component: HeatmapSettings, label: t("settings.tabs.heatmap", language) },
-      { id: "advanced", component: AdvancedSettings, label: t("settings.tabs.advanced", language) }
+      { id: "general", component: GeneralSettings, label: t("settings.tabs.general", language), icon: "" },
+      { id: "toolbar", component: ToolbarSettings, label: t("settings.tabs.toolbar", language), icon: "" },
+      { id: "task-progress", component: TaskProgressSettings, label: t("settings.tabs.taskProgress", language), icon: "" },
+      { id: "heatmap", component: HeatmapSettings, label: t("settings.tabs.heatmap", language), icon: "" },
+      { id: "block-view", component: BlockViewSettings, label: t("settings.tabs.blockView", language), icon: "" },
+      { id: "summary", component: SummarySettings, label: t("settings.tabs.summary", language), icon: "" },
+      { id: "advanced", component: AdvancedSettings, label: t("settings.tabs.advanced", language), icon: "" }
     ];
     const TabComponent = tabs.find((tab) => tab.id === activeTab)?.component;
     return /* @__PURE__ */ jsxRuntimeExports.jsx(Modal, { isOpen, onClose, title: t("settings.title", language), theme, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-container", "data-theme": theme, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-tabs", children: tabs.map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-tabs", children: tabs.map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "button",
         {
           className: `ltt-settings-tab ${activeTab === tab.id ? "active" : ""}`,
           onClick: () => setActiveTab(tab.id),
-          children: tab.label
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { marginRight: "4px" }, children: tab.icon }),
+            tab.label
+          ]
         },
         tab.id
       )) }) }),
@@ -21289,294 +24705,402 @@ ${where}
     loggerProxy.info("✅ TaskProgress: Registered successfully");
   }
 
-  const MACRO_PREFIX = ":heatmap";
-  const MACRO_PREFIX_CN = ":热力图";
-  const PLUGIN_ID = "text-toolkit-heatmap";
-  let HeatmapComponent = null;
-  function setHeatmapComponent(component) {
-    HeatmapComponent = component;
-  }
+  const MACRO_PREFIX = ":blockview";
+  const PLUGIN_ID = "text-toolkit-blockview";
   registerRendererArgModel(MACRO_PREFIX, { positional: ["view"] });
-  registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
-  function parseMacroArguments(tokens, argMap) {
-    let viewType;
-    let queryType = "tag";
-    let queryValue = "";
-    let propertyKey = "";
-    let displayMode;
-    let colorFormula;
-    let referenceYear;
-    let referenceMonth;
-    let referenceWeek;
-    let containerWidth;
-    let enableMonthPageCreation;
-    let monthPageTemplate;
-    let monthPageLogseqTemplate;
-    let enableWeekPageCreation;
-    let weekPageTemplate;
-    let weekPageLogseqTemplate;
-    const applyViewType = (raw) => {
-      const v = VIEW_TYPE_MAP[raw.trim()] || VIEW_TYPE_MAP[raw.trim().toLowerCase()];
-      if (v) viewType = v;
-    };
-    const applyDisplayMode = (raw) => {
-      const v = DISPLAY_MODE_MAP[raw.trim()] || DISPLAY_MODE_MAP[raw.trim().toLowerCase()];
-      if (v) displayMode = v;
-    };
-    const applyColorFormula = (raw) => {
-      const v = COLOR_FORMULA_MAP[raw.trim()] || COLOR_FORMULA_MAP[raw.trim().toLowerCase()];
-      if (v) colorFormula = v;
-    };
-    const tryInt = (raw) => {
-      const n = parseInt(raw, 10);
-      return Number.isFinite(n) ? n : void 0;
-    };
-    const directView = argMap.viewType || argMap.view;
-    if (directView) applyViewType(directView);
-    const directDisplay = argMap.displayMode || argMap.display;
-    if (directDisplay) applyDisplayMode(directDisplay);
-    const directFormula = argMap.colorFormula || argMap.formula;
-    if (directFormula) applyColorFormula(directFormula);
-    if (argMap.tag) {
-      queryType = "tag";
-      queryValue = argMap.tag;
-    } else if (argMap.page) {
-      queryType = "page";
-      queryValue = argMap.page;
-    } else if (argMap.property) {
-      queryType = "property";
-      const [k, v] = argMap.property.split("::");
-      propertyKey = (k || "").trim();
-      queryValue = (v || "").trim();
+  const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
+  async function applyViewStyle(blockId, viewType, themeType) {
+    const doc = getDocument();
+    const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
+    if (!blockElement) {
+      loggerProxy.warn("[BlockView] Block element not found", { blockId });
+      return;
     }
-    if (argMap.year) referenceYear = tryInt(argMap.year);
-    if (argMap.month) referenceMonth = tryInt(argMap.month);
-    if (argMap.week) referenceWeek = tryInt(argMap.week);
-    if (argMap.width) containerWidth = argMap.width;
-    if (argMap.containerWidth) containerWidth = argMap.containerWidth;
-    if (argMap.enableMonthPage) enableMonthPageCreation = argMap.enableMonthPage === "true";
-    if (argMap.monthPageTemplate) monthPageTemplate = argMap.monthPageTemplate;
-    if (argMap.monthPageLogseqTemplate) monthPageLogseqTemplate = argMap.monthPageLogseqTemplate;
-    if (argMap.enableWeekPage) enableWeekPageCreation = argMap.enableWeekPage === "true";
-    if (argMap.weekPageTemplate) weekPageTemplate = argMap.weekPageTemplate;
-    if (argMap.weekPageLogseqTemplate) weekPageLogseqTemplate = argMap.weekPageLogseqTemplate;
-    for (const token of tokens) {
-      const t = token.trim();
-      if (!t) continue;
-      if (t.includes("=")) continue;
-      if (VIEW_TYPE_MAP[t] || VIEW_TYPE_MAP[t.toLowerCase()]) {
-        applyViewType(t);
-        continue;
-      }
-      if (DISPLAY_MODE_MAP[t] || DISPLAY_MODE_MAP[t.toLowerCase()]) {
-        applyDisplayMode(t);
-        continue;
-      }
-      if (COLOR_FORMULA_MAP[t] || COLOR_FORMULA_MAP[t.toLowerCase()]) {
-        applyColorFormula(t);
-        continue;
-      }
-      if (t.startsWith("tag=")) {
-        queryType = "tag";
-        queryValue = t.slice(4);
-        continue;
-      }
-      if (t.startsWith("page=")) {
-        queryType = "page";
-        queryValue = t.slice(5);
-        continue;
-      }
-      if (t.startsWith("property=")) {
-        queryType = "property";
-        const propertyStr = t.slice(9);
-        const [k, v] = propertyStr.split("::");
-        propertyKey = (k || "").trim();
-        queryValue = (v || "").trim();
-        continue;
-      }
-      if (t.startsWith("year=")) referenceYear = tryInt(t.slice(5));
-      if (t.startsWith("month=")) referenceMonth = tryInt(t.slice(6));
-      if (t.startsWith("week=")) referenceWeek = tryInt(t.slice(5));
-      if (t.startsWith("width=")) containerWidth = t.slice(6);
-      if (t.startsWith("enableMonthPage=")) enableMonthPageCreation = t.slice(15) === "true";
-      if (t.startsWith("monthPageTemplate=")) monthPageTemplate = t.slice(18);
-      if (t.startsWith("monthPageLogseqTemplate=")) monthPageLogseqTemplate = t.slice(23);
-      if (t.startsWith("enableWeekPage=")) enableWeekPageCreation = t.slice(14) === "true";
-      if (t.startsWith("weekPageTemplate=")) weekPageTemplate = t.slice(16);
-      if (t.startsWith("weekPageLogseqTemplate=")) weekPageLogseqTemplate = t.slice(21);
+    const VIEW_CLASSES = [
+      "ltt-list-root",
+      "ltt-table-root",
+      "ltt-gallery-root",
+      "ltt-board-root"
+    ];
+    const THEME_CLASSES = [
+      "theme-default",
+      "theme-notion",
+      "theme-linear",
+      "theme-dark",
+      "theme-gradient",
+      "theme-tana",
+      "theme-custom"
+    ];
+    blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
+    const newViewClass = `ltt-${viewType}-root`;
+    if (!blockElement.classList.contains(newViewClass)) {
+      blockElement.classList.add(newViewClass);
     }
-    return {
-      viewType,
-      queryType,
-      queryValue,
-      propertyKey,
-      displayMode,
-      colorFormula,
-      referenceYear,
-      referenceMonth,
-      referenceWeek,
-      containerWidth,
-      enableMonthPageCreation,
-      monthPageTemplate,
-      monthPageLogseqTemplate,
-      enableWeekPageCreation,
-      weekPageTemplate,
-      weekPageLogseqTemplate
-    };
-  }
-  function getDateOfWeek(week, year) {
-    const d = new Date(year, 0, 1);
-    d.getDay();
-    const diff = d.getTimezoneOffset() * 6e4;
-    const oneWeek = 6048e5;
-    return new Date(d.getTime() - diff + (week - 1) * oneWeek);
-  }
-  async function renderHeatmap(slot, type, tokens, blockUuid) {
-    try {
-      const argMap = parseRendererArgs(type, tokens);
-      const {
-        viewType,
-        queryType,
-        queryValue,
-        propertyKey,
-        displayMode,
-        colorFormula,
-        referenceYear,
-        referenceMonth,
-        referenceWeek,
-        containerWidth,
-        enableMonthPageCreation,
-        monthPageTemplate,
-        monthPageLogseqTemplate,
-        enableWeekPageCreation,
-        weekPageTemplate,
-        weekPageLogseqTemplate
-      } = parseMacroArguments(tokens, argMap);
+    const newThemeClass = `theme-${themeType}`;
+    if (!blockElement.classList.contains(newThemeClass)) {
+      blockElement.classList.add(newThemeClass);
+    }
+    if (themeType === "custom") {
       const settings = await getSettingsWithSystem();
-      const now = /* @__PURE__ */ new Date();
-      let referenceDate;
-      if (viewType === "week" && referenceWeek) {
-        const weekStart = getDateOfWeek(referenceWeek, referenceYear || now.getFullYear());
-        referenceDate = weekStart;
-      } else {
-        referenceDate = new Date(
-          referenceYear || now.getFullYear(),
-          referenceMonth !== void 0 ? referenceMonth - 1 : now.getMonth(),
-          1
-        );
-      }
-      const resolvedTheme = settings?.theme === "dark" ? "dark" : "light";
-      const heatmapConfig = {
-        viewType: viewType || settings?.heatmap?.defaultViewType || "year",
-        displayMode: displayMode || settings?.heatmap?.defaultDisplayMode || "full",
-        colorFormula: colorFormula || settings?.heatmap?.defaultColorFormula || "simple",
-        colorScheme: {
-          name: "indigo",
-          colors: generateIndigoGradient(
-            settings?.heatmap?.colorScheme?.minColor || "#eef2ff",
-            settings?.heatmap?.colorScheme?.maxColor || "#3730a3",
-            settings?.heatmap?.colorScheme?.gradientSteps || 5
-          )
-        },
-        minColor: settings?.heatmap?.colorScheme?.minColor || "#eef2ff",
-        maxColor: settings?.heatmap?.colorScheme?.maxColor || "#3730a3",
-        language: settings?.language || "en",
-        referenceDate,
-        containerWidth,
-        // Merge settings with macro parameters - macro takes precedence
-        enableMonthPageCreation: enableMonthPageCreation ?? settings?.heatmap?.monthPageCreation?.enabled ?? false,
-        monthPageTemplate: monthPageTemplate || settings?.heatmap?.monthPageCreation?.pageNameTemplate || "",
-        monthPageLogseqTemplate: monthPageLogseqTemplate || settings?.heatmap?.monthPageCreation?.logseqTemplate || "",
-        enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.weekPageCreation?.enabled ?? false,
-        weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageCreation?.pageNameTemplate || "",
-        weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || "",
-        dateFormat: settings?.dateFormat || ""
-      };
-      loggerProxy.debug("🌡️ Heatmap: Configuration resolved", {
-        displayMode,
-        defaultDisplayMode: settings?.heatmap?.defaultDisplayMode,
-        colorFormula,
-        defaultColorFormula: settings?.heatmap?.defaultColorFormula,
-        languageSetting: settings?.language,
-        containerWidth
-      });
-      loggerProxy.debug("🌡️ Heatmap: Rendering heatmap", {
-        queryType,
-        queryValue,
-        propertyKey,
-        viewType,
-        colorFormula,
-        referenceDate,
-        enableMonthPageCreation,
-        enableWeekPageCreation
-      });
-      const heatmapData = await fetchHeatmapData({
-        type: queryType,
-        value: queryValue,
-        propertyKey,
-        year: referenceYear,
-        month: referenceMonth,
-        week: referenceWeek
-      }, viewType, colorFormula);
-      loggerProxy.debug("🌡️ Heatmap: Data loaded", {
-        dataPoints: heatmapData.length,
-        totalCount: heatmapData.reduce((sum, d) => sum + d.count, 0),
-        firstDate: heatmapData[0]?.date,
-        lastDate: heatmapData[heatmapData.length - 1]?.date
-      });
-      if (!HeatmapComponent) {
-        loggerProxy.warn("⚠️ Heatmap: Component not registered");
-        return false;
-      }
-      const containerId = PLUGIN_ID + "__" + slot;
-      loggerProxy.debug("🌡️ Heatmap: Container created", { containerId });
-      logseqAPI$1.provideUI({
-        key: containerId,
-        slot,
-        reset: true,
-        template: `<div id="${containerId}"></div>`
-      });
-      setTimeout(() => {
-        const container = getDocument().getElementById(containerId);
-        if (container) {
-          loggerProxy.debug("🌡️ Heatmap: Rendering component", { containerId });
-          renderComponent(container, HeatmapComponent, {
-            config: heatmapConfig,
-            data: heatmapData,
-            theme: resolvedTheme,
-            onBlockId: blockUuid
-          });
-        } else {
-          loggerProxy.warn("🌡️ Heatmap: Container not found", { containerId });
+      const viewSettings = settings?.blockView?.[viewType];
+      const customTheme = viewSettings?.customTheme;
+      if (customTheme) {
+        blockElement.setAttribute("data-custom-theme", "true");
+        const cssVariables = [];
+        if (viewType === "table") {
+          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "#f8fafc"}`);
+          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+          cssVariables.push(`--custom-cell-text: ${customTheme.cellTextColor || "#475569"}`);
+          cssVariables.push(`--custom-header-border: ${customTheme.headerBorderColor || "#cbd5e1"}`);
+          cssVariables.push(`--custom-row-bg: ${customTheme.rowBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-row-hover: ${customTheme.rowHoverBgColor || "#f1f5f9"}`);
+          cssVariables.push(`--custom-radius: ${customTheme.tableBorderRadius || "8px"}`);
+          cssVariables.push(`--custom-header-height: ${customTheme.headerHeight || "48px"}`);
+          cssVariables.push(`--custom-cell-padding: ${customTheme.cellPadding || "12px 16px"}`);
+        } else if (viewType === "gallery") {
+          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-card-hover: ${customTheme.cardHoverBgColor || "#f8fafc"}`);
+          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
+          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+          cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
+          cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "12px"}`);
+          cssVariables.push(`--custom-card-shadow: ${customTheme.cardShadow || "0 2px 8px rgba(0, 0, 0, 0.06)"}`);
+        } else if (viewType === "board") {
+          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-column-bg: ${customTheme.columnBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-column-hover: ${customTheme.columnHoverBgColor || "#f8fafc"}`);
+          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
+          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+          cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
+          cssVariables.push(`--custom-card-border: ${customTheme.cardBorderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "8px"}`);
         }
-      }, 1);
-      return true;
+        blockElement.style.cssText += cssVariables.join("; ") + ";";
+      }
+    } else {
+      blockElement.setAttribute("data-custom-theme", "false");
+      const cssVars = [
+        "--custom-border-color",
+        "--custom-header-bg",
+        "--custom-header-text",
+        "--custom-cell-text",
+        "--custom-header-border",
+        "--custom-row-bg",
+        "--custom-row-hover",
+        "--custom-radius",
+        "--custom-header-height",
+        "--custom-cell-padding",
+        "--custom-card-bg",
+        "--custom-card-hover",
+        "--custom-card-text",
+        "--custom-card-radius",
+        "--custom-card-shadow",
+        "--custom-column-bg",
+        "--custom-column-hover",
+        "--custom-card-border"
+      ];
+      cssVars.forEach((v) => blockElement.style.removeProperty(v));
+    }
+    loggerProxy.debug("[BlockView] View & theme applied", { blockId, viewType, themeType });
+  }
+  function getCurrentViewFromParams(tokens, defaultView) {
+    const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+    if (argMap.view && VIEW_REGISTRY[argMap.view]) {
+      return argMap.view;
+    }
+    for (const token of tokens) {
+      const t = token.trim().toLowerCase();
+      if (t && VIEW_REGISTRY[t]) {
+        return t;
+      }
+    }
+    return defaultView;
+  }
+  function getCurrentThemeFromParams(tokens, defaultTheme) {
+    const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+    if (argMap.theme && ["default", "notion", "linear", "dark", "gradient", "tana", "custom"].includes(argMap.theme)) {
+      return argMap.theme;
+    }
+    return defaultTheme;
+  }
+  async function switchView(blockId, viewType, themeType) {
+    await applyViewStyle(blockId, viewType, themeType);
+    try {
+      const currentBlock = await logseqAPI$1.Editor.getBlock(blockId);
+      if (currentBlock?.content) {
+        const updatedContent = updateBlockViewArgs(currentBlock.content, { view: viewType });
+        if (updatedContent !== currentBlock.content) {
+          await logseqAPI$1.Editor.updateBlock(blockId, updatedContent);
+          loggerProxy.debug("[BlockView] Macro parameter updated", { blockId, viewType });
+        }
+      }
     } catch (err) {
-      loggerProxy.error("❌ Heatmap: Render error", err);
-      return false;
+      loggerProxy.error("[BlockView] Failed to update macro parameter", err);
     }
   }
-  function registerHeatmap() {
+  function bindViewEvents(container, blockId, themeType) {
+    const buttons = container.querySelectorAll(".ltt-view-btn");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const viewType = btn.getAttribute("data-view");
+        if (!viewType) return;
+        buttons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        await switchView(blockId, viewType, themeType);
+      });
+    });
+  }
+  async function renderViewBar(blockId, slot, tokens) {
+    const doc = getDocument();
+    const containerId = `${PLUGIN_ID}__${slot}`;
+    const settings = await getSettingsWithSystem();
+    const blockViewSettings = settings?.blockView || {
+      defaultView: "list",
+      defaultTheme: "default",
+      hideViewBar: false
+    };
+    const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
+    const currentTheme = getCurrentThemeFromParams(tokens, blockViewSettings.defaultTheme);
+    if (blockViewSettings.hideViewBar) {
+      await applyViewStyle(blockId, currentView, currentTheme);
+      return;
+    }
+    const viewBarHtml = `
+    <div class="ltt-view-bar" data-block-id="${blockId}">
+      ${Object.values(VIEW_REGISTRY).map((view) => `
+        <button 
+          class="ltt-view-btn ${view.id === currentView ? "active" : ""}"
+          data-view="${view.id}"
+          title="${view.name}"
+        >
+          ${view.icon}
+          <span>${view.name}</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+    logseqAPI$1.provideUI({
+      key: containerId,
+      slot,
+      reset: true,
+      template: `<div id="${containerId}">${viewBarHtml}</div>`
+    });
+    await applyViewStyle(blockId, currentView, currentTheme);
+    setTimeout(() => {
+      const container = doc.getElementById(containerId);
+      if (container) {
+        bindViewEvents(container, blockId, currentTheme);
+      }
+    }, 1);
+  }
+  function registerBlockView() {
     logseqAPI$1.App.onMacroRendererSlotted(async ({ payload, slot }) => {
       const split = splitRendererArgs(payload.arguments);
       const type = split?.type || "";
       const tokens = split?.tokens || [];
-      const blockUuid = payload.uuid;
-      if (!type || !type.startsWith(MACRO_PREFIX) && !type.startsWith(MACRO_PREFIX_CN)) {
-        return;
-      }
-      loggerProxy.debug("🌡️ Heatmap: Macro detected", { type, blockUuid });
-      await renderHeatmap(slot, type, tokens, blockUuid);
+      if (!type.startsWith(MACRO_PREFIX)) return;
+      const blockId = payload.uuid;
+      loggerProxy.debug("[BlockView] Macro triggered", { blockId, type, tokens });
+      await renderViewBar(blockId, slot, tokens);
     });
     logseqAPI$1.Editor.registerSlashCommand(
-      "[Text Toolkit] Insert Heatmap",
+      "[Text Toolkit] Insert Block View",
       async () => {
         await logseqAPI$1.Editor.insertAtEditingCursor(
-          `{{renderer ${MACRO_PREFIX}, view=year, tag=work}}`
+          `{{renderer ${MACRO_PREFIX}}}`
         );
       }
     );
-    loggerProxy.info("✅ Heatmap: Registered successfully");
+    loggerProxy.info("[BlockView] Registered successfully");
+  }
+
+  const summaryTypes = [
+    { value: "weekly", labelKey: "settings.summary.typeWeekly" },
+    { value: "monthly", labelKey: "settings.summary.typeMonthly" },
+    { value: "yearly", labelKey: "settings.summary.typeYearly" },
+    { value: "custom", labelKey: "settings.summary.typeCustom" }
+  ];
+  const SummaryModal = ({ isOpen, onClose, theme = "light" }) => {
+    const { settings } = useSettingsContext();
+    const [summaryType, setSummaryType] = reactExports.useState("weekly");
+    const [templateType, setTemplateType] = reactExports.useState("gtd-work-review");
+    const [customStart, setCustomStart] = reactExports.useState("");
+    const [customEnd, setCustomEnd] = reactExports.useState("");
+    const [isGenerating, setIsGenerating] = reactExports.useState(false);
+    const templates = getAllTemplates();
+    reactExports.useEffect(() => {
+      if (isOpen && settings?.summary) {
+        setSummaryType(settings.summary.defaultType || "weekly");
+        setTemplateType(settings.summary.defaultTemplate || "gtd-work-review");
+      }
+    }, [isOpen, settings]);
+    const handleGenerate = async () => {
+      setIsGenerating(true);
+      let startDate;
+      let endDate;
+      if (summaryType === "custom") {
+        startDate = customStart ? new Date(customStart) : void 0;
+        endDate = customEnd ? new Date(customEnd) : void 0;
+      }
+      await generateSummary(templateType, summaryType, startDate, endDate);
+      setIsGenerating(false);
+      onClose();
+    };
+    const handleClose = () => {
+      setSummaryType("weekly");
+      setTemplateType("gtd-work-review");
+      setCustomStart("");
+      setCustomEnd("");
+      onClose();
+    };
+    const typeOptions = summaryTypes.map((item) => ({
+      value: item.value,
+      label: t(item.labelKey)
+    }));
+    const templateOptions = templates.map((template) => ({
+      value: template.id,
+      label: `${template.name}`
+    }));
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Modal,
+      {
+        title: "📊 生成总结",
+        isOpen,
+        onClose: handleClose,
+        width: "420px",
+        theme,
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "summary-modal-container", "data-theme": theme, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-content", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-section", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "summary-label", children: t("settings.summary.defaultType") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              CustomSelect,
+              {
+                options: typeOptions,
+                value: summaryType,
+                onChange: (value) => setSummaryType(value)
+              }
+            )
+          ] }),
+          summaryType === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-section custom-dates", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-date-field", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "summary-label summary-label-small", children: t("settings.summary.startDate") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  type: "date",
+                  className: "summary-input",
+                  value: customStart,
+                  onChange: (e) => setCustomStart(e.target.value)
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-date-field", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "summary-label summary-label-small", children: t("settings.summary.endDate") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  type: "date",
+                  className: "summary-input",
+                  value: customEnd,
+                  onChange: (e) => setCustomEnd(e.target.value)
+                }
+              )
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-section", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "summary-label", children: t("settings.summary.defaultTemplate") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              CustomSelect,
+              {
+                options: templateOptions,
+                value: templateType,
+                onChange: (value) => setTemplateType(value)
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "summary-actions", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                type: "button",
+                className: "summary-btn summary-btn-cancel",
+                onClick: handleClose,
+                children: t("settings.cancel")
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                type: "button",
+                className: "summary-btn summary-btn-primary",
+                onClick: handleGenerate,
+                disabled: isGenerating,
+                children: isGenerating ? t("settings.saving") : "生成总结"
+              }
+            )
+          ] })
+        ] }) })
+      }
+    );
+  };
+
+  const ID$1 = {
+    SUMMARY_MODAL: "text-toolkit-summary-modal"
+  };
+  let summaryModalOpen = false;
+  function renderSummaryModal() {
+    const container = getDocument().getElementById(ID$1.SUMMARY_MODAL);
+    if (!container) return;
+    renderComponent(container, SummaryModal, {
+      isOpen: summaryModalOpen,
+      onClose: () => {
+        summaryModalOpen = false;
+        renderSummaryModal();
+      }
+    });
+  }
+  async function initSummaryModal() {
+    logseqAPI$1.provideUI({
+      key: ID$1.SUMMARY_MODAL,
+      path: "#app-container",
+      template: `<div id="${ID$1.SUMMARY_MODAL}"></div>`
+    });
+    setTimeout(renderSummaryModal, 1);
+  }
+  function toggleSummaryModal() {
+    summaryModalOpen = !summaryModalOpen;
+    logseqAPI$1.provideUI({
+      key: ID$1.SUMMARY_MODAL,
+      path: "#app-container",
+      template: `<div id="${ID$1.SUMMARY_MODAL}"></div>`
+    });
+    setTimeout(renderSummaryModal, 1);
+  }
+  function registerSummaryCommands() {
+    logseqAPI$1.Editor.registerSlashCommand(
+      "[Text Toolkit] Generate Summary",
+      async () => {
+        toggleSummaryModal();
+      }
+    );
+    loggerProxy.info("✅ Summary: Commands registered");
+  }
+  async function generateSummary(templateType, summaryType, customStart, customEnd) {
+    const generator = new PageGenerator();
+    const pageName = await generator.generate(
+      templateType,
+      summaryType,
+      customStart,
+      customEnd
+    );
+    if (pageName) {
+      await logseqAPI$1.Editor.scrollToBlockInPage(pageName);
+      loggerProxy.info(`✅ Summary: Generated page "${pageName}"`);
+    }
+    return pageName;
   }
 
   var toolbarCSSRaw = ".ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n";
@@ -21594,6 +25118,18 @@ ${where}
   var customSelectCSSRaw = "/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}";
 
   var heatmapCSSRaw = ".heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n";
+
+  var summaryCSSRaw = ".summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}\n";
+
+  var blockViewCSSRaw = "/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  margin-top: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 6px;\n  font-size: 11px;\n  width: fit-content;\n  min-height: 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  transition: all 0.2s ease;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 11px;\n  font-weight: 500;\n  line-height: 1.4;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: var(--ls-primary-text-color);\n  font-weight: 600;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n}\n\n.ltt-view-btn svg {\n  width: 12px;\n  height: 12px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 11px;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 3px 6px;\n    gap: 3px;\n  }\n\n  .ltt-view-btn {\n    padding: 3px 6px;\n    font-size: 10px;\n  }\n\n  .ltt-view-btn svg {\n    width: 10px;\n    height: 10px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 10px;\n  }\n}";
+
+  var tableViewCSSRaw = "/* =========================================================\n   BLOCK VIEW TABLE STYLES\n   Advanced Theme System with Multiple Presets\n========================================================= */\n\n/* =========================================================\n   THEME VARIABLES - DEFAULT\n========================================================= */\n\n:root,\n.light {\n  --ltt-border: #e2e8f0;\n  --ltt-border-strong: #cbd5e1;\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: #f8fafc;\n  --ltt-header-text: #374151;\n  --ltt-cell-text: #475569;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.7);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f1f5f9;\n  --ltt-radius: 8px;\n  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);\n  --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);\n  --ltt-col-1-width: 280px;\n  --ltt-cell-padding: 12px 4px;\n  --ltt-header-height: 48px;\n}\n\n/* =========================================================\n   THEME: NOTION - Clean and Professional\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e5e5e5;\n  --ltt-hover: rgba(0, 0, 0, 0.025);\n  --ltt-header-bg: #ffffff;\n  --ltt-header-text: #37352f;\n  --ltt-cell-text: #37352f;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.95);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #fbfbfa;\n  --ltt-radius: 4px;\n  --ltt-shadow: none;\n  --ltt-header-shadow: none;\n  --ltt-col-1-width: 260px;\n  --ltt-cell-padding: 8px 10px;\n  --ltt-header-height: 32px;\n}\n\n.theme-notion .ltt-table-root > .block-children-container {\n  border: none !important;\n  border-bottom: 1px solid var(--ltt-border) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border: none !important;\n  border-bottom: 1px solid var(--ltt-border) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  border-right: none !important;\n  border-bottom: none !important;\n  background: var(--ltt-header-bg) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: none !important;\n  border-bottom: none !important;\n  border-left: 1px solid var(--ltt-border) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:first-child {\n  border-left: none !important;\n}\n\n/* =========================================================\n   THEME: LINEAR - Modern Tech Style\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #ebeef1;\n  --ltt-border-strong: #dde1e7;\n  --ltt-hover: rgba(99, 110, 231, 0.04);\n  --ltt-header-bg: #f8f9fc;\n  --ltt-header-text: #5e6ad2;\n  --ltt-cell-text: #4a5168;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.9);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f5f6fb;\n  --ltt-radius: 6px;\n  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  --ltt-header-shadow: inset 0 -2px 0 #5e6ad2;\n  --ltt-col-1-width: 240px;\n  --ltt-cell-padding: 10px 14px;\n  --ltt-header-height: 42px;\n}\n\n/* =========================================================\n   THEME: DARK - Dark Mode\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.08);\n  --ltt-border-strong: rgba(255, 255, 255, 0.12);\n  --ltt-hover: rgba(255, 255, 255, 0.03);\n  --ltt-header-bg: #1e2128;\n  --ltt-header-text: #e4e7ec;\n  --ltt-cell-text: #b8c0cc;\n  --ltt-cell-bg: rgba(30, 33, 40, 0.9);\n  --ltt-row-bg: #15171c;\n  --ltt-row-hover: #1e2128;\n  --ltt-radius: 8px;\n  --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);\n  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);\n  --ltt-col-1-width: 280px;\n  --ltt-cell-padding: 12px 16px;\n  --ltt-header-height: 48px;\n}\n\n/* =========================================================\n   THEME: GRADIENT - Vibrant Gradient\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #e0e8ff;\n  --ltt-border-strong: #c7d4ff;\n  --ltt-hover: rgba(99, 102, 241, 0.05);\n  --ltt-header-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);\n  --ltt-header-text: #ffffff;\n  --ltt-cell-text: #3730a3;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.92);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #eef2ff;\n  --ltt-radius: 10px;\n  --ltt-shadow: 0 4px 24px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.06);\n  --ltt-header-shadow: none;\n  --ltt-col-1-width: 280px;\n  --ltt-cell-padding: 12px 16px;\n  --ltt-header-height: 48px;\n}\n\n/* =========================================================\n   THEME: TANA - Soft and Calm\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #e2ebe6;\n  --ltt-border-strong: #d1e2db;\n  --ltt-hover: rgba(34, 139, 115, 0.04);\n  --ltt-header-bg: linear-gradient(135deg, #f0f9f6 0%, #e8f5f0 100%);\n  --ltt-header-text: #2d5a4a;\n  --ltt-cell-text: #3d6b5a;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.95);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f5faf7;\n  --ltt-radius: 10px;\n  --ltt-shadow: 0 2px 12px rgba(34, 139, 115, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);\n  --ltt-header-shadow: inset 0 -2px 0 rgba(34, 139, 115, 0.15);\n  --ltt-col-1-width: 260px;\n  --ltt-cell-padding: 10px 14px;\n  --ltt-header-height: 44px;\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-table-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   TABLE SHELL\n========================================================= */\n\n.ltt-table-root > .block-children-container {\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius);\n  overflow-x: auto;\n  overflow-y: hidden;\n  background: var(--ltt-cell-bg);\n  backdrop-filter: blur(10px);\n  box-shadow: var(--ltt-shadow);\n  position: relative;\n  padding: 0 !important;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-table-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-table-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-table-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-table-root .block-control-wrap::before {\n  display: none !important;\n}\n\n.ltt-table-root .block-children-container {\n  padding-left: 0 !important;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n.ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n/* =========================================================\n   ROW\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: grid !important;\n  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px, 1fr));\n  align-items: stretch;\n  min-width: fit-content;\n  position: relative;\n  transition: background 0.15s ease;\n  background: var(--ltt-row-bg);\n}\n\n/* row separator */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::after {\n  content: \"\";\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 1px;\n  background: var(--ltt-border);\n  pointer-events: none;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child::after {\n  display: none;\n}\n\n/* hover */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background: var(--ltt-row-hover);\n}\n\n/* =========================================================\n   FIRST COLUMN (HEADER)\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  display: block !important;\n  min-height: var(--ltt-header-height);\n  padding: var(--ltt-cell-padding) !important;\n  margin: 0 !important;\n  position: sticky;\n  left: 0;\n  z-index: 20;\n  width: var(--ltt-col-1-width);\n  min-width: var(--ltt-col-1-width);\n  background: var(--ltt-header-bg);\n  border-right: 1px solid var(--ltt-border);\n  box-shadow: var(--ltt-header-shadow);\n  font-weight: 600;\n  backdrop-filter: blur(18px);\n  overflow: visible;\n}\n\n/* align */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {\n  min-height: 100%;\n  display: flex;\n  align-items: center;\n}\n\n/* =========================================================\n   RESIZE HANDLE\n========================================================= */\n\n.ltt-table-root .ltt-resize-handle {\n  position: absolute;\n  top: 0;\n  right: -4px;\n  width: 8px;\n  height: 100%;\n  cursor: col-resize;\n  z-index: 50;\n  opacity: 0;\n  transition: opacity 0.15s ease, background 0.15s ease;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .ltt-resize-handle {\n  opacity: 1;\n  background: linear-gradient(180deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.1));\n}\n\n.ltt-table-root .ltt-resize-handle:hover {\n  opacity: 1;\n  background: rgba(99, 102, 241, 0.3);\n}\n\n/* =========================================================\n   REMOVE FAKE PADDING\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > div[style*=\"padding-left\"] {\n  display: none !important;\n}\n\n/* =========================================================\n   FLATTEN CHILDREN\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container,\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children,\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .blocks-list-wrap {\n  display: contents !important;\n}\n\n/* =========================================================\n   CELL\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: block !important;\n  min-height: var(--ltt-header-height);\n  padding: var(--ltt-cell-padding) !important;\n  margin: 0 !important;\n  border-right: 1px solid var(--ltt-border);\n  background: var(--ltt-cell-bg);\n  box-sizing: border-box;\n  overflow: visible;\n  transition: background 0.15s ease;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {\n  border-right: none;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background: var(--ltt-hover);\n}\n\n/* =========================================================\n   CELL CONTENT\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-content-wrapper {\n  width: 100% !important;\n  overflow: visible !important;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-table-root .block-title-wrap {\n  font-size: 14px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-cell-text);\n  transition: color 0.15s ease;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  font-weight: 650;\n  color: var(--ltt-header-text);\n  font-size: 14.5px;\n}\n\n/* =========================================================\n   BULLETS\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-table-root .block-control {\n  display: none !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   TREE LINE\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-children-left-border {\n  display: block !important;\n  opacity: 0.2;\n}\n\n/* =========================================================\n   CHILD FLOW\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-children-container {\n  padding-left: 1.5em !important;\n  margin-top: 8px !important;\n}\n\n/* =========================================================\n   TEXTAREA\n========================================================= */\n\n.ltt-table-root textarea {\n  resize: none !important;\n  overflow: hidden !important;\n  white-space: pre-wrap !important;\n  width: 100% !important;\n  color: var(--ltt-cell-text);\n}\n\n/* =========================================================\n   SCROLLBAR\n========================================================= */\n\n.ltt-table-root > .block-children-container::-webkit-scrollbar {\n  height: 10px;\n}\n\n.ltt-table-root > .block-children-container::-webkit-scrollbar-thumb {\n  background: rgba(120, 120, 120, 0.2);\n  border-radius: 999px;\n  border: 2px solid transparent;\n  background-clip: padding-box;\n}\n\n.ltt-table-root > .block-children-container::-webkit-scrollbar-thumb:hover {\n  background: rgba(120, 120, 120, 0.35);\n}\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-table-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-border-strong: var(--custom-header-border, #cbd5e1);\n  --ltt-hover: var(--custom-row-hover, rgba(0, 0, 0, 0.04));\n  --ltt-header-bg: var(--custom-header-bg, #f8fafc);\n  --ltt-header-text: var(--custom-header-text, #374151);\n  --ltt-cell-text: var(--custom-cell-text, #475569);\n  --ltt-cell-bg: var(--custom-row-bg, rgba(255, 255, 255, 0.7));\n  --ltt-row-bg: var(--custom-row-bg, #ffffff);\n  --ltt-row-hover: var(--custom-row-hover, #f1f5f9);\n  --ltt-radius: var(--custom-radius, 8px);\n  --ltt-header-height: var(--custom-header-height, 48px);\n  --ltt-cell-padding: var(--custom-cell-padding, 12px 16px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 900px) {\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    grid-template-columns: 1fr;\n  }\n\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    position: relative;\n    width: 100%;\n    min-width: 100%;\n    border-right: none;\n    border-bottom: 1px solid var(--ltt-border);\n  }\n\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    border-right: none;\n    border-bottom: 1px solid var(--ltt-border);\n    min-width: 100%;\n  }\n\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {\n    border-bottom: none;\n  }\n\n  .ltt-table-root .ltt-resize-handle {\n    display: none;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-table-root > .block-children-container {\n  animation: ltt-fade-in 0.2s ease-out;\n}\n";
+
+  var galleryViewCSSRaw = "/* =========================================================\n   BLOCK VIEW GALLERY STYLES\n   Advanced Theme System with Multiple Presets\n\n   特性：\n   1. 多主题支持 (Default, Notion, Linear, Dark, Gradient, Tana)\n   2. CSS 变量驱动的设计系统\n   3. 支持自定义主题颜色配置\n   4. 优化的卡片网格布局\n   5. 响应式设计\n========================================================= */\n\n/* =========================================================\n   THEME VARIABLES - DEFAULT\n========================================================= */\n\n.ltt-gallery-root {\n  --ltt-border: #e2e8f0;\n  --ltt-border-strong: #cbd5e1;\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #374151;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-hover: #f8fafc;\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: NOTION\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(0, 0, 0, 0.02);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #2d2d2d;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #2d2d2d;\n  --ltt-card-hover: #f9fafb;\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-card-radius: 0px;\n  --ltt-gap: 16px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: LINEAR\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(94, 106, 210, 0.04);\n  --ltt-header-bg: #fafafa;\n  --ltt-header-text: #5e6ad2;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-hover: #f3f4f6;\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 16px rgba(94, 106, 210, 0.15);\n  --ltt-card-radius: 8px;\n  --ltt-gap: 18px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: DARK\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.1);\n  --ltt-border-strong: rgba(255, 255, 255, 0.15);\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #f8fafc;\n  --ltt-card-bg: #0f172a;\n  --ltt-card-text: #cbd5e1;\n  --ltt-card-hover: #1f2937;\n  --ltt-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);\n  --ltt-card-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: GRADIENT\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #ddd6fe;\n  --ltt-border-strong: #c4b5fd;\n  --ltt-hover: rgba(139, 92, 246, 0.06);\n  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #6b21a8;\n  --ltt-card-bg: #faf5ff;\n  --ltt-card-text: #6b21a8;\n  --ltt-card-hover: #ede9fe;\n  --ltt-card-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);\n  --ltt-card-hover-shadow: 0 16px 48px rgba(139, 92, 246, 0.35);\n  --ltt-card-radius: 16px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* =========================================================\n   THEME: TANA (NEW)\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #a7f3d0;\n  --ltt-border-strong: #6ee7b7;\n  --ltt-hover: rgba(16, 185, 129, 0.08);\n  --ltt-header-bg: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #065f46;\n  --ltt-card-bg: #ecfdf5;\n  --ltt-card-text: #065f46;\n  --ltt-card-hover: #d1fae5;\n  --ltt-card-shadow: 0 12px 40px rgba(16, 185, 129, 0.25);\n  --ltt-card-hover-shadow: 0 16px 48px rgba(16, 185, 129, 0.35);\n  --ltt-card-radius: 16px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-gallery-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n/* .ltt-gallery-root>.block-main-container {\n  margin-bottom: 12px;\n} */\n\n/* .ltt-gallery-root>.block-main-container .block-control-wrap {\n  display: none !important;\n} */\n\n.ltt-gallery-root>.block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n\n/* =========================================================\n   GRID LAYOUT\n========================================================= */\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap {\n  display: grid !important;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: var(--ltt-gap);\n  padding: var(--ltt-padding) !important;\n}\n\n/* =========================================================\n   CARD\n========================================================= */\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n  background: var(--ltt-card-bg);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 20px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n  min-height: 140px;\n  box-shadow: var(--ltt-card-shadow);\n  position: relative;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {\n  transform: translateY(-6px);\n  box-shadow: var(--ltt-card-hover-shadow);\n  border-color: var(--ltt-border-strong);\n}\n\n/* =========================================================\n   CARD HEADER\n========================================================= */\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {\n  background: var(--ltt-header-bg);\n  border: none;\n  padding: 0 0 16px 0 !important;\n  border-bottom: 1px solid var(--ltt-border);\n  margin-bottom: 16px;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* =========================================================\n   CARD CONTENT\n========================================================= */\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n  background: transparent;\n  border: none;\n  border-radius: 0;\n  padding: 10px 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  transform: none !important;\n  min-height: auto;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-gallery-root .block-control {\n  display: none !important;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-gallery-root .block-title-wrap {\n  font-size: 14px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-card-text);\n  transition: color 0.15s ease;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-title-wrap {\n  font-weight: 600;\n  color: var(--ltt-header-text);\n  font-size: 15px;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n/* .ltt-gallery-root .block-children-left-border {\n  display: none !important;\n  width: 0 !important;\n  border: none !important;\n} */\n\n.ltt-gallery-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-gallery-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-gallery-root .block-control-wrap {\n  border-left: none !important;\n  /* 移除边框型竖线 */\n}\n\n.ltt-gallery-root .block-control-wrap::before {\n  display: none !important;\n  /* 移除伪元素竖线 */\n}\n\n.ltt-gallery-root .block-children-container {\n  padding-left: 0 !important; \n}\n\n.ltt-gallery-root >.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container {\n  margin-left: -1px !important;\n}\n\n/* .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: none !important; \n} */\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-gallery-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-card-bg: var(--custom-card-bg, #ffffff);\n  --ltt-card-text: var(--custom-card-text, #475569);\n  --ltt-card-hover: var(--custom-card-hover, #f8fafc);\n  --ltt-card-shadow: var(--custom-card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));\n  --ltt-card-hover-shadow: var(--custom-card-hover-shadow, 0 8px 24px rgba(0, 0, 0, 0.12));\n  --ltt-card-radius: var(--custom-card-radius, 12px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap {\n    grid-template-columns: 1fr;\n    gap: 16px;\n    padding: 16px !important;\n  }\n\n  .ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n    min-height: 120px;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-gallery-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(12px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n  animation: ltt-gallery-fade-in 0.3s ease-out;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(1) {\n  animation-delay: 0s;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(2) {\n  animation-delay: 0.05s;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(3) {\n  animation-delay: 0.1s;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(4) {\n  animation-delay: 0.15s;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(5) {\n  animation-delay: 0.2s;\n}\n\n.ltt-gallery-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(n+6) {\n  animation-delay: 0.25s;\n}";
+
+  var boardViewCSSRaw = "/* =========================================================\n   BLOCK VIEW BOARD STYLES\n   Advanced Theme System with Multiple Presets\n\n   特性：\n   1. 多主题支持 (Default, Notion, Linear, Dark, Gradient, Tana)\n   2. CSS 变量驱动的设计系统\n   3. 支持自定义主题颜色配置\n   4. 优化的看板列布局\n   5. 响应式设计\n========================================================= */\n\n/* =========================================================\n   THEME VARIABLES - DEFAULT\n========================================================= */\n\n.ltt-board-root {\n  --ltt-border: #e2e8f0;\n  --ltt-border-strong: #cbd5e1;\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #374151;\n  --ltt-column-bg: #ffffff;\n  --ltt-column-hover: #f8fafc;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-border: #e2e8f0;\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: NOTION\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(0, 0, 0, 0.02);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #2d2d2d;\n  --ltt-column-bg: #ffffff;\n  --ltt-column-hover: #fafafa;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #2d2d2d;\n  --ltt-card-border: #e5e7eb;\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-card-radius: 0px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* =========================================================\n   THEME: LINEAR\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(94, 106, 210, 0.04);\n  --ltt-header-bg: #fafafa;\n  --ltt-header-text: #5e6ad2;\n  --ltt-column-bg: #fafafa;\n  --ltt-column-hover: #f3f4f6;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-border: #e5e7eb;\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(94, 106, 210, 0.15);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* =========================================================\n   THEME: DARK\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.1);\n  --ltt-border-strong: rgba(255, 255, 255, 0.15);\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #f8fafc;\n  --ltt-column-bg: #0f172a;\n  --ltt-column-hover: #1f2937;\n  --ltt-card-bg: #1f2937;\n  --ltt-card-text: #cbd5e1;\n  --ltt-card-border: rgba(255, 255, 255, 0.08);\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: GRADIENT\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #ddd6fe;\n  --ltt-border-strong: #c4b5fd;\n  --ltt-hover: rgba(139, 92, 246, 0.06);\n  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #6b21a8;\n  --ltt-column-bg: #faf5ff;\n  --ltt-column-hover: #ede9fe;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #6b21a8;\n  --ltt-card-border: #e9d5ff;\n  --ltt-card-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: TANA (NEW)\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #a7f3d0;\n  --ltt-border-strong: #6ee7b7;\n  --ltt-hover: rgba(16, 185, 129, 0.08);\n  --ltt-header-bg: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #065f46;\n  --ltt-column-bg: #ecfdf5;\n  --ltt-column-hover: #d1fae5;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #065f46;\n  --ltt-card-border: #a7f3d0;\n  --ltt-card-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-board-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n/* .ltt-board-root>.block-main-container {\n  margin-bottom: 12px;\n} */\n\n/* .ltt-board-root>.block-main-container .block-control-wrap {\n  display: none !important;\n} */\n\n.ltt-board-root>.block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n\n/* =========================================================\n   BOARD LAYOUT\n========================================================= */\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {\n  display: flex !important;\n  gap: var(--ltt-gap);\n  padding: var(--ltt-padding) !important;\n  overflow-x: auto;\n  align-items: flex-start;\n}\n\n/* =========================================================\n   COLUMN\n========================================================= */\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n  min-width: var(--ltt-column-width);\n  max-width: var(--ltt-column-width);\n  flex-shrink: 0;\n  background: var(--ltt-column-bg);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 12px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {\n  border-color: var(--ltt-border-strong);\n}\n\n/* =========================================================\n   COLUMN HEADER\n========================================================= */\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {\n  background: var(--ltt-header-bg);\n  border: none;\n  padding: 10px 12px !important;\n  font-weight: 600;\n  font-size: 14px;\n  margin-bottom: 8px;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-title-wrap {\n  color: var(--ltt-header-text);\n}\n\n/* =========================================================\n   COLUMN CONTENT (CARD CONTAINER)\n========================================================= */\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column;\n  gap: 10px;\n  padding: 8px !important;\n  min-height: 100px;\n}\n\n/* =========================================================\n   CARD\n========================================================= */\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n  background: var(--ltt-card-bg);\n  border: 1px solid var(--ltt-card-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 12px 14px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-card-shadow);\n  position: relative;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover {\n  box-shadow: var(--ltt-card-hover-shadow);\n  transform: translateY(-2px);\n  border-color: var(--ltt-border-strong);\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-board-root .block-control {\n  display: none !important;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   CARD INNER CONTENT - ALIGN LEFT WITH HEADER\n========================================================= */\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container {\n  padding: 0 !important;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-main-container .block-content-wrapper {\n  width: 100% !important;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-board-root .block-title-wrap {\n  font-size: 13px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-card-text);\n  transition: color 0.15s ease;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n/* .ltt-board-root .block-children-left-border {\n  display: none !important;\n  width: 0 !important;\n  border: none !important;\n} */\n\n.ltt-board-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-board-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-board-root .block-control-wrap {\n  border-left: none !important;\n  /* 移除边框型竖线 */\n}\n\n.ltt-board-root .block-control-wrap::before {\n  display: none !important;\n  /* 移除伪元素竖线 */\n}\n\n.ltt-board-root .block-children-container {\n  padding-left: 0 !important;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block>.block-children-container {\n  margin-left: -1px !important;\n}\n\n/* .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: none !important; \n} */\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-board-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-column-bg: var(--custom-column-bg, #ffffff);\n  --ltt-column-hover: var(--custom-column-hover, #f8fafc);\n  --ltt-card-bg: var(--custom-card-bg, #ffffff);\n  --ltt-card-text: var(--custom-card-text, #475569);\n  --ltt-card-border: var(--custom-card-border, #e2e8f0);\n  --ltt-card-shadow: var(--custom-card-shadow, 0 1px 3px rgba(0, 0, 0, 0.06));\n  --ltt-card-hover-shadow: var(--custom-card-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.1));\n  --ltt-card-radius: var(--custom-card-radius, 8px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 1024px) {\n  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {\n    flex-wrap: wrap;\n  }\n\n  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n    min-width: 280px;\n    max-width: 100%;\n    flex: 1 1 calc(50% - var(--ltt-gap));\n  }\n}\n\n@media (max-width: 768px) {\n  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap {\n    flex-direction: column;\n    overflow-x: visible;\n  }\n\n  .ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n    min-width: 100%;\n    max-width: 100%;\n    flex: 1 1 100%;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-board-slide-in {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block {\n  animation: ltt-board-slide-in 0.3s ease-out;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(1) {\n  animation-delay: 0s;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(2) {\n  animation-delay: 0.1s;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(3) {\n  animation-delay: 0.2s;\n}\n\n.ltt-board-root>.block-children-container>.block-children>.blocks-list-wrap>.ls-block:nth-child(n+4) {\n  animation-delay: 0.3s;\n}";
+
+  var listViewCssRaw = ".ltt-list-root .block-title-wrap {\n    display: inline-flex !important;\n    align-items: center !important;\n    flex-wrap: wrap !important;\n    gap: 1px !important;\n}\n\n.ltt-list-root .lsp-hook-ui-slot {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    min-height: 0 !important;\n\n    margin: 0 !important;\n    padding: 0 !important;\n}\n\n.ltt-list-root .ltt-view-bar {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    flex: 0 0 auto !important;\n\n    margin: 0px !important;\n    padding: 0 !important;\n\n    vertical-align: middle !important;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n/* .ltt-list-root>.block-main-container {\n  margin-bottom: 12px;\n} */\n\n/* .ltt-list-root>.block-main-container .block-control-wrap {\n  display: none !important;\n} */\n\n.ltt-list-root>.block-main-container .block-content-inner .block-title-wrap {\n    margin-left: 0.4rem !important;\n}";
 
   const ID = {
     TOOLBAR: "text-toolkit-toolbar",
@@ -21655,6 +25191,36 @@ ${where}
       type: "both",
       inlineContent: heatmapCSSRaw,
       externalPath: "heatmap.css"
+    });
+    registerCSS("summary", {
+      type: "both",
+      inlineContent: summaryCSSRaw,
+      externalPath: "summary.css"
+    });
+    registerCSS("blockView", {
+      type: "both",
+      inlineContent: blockViewCSSRaw,
+      externalPath: "blockView.css"
+    });
+    registerCSS("tableView", {
+      type: "both",
+      inlineContent: tableViewCSSRaw,
+      externalPath: "tableView.css"
+    });
+    registerCSS("galleryView", {
+      type: "both",
+      inlineContent: galleryViewCSSRaw,
+      externalPath: "galleryView.css"
+    });
+    registerCSS("boardView", {
+      type: "both",
+      inlineContent: boardViewCSSRaw,
+      externalPath: "boardView.css"
+    });
+    registerCSS("listView", {
+      type: "both",
+      inlineContent: listViewCssRaw,
+      externalPath: "listView.css"
     });
   }
   let settingsModalOpen = false;
@@ -21743,6 +25309,13 @@ ${where}
     setHeatmapComponent(Heatmap);
     registerHeatmap();
   }
+  async function initSummary() {
+    await initSummaryModal();
+    registerSummaryCommands();
+  }
+  async function initBlockView() {
+    registerBlockView();
+  }
 
   async function initializePlugin() {
     try {
@@ -21773,6 +25346,10 @@ ${where}
     loggerProxy.info("🛠️ Plugin: SelectToolbar ready");
     await initCommentApp();
     loggerProxy.info("💬 Plugin: CommentApp ready");
+    await initSummary();
+    loggerProxy.info("📋 Plugin: Summary ready");
+    await initBlockView();
+    loggerProxy.info("📊 Plugin: BlockView ready");
     loggerProxy.info("✅ Plugin: Components initialized");
   }
   async function main() {

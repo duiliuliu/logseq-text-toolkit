@@ -35,6 +35,8 @@
     "toolbar": "🛠️ 工具栏设置",
     "taskProgress": "📊 任务进度",
     "heatmap": "📈 热力图",
+    "blockView": "📋 块视图",
+    "summary": "📝 总结生成",
     "advanced": "⚡ 其他设置"
   },
     "saveSuccessRestart": "保存成功，请重启应用生效",
@@ -131,6 +133,80 @@
     },
     "saveTaskProgressSettings": "保存任务进度设置",
     "saveHeatmapSettings": "保存热力图设置",
+    "saveBlockViewSettings": "保存块视图设置",
+    "saveSummarySettings": "保存总结设置",
+    "blockView": {
+      "description": "配置块视图模块的全局默认行为。",
+      "enabled": "启用块视图功能",
+      "defaultView": "默认视图类型",
+      "viewList": "列表",
+      "viewTable": "表格",
+      "viewGallery": "画廊",
+      "viewBoard": "看板",
+      "hideViewBar": "隐藏视图切换栏",
+      "hideViewBarDescription": "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
+      "defaultTheme": "默认主题",
+      "themeDefault": "默认",
+      "themeNotion": "Notion",
+      "themeLinear": "Linear",
+      "themeDark": "深色",
+      "themeGradient": "渐变",
+      "themeTana": "Tana",
+      "themeCustom": "自定义",
+      "table": {
+        "title": "📊 Table 设置",
+        "showStriped": "显示斑马纹行",
+        "showBorder": "显示边框",
+        "customTheme": {
+          "title": "🔧 自定义主题配置",
+          "borderColor": "边框颜色",
+          "headerBgColor": "表头背景色",
+          "headerTextColor": "表头文字色",
+          "cellTextColor": "单元格文字色",
+          "headerBorderColor": "表头边框色",
+          "headerHeight": "表头高度",
+          "rowBgColor": "行背景色",
+          "rowHoverBgColor": "行悬停背景色",
+          "rowBorderColor": "行边框色",
+          "cellPadding": "单元格内边距",
+          "tableBorderRadius": "表格圆角"
+        }
+      },
+      "gallery": {
+        "title": "🖼️ Gallery 设置",
+        "showCardBorders": "显示卡片边框",
+        "cardsPerRow": "每行卡片数量",
+        "customTheme": {
+          "title": "🔧 自定义主题配置",
+          "borderColor": "边框颜色",
+          "cardBgColor": "卡片背景色",
+          "cardHoverBgColor": "卡片悬停背景色",
+          "headerBorderColor": "表头边框色",
+          "headerBgColor": "表头背景色",
+          "headerTextColor": "表头文字色",
+          "cardTextColor": "卡片文字色",
+          "cardBorderRadius": "卡片圆角",
+          "cardShadow": "卡片阴影"
+        }
+      },
+      "board": {
+        "title": "📋 Board 设置",
+        "showColumnBorders": "显示列边框",
+        "cardSpacing": "卡片间距",
+        "customTheme": {
+          "title": "🔧 自定义主题配置",
+          "borderColor": "边框颜色",
+          "columnBgColor": "列背景色",
+          "columnHoverBgColor": "列悬停背景色",
+          "headerBgColor": "表头背景色",
+          "headerTextColor": "表头文字色",
+          "cardBgColor": "卡片背景色",
+          "cardTextColor": "卡片文字色",
+          "cardBorderColor": "卡片边框色",
+          "cardBorderRadius": "卡片圆角"
+        }
+      }
+    },
     "heatmap": {
       "description": "配置热力图展示功能和显示效果。",
       "enabled": "启用热力图功能",
@@ -157,6 +233,35 @@
       "enableWeekPageCreation": "启用周度页面创建",
       "weekPageNameTemplate": "页面名称模板",
       "weekLogseqTemplate": "Logseq 模板"
+    },
+    "summary": {
+      "description": "配置总结生成功能的默认行为和参数。",
+      "enabled": "启用总结功能",
+      "defaultTemplate": "默认模板",
+      "defaultType": "默认总结类型",
+      "dateFormat": "日期格式",
+      "pageNameTemplate": "页面名称模板",
+      "templateGtdWorkReview": "GTD 工作回顾",
+      "templateMinimalDashboard": "极简仪表盘",
+      "templateBulletJournal": "子弹日记",
+      "templateOkrReview": "OKR 回顾",
+      "templateStudySummary": "学习总结",
+      "typeWeekly": "周度",
+      "typeMonthly": "月度",
+      "typeYearly": "年度",
+      "typeCustom": "自定义",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "aiSettings": "🤖 AI 设置",
+      "aiEnabled": "启用 AI 增强",
+      "aiProvider": "AI 提供商",
+      "aiProviderOpenAI": "OpenAI",
+      "aiProviderClaude": "Claude",
+      "aiProviderCustom": "自定义",
+      "aiApiKey": "API Key",
+      "aiApiUrl": "API 地址",
+      "aiModel": "模型",
+      "aiPromptTemplate": "提示词模板"
     }
   }
 }
