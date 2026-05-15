@@ -317,16 +317,21 @@ Configure toolbar elements via JSON in Settings:
 
 The plugin supports multi-language extension. You can add new language packs or modify existing translations.
 
-#### Language Files Location
+#### Current Supported Languages
 
-Language files are located in `dist/translations/` directory, containing:
-- `zh-CN.json` - Simplified Chinese
-- `en.json` - English
-- `ja.json` - Japanese
+| Language Code | Language Name | File Path |
+|---------------|---------------|-----------|
+| zh-CN | 简体中文 | translations/zh-CN.json |
+| en | English | translations/en.json |
+| ja | 日本語 | translations/ja.json |
 
 #### Adding New Languages
 
-Simply create a new JSON file in `dist/translations/` (e.g., `de.json` for German), and the plugin will automatically load it:
+Requires two steps:
+
+**Step 1: Add language file to `dist/translations/`**
+
+Create a new language file (e.g., `de.json` for German):
 
 ```json
 {
@@ -338,6 +343,45 @@ Simply create a new JSON file in `dist/translations/` (e.g., `de.json` for Germa
     "title": "Einstellungen"
   }
 }
+```
+
+**Step 2: Register language in Settings**
+
+Add configuration in `src/settings/defaultSettings.json` under `meta.language.languages`:
+
+```json
+{
+  "code": "de",
+  "name": "Deutsch",
+  "path": "translations/de.json"
+}
+```
+
+Complete languages configuration example:
+
+```json
+"languages": [
+  {
+    "code": "zh-CN",
+    "name": "简体中文",
+    "path": "translations/zh-CN.json"
+  },
+  {
+    "code": "en",
+    "name": "English",
+    "path": "translations/en.json"
+  },
+  {
+    "code": "ja",
+    "name": "日本語",
+    "path": "translations/ja.json"
+  },
+  {
+    "code": "de",
+    "name": "Deutsch",
+    "path": "translations/de.json"
+  }
+]
 ```
 
 #### Modifying Existing Translations

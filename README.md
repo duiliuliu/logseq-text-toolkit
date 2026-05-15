@@ -317,16 +317,21 @@
 
 插件支持多语言扩展，您可以添加新的语言包或修改现有翻译。
 
-#### 语言文件位置
+#### 当前支持的语言
 
-语言文件位于 `dist/translations/` 目录，包含以下文件：
-- `zh-CN.json` - 简体中文
-- `en.json` - English
-- `ja.json` - 日本語
+| 语言代码 | 语言名称 | 文件路径 |
+|---------|---------|---------|
+| zh-CN | 简体中文 | translations/zh-CN.json |
+| en | English | translations/en.json |
+| ja | 日本語 | translations/ja.json |
 
 #### 添加新语言
 
-只需在 `dist/translations/` 目录创建新的 JSON 文件（如 `de.json` 表示德语），插件会自动加载：
+需要两步：
+
+**步骤 1：在 `dist/translations/` 添加语言文件**
+
+创建新的语言文件（如 `de.json` 表示德语）：
 
 ```json
 {
@@ -338,6 +343,45 @@
     "title": "Einstellungen"
   }
 }
+```
+
+**步骤 2：在 Settings 中注册语言**
+
+在 `src/settings/defaultSettings.json` 的 `meta.language.languages` 数组中添加配置：
+
+```json
+{
+  "code": "de",
+  "name": "Deutsch",
+  "path": "translations/de.json"
+}
+```
+
+完整的 languages 配置示例：
+
+```json
+"languages": [
+  {
+    "code": "zh-CN",
+    "name": "简体中文",
+    "path": "translations/zh-CN.json"
+  },
+  {
+    "code": "en",
+    "name": "English",
+    "path": "translations/en.json"
+  },
+  {
+    "code": "ja",
+    "name": "日本語",
+    "path": "translations/ja.json"
+  },
+  {
+    "code": "de",
+    "name": "Deutsch",
+    "path": "translations/de.json"
+  }
+]
 ```
 
 #### 修改现有翻译
@@ -498,7 +542,7 @@ vim dist/tableView.css
 
 ---
 
-## 五、开发说明
+## 五，开发说明
 
 ### 开发环境
 
