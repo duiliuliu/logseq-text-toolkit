@@ -250,6 +250,8 @@
       "typeMonthly": "Monthly",
       "typeYearly": "Yearly",
       "typeCustom": "Custom",
+      "startDate": "Start Date",
+      "endDate": "End Date",
       "aiSettings": "🤖 AI Settings",
       "aiEnabled": "Enable AI Enhancement",
       "aiProvider": "AI Provider",

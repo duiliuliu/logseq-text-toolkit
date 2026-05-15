@@ -250,6 +250,8 @@
       "typeMonthly": "月度",
       "typeYearly": "年度",
       "typeCustom": "自定义",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
       "aiSettings": "🤖 AI 设置",
       "aiEnabled": "启用 AI 增强",
       "aiProvider": "AI 提供商",
