@@ -10,7 +10,9 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
     defaultTemplate: 'gtd-work-review',
     defaultType: 'weekly',
     dateFormat: 'yyyy-MM-dd EEE',
-    pageNameTemplate: '{{type}}-总结-{{date}}',
+    weeklyPageNameTemplate: '周度总结-{{year}}-W{{week}}',
+    monthlyPageNameTemplate: '月度总结-{{year}}-{{month}}',
+    customPageNameTemplate: '自定义总结-{{date}}',
     ai: {
       enabled: false,
       provider: 'openai',
@@ -107,14 +109,38 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.summary.pageNameTemplate', language)}</label>
+        <label>{t('settings.summary.weeklyPageNameTemplate', language)}</label>
         <input
           type="text"
-          value={summarySettings.pageNameTemplate}
-          onChange={(e) => handleSettingChange('pageNameTemplate', e.target.value)}
-          placeholder="{{type}}-总结-{{date}}"
+          value={summarySettings.weeklyPageNameTemplate}
+          onChange={(e) => handleSettingChange('weeklyPageNameTemplate', e.target.value)}
+          placeholder="周度总结-{{year}}-W{{week}}"
         />
       </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.summary.monthlyPageNameTemplate', language)}</label>
+        <input
+          type="text"
+          value={summarySettings.monthlyPageNameTemplate}
+          onChange={(e) => handleSettingChange('monthlyPageNameTemplate', e.target.value)}
+          placeholder="月度总结-{{year}}-{{month}}"
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.summary.customPageNameTemplate', language)}</label>
+        <input
+          type="text"
+          value={summarySettings.customPageNameTemplate}
+          onChange={(e) => handleSettingChange('customPageNameTemplate', e.target.value)}
+          placeholder="自定义总结-{{date}}"
+        />
+      </div>
+
+      <p className="ltt-tab-section-description-small" style={{ color: '#666', fontSize: '12px', marginTop: '-8px', marginBottom: '16px' }}>
+        {t('settings.summary.pageNameTemplateHelp', language)}
+      </p>
 
       <div className="ltt-settings-section-title" style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 600, fontSize: '14px' }}>
         {t('settings.summary.aiSettings', language)}

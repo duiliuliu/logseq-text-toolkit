@@ -13,22 +13,20 @@ export class Query {
       timestamps: { start: startTimestamp, end: endTimestamp }
     });
 
-    // 合并查询：一次获取 blocks + page-name + tags + updated-at
-    // 使用 or-join 处理可选的 tags，避免多次查询
-    logger.debug('[Query:queryBlocks] executing combined query for blocks, pages, tags, and updated info');
+    logger.debug('[Query:queryBlocks] executing query for blocks');
     const allBlocksWithMeta = await logseqAPI.DB.datascriptQuery(`
-      [:find (pull ?b [*]) ?page-name ?tag-name ?updated
+      [:find  (pull ?b 
+                 [:block/content 
+                  :block/created-at
+                  {:block/page [:block/title]}
+                  {:block/tags [:block/title]}
+                  {:block/refs [:block/name]}])
        :where
-       [?b :block/content ?content]
-       [?b :block/created-at ?created]
-       [(>= ?created ${startTimestamp})]
-       [(<= ?created ${endTimestamp})]
-       [?b :block/page ?page]
-       [?page :page/name ?page-name]
-       [?b :block/updated-at ?updated]
-       (or-join [?b ?tag-name]
-         (and [?b :block/tags ?t] [?t :block/title ?tag-name])
-         (and [(identity nil) ?tag-name]))]
+       [?b :block/created-at ?date]
+       [(>= ?date ${startTimestamp})]
+       [(<= ?date ${endTimestamp})]
+       [?b :block/refs ?ref]
+       [?ref :block/name ?ref-name]]
     `);
     logger.debug('[Query:queryBlocks] allBlocksWithMeta result', { count: allBlocksWithMeta.length });
 
@@ -37,39 +35,38 @@ export class Query {
     const updatedBlockIds = new Set<string>();
     let totalContentLength = 0;
 
-    // 统计页面、标签、内容长度和更新信息
+    // 统计页面、标签、内容长度
     for (const row of allBlocksWithMeta) {
       if (!row || !Array.isArray(row) || row.length < 1) continue;
       
       const blockData = row[0] as any;
-      const pageName = row[1] as string;
-      const tagName = row[2] as string | null;
-      const updatedAt = row[3] as number;
-      const content = blockData?.['content'] || '';
-      const blockId = blockData?.['uuid'] || blockData?.[':block/uuid'];
+      const content = blockData?.['content'] || blockData?.[':block/content'] || '';
+      const pageData = blockData?.['page'] || blockData?.[':block/page'];
+      const tagsData = blockData?.['tags'] || blockData?.[':block/tags'];
       
       totalContentLength += content.length;
 
       // 统计页面
-      if (pageName) {
-        pageCount[pageName] = (pageCount[pageName] || 0) + 1;
-      }
-
-      // 统计标签（可能为 null）
-      if (tagName) {
-        tagCount[tagName] = (tagCount[tagName] || 0) + 1;
-      }
-
-      // 统计更新的块（在时间范围内更新）
-      if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
-        if (blockId) {
-          updatedBlockIds.add(blockId);
+      if (pageData) {
+        const pageName = pageData['title'] || pageData[':block/title'];
+        if (pageName) {
+          pageCount[pageName] = (pageCount[pageName] || 0) + 1;
         }
+      }
+
+      // 统计标签
+      if (tagsData && Array.isArray(tagsData)) {
+        tagsData.forEach((tagData: any) => {
+          const tagName = tagData?.['title'] || tagData?.[':block/title'];
+          if (tagName) {
+            tagCount[tagName] = (tagCount[tagName] || 0) + 1;
+          }
+        });
       }
     }
 
     const created = allBlocksWithMeta.length;
-    const modified = updatedBlockIds.size;
+    const modified = 0; // 新查询未提供修改数据
     const total = allBlocksWithMeta.length;
 
     logger.info('[Query:queryBlocks] completed', {
@@ -102,22 +99,22 @@ export class Query {
       end: end.toISOString()
     });
 
-    // 查询任务，使用 create-at 时间过滤（时间戳格式）
-    // 参考: {:query [:find (pull ?b [*]) :where [?b :block/tags ?t] [?t :block/title "Task"] [?b :block/created-at ?date] [(>= ?date 1777593600000)] [(<= ?date 1780185600000)]]}
-    logger.debug('[Query:queryTasks] executing logseqAPI.DB.datascriptQuery: get tasks with tags "Task"');
+    logger.debug('[Query:queryTasks] executing query for tasks');
     const tasks = await logseqAPI.DB.datascriptQuery(`
-      [:find (pull ?b [*]) ?status-title ?priority-title
+      [:find  (pull ?b 
+                 [:block/content 
+                  :block/created-at
+                  {:block/page [:block/title]}
+                  {:block/tags [:block/title]}
+                  :logseq.property/status
+                  :logseq.property/priority
+                  :logseq.property/scheduled])
        :where
-       [?b :block/tags ?t]
-       [?t :block/title "Task"]
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
        [(<= ?date ${endTimestamp})]
-       [?b :logseq.property/status ?status]
-       [?status :block/title ?status-title]
-       [?b :logseq.property/priority ?priority]
-       [?priority :block/title ?priority-title]
-      ]
+       [?b :block/tags ?t]
+       [?t :block/title "Task"]]
     `);
     logger.debug('[Query:queryTasks] tasks result', { count: tasks.length });
 
@@ -134,52 +131,39 @@ export class Query {
       if (!task || !Array.isArray(task) || task.length < 1) continue;
 
       const block = task[0] as any;
-      const statusTitle = task[1] as string;
-      const priorityTitle = task[2] as string;
-      const status = statusTitle ? statusTitle.toLowerCase() : 'todo';
-      const priority = priorityTitle ? priorityTitle.toLowerCase() : 'none';
-
-      logger.debug('[Query:queryTasks] processing task', {
-        blockId: block?.['uuid'],
-        status,
-        priority: priority
-      });
+      const statusTag = block?.['tags']?.find((t: any) => 
+        (t?.['title'] || t?.[':block/title'])?.toLowerCase() === 'done' || 
+        (t?.['title'] || t?.[':block/title'])?.toLowerCase() === 'doing' || 
+        (t?.['title'] || t?.[':block/title'])?.toLowerCase() === 'todo'
+      );
+      const status = statusTag ? (statusTag?.['title'] || statusTag?.[':block/title'])?.toLowerCase() : 'todo';
+      
+      const priorityTag = block?.['tags']?.find((t: any) => 
+        (t?.['title'] || t?.[':block/title'])?.toLowerCase().startsWith('priority')
+      );
+      const priority = priorityTag ? (priorityTag?.['title'] || priorityTag?.[':block/title'])?.toLowerCase() : 'none';
 
       if (status === 'done' || status === 'completed' || status === 'cancelled') {
         completed++;
-        logger.debug('[Query:queryTasks] task completed', { blockId: block?.['uuid'] });
       } else if (status === 'doing' || status === 'now') {
         inProgress++;
-        logger.debug('[Query:queryTasks] task in-progress', { blockId: block?.['uuid'] });
       } else if (status === 'waiting' || status === 'later') {
-        logger.debug('[Query:queryTasks] task waiting/later', { blockId: block?.['uuid'] });
+        // waiting
       } else {
         todo++;
-        logger.debug('[Query:queryTasks] task todo', { blockId: block?.['uuid'] });
       }
 
-      // 检查是否逾期：如果有 scheduled 日期，且已过期的未完成任务
       const scheduled = block?.['scheduled'] || block?.[':logseq.property/scheduled'];
       if (scheduled && status !== 'done' && status !== 'completed' && status !== 'cancelled') {
         const scheduledDate = new Date(scheduled);
         if (scheduledDate < now) {
           overdue++;
-          logger.debug('[Query:queryTasks] task overdue', {
-            blockId: block?.['uuid'],
-            scheduled
-          });
         }
       }
 
-      // 优先级分析
       if (priority) {
         const priorityKey = String(priority).toLowerCase();
         byPriority[priorityKey] = (byPriority[priorityKey] || 0) + 1;
-        logger.debug('[Query:queryTasks] task priority found', {
-          blockId: block?.['uuid'],
-          priority: priorityKey,
-          count: byPriority[priorityKey]
-        });
       }
     }
 
@@ -214,24 +198,19 @@ export class Query {
       timestamps: { start: startTimestamp, end: endTimestamp }
     });
 
-    logger.debug('[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get all pages');
+    logger.debug('[Query:queryPages] executing query for pages');
     const pages = await logseqAPI.DB.datascriptQuery(`
-      [:find (pull ?p [*])
-       :where [?p :page/name ?name]
-              [?p :page/created-at ?createdAt]
-              [?p :page/updated-at ?updatedAt]]
+      [:find  (pull ?p 
+                 [:page/name
+                  :page/title
+                  :page/created-at
+                  :page/updated-at
+                  {:block/tags [:block/title]}])
+       :where
+       [?p :page/name ?name]
+       [?p :page/created-at ?createdAt]]
     `);
     logger.debug('[Query:queryPages] pages result', { count: pages.length });
-
-    // 查询页面标签
-    logger.debug('[Query:queryPages] executing logseqAPI.DB.datascriptQuery: get page tags');
-    const pageTags = await logseqAPI.DB.datascriptQuery(`
-      [:find ?p ?tag-name
-       :where
-       [?p :block/tags ?t]
-       [?t :block/title ?tag-name]]
-    `);
-    logger.debug('[Query:queryPages] pageTags result', { count: pageTags.length });
 
     let newPages = 0;
     let modifiedPages = 0;
@@ -244,26 +223,23 @@ export class Query {
       const pageData = page[0] as any;
       const createdAt = pageData?.['created-at'] || pageData?.[':page/created-at'];
       const updatedAt = pageData?.['updated-at'] || pageData?.[':page/updated-at'];
+      const tagsData = pageData?.['tags'] || pageData?.[':block/tags'];
 
-      // 检查创建时间
       if (createdAt && createdAt >= startTimestamp && createdAt <= endTimestamp) {
         newPages++;
-        logger.debug('[Query:queryPages] new page found', { pageName: pageData?.['name'] || pageData?.[':page/name'] });
       }
 
-      // 检查更新时间
       if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
         modifiedPages++;
-        logger.debug('[Query:queryPages] modified page found', { pageName: pageData?.['name'] || pageData?.[':page/name'] });
       }
-    }
 
-    // 统计标签
-    for (const tagEntry of pageTags) {
-      if (!tagEntry || !Array.isArray(tagEntry) || tagEntry.length < 2) continue;
-      const tagName = tagEntry[1] as string;
-      if (tagName) {
-        byTag[tagName] = (byTag[tagName] || 0) + 1;
+      if (tagsData && Array.isArray(tagsData)) {
+        tagsData.forEach((tagData: any) => {
+          const tagName = tagData?.['title'] || tagData?.[':block/title'];
+          if (tagName) {
+            byTag[tagName] = (byTag[tagName] || 0) + 1;
+          }
+        });
       }
     }
 

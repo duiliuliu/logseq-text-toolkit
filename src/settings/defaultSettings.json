@@ -107,7 +107,9 @@
     "defaultTemplate": "gtd-work-review",
     "defaultType": "weekly",
     "dateFormat": "yyyy-MM-dd EEE",
-    "pageNameTemplate": "{{type}}-总结-{{date}}",
+    "weeklyPageNameTemplate": "周度总结-{{year}}-W{{week}}",
+    "monthlyPageNameTemplate": "月度总结-{{year}}-{{month}}",
+    "customPageNameTemplate": "自定义总结-{{date}}",
     "ai": {
       "enabled": false,
       "provider": "openai",
