@@ -1671,17 +1671,21 @@
         const fullMethod = `logseq.${moduleName}.${propName}`;
         if (typeof value === "function") {
           if (value.constructor.name !== "AsyncFunction") {
-            logger.debug(`[同步调用] → ${fullMethod}`);
-            return value;
+            return (...args) => {
+              logger.debug(`📤 [同步调用] → ${fullMethod}`, ...args);
+              const result = value.apply(target, args);
+              logger.debug(`📤 [同步返回] ← ${fullMethod}`, result);
+              return result;
+            };
           }
           return async (...args) => {
-            logger.debug(`调用 → ${fullMethod}`, ...args);
+            logger.debug(`⏳ [异步调用] → ${fullMethod}`, ...args);
             try {
               const result = await value.apply(target, args);
-              logger.debug(`返回 ← ${fullMethod}`, result);
+              logger.debug(`⏳ [异步返回] ← ${fullMethod}`, result);
               return result;
             } catch (err) {
-              logger.error(`异常 ✕ ${fullMethod}`, err);
+              logger.error(`❌ [调用异常] × ${fullMethod}`, err);
               throw err;
             }
           };
@@ -1694,22 +1698,7 @@
     });
   }
   function createLoggerProxy(rawLogseq, logger = loggerProxy) {
-    const logseq = { ...rawLogseq };
-    const LOGSEQ_MODULES = [
-      "App",
-      "Editor",
-      "DB",
-      "Git",
-      "UI",
-      "Assets",
-      "FileStorage"
-    ];
-    for (const mod of LOGSEQ_MODULES) {
-      if (logseq[mod]) {
-        logseq[mod] = createLoggerModuleProxy(logseq[mod], mod, logger);
-      }
-    }
-    return logseq;
+    return createLoggerModuleProxy(rawLogseq, "", logger);
   }
 
   const LOGSEQ_MODULES = ["App", "Editor", "DB", "Git", "UI", "Assets", "FileStorage"];
@@ -8024,8 +8013,6 @@ ${where}
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
        [(<= ?date ${endTimestamp})]
-       [?b :block/refs ?ref]
-       [?ref :block/name ?ref-name]]
     `);
       loggerProxy.debug("[Query:queryBlocks] allBlocksWithMeta result", { count: allBlocksWithMeta.length });
       const tagCount = {};
