@@ -3092,7 +3092,7 @@
   		viewList: "List",
   		viewTable: "Table",
   		viewGallery: "Gallery",
-  		viewBoard: "Board",
+  		viewBoard: "Kanban",
   		hideViewBar: "Hide View Switcher Bar",
   		hideViewBarDescription: "When hidden, default view will be used. You can still switch views with view=xxx parameter",
   		defaultTheme: "Default Theme",
@@ -3140,7 +3140,7 @@
   			}
   		},
   		board: {
-  			title: "📋 Board Settings",
+  			title: "📋 Kanban Settings",
   			showColumnBorders: "Show Column Borders",
   			cardSpacing: "Card Spacing",
   			customTheme: {
@@ -3366,7 +3366,7 @@
   		viewList: "リスト",
   		viewTable: "テーブル",
   		viewGallery: "ギャラリー",
-  		viewBoard: "ボード",
+  		viewBoard: "カンバン",
   		hideViewBar: "ビュー切り替えバーを隠す",
   		hideViewBarDescription: "隠した場合はデフォルトビューを使用します。view=xxxパラメータでビューを切り替え可能",
   		defaultTheme: "デフォルトテーマ",
@@ -3688,7 +3688,7 @@
   			}
   		},
   		board: {
-  			title: "📋 Board 设置",
+  			title: "📋 Kanban 设置",
   			showColumnBorders: "显示列边框",
   			cardSpacing: "卡片间距",
   			customTheme: {
@@ -20100,7 +20100,7 @@ ${where}
     },
     "board": {
       id: "board",
-      name: "Board",
+      name: "Kanban",
       icon: VIEW_ICONS.board,
       cssClass: "ltt-board-root"
     }

@@ -190,7 +190,7 @@
         }
       },
       "board": {
-        "title": "📋 Board 设置",
+        "title": "📋 Kanban 设置",
         "showColumnBorders": "显示列边框",
         "cardSpacing": "卡片间距",
         "customTheme": {
