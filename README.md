@@ -70,6 +70,38 @@
 | 查询 | 支持 tag / page / property 三种查询方式 |
 | 配色 | 支持 min/max 渐变颜色与两种计算公式 |
 
+### 📋 块视图 (Block View) 🆕
+| 功能 | 说明 |
+|------|------|
+| 视图类型 | 列表、表格、画廊、看板 |
+| 主题支持 | 默认、Notion、Linear、深色、渐变、Tana、自定义 |
+| 自定义主题 | 支持各视图独立配置颜色、边框、圆角等 |
+| 视图切换栏 | 可显示/隐藏 |
+
+**使用方式**：
+```markdown
+{{renderer :block-view}}
+{{renderer :block-view, view=table}}
+{{renderer :block-view, view=gallery}}
+{{renderer :block-view, view=board}}
+```
+
+**指定主题**：
+```markdown
+{{renderer :block-view, theme=notion}}
+{{renderer :block-view, view=table, theme=linear}}
+```
+
+### 📝 总结生成 (Summary) ⚠️ **暂不可用**
+| 功能 | 说明 |
+|------|------|
+| 总结类型 | 周度、月度、年度、自定义时间范围 |
+| 模板支持 | GTD 工作回顾、极简仪表盘、子弹日记、OKR 回顾、学习总结 |
+| AI 增强 | 支持 OpenAI/Claude 接入 |
+| 数据分析 | 块、任务、页面统计 |
+
+> ⚠️ 总结功能正在开发中，暂时不可用。
+
 ### 🎛️ 工具栏
 - 选中文本自动弹出
 - 支持快捷键自定义
@@ -127,6 +159,21 @@
 {{renderer :heatmap, view=month, page=My Page}}
 {{renderer :heatmap, view=week, property=category::work, week=20, year=2026}}
 ```
+
+### 块视图 (Block View)
+```markdown
+{{renderer :block-view}}
+{{renderer :block-view, view=table}}
+{{renderer :block-view, view=gallery}}
+{{renderer :block-view, view=board}}
+```
+
+**参数说明**：
+| 参数 | 说明 | 可选值 |
+|------|------|-------|
+| view | 视图类型 | list, table, gallery, board |
+| theme | 主题风格 | default, notion, linear, dark, gradient, tana, custom |
+| hideBar | 隐藏切换栏 | true, false |
 
 ---
 

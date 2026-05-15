@@ -5,6 +5,7 @@ import { getAllTemplates } from '../../lib/summary/templates'
 import { generateSummary } from '../../lib/summary/register'
 import { t } from '../../translations/i18n'
 import { useSettingsContext } from '../../settings/useSettings'
+import CustomSelect from '../CustomSelect/index'
 import './summary.css'
 
 interface SummaryModalProps {
@@ -13,11 +14,11 @@ interface SummaryModalProps {
   theme?: 'light' | 'dark';
 }
 
-const summaryTypes: { value: SummaryType; label: string }[] = [
-  { value: 'weekly', label: '周度总结' },
-  { value: 'monthly', label: '月度总结' },
-  { value: 'yearly', label: '年度总结' },
-  { value: 'custom', label: '自定义时间范围' },
+const summaryTypes: { value: SummaryType; labelKey: string }[] = [
+  { value: 'weekly', labelKey: 'settings.summary.typeWeekly' },
+  { value: 'monthly', labelKey: 'settings.summary.typeMonthly' },
+  { value: 'yearly', labelKey: 'settings.summary.typeYearly' },
+  { value: 'custom', labelKey: 'settings.summary.typeCustom' },
 ]
 
 export const SummaryModal: React.FC<SummaryModalProps> = ({ isOpen, onClose, theme = 'light' }) => {
@@ -35,123 +36,113 @@ export const SummaryModal: React.FC<SummaryModalProps> = ({ isOpen, onClose, the
       setSummaryType(settings.summary.defaultType || 'weekly')
       setTemplateType(settings.summary.defaultTemplate || 'gtd-work-review')
     }
-  }, [isOpen, settings]);
+  }, [isOpen, settings])
 
   const handleGenerate = async () => {
-    setIsGenerating(true);
+    setIsGenerating(true)
     
-    let startDate: Date | undefined;
-    let endDate: Date | undefined;
+    let startDate: Date | undefined
+    let endDate: Date | undefined
     
     if (summaryType === 'custom') {
-      startDate = customStart ? new Date(customStart) : undefined;
-      endDate = customEnd ? new Date(customEnd) : undefined;
+      startDate = customStart ? new Date(customStart) : undefined
+      endDate = customEnd ? new Date(customEnd) : undefined
     }
 
-    await generateSummary(templateType, summaryType, startDate, endDate);
+    await generateSummary(templateType, summaryType, startDate, endDate)
     
-    setIsGenerating(false);
-    onClose();
-  };
+    setIsGenerating(false)
+    onClose()
+  }
 
   const handleClose = () => {
-    setSummaryType('weekly');
-    setTemplateType('gtd-work-review');
-    setCustomStart('');
-    setCustomEnd('');
-    onClose();
-  };
+    setSummaryType('weekly')
+    setTemplateType('gtd-work-review')
+    setCustomStart('')
+    setCustomEnd('')
+    onClose()
+  }
+
+  const typeOptions = summaryTypes.map(item => ({
+    value: item.value,
+    label: t(item.labelKey)
+  }))
+
+  const templateOptions = templates.map(template => ({
+    value: template.id,
+    label: `${template.name}`
+  }))
 
   return (
     <Modal
       title="📊 生成总结"
       isOpen={isOpen}
       onClose={handleClose}
-      width="520px"
+      width="420px"
       theme={theme}
     >
       <div className="summary-modal-container" data-theme={theme}>
-        <div className="ltt-settings-tab-content">
-          <p className="ltt-tab-section-description-small">选择总结类型和模版</p>
-          
-          <div className="ltt-setting-item">
-            <label>总结类型</label>
-            <div className="radio-group">
-              {summaryTypes.map((item) => (
-                <label
-                  key={item.value}
-                  className={`radio-label ${summaryType === item.value ? 'active' : ''}`}
-                >
-                  <input
-                    type="radio"
-                    name="summaryType"
-                    value={item.value}
-                    checked={summaryType === item.value}
-                    onChange={(e) => setSummaryType(e.target.value as SummaryType)}
-                  />
-                  {item.label}
-                </label>
-              ))}
-            </div>
+        <div className="summary-content">
+          <div className="summary-section">
+            <label className="summary-label">{t('settings.summary.defaultType')}</label>
+            <CustomSelect
+              options={typeOptions}
+              value={summaryType}
+              onChange={(value) => setSummaryType(value as SummaryType)}
+            />
           </div>
 
           {summaryType === 'custom' && (
-            <div className="custom-date-section">
-              <div className="form-row">
-                <div className="ltt-setting-item">
-                  <label>开始日期</label>
-                  <input
-                    type="date"
-                    value={customStart}
-                    onChange={(e) => setCustomStart(e.target.value)}
-                  />
-                </div>
-                <div className="ltt-setting-item">
-                  <label>结束日期</label>
-                  <input
-                    type="date"
-                    value={customEnd}
-                    onChange={(e) => setCustomEnd(e.target.value)}
-                  />
-                </div>
+            <div className="summary-section custom-dates">
+              <div className="summary-date-field">
+                <label className="summary-label summary-label-small">{t('settings.summary.startDate')}</label>
+                <input
+                  type="date"
+                  className="summary-input"
+                  value={customStart}
+                  onChange={(e) => setCustomStart(e.target.value)}
+                />
+              </div>
+              <div className="summary-date-field">
+                <label className="summary-label summary-label-small">{t('settings.summary.endDate')}</label>
+                <input
+                  type="date"
+                  className="summary-input"
+                  value={customEnd}
+                  onChange={(e) => setCustomEnd(e.target.value)}
+                />
               </div>
             </div>
           )}
 
-          <div className="ltt-setting-item">
-            <label>选择模版</label>
-            <select
+          <div className="summary-section">
+            <label className="summary-label">{t('settings.summary.defaultTemplate')}</label>
+            <CustomSelect
+              options={templateOptions}
               value={templateType}
-              onChange={(e) => setTemplateType(e.target.value as TemplateType)}
-            >
-              {templates.map((template) => (
-                <option key={template.id} value={template.id}>
-                  {template.name} - {template.description}
-                </option>
-              ))}
-            </select>
+              onChange={(value) => setTemplateType(value as TemplateType)}
+            />
           </div>
 
-          <div className="ltt-settings-actions">
+          <div className="summary-actions">
             <button
               type="button"
-              className="ltt-settings-btn"
+              className="summary-btn summary-btn-cancel"
               onClick={handleClose}
-              style={{ backgroundColor: 'var(--ls-secondary-background-color, #f5f5f5)', color: 'var(--ls-primary-text-color, #333)' }}
             >
-              取消
+              {t('settings.cancel')}
             </button>
             <button
               type="button"
-              className="ltt-settings-btn ltt-settings-btn-save"
+              className="summary-btn summary-btn-primary"
               onClick={handleGenerate}
               disabled={isGenerating}
             >
-              {isGenerating ? '生成中...' : '生成总结'}
+              {isGenerating ? t('settings.saving') : '生成总结'}
             </button>
           </div>
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}
