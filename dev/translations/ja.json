@@ -36,6 +36,7 @@
       "taskProgress": "📊 タスク進捗",
       "heatmap": "📈 ヒートマップ",
       "blockView": "📋 ブロックビュー",
+      "summary": "📝 まとめ生成",
       "advanced": "⚡ その他の設定"
     },
     "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
@@ -133,6 +134,7 @@
     "saveTaskProgressSettings": "タスク進捗設定を保存",
     "saveHeatmapSettings": "ヒートマップ設定を保存",
     "saveBlockViewSettings": "ブロックビュー設定を保存",
+    "saveSummarySettings": "サマリー設定を保存",
     "blockView": {
       "description": "ブロックビューモジュールのグローバルなデフォルト動作を設定します。",
       "enabled": "ブロックビューを有効化",
@@ -231,6 +233,35 @@
       "enableWeekPageCreation": "週ページ作成を有効化",
       "weekPageNameTemplate": "ページ名テンプレート",
       "weekLogseqTemplate": "Logseqテンプレート"
+    },
+    "summary": {
+      "description": "サマリー生成機能のデフォルト動作とパラメータを設定します。",
+      "enabled": "サマリー機能を有効化",
+      "defaultTemplate": "デフォルトテンプレート",
+      "defaultType": "デフォルトサマリータイプ",
+      "dateFormat": "日付形式",
+      "pageNameTemplate": "ページ名テンプレート",
+      "templateGtdWorkReview": "GTD 作業レビュー",
+      "templateMinimalDashboard": "ミニマルダッシュボード",
+      "templateBulletJournal": "バレットジャーナル",
+      "templateOkrReview": "OKR レビュー",
+      "templateStudySummary": "学習サマリー",
+      "typeWeekly": "週次",
+      "typeMonthly": "月次",
+      "typeYearly": "年次",
+      "typeCustom": "カスタム",
+      "startDate": "開始日",
+      "endDate": "終了日",
+      "aiSettings": "🤖 AI設定",
+      "aiEnabled": "AI拡張を有効化",
+      "aiProvider": "AIプロバイダー",
+      "aiProviderOpenAI": "OpenAI",
+      "aiProviderClaude": "Claude",
+      "aiProviderCustom": "カスタム",
+      "aiApiKey": "APIキー",
+      "aiApiUrl": "APIアドレス",
+      "aiModel": "モデル",
+      "aiPromptTemplate": "プロンプトテンプレート"
     }
   }
 }

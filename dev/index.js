@@ -3260,6 +3260,7 @@
   		taskProgress: "📊 タスク進捗",
   		heatmap: "📈 ヒートマップ",
   		blockView: "📋 ブロックビュー",
+  		summary: "📝 まとめ生成",
   		advanced: "⚡ その他の設定"
   	},
   	saveSuccessRestart: "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
@@ -3357,6 +3358,7 @@
   	saveTaskProgressSettings: "タスク進捗設定を保存",
   	saveHeatmapSettings: "ヒートマップ設定を保存",
   	saveBlockViewSettings: "ブロックビュー設定を保存",
+  	saveSummarySettings: "サマリー設定を保存",
   	blockView: {
   		description: "ブロックビューモジュールのグローバルなデフォルト動作を設定します。",
   		enabled: "ブロックビューを有効化",
@@ -3455,6 +3457,35 @@
   		enableWeekPageCreation: "週ページ作成を有効化",
   		weekPageNameTemplate: "ページ名テンプレート",
   		weekLogseqTemplate: "Logseqテンプレート"
+  	},
+  	summary: {
+  		description: "サマリー生成機能のデフォルト動作とパラメータを設定します。",
+  		enabled: "サマリー機能を有効化",
+  		defaultTemplate: "デフォルトテンプレート",
+  		defaultType: "デフォルトサマリータイプ",
+  		dateFormat: "日付形式",
+  		pageNameTemplate: "ページ名テンプレート",
+  		templateGtdWorkReview: "GTD 作業レビュー",
+  		templateMinimalDashboard: "ミニマルダッシュボード",
+  		templateBulletJournal: "バレットジャーナル",
+  		templateOkrReview: "OKR レビュー",
+  		templateStudySummary: "学習サマリー",
+  		typeWeekly: "週次",
+  		typeMonthly: "月次",
+  		typeYearly: "年次",
+  		typeCustom: "カスタム",
+  		startDate: "開始日",
+  		endDate: "終了日",
+  		aiSettings: "🤖 AI設定",
+  		aiEnabled: "AI拡張を有効化",
+  		aiProvider: "AIプロバイダー",
+  		aiProviderOpenAI: "OpenAI",
+  		aiProviderClaude: "Claude",
+  		aiProviderCustom: "カスタム",
+  		aiApiKey: "APIキー",
+  		aiApiUrl: "APIアドレス",
+  		aiModel: "モデル",
+  		aiPromptTemplate: "プロンプトテンプレート"
   	}
   };
   var ja = {
@@ -24708,6 +24739,70 @@ ${where}
     const newThemeClass = `theme-${themeType}`;
     if (!blockElement.classList.contains(newThemeClass)) {
       blockElement.classList.add(newThemeClass);
+    }
+    if (themeType === "custom") {
+      const settings = await getSettingsWithSystem();
+      const viewSettings = settings?.blockView?.[viewType];
+      const customTheme = viewSettings?.customTheme;
+      if (customTheme) {
+        blockElement.setAttribute("data-custom-theme", "true");
+        const cssVariables = [];
+        if (viewType === "table") {
+          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "#f8fafc"}`);
+          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+          cssVariables.push(`--custom-cell-text: ${customTheme.cellTextColor || "#475569"}`);
+          cssVariables.push(`--custom-header-border: ${customTheme.headerBorderColor || "#cbd5e1"}`);
+          cssVariables.push(`--custom-row-bg: ${customTheme.rowBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-row-hover: ${customTheme.rowHoverBgColor || "#f1f5f9"}`);
+          cssVariables.push(`--custom-radius: ${customTheme.tableBorderRadius || "8px"}`);
+          cssVariables.push(`--custom-header-height: ${customTheme.headerHeight || "48px"}`);
+          cssVariables.push(`--custom-cell-padding: ${customTheme.cellPadding || "12px 16px"}`);
+        } else if (viewType === "gallery") {
+          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-card-hover: ${customTheme.cardHoverBgColor || "#f8fafc"}`);
+          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
+          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+          cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
+          cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "12px"}`);
+          cssVariables.push(`--custom-card-shadow: ${customTheme.cardShadow || "0 2px 8px rgba(0, 0, 0, 0.06)"}`);
+        } else if (viewType === "board") {
+          cssVariables.push(`--custom-border-color: ${customTheme.borderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-column-bg: ${customTheme.columnBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-column-hover: ${customTheme.columnHoverBgColor || "#f8fafc"}`);
+          cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || "transparent"}`);
+          cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || "#374151"}`);
+          cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || "#ffffff"}`);
+          cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || "#475569"}`);
+          cssVariables.push(`--custom-card-border: ${customTheme.cardBorderColor || "#e2e8f0"}`);
+          cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || "8px"}`);
+        }
+        blockElement.style.cssText += cssVariables.join("; ") + ";";
+      }
+    } else {
+      blockElement.setAttribute("data-custom-theme", "false");
+      const cssVars = [
+        "--custom-border-color",
+        "--custom-header-bg",
+        "--custom-header-text",
+        "--custom-cell-text",
+        "--custom-header-border",
+        "--custom-row-bg",
+        "--custom-row-hover",
+        "--custom-radius",
+        "--custom-header-height",
+        "--custom-cell-padding",
+        "--custom-card-bg",
+        "--custom-card-hover",
+        "--custom-card-text",
+        "--custom-card-radius",
+        "--custom-card-shadow",
+        "--custom-column-bg",
+        "--custom-column-hover",
+        "--custom-card-border"
+      ];
+      cssVars.forEach((v) => blockElement.style.removeProperty(v));
     }
     loggerProxy.debug("[BlockView] View & theme applied", { blockId, viewType, themeType });
   }
