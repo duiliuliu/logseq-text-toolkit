@@ -141,6 +141,11 @@ const processTextWithNewlines = (text: string): string => {
 };
 
 const replaceText = (item: ToolbarItem, text: string): string => {
+  // 处理空文本和纯空白文本
+  if (!text || text.trim() === '') {
+    return '';
+  }
+  
   const hasNewlines = text.includes('\n');
   
   if (hasNewlines) {

@@ -162,9 +162,14 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
 };
 
 /**
- * 替换文本 - 核心函数
+ * 替换文本 - 核心函数（与 utils.ts 正式逻辑同步）
  */
 const replaceText = (item: ToolbarItem, text: string): string => {
+  // 处理空文本和纯空白文本
+  if (!text || text.trim() === '') {
+    return '';
+  }
+  
   const hasNewlines = text.includes('\n');
   
   if (hasNewlines) {
