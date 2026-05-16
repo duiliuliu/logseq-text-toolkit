@@ -14,9 +14,208 @@ import logger from '../logger/index';
 /**
  * 判断 invokeParams 是否为正则替换配置对象
  */
-function isRegexReplaceParams(params: InvokeParams): params is RegexReplaceParams {
+export function isRegexReplaceParams(params: InvokeParams): params is RegexReplaceParams {
   return typeof params === 'object' && params !== null && 'regex' in params;
 }
+
+/**
+ * 检查文本是否已有格式（导出供测试）
+ * @param text 要检查的文本
+ * @returns 是否包含格式标记
+ */
+export const hasExistingFormat = (text: string): boolean => {
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return true;
+  }
+  
+  const formatPatterns = [
+    /\*\*[^*]+\*\*/,
+    /\*[^*]+\*/,
+    /~~[^~]+~~/,
+    /==[^=]+==/,
+    /`[^`]+`/,
+  ];
+  
+  return formatPatterns.some(pattern => pattern.test(text));
+};
+
+/**
+ * 将原始文本中的格式标记解析为 Logseq 支持的嵌套格式（导出供测试）
+ * 使用从外到内的策略处理嵌套
+ * @param text 原始文本（可能包含格式）
+ * @returns 处理后的文本（已转换为嵌套格式）
+ */
+export const parseNestedFormat = (text: string): string => {
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return text;
+  }
+  
+  // 使用从外到内的策略：递归地处理最外层的格式
+  const processOuterFormat = (str: string): string => {
+    // 定义外层格式及其对应的 hiccup 标签
+    const outerFormats = [
+      { regex: /\*\*([^*]+)\*\*/g, tag: 'b' },
+      { regex: /(?<!\*)\*([^*]+)\*(?!\*)/g, tag: 'i' },
+      { regex: /~~([^~]+)~~/g, tag: 's' },
+      { regex: /==([^=]+)==/g, tag: 'mark' },
+      { regex: /`([^`]+)`/g, tag: 'code' },
+    ];
+    
+    // 递归处理从外到内
+    const recursiveProcess = (s: string): string => {
+      // 如果没有格式标记，直接返回
+      const hasAnyFormat = outerFormats.some(f => f.regex.test(s));
+      if (!hasAnyFormat) {
+        return s;
+      }
+      
+      let processed = s;
+      
+      // 处理每个外层格式
+      for (const { regex, tag } of outerFormats) {
+        processed = processed.replace(regex, (match, content) => {
+          // 递归处理内层内容
+          const innerContent = recursiveProcess(content);
+          
+          // 判断是否需要引号
+          // 不需要引号的情况：
+          // 1. 内容已经是完整的 hiccup 格式（以 [: 开头，以 ] 结尾）
+          // 2. 内容包含嵌套的 hiccup 格式
+          const isHiccupFormat = innerContent.startsWith('[:') && innerContent.endsWith(']');
+          
+          if (isHiccupFormat) {
+            // 已经是 hiccup 格式，直接返回
+            return `[:${tag} ${innerContent}]`;
+          } else if (innerContent.includes(' ') || 
+                     innerContent.includes('"') || 
+                     innerContent.includes("'")) {
+            // 普通文本但包含需要引号的字符
+            return `[:${tag} "${innerContent}"]`;
+          } else {
+            // 普通文本，不需要引号
+            return `[:${tag} ${innerContent}]`;
+          }
+        });
+      }
+      
+      return processed;
+    };
+    
+    return recursiveProcess(str);
+  };
+  
+  return processOuterFormat(text);
+};
+
+/**
+ * 检测 invokeParams 中的包裹模式，并提取前缀和后缀（导出供测试）
+ * @param invokeParams 工具项的 invokeParams
+ * @returns 包含 prefix 和 suffix 的对象
+ */
+export const parseWrapperPattern = (invokeParams: string): { prefix: string; suffix: string } | null => {
+  const match = invokeParams.match(/^(.*)\${selectedText}(.*)$/);
+  if (match) {
+    return { prefix: match[1], suffix: match[2] };
+  }
+  
+  return null;
+};
+
+/**
+ * 判断文本是否需要用引号包裹（导出供测试）
+ * @param text 文本
+ * @returns 是否需要引号
+ */
+export const needsQuotes = (text: string): boolean => {
+  // 跳过已经是完整 hiccup 格式的文本
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return false;
+  }
+  
+  return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
+         text.includes('"') || text.includes("'");
+};
+
+/**
+ * 处理文本的引号包裹逻辑（导出供测试）
+ * @param prefix 前缀
+ * @param suffix 后缀
+ * @param text 文本内容
+ * @returns 处理后的文本
+ */
+export const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): string => {
+  // 检查前缀和后缀是否有引号
+  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
+  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+  
+  // 如果需要引号但没有提供，则添加引号
+  if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
+    return prefix + `"${text}"` + suffix;
+  }
+  
+  // 如果不需要引号但提供了引号，则移除引号
+  if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
+    const cleanPrefix = prefix.slice(0, -1);
+    const cleanSuffix = suffix.slice(1);
+    return cleanPrefix + text + cleanSuffix;
+  }
+  
+  // 否则保持原样
+  return prefix + text + suffix;
+};
+
+/**
+ * 智能处理嵌套格式（导出供测试）
+ * @param prefix 前缀
+ * @param suffix 后缀
+ * @param text 原始文本
+ * @param nestedText 已处理的嵌套文本
+ * @returns 正确处理后的结果
+ */
+export const handleNestedQuotes = (prefix: string, suffix: string, text: string, nestedText: string): string => {
+  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
+  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+  
+  const isAlreadyNested = text.startsWith('[:') && text.endsWith(']');
+  
+  const isEntirelyWrappedFormat = (
+    (text.startsWith('**') && text.endsWith('**')) ||
+    (text.startsWith('*') && text.endsWith('*') && !text.startsWith('**')) ||
+    (text.startsWith('~~') && text.endsWith('~~')) ||
+    (text.startsWith('==') && text.endsWith('==')) ||
+    (text.startsWith('`') && text.endsWith('`'))
+  );
+  
+  const hasFormatMarkers = text.includes('**') || text.includes('*') || text.includes('~~') || text.includes('==') || text.includes('`');
+  const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
+  
+  if (isAlreadyNested) {
+    // 如果是已嵌套格式，直接使用原始文本
+    if (prefixHasQuote && suffixHasQuote) {
+      const cleanPrefix = prefix.slice(0, -1);
+      const cleanSuffix = suffix.slice(1);
+      return cleanPrefix + text + cleanSuffix;
+    } else {
+      return prefix + text + suffix;
+    }
+  }
+  
+  if (isEntirelyWrappedFormat) {
+    if (prefixHasQuote && suffixHasQuote) {
+      const cleanPrefix = prefix.slice(0, -1);
+      const cleanSuffix = suffix.slice(1);
+      return cleanPrefix + nestedText + cleanSuffix;
+    } else {
+      return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+    }
+  }
+  
+  if (isPartiallyFormatted) {
+    return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+  }
+  
+  return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+};
 
 /**
  * 更新块内容
@@ -131,205 +330,6 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
     logger.error('替换选中元素时出错', error);
     return false;
   }
-};
-
-/**
- * 检查文本是否已有格式
- * @param text 要检查的文本
- * @returns 是否包含格式标记
- */
-const hasExistingFormat = (text: string): boolean => {
-  if (text.startsWith('[:') && text.endsWith(']')) {
-    return true;
-  }
-  
-  const formatPatterns = [
-    /\*\*[^*]+\*\*/,
-    /\*[^*]+\*/,
-    /~~[^~]+~~/,
-    /==[^=]+==/,
-    /`[^`]+`/,
-  ];
-  
-  return formatPatterns.some(pattern => pattern.test(text));
-};
-
-/**
- * 将原始文本中的格式标记解析为 Logseq 支持的嵌套格式
- * 使用从外到内的策略处理嵌套
- * @param text 原始文本（可能包含格式）
- * @returns 处理后的文本（已转换为嵌套格式）
- */
-const parseNestedFormat = (text: string): string => {
-  if (text.startsWith('[:') && text.endsWith(']')) {
-    return text;
-  }
-  
-  // 使用从外到内的策略：递归地处理最外层的格式
-  const processOuterFormat = (str: string): string => {
-    // 定义外层格式及其对应的 hiccup 标签
-    const outerFormats = [
-      { regex: /\*\*([^*]+)\*\*/g, tag: 'b' },
-      { regex: /(?<!\*)\*([^*]+)\*(?!\*)/g, tag: 'i' },
-      { regex: /~~([^~]+)~~/g, tag: 's' },
-      { regex: /==([^=]+)==/g, tag: 'mark' },
-      { regex: /`([^`]+)`/g, tag: 'code' },
-    ];
-    
-    // 递归处理从外到内
-    const recursiveProcess = (s: string): string => {
-      // 如果没有格式标记，直接返回
-      const hasAnyFormat = outerFormats.some(f => f.regex.test(s));
-      if (!hasAnyFormat) {
-        return s;
-      }
-      
-      let processed = s;
-      
-      // 处理每个外层格式
-      for (const { regex, tag } of outerFormats) {
-        processed = processed.replace(regex, (match, content) => {
-          // 递归处理内层内容
-          const innerContent = recursiveProcess(content);
-          
-          // 判断是否需要引号
-          // 不需要引号的情况：
-          // 1. 内容已经是完整的 hiccup 格式（以 [: 开头，以 ] 结尾）
-          // 2. 内容包含嵌套的 hiccup 格式
-          const isHiccupFormat = innerContent.startsWith('[:') && innerContent.endsWith(']');
-          
-          if (isHiccupFormat) {
-            // 已经是 hiccup 格式，直接返回
-            return `[:${tag} ${innerContent}]`;
-          } else if (innerContent.includes(' ') || 
-                     innerContent.includes('"') || 
-                     innerContent.includes("'")) {
-            // 普通文本但包含需要引号的字符
-            return `[:${tag} "${innerContent}"]`;
-          } else {
-            // 普通文本，不需要引号
-            return `[:${tag} ${innerContent}]`;
-          }
-        });
-      }
-      
-      return processed;
-    };
-    
-    return recursiveProcess(str);
-  };
-  
-  return processOuterFormat(text);
-};
-
-/**
- * 检测 invokeParams 中的包裹模式，并提取前缀和后缀
- * @param invokeParams 工具项的 invokeParams
- * @returns 包含 prefix 和 suffix 的对象
- */
-const parseWrapperPattern = (invokeParams: string): { prefix: string; suffix: string } | null => {
-  const match = invokeParams.match(/^(.*)\${selectedText}(.*)$/);
-  if (match) {
-    return { prefix: match[1], suffix: match[2] };
-  }
-  
-  return null;
-};
-
-/**
- * 判断文本是否需要用引号包裹（包含空格、引号等特殊字符）
- * @param text 文本
- * @returns 是否需要引号
- */
-const needsQuotes = (text: string): boolean => {
-  // 跳过已经是完整 hiccup 格式的文本
-  if (text.startsWith('[:') && text.endsWith(']')) {
-    return false;
-  }
-  
-  return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
-         text.includes('"') || text.includes("'");
-};
-
-/**
- * 处理文本的引号包裹逻辑
- * @param prefix 前缀
- * @param suffix 后缀
- * @param text 文本内容
- * @returns 处理后的文本
- */
-const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): string => {
-  // 检查前缀和后缀是否有引号
-  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
-  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
-  
-  // 如果需要引号但没有提供，则添加引号
-  if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
-    return prefix + `"${text}"` + suffix;
-  }
-  
-  // 如果不需要引号但提供了引号，则移除引号
-  if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
-    const cleanPrefix = prefix.slice(0, -1);
-    const cleanSuffix = suffix.slice(1);
-    return cleanPrefix + text + cleanSuffix;
-  }
-  
-  // 否则保持原样
-  return prefix + text + suffix;
-};
-
-/**
- * 智能处理嵌套格式 - 确保正确处理引号
- * @param prefix 前缀
- * @param suffix 后缀
- * @param text 原始文本
- * @param nestedText 已处理的嵌套文本
- * @returns 正确处理后的结果
- */
-const handleNestedQuotes = (prefix: string, suffix: string, text: string, nestedText: string): string => {
-  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
-  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
-  
-  const isAlreadyNested = text.startsWith('[:') && text.endsWith(']');
-  
-  const isEntirelyWrappedFormat = (
-    (text.startsWith('**') && text.endsWith('**')) ||
-    (text.startsWith('*') && text.endsWith('*') && !text.startsWith('**')) ||
-    (text.startsWith('~~') && text.endsWith('~~')) ||
-    (text.startsWith('==') && text.endsWith('==')) ||
-    (text.startsWith('`') && text.endsWith('`'))
-  );
-  
-  const hasFormatMarkers = text.includes('**') || text.includes('*') || text.includes('~~') || text.includes('==') || text.includes('`');
-  const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
-  
-  if (isAlreadyNested) {
-    // 如果是已嵌套格式，直接使用原始文本
-    if (prefixHasQuote && suffixHasQuote) {
-      const cleanPrefix = prefix.slice(0, -1);
-      const cleanSuffix = suffix.slice(1);
-      return cleanPrefix + text + cleanSuffix;
-    } else {
-      return prefix + text + suffix;
-    }
-  }
-  
-  if (isEntirelyWrappedFormat) {
-    if (prefixHasQuote && suffixHasQuote) {
-      const cleanPrefix = prefix.slice(0, -1);
-      const cleanSuffix = suffix.slice(1);
-      return cleanPrefix + nestedText + cleanSuffix;
-    } else {
-      return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
-    }
-  }
-  
-  if (isPartiallyFormatted) {
-    return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
-  }
-  
-  return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
 };
 
 /**
