@@ -53,6 +53,12 @@ A powerful and flexible Logseq plugin designed to enhance text editing and forma
       <br>Block View - Board
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <img width="280" alt="BlockView Mind" src="docs/screenshots/mindView.png" />
+      <br>Block View - Mind (Experimental) 🧪
+    </td>
+  </tr>
 </table>
 
 ---
@@ -100,6 +106,7 @@ A powerful and flexible Logseq plugin designed to enhance text editing and forma
 | Views | year / month / week three views |
 | Query | Supports tag / page / property three query methods |
 | Color Scheme | Min/max gradient colors and two calculation formulas |
+| Quick Create | Supports clicking month and week numbers to create corresponding date pages |
 
 **Basic Usage**:
 ```markdown
@@ -114,7 +121,7 @@ A powerful and flexible Logseq plugin designed to enhance text editing and forma
 
 | Feature | Description |
 |---------|-------------|
-| View Types | List, Table, Gallery, Board |
+| View Types | List, Table, Gallery, Board, Mind (Experimental) |
 | Theme Support | Default, Notion, Linear, Dark, Gradient, Tana, Custom |
 | Custom Themes | Independent color, border, radius configuration per view |
 | View Switcher | Show/hide toggle |
@@ -136,9 +143,16 @@ A powerful and flexible Logseq plugin designed to enhance text editing and forma
 **Parameters**:
 | Parameter | Description | Values |
 |-----------|-------------|--------|
-| view | View Type | list, table, gallery, board |
+| view | View Type | list, table, gallery, board, mind |
 | theme | Theme Style | default, notion, linear, dark, gradient, tana, custom |
 | hideBar | Hide Switcher | true, false |
+
+**Using Mind View (Experimental Feature)**:
+```markdown
+{{renderer :block-view, view=mind}}
+```
+
+> ⚠️ Mind View is an experimental feature and is continuously being optimized.
 
 ---
 
@@ -285,7 +299,29 @@ Select text → Toolbar auto-pops up → Click button
 | Tana | Soft colors | Fresh style |
 | Custom | Fully customizable | Custom needs |
 
-### 4.5 Toolbar Configuration
+#### Mind View (Experimental Feature)
+
+Mind View is the fifth view type of Block View, displaying the hierarchical relationship between blocks in a mind map format.
+
+| Feature | Description |
+|---------|-------------|
+| Hierarchy Visualization | Automatically parses block nesting to form a mind map structure |
+| Auto Layout | Intelligent algorithm calculates node positions for beautiful arrangement |
+| Node Styling | Supports customization of node colors, borders, radius, and more |
+| Interactions | Supports mouse drag, zoom, collapse/expand, and other operations |
+
+**Usage Example**:
+```markdown
+{{renderer :block-view, view=mind}}
+```
+
+**Notes**:
+> ⚠️ Mind View is an experimental feature that may need optimization in the following cases:
+> - Very large hierarchical structures (100+ nodes)
+> - Deep nesting (more than 6 levels)
+> - Blocks containing lots of special characters or formatting
+
+### 4.4 Toolbar Configuration
 
 Configure toolbar elements via JSON in Settings:
 
@@ -313,7 +349,7 @@ Configure toolbar elements via JSON in Settings:
 | invokeParams | object | Command parameters |
 | hidden | boolean | Hide button |
 
-### 4.6 Custom Languages and Internationalization
+### 4.5 Custom Languages and Internationalization
 
 The plugin supports multi-language extension. You can add new language packs or modify existing translations.
 
@@ -426,7 +462,7 @@ Each language JSON file structure:
 }
 ```
 
-### 4.7 Custom CSS Styles
+### 4.6 Custom CSS Styles
 
 The plugin's CSS files are located in `dist/` directory. You can customize styles by modifying CSS files.
 
