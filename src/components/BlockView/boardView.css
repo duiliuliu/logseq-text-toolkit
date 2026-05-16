@@ -245,18 +245,18 @@ html.dark .theme-gradient {
 .dark .theme-tana,
 [data-theme="tana"].dark,
 html.dark .theme-tana {
-  --ltt-border: rgba(16, 185, 129, 0.25);
-  --ltt-border-strong: rgba(16, 185, 129, 0.4);
-  --ltt-hover: rgba(16, 185, 129, 0.1);
-  --ltt-header-bg: linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, transparent 100%);
+  --ltt-border: rgba(16, 185, 129, 0.15);
+  --ltt-border-strong: rgba(16, 185, 129, 0.2);
+  --ltt-hover: rgba(16, 185, 129, 0.06);
+  --ltt-header-bg: #0d3029;
   --ltt-header-text: #6ee7b7;
-  --ltt-column-bg: #064e3b;
-  --ltt-column-hover: #065f46;
-  --ltt-card-bg: #064e3b;
-  --ltt-card-text: #a7f3d0;
-  --ltt-card-border: rgba(16, 185, 129, 0.25);
-  --ltt-card-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-  --ltt-card-hover-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+  --ltt-column-bg: #0a2622;
+  --ltt-column-hover: #122d28;
+  --ltt-card-bg: #0a2622;
+  --ltt-card-text: #9ca3af;
+  --ltt-card-border: rgba(16, 185, 129, 0.15);
+  --ltt-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   --ltt-card-radius: 12px;
   --ltt-column-width: 340px;
   --ltt-gap: 24px;
