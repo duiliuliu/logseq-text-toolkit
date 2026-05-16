@@ -22136,7 +22136,7 @@ ${where}
       if (processedLines.length === 1) {
         return processedLines[0];
       }
-      return processedLines.map((line) => `<div>${line}</div>`).join("");
+      return processedLines.map((line) => `[:div ${line}]`).join("");
     } else {
       if (item.regex && item.replacement) {
         const regex = new RegExp(item.regex, "g");
