@@ -1,13 +1,36 @@
 /* =========================================================
    BLOCK VIEW MINDMAP STYLES
-   幕布风格设计 - 水平树形思维导图
+   幕布风格设计 - 水平思维导图
+
+   布局示意：
+   ┌─────────────────────────────────────────────────────────────┐
+   │  主标题 viewbar                                           │
+   ├─────────────────────────────────────────────────────────────┤
+   │                                                           │
+   │    ┌─────────────┐                                         │
+   │    │   主标题     │                                         │
+   │    └──────┬──────┘                                         │
+   │           │                                               │
+   │           ├───→ 一级分支1                                  │
+   │           │           ├─→ 二级内容1                        │
+   │           │           └─→ 二级内容2                        │
+   │           │                   ├─→ 三级细节1                │
+   │           │                   └─→ 三级细节2                │
+   │           ├───→ 一级分支2                                  │
+   │           │           ├─→ 二级要点1                        │
+   │           │           └─→ 二级要点2                        │
+   │           └───→ 一级分支3                                  │
+   │                       ├─→ 执行步骤                        │
+   │                       └─→ 注意事项                        │
+   │                                                           │
+   └─────────────────────────────────────────────────────────────┘
 
    设计特点：
-   - 水平树形布局，从根节点向右延伸
-   - 清晰的父子连接线
-   - 卡片式节点
-   - 简约优雅的配色
-   - 平滑的交互效果
+   - 根节点在左侧，子节点向右水平延伸
+   - 一级分支水平排列
+   - 二级及以下层级向下垂直排列
+   - 清晰的连接线和箭头指示
+   - 卡片式节点设计
 ========================================================= */
 
 /* =========================================================
@@ -24,13 +47,13 @@
   --ltt-node-hover-bg: var(--ls-tertiary-background-color, #f3f4f6);
   --ltt-node-focus-bg: #eff6ff;
   --ltt-node-focus-border: #3b82f6;
-  --ltt-bullet-color: #d1d5db;
+  --ltt-bullet-color: #9ca3af;
   --ltt-bullet-size: 8px;
   --ltt-connector-color: #d1d5db;
   --ltt-connector-width: 2px;
-  --ltt-node-radius: 6px;
-  --ltt-node-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --ltt-node-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --ltt-node-radius: 8px;
+  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   --ltt-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -45,8 +68,8 @@ html.dark .ltt-mindmap-root {
   --ltt-node-focus-border: #60a5fa;
   --ltt-bullet-color: #6b7280;
   --ltt-connector-color: #4b5563;
-  --ltt-node-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --ltt-node-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* =========================================================
@@ -60,17 +83,6 @@ html.dark .ltt-mindmap-root {
 }
 
 /* =========================================================
-   ROOT CONTAINER - 水平布局
-========================================================= */
-
-.ltt-mindmap-root > .block-children-container {
-  display: flex !important;
-  align-items: flex-start !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* =========================================================
    ROOT NODE (标题节点)
 ========================================================= */
 
@@ -80,21 +92,9 @@ html.dark .ltt-mindmap-root {
   border-radius: var(--ltt-node-radius) !important;
   padding: 14px 20px !important;
   box-shadow: var(--ltt-node-shadow) !important;
-  margin: 0 24px 0 0 !important;
-  flex-shrink: 0;
-  transition: var(--ltt-transition);
+  margin: 0 0 24px 0 !important;
   position: relative;
-}
-
-.ltt-mindmap-root > .block-main-container::after {
-  content: '';
-  position: absolute;
-  right: -14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: var(--ltt-connector-width);
-  background: var(--ltt-connector-color);
+  transition: var(--ltt-transition);
 }
 
 .ltt-mindmap-root > .block-main-container:hover {
@@ -113,22 +113,59 @@ html.dark .ltt-mindmap-root {
 }
 
 /* =========================================================
-   CHILDREN LIST - 水平排列
+   MAIN LAYOUT CONTAINER
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+
+/* =========================================================
+   ROOT CONNECTOR - 从主标题到一级分支
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container::before {
+  content: '';
+  position: absolute;
+  left: 120px;
+  top: 24px;
+  width: 32px;
+  height: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+.ltt-mindmap-root > .block-children-container::after {
+  content: '';
+  position: absolute;
+  left: 148px;
+  top: 20px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--ltt-connector-color);
+}
+
+/* =========================================================
+   FIRST LEVEL CHILDREN - 一级分支容器
 ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap {
   display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  gap: 16px 24px !important;
+  flex-direction: column !important;
+  gap: 16px !important;
   padding: 0 !important;
   margin: 0 !important;
-  align-items: flex-start !important;
-  max-width: 800px;
+  position: relative;
 }
 
 /* =========================================================
-   FIRST LEVEL BLOCK - 子节点
+   FIRST LEVEL BLOCK - 一级分支
 ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
@@ -143,7 +180,6 @@ html.dark .ltt-mindmap-root {
   position: relative;
   min-width: auto !important;
   max-width: none !important;
-  flex-shrink: 0;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
@@ -159,11 +195,11 @@ html.dark .ltt-mindmap-root {
   background: var(--ltt-node-bg) !important;
   border: 1px solid var(--ltt-node-border) !important;
   border-radius: var(--ltt-node-radius) !important;
-  padding: 10px 14px !important;
+  padding: 10px 16px !important;
   margin: 0 !important;
   box-shadow: var(--ltt-node-shadow) !important;
-  min-width: 100px;
-  max-width: 240px;
+  min-width: 140px;
+  max-width: 280px;
   position: relative;
   transition: var(--ltt-transition);
 }
@@ -171,10 +207,10 @@ html.dark .ltt-mindmap-root {
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
   content: '';
   position: absolute;
-  left: -15px;
+  left: -28px;
   top: 50%;
   transform: translateY(-50%);
-  width: 15px;
+  width: 28px;
   height: var(--ltt-connector-width);
   background: var(--ltt-connector-color);
 }
@@ -182,14 +218,14 @@ html.dark .ltt-mindmap-root {
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {
   content: '';
   position: absolute;
-  left: -3px;
+  left: -8px;
   top: 50%;
   transform: translateY(-50%);
-  width: var(--ltt-bullet-size);
-  height: var(--ltt-bullet-size);
+  width: 8px;
+  height: 8px;
   background: var(--ltt-bullet-color);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--ltt-node-bg);
+  box-shadow: 0 0 0 3px var(--ltt-node-bg);
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {
@@ -208,7 +244,6 @@ html.dark .ltt-mindmap-root {
   font-weight: 500 !important;
   font-size: 14px !important;
   line-height: 1.5 !important;
-  padding-left: 10px !important;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
@@ -226,24 +261,25 @@ html.dark .ltt-mindmap-root {
 }
 
 /* =========================================================
-   SECOND LEVEL CHILDREN - 子节点容器
+   SECOND LEVEL CHILDREN - 二级内容容器
 ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
   display: flex !important;
   flex-direction: column !important;
-  gap: 8px !important;
-  padding: 12px 0 0 15px !important;
+  gap: 12px !important;
+  padding: 0 0 0 40px !important;
   margin: 0 !important;
   position: relative;
+  flex-shrink: 0;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 12px;
+  left: 10px;
+  top: -8px;
+  bottom: -8px;
   width: var(--ltt-connector-width);
   background: var(--ltt-connector-color);
 }
@@ -258,7 +294,6 @@ html.dark .ltt-mindmap-root {
   gap: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
-  position: relative;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
@@ -271,16 +306,14 @@ html.dark .ltt-mindmap-root {
   margin: 0 !important;
   box-shadow: none !important;
   position: relative;
-  min-width: auto !important;
-  max-width: none !important;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {
   content: '';
   position: absolute;
-  left: -15px;
+  left: -30px;
   top: 16px;
-  width: 15px;
+  width: 20px;
   height: var(--ltt-connector-width);
   background: var(--ltt-connector-color);
 }
@@ -293,11 +326,11 @@ html.dark .ltt-mindmap-root {
   background: var(--ltt-node-bg) !important;
   border: 1px solid var(--ltt-node-border) !important;
   border-radius: var(--ltt-node-radius) !important;
-  padding: 8px 12px !important;
+  padding: 8px 14px !important;
   margin: 0 !important;
   box-shadow: var(--ltt-node-shadow) !important;
-  min-width: 90px;
-  max-width: 200px;
+  min-width: 120px;
+  max-width: 240px;
   position: relative;
   transition: var(--ltt-transition);
 }
@@ -305,11 +338,10 @@ html.dark .ltt-mindmap-root {
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
   content: '';
   position: absolute;
-  left: -3px;
+  left: -4px;
   top: 14px;
-  transform: translateY(-50%);
-  width: var(--ltt-bullet-size);
-  height: var(--ltt-bullet-size);
+  width: 6px;
+  height: 6px;
   background: var(--ltt-bullet-color);
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--ltt-node-bg);
@@ -325,19 +357,18 @@ html.dark .ltt-mindmap-root {
   color: var(--ltt-node-text) !important;
   font-weight: 400 !important;
   font-size: 13px !important;
-  line-height: 1.4 !important;
-  padding-left: 10px !important;
+  line-height: 1.5 !important;
 }
 
 /* =========================================================
-   DEEPER NESTED LEVELS
+   THIRD LEVEL CHILDREN - 三级细节容器
 ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
   display: flex !important;
   flex-direction: column !important;
-  gap: 0 !important;
-  padding: 8px 0 0 15px !important;
+  gap: 8px !important;
+  padding: 0 0 0 35px !important;
   margin: 0 !important;
   position: relative;
 }
@@ -345,11 +376,23 @@ html.dark .ltt-mindmap-root {
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: 8px;
   top: 0;
   bottom: 0;
   width: var(--ltt-connector-width);
   background: var(--ltt-connector-color);
+}
+
+/* =========================================================
+   THIRD LEVEL BLOCK
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
@@ -367,22 +410,26 @@ html.dark .ltt-mindmap-root {
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {
   content: '';
   position: absolute;
-  left: -15px;
+  left: -27px;
   top: 14px;
-  width: 15px;
+  width: 18px;
   height: var(--ltt-connector-width);
   background: var(--ltt-connector-color);
 }
+
+/* =========================================================
+   THIRD LEVEL NODE - 卡片样式
+========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   background: var(--ltt-node-bg) !important;
   border: 1px solid var(--ltt-node-border) !important;
   border-radius: var(--ltt-node-radius) !important;
-  padding: 6px 10px !important;
+  padding: 6px 12px !important;
   margin: 0 !important;
   box-shadow: var(--ltt-node-shadow) !important;
-  min-width: 80px;
-  max-width: 180px;
+  min-width: 100px;
+  max-width: 200px;
   position: relative;
   transition: var(--ltt-transition);
 }
@@ -392,9 +439,8 @@ html.dark .ltt-mindmap-root {
   position: absolute;
   left: -3px;
   top: 12px;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   background: var(--ltt-bullet-color);
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--ltt-node-bg);
@@ -411,7 +457,36 @@ html.dark .ltt-mindmap-root {
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 1.4 !important;
-  padding-left: 8px !important;
+}
+
+/* =========================================================
+   DEEPER LEVELS - 更深层级
+========================================================= */
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: 0 0 0 30px !important;
+  margin: 0 !important;
+  position: relative;
+}
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  padding: 5px 10px !important;
+  font-size: 11px !important;
+  min-width: 80px;
+  max-width: 160px;
 }
 
 /* =========================================================
@@ -527,21 +602,27 @@ html.dark .ltt-mindmap-root {
    RESPONSIVE
 ========================================================= */
 
+@media (max-width: 1024px) {
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+    max-width: 220px;
+  }
+}
+
 @media (max-width: 768px) {
   .ltt-mindmap-root {
     margin: 16px !important;
   }
 
   .ltt-mindmap-root > .block-main-container {
-    margin: 0 16px 0 0 !important;
+    margin-bottom: 16px !important;
   }
 
   .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
     max-width: 180px;
   }
 
-  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-    max-width: 160px;
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
+    padding-left: 30px !important;
   }
 }
 
@@ -551,12 +632,25 @@ html.dark .ltt-mindmap-root {
   }
 
   .ltt-mindmap-root > .block-main-container {
-    margin: 0 12px 0 0 !important;
     padding: 10px 14px !important;
   }
 
-  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap {
-    gap: 12px 16px !important;
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+    max-width: 140px;
+    padding: 8px 12px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
+    padding-left: 20px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
+    width: 18px !important;
+    left: -18px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {
+    left: -4px !important;
   }
 }
 
