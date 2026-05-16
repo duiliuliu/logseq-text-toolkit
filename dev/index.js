@@ -21969,83 +21969,6 @@ ${where}
   function isRegexReplaceParams(params) {
     return typeof params === "object" && params !== null && "regex" in params;
   }
-  const updateBlockContent = async (selectedData, processedText, language) => {
-    try {
-      const block = selectedData.block;
-      if (!block || !block.content) {
-        logseqAPI$1.UI.showMsg(t("toolbar.noBlockContent", language), { type: "error" });
-        return false;
-      }
-      const originalContent = block.content;
-      const selectedText = selectedData.text;
-      const success = await replaceInSelectedElement(selectedData, processedText);
-      if (success) {
-        return true;
-      }
-      const newContent = findAndReplaceText(originalContent, selectedText, processedText);
-      if (newContent !== originalContent) {
-        return await logseqAPI$1.Editor.updateBlock(block.uuid, newContent);
-      } else {
-        return false;
-      }
-    } catch (error) {
-      loggerProxy.error("Error updating block content:", error);
-      return false;
-    }
-  };
-  const findAndReplaceText = (originalContent, selectedText, processedText) => {
-    const index = originalContent.indexOf(selectedText);
-    if (index === -1) {
-      loggerProxy.warn("Selected text not found in block content:", {
-        originalContent,
-        selectedText,
-        processedText
-      });
-      return originalContent;
-    }
-    return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
-  };
-  const replaceInSelectedElement = async (selectedData, processedText) => {
-    try {
-      const selection = getSelection();
-      const doc = getDocument();
-      if (!selection || selection.rangeCount === 0) {
-        loggerProxy.debug("未找到有效的选择范围");
-        return false;
-      }
-      const range = selection.getRangeAt(0);
-      const startContainer = range.startContainer;
-      const endContainer = range.endContainer;
-      if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
-        const textNode = startContainer;
-        const startOffset = range.startOffset;
-        loggerProxy.debug("在同一个文本节点中进行替换", {
-          nodeText: textNode.textContent,
-          startOffset,
-          endOffset: range.endOffset
-        });
-        const newText = selectedData.before + processedText + selectedData.after;
-        loggerProxy.debug("生成新文本", { newText });
-        textNode.textContent = newText;
-        const newRange = doc.createRange();
-        newRange.setStart(textNode, startOffset);
-        newRange.setEnd(textNode, startOffset + processedText.length);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
-        loggerProxy.debug("替换成功，重新设置选择范围");
-        return true;
-      } else {
-        loggerProxy.debug("不在同一个文本节点中，无法进行精确替换", {
-          startContainer: startContainer.nodeType,
-          endContainer: endContainer.nodeType
-        });
-        return false;
-      }
-    } catch (error) {
-      loggerProxy.error("替换选中元素时出错", error);
-      return false;
-    }
-  };
   const hasExistingFormat = (text) => {
     if (text.startsWith("[:") && text.endsWith("]")) {
       return true;
@@ -22151,6 +22074,83 @@ ${where}
       return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
     }
     return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+  };
+  const updateBlockContent = async (selectedData, processedText, language) => {
+    try {
+      const block = selectedData.block;
+      if (!block || !block.content) {
+        logseqAPI$1.UI.showMsg(t("toolbar.noBlockContent", language), { type: "error" });
+        return false;
+      }
+      const originalContent = block.content;
+      const selectedText = selectedData.text;
+      const success = await replaceInSelectedElement(selectedData, processedText);
+      if (success) {
+        return true;
+      }
+      const newContent = findAndReplaceText(originalContent, selectedText, processedText);
+      if (newContent !== originalContent) {
+        return await logseqAPI$1.Editor.updateBlock(block.uuid, newContent);
+      } else {
+        return false;
+      }
+    } catch (error) {
+      loggerProxy.error("Error updating block content:", error);
+      return false;
+    }
+  };
+  const findAndReplaceText = (originalContent, selectedText, processedText) => {
+    const index = originalContent.indexOf(selectedText);
+    if (index === -1) {
+      loggerProxy.warn("Selected text not found in block content:", {
+        originalContent,
+        selectedText,
+        processedText
+      });
+      return originalContent;
+    }
+    return originalContent.substring(0, index) + processedText + originalContent.substring(index + selectedText.length);
+  };
+  const replaceInSelectedElement = async (selectedData, processedText) => {
+    try {
+      const selection = getSelection();
+      const doc = getDocument();
+      if (!selection || selection.rangeCount === 0) {
+        loggerProxy.debug("未找到有效的选择范围");
+        return false;
+      }
+      const range = selection.getRangeAt(0);
+      const startContainer = range.startContainer;
+      const endContainer = range.endContainer;
+      if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
+        const textNode = startContainer;
+        const startOffset = range.startOffset;
+        loggerProxy.debug("在同一个文本节点中进行替换", {
+          nodeText: textNode.textContent,
+          startOffset,
+          endOffset: range.endOffset
+        });
+        const newText = selectedData.before + processedText + selectedData.after;
+        loggerProxy.debug("生成新文本", { newText });
+        textNode.textContent = newText;
+        const newRange = doc.createRange();
+        newRange.setStart(textNode, startOffset);
+        newRange.setEnd(textNode, startOffset + processedText.length);
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+        loggerProxy.debug("替换成功，重新设置选择范围");
+        return true;
+      } else {
+        loggerProxy.debug("不在同一个文本节点中，无法进行精确替换", {
+          startContainer: startContainer.nodeType,
+          endContainer: endContainer.nodeType
+        });
+        return false;
+      }
+    } catch (error) {
+      loggerProxy.error("替换选中元素时出错", error);
+      return false;
+    }
   };
   const replaceText = (item, text) => {
     if (!text || text.trim() === "") {
