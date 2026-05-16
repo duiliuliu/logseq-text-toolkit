@@ -238,33 +238,109 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
 };
 
 /**
- * 替换文本 - 支持嵌套格式处理
+ * 将文本中的换行符转换为 HTML 换行标签
+ * @param text 原始文本
+ * @returns 转换后的文本
+ */
+export const convertNewlinesToHtml = (text: string): string => {
+  return text.replace(/\n/g, '<br>');
+};
+
+/**
+ * 处理文本中的换行，将每行转换为 div 包裹的 HTML 结构
+ * 自动过滤空行和首尾空白行
+ * @param text 原始文本
+ * @returns 处理后的 HTML 文本
+ */
+export const processTextWithNewlines = (text: string): string => {
+  if (!text.includes('\n')) {
+    return text;
+  }
+  
+  const lines = text.split('\n');
+  const processedLines = lines
+    .map(line => line.trim())
+    .filter(line => line !== '');
+  
+  if (processedLines.length === 0) {
+    return '';
+  }
+  
+  if (processedLines.length === 1) {
+    return processedLines[0];
+  }
+  
+  return processedLines.map(line => `<div>${line}</div>`).join('');
+};
+
+/**
+ * 替换文本 - 支持嵌套格式处理和换行转换
  * @param item 工具栏项目
  * @param text 原始文本
  * @returns 替换后的文本
  */
 export const replaceText = (item: ToolbarItem, text: string): string => {
-  if (item.regex && item.replacement) {
-    const regex = new RegExp(item.regex, 'g');
-    return text.replace(regex, item.replacement);
-  } else if (item.invokeParams) {
-    if (isRegexReplaceParams(item.invokeParams)) {
-      const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
-      const regex = new RegExp(pattern, flags);
-      return text.replace(regex, replacement);
+  const hasNewlines = text.includes('\n');
+  
+  if (hasNewlines) {
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    
+    if (lines.length === 0) {
+      return '';
     }
     
-    const invokeParamsStr = String(item.invokeParams);
-    const wrapper = parseWrapperPattern(invokeParamsStr);
+    const processedLines = lines.map(line => {
+      if (item.regex && item.replacement) {
+        const regex = new RegExp(item.regex, 'g');
+        return line.replace(regex, item.replacement);
+      } else if (item.invokeParams) {
+        if (isRegexReplaceParams(item.invokeParams)) {
+          const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+          const regex = new RegExp(pattern, flags);
+          return line.replace(regex, replacement);
+        } else {
+          const invokeParamsStr = String(item.invokeParams);
+          const wrapper = parseWrapperPattern(invokeParamsStr);
+          
+          if (wrapper && hasExistingFormat(line)) {
+            const nestedText = parseNestedFormat(line);
+            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
+          } else {
+            return invokeParamsStr.replace(/\${selectedText}/g, line);
+          }
+        }
+      }
+      return line;
+    });
     
-    if (wrapper && hasExistingFormat(text)) {
-      const nestedText = parseNestedFormat(text);
-      return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+    if (processedLines.length === 1) {
+      return processedLines[0];
     }
     
-    return invokeParamsStr.replace(/\${selectedText}/g, text);
+    return processedLines.map(line => `<div>${line}</div>`).join('');
+  } else {
+    if (item.regex && item.replacement) {
+      const regex = new RegExp(item.regex, 'g');
+      return text.replace(regex, item.replacement);
+    } else if (item.invokeParams) {
+      if (isRegexReplaceParams(item.invokeParams)) {
+        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+        const regex = new RegExp(pattern, flags);
+        return text.replace(regex, replacement);
+      } else {
+        const invokeParamsStr = String(item.invokeParams);
+        const wrapper = parseWrapperPattern(invokeParamsStr);
+        
+        if (wrapper && hasExistingFormat(text)) {
+          const nestedText = parseNestedFormat(text);
+          return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+        } else {
+          return invokeParamsStr.replace(/\${selectedText}/g, text);
+        }
+      }
+    }
+    return text;
   }
-  return text;
 };
 
 /**
