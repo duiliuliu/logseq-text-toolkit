@@ -16,16 +16,34 @@
 ========================================================= */
 
 .ltt-gallery-root {
-  --ltt-border: #e2e8f0;
-  --ltt-border-strong: #cbd5e1;
+  --ltt-border: var(--ls-border-color, #e2e8f0);
+  --ltt-border-strong: var(--ls-border-color, #cbd5e1);
   --ltt-hover: rgba(0, 0, 0, 0.04);
   --ltt-header-bg: transparent;
-  --ltt-header-text: #374151;
-  --ltt-card-bg: #ffffff;
-  --ltt-card-text: #475569;
-  --ltt-card-hover: #f8fafc;
+  --ltt-header-text: var(--ls-primary-text-color, #374151);
+  --ltt-card-bg: var(--ls-primary-background-color, #ffffff);
+  --ltt-card-text: var(--ls-secondary-text-color, #475569);
+  --ltt-card-hover: var(--ls-tertiary-background-color, #f8fafc);
   --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --ltt-card-radius: 12px;
+  --ltt-gap: 20px;
+  --ltt-padding: 24px;
+}
+
+/* Dark mode for DEFAULT theme - Gallery */
+.dark .ltt-gallery-root,
+html.dark .ltt-gallery-root {
+  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));
+  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));
+  --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: transparent;
+  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);
+  --ltt-card-bg: var(--ls-primary-background-color, #0f172a);
+  --ltt-card-text: var(--ls-secondary-text-color, #cbd5e1);
+  --ltt-card-hover: var(--ls-tertiary-background-color, #1f2937);
+  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   --ltt-card-radius: 12px;
   --ltt-gap: 20px;
   --ltt-padding: 24px;
@@ -59,12 +77,16 @@ html.dark .theme-notion {
   --ltt-border: rgba(255, 255, 255, 0.1);
   --ltt-border-strong: rgba(255, 255, 255, 0.15);
   --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: transparent;
   --ltt-header-text: #e4e7ec;
   --ltt-card-bg: #1f2937;
   --ltt-card-text: #f3f4f6;
   --ltt-card-hover: #374151;
   --ltt-card-shadow: none;
   --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ltt-card-radius: 0px;
+  --ltt-gap: 16px;
+  --ltt-padding: 20px;
 }
 
 /* =========================================================
@@ -102,6 +124,9 @@ html.dark .theme-linear {
   --ltt-card-hover: #1f2937;
   --ltt-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   --ltt-card-hover-shadow: 0 8px 32px rgba(94, 106, 210, 0.25);
+  --ltt-card-radius: 8px;
+  --ltt-gap: 18px;
+  --ltt-padding: 20px;
 }
 
 /* =========================================================

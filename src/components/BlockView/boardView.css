@@ -15,18 +15,39 @@
 ========================================================= */
 
 .ltt-board-root {
-  --ltt-border: #e2e8f0;
-  --ltt-border-strong: #cbd5e1;
+  --ltt-border: var(--ls-border-color, #e2e8f0);
+  --ltt-border-strong: var(--ls-border-color, #cbd5e1);
   --ltt-hover: rgba(0, 0, 0, 0.04);
   --ltt-header-bg: transparent;
-  --ltt-header-text: #374151;
-  --ltt-column-bg: #ffffff;
-  --ltt-column-hover: #f8fafc;
-  --ltt-card-bg: #ffffff;
-  --ltt-card-text: #475569;
-  --ltt-card-border: #e2e8f0;
+  --ltt-header-text: var(--ls-primary-text-color, #374151);
+  --ltt-column-bg: var(--ls-primary-background-color, #ffffff);
+  --ltt-column-hover: var(--ls-tertiary-background-color, #f8fafc);
+  --ltt-card-bg: var(--ls-primary-background-color, #ffffff);
+  --ltt-card-text: var(--ls-secondary-text-color, #475569);
+  --ltt-card-border: var(--ls-border-color, #e2e8f0);
   --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --ltt-card-radius: 8px;
+  --ltt-column-width: 320px;
+  --ltt-gap: 20px;
+  --ltt-padding: 20px;
+}
+
+/* Dark mode for DEFAULT theme - Board */
+.dark .ltt-board-root,
+html.dark .ltt-board-root {
+  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));
+  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));
+  --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: transparent;
+  --ltt-header-text: var(--ls-primary-text-color, #f8fafc);
+  --ltt-column-bg: var(--ls-primary-background-color, #0f172a);
+  --ltt-column-hover: var(--ls-tertiary-background-color, #1f2937);
+  --ltt-card-bg: var(--ls-primary-background-color, #1f2937);
+  --ltt-card-text: var(--ls-secondary-text-color, #cbd5e1);
+  --ltt-card-border: var(--ls-border-color, rgba(255, 255, 255, 0.08));
+  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   --ltt-card-radius: 8px;
   --ltt-column-width: 320px;
   --ltt-gap: 20px;
@@ -57,6 +78,28 @@
   --ltt-padding: 16px;
 }
 
+/* Dark mode for Notion theme - Board */
+.dark .theme-notion,
+[data-theme="notion"].dark,
+html.dark .theme-notion {
+  --ltt-border: rgba(255, 255, 255, 0.1);
+  --ltt-border-strong: rgba(255, 255, 255, 0.15);
+  --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: transparent;
+  --ltt-header-text: #e4e7ec;
+  --ltt-column-bg: #1f2937;
+  --ltt-column-hover: #374151;
+  --ltt-card-bg: #1f2937;
+  --ltt-card-text: #f3f4f6;
+  --ltt-card-border: rgba(255, 255, 255, 0.1);
+  --ltt-card-shadow: none;
+  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ltt-card-radius: 0px;
+  --ltt-column-width: 300px;
+  --ltt-gap: 16px;
+  --ltt-padding: 16px;
+}
+
 /* =========================================================
    THEME: LINEAR
 ========================================================= */
@@ -75,6 +118,28 @@
   --ltt-card-border: #e5e7eb;
   --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   --ltt-card-hover-shadow: 0 4px 12px rgba(94, 106, 210, 0.15);
+  --ltt-card-radius: 8px;
+  --ltt-column-width: 300px;
+  --ltt-gap: 16px;
+  --ltt-padding: 16px;
+}
+
+/* Dark mode for Linear theme - Board */
+.dark .theme-linear,
+[data-theme="linear"].dark,
+html.dark .theme-linear {
+  --ltt-border: rgba(255, 255, 255, 0.08);
+  --ltt-border-strong: rgba(255, 255, 255, 0.12);
+  --ltt-hover: rgba(94, 106, 210, 0.08);
+  --ltt-header-bg: #1e2128;
+  --ltt-header-text: #818cf8;
+  --ltt-column-bg: #0f172a;
+  --ltt-column-hover: #1f2937;
+  --ltt-card-bg: #0f172a;
+  --ltt-card-text: #cbd5e1;
+  --ltt-card-border: rgba(255, 255, 255, 0.08);
+  --ltt-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --ltt-card-hover-shadow: 0 8px 32px rgba(94, 106, 210, 0.25);
   --ltt-card-radius: 8px;
   --ltt-column-width: 300px;
   --ltt-gap: 16px;
@@ -130,6 +195,28 @@
   --ltt-padding: 24px;
 }
 
+/* Dark mode for Gradient theme - Board */
+.dark .theme-gradient,
+[data-theme="gradient"].dark,
+html.dark .theme-gradient {
+  --ltt-border: rgba(139, 92, 246, 0.3);
+  --ltt-border-strong: rgba(139, 92, 246, 0.5);
+  --ltt-hover: rgba(139, 92, 246, 0.1);
+  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%);
+  --ltt-header-text: #c4b5fd;
+  --ltt-column-bg: #1e1b4b;
+  --ltt-column-hover: #312e81;
+  --ltt-card-bg: #1e1b4b;
+  --ltt-card-text: #ddd6fe;
+  --ltt-card-border: rgba(139, 92, 246, 0.3);
+  --ltt-card-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+  --ltt-card-hover-shadow: 0 8px 24px rgba(139, 92, 246, 0.5);
+  --ltt-card-radius: 12px;
+  --ltt-column-width: 340px;
+  --ltt-gap: 24px;
+  --ltt-padding: 24px;
+}
+
 /* =========================================================
    THEME: TANA (NEW)
 ========================================================= */
@@ -148,6 +235,28 @@
   --ltt-card-border: #a7f3d0;
   --ltt-card-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
   --ltt-card-hover-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+  --ltt-card-radius: 12px;
+  --ltt-column-width: 340px;
+  --ltt-gap: 24px;
+  --ltt-padding: 24px;
+}
+
+/* Dark mode for Tana theme - Board */
+.dark .theme-tana,
+[data-theme="tana"].dark,
+html.dark .theme-tana {
+  --ltt-border: rgba(16, 185, 129, 0.25);
+  --ltt-border-strong: rgba(16, 185, 129, 0.4);
+  --ltt-hover: rgba(16, 185, 129, 0.1);
+  --ltt-header-bg: linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, transparent 100%);
+  --ltt-header-text: #6ee7b7;
+  --ltt-column-bg: #064e3b;
+  --ltt-column-hover: #065f46;
+  --ltt-card-bg: #064e3b;
+  --ltt-card-text: #a7f3d0;
+  --ltt-card-border: rgba(16, 185, 129, 0.25);
+  --ltt-card-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+  --ltt-card-hover-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
   --ltt-card-radius: 12px;
   --ltt-column-width: 340px;
   --ltt-gap: 24px;

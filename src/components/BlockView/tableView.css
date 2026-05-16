@@ -9,20 +9,40 @@
 
 :root,
 .light {
-  --ltt-border: #e2e8f0;
-  --ltt-border-strong: #cbd5e1;
+  --ltt-border: var(--ls-border-color, #e2e8f0);
+  --ltt-border-strong: var(--ls-border-color, #cbd5e1);
   --ltt-hover: rgba(0, 0, 0, 0.04);
-  --ltt-header-bg: #f8fafc;
-  --ltt-header-text: #374151;
-  --ltt-cell-text: #475569;
-  --ltt-cell-bg: rgba(255, 255, 255, 0.7);
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #f1f5f9;
+  --ltt-header-bg: var(--ls-tertiary-background-color, #f8fafc);
+  --ltt-header-text: var(--ls-primary-text-color, #374151);
+  --ltt-cell-text: var(--ls-secondary-text-color, #475569);
+  --ltt-cell-bg: var(--ls-primary-background-color, rgba(255, 255, 255, 0.7));
+  --ltt-row-bg: var(--ls-primary-background-color, #ffffff);
+  --ltt-row-hover: var(--ls-tertiary-background-color, #f1f5f9);
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
   --ltt-col-1-width: 280px;
   --ltt-cell-padding: 12px 4px;
+  --ltt-header-height: 48px;
+}
+
+/* Dark mode for DEFAULT theme */
+.dark,
+html.dark {
+  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));
+  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));
+  --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: var(--ls-tertiary-background-color, #1f2937);
+  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);
+  --ltt-cell-text: var(--ls-secondary-text-color, #b8c0cc);
+  --ltt-cell-bg: var(--ls-primary-background-color, rgba(30, 33, 40, 0.9));
+  --ltt-row-bg: var(--ls-primary-background-color, #0f172a);
+  --ltt-row-hover: var(--ls-tertiary-background-color, #1e2128);
+  --ltt-radius: 8px;
+  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  --ltt-col-1-width: 280px;
+  --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
 

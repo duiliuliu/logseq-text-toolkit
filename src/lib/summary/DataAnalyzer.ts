@@ -10,8 +10,6 @@ export class DataAnalyzer {
   }
 
   calculateDateRange(type: SummaryType, customStart?: Date, customEnd?: Date): DateRange {
-    logger.debug('[DataAnalyzer] 计算时间范围', { type, customStart, customEnd });
-    
     const now = new Date();
     let start: Date;
     let end: Date;
@@ -47,13 +45,12 @@ export class DataAnalyzer {
         break;
     }
 
-    logger.debug('[DataAnalyzer] 时间范围计算完成', { start, end });
     return { start, end };
   }
 
   async analyze(type: SummaryType, customStart?: Date, customEnd?: Date): Promise<SummaryData> {
     const dateRange = this.calculateDateRange(type, customStart, customEnd);
-    logger.info('[DataAnalyzer] 开始分析数据', { type, dateRange });
+    logger.info('[DataAnalyzer] 开始分析数据', { type });
 
     const [blocks, tasks, pages] = await Promise.all([
       this.query.queryBlocks(dateRange),

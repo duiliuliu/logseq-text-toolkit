@@ -38,16 +38,11 @@ export class PageGenerator {
       logger.info('[PageGenerator] 创建页面', { pageName });
 
       const pageId = await this.createPage(pageName);
-
-      if (pageId) {
-        logger.debug('[PageGenerator] 插入块树', { pageId, blocksCount: blockTree.length });
-        await this.insertBlockTree(pageId, blockTree);
-        logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
-      } else {
-        logger.debug('[PageGenerator] 插入块树', { pageId, blocksCount: blockTree.length });
-        await this.insertBlockTree(pageName, blockTree);
-        logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
-      }
+      const insertTarget = pageId || pageName;
+      
+      logger.debug('[PageGenerator] 插入块树', { target: insertTarget, blocksCount: blockTree.length });
+      await this.insertBlockTree(insertTarget, blockTree);
+      logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
 
       return pageName;
     } catch (error) {
