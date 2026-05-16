@@ -277,7 +277,7 @@ export const processTextWithNewlines = (text: string): string => {
  * 替换文本 - 支持嵌套格式处理和换行转换
  * @param item 工具栏项目
  * @param text 原始文本
- * @returns 替换后的文本
+ * @returns 替换后的文本（hiccup格式）
  */
 export const replaceText = (item: ToolbarItem, text: string): string => {
   const hasNewlines = text.includes('\n');
@@ -317,7 +317,7 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
       return processedLines[0];
     }
     
-    return processedLines.map(line => `<div>${line}</div>`).join('');
+    return processedLines.map(line => `[:div ${line}]`).join('');
   } else {
     if (item.regex && item.replacement) {
       const regex = new RegExp(item.regex, 'g');

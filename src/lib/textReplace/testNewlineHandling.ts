@@ -112,7 +112,7 @@ const processTextWithNewlines = (text: string): string => {
     return processedLines[0];
   }
   
-  return processedLines.map(line => `<div>${line}</div>`).join('');
+  return processedLines.map(line => `[:div ${line}]`).join('');
 };
 
 const replaceText = (item: ToolbarItem, text: string): string => {
@@ -149,7 +149,7 @@ const replaceText = (item: ToolbarItem, text: string): string => {
       return processedLines[0];
     }
     
-    return processedLines.map(line => `<div>${line}</div>`).join('');
+    return processedLines.map(line => `[:div ${line}]`).join('');
   } else {
     if (item.regex && item.replacement) {
       const regex = new RegExp(item.regex, 'g');
@@ -182,31 +182,31 @@ const testCases = [
   {
     name: '换行文本 - 两行',
     input: '第一行\n第二行',
-    expected: '<div>第一行</div><div>第二行</div>',
+    expected: '[:div 第一行][:div 第二行]',
     function: processTextWithNewlines
   },
   {
     name: '换行文本 - 三行',
     input: '第一行\n第二行\n第三行',
-    expected: '<div>第一行</div><div>第二行</div><div>第三行</div>',
+    expected: '[:div 第一行][:div 第二行][:div 第三行]',
     function: processTextWithNewlines
   },
   {
     name: '换行文本 - 包含空行',
     input: '第一行\n\n第二行',
-    expected: '<div>第一行</div><div>第二行</div>',
+    expected: '[:div 第一行][:div 第二行]',
     function: processTextWithNewlines
   },
   {
     name: '换行文本 - 开头换行',
     input: '\n第一行\n第二行',
-    expected: '<div>第一行</div><div>第二行</div>',
+    expected: '[:div 第一行][:div 第二行]',
     function: processTextWithNewlines
   },
   {
     name: '换行文本 - 结尾换行',
     input: '第一行\n第二行\n',
-    expected: '<div>第一行</div><div>第二行</div>',
+    expected: '[:div 第一行][:div 第二行]',
     function: processTextWithNewlines
   },
   {
@@ -245,7 +245,7 @@ const integrationTestCases = [
       invokeParams: '[:span.red "${selectedText}"]'
     },
     input: '第一行\n第二行',
-    expected: '<div>[:span.red "第一行"]</div><div>[:span.red "第二行"]</div>'
+    expected: '[:div [:span.red "第一行"]][:div [:span.red "第二行"]]'
   },
   {
     name: '包含换行和格式的文本应用颜色',
@@ -256,7 +256,7 @@ const integrationTestCases = [
       invokeParams: '[:span.red "${selectedText}"]'
     },
     input: '普通文本\n**加粗文本**',
-    expected: '<div>[:span.red "普通文本"]</div><div>[:span.red [:b "加粗文本"]]</div>'
+    expected: '[:div [:span.red "普通文本"]][:div [:span.red [:b "加粗文本"]]]'
   },
   {
     name: '嵌套格式（Logseq）应用颜色 - 单行',
@@ -278,7 +278,7 @@ const integrationTestCases = [
       invokeParams: '[:span.red "${selectedText}"]'
     },
     input: '[:span.blue "第一行"]\n[:span.green "第二行"]',
-    expected: '<div>[:span.red [:span.blue "第一行"]]</div><div>[:span.red [:span.green "第二行"]]</div>'
+    expected: '[:div [:span.red [:span.blue "第一行"]]][:div [:span.red [:span.green "第二行"]]]'
   },
   {
     name: '混合嵌套和Markdown格式 - 多行',
@@ -289,7 +289,7 @@ const integrationTestCases = [
       invokeParams: '[:span.blue "${selectedText}"]'
     },
     input: '**加粗文本**\n[:span.red "红色文本"]\n普通文本',
-    expected: '<div>[:span.blue [:b "加粗文本"]]</div><div>[:span.blue [:span.red "红色文本"]]</div><div>[:span.blue "普通文本"]</div>'
+    expected: '[:div [:span.blue [:b "加粗文本"]]][:div [:span.blue [:span.red "红色文本"]]][:div [:span.blue "普通文本"]]'
   },
   {
     name: '已有嵌套格式再嵌套 - 三行',
@@ -300,7 +300,7 @@ const integrationTestCases = [
       invokeParams: '[:u "${selectedText}"]'
     },
     input: '[:span.red "红色"]\n[:span.blue "蓝色"]\n普通',
-    expected: '<div>[:u [:span.red "红色"]]</div><div>[:u [:span.blue "蓝色"]]</div><div>[:u "普通"]</div>'
+    expected: '[:div [:u [:span.red "红色"]]][:div [:u [:span.blue "蓝色"]]][:div [:u "普通"]]'
   }
 ];
 
