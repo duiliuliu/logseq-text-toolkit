@@ -37,6 +37,7 @@ import blockViewCSSRaw from './components/BlockView/blockView.css?raw'
 import tableViewCSSRaw from './components/BlockView/tableView.css?raw'
 import galleryViewCSSRaw from './components/BlockView/galleryView.css?raw'
 import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
+import mindMapViewCSSRaw from './components/BlockView/mindMapView.css?raw'
 import listViewCssRaw from './components/BlockView/listView.css?raw'
 
 
@@ -159,6 +160,12 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: boardViewCSSRaw,
     externalPath: 'boardView.css'
+  })
+
+  registerCSS('mindMapView', {
+    type: 'both',
+    inlineContent: mindMapViewCSSRaw,
+    externalPath: 'mindMapView.css'
   })
 
   registerCSS('listView', {

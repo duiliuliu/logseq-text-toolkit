@@ -1,0 +1,630 @@
+/* =========================================================
+   BLOCK VIEW MINDMAP STYLES
+   Advanced Theme System with Multiple Presets
+
+   主题设计系统说明：
+   - 使用 CSS 变量驱动的设计系统
+   - 优先使用 Logseq 原生变量作为主色
+   - 提供多种预设主题风格
+   - 支持深色模式自动适配
+
+   主题风格速查：
+   | 主题    | 圆角    | 阴影   | 连接线   | 特点                    |
+   |---------|---------|--------|---------|-------------------------|
+   | Default | 20px   | 柔和   | 曲线    | 基础风格，依赖系统变量    |
+   | Notion  | 0px    | 无     | 直线    | 极简线条，专业干净        |
+   | Linear  | 16px   | 轻量   | 曲线    | 科技蓝紫，适合项目管理    |
+   | Dark    | 20px   | 深色   | 曲线    | 纯深色，夜间使用         |
+   | Gradient| 20px   | 彩色   | 渐变线  | 活力渐变，适合展示        |
+   | Tana    | 18px   | 柔和   | 曲线    | 清新自然，舒适柔和        |
+   | Indigo  | 18px   | 柔和   | 曲线    | 专业蓝紫，沉稳商务        |
+
+   布局特点：
+   - 中心发散布局
+   - 子节点水平排列
+   - 连接线采用贝塞尔曲线
+   - 支持多层级展开
+========================================================= */
+
+/* =========================================================
+   THEME: DEFAULT - 系统变量主题
+   设计特点：
+   - 圆角：20px（大气圆角）
+   - 阴影：柔和多层阴影
+   - 连接线：主题色曲线
+   - 节点：白色背景，圆角边框
+   - 适用场景：日常使用，与 Logseq 风格统一
+========================================================= */
+
+:root,
+.light,
+.ltt-mindmap-root {
+  --ltt-border: var(--ls-border-color, #e2e8f0);
+  --ltt-border-strong: var(--ls-border-color, #cbd5e1);
+  --ltt-node-bg: var(--ls-primary-background-color, #ffffff);
+  --ltt-node-text: var(--ls-primary-text-color, #374151);
+  --ltt-node-hover: var(--ls-tertiary-background-color, #f8fafc);
+  --ltt-node-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --ltt-node-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --ltt-node-radius: 20px;
+  --ltt-node-padding: 16px 24px;
+  --ltt-connector-color: var(--ls-border-color, #cbd5e1);
+  --ltt-connector-width: 2px;
+  --ltt-center-bg: var(--ls-secondary-background-color, #f1f5f9);
+  --ltt-center-text: var(--ls-primary-text-color, #1e293b);
+  --ltt-center-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Default Dark Mode */
+.dark .ltt-mindmap-root,
+html.dark .ltt-mindmap-root {
+  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));
+  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));
+  --ltt-node-bg: var(--ls-primary-background-color, #0f172a);
+  --ltt-node-text: var(--ls-primary-text-color, #e4e7ec);
+  --ltt-node-hover: var(--ls-tertiary-background-color, #1e2937);
+  --ltt-node-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --ltt-node-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --ltt-connector-color: rgba(255, 255, 255, 0.15);
+  --ltt-center-bg: #1e2937;
+  --ltt-center-text: #f8fafc;
+}
+
+/* =========================================================
+   THEME: NOTION - 极简专业风格
+   设计特点：
+   - 圆角：0px（无圆角，锐利边缘）
+   - 阴影：无阴影
+   - 连接线：深灰色直线
+   - 节点：无背景，纯边框
+   - 适用场景：文档型内容，专注结构
+========================================================= */
+
+.theme-notion,
+[data-theme="notion"] {
+  --ltt-border: #e5e7eb;
+  --ltt-border-strong: #d1d5db;
+  --ltt-node-bg: transparent;
+  --ltt-node-text: #37352f;
+  --ltt-node-hover: #f9fafb;
+  --ltt-node-shadow: none;
+  --ltt-node-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --ltt-node-radius: 0px;
+  --ltt-node-padding: 12px 16px;
+  --ltt-connector-color: #d1d5db;
+  --ltt-connector-width: 1px;
+  --ltt-center-bg: transparent;
+  --ltt-center-text: #37352f;
+}
+
+/* Notion Dark Mode */
+.dark .theme-notion,
+[data-theme="notion"].dark,
+html.dark .theme-notion {
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));
+  --ltt-node-bg: transparent;
+  --ltt-node-text: var(--ltt-text-primary-dark);
+  --ltt-node-hover: var(--ltt-bg-secondary-dark);
+  --ltt-node-shadow: none;
+  --ltt-node-hover-shadow: var(--ltt-shadow-dark);
+  --ltt-connector-color: var(--ltt-border-normal-dark);
+  --ltt-center-bg: transparent;
+  --ltt-center-text: var(--ltt-text-primary-dark);
+}
+
+/* =========================================================
+   THEME: LINEAR - 现代科技风格
+   设计特点：
+   - 圆角：16px
+   - 阴影：轻量柔和阴影
+   - 连接线：Indigo 曲线
+   - 节点：白色背景，淡紫边框
+   - 强调色：Indigo #5e6ad2
+   - 适用场景：项目管理，任务追踪
+========================================================= */
+
+.theme-linear,
+[data-theme="linear"] {
+  --ltt-border: #e5e7eb;
+  --ltt-border-strong: #5e6ad2;
+  --ltt-node-bg: #ffffff;
+  --ltt-node-text: #475569;
+  --ltt-node-hover: #f3f4f6;
+  --ltt-node-shadow: 0 2px 8px rgba(94, 106, 210, 0.1);
+  --ltt-node-hover-shadow: 0 8px 24px rgba(94, 106, 210, 0.2);
+  --ltt-node-radius: 16px;
+  --ltt-node-padding: 14px 20px;
+  --ltt-connector-color: #5e6ad2;
+  --ltt-connector-width: 2px;
+  --ltt-center-bg: #f8f9fc;
+  --ltt-center-text: #5e6ad2;
+  --ltt-center-shadow: 0 4px 16px rgba(94, 106, 210, 0.15);
+}
+
+/* Linear Dark Mode */
+.dark .theme-linear,
+[data-theme="linear"].dark,
+html.dark .theme-linear {
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ltt-accent-indigo-dark);
+  --ltt-node-bg: var(--ltt-bg-deepest-dark);
+  --ltt-node-text: var(--ltt-text-secondary-dark);
+  --ltt-node-hover: var(--ltt-bg-secondary-dark);
+  --ltt-node-shadow: var(--ltt-shadow-dark);
+  --ltt-node-hover-shadow: var(--ltt-shadow-hover-dark);
+  --ltt-connector-color: var(--ltt-accent-indigo-dark);
+  --ltt-center-bg: var(--ltt-bg-secondary-dark);
+  --ltt-center-text: var(--ltt-accent-indigo-dark);
+  --ltt-center-shadow: 0 4px 16px rgba(129, 140, 248, 0.2);
+}
+
+/* =========================================================
+   THEME: DARK - 纯深色模式
+   设计特点：
+   - 圆角：20px
+   - 阴影：深色阴影增加层次感
+   - 连接线：半透明白色
+   - 节点：深色背景
+   - 适用场景：夜间使用，减少眼睛疲劳
+========================================================= */
+
+.dark,
+.theme-dark,
+[data-theme="dark"] {
+  --ltt-border: rgba(255, 255, 255, 0.1);
+  --ltt-border-strong: rgba(255, 255, 255, 0.2);
+  --ltt-node-bg: #1e2937;
+  --ltt-node-text: #e4e7ec;
+  --ltt-node-hover: #2d3a4a;
+  --ltt-node-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --ltt-node-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --ltt-node-radius: 20px;
+  --ltt-node-padding: 16px 24px;
+  --ltt-connector-color: rgba(255, 255, 255, 0.2);
+  --ltt-connector-width: 2px;
+  --ltt-center-bg: #0f172a;
+  --ltt-center-text: #f8fafc;
+  --ltt-center-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================================
+   THEME: GRADIENT - 活力渐变风格
+   设计特点：
+   - 圆角：20px
+   - 阴影：彩色投影效果
+   - 连接线：渐变色曲线
+   - 节点：渐变背景
+   - 适用场景：数据展示，创意展示
+========================================================= */
+
+.theme-gradient,
+[data-theme="gradient"] {
+  --ltt-border: #ddd6fe;
+  --ltt-border-strong: #8b5cf6;
+  --ltt-node-bg: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  --ltt-node-text: #6b21a8;
+  --ltt-node-hover: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+  --ltt-node-shadow: 0 8px 32px rgba(139, 92, 246, 0.25);
+  --ltt-node-hover-shadow: 0 12px 40px rgba(139, 92, 246, 0.35);
+  --ltt-node-radius: 20px;
+  --ltt-node-padding: 16px 24px;
+  --ltt-connector-color: #8b5cf6;
+  --ltt-connector-width: 3px;
+  --ltt-center-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --ltt-center-text: #ffffff;
+  --ltt-center-shadow: 0 12px 48px rgba(139, 92, 246, 0.4);
+}
+
+/* Gradient Dark Mode */
+.dark .theme-gradient,
+[data-theme="gradient"].dark,
+html.dark .theme-gradient {
+  --ltt-border: rgba(165, 180, 252, 0.2);
+  --ltt-border-strong: #818cf8;
+  --ltt-node-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  --ltt-node-text: #c7d2fe;
+  --ltt-node-hover: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
+  --ltt-node-shadow: 0 8px 32px rgba(129, 140, 248, 0.3);
+  --ltt-node-hover-shadow: 0 12px 40px rgba(129, 140, 248, 0.4);
+  --ltt-connector-color: #818cf8;
+  --ltt-center-bg: linear-gradient(135deg, #312e81 0%, #4f46e5 100%);
+  --ltt-center-text: #ffffff;
+  --ltt-center-shadow: 0 12px 48px rgba(129, 140, 248, 0.4);
+}
+
+/* =========================================================
+   THEME: TANA - 清新自然风格
+   设计特点：
+   - 圆角：18px
+   - 阴影：柔和绿色投影
+   - 连接线：绿色曲线
+   - 节点：白色背景，绿色边框
+   - 配色方案：
+     * 浅色：浅黄-白色系
+     * 深色：深蓝-蓝紫渐变
+   - 适用场景：健康生活，目标追踪
+========================================================= */
+
+.theme-tana,
+[data-theme="tana"] {
+  --ltt-border: #e8e4d9;
+  --ltt-border-strong: #22c55e;
+  --ltt-node-bg: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  --ltt-node-text: #166534;
+  --ltt-node-hover: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  --ltt-node-shadow: 0 6px 24px rgba(34, 197, 94, 0.15);
+  --ltt-node-hover-shadow: 0 10px 36px rgba(34, 197, 94, 0.25);
+  --ltt-node-radius: 18px;
+  --ltt-node-padding: 14px 22px;
+  --ltt-connector-color: #22c55e;
+  --ltt-connector-width: 2px;
+  --ltt-center-bg: linear-gradient(135deg, #fefce8 0%, #f0fdf4 100%);
+  --ltt-center-text: #166534;
+  --ltt-center-shadow: 0 8px 32px rgba(34, 197, 94, 0.2);
+}
+
+/* Tana Dark Mode */
+.dark .theme-tana,
+[data-theme="tana"].dark,
+html.dark .theme-tana {
+  --ltt-border: rgba(129, 140, 248, 0.2);
+  --ltt-border-strong: #818cf8;
+  --ltt-node-bg: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+  --ltt-node-text: #c7d2fe;
+  --ltt-node-hover: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
+  --ltt-node-shadow: 0 6px 24px rgba(129, 140, 248, 0.25);
+  --ltt-node-hover-shadow: 0 10px 36px rgba(129, 140, 248, 0.35);
+  --ltt-connector-color: #818cf8;
+  --ltt-center-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  --ltt-center-text: #c7d2fe;
+  --ltt-center-shadow: 0 8px 32px rgba(129, 140, 248, 0.3);
+}
+
+/* =========================================================
+   THEME: INDIGO - 专业沉稳风格
+   设计特点：
+   - 圆角：18px
+   - 阴影：柔和蓝色投影
+   - 连接线：Indigo 曲线
+   - 节点：白色背景，蓝色边框
+   - 强调色：Indigo #6366f1
+   - 适用场景：商务办公，数据分析
+========================================================= */
+
+.theme-indigo,
+[data-theme="indigo"] {
+  --ltt-border: #c7d2fe;
+  --ltt-border-strong: #6366f1;
+  --ltt-node-bg: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+  --ltt-node-text: #4338ca;
+  --ltt-node-hover: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  --ltt-node-shadow: 0 6px 24px rgba(99, 102, 241, 0.15);
+  --ltt-node-hover-shadow: 0 10px 36px rgba(99, 102, 241, 0.25);
+  --ltt-node-radius: 18px;
+  --ltt-node-padding: 14px 22px;
+  --ltt-connector-color: #6366f1;
+  --ltt-connector-width: 2px;
+  --ltt-center-bg: linear-gradient(135deg, #eef2ff 0%, #c7d2fe 100%);
+  --ltt-center-text: #4338ca;
+  --ltt-center-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
+}
+
+/* Indigo Dark Mode */
+.dark .theme-indigo,
+[data-theme="indigo"].dark,
+html.dark .theme-indigo {
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ltt-accent-indigo-dark);
+  --ltt-node-bg: linear-gradient(135deg, var(--ltt-bg-deepest-dark) 0%, var(--ltt-bg-secondary-dark) 100%);
+  --ltt-node-text: var(--ltt-text-secondary-dark);
+  --ltt-node-hover: linear-gradient(135deg, var(--ltt-bg-secondary-dark) 0%, var(--ltt-bg-tertiary-dark) 100%);
+  --ltt-node-shadow: 0 6px 24px rgba(99, 102, 241, 0.2);
+  --ltt-node-hover-shadow: 0 10px 36px rgba(99, 102, 241, 0.3);
+  --ltt-connector-color: var(--ltt-accent-indigo-dark);
+  --ltt-center-bg: linear-gradient(135deg, var(--ltt-bg-secondary-dark) 0%, var(--ltt-bg-tertiary-dark) 100%);
+  --ltt-center-text: var(--ltt-accent-indigo-dark);
+  --ltt-center-shadow: 0 8px 32px rgba(129, 140, 248, 0.25);
+}
+
+/* =========================================================
+   ROOT CONTAINER
+========================================================= */
+
+.ltt-mindmap-root {
+  margin: 32px !important;
+  padding: 40px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* =========================================================
+   MINDMAP LAYOUT
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 32px !important;
+  padding: 20px !important;
+}
+
+/* =========================================================
+   CENTER NODE (ROOT)
+========================================================= */
+
+.ltt-mindmap-root > .block-main-container {
+  background: var(--ltt-center-bg) !important;
+  border: 2px solid var(--ltt-border-strong) !important;
+  border-radius: var(--ltt-node-radius) !important;
+  padding: var(--ltt-node-padding) !important;
+  box-shadow: var(--ltt-center-shadow) !important;
+  max-width: 320px;
+  min-width: 200px;
+  text-align: center;
+  margin: 0 auto 24px !important;
+  flex-shrink: 0;
+}
+
+.ltt-mindmap-root > .block-main-container .block-title-wrap {
+  color: var(--ltt-center-text) !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+}
+
+/* =========================================================
+   BRANCH NODES
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 24px !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  width: 100%;
+}
+
+/* =========================================================
+   NODE CARD
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  background: var(--ltt-node-bg) !important;
+  border: 1px solid var(--ltt-border) !important;
+  border-radius: var(--ltt-node-radius) !important;
+  padding: var(--ltt-node-padding) !important;
+  box-shadow: var(--ltt-node-shadow) !important;
+  min-width: 160px;
+  max-width: 240px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  border-color: var(--ltt-border-strong) !important;
+  box-shadow: var(--ltt-node-hover-shadow) !important;
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* =========================================================
+   NODE HEADER
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 0 12px 0 !important;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--ltt-border) !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: none !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {
+  color: var(--ltt-node-text) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+
+/* =========================================================
+   NODE CONTENT
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 8px 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  min-width: auto;
+  max-width: none;
+  transform: none !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {
+  display: flex !important;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
+  opacity: 1;
+}
+
+.ltt-mindmap-root .block-control {
+  display: none !important;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+.ltt-mindmap-root .block-title-wrap {
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: normal;
+  word-break: break-word;
+  color: var(--ltt-node-text);
+  transition: color 0.15s ease;
+}
+
+/* =========================================================
+   CONNECTOR LINES (SVG)
+========================================================= */
+
+.ltt-mindmap-root .ltt-connector {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ltt-mindmap-root .ltt-connector path {
+  fill: none;
+  stroke: var(--ltt-connector-color);
+  stroke-width: var(--ltt-connector-width);
+  stroke-linecap: round;
+}
+
+/* =========================================================
+   ROOT HEADER
+========================================================= */
+
+.ltt-mindmap-root > .block-main-container .block-content-inner .block-title-wrap {
+  margin-left: 0 !important;
+}
+
+/* =========================================================
+   REMOVE TREE STYLE
+========================================================= */
+
+.ltt-mindmap-root .block-main-container .block-children-left-border {
+  opacity: 0 !important;
+}
+
+.ltt-mindmap-root .block-control-wrap {
+  border-left: none !important;
+}
+
+.ltt-mindmap-root .block-control-wrap::before {
+  display: none !important;
+}
+
+.ltt-mindmap-root .block-children-container {
+  padding-left: 0 !important;
+}
+
+/* =========================================================
+   SUB-BRANCHES
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
+  margin-left: 0 !important;
+  padding-top: 12px !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  border-left: 2px solid var(--ltt-connector-color) !important;
+  padding-left: 16px !important;
+  margin-left: 8px !important;
+}
+
+/* =========================================================
+   CUSTOM THEME OVERRIDES
+========================================================= */
+
+.ltt-mindmap-root[data-custom-theme="true"] {
+  --ltt-border: var(--custom-border-color, #e2e8f0);
+  --ltt-node-bg: var(--custom-node-bg, #ffffff);
+  --ltt-node-text: var(--custom-node-text, #374151);
+  --ltt-node-shadow: var(--custom-node-shadow, 0 4px 16px rgba(0, 0, 0, 0.08));
+  --ltt-node-hover-shadow: var(--custom-node-hover-shadow, 0 8px 32px rgba(0, 0, 0, 0.15));
+  --ltt-node-radius: var(--custom-node-radius, 20px);
+  --ltt-connector-color: var(--custom-connector-color, #cbd5e1);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .ltt-mindmap-root {
+    margin: 16px !important;
+    padding: 20px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container {
+    gap: 16px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap {
+    gap: 16px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+    min-width: 140px;
+    max-width: 180px;
+  }
+
+  .ltt-mindmap-root > .block-main-container {
+    max-width: 200px;
+    min-width: 160px;
+  }
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes ltt-mindmap-node-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.ltt-mindmap-root > .block-main-container {
+  animation: ltt-mindmap-node-appear 0.4s ease-out;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  animation: ltt-mindmap-node-appear 0.35s ease-out;
+  animation-fill-mode: both;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+5) {
+  animation-delay: 0.5s;
+}

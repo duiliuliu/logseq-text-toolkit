@@ -17,7 +17,8 @@ const VIEW_CLASSES = [
   'ltt-list-root',
   'ltt-table-root',
   'ltt-gallery-root',
-  'ltt-board-root'
+  'ltt-board-root',
+  'ltt-mindmap-root'
 ];
 
 const THEME_CLASSES = [
@@ -27,6 +28,7 @@ const THEME_CLASSES = [
   'theme-dark',
   'theme-gradient',
   'theme-tana',
+  'theme-indigo',
   'theme-custom'
 ];
 
@@ -146,7 +148,7 @@ function getCurrentViewFromParams(tokens: string[], defaultView: ViewType): View
 function getCurrentThemeFromParams(tokens: string[], defaultTheme: ThemeType): ThemeType {
   const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
 
-  if (argMap.theme && ['default', 'notion', 'linear', 'dark', 'gradient', 'tana', 'custom'].includes(argMap.theme)) {
+  if (argMap.theme && ['default', 'notion', 'linear', 'dark', 'gradient', 'tana', 'indigo', 'custom'].includes(argMap.theme)) {
     return argMap.theme as ThemeType;
   }
 
