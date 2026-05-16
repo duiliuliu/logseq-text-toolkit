@@ -82,18 +82,18 @@ html.dark .ltt-board-root {
 .dark .theme-notion,
 [data-theme="notion"].dark,
 html.dark .theme-notion {
-  --ltt-border: rgba(255, 255, 255, 0.1);
-  --ltt-border-strong: rgba(255, 255, 255, 0.15);
-  --ltt-hover: rgba(255, 255, 255, 0.04);
-  --ltt-header-bg: transparent;
-  --ltt-header-text: #e4e7ec;
-  --ltt-column-bg: #1f2937;
-  --ltt-column-hover: #374151;
-  --ltt-card-bg: #1f2937;
-  --ltt-card-text: #f3f4f6;
-  --ltt-card-border: rgba(255, 255, 255, 0.1);
+  --ltt-border: rgba(255, 255, 255, 0.06);
+  --ltt-border-strong: rgba(255, 255, 255, 0.08);
+  --ltt-hover: rgba(255, 255, 255, 0.03);
+  --ltt-header-bg: #1a1d23;
+  --ltt-header-text: #e5e7eb;
+  --ltt-column-bg: #12151a;
+  --ltt-column-hover: #1a1d23;
+  --ltt-card-bg: #12151a;
+  --ltt-card-text: #9ca3af;
+  --ltt-card-border: rgba(255, 255, 255, 0.06);
   --ltt-card-shadow: none;
-  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   --ltt-card-radius: 0px;
   --ltt-column-width: 300px;
   --ltt-gap: 16px;
@@ -128,18 +128,18 @@ html.dark .theme-notion {
 .dark .theme-linear,
 [data-theme="linear"].dark,
 html.dark .theme-linear {
-  --ltt-border: rgba(255, 255, 255, 0.08);
-  --ltt-border-strong: rgba(255, 255, 255, 0.12);
-  --ltt-hover: rgba(94, 106, 210, 0.08);
-  --ltt-header-bg: #1e2128;
-  --ltt-header-text: #818cf8;
-  --ltt-column-bg: #0f172a;
-  --ltt-column-hover: #1f2937;
-  --ltt-card-bg: #0f172a;
-  --ltt-card-text: #cbd5e1;
-  --ltt-card-border: rgba(255, 255, 255, 0.08);
-  --ltt-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --ltt-card-hover-shadow: 0 8px 32px rgba(94, 106, 210, 0.25);
+  --ltt-border: rgba(129, 140, 248, 0.12);
+  --ltt-border-strong: rgba(129, 140, 248, 0.2);
+  --ltt-hover: rgba(129, 140, 248, 0.06);
+  --ltt-header-bg: #1e1f2e;
+  --ltt-header-text: #a5b4fc;
+  --ltt-column-bg: #0f1017;
+  --ltt-column-hover: #1a1b2a;
+  --ltt-card-bg: #0f1017;
+  --ltt-card-text: #9ca3af;
+  --ltt-card-border: rgba(129, 140, 248, 0.12);
+  --ltt-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --ltt-card-hover-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
   --ltt-card-radius: 8px;
   --ltt-column-width: 300px;
   --ltt-gap: 16px;
@@ -199,18 +199,18 @@ html.dark .theme-linear {
 .dark .theme-gradient,
 [data-theme="gradient"].dark,
 html.dark .theme-gradient {
-  --ltt-border: rgba(139, 92, 246, 0.3);
-  --ltt-border-strong: rgba(139, 92, 246, 0.5);
-  --ltt-hover: rgba(139, 92, 246, 0.1);
-  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%);
-  --ltt-header-text: #c4b5fd;
+  --ltt-border: rgba(165, 180, 252, 0.15);
+  --ltt-border-strong: rgba(165, 180, 252, 0.25);
+  --ltt-hover: rgba(165, 180, 252, 0.08);
+  --ltt-header-bg: linear-gradient(180deg, rgba(165, 180, 252, 0.1) 0%, transparent 100%);
+  --ltt-header-text: #c7d2fe;
   --ltt-column-bg: #1e1b4b;
   --ltt-column-hover: #312e81;
   --ltt-card-bg: #1e1b4b;
-  --ltt-card-text: #ddd6fe;
-  --ltt-card-border: rgba(139, 92, 246, 0.3);
-  --ltt-card-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
-  --ltt-card-hover-shadow: 0 8px 24px rgba(139, 92, 246, 0.5);
+  --ltt-card-text: #9ca3af;
+  --ltt-card-border: rgba(165, 180, 252, 0.15);
+  --ltt-card-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  --ltt-card-hover-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
   --ltt-card-radius: 12px;
   --ltt-column-width: 340px;
   --ltt-gap: 24px;
