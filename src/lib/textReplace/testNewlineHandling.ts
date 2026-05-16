@@ -42,12 +42,37 @@ const parseNestedFormat = (text: string): string => {
 };
 
 const parseWrapperPattern = (invokeParams: string): { prefix: string; suffix: string } | null => {
-  const match = invokeParams.match(/^(.*)\$\{selectedText\}(.*)$/);
+  const match = invokeParams.match(/^(.*)\${selectedText}(.*)$/);
   if (match) {
     return { prefix: match[1], suffix: match[2] };
   }
   
   return null;
+};
+
+const needsQuotes = (text: string): boolean => {
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return false;
+  }
+  
+  return text.includes(' ') || text.includes('"') || text.includes("'");
+};
+
+const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): string => {
+  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
+  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+  
+  if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
+    return prefix + `"${text}"` + suffix;
+  }
+  
+  if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
+    const cleanPrefix = prefix.slice(0, -1);
+    const cleanSuffix = suffix.slice(1);
+    return cleanPrefix + text + cleanSuffix;
+  }
+  
+  return prefix + text + suffix;
 };
 
 const handleNestedQuotes = (prefix: string, suffix: string, text: string, nestedText: string): string => {
@@ -72,6 +97,8 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
       const cleanPrefix = prefix.slice(0, -1);
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + text + cleanSuffix;
+    } else {
+      return prefix + text + suffix;
     }
   }
   
@@ -80,18 +107,16 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
       const cleanPrefix = prefix.slice(0, -1);
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + nestedText + cleanSuffix;
+    } else {
+      return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
     }
   }
   
   if (isPartiallyFormatted) {
-    return prefix + nestedText + suffix;
+    return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   }
   
-  return prefix + nestedText + suffix;
-};
-
-const convertNewlinesToHtml = (text: string): string => {
-  return text.replace(/\n/g, '<br>');
+  return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
 };
 
 const processTextWithNewlines = (text: string): string => {
@@ -130,7 +155,11 @@ const replaceText = (item: ToolbarItem, text: string): string => {
         const regex = new RegExp(item.regex, 'g');
         return line.replace(regex, item.replacement);
       } else if (item.invokeParams) {
-        if (typeof item.invokeParams === 'string') {
+        if (typeof item.invokeParams === 'object' && item.invokeParams !== null && 'regex' in item.invokeParams) {
+          const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+          const regex = new RegExp(pattern, flags);
+          return line.replace(regex, replacement);
+        } else {
           const invokeParamsStr = String(item.invokeParams);
           const wrapper = parseWrapperPattern(invokeParamsStr);
           
@@ -138,6 +167,10 @@ const replaceText = (item: ToolbarItem, text: string): string => {
             const nestedText = parseNestedFormat(line);
             return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
           } else {
+            const wrapper = parseWrapperPattern(invokeParamsStr);
+            if (wrapper) {
+              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, line);
+            }
             return invokeParamsStr.replace(/\${selectedText}/g, line);
           }
         }
@@ -155,7 +188,11 @@ const replaceText = (item: ToolbarItem, text: string): string => {
       const regex = new RegExp(item.regex, 'g');
       return text.replace(regex, item.replacement);
     } else if (item.invokeParams) {
-      if (typeof item.invokeParams === 'string') {
+      if (typeof item.invokeParams === 'object' && item.invokeParams !== null && 'regex' in item.invokeParams) {
+        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+        const regex = new RegExp(pattern, flags);
+        return text.replace(regex, replacement);
+      } else {
         const invokeParamsStr = String(item.invokeParams);
         const wrapper = parseWrapperPattern(invokeParamsStr);
         
@@ -163,6 +200,9 @@ const replaceText = (item: ToolbarItem, text: string): string => {
           const nestedText = parseNestedFormat(text);
           return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
         } else {
+          if (wrapper) {
+            return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, text);
+          }
           return invokeParamsStr.replace(/\${selectedText}/g, text);
         }
       }
@@ -171,7 +211,6 @@ const replaceText = (item: ToolbarItem, text: string): string => {
   }
 };
 
-// 测试用例
 const testCases = [
   {
     name: '普通文本 - 单行',
@@ -215,15 +254,8 @@ const testCases = [
     expected: '',
     function: processTextWithNewlines
   },
-  {
-    name: '换行文本 - 使用br标签',
-    input: '第一行\n第二行',
-    expected: '第一行<br>第二行',
-    function: convertNewlinesToHtml
-  }
 ];
 
-// 集成测试用例 - 使用 replaceText 函数
 const integrationTestCases = [
   {
     name: '普通文本应用颜色',
@@ -231,10 +263,21 @@ const integrationTestCases = [
       id: 'wrap-red-text',
       label: 'Red text',
       invoke: 'replace',
-      invokeParams: '[:span.red "${selectedText}"]'
+      invokeParams: '[:span.red ${selectedText}]'
     },
     input: '普通文本',
-    expected: '[:span.red "普通文本"]'
+    expected: '[:span.red 普通文本]'
+  },
+  {
+    name: '包含空格的文本应用颜色',
+    item: {
+      id: 'wrap-red-text',
+      label: 'Red text',
+      invoke: 'replace',
+      invokeParams: '[:span.red ${selectedText}]'
+    },
+    input: '带 空格 的 文本',
+    expected: '[:span.red "带 空格 的 文本"]'
   },
   {
     name: '包含换行的文本应用颜色',
@@ -242,10 +285,10 @@ const integrationTestCases = [
       id: 'wrap-red-text',
       label: 'Red text',
       invoke: 'replace',
-      invokeParams: '[:span.red "${selectedText}"]'
+      invokeParams: '[:span.red ${selectedText}]'
     },
     input: '第一行\n第二行',
-    expected: '[:div [:span.red "第一行"]][:div [:span.red "第二行"]]'
+    expected: '[:div [:span.red 第一行]][:div [:span.red 第二行]]'
   },
   {
     name: '包含换行和格式的文本应用颜色',
@@ -253,10 +296,10 @@ const integrationTestCases = [
       id: 'wrap-red-text',
       label: 'Red text',
       invoke: 'replace',
-      invokeParams: '[:span.red "${selectedText}"]'
+      invokeParams: '[:span.red ${selectedText}]'
     },
     input: '普通文本\n**加粗文本**',
-    expected: '[:div [:span.red "普通文本"]][:div [:span.red [:b "加粗文本"]]]'
+    expected: '[:div [:span.red 普通文本]][:div [:span.red [:b "加粗文本"]]]'
   },
   {
     name: '嵌套格式（Logseq）应用颜色 - 单行',
@@ -264,7 +307,7 @@ const integrationTestCases = [
       id: 'wrap-red-text',
       label: 'Red text',
       invoke: 'replace',
-      invokeParams: '[:span.red "${selectedText}"]'
+      invokeParams: '[:span.red ${selectedText}]'
     },
     input: '[:span.blue "蓝色文本"]',
     expected: '[:span.red [:span.blue "蓝色文本"]]'
@@ -275,7 +318,7 @@ const integrationTestCases = [
       id: 'wrap-red-text',
       label: 'Red text',
       invoke: 'replace',
-      invokeParams: '[:span.red "${selectedText}"]'
+      invokeParams: '[:span.red ${selectedText}]'
     },
     input: '[:span.blue "第一行"]\n[:span.green "第二行"]',
     expected: '[:div [:span.red [:span.blue "第一行"]]][:div [:span.red [:span.green "第二行"]]]'
@@ -286,10 +329,10 @@ const integrationTestCases = [
       id: 'wrap-blue-text',
       label: 'Blue text',
       invoke: 'replace',
-      invokeParams: '[:span.blue "${selectedText}"]'
+      invokeParams: '[:span.blue ${selectedText}]'
     },
     input: '**加粗文本**\n[:span.red "红色文本"]\n普通文本',
-    expected: '[:div [:span.blue [:b "加粗文本"]]][:div [:span.blue [:span.red "红色文本"]]][:div [:span.blue "普通文本"]]'
+    expected: '[:div [:span.blue [:b "加粗文本"]]][:div [:span.blue [:span.red "红色文本"]]][:div [:span.blue 普通文本]]'
   },
   {
     name: '已有嵌套格式再嵌套 - 三行',
@@ -297,11 +340,44 @@ const integrationTestCases = [
       id: 'wrap-underline',
       label: 'Underline',
       invoke: 'replace',
-      invokeParams: '[:u "${selectedText}"]'
+      invokeParams: '[:u ${selectedText}]'
     },
     input: '[:span.red "红色"]\n[:span.blue "蓝色"]\n普通',
-    expected: '[:div [:u [:span.red "红色"]]][:div [:u [:span.blue "蓝色"]]][:div [:u "普通"]]'
-  }
+    expected: '[:div [:u [:span.red "红色"]]][:div [:u [:span.blue "蓝色"]]][:div [:u 普通]]'
+  },
+  {
+    name: '带引号的文本',
+    item: {
+      id: 'wrap-italic',
+      label: 'Italic',
+      invoke: 'replace',
+      invokeParams: '*${selectedText}*'
+    },
+    input: '带引号的"文本"',
+    expected: '*"带引号的\"文本\""*'
+  },
+  {
+    name: '粗体包裹普通文本',
+    item: {
+      id: 'wrap-bold',
+      label: 'Bold',
+      invoke: 'replace',
+      invokeParams: '**${selectedText}**'
+    },
+    input: '普通文本',
+    expected: '**普通文本**'
+  },
+  {
+    name: '粗体包裹带空格的文本',
+    item: {
+      id: 'wrap-bold',
+      label: 'Bold',
+      invoke: 'replace',
+      invokeParams: '**${selectedText}**'
+    },
+    input: '带空格的文本',
+    expected: '**带空格的文本**'
+  },
 ];
 
 console.log('=== 换行处理测试 ===\n');
@@ -309,7 +385,7 @@ console.log('=== 换行处理测试 ===\n');
 let passed = 0;
 let failed = 0;
 
-testCases.forEach((testCase, index) => {
+testCases.forEach((testCase) => {
   try {
     const result = testCase.function(testCase.input);
     const isPass = result === testCase.expected;
@@ -335,7 +411,7 @@ testCases.forEach((testCase, index) => {
 
 console.log('\n=== 集成测试 - replaceText 函数 ===\n');
 
-integrationTestCases.forEach((testCase, index) => {
+integrationTestCases.forEach((testCase) => {
   try {
     const result = replaceText(testCase.item, testCase.input);
     const isPass = result === testCase.expected;

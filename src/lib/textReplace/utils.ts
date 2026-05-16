@@ -190,6 +190,49 @@ const parseWrapperPattern = (invokeParams: string): { prefix: string; suffix: st
 };
 
 /**
+ * 判断文本是否需要用引号包裹（包含空格、引号等特殊字符）
+ * @param text 文本
+ * @returns 是否需要引号
+ */
+const needsQuotes = (text: string): boolean => {
+  // 跳过已经是完整 hiccup 格式的文本
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return false;
+  }
+  
+  return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
+         text.includes('"') || text.includes("'");
+};
+
+/**
+ * 处理文本的引号包裹逻辑
+ * @param prefix 前缀
+ * @param suffix 后缀
+ * @param text 文本内容
+ * @returns 处理后的文本
+ */
+const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): string => {
+  // 检查前缀和后缀是否有引号
+  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
+  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+  
+  // 如果需要引号但没有提供，则添加引号
+  if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
+    return prefix + `"${text}"` + suffix;
+  }
+  
+  // 如果不需要引号但提供了引号，则移除引号
+  if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
+    const cleanPrefix = prefix.slice(0, -1);
+    const cleanSuffix = suffix.slice(1);
+    return cleanPrefix + text + cleanSuffix;
+  }
+  
+  // 否则保持原样
+  return prefix + text + suffix;
+};
+
+/**
  * 智能处理嵌套格式 - 确保正确处理引号
  * @param prefix 前缀
  * @param suffix 后缀
@@ -215,10 +258,13 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
   const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
   
   if (isAlreadyNested) {
+    // 如果是已嵌套格式，直接使用原始文本
     if (prefixHasQuote && suffixHasQuote) {
       const cleanPrefix = prefix.slice(0, -1);
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + text + cleanSuffix;
+    } else {
+      return prefix + text + suffix;
     }
   }
   
@@ -227,14 +273,16 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
       const cleanPrefix = prefix.slice(0, -1);
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + nestedText + cleanSuffix;
+    } else {
+      return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
     }
   }
   
   if (isPartiallyFormatted) {
-    return prefix + nestedText + suffix;
+    return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   }
   
-  return prefix + nestedText + suffix;
+  return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
 };
 
 /**
@@ -247,10 +295,10 @@ export const convertNewlinesToHtml = (text: string): string => {
 };
 
 /**
- * 处理文本中的换行，将每行转换为 div 包裹的 HTML 结构
+ * 处理文本中的换行，将每行转换为 div 包裹的 hiccup 结构
  * 自动过滤空行和首尾空白行
  * @param text 原始文本
- * @returns 处理后的 HTML 文本
+ * @returns 处理后的 hiccup 文本
  */
 export const processTextWithNewlines = (text: string): string => {
   if (!text.includes('\n')) {
@@ -270,7 +318,7 @@ export const processTextWithNewlines = (text: string): string => {
     return processedLines[0];
   }
   
-  return processedLines.map(line => `<div>${line}</div>`).join('');
+  return processedLines.map(line => `[:div ${line}]`).join('');
 };
 
 /**
@@ -306,6 +354,11 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
             const nestedText = parseNestedFormat(line);
             return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
           } else {
+            // 直接替换时也需要检查是否需要引号包裹
+            const wrapper = parseWrapperPattern(invokeParamsStr);
+            if (wrapper) {
+              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, line);
+            }
             return invokeParamsStr.replace(/\${selectedText}/g, line);
           }
         }
@@ -328,16 +381,20 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
         const regex = new RegExp(pattern, flags);
         return text.replace(regex, replacement);
       } else {
-        const invokeParamsStr = String(item.invokeParams);
-        const wrapper = parseWrapperPattern(invokeParamsStr);
-        
-        if (wrapper && hasExistingFormat(text)) {
-          const nestedText = parseNestedFormat(text);
-          return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
-        } else {
-          return invokeParamsStr.replace(/\${selectedText}/g, text);
+          const invokeParamsStr = String(item.invokeParams);
+          const wrapper = parseWrapperPattern(invokeParamsStr);
+          
+          if (wrapper && hasExistingFormat(text)) {
+            const nestedText = parseNestedFormat(text);
+            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+          } else {
+            // 直接替换时也需要检查是否需要引号包裹
+            if (wrapper) {
+              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, text);
+            }
+            return invokeParamsStr.replace(/\${selectedText}/g, text);
+          }
         }
-      }
     }
     return text;
   }
