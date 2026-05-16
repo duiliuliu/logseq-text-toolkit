@@ -22105,24 +22105,60 @@ ${where}
     return prefix + nestedText + suffix;
   };
   const replaceText = (item, text) => {
-    if (item.regex && item.replacement) {
-      const regex = new RegExp(item.regex, "g");
-      return text.replace(regex, item.replacement);
-    } else if (item.invokeParams) {
-      if (isRegexReplaceParams(item.invokeParams)) {
-        const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
-        const regex = new RegExp(pattern, flags);
-        return text.replace(regex, replacement);
+    const hasNewlines = text.includes("\n");
+    if (hasNewlines) {
+      const lines = text.split("\n").filter((line) => line.trim() !== "");
+      if (lines.length === 0) {
+        return "";
       }
-      const invokeParamsStr = String(item.invokeParams);
-      const wrapper = parseWrapperPattern(invokeParamsStr);
-      if (wrapper && hasExistingFormat(text)) {
-        const nestedText = parseNestedFormat(text);
-        return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+      const processedLines = lines.map((line) => {
+        if (item.regex && item.replacement) {
+          const regex = new RegExp(item.regex, "g");
+          return line.replace(regex, item.replacement);
+        } else if (item.invokeParams) {
+          if (isRegexReplaceParams(item.invokeParams)) {
+            const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
+            const regex = new RegExp(pattern, flags);
+            return line.replace(regex, replacement);
+          } else {
+            const invokeParamsStr = String(item.invokeParams);
+            const wrapper = parseWrapperPattern(invokeParamsStr);
+            if (wrapper && hasExistingFormat(line)) {
+              const nestedText = parseNestedFormat(line);
+              return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
+            } else {
+              return invokeParamsStr.replace(/\${selectedText}/g, line);
+            }
+          }
+        }
+        return line;
+      });
+      if (processedLines.length === 1) {
+        return processedLines[0];
       }
-      return invokeParamsStr.replace(/\${selectedText}/g, text);
+      return processedLines.map((line) => `<div>${line}</div>`).join("");
+    } else {
+      if (item.regex && item.replacement) {
+        const regex = new RegExp(item.regex, "g");
+        return text.replace(regex, item.replacement);
+      } else if (item.invokeParams) {
+        if (isRegexReplaceParams(item.invokeParams)) {
+          const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
+          const regex = new RegExp(pattern, flags);
+          return text.replace(regex, replacement);
+        } else {
+          const invokeParamsStr = String(item.invokeParams);
+          const wrapper = parseWrapperPattern(invokeParamsStr);
+          if (wrapper && hasExistingFormat(text)) {
+            const nestedText = parseNestedFormat(text);
+            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+          } else {
+            return invokeParamsStr.replace(/\${selectedText}/g, text);
+          }
+        }
+      }
+      return text;
     }
-    return text;
   };
   const regexReplaceText = (item, text) => {
     if (item.invokeParams) {
