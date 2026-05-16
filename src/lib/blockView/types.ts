@@ -1,5 +1,5 @@
-export type ViewType = 'list' | 'table' | 'gallery' | 'board';
-export type ThemeType = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'tana' | 'custom';
+export type ViewType = 'list' | 'table' | 'gallery' | 'board' | 'mindmap';
+export type ThemeType = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'tana' | 'indigo' | 'custom';
 
 export interface ViewConfig {
   id: ViewType;
@@ -32,6 +32,15 @@ const VIEW_ICONS: Record<ViewType, string> = {
     <rect x="1.5" y="2" width="3" height="10" rx="1"/>
     <rect x="5.5" y="2" width="3" height="7" rx="1"/>
     <rect x="9.5" y="2" width="3" height="8" rx="1"/>
+  </svg>`,
+
+  mindmap: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="7" cy="7" r="2"/>
+    <circle cx="3" cy="3" r="1.5"/>
+    <circle cx="11" cy="3" r="1.5"/>
+    <circle cx="3" cy="11" r="1.5"/>
+    <circle cx="11" cy="11" r="1.5"/>
+    <path d="M5.5 5.5L4 4M8.5 5.5L10 4M5.5 8.5L4 10M8.5 8.5L10 10"/>
   </svg>`
 };
 
@@ -59,6 +68,12 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
     name: 'Kanban',
     icon: VIEW_ICONS.board,
     cssClass: 'ltt-board-root',
+  },
+  'mindmap': {
+    id: 'mindmap',
+    name: 'Mindmap',
+    icon: VIEW_ICONS.mindmap,
+    cssClass: 'ltt-mindmap-root',
   },
 };
 
@@ -217,6 +232,19 @@ export const TABLE_PRESET_THEMES: Record<Exclude<ThemeType, 'custom'>, TablePres
     cellPadding: '14px 18px',
     tableBorderRadius: '14px'
   },
+  indigo: {
+    borderColor: '#c7d2fe',
+    headerBgColor: 'linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%)',
+    headerTextColor: '#4338ca',
+    cellTextColor: '#4f46e5',
+    headerBorderColor: '#a5b4fc',
+    headerHeight: '48px',
+    rowBgColor: '#ffffff',
+    rowHoverBgColor: '#f5f3ff',
+    rowBorderColor: '#c7d2fe',
+    cellPadding: '12px 16px',
+    tableBorderRadius: '10px'
+  },
 };
 
 export const GALLERY_PRESET_THEMES: Record<Exclude<ThemeType, 'custom'>, GalleryPresetTheme> = {
@@ -286,6 +314,17 @@ export const GALLERY_PRESET_THEMES: Record<Exclude<ThemeType, 'custom'>, Gallery
     cardBorderRadius: '16px',
     cardShadow: '0 12px 40px rgba(16, 185, 129, 0.25)'
   },
+  indigo: {
+    borderColor: '#c7d2fe',
+    cardBgColor: '#f5f3ff',
+    cardTextColor: '#4f46e5',
+    cardHoverBgColor: '#eef2ff',
+    headerBorderColor: '#a5b4fc',
+    headerBgColor: 'linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, transparent 100%)',
+    headerTextColor: '#4338ca',
+    cardBorderRadius: '16px',
+    cardShadow: '0 12px 40px rgba(99, 102, 241, 0.25)'
+  },
 };
 
 export const BOARD_PRESET_THEMES: Record<Exclude<ThemeType, 'custom'>, BoardPresetTheme> = {
@@ -353,6 +392,17 @@ export const BOARD_PRESET_THEMES: Record<Exclude<ThemeType, 'custom'>, BoardPres
     cardBgColor: '#ffffff',
     cardTextColor: '#065f46',
     cardBorderColor: '#a7f3d0',
+    cardBorderRadius: '12px'
+  },
+  indigo: {
+    borderColor: '#c7d2fe',
+    columnBgColor: '#f5f3ff',
+    columnHoverBgColor: '#eef2ff',
+    headerBgColor: 'linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, transparent 100%)',
+    headerTextColor: '#4338ca',
+    cardBgColor: '#ffffff',
+    cardTextColor: '#4f46e5',
+    cardBorderColor: '#c7d2fe',
     cardBorderRadius: '12px'
   },
 };
