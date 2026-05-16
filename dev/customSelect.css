@@ -1,0 +1,136 @@
+/* Custom Select styles */
+.custom-select {
+  position: relative;
+  display: inline-block;
+  min-width: 120px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.custom-select__control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 4px;
+  height: 24px;
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 6px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.custom-select__control:hover {
+  border-color: #000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.custom-select__value {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ls-primary-text-color-plugin, #333);
+  text-align: left;
+}
+
+.custom-select__arrow {
+  margin-left: 8px;
+  font-size: 10px;
+  color: var(--ls-primary-text-color-plugin, #666);
+  transition: transform 0.2s ease;
+}
+
+.custom-select__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 2px;
+  border: 1px solid var(--ls-border-color-plugin, #ccc);
+  border-radius: 12px;
+  background-color: var(--ls-primary-background-color-plugin, #fff);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.custom-select__option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 2px;
+  height: 32px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  color: var(--ls-primary-text-color-plugin, #333);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.custom-select__option:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+}
+
+.custom-select__option-label {
+  flex: 1;
+  font-size: 12px;
+  text-align: left;
+}
+
+.custom-select__option-checkmark {
+  font-size: 16px;
+  color: #000;
+  font-weight: normal;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.custom-select__option--selected {
+  background-color: transparent;
+}
+
+.custom-select__option--selected:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);
+}
+
+/* Dark mode */
+[data-theme="dark"] .custom-select__control {
+  border-color: var(--ls-border-color-plugin, #555);
+  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
+}
+
+[data-theme="dark"] .custom-select__value {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+[data-theme="dark"] .custom-select__arrow {
+  color: var(--ls-primary-text-color-plugin, #aaa);
+}
+
+[data-theme="dark"] .custom-select__menu {
+  border-color: var(--ls-border-color-plugin, #555);
+  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);
+}
+
+[data-theme="dark"] .custom-select__option {
+  color: var(--ls-primary-text-color-plugin, #e0e0e0);
+}
+
+[data-theme="dark"] .custom-select__option:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #444);
+}
+
+[data-theme="dark"] .custom-select__option-checkmark {
+  color: #fff;
+}
+
+[data-theme="dark"] .custom-select__option--selected:hover {
+  background-color: var(--ls-secondary-background-color-plugin, #444);
+}

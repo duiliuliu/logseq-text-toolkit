@@ -1,0 +1,696 @@
+/* =========================================================
+   BLOCK VIEW MINDMAP STYLES
+   幕布风格设计 - 水平思维导图
+
+   布局示意：
+   ┌─────────────────────────────────────────────────────────────┐
+   │  主标题 viewbar                                           │
+   ├─────────────────────────────────────────────────────────────┤
+   │                                                           │
+   │    ┌─────────────┐                                         │
+   │    │   主标题     │                                         │
+   │    └──────┬──────┘                                         │
+   │           │                                               │
+   │           ├───→ 一级分支1                                  │
+   │           │           ├─→ 二级内容1                        │
+   │           │           └─→ 二级内容2                        │
+   │           │                   ├─→ 三级细节1                │
+   │           │                   └─→ 三级细节2                │
+   │           ├───→ 一级分支2                                  │
+   │           │           ├─→ 二级要点1                        │
+   │           │           └─→ 二级要点2                        │
+   │           └───→ 一级分支3                                  │
+   │                       ├─→ 执行步骤                        │
+   │                       └─→ 注意事项                        │
+   │                                                           │
+   └─────────────────────────────────────────────────────────────┘
+
+   设计特点：
+   - 根节点在左侧，子节点向右水平延伸
+   - 一级分支水平排列
+   - 二级及以下层级向下垂直排列
+   - 清晰的连接线和箭头指示
+   - 卡片式节点设计
+========================================================= */
+
+/* =========================================================
+   BASE STYLES
+========================================================= */
+
+:root,
+.light,
+.ltt-mindmap-root {
+  --ltt-node-bg: var(--ls-primary-background-color, #ffffff);
+  --ltt-node-text: var(--ls-primary-text-color, #1f2937);
+  --ltt-node-muted: var(--ls-secondary-text-color, #6b7280);
+  --ltt-node-border: var(--ls-border-color, #e5e7eb);
+  --ltt-node-hover-bg: var(--ls-tertiary-background-color, #f3f4f6);
+  --ltt-node-focus-bg: #eff6ff;
+  --ltt-node-focus-border: #3b82f6;
+  --ltt-bullet-color: #9ca3af;
+  --ltt-bullet-size: 8px;
+  --ltt-connector-color: #d1d5db;
+  --ltt-connector-width: 2px;
+  --ltt-node-radius: 8px;
+  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  --ltt-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .ltt-mindmap-root,
+html.dark .ltt-mindmap-root {
+  --ltt-node-bg: var(--ls-primary-background-color, #1f2937);
+  --ltt-node-text: var(--ls-primary-text-color, #f3f4f6);
+  --ltt-node-muted: var(--ls-secondary-text-color, #9ca3af);
+  --ltt-node-border: var(--ls-border-color, #374151);
+  --ltt-node-hover-bg: var(--ls-tertiary-background-color, #374151);
+  --ltt-node-focus-bg: #1e3a5f;
+  --ltt-node-focus-border: #60a5fa;
+  --ltt-bullet-color: #6b7280;
+  --ltt-connector-color: #4b5563;
+  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================
+   ROOT CONTAINER
+========================================================= */
+
+.ltt-mindmap-root {
+  margin: 24px !important;
+  padding: 0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* =========================================================
+   ROOT NODE (标题节点)
+========================================================= */
+
+.ltt-mindmap-root > .block-main-container {
+  background: var(--ltt-node-bg) !important;
+  border: 1px solid var(--ltt-node-border) !important;
+  border-radius: var(--ltt-node-radius) !important;
+  padding: 14px 20px !important;
+  box-shadow: var(--ltt-node-shadow) !important;
+  margin: 0 0 24px 0 !important;
+  position: relative;
+  transition: var(--ltt-transition);
+}
+
+.ltt-mindmap-root > .block-main-container:hover {
+  box-shadow: var(--ltt-node-hover-shadow) !important;
+  border-color: var(--ltt-node-focus-border) !important;
+}
+
+.ltt-mindmap-root > .block-main-container .block-title-wrap {
+  color: var(--ltt-node-text) !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+}
+
+.ltt-mindmap-root > .block-main-container .block-control-wrap {
+  display: none !important;
+}
+
+/* =========================================================
+   MAIN LAYOUT CONTAINER
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+
+/* =========================================================
+   ROOT CONNECTOR - 从主标题到一级分支
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container::before {
+  content: '';
+  position: absolute;
+  left: 120px;
+  top: 24px;
+  width: 32px;
+  height: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+.ltt-mindmap-root > .block-children-container::after {
+  content: '';
+  position: absolute;
+  left: 148px;
+  top: 20px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--ltt-connector-color);
+}
+
+/* =========================================================
+   FIRST LEVEL CHILDREN - 一级分支容器
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative;
+}
+
+/* =========================================================
+   FIRST LEVEL BLOCK - 一级分支
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  display: flex !important;
+  align-items: flex-start !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  position: relative;
+  min-width: auto !important;
+  max-width: none !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* =========================================================
+   FIRST LEVEL NODE - 卡片样式
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: var(--ltt-node-bg) !important;
+  border: 1px solid var(--ltt-node-border) !important;
+  border-radius: var(--ltt-node-radius) !important;
+  padding: 10px 16px !important;
+  margin: 0 !important;
+  box-shadow: var(--ltt-node-shadow) !important;
+  min-width: 140px;
+  max-width: 280px;
+  position: relative;
+  transition: var(--ltt-transition);
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--ltt-bullet-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--ltt-node-bg);
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {
+  box-shadow: var(--ltt-node-hover-shadow) !important;
+  border-color: var(--ltt-node-focus-border) !important;
+  background: var(--ltt-node-hover-bg) !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:focus-within {
+  border-color: var(--ltt-node-focus-border) !important;
+  background: var(--ltt-node-focus-bg) !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {
+  color: var(--ltt-node-text) !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: flex !important;
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover .block-control-wrap {
+  opacity: 0.7;
+}
+
+.ltt-mindmap-root .block-control {
+  display: none !important;
+}
+
+/* =========================================================
+   SECOND LEVEL CHILDREN - 二级内容容器
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  padding: 0 0 0 40px !important;
+  margin: 0 !important;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: -8px;
+  bottom: -8px;
+  width: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+/* =========================================================
+   SECOND LEVEL BLOCK
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  display: flex !important;
+  align-items: flex-start !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  position: relative;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 16px;
+  width: 20px;
+  height: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+/* =========================================================
+   SECOND LEVEL NODE - 卡片样式
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: var(--ltt-node-bg) !important;
+  border: 1px solid var(--ltt-node-border) !important;
+  border-radius: var(--ltt-node-radius) !important;
+  padding: 8px 14px !important;
+  margin: 0 !important;
+  box-shadow: var(--ltt-node-shadow) !important;
+  min-width: 120px;
+  max-width: 240px;
+  position: relative;
+  transition: var(--ltt-transition);
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 14px;
+  width: 6px;
+  height: 6px;
+  background: var(--ltt-bullet-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ltt-node-bg);
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {
+  box-shadow: var(--ltt-node-hover-shadow) !important;
+  border-color: var(--ltt-node-focus-border) !important;
+  background: var(--ltt-node-hover-bg) !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {
+  color: var(--ltt-node-text) !important;
+  font-weight: 400 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+/* =========================================================
+   THIRD LEVEL CHILDREN - 三级细节容器
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: 0 0 0 35px !important;
+  margin: 0 !important;
+  position: relative;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+/* =========================================================
+   THIRD LEVEL BLOCK
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  display: flex !important;
+  align-items: flex-start !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  position: relative;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 14px;
+  width: 18px;
+  height: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+/* =========================================================
+   THIRD LEVEL NODE - 卡片样式
+========================================================= */
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: var(--ltt-node-bg) !important;
+  border: 1px solid var(--ltt-node-border) !important;
+  border-radius: var(--ltt-node-radius) !important;
+  padding: 6px 12px !important;
+  margin: 0 !important;
+  box-shadow: var(--ltt-node-shadow) !important;
+  min-width: 100px;
+  max-width: 200px;
+  position: relative;
+  transition: var(--ltt-transition);
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 12px;
+  width: 5px;
+  height: 5px;
+  background: var(--ltt-bullet-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ltt-node-bg);
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {
+  box-shadow: var(--ltt-node-hover-shadow) !important;
+  border-color: var(--ltt-node-focus-border) !important;
+  background: var(--ltt-node-hover-bg) !important;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {
+  color: var(--ltt-node-text) !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+/* =========================================================
+   DEEPER LEVELS - 更深层级
+========================================================= */
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: 0 0 0 30px !important;
+  margin: 0 !important;
+  position: relative;
+}
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  padding: 5px 10px !important;
+  font-size: 11px !important;
+  min-width: 80px;
+  max-width: 160px;
+}
+
+/* =========================================================
+   REMOVE TREE STYLE
+========================================================= */
+
+.ltt-mindmap-root .block-main-container .block-children-left-border {
+  opacity: 0 !important;
+}
+
+.ltt-mindmap-root .block-control-wrap {
+  border-left: none !important;
+}
+
+.ltt-mindmap-root .block-control-wrap::before {
+  display: none !important;
+}
+
+/* =========================================================
+   THEME OVERRIDES
+========================================================= */
+
+/* Notion Theme */
+.theme-notion {
+  --ltt-node-radius: 4px;
+  --ltt-node-shadow: none;
+  --ltt-node-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --ltt-node-border: #e5e7eb;
+  --ltt-connector-color: #d1d5db;
+  --ltt-bullet-color: #9ca3af;
+}
+
+.dark .theme-notion {
+  --ltt-node-border: #374151;
+  --ltt-connector-color: #4b5563;
+  --ltt-bullet-color: #6b7280;
+}
+
+/* Linear Theme */
+.theme-linear {
+  --ltt-node-radius: 6px;
+  --ltt-node-focus-border: #5e6ad2;
+  --ltt-node-focus-bg: #f5f3ff;
+  --ltt-connector-color: #c7d2fe;
+  --ltt-bullet-color: #5e6ad2;
+}
+
+.dark .theme-linear {
+  --ltt-node-focus-border: #818cf8;
+  --ltt-node-focus-bg: #1e1b4b;
+  --ltt-connector-color: #4f46e5;
+  --ltt-bullet-color: #818cf8;
+}
+
+/* Gradient Theme */
+.theme-gradient {
+  --ltt-node-border: #ddd6fe;
+  --ltt-node-focus-border: #8b5cf6;
+  --ltt-node-focus-bg: #faf5ff;
+  --ltt-connector-color: #c4b5fd;
+  --ltt-bullet-color: #8b5cf6;
+  --ltt-node-shadow: 0 2px 8px rgba(139, 92, 246, 0.12);
+  --ltt-node-hover-shadow: 0 6px 20px rgba(139, 92, 246, 0.2);
+}
+
+.dark .theme-gradient {
+  --ltt-node-border: rgba(165, 180, 252, 0.3);
+  --ltt-node-focus-border: #818cf8;
+  --ltt-node-focus-bg: #1e1b4b;
+  --ltt-connector-color: rgba(129, 140, 248, 0.5);
+  --ltt-bullet-color: #818cf8;
+}
+
+/* Tana Theme */
+.theme-tana {
+  --ltt-node-border: #e8e4d9;
+  --ltt-node-focus-border: #22c55e;
+  --ltt-node-focus-bg: #f0fdf4;
+  --ltt-connector-color: #a7f3d0;
+  --ltt-bullet-color: #22c55e;
+  --ltt-node-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
+  --ltt-node-hover-shadow: 0 6px 20px rgba(34, 197, 94, 0.18);
+}
+
+.dark .theme-tana {
+  --ltt-node-border: rgba(129, 140, 248, 0.25);
+  --ltt-node-focus-border: #818cf8;
+  --ltt-node-focus-bg: #1e1b4b;
+  --ltt-connector-color: rgba(99, 102, 241, 0.4);
+  --ltt-bullet-color: #818cf8;
+}
+
+/* Indigo Theme */
+.theme-indigo {
+  --ltt-node-border: #c7d2fe;
+  --ltt-node-focus-border: #6366f1;
+  --ltt-node-focus-bg: #eef2ff;
+  --ltt-connector-color: #a5b4fc;
+  --ltt-bullet-color: #6366f1;
+  --ltt-node-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);
+  --ltt-node-hover-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);
+}
+
+.dark .theme-indigo {
+  --ltt-node-border: rgba(129, 140, 248, 0.3);
+  --ltt-node-focus-border: #818cf8;
+  --ltt-node-focus-bg: #1e1b4b;
+  --ltt-connector-color: rgba(129, 140, 248, 0.5);
+  --ltt-bullet-color: #818cf8;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1024px) {
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ltt-mindmap-root {
+    margin: 16px !important;
+  }
+
+  .ltt-mindmap-root > .block-main-container {
+    margin-bottom: 16px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+    max-width: 180px;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
+    padding-left: 30px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ltt-mindmap-root {
+    margin: 12px !important;
+  }
+
+  .ltt-mindmap-root > .block-main-container {
+    padding: 10px 14px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+    max-width: 140px;
+    padding: 8px 12px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
+    padding-left: 20px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
+    width: 18px !important;
+    left: -18px !important;
+  }
+
+  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {
+    left: -4px !important;
+  }
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes ltt-mindmap-expand {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.ltt-mindmap-root > .block-main-container {
+  animation: ltt-mindmap-expand 0.3s ease-out;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  animation: ltt-mindmap-expand 0.25s ease-out;
+  animation-fill-mode: both;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+4) {
+  animation-delay: 0.2s;
+}
