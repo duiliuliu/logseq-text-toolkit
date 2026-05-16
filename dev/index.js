@@ -22046,6 +22046,64 @@ ${where}
       return false;
     }
   };
+  const hasExistingFormat = (text) => {
+    if (text.startsWith("[:") && text.endsWith("]")) {
+      return true;
+    }
+    const formatPatterns = [
+      /\*\*[^*]+\*\*/,
+      /\*[^*]+\*/,
+      /~~[^~]+~~/,
+      /==[^=]+==/,
+      /`[^`]+`/
+    ];
+    return formatPatterns.some((pattern) => pattern.test(text));
+  };
+  const parseNestedFormat = (text) => {
+    if (text.startsWith("[:") && text.endsWith("]")) {
+      return text;
+    }
+    let result = text;
+    result = result.replace(/\*\*([^*]+)\*\*/g, '[:b "$1"]');
+    result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '[:i "$1"]');
+    result = result.replace(/~~([^~]+)~~/g, '[:s "$1"]');
+    result = result.replace(/==([^=]+)==/g, '[:mark "$1"]');
+    result = result.replace(/`([^`]+)`/g, '[:code "$1"]');
+    return result;
+  };
+  const parseWrapperPattern = (invokeParams) => {
+    const match = invokeParams.match(/^(.*)\${selectedText}(.*)$/);
+    if (match) {
+      return { prefix: match[1], suffix: match[2] };
+    }
+    return null;
+  };
+  const handleNestedQuotes = (prefix, suffix, text, nestedText) => {
+    const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
+    const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+    const isAlreadyNested = text.startsWith("[:") && text.endsWith("]");
+    const isEntirelyWrappedFormat = text.startsWith("**") && text.endsWith("**") || text.startsWith("*") && text.endsWith("*") && !text.startsWith("**") || text.startsWith("~~") && text.endsWith("~~") || text.startsWith("==") && text.endsWith("==") || text.startsWith("`") && text.endsWith("`");
+    const hasFormatMarkers = text.includes("**") || text.includes("*") || text.includes("~~") || text.includes("==") || text.includes("`");
+    const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
+    if (isAlreadyNested) {
+      if (prefixHasQuote && suffixHasQuote) {
+        const cleanPrefix = prefix.slice(0, -1);
+        const cleanSuffix = suffix.slice(1);
+        return cleanPrefix + text + cleanSuffix;
+      }
+    }
+    if (isEntirelyWrappedFormat) {
+      if (prefixHasQuote && suffixHasQuote) {
+        const cleanPrefix = prefix.slice(0, -1);
+        const cleanSuffix = suffix.slice(1);
+        return cleanPrefix + nestedText + cleanSuffix;
+      }
+    }
+    if (isPartiallyFormatted) {
+      return prefix + nestedText + suffix;
+    }
+    return prefix + nestedText + suffix;
+  };
   const replaceText = (item, text) => {
     if (item.regex && item.replacement) {
       const regex = new RegExp(item.regex, "g");
@@ -22056,7 +22114,13 @@ ${where}
         const regex = new RegExp(pattern, flags);
         return text.replace(regex, replacement);
       }
-      return String(item.invokeParams).replace(/\${selectedText}/g, text);
+      const invokeParamsStr = String(item.invokeParams);
+      const wrapper = parseWrapperPattern(invokeParamsStr);
+      if (wrapper && hasExistingFormat(text)) {
+        const nestedText = parseNestedFormat(text);
+        return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+      }
+      return invokeParamsStr.replace(/\${selectedText}/g, text);
     }
     return text;
   };
