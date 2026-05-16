@@ -118,9 +118,9 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
 
     const year = currentDate.getFullYear();
     const month = monthIndex + 1;
-    let pageName = config.monthPageTemplate
-      .replace(/\{month\}/g, String(month).padStart(2, '0'))
-      .replace(/\{year\}/g, String(year));
+    const pageName = config.monthPageTemplate
+      .replace(/\{year\}/g, String(year))
+      .replace(/\{month\}/g, String(month).padStart(2, '0'));
 
     const existingPage = await logseqAPI.Editor.getPage(pageName);
     
@@ -131,7 +131,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       const result = await pageGenerator.generateMonthlyPage(
         year, 
         month, 
-        config.monthPageTemplate,
+        pageName,
         config.monthPageTemplateType as any
       );
       
@@ -151,9 +151,9 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     if (!config.enableWeekPageCreation || !config.weekPageTemplate) return;
 
     const year = currentDate.getFullYear();
-    let pageName = config.weekPageTemplate
-      .replace(/\{week\}/g, String(weekNumber).padStart(2, '0'))
-      .replace(/\{year\}/g, String(year));
+    const pageName = config.weekPageTemplate
+      .replace(/\{year\}/g, String(year))
+      .replace(/\{week\}/g, String(weekNumber).padStart(2, '0'));
 
     const existingPage = await logseqAPI.Editor.getPage(pageName);
     
@@ -164,7 +164,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       const result = await pageGenerator.generateWeeklyPage(
         year, 
         weekNumber, 
-        config.weekPageTemplate,
+        pageName,
         config.weekPageTemplateType as any
       );
       
