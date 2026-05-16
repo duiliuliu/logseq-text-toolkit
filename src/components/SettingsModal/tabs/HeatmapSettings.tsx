@@ -13,7 +13,7 @@ import { generateIndigoGradient } from '../../../lib/heatmap/colorCalculator'
 import { getAllTemplates } from '../../../lib/summary/templates'
 
 function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
-  const heatmapSettings: HeatmapSettingsType = settings.heatmap || {
+  const heatmapSettings = settings.heatmap || {
     enabled: true,
     defaultViewType: 'year',
     defaultDisplayMode: 'full',
@@ -23,16 +23,12 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
       maxColor: '#3730a3',
       gradientSteps: 5,
     },
-    monthPageCreation: {
-      enabled: false,
-      pageNameTemplate: '{year}-{month}',
-      logseqTemplate: '',
-    },
-    weekPageCreation: {
-      enabled: false,
-      pageNameTemplate: '{year}-W{week}',
-      logseqTemplate: '',
-    },
+    enableMonthPageCreation: false,
+    monthPageTemplate: '{year}-{month}',
+    monthPageTemplateType: '',
+    enableWeekPageCreation: false,
+    weekPageTemplate: '{year}-W{week}',
+    weekPageTemplateType: '',
   }
 
   const handleSettingChange = (key: string, value: any) => {
@@ -41,7 +37,7 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
       return {
         ...prev,
         heatmap: {
-          ...heatmapSettings,
+          ...prev.heatmap,
           [key]: value,
         },
       }
@@ -56,29 +52,11 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
   }
 
   const handleMonthPageCreationChange = (key: string, value: any) => {
-    setSettings(prev => {
-      if (!prev) return prev
-      return {
-        ...prev,
-        heatmap: {
-          ...heatmapSettings,
-          [key]: value,
-        },
-      }
-    })
+    handleSettingChange(key, value);
   }
 
   const handleWeekPageCreationChange = (key: string, value: any) => {
-    setSettings(prev => {
-      if (!prev) return prev
-      return {
-        ...prev,
-        heatmap: {
-          ...heatmapSettings,
-          [key]: value,
-        },
-      }
-    })
+    handleSettingChange(key, value);
   }
 
   const templateOptions = [

@@ -261,13 +261,12 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       language: settings?.language || 'en',
       referenceDate,
       containerWidth,
-      // Merge settings with macro parameters - macro takes precedence
-      enableMonthPageCreation: enableMonthPageCreation ?? settings?.heatmap?.monthPageCreation?.enabled ?? false,
-      monthPageTemplate: monthPageTemplate || settings?.heatmap?.monthPageCreation?.pageNameTemplate || '',
-      monthPageLogseqTemplate: monthPageLogseqTemplate || settings?.heatmap?.monthPageCreation?.logseqTemplate || '',
-      enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.weekPageCreation?.enabled ?? false,
-      weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageCreation?.pageNameTemplate || '',
-      weekPageLogseqTemplate: weekPageLogseqTemplate || settings?.heatmap?.weekPageCreation?.logseqTemplate || '',
+      enableMonthPageCreation: enableMonthPageCreation ?? settings?.heatmap?.enableMonthPageCreation ?? false,
+      monthPageTemplate: monthPageTemplate || settings?.heatmap?.monthPageTemplate || '',
+      monthPageTemplateType: settings?.heatmap?.monthPageTemplateType || '',
+      enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.enableWeekPageCreation ?? false,
+      weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageTemplate || '',
+      weekPageTemplateType: settings?.heatmap?.weekPageTemplateType || '',
       dateFormat: settings?.dateFormat || '',
     };
     logger.debug('🌡️ Heatmap: Configuration resolved', {
