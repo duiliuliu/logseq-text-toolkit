@@ -32,22 +32,26 @@ function createLoggerModuleProxy<T extends object>(
             if (typeof value === 'function') {
                 // 同步方法 → 不包装 async！！！
                 if (value.constructor.name !== 'AsyncFunction') {
-                    logger.debug(`[同步调用] → ${fullMethod}`)
-                    return value
+                    return (...args: any[]) => {
+                        logger.debug(`📤 [同步调用] → ${fullMethod}`, ...args);
+                        const result = value.apply(target, args);
+                        logger.debug(`📤 [同步返回] ← ${fullMethod}`, result);
+                        return result;
+                    };
                 }
 
-                // 异步方法 → 安全包装日志
+                // 异步方法：打印入参 + 返回值 + 捕获异常
                 return async (...args: any[]) => {
-                    logger.debug(`调用 → ${fullMethod}`, ...args)
+                    logger.debug(`⏳ [异步调用] → ${fullMethod}`, ...args);
                     try {
-                        const result = await value.apply(target, args)
-                        logger.debug(`返回 ← ${fullMethod}`, result)
-                        return result
+                        const result = await value.apply(target, args);
+                        logger.debug(`⏳ [异步返回] ← ${fullMethod}`, result);
+                        return result;
                     } catch (err) {
-                        logger.error(`异常 ✕ ${fullMethod}`, err)
-                        throw err
+                        logger.error(`❌ [调用异常] × ${fullMethod}`, err);
+                        throw err;
                     }
-                }
+                };
             }
 
             // 对象递归代理
@@ -67,17 +71,19 @@ export function createLoggerProxy(
     rawLogseq: ILSPluginUser,
     logger = defaultLogger
 ): ILSPluginUser {
-    const logseq = { ...rawLogseq } as ILSPluginUser
+    // const logseq = { ...rawLogseq } as ILSPluginUser
 
-    const LOGSEQ_MODULES = [
-        'App', 'Editor', 'DB', 'Git', 'UI', 'Assets', 'FileStorage'
-    ] as const
+    // const LOGSEQ_MODULES = [
+    //     'App', 'Editor', 'DB', 'Git', 'UI', 'Assets', 'FileStorage'
+    // ] as const
 
-    for (const mod of LOGSEQ_MODULES) {
-        if (logseq[mod]) {
-            (logseq as any)[mod] = createLoggerModuleProxy(logseq[mod], mod, logger)
-        }
-    }
+    // for (const mod of LOGSEQ_MODULES) {
+    //     if (logseq[mod]) {
+    //         (logseq as any)[mod] = createLoggerModuleProxy(logseq[mod], mod, logger)
+    //     }
+    // }
 
-    return logseq
+    // return logseq
+
+    return createLoggerModuleProxy(rawLogseq, '', logger);
 }

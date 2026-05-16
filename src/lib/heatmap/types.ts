@@ -55,10 +55,10 @@ export interface HeatmapConfig {
   containerWidth?: string;
   enableMonthPageCreation?: boolean;
   monthPageTemplate?: string;
-  monthPageLogseqTemplate?: string;
+  monthPageTemplateType?: string;
   enableWeekPageCreation?: boolean;
   weekPageTemplate?: string;
-  weekPageLogseqTemplate?: string;
+  weekPageTemplateType?: string;
   dateFormat?: string;
 }
 

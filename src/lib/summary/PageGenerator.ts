@@ -3,6 +3,7 @@ import { BlockNode, TemplateType, SummaryType } from './types';
 import { getTemplate } from './templates';
 import { DataAnalyzer } from './DataAnalyzer';
 import logger from '../logger';
+import { getSettings } from '../../settings';
 
 export class PageGenerator {
   private analyzer: DataAnalyzer;
@@ -33,20 +34,15 @@ export class PageGenerator {
       logger.debug('[PageGenerator] 渲染模板');
       const blockTree = template.render(data, { ...params, summaryType });
 
-      const pageName = this.generatePageName(summaryType, data.dateRange);
+      const pageName = this.generatePageName(summaryType, data.dateRange, params.pageNameTemplate);
       logger.info('[PageGenerator] 创建页面', { pageName });
 
       const pageId = await this.createPage(pageName);
-
-      if (pageId) {
-        logger.debug('[PageGenerator] 插入块树', { pageId, blocksCount: blockTree.length });
-        await this.insertBlockTree(pageId, blockTree);
-        logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
-      } else {
-        logger.debug('[PageGenerator] 插入块树', { pageId, blocksCount: blockTree.length });
-        await this.insertBlockTree(pageName, blockTree);
-        logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
-      }
+      const insertTarget = pageId || pageName;
+      
+      logger.debug('[PageGenerator] 插入块树', { target: insertTarget, blocksCount: blockTree.length });
+      await this.insertBlockTree(insertTarget, blockTree);
+      logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
 
       return pageName;
     } catch (error) {
@@ -56,28 +52,40 @@ export class PageGenerator {
     }
   }
 
-  async generateWeeklyPage(year: number, weekNumber: number): Promise<string | null> {
-    logger.info('[PageGenerator] 开始生成周度页面', { year, weekNumber });
+  async generateWeeklyPage(
+    year: number, 
+    weekNumber: number, 
+    pageNameTemplate?: string,
+    templateType: TemplateType = 'gtd-work-review'
+  ): Promise<string | null> {
+    logger.info('[PageGenerator] 开始生成周度页面', { year, weekNumber, pageNameTemplate, templateType });
     
     const startDate = this.getWeekStartDate(year, weekNumber);
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + 6);
     
-    return this.generate('gtd-work-review', 'weekly', startDate, endDate, {
+    return this.generate(templateType, 'weekly', startDate, endDate, {
       year,
-      weekNumber
+      weekNumber,
+      pageNameTemplate
     });
   }
 
-  async generateMonthlyPage(year: number, month: number): Promise<string | null> {
-    logger.info('[PageGenerator] 开始生成月度页面', { year, month });
+  async generateMonthlyPage(
+    year: number, 
+    month: number, 
+    pageNameTemplate?: string,
+    templateType: TemplateType = 'gtd-work-review'
+  ): Promise<string | null> {
+    logger.info('[PageGenerator] 开始生成月度页面', { year, month, pageNameTemplate, templateType });
     
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0);
     
-    return this.generate('gtd-work-review', 'monthly', startDate, endDate, {
+    return this.generate(templateType, 'monthly', startDate, endDate, {
       year,
-      month
+      month,
+      pageNameTemplate
     });
   }
 
@@ -95,12 +103,52 @@ export class PageGenerator {
     return result;
   }
 
-  private generatePageName(summaryType: SummaryType, dateRange: { start: Date }): string {
+  private generatePageName(summaryType: SummaryType, dateRange: { start: Date }, pageNameTemplate?: string): string {
     const now = dateRange.start;
     const year = now.getFullYear();
     const month = now.getMonth() + 1;
     const weekNum = this.analyzer.getWeekNumber(now);
-
+    const dateStr = now.toISOString().split('T')[0];
+    
+    // 如果提供了模板，直接使用
+    if (pageNameTemplate) {
+      return this.replacePageNamePlaceholders(pageNameTemplate, {
+        year,
+        month,
+        week: weekNum,
+        date: dateStr,
+        type: summaryType
+      });
+    }
+    
+    // 否则从设置中读取对应的模板
+    const settings = getSettings();
+    let template: string | undefined;
+    
+    switch (summaryType) {
+      case 'weekly':
+        template = settings.summary?.weeklyPageNameTemplate;
+        break;
+      case 'monthly':
+        template = settings.summary?.monthlyPageNameTemplate;
+        break;
+      case 'custom':
+      default:
+        template = settings.summary?.customPageNameTemplate;
+        break;
+    }
+    
+    if (template) {
+      return this.replacePageNamePlaceholders(template, {
+        year,
+        month,
+        week: weekNum,
+        date: dateStr,
+        type: summaryType
+      });
+    }
+    
+    // 兜底方案
     switch (summaryType) {
       case 'weekly':
         return `周度总结-${year}-W${weekNum}`;
@@ -108,9 +156,23 @@ export class PageGenerator {
         return `月度总结-${year}-${month.toString().padStart(2, '0')}`;
       case 'custom':
       default:
-        const dateStr = now.toISOString().split('T')[0];
         return `自定义总结-${dateStr}`;
     }
+  }
+  
+  private replacePageNamePlaceholders(template: string, vars: { 
+    year: number; 
+    month: number; 
+    week: number; 
+    date: string; 
+    type: SummaryType 
+  }): string {
+    return template
+      .replace(/\{\{year\}\}/g, String(vars.year))
+      .replace(/\{\{month\}\}/g, String(vars.month).padStart(2, '0'))
+      .replace(/\{\{week\}\}/g, String(vars.week))
+      .replace(/\{\{date\}\}/g, vars.date)
+      .replace(/\{\{type\}\}/g, vars.type);
   }
 
   private async createPage(pageName: string): Promise<string | null> {

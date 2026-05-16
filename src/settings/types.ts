@@ -167,7 +167,9 @@ export interface SummarySettings {
   defaultType: SummaryType;
   dateFormat: string;
   ai: AIConfig;
-  pageNameTemplate: string;
+  weeklyPageNameTemplate: string;
+  monthlyPageNameTemplate: string;
+  customPageNameTemplate: string;
 }
 
 export interface Settings {

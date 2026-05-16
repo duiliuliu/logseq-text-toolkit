@@ -142,7 +142,7 @@
       "viewList": "List",
       "viewTable": "Table",
       "viewGallery": "Gallery",
-      "viewBoard": "Board",
+      "viewBoard": "Kanban",
       "hideViewBar": "Hide View Switcher Bar",
       "hideViewBarDescription": "When hidden, default view will be used. You can still switch views with view=xxx parameter",
       "defaultTheme": "Default Theme",
@@ -190,7 +190,7 @@
         }
       },
       "board": {
-        "title": "📋 Board Settings",
+        "title": "📋 Kanban Settings",
         "showColumnBorders": "Show Column Borders",
         "cardSpacing": "Card Spacing",
         "customTheme": {
@@ -227,12 +227,13 @@
       "preview": "Preview",
       "monthPageCreation": "Month Page Creation",
       "enableMonthPageCreation": "Enable Month Page Creation",
+      "monthTemplateType": "Summary Template",
+      "templateNone": "None",
       "monthPageNameTemplate": "Page Name Template",
-      "monthLogseqTemplate": "Logseq Template",
       "weekPageCreation": "Week Page Creation",
       "enableWeekPageCreation": "Enable Week Page Creation",
-      "weekPageNameTemplate": "Page Name Template",
-      "weekLogseqTemplate": "Logseq Template"
+      "weekTemplateType": "Summary Template",
+      "weekPageNameTemplate": "Page Name Template"
     },
     "summary": {
       "description": "Configure default behavior and parameters for the summary generation feature.",
@@ -240,7 +241,10 @@
       "defaultTemplate": "Default Template",
       "defaultType": "Default Summary Type",
       "dateFormat": "Date Format",
-      "pageNameTemplate": "Page Name Template",
+      "weeklyPageNameTemplate": "Weekly Page Name Template",
+      "monthlyPageNameTemplate": "Monthly Page Name Template",
+      "customPageNameTemplate": "Custom Page Name Template",
+      "pageNameTemplateHelp": "Available placeholders: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
       "templateGtdWorkReview": "GTD Work Review",
       "templateMinimalDashboard": "Minimal Dashboard",
       "templateBulletJournal": "Bullet Journal",

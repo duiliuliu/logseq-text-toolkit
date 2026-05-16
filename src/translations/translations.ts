@@ -168,12 +168,13 @@ export interface HeatmapTranslation {
   preview: string;
   monthPageCreation: string;
   enableMonthPageCreation: string;
+  monthTemplateType: string;
+  templateNone: string;
   monthPageNameTemplate: string;
-  monthLogseqTemplate: string;
   weekPageCreation: string;
   enableWeekPageCreation: string;
+  weekTemplateType: string;
   weekPageNameTemplate: string;
-  weekLogseqTemplate: string;
 }
 
 export interface SummaryTranslation {

@@ -10,9 +10,10 @@ import CustomSelect from '../../CustomSelect/index.tsx'
 import { Settings, HeatmapSettings as HeatmapSettingsType } from '../../../settings/types'
 import { TabComponentProps } from '../index'
 import { generateIndigoGradient } from '../../../lib/heatmap/colorCalculator'
+import { getAllTemplates } from '../../../lib/summary/templates'
 
 function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
-  const heatmapSettings: HeatmapSettingsType = settings.heatmap || {
+  const heatmapSettings = settings.heatmap || {
     enabled: true,
     defaultViewType: 'year',
     defaultDisplayMode: 'full',
@@ -22,16 +23,12 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
       maxColor: '#3730a3',
       gradientSteps: 5,
     },
-    monthPageCreation: {
-      enabled: false,
-      pageNameTemplate: '{year}-{month}',
-      logseqTemplate: '',
-    },
-    weekPageCreation: {
-      enabled: false,
-      pageNameTemplate: '{year}-W{week}',
-      logseqTemplate: '',
-    },
+    enableMonthPageCreation: false,
+    monthPageTemplate: '{year}-{month}',
+    monthPageTemplateType: '',
+    enableWeekPageCreation: false,
+    weekPageTemplate: '{year}-W{week}',
+    weekPageTemplateType: '',
   }
 
   const handleSettingChange = (key: string, value: any) => {
@@ -40,7 +37,7 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
       return {
         ...prev,
         heatmap: {
-          ...heatmapSettings,
+          ...prev.heatmap,
           [key]: value,
         },
       }
@@ -55,18 +52,20 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
   }
 
   const handleMonthPageCreationChange = (key: string, value: any) => {
-    handleSettingChange('monthPageCreation', {
-      ...heatmapSettings.monthPageCreation,
-      [key]: value,
-    })
+    handleSettingChange(key, value);
   }
 
   const handleWeekPageCreationChange = (key: string, value: any) => {
-    handleSettingChange('weekPageCreation', {
-      ...heatmapSettings.weekPageCreation,
-      [key]: value,
-    })
+    handleSettingChange(key, value);
   }
+
+  const templateOptions = [
+    { value: '', label: t('settings.heatmap.templateNone', language) },
+    ...getAllTemplates().map(tpl => ({
+      value: tpl.id,
+      label: tpl.name
+    }))
+  ]
 
   const viewTypeOptions = [
     { value: 'year', label: t('settings.heatmap.viewTypeYear', language) },
@@ -201,34 +200,33 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label className="ltt-switch">
           <input
             type="checkbox"
-            checked={heatmapSettings.monthPageCreation?.enabled || false}
-            onChange={(e) => handleMonthPageCreationChange('enabled', e.target.checked)}
+            checked={heatmapSettings.enableMonthPageCreation || false}
+            onChange={(e) => handleMonthPageCreationChange('enableMonthPageCreation', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
       <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.monthTemplateType', language)}</label>
+        <CustomSelect
+          options={templateOptions}
+          value={heatmapSettings.monthPageTemplateType || ''}
+          onChange={(value) => handleMonthPageCreationChange('monthPageTemplateType', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
         <label>{t('settings.heatmap.monthPageNameTemplate', language)}</label>
         <input
           type="text"
-          value={heatmapSettings.monthPageCreation?.pageNameTemplate || ''}
-          onChange={(e) => handleMonthPageCreationChange('pageNameTemplate', e.target.value)}
+          value={heatmapSettings.monthPageTemplate || ''}
+          onChange={(e) => handleMonthPageCreationChange('monthPageTemplate', e.target.value)}
           placeholder="{year}-{month}"
         />
       </div>
       <div style={{ margin: '-8px 0 12px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
         {templateNote}
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{t('settings.heatmap.monthLogseqTemplate', language)}</label>
-        <input
-          type="text"
-          value={heatmapSettings.monthPageCreation?.logseqTemplate || ''}
-          onChange={(e) => handleMonthPageCreationChange('logseqTemplate', e.target.value)}
-          placeholder={language?.startsWith('zh') ? '模板名称（可选）' : 'Template name (optional)'}
-        />
       </div>
 
       <div className="ltt-settings-section-title" style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 600, fontSize: '14px' }}>
@@ -240,34 +238,33 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
         <label className="ltt-switch">
           <input
             type="checkbox"
-            checked={heatmapSettings.weekPageCreation?.enabled || false}
-            onChange={(e) => handleWeekPageCreationChange('enabled', e.target.checked)}
+            checked={heatmapSettings.enableWeekPageCreation || false}
+            onChange={(e) => handleWeekPageCreationChange('enableWeekPageCreation', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
 
       <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.weekTemplateType', language)}</label>
+        <CustomSelect
+          options={templateOptions}
+          value={heatmapSettings.weekPageTemplateType || ''}
+          onChange={(value) => handleWeekPageCreationChange('weekPageTemplateType', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
         <label>{t('settings.heatmap.weekPageNameTemplate', language)}</label>
         <input
           type="text"
-          value={heatmapSettings.weekPageCreation?.pageNameTemplate || ''}
-          onChange={(e) => handleWeekPageCreationChange('pageNameTemplate', e.target.value)}
+          value={heatmapSettings.weekPageTemplate || ''}
+          onChange={(e) => handleWeekPageCreationChange('weekPageTemplate', e.target.value)}
           placeholder="{year}-W{week}"
         />
       </div>
       <div style={{ margin: '-8px 0 12px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
         {templateNote}
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{t('settings.heatmap.weekLogseqTemplate', language)}</label>
-        <input
-          type="text"
-          value={heatmapSettings.weekPageCreation?.logseqTemplate || ''}
-          onChange={(e) => handleWeekPageCreationChange('logseqTemplate', e.target.value)}
-          placeholder={language?.startsWith('zh') ? '模板名称（可选）' : 'Template name (optional)'}
-        />
       </div>
 
       <div className="ltt-settings-actions">

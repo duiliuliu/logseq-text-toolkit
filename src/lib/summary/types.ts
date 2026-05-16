@@ -32,6 +32,7 @@ export interface TaskStats {
   inProgress: number;
   todo: number;
   overdue: number;
+  cancelled: number;
   completionRate: number;
   byPriority: Record<string, number>;
 }

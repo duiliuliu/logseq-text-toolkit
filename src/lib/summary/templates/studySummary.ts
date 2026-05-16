@@ -25,8 +25,8 @@ export class StudySummaryTemplate implements SummaryTemplate {
           {
             content: '## 📊 学习概览',
             children: [
-              { content: `- 时间段: ${dateRangeStr}` },
-              { content: `- 学习记录数: ${data.blocks.total}` },
+              { content: `时间段: ${dateRangeStr}` },
+              { content: `学习记录数: ${data.blocks.total}` },
             ],
           },
           {
@@ -34,9 +34,9 @@ export class StudySummaryTemplate implements SummaryTemplate {
             children: studyTopics.map((topic, index) => ({
               content: `### ${index + 1}. ${topic}`,
               children: [
-                { content: '- 学习内容:' },
-                { content: '- 关键知识点:' },
-                { content: '- 待复习:' },
+                { content: '学习内容:' },
+                { content: '关键知识点:' },
+                { content: '待复习:' },
               ],
             })),
           },
@@ -53,23 +53,23 @@ export class StudySummaryTemplate implements SummaryTemplate {
           {
             content: '## 🏷️ 知识标签',
             children: topTags.map(([tag, count]) => ({
-              content: `- #${tag}: ${count}`,
+              content: `${tag}: ${count}`,
             })),
           },
           {
             content: '## 💡 学习心得',
             children: [
-              { content: '- 本周学到的最重要的知识点:' },
-              { content: '- 遇到的难点和解决方法:' },
-              { content: '- 下一步学习计划:' },
+              { content: '本周学到的最重要的知识点:' },
+              { content: '遇到的难点和解决方法:' },
+              { content: '下一步学习计划:' },
             ],
           },
           {
             content: '## 🎯 学习目标',
             children: [
-              { content: '- [ ] 完成课程章节' },
-              { content: '- [ ] 练习项目' },
-              { content: '- [ ] 复习巩固' },
+              { content: '[ ] 完成课程章节' },
+              { content: '[ ] 练习项目' },
+              { content: '[ ] 复习巩固' },
             ],
           },
         ],

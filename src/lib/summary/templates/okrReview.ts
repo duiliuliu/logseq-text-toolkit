@@ -28,9 +28,9 @@ export class OKRReviewTemplate implements SummaryTemplate {
           {
             content: '## 📊 OKR 完成概览',
             children: [
-              { content: `- 时间段: ${dateRangeStr}` },
-              { content: `- 总目标数: ${objectives.length}` },
-              { content: `- 平均完成率: ${Math.round(objectives.reduce((sum, o) => sum + o.progress, 0) / objectives.length)}%` },
+              { content: `时间段: ${dateRangeStr}` },
+              { content: `总目标数: ${objectives.length}` },
+              { content: `平均完成率: ${Math.round(objectives.reduce((sum, o) => sum + o.progress, 0) / objectives.length)}%` },
             ],
           },
           {
@@ -48,30 +48,30 @@ export class OKRReviewTemplate implements SummaryTemplate {
           {
             content: '## ✅ 任务完成情况',
             children: [
-              { content: `- 总任务数: ${data.tasks.total}` },
-              { content: `- 已完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
-              { content: `- 逾期任务: ${data.tasks.overdue}` },
+              { content: `总任务数: ${data.tasks.total}` },
+              { content: `已完成: ${data.tasks.completed} (${data.tasks.completionRate}%)` },
+              { content: `逾期任务: ${data.tasks.overdue}` },
             ],
           },
           {
             content: '## 💡 洞察与反思',
             children: [
               { content: '### 做得好的地方' },
-              { content: '- ' },
+              { content: '' },
               { content: '### 需要改进的地方' },
-              { content: '- ' },
+              { content: '' },
               { content: '### 下月行动项' },
-              { content: '- [ ] ' },
-              { content: '- [ ] ' },
-              { content: '- [ ] ' },
+              { content: '[ ] ' },
+              { content: '[ ] ' },
+              { content: '[ ] ' },
             ],
           },
           {
             content: '## 📈 数据指标',
             children: [
-              { content: `- 创建块数: ${data.blocks.created}` },
-              { content: `- 新增页面: ${data.pages.newPages}` },
-              { content: `- 修改页面: ${data.pages.modifiedPages}` },
+              { content: `创建块数: ${data.blocks.created}` },
+              { content: `新增页面: ${data.pages.newPages}` },
+              { content: `修改页面: ${data.pages.modifiedPages}` },
             ],
           },
         ],

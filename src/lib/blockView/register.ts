@@ -13,34 +13,37 @@ registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] });
 
 const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
 
-async function applyViewStyle(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
-  const doc = getDocument();
+const VIEW_CLASSES = [
+  'ltt-list-root',
+  'ltt-table-root',
+  'ltt-gallery-root',
+  'ltt-board-root'
+];
 
-  const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
-  if (!blockElement) {
-    logger.warn('[BlockView] Block element not found', { blockId });
-    return;
-  }
+const THEME_CLASSES = [
+  'theme-default',
+  'theme-notion',
+  'theme-linear',
+  'theme-dark',
+  'theme-gradient',
+  'theme-tana',
+  'theme-custom'
+];
 
-  const VIEW_CLASSES = [
-    'ltt-list-root',
-    'ltt-table-root',
-    'ltt-gallery-root',
-    'ltt-board-root'
-  ];
+const CUSTOM_CSS_VARS = [
+  '--custom-border-color', '--custom-header-bg', '--custom-header-text',
+  '--custom-cell-text', '--custom-header-border', '--custom-row-bg',
+  '--custom-row-hover', '--custom-radius', '--custom-header-height',
+  '--custom-cell-padding', '--custom-card-bg', '--custom-card-hover',
+  '--custom-card-text', '--custom-card-radius', '--custom-card-shadow',
+  '--custom-column-bg', '--custom-column-hover', '--custom-card-border'
+];
 
-  const THEME_CLASSES = [
-    'theme-default',
-    'theme-notion',
-    'theme-linear',
-    'theme-dark',
-    'theme-gradient',
-    'theme-tana',
-    'theme-custom'
-  ];
-
+function removeViewStyles(blockElement: HTMLElement): void {
   blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
+}
 
+function applyViewStyles(blockElement: HTMLElement, viewType: ViewType, themeType: ThemeType): void {
   const newViewClass = `ltt-${viewType}-root`;
   if (!blockElement.classList.contains(newViewClass)) {
     blockElement.classList.add(newViewClass);
@@ -50,66 +53,74 @@ async function applyViewStyle(blockId: string, viewType: ViewType, themeType: Th
   if (!blockElement.classList.contains(newThemeClass)) {
     blockElement.classList.add(newThemeClass);
   }
+}
 
-  // Apply custom theme CSS variables
-  if (themeType === 'custom') {
-    const settings = await getSettingsWithSystem();
-    const viewSettings = settings?.blockView?.[viewType as 'table' | 'gallery' | 'board'];
-    const customTheme = viewSettings?.customTheme;
+async function applyCustomTheme(blockElement: HTMLElement, viewType: ViewType): Promise<void> {
+  const settings = await getSettingsWithSystem();
+  const viewSettings = settings?.blockView?.[viewType as 'table' | 'gallery' | 'board'];
+  const customTheme = viewSettings?.customTheme;
 
-    if (customTheme) {
-      // Set data attribute to enable custom theme
-      blockElement.setAttribute('data-custom-theme', 'true');
+  if (customTheme) {
+    blockElement.setAttribute('data-custom-theme', 'true');
 
-      // Apply custom theme colors as CSS variables
-      const cssVariables: string[] = [];
-      
-      if (viewType === 'table') {
-        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
-        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || '#f8fafc'}`);
-        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
-        cssVariables.push(`--custom-cell-text: ${customTheme.cellTextColor || '#475569'}`);
-        cssVariables.push(`--custom-header-border: ${customTheme.headerBorderColor || '#cbd5e1'}`);
-        cssVariables.push(`--custom-row-bg: ${customTheme.rowBgColor || '#ffffff'}`);
-        cssVariables.push(`--custom-row-hover: ${customTheme.rowHoverBgColor || '#f1f5f9'}`);
-        cssVariables.push(`--custom-radius: ${customTheme.tableBorderRadius || '8px'}`);
-        cssVariables.push(`--custom-header-height: ${customTheme.headerHeight || '48px'}`);
-        cssVariables.push(`--custom-cell-padding: ${customTheme.cellPadding || '12px 16px'}`);
-      } else if (viewType === 'gallery') {
-        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
-        cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || '#ffffff'}`);
-        cssVariables.push(`--custom-card-hover: ${customTheme.cardHoverBgColor || '#f8fafc'}`);
-        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || 'transparent'}`);
-        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
-        cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || '#475569'}`);
-        cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || '12px'}`);
-        cssVariables.push(`--custom-card-shadow: ${customTheme.cardShadow || '0 2px 8px rgba(0, 0, 0, 0.06)'}`);
-      } else if (viewType === 'board') {
-        cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
-        cssVariables.push(`--custom-column-bg: ${customTheme.columnBgColor || '#ffffff'}`);
-        cssVariables.push(`--custom-column-hover: ${customTheme.columnHoverBgColor || '#f8fafc'}`);
-        cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || 'transparent'}`);
-        cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
-        cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || '#ffffff'}`);
-        cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || '#475569'}`);
-        cssVariables.push(`--custom-card-border: ${customTheme.cardBorderColor || '#e2e8f0'}`);
-        cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || '8px'}`);
-      }
+    const cssVariables: string[] = [];
 
-      blockElement.style.cssText += cssVariables.join('; ') + ';';
+    if (viewType === 'table') {
+      cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
+      cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || '#f8fafc'}`);
+      cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
+      cssVariables.push(`--custom-cell-text: ${customTheme.cellTextColor || '#475569'}`);
+      cssVariables.push(`--custom-header-border: ${customTheme.headerBorderColor || '#cbd5e1'}`);
+      cssVariables.push(`--custom-row-bg: ${customTheme.rowBgColor || '#ffffff'}`);
+      cssVariables.push(`--custom-row-hover: ${customTheme.rowHoverBgColor || '#f1f5f9'}`);
+      cssVariables.push(`--custom-radius: ${customTheme.tableBorderRadius || '8px'}`);
+      cssVariables.push(`--custom-header-height: ${customTheme.headerHeight || '48px'}`);
+      cssVariables.push(`--custom-cell-padding: ${customTheme.cellPadding || '12px 16px'}`);
+    } else if (viewType === 'gallery') {
+      cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
+      cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || '#ffffff'}`);
+      cssVariables.push(`--custom-card-hover: ${customTheme.cardHoverBgColor || '#f8fafc'}`);
+      cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || 'transparent'}`);
+      cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
+      cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || '#475569'}`);
+      cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || '12px'}`);
+      cssVariables.push(`--custom-card-shadow: ${customTheme.cardShadow || '0 2px 8px rgba(0, 0, 0, 0.06)'}`);
+    } else if (viewType === 'board') {
+      cssVariables.push(`--custom-border-color: ${customTheme.borderColor || '#e2e8f0'}`);
+      cssVariables.push(`--custom-column-bg: ${customTheme.columnBgColor || '#ffffff'}`);
+      cssVariables.push(`--custom-column-hover: ${customTheme.columnHoverBgColor || '#f8fafc'}`);
+      cssVariables.push(`--custom-header-bg: ${customTheme.headerBgColor || 'transparent'}`);
+      cssVariables.push(`--custom-header-text: ${customTheme.headerTextColor || '#374151'}`);
+      cssVariables.push(`--custom-card-bg: ${customTheme.cardBgColor || '#ffffff'}`);
+      cssVariables.push(`--custom-card-text: ${customTheme.cardTextColor || '#475569'}`);
+      cssVariables.push(`--custom-card-border: ${customTheme.cardBorderColor || '#e2e8f0'}`);
+      cssVariables.push(`--custom-card-radius: ${customTheme.cardBorderRadius || '8px'}`);
     }
+
+    blockElement.style.cssText += cssVariables.join('; ') + ';';
   } else {
     blockElement.setAttribute('data-custom-theme', 'false');
-    // Clear custom CSS variables
-    const cssVars = [
-      '--custom-border-color', '--custom-header-bg', '--custom-header-text',
-      '--custom-cell-text', '--custom-header-border', '--custom-row-bg',
-      '--custom-row-hover', '--custom-radius', '--custom-header-height',
-      '--custom-cell-padding', '--custom-card-bg', '--custom-card-hover',
-      '--custom-card-text', '--custom-card-radius', '--custom-card-shadow',
-      '--custom-column-bg', '--custom-column-hover', '--custom-card-border'
-    ];
-    cssVars.forEach(v => blockElement.style.removeProperty(v));
+    CUSTOM_CSS_VARS.forEach(v => blockElement.style.removeProperty(v));
+  }
+}
+
+async function applyViewStyle(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
+  const doc = getDocument();
+
+  const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
+  if (!blockElement) {
+    logger.warn('[BlockView] Block element not found', { blockId });
+    return;
+  }
+
+  removeViewStyles(blockElement);
+  applyViewStyles(blockElement, viewType, themeType);
+
+  if (themeType === 'custom') {
+    await applyCustomTheme(blockElement, viewType);
+  } else {
+    blockElement.setAttribute('data-custom-theme', 'false');
+    CUSTOM_CSS_VARS.forEach(v => blockElement.style.removeProperty(v));
   }
 
   logger.debug('[BlockView] View & theme applied', { blockId, viewType, themeType });
@@ -180,10 +191,10 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   const containerId = `${PLUGIN_ID}__${slot}`;
 
   const settings = await getSettingsWithSystem();
-  const blockViewSettings = settings?.blockView || { 
-    defaultView: 'list' as ViewType, 
+  const blockViewSettings = settings?.blockView || {
+    defaultView: 'list' as ViewType,
     defaultTheme: 'default' as ThemeType,
-    hideViewBar: false 
+    hideViewBar: false
   };
 
   const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
@@ -197,7 +208,7 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   const viewBarHtml = `
     <div class="ltt-view-bar" data-block-id="${blockId}">
       ${Object.values(VIEW_REGISTRY).map(view => `
-        <button 
+        <button
           class="ltt-view-btn ${view.id === currentView ? 'active' : ''}"
           data-view="${view.id}"
           title="${view.name}"

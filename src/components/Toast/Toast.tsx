@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getWindow } from '../../logseq/utils';
 import './Toast.css';
 
 type ToastType = 'info' | 'error' | 'warning' | 'success';
@@ -14,32 +15,37 @@ interface ToastContainerProps {
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
 }
 
+let toastIdCounter = 0;
+
+const generateToastId = (): string => {
+  const timestamp = Date.now().toString(36);
+  const counter = (++toastIdCounter).toString(36).padStart(3, '0');
+  return `toast-${timestamp}-${counter}`;
+};
+
 export const ToastContainer: React.FC<ToastContainerProps> = ({ position = 'top-right' }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 添加新的提示
   const addToast = (message: string, type: ToastType = 'info', timeout: number = 3000) => {
-    const id = Math.random().toString(36).substr(2, 9);
+    const id = generateToastId();
     const newToast: Toast = { id, message, type, timeout };
     setToasts(prev => [...prev, newToast]);
 
-    // 自动移除
     setTimeout(() => {
       setToasts(prev => prev.filter(toast => toast.id !== id));
     }, timeout);
   };
 
-  // 移除提示
   const removeToast = (id: string) => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   };
 
-  // 暴露 addToast 方法到全局
   useEffect(() => {
-    (window as any).addToast = addToast;
+    const win = getWindow();
+    (win as any).addToast = addToast;
     return () => {
-      delete (window as any).addToast;
+      delete (win as any).addToast;
     };
   }, []);
 
@@ -70,19 +76,22 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ position = 'top-
   );
 };
 
-// 导出便捷方法
 export const toast = {
   info: (message: string, timeout?: number) => {
-    (window as any).addToast?.(message, 'info', timeout);
+    const win = getWindow();
+    (win as any).addToast?.(message, 'info', timeout);
   },
   error: (message: string, timeout?: number) => {
-    (window as any).addToast?.(message, 'error', timeout);
+    const win = getWindow();
+    (win as any).addToast?.(message, 'error', timeout);
   },
   warning: (message: string, timeout?: number) => {
-    (window as any).addToast?.(message, 'warning', timeout);
+    const win = getWindow();
+    (win as any).addToast?.(message, 'warning', timeout);
   },
   success: (message: string, timeout?: number) => {
-    (window as any).addToast?.(message, 'success', timeout);
+    const win = getWindow();
+    (win as any).addToast?.(message, 'success', timeout);
   }
 };
 
