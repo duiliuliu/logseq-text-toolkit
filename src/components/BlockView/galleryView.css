@@ -2,17 +2,33 @@
    BLOCK VIEW GALLERY STYLES
    Advanced Theme System with Multiple Presets
 
-   特性：
-   1. 多主题支持 (Default, Notion, Linear, Dark, Gradient, Tana)
-   2. CSS 变量驱动的设计系统
-   3. 支持自定义主题颜色配置
-   4. 优化的卡片网格布局
-   5. 响应式设计
-   6. Dark 模式支持
+   主题设计系统说明：
+   - 使用 CSS 变量驱动的设计系统
+   - 优先使用 Logseq 原生变量作为主色
+   - 提供多种预设主题风格
+   - 支持深色模式自动适配
+   - 卡片悬浮动效增强交互体验
+
+   主题风格速查：
+   | 主题    | 圆角   | 阴影        | 特点                    |
+   |---------|--------|-------------|-------------------------|
+   | Default | 12px  | 柔和阴影    | 基础风格，悬浮上浮动画    |
+   | Notion  | 0px   | 无          | 极简线条，无悬浮效果      |
+   | Linear  | 8px   | 轻量阴影    | 科技蓝紫，适合项目管理    |
+   | Dark    | 12px  | 深色阴影    | 纯深色，夜间使用         |
+   | Gradient| 16px  | 彩色阴影    | 活力渐变，适合展示       |
+   | Tana    | 16px  | 柔和绿色阴影| 清新绿色，自然舒适        |
+   | Indigo  | 16px  | 柔和蓝色阴影| 专业蓝紫，沉稳商务        |
 ========================================================= */
 
 /* =========================================================
-   THEME VARIABLES - DEFAULT
+   THEME: DEFAULT - 系统变量主题
+   设计特点：
+   - 圆角：12px（大圆角）
+   - 阴影：柔和多层阴影
+   - Header：无背景色，透明设计
+   - 卡片悬浮：上浮 6px + 阴影加深
+   - 适用场景：日常使用，通用卡片展示
 ========================================================= */
 
 .ltt-gallery-root {
@@ -31,7 +47,7 @@
   --ltt-padding: 24px;
 }
 
-/* Dark mode for DEFAULT theme - Gallery */
+/* Default Dark Mode */
 .dark .ltt-gallery-root,
 html.dark .ltt-gallery-root {
   --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));
@@ -50,7 +66,13 @@ html.dark .ltt-gallery-root {
 }
 
 /* =========================================================
-   THEME: NOTION
+   THEME: NOTION - 极简专业风格
+   设计特点：
+   - 圆角：0px（无圆角，锐利边缘）
+   - 阴影：无阴影，纯线条分隔
+   - Header：无背景色，透明设计
+   - 卡片悬浮：无上浮效果，仅边框颜色变化
+   - 适用场景：文档型内容，专注阅读
 ========================================================= */
 
 .theme-notion,
@@ -70,7 +92,7 @@ html.dark .ltt-gallery-root {
   --ltt-padding: 20px;
 }
 
-/* Dark mode for Notion theme */
+/* Notion Dark Mode - 使用 indigo-dark 配色 */
 .dark .theme-notion,
 [data-theme="notion"].dark,
 html.dark .theme-notion {
@@ -90,7 +112,14 @@ html.dark .theme-notion {
 }
 
 /* =========================================================
-   THEME: LINEAR
+   THEME: LINEAR - 现代科技风格
+   设计特点：
+   - 圆角：8px（中等圆角）
+   - 阴影：轻量柔和阴影
+   - Header：无背景色
+   - 卡片悬浮：上浮 6px + 阴影加深 + 边框高亮
+   - 强调色：Indigo #5e6ad2
+   - 适用场景：项目管理，任务追踪
 ========================================================= */
 
 .theme-linear,
@@ -110,7 +139,7 @@ html.dark .theme-notion {
   --ltt-padding: 20px;
 }
 
-/* Dark mode for Linear theme */
+/* Linear Dark Mode - 使用 indigo-dark 配色 */
 .dark .theme-linear,
 [data-theme="linear"].dark,
 html.dark .theme-linear {
@@ -130,7 +159,13 @@ html.dark .theme-linear {
 }
 
 /* =========================================================
-   THEME: DARK
+   THEME: DARK - 纯深色模式
+   设计特点：
+   - 圆角：12px
+   - 阴影：深色阴影增加层次感
+   - Header：无背景色，透明设计
+   - 卡片悬浮：上浮 6px + 阴影加深
+   - 适用场景：夜间使用，减少眼睛疲劳
 ========================================================= */
 
 .dark,
@@ -152,7 +187,14 @@ html.dark .theme-linear {
 }
 
 /* =========================================================
-   THEME: GRADIENT
+   THEME: GRADIENT - 活力渐变风格
+   设计特点：
+   - 圆角：16px（超大圆角）
+   - 阴影：彩色投影效果
+   - Header：顶部渐变背景条
+   - 卡片悬浮：上浮 6px + 阴影加深
+   - 强调色：Purple #8b5cf6
+   - 适用场景：数据展示，仪表盘，报告
 ========================================================= */
 
 .theme-gradient,
@@ -172,7 +214,7 @@ html.dark .theme-linear {
   --ltt-padding: 28px;
 }
 
-/* Dark mode for Gradient theme */
+/* Gradient Dark Mode - 深色渐变 */
 .dark .theme-gradient,
 [data-theme="gradient"].dark,
 html.dark .theme-gradient {
@@ -189,7 +231,14 @@ html.dark .theme-gradient {
 }
 
 /* =========================================================
-   THEME: TANA (NEW)
+   THEME: TANA - 清新自然风格
+   设计特点：
+   - 圆角：16px（超大圆角）
+   - 阴影：柔和绿色投影
+   - Header：顶部渐变背景条
+   - 卡片悬浮：上浮 6px + 阴影加深
+   - 强调色：Green #22c55e
+   - 适用场景：健康生活，目标追踪
 ========================================================= */
 
 .theme-tana,
@@ -209,7 +258,7 @@ html.dark .theme-gradient {
   --ltt-padding: 28px;
 }
 
-/* Dark mode for Tana theme */
+/* Tana Dark Mode - 使用 indigo-dark 基础 */
 .dark .theme-tana,
 [data-theme="tana"].dark,
 html.dark .theme-tana {
@@ -226,7 +275,14 @@ html.dark .theme-tana {
 }
 
 /* =========================================================
-   THEME: INDIGO - Deep Blue-Purple Style
+   THEME: INDIGO - 专业沉稳风格
+   设计特点：
+   - 圆角：16px（超大圆角）
+   - 阴影：柔和蓝色投影
+   - Header：顶部渐变背景条
+   - 卡片悬浮：上浮 6px + 阴影加深
+   - 强调色：Indigo #6366f1
+   - 适用场景：商务办公，数据分析，项目管理
 ========================================================= */
 
 .theme-indigo,
@@ -246,7 +302,7 @@ html.dark .theme-tana {
   --ltt-padding: 28px;
 }
 
-/* Dark mode for Indigo theme */
+/* Indigo Dark Mode - 使用 indigo-dark 配色方案 */
 .dark .theme-indigo,
 [data-theme="indigo"].dark,
 html.dark .theme-indigo {
