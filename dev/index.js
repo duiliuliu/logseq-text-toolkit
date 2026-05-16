@@ -22063,13 +22063,38 @@ ${where}
     if (text.startsWith("[:") && text.endsWith("]")) {
       return text;
     }
-    let result = text;
-    result = result.replace(/\*\*([^*]+)\*\*/g, '[:b "$1"]');
-    result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '[:i "$1"]');
-    result = result.replace(/~~([^~]+)~~/g, '[:s "$1"]');
-    result = result.replace(/==([^=]+)==/g, '[:mark "$1"]');
-    result = result.replace(/`([^`]+)`/g, '[:code "$1"]');
-    return result;
+    const processOuterFormat = (str) => {
+      const outerFormats = [
+        { regex: /\*\*([^*]+)\*\*/g, tag: "b" },
+        { regex: /(?<!\*)\*([^*]+)\*(?!\*)/g, tag: "i" },
+        { regex: /~~([^~]+)~~/g, tag: "s" },
+        { regex: /==([^=]+)==/g, tag: "mark" },
+        { regex: /`([^`]+)`/g, tag: "code" }
+      ];
+      const recursiveProcess = (s) => {
+        const hasAnyFormat = outerFormats.some((f) => f.regex.test(s));
+        if (!hasAnyFormat) {
+          return s;
+        }
+        let processed = s;
+        for (const { regex, tag } of outerFormats) {
+          processed = processed.replace(regex, (match, content) => {
+            const innerContent = recursiveProcess(content);
+            const isHiccupFormat = innerContent.startsWith("[:") && innerContent.endsWith("]");
+            if (isHiccupFormat) {
+              return `[:${tag} ${innerContent}]`;
+            } else if (innerContent.includes(" ") || innerContent.includes('"') || innerContent.includes("'")) {
+              return `[:${tag} "${innerContent}"]`;
+            } else {
+              return `[:${tag} ${innerContent}]`;
+            }
+          });
+        }
+        return processed;
+      };
+      return recursiveProcess(str);
+    };
+    return processOuterFormat(text);
   };
   const parseWrapperPattern = (invokeParams) => {
     const match = invokeParams.match(/^(.*)\${selectedText}(.*)$/);
