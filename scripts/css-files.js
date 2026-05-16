@@ -4,6 +4,7 @@
  */
 
 module.exports = [
+  "main.css",
   "toolbar.css",
   "settingsModal.css",
   "modal.css",

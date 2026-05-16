@@ -38,6 +38,7 @@ import tableViewCSSRaw from './components/BlockView/tableView.css?raw'
 import galleryViewCSSRaw from './components/BlockView/galleryView.css?raw'
 import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
 import listViewCssRaw from './components/BlockView/listView.css?raw'
+import mainCSSRaw from './main.css?raw'
 
 
 /* ============================================================================
@@ -83,6 +84,12 @@ export function configureLogger(): void {
  * 使用 both 类型：优先加载外部 CSS（用户自定义），降级使用内置 CSS
  */
 export function registerAllCSS(): void {
+  registerCSS('main', {
+    type: 'both',
+    inlineContent: mainCSSRaw,
+    externalPath: 'main.css'
+  })
+
   registerCSS('toolbar', {
     type: 'both',
     inlineContent: toolbarCSSRaw,
