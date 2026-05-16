@@ -54,21 +54,54 @@ const hasExistingFormat = (text: string): boolean => {
 
 /**
  * 将原始文本中的格式标记解析为嵌套格式
+ * 使用从外到内的策略处理嵌套
  */
 const parseNestedFormat = (text: string): string => {
   if (text.startsWith('[:') && text.endsWith(']')) {
     return text;
   }
   
-  let result = text;
+  const processOuterFormat = (str: string): string => {
+    const outerFormats = [
+      { regex: /\*\*([^*]+)\*\*/g, tag: 'b' },
+      { regex: /(?<!\*)\*([^*]+)\*(?!\*)/g, tag: 'i' },
+      { regex: /~~([^~]+)~~/g, tag: 's' },
+      { regex: /==([^=]+)==/g, tag: 'mark' },
+      { regex: /`([^`]+)`/g, tag: 'code' },
+    ];
+    
+    const recursiveProcess = (s: string): string => {
+      const hasAnyFormat = outerFormats.some(f => f.regex.test(s));
+      if (!hasAnyFormat) {
+        return s;
+      }
+      
+      let processed = s;
+      
+      for (const { regex, tag } of outerFormats) {
+        processed = processed.replace(regex, (match, content) => {
+          const innerContent = recursiveProcess(content);
+          
+          const needsQuote = innerContent.includes(' ') || 
+                            innerContent.includes('"') || 
+                            innerContent.includes("'") ||
+                            innerContent.startsWith('[:');
+          
+          if (needsQuote) {
+            return `[:${tag} "${innerContent}"]`;
+          } else {
+            return `[:${tag} ${innerContent}]`;
+          }
+        });
+      }
+      
+      return processed;
+    };
+    
+    return recursiveProcess(str);
+  };
   
-  result = result.replace(/\*\*([^*]+)\*\*/g, '[:b "$1"]');
-  result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '[:i "$1"]');
-  result = result.replace(/~~([^~]+)~~/g, '[:s "$1"]');
-  result = result.replace(/==([^=]+)==/g, '[:mark "$1"]');
-  result = result.replace(/`([^`]+)`/g, '[:code "$1"]');
-  
-  return result;
+  return processOuterFormat(text);
 };
 
 /**

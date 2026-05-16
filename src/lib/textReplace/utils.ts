@@ -156,6 +156,7 @@ const hasExistingFormat = (text: string): boolean => {
 
 /**
  * 将原始文本中的格式标记解析为 Logseq 支持的嵌套格式
+ * 使用从外到内的策略处理嵌套
  * @param text 原始文本（可能包含格式）
  * @returns 处理后的文本（已转换为嵌套格式）
  */
@@ -164,15 +165,61 @@ const parseNestedFormat = (text: string): string => {
     return text;
   }
   
-  let result = text;
+  // 使用从外到内的策略：递归地处理最外层的格式
+  const processOuterFormat = (str: string): string => {
+    // 定义外层格式及其对应的 hiccup 标签
+    const outerFormats = [
+      { regex: /\*\*([^*]+)\*\*/g, tag: 'b' },
+      { regex: /(?<!\*)\*([^*]+)\*(?!\*)/g, tag: 'i' },
+      { regex: /~~([^~]+)~~/g, tag: 's' },
+      { regex: /==([^=]+)==/g, tag: 'mark' },
+      { regex: /`([^`]+)`/g, tag: 'code' },
+    ];
+    
+    // 递归处理从外到内
+    const recursiveProcess = (s: string): string => {
+      // 如果没有格式标记，直接返回
+      const hasAnyFormat = outerFormats.some(f => f.regex.test(s));
+      if (!hasAnyFormat) {
+        return s;
+      }
+      
+      let processed = s;
+      
+      // 处理每个外层格式
+      for (const { regex, tag } of outerFormats) {
+        processed = processed.replace(regex, (match, content) => {
+          // 递归处理内层内容
+          const innerContent = recursiveProcess(content);
+          
+          // 判断是否需要引号
+          // 不需要引号的情况：
+          // 1. 内容已经是完整的 hiccup 格式（以 [: 开头，以 ] 结尾）
+          // 2. 内容包含嵌套的 hiccup 格式
+          const isHiccupFormat = innerContent.startsWith('[:') && innerContent.endsWith(']');
+          
+          if (isHiccupFormat) {
+            // 已经是 hiccup 格式，直接返回
+            return `[:${tag} ${innerContent}]`;
+          } else if (innerContent.includes(' ') || 
+                     innerContent.includes('"') || 
+                     innerContent.includes("'")) {
+            // 普通文本但包含需要引号的字符
+            return `[:${tag} "${innerContent}"]`;
+          } else {
+            // 普通文本，不需要引号
+            return `[:${tag} ${innerContent}]`;
+          }
+        });
+      }
+      
+      return processed;
+    };
+    
+    return recursiveProcess(str);
+  };
   
-  result = result.replace(/\*\*([^*]+)\*\*/g, '[:b "$1"]');
-  result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '[:i "$1"]');
-  result = result.replace(/~~([^~]+)~~/g, '[:s "$1"]');
-  result = result.replace(/==([^=]+)==/g, '[:mark "$1"]');
-  result = result.replace(/`([^`]+)`/g, '[:code "$1"]');
-  
-  return result;
+  return processOuterFormat(text);
 };
 
 /**
