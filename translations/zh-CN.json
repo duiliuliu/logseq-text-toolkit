@@ -190,7 +190,7 @@
         }
       },
       "board": {
-        "title": "📋 Board 设置",
+        "title": "📋 Kanban 设置",
         "showColumnBorders": "显示列边框",
         "cardSpacing": "卡片间距",
         "customTheme": {
@@ -227,12 +227,13 @@
       "preview": "预览",
       "monthPageCreation": "月度页面创建",
       "enableMonthPageCreation": "启用月度页面创建",
+      "monthTemplateType": "总结模板",
+      "templateNone": "不选",
       "monthPageNameTemplate": "页面名称模板",
-      "monthLogseqTemplate": "Logseq 模板",
       "weekPageCreation": "周度页面创建",
       "enableWeekPageCreation": "启用周度页面创建",
-      "weekPageNameTemplate": "页面名称模板",
-      "weekLogseqTemplate": "Logseq 模板"
+      "weekTemplateType": "总结模板",
+      "weekPageNameTemplate": "页面名称模板"
     },
     "summary": {
       "description": "配置总结生成功能的默认行为和参数。",
@@ -240,7 +241,10 @@
       "defaultTemplate": "默认模板",
       "defaultType": "默认总结类型",
       "dateFormat": "日期格式",
-      "pageNameTemplate": "页面名称模板",
+      "weeklyPageNameTemplate": "周度页面名称模板",
+      "monthlyPageNameTemplate": "月度页面名称模板",
+      "customPageNameTemplate": "自定义页面名称模板",
+      "pageNameTemplateHelp": "可用占位符: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
       "templateGtdWorkReview": "GTD 工作回顾",
       "templateMinimalDashboard": "极简仪表盘",
       "templateBulletJournal": "子弹日记",
@@ -255,7 +259,7 @@
       "aiSettings": "🤖 AI 设置",
       "aiEnabled": "启用 AI 增强",
       "aiProvider": "AI 提供商",
-      "aiProviderOpenAI": "OpenAI",
+      "aiProviderOpenai": "OpenAI",
       "aiProviderClaude": "Claude",
       "aiProviderCustom": "自定义",
       "aiApiKey": "API Key",
