@@ -74,16 +74,16 @@ html.dark .ltt-gallery-root {
 .dark .theme-notion,
 [data-theme="notion"].dark,
 html.dark .theme-notion {
-  --ltt-border: rgba(255, 255, 255, 0.06);
-  --ltt-border-strong: rgba(255, 255, 255, 0.08);
-  --ltt-hover: rgba(255, 255, 255, 0.03);
-  --ltt-header-bg: #1a1d23;
-  --ltt-header-text: #e5e7eb;
-  --ltt-card-bg: #12151a;
-  --ltt-card-text: #9ca3af;
-  --ltt-card-hover: #1a1d23;
+  --ltt-border: var(--ltt-border-normal-dark);
+  --ltt-border-strong: var(--ltt-border-medium-dark);
+  --ltt-hover: var(--ltt-border-subtle-dark);
+  --ltt-header-bg: var(--ltt-bg-secondary-dark);
+  --ltt-header-text: var(--ltt-text-primary-dark);
+  --ltt-card-bg: var(--ltt-bg-deepest-dark);
+  --ltt-card-text: var(--ltt-text-secondary-dark);
+  --ltt-card-hover: var(--ltt-bg-secondary-dark);
   --ltt-card-shadow: none;
-  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --ltt-card-hover-shadow: var(--ltt-shadow-dark);
   --ltt-card-radius: 0px;
   --ltt-gap: 16px;
   --ltt-padding: 20px;
@@ -117,13 +117,13 @@ html.dark .theme-linear {
   --ltt-border: rgba(129, 140, 248, 0.12);
   --ltt-border-strong: rgba(129, 140, 248, 0.2);
   --ltt-hover: rgba(129, 140, 248, 0.06);
-  --ltt-header-bg: #1e1f2e;
-  --ltt-header-text: #a5b4fc;
-  --ltt-card-bg: #0f1017;
-  --ltt-card-text: #9ca3af;
-  --ltt-card-hover: #1a1b2a;
-  --ltt-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --ltt-card-hover-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+  --ltt-header-bg: var(--ltt-bg-secondary-dark);
+  --ltt-header-text: var(--ltt-accent-indigo-dark);
+  --ltt-card-bg: var(--ltt-bg-deepest-dark);
+  --ltt-card-text: var(--ltt-text-secondary-dark);
+  --ltt-card-hover: var(--ltt-bg-secondary-dark);
+  --ltt-card-shadow: var(--ltt-shadow-dark);
+  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);
   --ltt-card-radius: 8px;
   --ltt-gap: 18px;
   --ltt-padding: 20px;
@@ -182,10 +182,10 @@ html.dark .theme-gradient {
   --ltt-header-bg: linear-gradient(180deg, rgba(165, 180, 252, 0.1) 0%, transparent 100%);
   --ltt-header-text: #c7d2fe;
   --ltt-card-bg: #1e1b4b;
-  --ltt-card-text: #9ca3af;
+  --ltt-card-text: var(--ltt-text-secondary-dark);
   --ltt-card-hover: #312e81;
-  --ltt-card-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
-  --ltt-card-hover-shadow: 0 12px 32px rgba(99, 102, 241, 0.35);
+  --ltt-card-shadow: var(--ltt-shadow-dark);
+  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);
 }
 
 /* =========================================================
@@ -217,12 +217,12 @@ html.dark .theme-tana {
   --ltt-border-strong: rgba(16, 185, 129, 0.2);
   --ltt-hover: rgba(16, 185, 129, 0.06);
   --ltt-header-bg: #0d3029;
-  --ltt-header-text: #6ee7b7;
+  --ltt-header-text: var(--ltt-accent-green-dark);
   --ltt-card-bg: #0a2622;
-  --ltt-card-text: #9ca3af;
+  --ltt-card-text: var(--ltt-text-secondary-dark);
   --ltt-card-hover: #122d28;
-  --ltt-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  --ltt-card-hover-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --ltt-card-shadow: var(--ltt-shadow-dark);
+  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);
 }
 
 /* =========================================================

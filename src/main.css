@@ -69,6 +69,24 @@
   --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
   --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
   --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
+  
+  /* BlockView 非默认主题深色配色变量 - 基于 heatmap 风格 */
+  --ltt-bg-primary-dark: #171f33;
+  --ltt-bg-secondary-dark: #1a1d23;
+  --ltt-bg-tertiary-dark: #2d3449;
+  --ltt-bg-deepest-dark: #12151a;
+  --ltt-border-subtle-dark: rgba(255, 255, 255, 0.06);
+  --ltt-border-normal-dark: rgba(255, 255, 255, 0.08);
+  --ltt-border-medium-dark: rgba(255, 255, 255, 0.1);
+  --ltt-text-primary-dark: #e5e7eb;
+  --ltt-text-secondary-dark: #9ca3af;
+  --ltt-text-muted-dark: #6b7280;
+  --ltt-accent-blue-dark: #60a5fa;
+  --ltt-accent-indigo-dark: #818cf8;
+  --ltt-accent-purple-dark: #a78bfa;
+  --ltt-accent-green-dark: #6ee7b7;
+  --ltt-shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --ltt-shadow-hover-dark: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 :root {

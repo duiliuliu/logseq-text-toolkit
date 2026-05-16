@@ -99,34 +99,34 @@ html.dark {
 .dark .theme-notion,
 [data-theme="notion"].dark,
 html.dark .theme-notion {
-  --ltt-border: rgba(255, 255, 255, 0.06);
-  --ltt-border-strong: rgba(255, 255, 255, 0.08);
-  --ltt-hover: rgba(255, 255, 255, 0.03);
-  --ltt-header-bg: #1a1d23;
-  --ltt-header-text: #e5e7eb;
-  --ltt-cell-text: #9ca3af;
+  --ltt-border: var(--ltt-border-normal-dark);
+  --ltt-border-strong: var(--ltt-border-medium-dark);
+  --ltt-hover: var(--ltt-border-subtle-dark);
+  --ltt-header-bg: var(--ltt-bg-secondary-dark);
+  --ltt-header-text: var(--ltt-text-primary-dark);
+  --ltt-cell-text: var(--ltt-text-secondary-dark);
   --ltt-cell-bg: rgba(26, 29, 35, 0.95);
-  --ltt-row-bg: #12151a;
-  --ltt-row-hover: #1a1d23;
+  --ltt-row-bg: var(--ltt-bg-deepest-dark);
+  --ltt-row-hover: var(--ltt-bg-secondary-dark);
   --ltt-shadow: none;
   --ltt-header-shadow: none;
 }
 
 .dark .theme-notion .ltt-table-root > .block-children-container,
 [data-theme="notion"].dark .ltt-table-root > .block-children-container {
-  border-color: rgba(255, 255, 255, 0.06);
+  border-color: var(--ltt-border-normal-dark);
 }
 
 .dark .theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="notion"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(255, 255, 255, 0.06);
-  background: #12151a;
+  border-bottom-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-deepest-dark);
 }
 
 .dark .theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="notion"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  background: #1a1d23;
-  border-right-color: rgba(255, 255, 255, 0.06);
+  background: var(--ltt-bg-secondary-dark);
+  border-right-color: var(--ltt-border-normal-dark);
 }
 
 /* =========================================================
@@ -159,14 +159,14 @@ html.dark .theme-linear {
   --ltt-border: rgba(129, 140, 248, 0.12);
   --ltt-border-strong: rgba(129, 140, 248, 0.2);
   --ltt-hover: rgba(129, 140, 248, 0.06);
-  --ltt-header-bg: #1e1f2e;
-  --ltt-header-text: #a5b4fc;
-  --ltt-cell-text: #9ca3af;
-  --ltt-cell-bg: rgba(30, 31, 46, 0.95);
-  --ltt-row-bg: #0f1017;
-  --ltt-row-hover: #1a1b2a;
-  --ltt-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --ltt-header-shadow: inset 0 -2px 0 #6366f1;
+  --ltt-header-bg: var(--ltt-bg-secondary-dark);
+  --ltt-header-text: var(--ltt-accent-indigo-dark);
+  --ltt-cell-text: var(--ltt-text-secondary-dark);
+  --ltt-cell-bg: rgba(26, 29, 35, 0.95);
+  --ltt-row-bg: var(--ltt-bg-deepest-dark);
+  --ltt-row-hover: var(--ltt-bg-secondary-dark);
+  --ltt-shadow: var(--ltt-shadow-dark);
+  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container,
@@ -177,19 +177,19 @@ html.dark .theme-linear {
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   border-bottom-color: rgba(129, 140, 248, 0.12);
-  background: #0f1017;
+  background: var(--ltt-bg-deepest-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  background: #1e1f2e;
+  background: var(--ltt-bg-secondary-dark);
   border-right-color: rgba(129, 140, 248, 0.12);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   border-right-color: rgba(129, 140, 248, 0.12);
-  background: rgba(30, 31, 46, 0.95);
+  background: rgba(26, 29, 35, 0.95);
 }
 
 /* =========================================================
@@ -247,12 +247,12 @@ html.dark .theme-gradient {
   --ltt-border-strong: rgba(165, 180, 252, 0.25);
   --ltt-hover: rgba(165, 180, 252, 0.08);
   --ltt-header-bg: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
-  --ltt-header-text: #e0e7ff;
-  --ltt-cell-text: #9ca3af;
+  --ltt-header-text: var(--ltt-text-primary-dark);
+  --ltt-cell-text: var(--ltt-text-secondary-dark);
   --ltt-cell-bg: rgba(30, 27, 75, 0.95);
   --ltt-row-bg: #1e1b4b;
   --ltt-row-hover: #312e81;
-  --ltt-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  --ltt-shadow: var(--ltt-shadow-dark);
   --ltt-header-shadow: none;
 }
 
@@ -310,12 +310,12 @@ html.dark .theme-tana {
   --ltt-border-strong: rgba(16, 185, 129, 0.2);
   --ltt-hover: rgba(16, 185, 129, 0.06);
   --ltt-header-bg: #0d3029;
-  --ltt-header-text: #6ee7b7;
-  --ltt-cell-text: #9ca3af;
+  --ltt-header-text: var(--ltt-accent-green-dark);
+  --ltt-cell-text: var(--ltt-text-secondary-dark);
   --ltt-cell-bg: rgba(13, 48, 41, 0.8);
   --ltt-row-bg: #0a2622;
   --ltt-row-hover: #122d28;
-  --ltt-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ltt-shadow: var(--ltt-shadow-dark);
   --ltt-header-shadow: none;
 }
 
