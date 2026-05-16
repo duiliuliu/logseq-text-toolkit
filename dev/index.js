@@ -1020,7 +1020,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.6\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-weight=\"700\" font-size=\"12\" fill=\"currentColor\">B</text></svg>",
   				invoke: "replace",
-  				invokeParams: "**\"${selectedText}\"**"
+  				invokeParams: "**${selectedText}**"
   			},
   			{
   				id: "wrap-italic",
@@ -1028,7 +1028,7 @@
   				binding: "mod+shift+i",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-style=\"italic\" font-size=\"12\" fill=\"currentColor\">I</text></svg>",
   				invoke: "replace",
-  				invokeParams: "*\"${selectedText}\"*"
+  				invokeParams: "*${selectedText}*"
   			},
   			{
   				id: "wrap-strike-through",
@@ -1036,7 +1036,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.8\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"12\" fill=\"currentColor\" text-decoration=\"line-through\">S</text></svg>",
   				invoke: "replace",
-  				invokeParams: "~~\"${selectedText}\"~~"
+  				invokeParams: "~~${selectedText}~~"
   			},
   			{
   				id: "wrap-subscript",
@@ -1044,7 +1044,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.4\" stroke-linecap=\"round\"><text x=\"12\" y=\"14\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"10\" fill=\"currentColor\">A</text><text x=\"12\" y=\"18\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"8\" fill=\"currentColor\">2</text></svg>",
   				invoke: "replace",
-  				invokeParams: "[:sub \"${selectedText}\"]"
+  				invokeParams: "[:sub ${selectedText}]"
   			},
   			{
   				id: "wrap-superscript",
@@ -1052,7 +1052,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.4\" stroke-linecap=\"round\"><text x=\"12\" y=\"14\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"10\" fill=\"currentColor\">A</text><text x=\"12\" y=\"10\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"8\" fill=\"currentColor\">2</text></svg>",
   				invoke: "replace",
-  				invokeParams: "[:sup \"${selectedText}\"]"
+  				invokeParams: "[:sup ${selectedText}]"
   			},
   			{
   				id: "wrap-code",
@@ -1060,7 +1060,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><polyline points=\"16 18 22 12 16 6\"></polyline><polyline points=\"8 6 2 12 8 18\"></polyline></svg>",
   				invoke: "replace",
-  				invokeParams: "`\"${selectedText}\"`"
+  				invokeParams: "`${selectedText}`"
   			}
   		]
   	},
@@ -1077,7 +1077,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"3\" fill=\"#fff79e\" stroke=\"#e6ce4a\" stroke-width=\"1\"/><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" font-weight=\"600\" fill=\"#111\">A</text></svg>",
   				invoke: "replace",
-  				invokeParams: "==\"${selectedText}\"=="
+  				invokeParams: "==${selectedText}=="
   			},
   			{
   				id: "wrap-red-hl",
@@ -1085,7 +1085,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"3\" fill=\"#ffd6d6\" stroke=\"#ef4444\" stroke-width=\"1\"/><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" font-weight=\"600\" fill=\"#111\">A</text></svg>",
   				invoke: "replace",
-  				invokeParams: "[:mark.red \"${selectedText}\"]"
+  				invokeParams: "[:mark.red ${selectedText}]"
   			},
   			{
   				id: "wrap-blue-hl",
@@ -1093,7 +1093,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"3\" fill=\"#dbebff\" stroke=\"#3b82f6\" stroke-width=\"1\"/><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" font-weight=\"600\" fill=\"#111\">A</text></svg>",
   				invoke: "replace",
-  				invokeParams: "[:mark.blue \"${selectedText}\"]"
+  				invokeParams: "[:mark.blue ${selectedText}]"
   			},
   			{
   				id: "wrap-green-hl",
@@ -1101,7 +1101,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"3\" fill=\"#d3ffd3\" stroke=\"#22c55e\" stroke-width=\"1\"/><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" font-weight=\"600\" fill=\"#111\">A</text></svg>",
   				invoke: "replace",
-  				invokeParams: "[:mark.green \"${selectedText}\"]"
+  				invokeParams: "[:mark.green ${selectedText}]"
   			},
   			{
   				id: "wrap-purple-hl",
@@ -1109,7 +1109,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"3\" fill=\"#f0e0ff\" stroke=\"#a855f7\" stroke-width=\"1\"/><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" font-weight=\"600\" fill=\"#111\">A</text></svg>",
   				invoke: "replace",
-  				invokeParams: "[:mark.purple \"${selectedText}\"]"
+  				invokeParams: "[:mark.purple ${selectedText}]"
   			}
   		]
   	},
@@ -1126,7 +1126,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"12\" font-weight=\"600\" fill=\"#ef4444\">T</text><line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\" stroke=\"#ef4444\" stroke-width=\"1.6\" stroke-linecap=\"round\" opacity=\"0.4\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:span.red \"${selectedText}\"]"
+  				invokeParams: "[:span.red ${selectedText}]"
   			},
   			{
   				id: "wrap-blue-text",
@@ -1134,7 +1134,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"12\" font-weight=\"600\" fill=\"#3b82f6\">T</text><line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\" stroke=\"#3b82f6\" stroke-width=\"1.6\" stroke-linecap=\"round\" opacity=\"0.4\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:span.blue \"${selectedText}\"]"
+  				invokeParams: "[:span.blue ${selectedText}]"
   			},
   			{
   				id: "wrap-yellow-text",
@@ -1142,7 +1142,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"12\" font-weight=\"600\" fill=\"#f59e0b\">T</text><line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\" stroke=\"#f59e0b\" stroke-width=\"1.6\" stroke-linecap=\"round\" opacity=\"0.4\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:span.yellow \"${selectedText}\"]"
+  				invokeParams: "[:span.yellow ${selectedText}]"
   			},
   			{
   				id: "wrap-green-text",
@@ -1150,7 +1150,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"12\" font-weight=\"600\" fill=\"#22c55e\">T</text><line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\" stroke=\"#22c55e\" stroke-width=\"1.6\" stroke-linecap=\"round\" opacity=\"0.4\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:span.green \"${selectedText}\"]"
+  				invokeParams: "[:span.green ${selectedText}]"
   			},
   			{
   				id: "wrap-purple-text",
@@ -1158,7 +1158,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\"><text x=\"12\" y=\"12\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"12\" font-weight=\"600\" fill=\"#a855f7\">T</text><line x1=\"7\" y1=\"17\" x2=\"17\" y2=\"17\" stroke=\"#a855f7\" stroke-width=\"1.6\" stroke-linecap=\"round\" opacity=\"0.4\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:span.purple \"${selectedText}\"]"
+  				invokeParams: "[:span.purple ${selectedText}]"
   			}
   		]
   	},
@@ -1175,7 +1175,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><line x1=\"8.5\" y1=\"7\" x2=\"8.5\" y2=\"12\"/><line x1=\"15.5\" y1=\"7\" x2=\"15.5\" y2=\"12\"/><line x1=\"6.5\" y1=\"16\" x2=\"17.5\" y2=\"16\" stroke=\"#ef4444\" stroke-width=\"1.8\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:u.red \"${selectedText}\"]"
+  				invokeParams: "[:u.red ${selectedText}]"
   			},
   			{
   				id: "wrap-blue-underline",
@@ -1183,7 +1183,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><line x1=\"8.5\" y1=\"7\" x2=\"8.5\" y2=\"12\"/><line x1=\"15.5\" y1=\"7\" x2=\"15.5\" y2=\"12\"/><line x1=\"6.5\" y1=\"16\" x2=\"17.5\" y2=\"16\" stroke=\"#3b82f6\" stroke-width=\"1.8\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:u.blue \"${selectedText}\"]"
+  				invokeParams: "[:u.blue ${selectedText}]"
   			},
   			{
   				id: "wrap-yellow-underline",
@@ -1191,7 +1191,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><line x1=\"8.5\" y1=\"7\" x2=\"8.5\" y2=\"12\"/><line x1=\"15.5\" y1=\"7\" x2=\"15.5\" y2=\"12\"/><line x1=\"6.5\" y1=\"16\" x2=\"17.5\" y2=\"16\" stroke=\"#f59e0b\" stroke-width=\"1.8\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:u.yellow \"${selectedText}\"]"
+  				invokeParams: "[:u.yellow ${selectedText}]"
   			},
   			{
   				id: "wrap-green-underline",
@@ -1199,7 +1199,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><line x1=\"8.5\" y1=\"7\" x2=\"8.5\" y2=\"12\"/><line x1=\"15.5\" y1=\"7\" x2=\"15.5\" y2=\"12\"/><line x1=\"6.5\" y1=\"16\" x2=\"17.5\" y2=\"16\" stroke=\"#22c55e\" stroke-width=\"1.8\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:u.green \"${selectedText}\"]"
+  				invokeParams: "[:u.green ${selectedText}]"
   			},
   			{
   				id: "wrap-purple-underline",
@@ -1207,7 +1207,7 @@
   				binding: "",
   				icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"><line x1=\"8.5\" y1=\"7\" x2=\"8.5\" y2=\"12\"/><line x1=\"15.5\" y1=\"7\" x2=\"15.5\" y2=\"12\"/><line x1=\"6.5\" y1=\"16\" x2=\"17.5\" y2=\"16\" stroke=\"#a855f7\" stroke-width=\"1.8\"/></svg>",
   				invoke: "replace",
-  				invokeParams: "[:u.purple \"${selectedText}\"]"
+  				invokeParams: "[:u.purple ${selectedText}]"
   			}
   		]
   	},
@@ -1217,7 +1217,7 @@
   		binding: "",
   		icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"7\" width=\"16\" height=\"10\" rx=\"5\"/><circle cx=\"9\" cy=\"12\" r=\"1.2\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"12\" cy=\"12\" r=\"1.2\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"15\" cy=\"12\" r=\"1.2\" fill=\"currentColor\" stroke=\"none\"/></svg>",
   		invoke: "replace",
-  		invokeParams: "[:span.cloze \"${selectedText}\"]",
+  		invokeParams: "[:span.cloze ${selectedText}]",
   		hidden: true
   	},
   	{
@@ -1227,7 +1227,7 @@
   		icon: "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 5L5 19M5 5l14 14\"/><path d=\"M9 3h6v2H9zM9 19h6v2H9z\"/></svg>",
   		invoke: "regexReplace",
   		invokeParams: {
-  			regex: "\\[:span\\.inline-comment\\s*\\{[^}]*\\}\\s*\"([^\"]*)\"\\]|\\[:(?:mark|span|u)\\.(?:red|blue|yellow|green|purple)\\s+([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`",
+  			regex: "\\[:span\\.inline-comment\\s*\\{[^}]*\\}\\s*([^\\]]*)\\]|\\[:(?:mark|span|u|sub|sup|b|i|s|code|cloze|div)(?:\\.(?:red|blue|yellow|green|purple))?\\s*([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`",
   			replacement: "$1$2$3$4$5$6$7"
   		},
   		hidden: true
@@ -22078,6 +22078,25 @@ ${where}
     }
     return null;
   };
+  const needsQuotes = (text) => {
+    if (text.startsWith("[:") && text.endsWith("]")) {
+      return false;
+    }
+    return text.includes(" ") || text.includes(" ") || text.includes("　") || text.includes('"') || text.includes("'");
+  };
+  const wrapWithQuotesIfNeeded = (prefix, suffix, text) => {
+    const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
+    const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+    if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
+      return prefix + `"${text}"` + suffix;
+    }
+    if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
+      const cleanPrefix = prefix.slice(0, -1);
+      const cleanSuffix = suffix.slice(1);
+      return cleanPrefix + text + cleanSuffix;
+    }
+    return prefix + text + suffix;
+  };
   const handleNestedQuotes = (prefix, suffix, text, nestedText) => {
     const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
     const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
@@ -22090,6 +22109,8 @@ ${where}
         const cleanPrefix = prefix.slice(0, -1);
         const cleanSuffix = suffix.slice(1);
         return cleanPrefix + text + cleanSuffix;
+      } else {
+        return prefix + text + suffix;
       }
     }
     if (isEntirelyWrappedFormat) {
@@ -22097,12 +22118,14 @@ ${where}
         const cleanPrefix = prefix.slice(0, -1);
         const cleanSuffix = suffix.slice(1);
         return cleanPrefix + nestedText + cleanSuffix;
+      } else {
+        return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
       }
     }
     if (isPartiallyFormatted) {
-      return prefix + nestedText + suffix;
+      return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
     }
-    return prefix + nestedText + suffix;
+    return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   };
   const replaceText = (item, text) => {
     const hasNewlines = text.includes("\n");
@@ -22127,6 +22150,10 @@ ${where}
               const nestedText = parseNestedFormat(line);
               return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
             } else {
+              const wrapper2 = parseWrapperPattern(invokeParamsStr);
+              if (wrapper2) {
+                return wrapWithQuotesIfNeeded(wrapper2.prefix, wrapper2.suffix, line);
+              }
               return invokeParamsStr.replace(/\${selectedText}/g, line);
             }
           }
@@ -22153,6 +22180,9 @@ ${where}
             const nestedText = parseNestedFormat(text);
             return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
           } else {
+            if (wrapper) {
+              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, text);
+            }
             return invokeParamsStr.replace(/\${selectedText}/g, text);
           }
         }
