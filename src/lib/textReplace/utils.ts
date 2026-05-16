@@ -134,7 +134,111 @@ export const replaceInSelectedElement = async (selectedData: SelectedData, proce
 };
 
 /**
- * 替换文本
+ * 检查文本是否已有格式
+ * @param text 要检查的文本
+ * @returns 是否包含格式标记
+ */
+const hasExistingFormat = (text: string): boolean => {
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return true;
+  }
+  
+  const formatPatterns = [
+    /\*\*[^*]+\*\*/,
+    /\*[^*]+\*/,
+    /~~[^~]+~~/,
+    /==[^=]+==/,
+    /`[^`]+`/,
+  ];
+  
+  return formatPatterns.some(pattern => pattern.test(text));
+};
+
+/**
+ * 将原始文本中的格式标记解析为 Logseq 支持的嵌套格式
+ * @param text 原始文本（可能包含格式）
+ * @returns 处理后的文本（已转换为嵌套格式）
+ */
+const parseNestedFormat = (text: string): string => {
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return text;
+  }
+  
+  let result = text;
+  
+  result = result.replace(/\*\*([^*]+)\*\*/g, '[:b "$1"]');
+  result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '[:i "$1"]');
+  result = result.replace(/~~([^~]+)~~/g, '[:s "$1"]');
+  result = result.replace(/==([^=]+)==/g, '[:mark "$1"]');
+  result = result.replace(/`([^`]+)`/g, '[:code "$1"]');
+  
+  return result;
+};
+
+/**
+ * 检测 invokeParams 中的包裹模式，并提取前缀和后缀
+ * @param invokeParams 工具项的 invokeParams
+ * @returns 包含 prefix 和 suffix 的对象
+ */
+const parseWrapperPattern = (invokeParams: string): { prefix: string; suffix: string } | null => {
+  const match = invokeParams.match(/^(.*)\${selectedText}(.*)$/);
+  if (match) {
+    return { prefix: match[1], suffix: match[2] };
+  }
+  
+  return null;
+};
+
+/**
+ * 智能处理嵌套格式 - 确保正确处理引号
+ * @param prefix 前缀
+ * @param suffix 后缀
+ * @param text 原始文本
+ * @param nestedText 已处理的嵌套文本
+ * @returns 正确处理后的结果
+ */
+const handleNestedQuotes = (prefix: string, suffix: string, text: string, nestedText: string): string => {
+  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
+  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+  
+  const isAlreadyNested = text.startsWith('[:') && text.endsWith(']');
+  
+  const isEntirelyWrappedFormat = (
+    (text.startsWith('**') && text.endsWith('**')) ||
+    (text.startsWith('*') && text.endsWith('*') && !text.startsWith('**')) ||
+    (text.startsWith('~~') && text.endsWith('~~')) ||
+    (text.startsWith('==') && text.endsWith('==')) ||
+    (text.startsWith('`') && text.endsWith('`'))
+  );
+  
+  const hasFormatMarkers = text.includes('**') || text.includes('*') || text.includes('~~') || text.includes('==') || text.includes('`');
+  const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
+  
+  if (isAlreadyNested) {
+    if (prefixHasQuote && suffixHasQuote) {
+      const cleanPrefix = prefix.slice(0, -1);
+      const cleanSuffix = suffix.slice(1);
+      return cleanPrefix + text + cleanSuffix;
+    }
+  }
+  
+  if (isEntirelyWrappedFormat) {
+    if (prefixHasQuote && suffixHasQuote) {
+      const cleanPrefix = prefix.slice(0, -1);
+      const cleanSuffix = suffix.slice(1);
+      return cleanPrefix + nestedText + cleanSuffix;
+    }
+  }
+  
+  if (isPartiallyFormatted) {
+    return prefix + nestedText + suffix;
+  }
+  
+  return prefix + nestedText + suffix;
+};
+
+/**
+ * 替换文本 - 支持嵌套格式处理
  * @param item 工具栏项目
  * @param text 原始文本
  * @returns 替换后的文本
@@ -149,7 +253,16 @@ export const replaceText = (item: ToolbarItem, text: string): string => {
       const regex = new RegExp(pattern, flags);
       return text.replace(regex, replacement);
     }
-    return String(item.invokeParams).replace(/\${selectedText}/g, text);
+    
+    const invokeParamsStr = String(item.invokeParams);
+    const wrapper = parseWrapperPattern(invokeParamsStr);
+    
+    if (wrapper && hasExistingFormat(text)) {
+      const nestedText = parseNestedFormat(text);
+      return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+    }
+    
+    return invokeParamsStr.replace(/\${selectedText}/g, text);
   }
   return text;
 };
