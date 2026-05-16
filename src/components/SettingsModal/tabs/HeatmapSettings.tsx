@@ -84,8 +84,8 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
   const templateOptions = [
     { value: '', label: t('settings.heatmap.templateNone', language) },
     ...getAllTemplates().map(tpl => ({
-      value: tpl.type,
-      label: tpl.name[language] || tpl.name['en'] || tpl.type
+      value: tpl.id,
+      label: tpl.name
     }))
   ]
 
