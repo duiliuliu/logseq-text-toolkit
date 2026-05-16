@@ -22128,6 +22128,9 @@ ${where}
     return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   };
   const replaceText = (item, text) => {
+    if (!text || text.trim() === "") {
+      return "";
+    }
     const hasNewlines = text.includes("\n");
     if (hasNewlines) {
       const lines = text.split("\n").filter((line) => line.trim() !== "");
