@@ -22033,6 +22033,9 @@ ${where}
     return text.includes(" ") || text.includes(" ") || text.includes("　") || text.includes('"') || text.includes("'");
   };
   const wrapWithQuotesIfNeeded = (prefix, suffix, text) => {
+    if (text.startsWith("[:") && text.endsWith("]")) {
+      return prefix + text + suffix;
+    }
     const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
     const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
     if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
@@ -22049,6 +22052,7 @@ ${where}
     const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
     const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
     const isAlreadyNested = text.startsWith("[:") && text.endsWith("]");
+    const nestedIsHiccup = nestedText.startsWith("[:") && nestedText.endsWith("]");
     const isEntirelyWrappedFormat = text.startsWith("**") && text.endsWith("**") || text.startsWith("*") && text.endsWith("*") && !text.startsWith("**") || text.startsWith("~~") && text.endsWith("~~") || text.startsWith("==") && text.endsWith("==") || text.startsWith("`") && text.endsWith("`");
     const hasFormatMarkers = text.includes("**") || text.includes("*") || text.includes("~~") || text.includes("==") || text.includes("`");
     const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
@@ -22067,11 +22071,20 @@ ${where}
         const cleanSuffix = suffix.slice(1);
         return cleanPrefix + nestedText + cleanSuffix;
       } else {
+        if (nestedIsHiccup) {
+          return prefix + nestedText + suffix;
+        }
         return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
       }
     }
     if (isPartiallyFormatted) {
+      if (nestedIsHiccup) {
+        return prefix + nestedText + suffix;
+      }
       return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+    }
+    if (nestedIsHiccup) {
+      return prefix + nestedText + suffix;
     }
     return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   };
