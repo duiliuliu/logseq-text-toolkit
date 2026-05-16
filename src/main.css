@@ -69,8 +69,23 @@
   --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
   --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
   --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
-  
-  /* BlockView 非默认主题深色配色变量 - 基于 heatmap 风格 */
+}
+
+/* =========================================================
+   LTT THEME: INDIGO-DARK
+   深色配色方案 - 基于 heatmap 风格
+   
+   用途：BlockView 非默认主题深色模式
+   后期可扩展为全局 theme 方案
+   
+   配色特征：
+   - 主背景：#171f33 (深蓝紫)
+   - 强调色：indigo 系列 (#818cf8)
+   - 文本色：高对比度灰色系
+   - 边框：低透明度白色
+========================================================= */
+
+.dark-mode {
   --ltt-bg-primary-dark: #171f33;
   --ltt-bg-secondary-dark: #1a1d23;
   --ltt-bg-tertiary-dark: #2d3449;

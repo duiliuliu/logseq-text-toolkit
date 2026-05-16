@@ -99,15 +99,15 @@ html.dark {
 .dark .theme-notion,
 [data-theme="notion"].dark,
 html.dark .theme-notion {
-  --ltt-border: var(--ltt-border-normal-dark);
-  --ltt-border-strong: var(--ltt-border-medium-dark);
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));
   --ltt-hover: var(--ltt-border-subtle-dark);
-  --ltt-header-bg: var(--ltt-bg-secondary-dark);
-  --ltt-header-text: var(--ltt-text-primary-dark);
-  --ltt-cell-text: var(--ltt-text-secondary-dark);
-  --ltt-cell-bg: rgba(26, 29, 35, 0.95);
-  --ltt-row-bg: var(--ltt-bg-deepest-dark);
-  --ltt-row-hover: var(--ltt-bg-secondary-dark);
+  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-text-primary-dark));
+  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
+  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));
+  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));
+  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
   --ltt-shadow: none;
   --ltt-header-shadow: none;
 }
@@ -156,40 +156,40 @@ html.dark .theme-notion {
 .dark .theme-linear,
 [data-theme="linear"].dark,
 html.dark .theme-linear {
-  --ltt-border: rgba(129, 140, 248, 0.12);
-  --ltt-border-strong: rgba(129, 140, 248, 0.2);
-  --ltt-hover: rgba(129, 140, 248, 0.06);
-  --ltt-header-bg: var(--ltt-bg-secondary-dark);
-  --ltt-header-text: var(--ltt-accent-indigo-dark);
-  --ltt-cell-text: var(--ltt-text-secondary-dark);
-  --ltt-cell-bg: rgba(26, 29, 35, 0.95);
-  --ltt-row-bg: var(--ltt-bg-deepest-dark);
-  --ltt-row-hover: var(--ltt-bg-secondary-dark);
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));
+  --ltt-hover: var(--ltt-border-subtle-dark);
+  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));
+  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
+  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));
+  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));
+  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
   --ltt-shadow: var(--ltt-shadow-dark);
   --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container {
-  border-color: rgba(129, 140, 248, 0.12);
+  border-color: var(--ltt-border-normal-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(129, 140, 248, 0.12);
+  border-bottom-color: var(--ltt-border-normal-dark);
   background: var(--ltt-bg-deepest-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   background: var(--ltt-bg-secondary-dark);
-  border-right-color: rgba(129, 140, 248, 0.12);
+  border-right-color: var(--ltt-border-normal-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right-color: rgba(129, 140, 248, 0.12);
-  background: rgba(26, 29, 35, 0.95);
+  border-right-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-tertiary-dark);
 }
 
 /* =========================================================
@@ -340,6 +340,70 @@ html.dark .theme-tana {
 [data-theme="tana"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   border-right-color: rgba(16, 185, 129, 0.15);
   background: rgba(13, 48, 41, 0.8);
+}
+
+/* =========================================================
+   THEME: INDIGO - Deep Blue-Purple Style
+   使用 indigo-dark 配色方案
+========================================================= */
+
+.theme-indigo,
+[data-theme="indigo"] {
+  --ltt-border: #c7d2fe;
+  --ltt-border-strong: #a5b4fc;
+  --ltt-hover: rgba(99, 102, 241, 0.06);
+  --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  --ltt-header-text: #4338ca;
+  --ltt-cell-text: #4f46e5;
+  --ltt-cell-bg: rgba(255, 255, 255, 0.95);
+  --ltt-row-bg: #ffffff;
+  --ltt-row-hover: #f5f3ff;
+  --ltt-radius: 10px;
+  --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03);
+  --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2);
+  --ltt-col-1-width: 260px;
+  --ltt-cell-padding: 10px 14px;
+  --ltt-header-height: 44px;
+}
+
+/* Dark mode for Indigo theme - 使用 indigo-dark 配色 */
+.dark .theme-indigo,
+[data-theme="indigo"].dark,
+html.dark .theme-indigo {
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));
+  --ltt-hover: var(--ltt-border-subtle-dark);
+  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));
+  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
+  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));
+  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));
+  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-shadow: var(--ltt-shadow-dark);
+  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container {
+  border-color: var(--ltt-border-normal-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-bottom-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-deepest-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: var(--ltt-bg-secondary-dark);
+  border-right-color: var(--ltt-border-normal-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-right-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-tertiary-dark);
 }
 
 /* =========================================================
