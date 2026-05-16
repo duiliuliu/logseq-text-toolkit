@@ -257,6 +257,50 @@ const integrationTestCases = [
     },
     input: '普通文本\n**加粗文本**',
     expected: '<div>[:span.red "普通文本"]</div><div>[:span.red [:b "加粗文本"]]</div>'
+  },
+  {
+    name: '嵌套格式（Logseq）应用颜色 - 单行',
+    item: {
+      id: 'wrap-red-text',
+      label: 'Red text',
+      invoke: 'replace',
+      invokeParams: '[:span.red "${selectedText}"]'
+    },
+    input: '[:span.blue "蓝色文本"]',
+    expected: '[:span.red [:span.blue "蓝色文本"]]'
+  },
+  {
+    name: '嵌套格式（Logseq）应用颜色 - 多行',
+    item: {
+      id: 'wrap-red-text',
+      label: 'Red text',
+      invoke: 'replace',
+      invokeParams: '[:span.red "${selectedText}"]'
+    },
+    input: '[:span.blue "第一行"]\n[:span.green "第二行"]',
+    expected: '<div>[:span.red [:span.blue "第一行"]]</div><div>[:span.red [:span.green "第二行"]]</div>'
+  },
+  {
+    name: '混合嵌套和Markdown格式 - 多行',
+    item: {
+      id: 'wrap-blue-text',
+      label: 'Blue text',
+      invoke: 'replace',
+      invokeParams: '[:span.blue "${selectedText}"]'
+    },
+    input: '**加粗文本**\n[:span.red "红色文本"]\n普通文本',
+    expected: '<div>[:span.blue [:b "加粗文本"]]</div><div>[:span.blue [:span.red "红色文本"]]</div><div>[:span.blue "普通文本"]</div>'
+  },
+  {
+    name: '已有嵌套格式再嵌套 - 三行',
+    item: {
+      id: 'wrap-underline',
+      label: 'Underline',
+      invoke: 'replace',
+      invokeParams: '[:u "${selectedText}"]'
+    },
+    input: '[:span.red "红色"]\n[:span.blue "蓝色"]\n普通',
+    expected: '<div>[:u [:span.red "红色"]]</div><div>[:u [:span.blue "蓝色"]]</div><div>[:u "普通"]</div>'
   }
 ];
 
