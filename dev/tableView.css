@@ -1,23 +1,46 @@
 /* =========================================================
    BLOCK VIEW TABLE STYLES
    Advanced Theme System with Multiple Presets
+
+   主题设计系统说明：
+   - 使用 CSS 变量驱动的设计系统
+   - 优先使用 Logseq 原生变量作为主色
+   - 提供多种预设主题风格
+   - 支持深色模式自动适配
+
+   主题风格速查：
+   | 主题    | 圆角 | 阴影 | Header | 特点                    |
+   |---------|------|------|--------|-------------------------|
+   | Default | 8px  | 柔和 | 无     | 基础风格，依赖系统变量    |
+   | Notion  | 0px  | 无   | 无     | 极简线条，专业干净        |
+   | Linear  | 6px  | 轻量 | 强调线 | 科技蓝紫，适合项目管理    |
+   | Dark    | 8px  | 深色 | 无     | 纯深色，夜间使用         |
+   | Gradient| 10px | 彩色 | 渐变   | 活力渐变，适合展示        |
+   | Tana    | 10px | 柔和 | 强调线 | 清新绿色，自然舒适        |
+   | Indigo  | 10px | 柔和 | 强调线 | 专业蓝紫，沉稳商务        |
 ========================================================= */
 
 /* =========================================================
-   THEME VARIABLES - DEFAULT
+   THEME: DEFAULT - 系统变量主题
+   设计特点：
+   - 圆角：8px（中等圆角）
+   - 阴影：柔和多层阴影
+   - Header：无特殊强调，通过背景色区分
+   - 边框：细线风格
+   - 适用场景：日常使用，与 Logseq 风格统一
 ========================================================= */
 
 :root,
 .light {
-  --ltt-border: #e2e8f0;
-  --ltt-border-strong: #cbd5e1;
+  --ltt-border: var(--ls-border-color, #e2e8f0);
+  --ltt-border-strong: var(--ls-border-color, #cbd5e1);
   --ltt-hover: rgba(0, 0, 0, 0.04);
-  --ltt-header-bg: #f8fafc;
-  --ltt-header-text: #374151;
-  --ltt-cell-text: #475569;
-  --ltt-cell-bg: rgba(255, 255, 255, 0.7);
-  --ltt-row-bg: #ffffff;
-  --ltt-row-hover: #f1f5f9;
+  --ltt-header-bg: var(--ls-tertiary-background-color, #f8fafc);
+  --ltt-header-text: var(--ls-primary-text-color, #374151);
+  --ltt-cell-text: var(--ls-secondary-text-color, #475569);
+  --ltt-cell-bg: var(--ls-primary-background-color, rgba(255, 255, 255, 0.7));
+  --ltt-row-bg: var(--ls-primary-background-color, #ffffff);
+  --ltt-row-hover: var(--ls-tertiary-background-color, #f1f5f9);
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
@@ -26,8 +49,35 @@
   --ltt-header-height: 48px;
 }
 
+/* Default Dark Mode */
+.dark,
+html.dark {
+  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));
+  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));
+  --ltt-hover: rgba(255, 255, 255, 0.04);
+  --ltt-header-bg: var(--ls-tertiary-background-color, #1f2937);
+  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);
+  --ltt-cell-text: var(--ls-secondary-text-color, #b8c0cc);
+  --ltt-cell-bg: var(--ls-primary-background-color, rgba(30, 33, 40, 0.9));
+  --ltt-row-bg: var(--ls-primary-background-color, #0f172a);
+  --ltt-row-hover: var(--ls-tertiary-background-color, #1e2128);
+  --ltt-radius: 8px;
+  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  --ltt-col-1-width: 280px;
+  --ltt-cell-padding: 12px 16px;
+  --ltt-header-height: 48px;
+}
+
 /* =========================================================
-   THEME: NOTION - Clean and Professional
+   THEME: NOTION - 极简专业风格
+   设计特点：
+   - 圆角：0px（无圆角，锐利边缘）
+   - 阴影：无阴影，纯线条分隔
+   - Header：无背景色，通过分隔线区分
+   - 边框：极细线条
+   - 文本：深灰色高对比度
+   - 适用场景：文档型内容，专注阅读
 ========================================================= */
 
 .theme-notion,
@@ -41,7 +91,7 @@
   --ltt-cell-bg: rgba(255, 255, 255, 0.95);
   --ltt-row-bg: #ffffff;
   --ltt-row-hover: #fbfbfa;
-  --ltt-radius: 4px;
+  --ltt-radius: 0px;
   --ltt-shadow: none;
   --ltt-header-shadow: none;
   --ltt-col-1-width: 260px;
@@ -75,42 +125,49 @@
   border-left: none !important;
 }
 
-/* Dark mode for Notion theme */
+/* Notion Dark Mode - 使用 indigo-dark 配色 */
 .dark .theme-notion,
 [data-theme="notion"].dark,
 html.dark .theme-notion {
-  --ltt-border: rgba(255, 255, 255, 0.1);
-  --ltt-border-strong: rgba(255, 255, 255, 0.15);
-  --ltt-hover: rgba(255, 255, 255, 0.04);
-  --ltt-header-bg: #1f2937;
-  --ltt-header-text: #e4e7ec;
-  --ltt-cell-text: #b8c0cc;
-  --ltt-cell-bg: rgba(30, 33, 40, 0.9);
-  --ltt-row-bg: #15171c;
-  --ltt-row-hover: #1e2128;
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));
+  --ltt-hover: var(--ltt-border-subtle-dark);
+  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-text-primary-dark));
+  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
+  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));
+  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));
+  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
   --ltt-shadow: none;
   --ltt-header-shadow: none;
 }
 
 .dark .theme-notion .ltt-table-root > .block-children-container,
 [data-theme="notion"].dark .ltt-table-root > .block-children-container {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--ltt-border-normal-dark);
 }
 
 .dark .theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="notion"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-  background: #15171c;
+  border-bottom-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-deepest-dark);
 }
 
 .dark .theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="notion"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  background: #1f2937;
-  border-right-color: rgba(255, 255, 255, 0.1);
+  background: var(--ltt-bg-secondary-dark);
+  border-right-color: var(--ltt-border-normal-dark);
 }
 
 /* =========================================================
-   THEME: LINEAR - Modern Tech Style
+   THEME: LINEAR - 现代科技风格
+   设计特点：
+   - 圆角：6px（轻微圆角）
+   - 阴影：轻量柔和阴影
+   - Header：底部强调线（2px indigo 线）
+   - 边框：淡紫色细线
+   - 强调色：Indigo #5e6ad2
+   - 适用场景：项目管理，任务追踪
 ========================================================= */
 
 .theme-linear,
@@ -132,48 +189,54 @@ html.dark .theme-notion {
   --ltt-header-height: 42px;
 }
 
-/* Dark mode for Linear theme */
+/* Linear Dark Mode - 使用 indigo-dark 配色 */
 .dark .theme-linear,
 [data-theme="linear"].dark,
 html.dark .theme-linear {
-  --ltt-border: rgba(255, 255, 255, 0.08);
-  --ltt-border-strong: rgba(255, 255, 255, 0.12);
-  --ltt-hover: rgba(94, 106, 210, 0.08);
-  --ltt-header-bg: #1e2128;
-  --ltt-header-text: #818cf8;
-  --ltt-cell-text: #cbd5e1;
-  --ltt-cell-bg: rgba(30, 33, 40, 0.9);
-  --ltt-row-bg: #0f172a;
-  --ltt-row-hover: #1e2937;
-  --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --ltt-header-shadow: inset 0 -2px 0 #5e6ad2;
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));
+  --ltt-hover: var(--ltt-border-subtle-dark);
+  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));
+  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
+  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));
+  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));
+  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-shadow: var(--ltt-shadow-dark);
+  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container {
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--ltt-border-normal-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
-  background: #0f172a;
+  border-bottom-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-deepest-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  background: #1e2128;
-  border-right-color: rgba(255, 255, 255, 0.08);
+  background: var(--ltt-bg-secondary-dark);
+  border-right-color: var(--ltt-border-normal-dark);
 }
 
 .dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="linear"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right-color: rgba(255, 255, 255, 0.08);
-  background: rgba(30, 33, 40, 0.9);
+  border-right-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-tertiary-dark);
 }
 
 /* =========================================================
-   THEME: DARK - Dark Mode
+   THEME: DARK - 纯深色模式
+   设计特点：
+   - 圆角：8px
+   - 阴影：深色阴影增加层次感
+   - Header：无特殊强调，深色背景
+   - 边框：半透明白色
+   - 适用场景：夜间使用，减少眼睛疲劳
 ========================================================= */
 
 .dark,
@@ -197,7 +260,14 @@ html.dark .theme-linear {
 }
 
 /* =========================================================
-   THEME: GRADIENT - Vibrant Gradient
+   THEME: GRADIENT - 活力渐变风格
+   设计特点：
+   - 圆角：10px
+   - 阴影：彩色投影效果
+   - Header：Indigo-Purple 渐变背景
+   - 边框：淡紫色
+   - 文本：深紫色
+   - 适用场景：数据展示，仪表盘，报告
 ========================================================= */
 
 .theme-gradient,
@@ -219,48 +289,55 @@ html.dark .theme-linear {
   --ltt-header-height: 48px;
 }
 
-/* Dark mode for Gradient theme */
+/* Gradient Dark Mode - 深色渐变 */
 .dark .theme-gradient,
 [data-theme="gradient"].dark,
 html.dark .theme-gradient {
-  --ltt-border: rgba(139, 92, 246, 0.3);
-  --ltt-border-strong: rgba(139, 92, 246, 0.5);
-  --ltt-hover: rgba(139, 92, 246, 0.1);
-  --ltt-header-bg: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%);
-  --ltt-header-text: #ffffff;
-  --ltt-cell-text: #ddd6fe;
+  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));
+  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25));
+  --ltt-hover: rgba(165, 180, 252, 0.08);
+  --ltt-header-bg: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
+  --ltt-header-text: var(--ltt-text-primary-dark);
+  --ltt-cell-text: var(--ltt-text-secondary-dark);
   --ltt-cell-bg: rgba(30, 27, 75, 0.95);
   --ltt-row-bg: #1e1b4b;
   --ltt-row-hover: #312e81;
-  --ltt-shadow: 0 4px 24px rgba(139, 92, 246, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3);
+  --ltt-shadow: var(--ltt-shadow-dark);
   --ltt-header-shadow: none;
 }
 
 .dark .theme-gradient .ltt-table-root > .block-children-container,
 [data-theme="gradient"].dark .ltt-table-root > .block-children-container {
-  border-color: rgba(139, 92, 246, 0.3);
+  border-color: rgba(165, 180, 252, 0.15);
 }
 
 .dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="gradient"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(139, 92, 246, 0.3);
+  border-bottom-color: rgba(165, 180, 252, 0.15);
   background: #1e1b4b;
 }
 
 .dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="gradient"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%);
-  border-right-color: rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
+  border-right-color: rgba(165, 180, 252, 0.15);
 }
 
 .dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="gradient"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right-color: rgba(139, 92, 246, 0.3);
+  border-right-color: rgba(165, 180, 252, 0.15);
   background: rgba(30, 27, 75, 0.95);
 }
 
 /* =========================================================
-   THEME: TANA - Soft and Calm
+   THEME: TANA - 清新自然风格
+   设计特点：
+   - 圆角：10px
+   - 阴影：柔和绿色投影
+   - Header：渐变背景 + 底部强调线
+   - 边框：淡绿色
+   - 强调色：Green #22c55e
+   - 适用场景：健康生活，目标追踪
 ========================================================= */
 
 .theme-tana,
@@ -282,44 +359,114 @@ html.dark .theme-gradient {
   --ltt-header-height: 44px;
 }
 
-/* Dark mode for Tana theme */
+/* Tana Dark Mode - 使用 indigo-dark 基础 */
 .dark .theme-tana,
 [data-theme="tana"].dark,
 html.dark .theme-tana {
-  --ltt-border: rgba(16, 185, 129, 0.25);
-  --ltt-border-strong: rgba(16, 185, 129, 0.4);
-  --ltt-hover: rgba(16, 185, 129, 0.1);
-  --ltt-header-bg: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-  --ltt-header-text: #6ee7b7;
-  --ltt-cell-text: #a7f3d0;
-  --ltt-cell-bg: rgba(6, 78, 59, 0.95);
-  --ltt-row-bg: #064e3b;
-  --ltt-row-hover: #065f46;
-  --ltt-shadow: 0 2px 12px rgba(16, 185, 129, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+  --ltt-border: var(--ls-border-color, rgba(16, 185, 129, 0.15));
+  --ltt-border-strong: var(--ls-border-color, rgba(16, 185, 129, 0.2));
+  --ltt-hover: rgba(16, 185, 129, 0.06);
+  --ltt-header-bg: var(--ls-tertiary-background-color, #0d3029);
+  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-green-dark));
+  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
+  --ltt-cell-bg: var(--ls-primary-background-color, rgba(13, 48, 41, 0.8));
+  --ltt-row-bg: var(--ls-primary-background-color, #0a2622);
+  --ltt-row-hover: var(--ls-tertiary-background-color, #122d28);
+  --ltt-shadow: var(--ltt-shadow-dark);
   --ltt-header-shadow: none;
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container {
-  border-color: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.15);
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(16, 185, 129, 0.25);
-  background: #064e3b;
+  border-bottom-color: rgba(16, 185, 129, 0.15);
+  background: #0a2622;
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-  border-right-color: rgba(16, 185, 129, 0.25);
+  background: #0d3029;
+  border-right-color: rgba(16, 185, 129, 0.15);
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right-color: rgba(16, 185, 129, 0.25);
-  background: rgba(6, 78, 59, 0.95);
+  border-right-color: rgba(16, 185, 129, 0.15);
+  background: rgba(13, 48, 41, 0.8);
+}
+
+/* =========================================================
+   THEME: INDIGO - 专业沉稳风格
+   设计特点：
+   - 圆角：10px
+   - 阴影：柔和蓝色投影
+   - Header：渐变背景 + 底部强调线
+   - 边框：淡蓝紫色
+   - 强调色：Indigo #6366f1
+   - 适用场景：商务办公，数据分析，项目管理
+========================================================= */
+
+.theme-indigo,
+[data-theme="indigo"] {
+  --ltt-border: #c7d2fe;
+  --ltt-border-strong: #a5b4fc;
+  --ltt-hover: rgba(99, 102, 241, 0.06);
+  --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  --ltt-header-text: #4338ca;
+  --ltt-cell-text: #4f46e5;
+  --ltt-cell-bg: rgba(255, 255, 255, 0.95);
+  --ltt-row-bg: #ffffff;
+  --ltt-row-hover: #f5f3ff;
+  --ltt-radius: 10px;
+  --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03);
+  --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2);
+  --ltt-col-1-width: 260px;
+  --ltt-cell-padding: 10px 14px;
+  --ltt-header-height: 44px;
+}
+
+/* Indigo Dark Mode - 使用 indigo-dark 配色方案 */
+.dark .theme-indigo,
+[data-theme="indigo"].dark,
+html.dark .theme-indigo {
+  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));
+  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));
+  --ltt-hover: var(--ltt-border-subtle-dark);
+  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));
+  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
+  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));
+  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));
+  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
+  --ltt-shadow: var(--ltt-shadow-dark);
+  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container {
+  border-color: var(--ltt-border-normal-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-bottom-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-deepest-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
+  background: var(--ltt-bg-secondary-dark);
+  border-right-color: var(--ltt-border-normal-dark);
+}
+
+.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-right-color: var(--ltt-border-normal-dark);
+  background: var(--ltt-bg-tertiary-dark);
 }
 
 /* =========================================================

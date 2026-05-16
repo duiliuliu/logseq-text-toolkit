@@ -227,12 +227,13 @@
       "preview": "预览",
       "monthPageCreation": "月度页面创建",
       "enableMonthPageCreation": "启用月度页面创建",
+      "monthTemplateType": "总结模板",
+      "templateNone": "不选",
       "monthPageNameTemplate": "页面名称模板",
-      "monthLogseqTemplate": "Logseq 模板",
       "weekPageCreation": "周度页面创建",
       "enableWeekPageCreation": "启用周度页面创建",
-      "weekPageNameTemplate": "页面名称模板",
-      "weekLogseqTemplate": "Logseq 模板"
+      "weekTemplateType": "总结模板",
+      "weekPageNameTemplate": "页面名称模板"
     },
     "summary": {
       "description": "配置总结生成功能的默认行为和参数。",

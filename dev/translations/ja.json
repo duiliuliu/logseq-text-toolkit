@@ -227,12 +227,13 @@
       "preview": "プレビュー",
       "monthPageCreation": "月ページ作成",
       "enableMonthPageCreation": "月ページ作成を有効化",
+      "monthTemplateType": "サマリーテンプレート",
+      "templateNone": "なし",
       "monthPageNameTemplate": "ページ名テンプレート",
-      "monthLogseqTemplate": "Logseqテンプレート",
       "weekPageCreation": "週ページ作成",
       "enableWeekPageCreation": "週ページ作成を有効化",
-      "weekPageNameTemplate": "ページ名テンプレート",
-      "weekLogseqTemplate": "Logseqテンプレート"
+      "weekTemplateType": "サマリーテンプレート",
+      "weekPageNameTemplate": "ページ名テンプレート"
     },
     "summary": {
       "description": "サマリー生成機能のデフォルト動作とパラメータを設定します。",

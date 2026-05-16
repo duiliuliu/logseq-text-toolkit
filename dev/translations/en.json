@@ -227,12 +227,13 @@
       "preview": "Preview",
       "monthPageCreation": "Month Page Creation",
       "enableMonthPageCreation": "Enable Month Page Creation",
+      "monthTemplateType": "Summary Template",
+      "templateNone": "None",
       "monthPageNameTemplate": "Page Name Template",
-      "monthLogseqTemplate": "Logseq Template",
       "weekPageCreation": "Week Page Creation",
       "enableWeekPageCreation": "Enable Week Page Creation",
-      "weekPageNameTemplate": "Page Name Template",
-      "weekLogseqTemplate": "Logseq Template"
+      "weekTemplateType": "Summary Template",
+      "weekPageNameTemplate": "Page Name Template"
     },
     "summary": {
       "description": "Configure default behavior and parameters for the summary generation feature.",
