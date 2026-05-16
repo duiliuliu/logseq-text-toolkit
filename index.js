@@ -22017,7 +22017,7 @@ ${where}
         }
         let processed = s;
         for (const { regex, tag } of outerFormats) {
-          processed = processed.replace(regex, (match, content) => {
+          processed = processed.replace(regex, (_match, content) => {
             const innerContent = recursiveProcess(content);
             const isHiccupFormat = innerContent.startsWith("[:") && innerContent.endsWith("]");
             if (isHiccupFormat) {
@@ -22052,6 +22052,9 @@ ${where}
     if (text.startsWith("[:") && text.endsWith("]")) {
       return prefix + text + suffix;
     }
+    if (text.includes("[:")) {
+      return prefix + text + suffix;
+    }
     const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
     const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
     if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
@@ -22069,6 +22072,7 @@ ${where}
     const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
     const isAlreadyNested = text.startsWith("[:") && text.endsWith("]");
     const nestedIsHiccup = nestedText.startsWith("[:") && nestedText.endsWith("]");
+    const nestedContainsHiccup = nestedText.includes("[:");
     const isEntirelyWrappedFormat = text.startsWith("**") && text.endsWith("**") || text.startsWith("*") && text.endsWith("*") && !text.startsWith("**") || text.startsWith("~~") && text.endsWith("~~") || text.startsWith("==") && text.endsWith("==") || text.startsWith("`") && text.endsWith("`");
     const hasFormatMarkers = text.includes("**") || text.includes("*") || text.includes("~~") || text.includes("==") || text.includes("`");
     const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
@@ -22087,19 +22091,19 @@ ${where}
         const cleanSuffix = suffix.slice(1);
         return cleanPrefix + nestedText + cleanSuffix;
       } else {
-        if (nestedIsHiccup) {
+        if (nestedIsHiccup || nestedContainsHiccup) {
           return prefix + nestedText + suffix;
         }
         return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
       }
     }
     if (isPartiallyFormatted) {
-      if (nestedIsHiccup) {
+      if (nestedIsHiccup || nestedContainsHiccup) {
         return prefix + nestedText + suffix;
       }
       return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
     }
-    if (nestedIsHiccup) {
+    if (nestedIsHiccup || nestedContainsHiccup) {
       return prefix + nestedText + suffix;
     }
     return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
