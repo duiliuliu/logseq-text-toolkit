@@ -144,6 +144,11 @@ export const needsQuotes = (text: string): boolean => {
  * @returns 处理后的文本
  */
 export const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): string => {
+  // 如果文本本身就是完整的 hiccup 格式，不要包裹引号
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return prefix + text + suffix;
+  }
+  
   // 检查前缀和后缀是否有引号
   const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
   const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
@@ -177,6 +182,7 @@ export const handleNestedQuotes = (prefix: string, suffix: string, text: string,
   const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
   
   const isAlreadyNested = text.startsWith('[:') && text.endsWith(']');
+  const nestedIsHiccup = nestedText.startsWith('[:') && nestedText.endsWith(']');
   
   const isEntirelyWrappedFormat = (
     (text.startsWith('**') && text.endsWith('**')) ||
@@ -206,14 +212,26 @@ export const handleNestedQuotes = (prefix: string, suffix: string, text: string,
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + nestedText + cleanSuffix;
     } else {
+      // 如果nestedText本身是hiccup格式，不要包裹引号
+      if (nestedIsHiccup) {
+        return prefix + nestedText + suffix;
+      }
       return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
     }
   }
   
   if (isPartiallyFormatted) {
+    // 如果nestedText本身是hiccup格式，不要包裹引号
+    if (nestedIsHiccup) {
+      return prefix + nestedText + suffix;
+    }
     return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   }
   
+  // 如果nestedText本身是hiccup格式，不要包裹引号
+  if (nestedIsHiccup) {
+    return prefix + nestedText + suffix;
+  }
   return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
 };
 

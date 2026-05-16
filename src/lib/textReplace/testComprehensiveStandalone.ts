@@ -63,6 +63,7 @@ const parseNestedFormat = (text: string): string => {
   
   // 使用从外到内的策略：递归地处理最外层的格式
   const processOuterFormat = (str: string): string => {
+    // 定义外层格式及其对应的 hiccup 标签
     const outerFormats = [
       { regex: /\*\*([^*]+)\*\*/g, tag: 'b' },
       { regex: /(?<!\*)\*([^*]+)\*(?!\*)/g, tag: 'i' },
@@ -71,7 +72,9 @@ const parseNestedFormat = (text: string): string => {
       { regex: /`([^`]+)`/g, tag: 'code' },
     ];
     
+    // 递归处理从外到内
     const recursiveProcess = (s: string): string => {
+      // 如果没有格式标记，直接返回
       const hasAnyFormat = outerFormats.some(f => f.regex.test(s));
       if (!hasAnyFormat) {
         return s;
@@ -79,18 +82,25 @@ const parseNestedFormat = (text: string): string => {
       
       let processed = s;
       
+      // 处理每个外层格式
       for (const { regex, tag } of outerFormats) {
         processed = processed.replace(regex, (match, content) => {
+          // 递归处理内层内容
           const innerContent = recursiveProcess(content);
           
-          const needsQuote = innerContent.includes(' ') || 
-                            innerContent.includes('"') || 
-                            innerContent.includes("'") ||
-                            innerContent.startsWith('[:');
+          // 判断是否需要引号
+          const isHiccupFormat = innerContent.startsWith('[:') && innerContent.endsWith(']');
           
-          if (needsQuote) {
+          if (isHiccupFormat) {
+            // 已经是 hiccup 格式，直接返回
+            return `[:${tag} ${innerContent}]`;
+          } else if (innerContent.includes(' ') || 
+                     innerContent.includes('"') || 
+                     innerContent.includes("'")) {
+            // 普通文本但包含需要引号的字符
             return `[:${tag} "${innerContent}"]`;
           } else {
+            // 普通文本，不需要引号
             return `[:${tag} ${innerContent}]`;
           }
         });
@@ -129,9 +139,14 @@ const needsQuotes = (text: string): boolean => {
 };
 
 /**
- * 智能处理引号包裹
+ * 按需包裹引号
  */
 const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): string => {
+  // 如果文本本身就是完整的 hiccup 格式，不要包裹引号
+  if (text.startsWith('[:') && text.endsWith(']')) {
+    return prefix + text + suffix;
+  }
+  
   const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
   const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
   
@@ -156,6 +171,7 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
   const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
   
   const isAlreadyNested = text.startsWith('[:') && text.endsWith(']');
+  const nestedIsHiccup = nestedText.startsWith('[:') && nestedText.endsWith(']');
   
   const isEntirelyWrappedFormat = (
     (text.startsWith('**') && text.endsWith('**')) ||
@@ -184,14 +200,26 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + nestedText + cleanSuffix;
     } else {
+      // 如果nestedText本身是hiccup格式，不要包裹引号
+      if (nestedIsHiccup) {
+        return prefix + nestedText + suffix;
+      }
       return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
     }
   }
   
   if (isPartiallyFormatted) {
+    // 如果nestedText本身是hiccup格式，不要包裹引号
+    if (nestedIsHiccup) {
+      return prefix + nestedText + suffix;
+    }
     return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   }
   
+  // 如果nestedText本身是hiccup格式，不要包裹引号
+  if (nestedIsHiccup) {
+    return prefix + nestedText + suffix;
+  }
   return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
 };
 
@@ -357,9 +385,9 @@ const testCases: TestCase[] = [
   { name: '带空格文本 - 高亮', item: toolbarItems.find(i => i.id === 'wrap-yellow-hl')!, input: '带 空格 的 文本', expected: '=="带 空格 的 文本"==', category: 'normal' },
   
   // 单格式嵌套
-  { name: '已有粗体 - 再次应用粗体', item: toolbarItems.find(i => i.id === 'wrap-bold')!, input: '**已加粗**', expected: '**[:b "已加粗"]**', category: 'normal' },
-  { name: '已有斜体 - 应用红色', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '*斜体文本*', expected: '[:span.red [:i "斜体文本"]]', category: 'normal' },
-  { name: '已有删除线 - 应用下划线', item: toolbarItems.find(i => i.id === 'wrap-red-underline')!, input: '~~删除线文本~~', expected: '[:u.red [:s "删除线文本"]]', category: 'normal' },
+  { name: '已有粗体 - 再次应用粗体', item: toolbarItems.find(i => i.id === 'wrap-bold')!, input: '**已加粗**', expected: '**[:b 已加粗]**', category: 'normal' },
+  { name: '已有斜体 - 应用红色', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '*斜体文本*', expected: '[:span.red [:i 斜体文本]]', category: 'normal' },
+  { name: '已有删除线 - 应用下划线', item: toolbarItems.find(i => i.id === 'wrap-red-underline')!, input: '~~删除线文本~~', expected: '[:u.red [:s 删除线文本]]', category: 'normal' },
   
   // Hiccup 嵌套
   { name: '已有 hiccup - 单层嵌套', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '[:b "加粗文本"]', expected: '[:span.red [:b "加粗文本"]]', category: 'normal' },
@@ -373,8 +401,8 @@ const testCases: TestCase[] = [
   
   // Markdown + Hiccup 混合
   { name: 'Markdown 嵌套 hiccup', item: toolbarItems.find(i => i.id === 'wrap-bold')!, input: '[:span.red "红色文本"]', expected: '**[:span.red "红色文本"]**', category: 'normal' },
-  { name: 'Hiccup 嵌套 Markdown', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '**粗体文本**', expected: '[:span.red [:b "粗体文本"]]', category: 'normal' },
-  { name: '多层混合格式', item: toolbarItems.find(i => i.id === 'wrap-purple-text')!, input: '==**高亮加粗**==', expected: '[:span.purple [:mark [:b "高亮加粗"]]]', category: 'normal' },
+  { name: 'Hiccup 嵌套 Markdown', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '**粗体文本**', expected: '[:span.red [:b 粗体文本]]', category: 'normal' },
+  { name: '多层混合格式', item: toolbarItems.find(i => i.id === 'wrap-purple-text')!, input: '==**高亮加粗**==', expected: '[:span.purple [:mark [:b 高亮加粗]]]', category: 'normal' },
   
   // ==========================================
   // 极端场景测试
@@ -385,10 +413,10 @@ const testCases: TestCase[] = [
   { name: '极端深层嵌套 - 5层', item: toolbarItems.find(i => i.id === 'wrap-blue-text')!, input: '[:mark.red [:span.blue [:u.green [:b "五层嵌套"]]]]', expected: '[:span.blue [:mark.red [:span.blue [:u.green [:b "五层嵌套"]]]]]', category: 'extreme' },
   
   // 多种格式混合
-  { name: '极端多种格式混合', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '**粗体** 和 *斜体* 和 ~~删除~~ 和 ==高亮== 和 `代码`', expected: '[:span.red [:b "粗体"]] 和 [:span.red [:i "斜体"]] 和 [:span.red [:s "删除"]] 和 [:span.red [:mark "高亮"]] 和 [:span.red [:code "代码"]]', category: 'extreme' },
+  { name: '极端多种格式混合', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '**粗体** 和 *斜体* 和 ~~删除~~ 和 ==高亮== 和 `代码`', expected: '[:span.red [:b 粗体] 和 [:i 斜体] 和 [:s 删除] 和 [:mark 高亮] 和 [:code 代码]]', category: 'extreme' },
   
   // 换行 + 嵌套
-  { name: '极端换行加嵌套', item: toolbarItems.find(i => i.id === 'wrap-blue-text')!, input: '**粗体文本**\n[:span.red "红色文本"]\n普通文本', expected: '[:div [:span.blue [:b "粗体文本"]]][:div [:span.blue [:span.red "红色文本"]]][:div [:span.blue 普通文本]]', category: 'extreme' },
+  { name: '极端换行加嵌套', item: toolbarItems.find(i => i.id === 'wrap-blue-text')!, input: '**粗体文本**\n[:span.red "红色文本"]\n普通文本', expected: '[:div [:span.blue [:b 粗体文本]]][:div [:span.blue [:span.red "红色文本"]]][:div [:span.blue 普通文本]]', category: 'extreme' },
   
   // 特殊字符
   { name: '极端特殊字符 - 引号', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '文本含"引号"文本', expected: '[:span.red "文本含"引号"文本"]', category: 'extreme' },
@@ -405,7 +433,7 @@ const testCases: TestCase[] = [
   
   // 换行中的特殊格式
   { name: '极端换行加空格', item: toolbarItems.find(i => i.id === 'wrap-green-text')!, input: '带 空格 的 第一行\n第二行', expected: '[:div [:span.green "带 空格 的 第一行"]][:div [:span.green 第二行]]', category: 'extreme' },
-  { name: '极端换行加嵌套', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '**粗体第一行**\n[:span.blue "蓝色第二行"]\n第三行', expected: '[:div [:span.red [:b "粗体第一行"]]][:div [:span.red [:span.blue "蓝色第二行"]]][:div [:span.red 第三行]]', category: 'extreme' },
+  { name: '极端换行加嵌套', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '**粗体第一行**\n[:span.blue "蓝色第二行"]\n第三行', expected: '[:div [:span.red [:b 粗体第一行]]][:div [:span.red [:span.blue "蓝色第二行"]]][:div [:span.red 第三行]]', category: 'extreme' },
   
   // ==========================================
   // 边界场景测试
@@ -428,11 +456,11 @@ const testCases: TestCase[] = [
   // 特殊 Unicode
   { name: '边界 Emoji', item: toolbarItems.find(i => i.id === 'wrap-bold')!, input: '🎉🎊✨', expected: '**🎉🎊✨**', category: 'edge' },
   { name: '边界中文标点', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '你好，的世界！', expected: '[:span.red 你好，的世界！]', category: 'edge' },
-  { name: '边界特殊符号', item: toolbarItems.find(i => i.id === 'wrap-blue-text')!, input: '文本含@#$%^&*符号', expected: '[:span.blue "文本含@#$%^&*符号"]', category: 'edge' },
+  { name: '边界特殊符号', item: toolbarItems.find(i => i.id === 'wrap-blue-text')!, input: '文本含@#$%^&*符号', expected: '[:span.blue 文本含@#$%^&*符号]', category: 'edge' },
   
   // 嵌套边缘情况
   { name: '边界嵌套空粗体', item: toolbarItems.find(i => i.id === 'wrap-red-text')!, input: '**', expected: '[:span.red **]', category: 'edge' },
-  { name: '边界嵌套不完整标记', item: toolbarItems.find(i => i.id === 'wrap-green-text')!, input: '*未闭合*', expected: '[:span.green [:i "未闭合"]]', category: 'edge' },
+  { name: '边界嵌套不完整标记', item: toolbarItems.find(i => i.id === 'wrap-green-text')!, input: '*未闭合*', expected: '[:span.green [:i 未闭合]]', category: 'edge' },
   
   // Remove Formatting 测试
   { name: 'Remove Formatting - 普通文本', item: toolbarItems.find(i => i.id === 'remove-formatting')!, input: '普通文本', expected: '普通文本', category: 'normal' },
