@@ -84,7 +84,7 @@ const parseNestedFormat = (text: string): string => {
       
       // 处理每个外层格式
       for (const { regex, tag } of outerFormats) {
-        processed = processed.replace(regex, (match, content) => {
+        processed = processed.replace(regex, (_match, content) => {
           // 递归处理内层内容
           const innerContent = recursiveProcess(content);
           
@@ -147,6 +147,12 @@ const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): s
     return prefix + text + suffix;
   }
   
+  // 新增：如果文本中包含 hiccup 片段，也不要包裹引号
+  // 因为如果有 hiccup 片段说明已经处理过嵌套格式了
+  if (text.includes('[:')) {
+    return prefix + text + suffix;
+  }
+  
   const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
   const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
   
@@ -172,6 +178,7 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
   
   const isAlreadyNested = text.startsWith('[:') && text.endsWith(']');
   const nestedIsHiccup = nestedText.startsWith('[:') && nestedText.endsWith(']');
+  const nestedContainsHiccup = nestedText.includes('[:'); // 新增：检测是否包含任何 hiccup 片段
   
   const isEntirelyWrappedFormat = (
     (text.startsWith('**') && text.endsWith('**')) ||
@@ -200,8 +207,8 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + nestedText + cleanSuffix;
     } else {
-      // 如果nestedText本身是hiccup格式，不要包裹引号
-      if (nestedIsHiccup) {
+      // 如果nestedText本身是hiccup格式或者包含hiccup片段，不要包裹引号
+      if (nestedIsHiccup || nestedContainsHiccup) {
         return prefix + nestedText + suffix;
       }
       return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
@@ -209,15 +216,15 @@ const handleNestedQuotes = (prefix: string, suffix: string, text: string, nested
   }
   
   if (isPartiallyFormatted) {
-    // 如果nestedText本身是hiccup格式，不要包裹引号
-    if (nestedIsHiccup) {
+    // 如果nestedText本身是hiccup格式或者包含hiccup片段，不要包裹引号
+    if (nestedIsHiccup || nestedContainsHiccup) {
       return prefix + nestedText + suffix;
     }
     return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
   }
   
-  // 如果nestedText本身是hiccup格式，不要包裹引号
-  if (nestedIsHiccup) {
+  // 如果nestedText本身是hiccup格式或者包含hiccup片段，不要包裹引号
+  if (nestedIsHiccup || nestedContainsHiccup) {
     return prefix + nestedText + suffix;
   }
   return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
