@@ -8,44 +8,34 @@ export class Query {
     const startTimestamp = start.getTime();
     const endTimestamp = end.getTime();
 
-    logger.debug('[Query:queryBlocks] method called', {
-      dateRange: { start: start.toISOString(), end: end.toISOString() },
-      timestamps: { start: startTimestamp, end: endTimestamp }
-    });
-
-    logger.debug('[Query:queryBlocks] executing query for blocks');
     const allBlocksWithMeta = await logseqAPI.DB.datascriptQuery(`
       [:find  (pull ?b 
-                 [:block/content 
-                  :block/created-at
-                  {:block/page [:block/title]}
-                  {:block/tags [:block/title]}
-                  {:block/refs [:block/title]}])
+                [:block/content 
+                 :block/created-at
+                 {:block/page [:block/title]}
+                 {:block/tags [:block/title]}
+                 {:block/refs [:block/title]}])
        :where
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
        [(<= ?date ${endTimestamp})]
      ]
     `);
-    logger.debug('[Query:queryBlocks] allBlocksWithMeta result', { count: allBlocksWithMeta.length });
 
     const tagCount: Record<string, number> = {};
     const pageCount: Record<string, number> = {};
-    const updatedBlockIds = new Set<string>();
     let totalContentLength = 0;
 
-    // 统计页面、标签、内容长度
     for (const row of allBlocksWithMeta) {
       if (!row || !Array.isArray(row) || row.length < 1) continue;
-      
+
       const blockData = row[0] as any;
       const content = blockData?.['content'] || blockData?.[':block/content'] || blockData?.[':block/title'] || '';
       const pageData = blockData?.['page'] || blockData?.[':block/page'];
       const tagsData = blockData?.['tags'] || blockData?.[':block/tags'];
-      
+
       totalContentLength += content.length;
 
-      // 统计页面
       if (pageData) {
         const pageName = pageData['title'] || pageData[':block/title'];
         if (pageName) {
@@ -53,7 +43,6 @@ export class Query {
         }
       }
 
-      // 统计标签
       if (tagsData && Array.isArray(tagsData)) {
         tagsData.forEach((tagData: any) => {
           const tagName = tagData?.['title'] || tagData?.[':block/title'];
@@ -66,13 +55,13 @@ export class Query {
 
     const created = allBlocksWithMeta.length;
 
-    // 单独查询修改过的块
     const modifiedBlocks = await logseqAPI.DB.datascriptQuery(`
       [:find (pull ?b [:block/uuid])
        :where
        [?b :block/updated-at ?updated]
        [(>= ?updated ${startTimestamp})]
-       [(<= ?updated ${endTimestamp})]]
+       [(<= ?updated ${endTimestamp})]
+     ]
     `);
     const modified = modifiedBlocks.length;
 
@@ -102,23 +91,16 @@ export class Query {
     const startTimestamp = start.getTime();
     const endTimestamp = end.getTime();
 
-    logger.debug('[Query:queryTasks] method called', {
-      dateRange: { startTimestamp, endTimestamp },
-      start: start.toISOString(),
-      end: end.toISOString()
-    });
-
-    logger.debug('[Query:queryTasks] executing query for tasks');
     const tasks = await logseqAPI.DB.datascriptQuery(`
       [:find  (pull ?b 
-                 [:block/content 
-                  :block/created-at
-                  :block/title
-                  {:block/page [:block/title]}
-                  {:block/tags [:block/title]}
-                  {:logseq.property/status [:block/title]}
-                  {:logseq.property/priority [:block/title]}
-                  :logseq.property/scheduled])
+                [:block/content 
+                 :block/created-at
+                 :block/title
+                 {:block/page [:block/title]}
+                 {:block/tags [:block/title]}
+                 {:logseq.property/status [:block/title]}
+                 {:logseq.property/priority [:block/title]}
+                 :logseq.property/scheduled])
        :where
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
@@ -126,7 +108,6 @@ export class Query {
        [?b :block/tags ?t]
        [?t :block/title "Task"]]
     `);
-    logger.debug('[Query:queryTasks] tasks result', { count: tasks.length });
 
     const total = tasks.length;
     let completed = 0;
@@ -143,7 +124,6 @@ export class Query {
 
       const block = task[0] as any;
       
-      // 从嵌套对象中获取 status 和 priority
       const statusData = block?.['logseq.property/status'];
       const priorityData = block?.['logseq.property/priority'];
       
@@ -208,26 +188,20 @@ export class Query {
     const startTimestamp = start.getTime();
     const endTimestamp = end.getTime();
 
-    logger.debug('[Query:queryPages] method called', {
-      dateRange: { start: start.toISOString(), end: end.toISOString() },
-      timestamps: { start: startTimestamp, end: endTimestamp }
-    });
-
-    logger.debug('[Query:queryPages] executing query for pages');
     const pages = await logseqAPI.DB.datascriptQuery(`
       [:find  (pull ?b 
-                 [:block/title
-                  :block/created-at
-                  :block/updated-at
-                  {:block/tags [:block/title]}])
+                [:block/title
+                 :block/created-at
+                 :block/updated-at
+                 {:block/tags [:block/title]}])
        :where
        [?b :block/tags ?t]
        [?t :block/title "Page"]
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
-       [(<= ?date ${endTimestamp})]]
+       [(<= ?date ${endTimestamp})]
+     ]
     `);
-    logger.debug('[Query:queryPages] pages result', { count: pages.length });
 
     let newPages = 0;
     let modifiedPages = 0;
@@ -236,7 +210,7 @@ export class Query {
 
     for (const page of pages) {
       if (!page || !Array.isArray(page) || page.length < 1) continue;
-      
+
       const pageData = page[0] as any;
       const createdAt = pageData?.['created-at'] || pageData?.[':block/created-at'];
       const updatedAt = pageData?.['updated-at'] || pageData?.[':block/updated-at'];

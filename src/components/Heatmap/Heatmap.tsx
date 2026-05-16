@@ -12,6 +12,7 @@ import { getDocument } from '../../logseq/utils';
 import { updateHeatmapRendererArgs } from '../../lib/heatmap/register';
 import { t } from '../../translations/i18n';
 import { getSettings } from '../../settings';
+import { PageGenerator } from '../../lib/summary/PageGenerator';
 
 interface HeatmapProps {
   config: HeatmapConfig;
@@ -117,11 +118,32 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
 
     const year = currentDate.getFullYear();
     const month = monthIndex + 1;
-    let pageName = config.monthPageTemplate
-      .replace(/\{month\}/g, String(month).padStart(2, '0'))
-      .replace(/\{year\}/g, String(year));
+    const pageName = config.monthPageTemplate
+      .replace(/\{year\}/g, String(year))
+      .replace(/\{month\}/g, String(month).padStart(2, '0'));
 
-    await ensurePageAndNavigate(pageName, config.monthPageLogseqTemplate);
+    const existingPage = await logseqAPI.Editor.getPage(pageName);
+    
+    if (existingPage) {
+      await logseqAPI.UI.openInRightSidebar(existingPage.uuid);
+    } else if (config.monthPageTemplateType) {
+      const pageGenerator = new PageGenerator();
+      const result = await pageGenerator.generateMonthlyPage(
+        year, 
+        month, 
+        pageName,
+        config.monthPageTemplateType as any
+      );
+      
+      if (result) {
+        const newPage = await logseqAPI.Editor.getPage(result);
+        if (newPage) {
+          await logseqAPI.UI.openInRightSidebar(newPage.uuid);
+        }
+      }
+    } else {
+      await ensurePageAndNavigate(pageName);
+    }
   }, [config, currentDate]);
 
   const handleWeekLabelClick = useCallback(async (weekNumber: number) => {
@@ -129,11 +151,32 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     if (!config.enableWeekPageCreation || !config.weekPageTemplate) return;
 
     const year = currentDate.getFullYear();
-    let pageName = config.weekPageTemplate
-      .replace(/\{week\}/g, String(weekNumber).padStart(2, '0'))
-      .replace(/\{year\}/g, String(year));
+    const pageName = config.weekPageTemplate
+      .replace(/\{year\}/g, String(year))
+      .replace(/\{week\}/g, String(weekNumber).padStart(2, '0'));
 
-    await ensurePageAndNavigate(pageName, config.weekPageLogseqTemplate);
+    const existingPage = await logseqAPI.Editor.getPage(pageName);
+    
+    if (existingPage) {
+      await logseqAPI.UI.openInRightSidebar(existingPage.uuid);
+    } else if (config.weekPageTemplateType) {
+      const pageGenerator = new PageGenerator();
+      const result = await pageGenerator.generateWeeklyPage(
+        year, 
+        weekNumber, 
+        pageName,
+        config.weekPageTemplateType as any
+      );
+      
+      if (result) {
+        const newPage = await logseqAPI.Editor.getPage(result);
+        if (newPage) {
+          await logseqAPI.UI.openInRightSidebar(newPage.uuid);
+        }
+      }
+    } else {
+      await ensurePageAndNavigate(pageName);
+    }
   }, [config, currentDate]);
 
   const handleResizeStart = useCallback((e: React.MouseEvent) => {

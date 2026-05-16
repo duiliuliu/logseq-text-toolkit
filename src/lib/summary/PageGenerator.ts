@@ -38,16 +38,11 @@ export class PageGenerator {
       logger.info('[PageGenerator] 创建页面', { pageName });
 
       const pageId = await this.createPage(pageName);
-
-      if (pageId) {
-        logger.debug('[PageGenerator] 插入块树', { pageId, blocksCount: blockTree.length });
-        await this.insertBlockTree(pageId, blockTree);
-        logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
-      } else {
-        logger.debug('[PageGenerator] 插入块树', { pageId, blocksCount: blockTree.length });
-        await this.insertBlockTree(pageName, blockTree);
-        logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
-      }
+      const insertTarget = pageId || pageName;
+      
+      logger.debug('[PageGenerator] 插入块树', { target: insertTarget, blocksCount: blockTree.length });
+      await this.insertBlockTree(insertTarget, blockTree);
+      logger.info('[PageGenerator] 总结生成成功', { pageName, pageId });
 
       return pageName;
     } catch (error) {
@@ -57,27 +52,37 @@ export class PageGenerator {
     }
   }
 
-  async generateWeeklyPage(year: number, weekNumber: number, pageNameTemplate?: string): Promise<string | null> {
-    logger.info('[PageGenerator] 开始生成周度页面', { year, weekNumber, pageNameTemplate });
+  async generateWeeklyPage(
+    year: number, 
+    weekNumber: number, 
+    pageNameTemplate?: string,
+    templateType: TemplateType = 'gtd-work-review'
+  ): Promise<string | null> {
+    logger.info('[PageGenerator] 开始生成周度页面', { year, weekNumber, pageNameTemplate, templateType });
     
     const startDate = this.getWeekStartDate(year, weekNumber);
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + 6);
     
-    return this.generate('gtd-work-review', 'weekly', startDate, endDate, {
+    return this.generate(templateType, 'weekly', startDate, endDate, {
       year,
       weekNumber,
       pageNameTemplate
     });
   }
 
-  async generateMonthlyPage(year: number, month: number, pageNameTemplate?: string): Promise<string | null> {
-    logger.info('[PageGenerator] 开始生成月度页面', { year, month, pageNameTemplate });
+  async generateMonthlyPage(
+    year: number, 
+    month: number, 
+    pageNameTemplate?: string,
+    templateType: TemplateType = 'gtd-work-review'
+  ): Promise<string | null> {
+    logger.info('[PageGenerator] 开始生成月度页面', { year, month, pageNameTemplate, templateType });
     
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0);
     
-    return this.generate('gtd-work-review', 'monthly', startDate, endDate, {
+    return this.generate(templateType, 'monthly', startDate, endDate, {
       year,
       month,
       pageNameTemplate
