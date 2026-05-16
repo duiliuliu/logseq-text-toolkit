@@ -1,6 +1,7 @@
 import { TemplateType, SummaryTemplate, SummaryData, BlockNode, SummaryType } from '../types';
 import { DataAnalyzer } from '../DataAnalyzer';
 import { logger } from '../../../logseq/logger';
+import { s } from 'framer-motion/client';
 
 export class GTDWorkReviewTemplate implements SummaryTemplate {
   id: TemplateType = 'gtd-work-review';
@@ -40,7 +41,17 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
           {
             content: '## 📈 活跃度热力图',
             children: [
-              { content: '{{renderer :heatmap :week}}' },
+              {
+                content: ((): string => {
+                  if (summaryType === 'weekly') {
+                    return '{{renderer :heatmap week, tag=Task}}'
+                  } else if (summaryType === 'monthly') {
+                    return '{{renderer :heatmap month, tag=Task}}'
+                  } else {
+                    return '{{renderer :heatmap year, tag=Task}}'
+                  }
+                })()
+              },
             ],
           },
           {

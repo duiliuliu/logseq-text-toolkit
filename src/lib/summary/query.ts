@@ -20,11 +20,12 @@ export class Query {
                   :block/created-at
                   {:block/page [:block/title]}
                   {:block/tags [:block/title]}
-                  {:block/refs [:block/name]}])
+                  {:block/refs [:block/title]}])
        :where
        [?b :block/created-at ?date]
        [(>= ?date ${startTimestamp})]
        [(<= ?date ${endTimestamp})]
+     ]
     `);
     logger.debug('[Query:queryBlocks] allBlocksWithMeta result', { count: allBlocksWithMeta.length });
 

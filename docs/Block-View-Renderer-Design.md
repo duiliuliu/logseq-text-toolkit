@@ -740,7 +740,7 @@ const tabs = [
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-  grid-template-columns: var(--ltt-col-1-width) repeat(999, minmax(220px,1fr));
+  grid-template-columns: var(--ltt-col-1-width) repeat(20, minmax(220px,1fr));
   position: relative;
 }
 
