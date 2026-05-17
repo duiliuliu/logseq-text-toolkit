@@ -3,7 +3,7 @@
  * 此文件直接从 utils.ts 导入函数进行测试
  */
 
-import { replaceText, regexReplaceText } from './utils';
+import { replaceText } from './utils';
 import type { ToolbarItem } from '../../components/Toolbar/types';
 
 console.log('='.repeat(80));
@@ -22,8 +22,12 @@ const testCases = [
     tests: [
       { name: '混合格式文本（用户原始问题）', 
         input: '数组越大 → **扫描越久 → STW（暂停时间）越长 → 服务卡顿**。', 
-        item: { invokeParams: '[:span.blue ${selectedText}]' as any },
-        expected: '[:span.blue 数组越大 → [:b 扫描越久 → STW（暂停时间）越长 → 服务卡顿]。]' }
+        item: { invokeParams: '[:span.blue ${selectedText}]' },
+        expected: '[:span.blue 数组越大 → [:b 扫描越久 → STW（暂停时间）越长 → 服务卡顿]。]' },
+      { name: '混合格式文本 - 简单版本',
+        input: 'text **bold** more',
+        item: { invokeParams: '[:span.red ${selectedText}]' },
+        expected: '[:span.red text [:b bold] more]' }
     ]
   },
   {
@@ -42,7 +46,7 @@ const testCases = [
   {
     category: '嵌套格式测试',
     tests: [
-      { name: '嵌套格式（内粗体', input: '==**粗体高亮**==', item: { invokeParams: '[:span.purple ${selectedText}]' },
+      { name: '嵌套格式（内粗体）', input: '==**粗体高亮**==', item: { invokeParams: '[:span.purple ${selectedText}]' },
       expected: '[:span.purple [:mark [:b 粗体高亮]]' },
       { name: '已嵌套 hiccup', input: '[:b 加粗文本]', item: { invokeParams: '[:span.red ${selectedText}]' },
       expected: '[:span.red [:b 加粗文本]]' },
