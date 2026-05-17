@@ -11,6 +11,162 @@ import { t } from '../../translations/i18n.ts';
 import { SelectedData, ToolbarItem, InvokeParams, RegexReplaceParams } from '../../components/Toolbar/types.ts';
 import logger from '../logger/index';
 
+/*
+ * ====================================================================
+ * =                          核心处理函数                          =
+ * ====================================================================
+ * 
+ * replaceText - 替换文本的主入口函数，支持嵌套格式和换行处理
+ * 
+ * 运行流程：
+ * ┌─────────────────────────────────────────────────────────────────┐
+ * │ replaceText (text)                                              │
+ * ├─────────────────────────────────────────────────────────────────┤
+ * │  1. 检查空文本？是 → 返回空字符串                               │
+ * │  2. 包含换行？是 → processTextWithNewlines (多行处理)            │
+ * │  3. 包含换行？否 → processTextSingleLine (单行处理)              │
+ * │                                                                │
+ * │  processTextSingleLine:                                       │
+ * │  ├─ 使用 regex + replacement？→ regexReplace                  │
+ * │  ├─ 使用 invokeParams？→ processInvokeParams                 │
+ * │  │  ├─ 是正则替换？→ regexReplace                             │
+ * │  │  └─ 是包裹模式？→ parseWrapperPattern →                  │
+ * │  │     ├─ 已有格式？→ parseNestedFormat → handleNestedQuotes│
+ * │  │     └─ 无格式？→ wrapWithQuotesIfNeeded                   │
+ * └─────────────────────────────────────────────────────────────────┘
+ * 
+ * regexReplaceText - 正则替换文本
+ * 
+ * 运行流程：
+ * ┌─────────────────────────────────────────────────────────────────┐
+ * │ regexReplaceText (text)                                         │
+ * ├─────────────────────────────────────────────────────────────────┤
+ * │  1. 检查 invokeParams 是否为对象？ → 提取 regex, replacement, flags │
+ * │  2. 检查 invokeParams 是否为 /pattern/replace/flags 字符串？    │
+ * │  3. 执行替换 → 返回结果                                        │
+ * └─────────────────────────────────────────────────────────────────┘
+ *
+ * ====================================================================
+ */
+
+/**
+ * 替换文本 - 支持嵌套格式处理和换行转换
+ * @param item 工具栏项目
+ * @param text 原始文本
+ * @returns 替换后的文本（hiccup格式）
+ */
+export const replaceText = (item: ToolbarItem, text: string): string => {
+  // 处理空文本和纯空白文本
+  if (!text || text.trim() === '') {
+    return '';
+  }
+  
+  const hasNewlines = text.includes('\n');
+  
+  if (hasNewlines) {
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    
+    if (lines.length === 0) {
+      return '';
+    }
+    
+    const processedLines = lines.map(line => {
+      if (item.regex && item.replacement) {
+        const regex = new RegExp(item.regex, 'g');
+        return line.replace(regex, item.replacement);
+      } else if (item.invokeParams) {
+        if (isRegexReplaceParams(item.invokeParams)) {
+          const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+          const regex = new RegExp(pattern, flags);
+          return line.replace(regex, replacement);
+        } else {
+          const invokeParamsStr = String(item.invokeParams);
+          const wrapper = parseWrapperPattern(invokeParamsStr);
+          
+          if (wrapper && hasExistingFormat(line)) {
+            const nestedText = parseNestedFormat(line);
+            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
+          } else {
+            // 直接替换时也需要检查是否需要引号包裹
+            const wrapper = parseWrapperPattern(invokeParamsStr);
+            if (wrapper) {
+              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, line);
+            }
+            return invokeParamsStr.replace(/\${selectedText}/g, line);
+          }
+        }
+      }
+      return line;
+    });
+    
+    if (processedLines.length === 1) {
+      return processedLines[0];
+    }
+    
+    return processedLines.map(line => `[:div ${line}]`).join('');
+  } else {
+    if (item.regex && item.replacement) {
+      const regex = new RegExp(item.regex, 'g');
+      return text.replace(regex, item.replacement);
+    } else if (item.invokeParams) {
+      if (isRegexReplaceParams(item.invokeParams)) {
+        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+        const regex = new RegExp(pattern, flags);
+        return text.replace(regex, replacement);
+      } else {
+          const invokeParamsStr = String(item.invokeParams);
+          const wrapper = parseWrapperPattern(invokeParamsStr);
+          
+          if (wrapper && hasExistingFormat(text)) {
+            const nestedText = parseNestedFormat(text);
+            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+          } else {
+            // 直接替换时也需要检查是否需要引号包裹
+            if (wrapper) {
+              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, text);
+            }
+            return invokeParamsStr.replace(/\${selectedText}/g, text);
+          }
+        }
+    }
+    return text;
+  }
+};
+
+/**
+ * 正则替换文本
+ * @param item 工具栏项目
+ * @param text 原始文本
+ * @returns 替换后的文本
+ */
+export const regexReplaceText = (item: ToolbarItem, text: string): string => {
+  if (item.invokeParams) {
+    try {
+      if (isRegexReplaceParams(item.invokeParams)) {
+        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
+        const regex = new RegExp(pattern, flags);
+        return text.replace(regex, replacement);
+      } else if (typeof item.invokeParams === 'string') {
+        const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
+        if (regexMatch) {
+          const [, pattern, replacement, flags] = regexMatch;
+          const regex = new RegExp(pattern, flags);
+          return text.replace(regex, replacement);
+        }
+      }
+    } catch (error) {
+      logger.error('Error parsing regex:', error);
+    }
+  }
+  return text;
+};
+
+/*
+ * ====================================================================
+ * =                         辅助处理函数                          =
+ * ====================================================================
+ */
+
 /**
  * 判断 invokeParams 是否为正则替换配置对象
  */
@@ -78,21 +234,17 @@ export const parseNestedFormat = (text: string): string => {
           const innerContent = recursiveProcess(content);
           
           // 判断是否需要引号
-          // 不需要引号的情况：
-          // 1. 内容已经是完整的 hiccup 格式（以 [: 开头，以 ] 结尾）
-          // 2. 内容包含嵌套的 hiccup 格式
+          // 规则：
+          // 1. 如果内容已经是完整的 hiccup 格式（以 [: 开头，以 ] 结尾），不需要引号
+          // 2. 如果内容包含 hiccup 片段，不需要引号
+          // 3. 否则，直接添加内容（因为是从 Markdown 转换来的，不需要引号）
           const isHiccupFormat = innerContent.startsWith('[:') && innerContent.endsWith(']');
+          const containsHiccup = innerContent.includes('[:');
           
-          if (isHiccupFormat) {
-            // 已经是 hiccup 格式，直接返回
+          if (isHiccupFormat || containsHiccup) {
             return `[:${tag} ${innerContent}]`;
-          } else if (innerContent.includes(' ') || 
-                     innerContent.includes('"') || 
-                     innerContent.includes("'")) {
-            // 普通文本但包含需要引号的字符
-            return `[:${tag} "${innerContent}"]`;
           } else {
-            // 普通文本，不需要引号
+            // 从 Markdown 转换来的，不需要引号
             return `[:${tag} ${innerContent}]`;
           }
         });
@@ -241,6 +393,12 @@ export const handleNestedQuotes = (prefix: string, suffix: string, text: string,
   }
   return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
 };
+
+/*
+ * ====================================================================
+ * =                         Logseq 相关函数                          =
+ * ====================================================================
+ */
 
 /**
  * 更新块内容
@@ -391,116 +549,4 @@ export const processTextWithNewlines = (text: string): string => {
   }
   
   return processedLines.map(line => `[:div ${line}]`).join('');
-};
-
-/**
- * 替换文本 - 支持嵌套格式处理和换行转换
- * @param item 工具栏项目
- * @param text 原始文本
- * @returns 替换后的文本（hiccup格式）
- */
-export const replaceText = (item: ToolbarItem, text: string): string => {
-  // 处理空文本和纯空白文本
-  if (!text || text.trim() === '') {
-    return '';
-  }
-  
-  const hasNewlines = text.includes('\n');
-  
-  if (hasNewlines) {
-    const lines = text.split('\n').filter(line => line.trim() !== '');
-    
-    if (lines.length === 0) {
-      return '';
-    }
-    
-    const processedLines = lines.map(line => {
-      if (item.regex && item.replacement) {
-        const regex = new RegExp(item.regex, 'g');
-        return line.replace(regex, item.replacement);
-      } else if (item.invokeParams) {
-        if (isRegexReplaceParams(item.invokeParams)) {
-          const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
-          const regex = new RegExp(pattern, flags);
-          return line.replace(regex, replacement);
-        } else {
-          const invokeParamsStr = String(item.invokeParams);
-          const wrapper = parseWrapperPattern(invokeParamsStr);
-          
-          if (wrapper && hasExistingFormat(line)) {
-            const nestedText = parseNestedFormat(line);
-            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
-          } else {
-            // 直接替换时也需要检查是否需要引号包裹
-            const wrapper = parseWrapperPattern(invokeParamsStr);
-            if (wrapper) {
-              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, line);
-            }
-            return invokeParamsStr.replace(/\${selectedText}/g, line);
-          }
-        }
-      }
-      return line;
-    });
-    
-    if (processedLines.length === 1) {
-      return processedLines[0];
-    }
-    
-    return processedLines.map(line => `[:div ${line}]`).join('');
-  } else {
-    if (item.regex && item.replacement) {
-      const regex = new RegExp(item.regex, 'g');
-      return text.replace(regex, item.replacement);
-    } else if (item.invokeParams) {
-      if (isRegexReplaceParams(item.invokeParams)) {
-        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
-        const regex = new RegExp(pattern, flags);
-        return text.replace(regex, replacement);
-      } else {
-          const invokeParamsStr = String(item.invokeParams);
-          const wrapper = parseWrapperPattern(invokeParamsStr);
-          
-          if (wrapper && hasExistingFormat(text)) {
-            const nestedText = parseNestedFormat(text);
-            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
-          } else {
-            // 直接替换时也需要检查是否需要引号包裹
-            if (wrapper) {
-              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, text);
-            }
-            return invokeParamsStr.replace(/\${selectedText}/g, text);
-          }
-        }
-    }
-    return text;
-  }
-};
-
-/**
- * 正则替换文本
- * @param item 工具栏项目
- * @param text 原始文本
- * @returns 替换后的文本
- */
-export const regexReplaceText = (item: ToolbarItem, text: string): string => {
-  if (item.invokeParams) {
-    try {
-      if (isRegexReplaceParams(item.invokeParams)) {
-        const { regex: pattern, replacement, flags = 'g' } = item.invokeParams;
-        const regex = new RegExp(pattern, flags);
-        return text.replace(regex, replacement);
-      } else if (typeof item.invokeParams === 'string') {
-        const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
-        if (regexMatch) {
-          const [, pattern, replacement, flags] = regexMatch;
-          const regex = new RegExp(pattern, flags);
-          return text.replace(regex, replacement);
-        }
-      }
-    } catch (error) {
-      logger.error('Error parsing regex:', error);
-    }
-  }
-  return text;
 };
