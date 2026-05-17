@@ -89,18 +89,17 @@ const parseNestedFormat = (text: string): string => {
           const innerContent = recursiveProcess(content);
           
           // 判断是否需要引号
+          // 规则：
+          // 1. 如果内容已经是完整的 hiccup 格式（以 [: 开头，以 ] 结尾），不需要引号
+          // 2. 如果内容包含 hiccup 片段，不需要引号
+          // 3. 否则，直接添加内容（因为是从 Markdown 转换来的，不需要引号）
           const isHiccupFormat = innerContent.startsWith('[:') && innerContent.endsWith(']');
+          const containsHiccup = innerContent.includes('[:');
           
-          if (isHiccupFormat) {
-            // 已经是 hiccup 格式，直接返回
+          if (isHiccupFormat || containsHiccup) {
             return `[:${tag} ${innerContent}]`;
-          } else if (innerContent.includes(' ') || 
-                     innerContent.includes('"') || 
-                     innerContent.includes("'")) {
-            // 普通文本但包含需要引号的字符
-            return `[:${tag} "${innerContent}"]`;
           } else {
-            // 普通文本，不需要引号
+            // 从 Markdown 转换来的，不需要引号
             return `[:${tag} ${innerContent}]`;
           }
         });
