@@ -21982,6 +21982,93 @@ ${where}
   }
   const configParser = new ConfigParser();
 
+  const replaceText = (item, text) => {
+    if (!text || text.trim() === "") {
+      return "";
+    }
+    const hasNewlines = text.includes("\n");
+    if (hasNewlines) {
+      const lines = text.split("\n").filter((line) => line.trim() !== "");
+      if (lines.length === 0) {
+        return "";
+      }
+      const processedLines = lines.map((line) => {
+        if (item.regex && item.replacement) {
+          const regex = new RegExp(item.regex, "g");
+          return line.replace(regex, item.replacement);
+        } else if (item.invokeParams) {
+          if (isRegexReplaceParams(item.invokeParams)) {
+            const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
+            const regex = new RegExp(pattern, flags);
+            return line.replace(regex, replacement);
+          } else {
+            const invokeParamsStr = String(item.invokeParams);
+            const wrapper = parseWrapperPattern(invokeParamsStr);
+            if (wrapper && hasExistingFormat(line)) {
+              const nestedText = parseNestedFormat(line);
+              return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
+            } else {
+              const wrapper2 = parseWrapperPattern(invokeParamsStr);
+              if (wrapper2) {
+                return wrapWithQuotesIfNeeded(wrapper2.prefix, wrapper2.suffix, line);
+              }
+              return invokeParamsStr.replace(/\${selectedText}/g, line);
+            }
+          }
+        }
+        return line;
+      });
+      if (processedLines.length === 1) {
+        return processedLines[0];
+      }
+      return processedLines.map((line) => `[:div ${line}]`).join("");
+    } else {
+      if (item.regex && item.replacement) {
+        const regex = new RegExp(item.regex, "g");
+        return text.replace(regex, item.replacement);
+      } else if (item.invokeParams) {
+        if (isRegexReplaceParams(item.invokeParams)) {
+          const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
+          const regex = new RegExp(pattern, flags);
+          return text.replace(regex, replacement);
+        } else {
+          const invokeParamsStr = String(item.invokeParams);
+          const wrapper = parseWrapperPattern(invokeParamsStr);
+          if (wrapper && hasExistingFormat(text)) {
+            const nestedText = parseNestedFormat(text);
+            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
+          } else {
+            if (wrapper) {
+              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, text);
+            }
+            return invokeParamsStr.replace(/\${selectedText}/g, text);
+          }
+        }
+      }
+      return text;
+    }
+  };
+  const regexReplaceText = (item, text) => {
+    if (item.invokeParams) {
+      try {
+        if (isRegexReplaceParams(item.invokeParams)) {
+          const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
+          const regex = new RegExp(pattern, flags);
+          return text.replace(regex, replacement);
+        } else if (typeof item.invokeParams === "string") {
+          const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
+          if (regexMatch) {
+            const [, pattern, replacement, flags] = regexMatch;
+            const regex = new RegExp(pattern, flags);
+            return text.replace(regex, replacement);
+          }
+        }
+      } catch (error) {
+        loggerProxy.error("Error parsing regex:", error);
+      }
+    }
+    return text;
+  };
   function isRegexReplaceParams(params) {
     return typeof params === "object" && params !== null && "regex" in params;
   }
@@ -22020,10 +22107,9 @@ ${where}
           processed = processed.replace(regex, (_match, content) => {
             const innerContent = recursiveProcess(content);
             const isHiccupFormat = innerContent.startsWith("[:") && innerContent.endsWith("]");
-            if (isHiccupFormat) {
+            const containsHiccup = innerContent.includes("[:");
+            if (isHiccupFormat || containsHiccup) {
               return `[:${tag} ${innerContent}]`;
-            } else if (innerContent.includes(" ") || innerContent.includes('"') || innerContent.includes("'")) {
-              return `[:${tag} "${innerContent}"]`;
             } else {
               return `[:${tag} ${innerContent}]`;
             }
@@ -22184,93 +22270,6 @@ ${where}
       loggerProxy.error("替换选中元素时出错", error);
       return false;
     }
-  };
-  const replaceText = (item, text) => {
-    if (!text || text.trim() === "") {
-      return "";
-    }
-    const hasNewlines = text.includes("\n");
-    if (hasNewlines) {
-      const lines = text.split("\n").filter((line) => line.trim() !== "");
-      if (lines.length === 0) {
-        return "";
-      }
-      const processedLines = lines.map((line) => {
-        if (item.regex && item.replacement) {
-          const regex = new RegExp(item.regex, "g");
-          return line.replace(regex, item.replacement);
-        } else if (item.invokeParams) {
-          if (isRegexReplaceParams(item.invokeParams)) {
-            const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
-            const regex = new RegExp(pattern, flags);
-            return line.replace(regex, replacement);
-          } else {
-            const invokeParamsStr = String(item.invokeParams);
-            const wrapper = parseWrapperPattern(invokeParamsStr);
-            if (wrapper && hasExistingFormat(line)) {
-              const nestedText = parseNestedFormat(line);
-              return handleNestedQuotes(wrapper.prefix, wrapper.suffix, line, nestedText);
-            } else {
-              const wrapper2 = parseWrapperPattern(invokeParamsStr);
-              if (wrapper2) {
-                return wrapWithQuotesIfNeeded(wrapper2.prefix, wrapper2.suffix, line);
-              }
-              return invokeParamsStr.replace(/\${selectedText}/g, line);
-            }
-          }
-        }
-        return line;
-      });
-      if (processedLines.length === 1) {
-        return processedLines[0];
-      }
-      return processedLines.map((line) => `[:div ${line}]`).join("");
-    } else {
-      if (item.regex && item.replacement) {
-        const regex = new RegExp(item.regex, "g");
-        return text.replace(regex, item.replacement);
-      } else if (item.invokeParams) {
-        if (isRegexReplaceParams(item.invokeParams)) {
-          const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
-          const regex = new RegExp(pattern, flags);
-          return text.replace(regex, replacement);
-        } else {
-          const invokeParamsStr = String(item.invokeParams);
-          const wrapper = parseWrapperPattern(invokeParamsStr);
-          if (wrapper && hasExistingFormat(text)) {
-            const nestedText = parseNestedFormat(text);
-            return handleNestedQuotes(wrapper.prefix, wrapper.suffix, text, nestedText);
-          } else {
-            if (wrapper) {
-              return wrapWithQuotesIfNeeded(wrapper.prefix, wrapper.suffix, text);
-            }
-            return invokeParamsStr.replace(/\${selectedText}/g, text);
-          }
-        }
-      }
-      return text;
-    }
-  };
-  const regexReplaceText = (item, text) => {
-    if (item.invokeParams) {
-      try {
-        if (isRegexReplaceParams(item.invokeParams)) {
-          const { regex: pattern, replacement, flags = "g" } = item.invokeParams;
-          const regex = new RegExp(pattern, flags);
-          return text.replace(regex, replacement);
-        } else if (typeof item.invokeParams === "string") {
-          const regexMatch = item.invokeParams.match(/\/(.*)\/(.*)\/(.*)/);
-          if (regexMatch) {
-            const [, pattern, replacement, flags] = regexMatch;
-            const regex = new RegExp(pattern, flags);
-            return text.replace(regex, replacement);
-          }
-        }
-      } catch (error) {
-        loggerProxy.error("Error parsing regex:", error);
-      }
-    }
-    return text;
   };
 
   class ActionExecutor {
