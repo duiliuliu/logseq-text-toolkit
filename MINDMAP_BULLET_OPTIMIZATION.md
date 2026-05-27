@@ -535,6 +535,84 @@ const injectCSS = () => {
 
 ---
 
+---
+
+## 🎯 场景 3 优化：包含引号的文本处理
+
+### 问题分析
+在 MindMap 视图中，当节点内容包含引号（双引号 `"` 或单引号 `'`）时，可能会导致以下问题：
+1. **hiccup 解析错误** - 未正确转义的引号会破坏 hiccup 语法
+2. **显示异常** - 文本被截断或格式错乱
+3. **交互问题** - 包含引号的文本可能影响折叠/展开功能
+
+### 优化方案
+
+#### 方案 1: 文本转义处理
+```typescript
+// 在 utils.ts 中添加文本转义函数
+export const escapeHiccupText = (text: string): string => {
+  // 转义双引号
+  return text.replace(/"/g, '\\"');
+};
+
+// 在需要包裹引号时使用
+export const wrapTextForHiccup = (text: string): string => {
+  if (needsQuotes(text)) {
+    return `"${escapeHiccupText(text)}"`;
+  }
+  return text;
+};
+```
+
+#### 方案 2: CSS 文本处理优化
+```css
+/* 在 mindMapView.css 中添加文本溢出处理 */
+.ltt-mindmap-root .block-title-wrap {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 特殊字符显示优化 */
+.ltt-mindmap-root .block-title-wrap {
+  font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* 确保引号正确显示 */
+.ltt-mindmap-root .block-title-wrap {
+  quotes: '"' '"' "'" "'";
+}
+```
+
+#### 方案 3: 渲染时的防护处理
+```typescript
+// 在 BlockView 组件中添加内容防护
+const safeRenderContent = (content: string) => {
+  // 1. 移除或转义可能破坏布局的字符
+  let safeContent = content
+    .replace(/\u2028/g, '') // 移除行分隔符
+    .replace(/\u2029/g, '') // 移除段分隔符
+    .replace(/\u0000/g, ''); // 移除空字符
+  
+  return safeContent;
+};
+```
+
+### 实现步骤
+1. **添加转义函数** - 在 `utils.ts` 中添加 `escapeHiccupText` 和 `wrapTextForHiccup` 函数
+2. **更新 CSS** - 在 `mindMapView.css` 中添加文本处理样式
+3. **集成到渲染流程** - 在 BlockView 组件渲染前对内容进行安全处理
+4. **测试验证** - 测试包含各种引号的文本场景
+
+### 测试用例
+- ✅ 包含双引号的文本: `He said "Hello"`
+- ✅ 包含单引号的文本: `It's a test`
+- ✅ 混合引号的文本: `She said "It's mine"`
+- ✅ 嵌套引号的文本: `The "key" is 'value'`
+
+---
+
 ## 🔄 回滚计划
 
 如果优化导致问题：

@@ -106,10 +106,26 @@ html.dark .ltt-mindmap-root {
   color: var(--ltt-node-text) !important;
   font-weight: 600 !important;
   font-size: 15px !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
+  quotes: '"' '"' "'" "'";
 }
 
 .ltt-mindmap-root > .block-main-container .block-control-wrap {
-  display: none !important;
+  position: absolute;
+  left: -18px;
+  top: 3px;
+  opacity: 0.3;
+  pointer-events: auto;
+  z-index: 100;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-mindmap-root > .block-main-container:hover .block-control-wrap {
+  opacity: 0.7;
 }
 
 /* =========================================================
@@ -244,6 +260,12 @@ html.dark .ltt-mindmap-root {
   font-weight: 500 !important;
   font-size: 14px !important;
   line-height: 1.5 !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
+  quotes: '"' '"' "'" "'";
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
@@ -257,7 +279,16 @@ html.dark .ltt-mindmap-root {
 }
 
 .ltt-mindmap-root .block-control {
-  display: none !important;
+  position: absolute;
+  opacity: 0;
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  margin: 0 2px;
+}
+
+.ltt-mindmap-root .ls-block:hover .block-control {
+  opacity: 0.5;
 }
 
 /* =========================================================
@@ -358,6 +389,12 @@ html.dark .ltt-mindmap-root {
   font-weight: 400 !important;
   font-size: 13px !important;
   line-height: 1.5 !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
+  quotes: '"' '"' "'" "'";
 }
 
 /* =========================================================
@@ -457,6 +494,12 @@ html.dark .ltt-mindmap-root {
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 1.4 !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
+  quotes: '"' '"' "'" "'";
 }
 
 /* =========================================================

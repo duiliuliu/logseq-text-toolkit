@@ -217,8 +217,14 @@ export const parseNestedFormat = (text: string): string => {
       { regex: /`([^`]+)`/g, tag: 'code' },
     ];
     
-    // 递归处理从外到内
-    const recursiveProcess = (s: string): string => {
+    // 递归处理从外到内，添加深度限制防止栈溢出
+    const MAX_RECURSION_DEPTH = 5;
+    const recursiveProcess = (s: string, depth: number = 0): string => {
+      // 如果超过最大深度，直接返回原字符串
+      if (depth > MAX_RECURSION_DEPTH) {
+        return s;
+      }
+      
       // 如果没有格式标记，直接返回
       const hasAnyFormat = outerFormats.some(f => f.regex.test(s));
       if (!hasAnyFormat) {
@@ -230,8 +236,8 @@ export const parseNestedFormat = (text: string): string => {
       // 处理每个外层格式
       for (const { regex, tag } of outerFormats) {
         processed = processed.replace(regex, (_match, content) => {
-          // 递归处理内层内容
-          const innerContent = recursiveProcess(content);
+          // 递归处理内层内容，增加深度计数
+          const innerContent = recursiveProcess(content, depth + 1);
           
           // 判断是否需要引号
           // 规则：
@@ -286,6 +292,36 @@ export const needsQuotes = (text: string): boolean => {
   
   return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
          text.includes('"') || text.includes("'");
+};
+
+/**
+ * 转义 hiccup 文本中的特殊字符
+ * 主要是为了包含引号的文本能正确显示
+ */
+export const escapeHiccupText = (text: string): string => {
+  // 转义双引号
+  return text.replace(/"/g, '\\"');
+};
+
+/**
+ * 安全地包装文本用于 hiccup
+ * 自动检测是否需要引号，并正确转义特殊字符
+ */
+export const wrapTextForHiccup = (text: string): string => {
+  if (needsQuotes(text)) {
+    return `"${escapeHiccupText(text)}"`;
+  }
+  return text;
+};
+
+/**
+ * 安全渲染内容，移除可能破坏布局的特殊字符
+ */
+export const safeRenderContent = (content: string): string => {
+  return content
+    .replace(/\u2028/g, '') // 移除行分隔符
+    .replace(/\u2029/g, '') // 移除段分隔符
+    .replace(/\u0000/g, ''); // 移除空字符
 };
 
 /**

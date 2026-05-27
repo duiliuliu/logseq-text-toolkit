@@ -3,7 +3,7 @@
  * License: MIT
  */
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import './toolbar.css'
 import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
@@ -51,6 +51,15 @@ function Toolbar({
   const [mouseOverGroup, setMouseOverGroup] = useState<string | null>(null)
   const [moreExpanded, setMoreExpanded] = useState(false)
   const hoverTimerRef = useRef<number | null>(null)
+
+  // 清理定时器，防止内存泄漏
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current !== null) {
+        clearTimeout(hoverTimerRef.current)
+      }
+    }
+  }, [])
 
   const renderIcon = (icon: any) => {
     if (!icon) return '📝'
