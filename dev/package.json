@@ -6,8 +6,8 @@
   "license": "MIT",
   "main": "dist/index.html",
   "logseq": {
-    "id": "logseq-text-toolkit",
-    "title": "Text Toolkit",
+    "id": "logseq-text-toolkit-dev",
+    "title": "(Dev) Text Toolkit",
     "description": "A toolkit for text formatting and manipulation",
     "main": "dist/index.html",
     "icon": "./icon.png",

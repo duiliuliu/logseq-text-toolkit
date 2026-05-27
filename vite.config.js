@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import logseqDevPlugin from 'vite-plugin-logseq'
-import { writeFileSync, existsSync, readFileSync } from 'fs'
+import { writeFileSync, existsSync, readFileSync, copyFileSync } from 'fs'
 import { resolve } from 'path'
 
 const CSS_FILES_CONFIG = 'scripts/css-files.js'
@@ -59,6 +59,16 @@ export default defineConfig(({ mode }) => {
           const paths = extractExternalPaths()
           if (paths) {
             generateCSSFilesConfig(paths)
+          }
+
+          // 复制 package.json 到 dist 目录
+          const srcPackageJson = resolve(__dirname, 'package.json')
+          const destPackageJson = resolve(__dirname, 'dist', 'package.json')
+          if (existsSync(srcPackageJson)) {
+            copyFileSync(srcPackageJson, destPackageJson)
+            console.log('[vite-plugin-css-export] Copied package.json to dist/')
+          } else {
+            console.warn('[vite-plugin-css-export] package.json not found')
           }
         }
       }
