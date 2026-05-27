@@ -22205,7 +22205,7 @@ ${where}
     if (text.startsWith("[:") && text.endsWith("]")) {
       return false;
     }
-    return text.includes(" ") || text.includes(" ") || text.includes("　") || text.includes('"') || text.includes("'");
+    return text.includes('"') || text.includes("'");
   };
   const wrapWithQuotesIfNeeded = (prefix, suffix, text) => {
     if (text.startsWith("[:") && text.endsWith("]")) {
