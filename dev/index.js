@@ -5789,7 +5789,7 @@ ${nestingClauses}`;
   var dayjs_min = {exports: {}};
 
   (function (module, exports) {
-  	!function(t,e){module.exports=e();}(commonjsGlobal,(function(){var t=1e3,e=6e4,n=36e5,r="millisecond",i="second",s="minute",u="hour",a="day",o="week",c="month",f="quarter",h="year",d="date",l="Invalid Date",$=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,y=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,M={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),ordinal:function(t){var e=["th","st","nd","rd"],n=t%100;return "["+t+(e[(n-20)%10]||e[n]||e[0])+"]"}},m=function(t,e,n){var r=String(t);return !r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},v={s:m,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return (e<=0?"+":"-")+m(r,2,"0")+":"+m(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return -t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,c),s=n-i<0,u=e.clone().add(r+(s?-1:1),c);return +(-(r+(n-i)/(s?i-u:u-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return {M:c,y:h,w:o,d:a,D:d,h:u,m:s,s:i,ms:r,Q:f}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},g="en",D={};D[g]=M;var p="$isDayjsObject",S=function(t){return t instanceof _||!(!t||!t[p])},w=function t(e,n,r){var i;if(!e)return g;if("string"==typeof e){var s=e.toLowerCase();D[s]&&(i=s),n&&(D[s]=n,i=s);var u=e.split("-");if(!i&&u.length>1)return t(u[0])}else {var a=e.name;D[a]=e,i=a;}return !r&&i&&(g=i),i||!r&&g},O=function(t,e){if(S(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new _(n)},b=v;b.l=w,b.i=S,b.w=function(t,e){return O(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var _=function(){function M(t){this.$L=w(t.locale,null,true),this.parse(t),this.$x=this.$x||t.x||{},this[p]=true;}var m=M.prototype;return m.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(b.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match($);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.init();},m.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds();},m.$utils=function(){return b},m.isValid=function(){return !(this.$d.toString()===l)},m.isSame=function(t,e){var n=O(t);return this.startOf(e)<=n&&n<=this.endOf(e)},m.isAfter=function(t,e){return O(t)<this.startOf(e)},m.isBefore=function(t,e){return this.endOf(e)<O(t)},m.$g=function(t,e,n){return b.u(t)?this[e]:this.set(n,t)},m.unix=function(){return Math.floor(this.valueOf()/1e3)},m.valueOf=function(){return this.$d.getTime()},m.startOf=function(t,e){var n=this,r=!!b.u(e)||e,f=b.p(t),l=function(t,e){var i=b.w(n.$u?Date.UTC(n.$y,e,t):new Date(n.$y,e,t),n);return r?i:i.endOf(a)},$=function(t,e){return b.w(n.toDate()[t].apply(n.toDate("s"),(r?[0,0,0,0]:[23,59,59,999]).slice(e)),n)},y=this.$W,M=this.$M,m=this.$D,v="set"+(this.$u?"UTC":"");switch(f){case h:return r?l(1,0):l(31,11);case c:return r?l(1,M):l(0,M+1);case o:var g=this.$locale().weekStart||0,D=(y<g?y+7:y)-g;return l(r?m-D:m+(6-D),M);case a:case d:return $(v+"Hours",0);case u:return $(v+"Minutes",1);case s:return $(v+"Seconds",2);case i:return $(v+"Milliseconds",3);default:return this.clone()}},m.endOf=function(t){return this.startOf(t,false)},m.$set=function(t,e){var n,o=b.p(t),f="set"+(this.$u?"UTC":""),l=(n={},n[a]=f+"Date",n[d]=f+"Date",n[c]=f+"Month",n[h]=f+"FullYear",n[u]=f+"Hours",n[s]=f+"Minutes",n[i]=f+"Seconds",n[r]=f+"Milliseconds",n)[o],$=o===a?this.$D+(e-this.$W):e;if(o===c||o===h){var y=this.clone().set(d,1);y.$d[l]($),y.init(),this.$d=y.set(d,Math.min(this.$D,y.daysInMonth())).$d;}else l&&this.$d[l]($);return this.init(),this},m.set=function(t,e){return this.clone().$set(t,e)},m.get=function(t){return this[b.p(t)]()},m.add=function(r,f){var d,l=this;r=Number(r);var $=b.p(f),y=function(t){var e=O(l);return b.w(e.date(e.date()+Math.round(t*r)),l)};if($===c)return this.set(c,this.$M+r);if($===h)return this.set(h,this.$y+r);if($===a)return y(1);if($===o)return y(7);var M=(d={},d[s]=e,d[u]=n,d[i]=t,d)[$]||1,m=this.$d.getTime()+r*M;return b.w(m,this)},m.subtract=function(t,e){return this.add(-1*t,e)},m.format=function(t){var e=this,n=this.$locale();if(!this.isValid())return n.invalidDate||l;var r=t||"YYYY-MM-DDTHH:mm:ssZ",i=b.z(this),s=this.$H,u=this.$m,a=this.$M,o=n.weekdays,c=n.months,f=n.meridiem,h=function(t,n,i,s){return t&&(t[n]||t(e,r))||i[n].slice(0,s)},d=function(t){return b.s(s%12||12,t,"0")},$=f||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r};return r.replace(y,(function(t,r){return r||function(t){switch(t){case "YY":return String(e.$y).slice(-2);case "YYYY":return b.s(e.$y,4,"0");case "M":return a+1;case "MM":return b.s(a+1,2,"0");case "MMM":return h(n.monthsShort,a,c,3);case "MMMM":return h(c,a);case "D":return e.$D;case "DD":return b.s(e.$D,2,"0");case "d":return String(e.$W);case "dd":return h(n.weekdaysMin,e.$W,o,2);case "ddd":return h(n.weekdaysShort,e.$W,o,3);case "dddd":return o[e.$W];case "H":return String(s);case "HH":return b.s(s,2,"0");case "h":return d(1);case "hh":return d(2);case "a":return $(s,u,true);case "A":return $(s,u,false);case "m":return String(u);case "mm":return b.s(u,2,"0");case "s":return String(e.$s);case "ss":return b.s(e.$s,2,"0");case "SSS":return b.s(e.$ms,3,"0");case "Z":return i}return null}(t)||i.replace(":","")}))},m.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},m.diff=function(r,d,l){var $,y=this,M=b.p(d),m=O(r),v=(m.utcOffset()-this.utcOffset())*e,g=this-m,D=function(){return b.m(y,m)};switch(M){case h:$=D()/12;break;case c:$=D();break;case f:$=D()/3;break;case o:$=(g-v)/6048e5;break;case a:$=(g-v)/864e5;break;case u:$=g/n;break;case s:$=g/e;break;case i:$=g/t;break;default:$=g;}return l?$:b.a($)},m.daysInMonth=function(){return this.endOf(c).$D},m.$locale=function(){return D[this.$L]},m.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=w(t,e,true);return r&&(n.$L=r),n},m.clone=function(){return b.w(this.$d,this)},m.toDate=function(){return new Date(this.valueOf())},m.toJSON=function(){return this.isValid()?this.toISOString():null},m.toISOString=function(){return this.$d.toISOString()},m.toString=function(){return this.$d.toUTCString()},M}(),k=_.prototype;return O.prototype=k,[["$ms",r],["$s",i],["$m",s],["$H",u],["$W",a],["$M",c],["$y",h],["$D",d]].forEach((function(t){k[t[1]]=function(e){return this.$g(e,t[0],t[1])};})),O.extend=function(t,e){return t.$i||(t(e,_,O),t.$i=true),O},O.locale=w,O.isDayjs=S,O.unix=function(t){return O(1e3*t)},O.en=D[g],O.Ls=D,O.p={},O})); 
+  	!function(t,e){module.exports=e();}(commonjsGlobal,(function(){var t=1e3,e=6e4,n=36e5,r="millisecond",i="second",s="minute",u="hour",a="day",o="week",c="month",f="quarter",h="year",d="date",l="Invalid Date",$=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,y=/\[([^\]]+)]|YYYY|YY|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,M={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),ordinal:function(t){var e=["th","st","nd","rd"],n=t%100;return "["+t+(e[(n-20)%10]||e[n]||e[0])+"]"}},m=function(t,e,n){var r=String(t);return !r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},v={s:m,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return (e<=0?"+":"-")+m(r,2,"0")+":"+m(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return -t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,c),s=n-i<0,u=e.clone().add(r+(s?-1:1),c);return +(-(r+(n-i)/(s?i-u:u-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return {M:c,y:h,w:o,d:a,D:d,h:u,m:s,s:i,ms:r,Q:f}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},g="en",D={};D[g]=M;var p="$isDayjsObject",S=function(t){return t instanceof _||!(!t||!t[p])},w=function t(e,n,r){var i;if(!e)return g;if("string"==typeof e){var s=e.toLowerCase();D[s]&&(i=s),n&&(D[s]=n,i=s);var u=e.split("-");if(!i&&u.length>1)return t(u[0])}else {var a=e.name;D[a]=e,i=a;}return !r&&i&&(g=i),i||!r&&g},O=function(t,e){if(S(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new _(n)},b=v;b.l=w,b.i=S,b.w=function(t,e){return O(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var _=function(){function M(t){this.$L=w(t.locale,null,true),this.parse(t),this.$x=this.$x||t.x||{},this[p]=true;}var m=M.prototype;return m.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(b.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match($);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.init();},m.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds();},m.$utils=function(){return b},m.isValid=function(){return !(this.$d.toString()===l)},m.isSame=function(t,e){var n=O(t);return this.startOf(e)<=n&&n<=this.endOf(e)},m.isAfter=function(t,e){return O(t)<this.startOf(e)},m.isBefore=function(t,e){return this.endOf(e)<O(t)},m.$g=function(t,e,n){return b.u(t)?this[e]:this.set(n,t)},m.unix=function(){return Math.floor(this.valueOf()/1e3)},m.valueOf=function(){return this.$d.getTime()},m.startOf=function(t,e){var n=this,r=!!b.u(e)||e,f=b.p(t),l=function(t,e){var i=b.w(n.$u?Date.UTC(n.$y,e,t):new Date(n.$y,e,t),n);return r?i:i.endOf(a)},$=function(t,e){return b.w(n.toDate()[t].apply(n.toDate("s"),(r?[0,0,0,0]:[23,59,59,999]).slice(e)),n)},y=this.$W,M=this.$M,m=this.$D,v="set"+(this.$u?"UTC":"");switch(f){case h:return r?l(1,0):l(31,11);case c:return r?l(1,M):l(0,M+1);case o:var g=this.$locale().weekStart||0,D=(y<g?y+7:y)-g;return l(r?m-D:m+(6-D),M);case a:case d:return $(v+"Hours",0);case u:return $(v+"Minutes",1);case s:return $(v+"Seconds",2);case i:return $(v+"Milliseconds",3);default:return this.clone()}},m.endOf=function(t){return this.startOf(t,false)},m.$set=function(t,e){var n,o=b.p(t),f="set"+(this.$u?"UTC":""),l=(n={},n[a]=f+"Date",n[d]=f+"Date",n[c]=f+"Month",n[h]=f+"FullYear",n[u]=f+"Hours",n[s]=f+"Minutes",n[i]=f+"Seconds",n[r]=f+"Milliseconds",n)[o],$=o===a?this.$D+(e-this.$W):e;if(o===c||o===h){var y=this.clone().set(d,1);y.$d[l]($),y.init(),this.$d=y.set(d,Math.min(this.$D,y.daysInMonth())).$d;}else l&&this.$d[l]($);return this.init(),this},m.set=function(t,e){return this.clone().$set(t,e)},m.get=function(t){return this[b.p(t)]()},m.add=function(r,f){var d,l=this;r=Number(r);var $=b.p(f),y=function(t){var e=O(l);return b.w(e.date(e.date()+Math.round(t*r)),l)};if($===c)return this.set(c,this.$M+r);if($===h)return this.set(h,this.$y+r);if($===a)return y(1);if($===o)return y(7);var M=(d={},d[s]=e,d[u]=n,d[i]=t,d)[$]||1,m=this.$d.getTime()+r*M;return b.w(m,this)},m.subtract=function(t,e){return this.add(-1*t,e)},m.format=function(t){var e=this,n=this.$locale();if(!this.isValid())return n.invalidDate||l;var r=t||"YYYY-MM-DDTHH:mm:ssZ",i=b.z(this),s=this.$H,u=this.$m,a=this.$M,o=n.weekdays,c=n.months,f=n.meridiem,h=function(t,n,i,s){return t&&(t[n]||t(e,r))||i[n].slice(0,s)},d=function(t){return b.s(s%12||12,t,"0")},$=f||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r};return r.replace(y,(function(t,r){return r||function(t){switch(t){case "YY":return String(e.$y).slice(-2);case "YYYY":return b.s(e.$y,4,"0");case "M":return a+1;case "MM":return b.s(a+1,2,"0");case "MMM":return h(n.monthsShort,a,c,3);case "MMMM":return h(c,a);case "D":return e.$D;case "DD":return b.s(e.$D,2,"0");case "d":return String(e.$W);case "dd":return h(n.weekdaysMin,e.$W,o,2);case "ddd":return h(n.weekdaysShort,e.$W,o,3);case "dddd":return o[e.$W];case "H":return String(s);case "HH":return b.s(s,2,"0");case "h":return d(1);case "hh":return d(2);case "a":return $(s,u,true);case "A":return $(s,u,false);case "m":return String(u);case "mm":return b.s(u,2,"0");case "s":return String(e.$s);case "ss":return b.s(e.$s,2,"0");case "SSS":return b.s(e.$ms,3,"0");case "Z":return i}return null}(t)||i.replace(":","")}))},m.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},m.diff=function(r,d,l){var $,y=this,M=b.p(d),m=O(r),v=(m.utcOffset()-this.utcOffset())*e,g=this-m,D=function(){return b.m(y,m)};switch(M){case h:$=D()/12;break;case c:$=D();break;case f:$=D()/3;break;case o:$=(g-v)/6048e5;break;case a:$=(g-v)/864e5;break;case u:$=g/n;break;case s:$=g/e;break;case i:$=g/t;break;default:$=g;}return l?$:b.a($)},m.daysInMonth=function(){return this.endOf(c).$D},m.$locale=function(){return D[this.$L]},m.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=w(t,e,true);return r&&(n.$L=r),n},m.clone=function(){return b.w(this.$d,this)},m.toDate=function(){return new Date(this.valueOf())},m.toJSON=function(){return this.isValid()?this.toISOString():null},m.toISOString=function(){return this.$d.toISOString()},m.toString=function(){return this.$d.toUTCString()},M}(),Y=_.prototype;return O.prototype=Y,[["$ms",r],["$s",i],["$m",s],["$H",u],["$W",a],["$M",c],["$y",h],["$D",d]].forEach((function(t){Y[t[1]]=function(e){return this.$g(e,t[0],t[1])};})),O.extend=function(t,e){return t.$i||(t(e,_,O),t.$i=true),O},O.locale=w,O.isDayjs=S,O.unix=function(t){return O(1e3*t)},O.en=D[g],O.Ls=D,O.p={},O})); 
   } (dayjs_min));
 
   var dayjs_minExports = dayjs_min.exports;
@@ -9168,9 +9168,7 @@ ${where}
    */
   const isNumericalString = (v) => /^-?(?:\d+(?:\.\d+)?|\.\d+)$/u.test(v);
 
-  function isObject(value) {
-      return typeof value === "object" && value !== null;
-  }
+  const isObject = (value) => typeof value === "object" && value !== null;
 
   /**
    * Check if the value is a zero value string like "0px" or "0%"
@@ -9197,8 +9195,7 @@ ${where}
    * @param  {...functions} transformers
    * @return {function}
    */
-  const combineFunctions = (a, b) => (v) => b(a(v));
-  const pipe = (...transformers) => transformers.reduce(combineFunctions);
+  const pipe = (...transformers) => transformers.reduce((a, b) => (v) => b(a(v)));
 
   /*
     Progress within given range
@@ -9206,16 +9203,11 @@ ${where}
     Given a lower limit and an upper limit, we return the progress
     (expressed as a number 0-1) represented by the given value, and
     limit that progress to within 0-1.
-
-    @param [number]: Lower limit
-    @param [number]: Upper limit
-    @param [number]: Value to find progress within given range
-    @return [number]: Progress of value within range as expressed 0-1
   */
   /*#__NO_SIDE_EFFECTS__*/
   const progress = (from, to, value) => {
-      const toFromDifference = to - from;
-      return toFromDifference === 0 ? 1 : (value - from) / toFromDifference;
+      const range = to - from;
+      return range ? (value - from) / range : 1;
   };
 
   class SubscriptionManager {
@@ -9268,13 +9260,9 @@ ${where}
 
   /*
     Convert velocity into velocity per second
-
-    @param [number]: Unit per frame
-    @param [number]: Frame duration in ms
   */
-  function velocityPerSecond(velocity, frameDuration) {
-      return frameDuration ? velocity * (1000 / frameDuration) : 0;
-  }
+  /*#__NO_SIDE_EFFECTS__*/
+  const velocityPerSecond = (velocity, frameDuration) => frameDuration ? velocity * (1000 / frameDuration) : 0;
 
   /*
     Bezier function generator
@@ -9315,6 +9303,7 @@ ${where}
           ++i < subdivisionMaxIterations);
       return currentT;
   }
+  /*#__NO_SIDE_EFFECTS__*/
   function cubicBezier(mX1, mY1, mX2, mY2) {
       // If this is a linear gradient, return linear easing
       if (mX1 === mY1 && mX2 === mY2)
@@ -9326,10 +9315,12 @@ ${where}
 
   // Accepts an easing function and returns a new one that outputs mirrored values for
   // the second half of the animation. Turns easeIn into easeInOut.
+  /*#__NO_SIDE_EFFECTS__*/
   const mirrorEasing = (easing) => (p) => p <= 0.5 ? easing(2 * p) / 2 : (2 - easing(2 * (1 - p))) / 2;
 
   // Accepts an easing function and returns a new one that outputs reversed values.
   // Turns easeIn into easeOut.
+  /*#__NO_SIDE_EFFECTS__*/
   const reverseEasing = (easing) => (p) => 1 - easing(1 - p);
 
   const backOut = /*@__PURE__*/ cubicBezier(0.33, 1.53, 0.69, 0.99);
@@ -9350,10 +9341,12 @@ ${where}
   const easeOut = /*@__PURE__*/ cubicBezier(0, 0, 0.58, 1);
   const easeInOut = /*@__PURE__*/ cubicBezier(0.42, 0, 0.58, 1);
 
+  /*#__NO_SIDE_EFFECTS__*/
   const isEasingArray = (ease) => {
       return Array.isArray(ease) && typeof ease[0] !== "number";
   };
 
+  /*#__NO_SIDE_EFFECTS__*/
   const isBezierDefinition = (easing) => Array.isArray(easing) && typeof easing[0] === "number";
 
   const easingLookup = {
@@ -11117,8 +11110,15 @@ ${where}
   ];
   /**
    * A quick lookup for transform props.
+   *
+   * `pathRotation` is a transform for routing purposes (skipped from raw
+   * style application, wired to the transform composite, flags transform
+   * dirty) but is intentionally NOT in `transformPropOrder` — it is
+   * composed onto `rotate` at the build sites, not serialized in its own
+   * slot, and must stay out of the order-array consumers (parse-transform,
+   * unit-conversion, keys-position).
    */
-  const transformProps = /*@__PURE__*/ (() => new Set(transformPropOrder))();
+  const transformProps = /*@__PURE__*/ (() => new Set([...transformPropOrder, "pathRotation"]))();
 
   const isNumOrPxType = (v) => v === number || v === px;
   const transformKeys = new Set(["x", "y", "z"]);
@@ -12013,268 +12013,6 @@ ${where}
               : maxStaggerDuration - index * staggerChildren;
   }
 
-  /**
-   * Parse Framer's special CSS variable format into a CSS token and a fallback.
-   *
-   * ```
-   * `var(--foo, #fff)` => [`--foo`, '#fff']
-   * ```
-   *
-   * @param current
-   */
-  const splitCSSVariableRegex = 
-  // eslint-disable-next-line redos-detector/no-unsafe-regex -- false positive, as it can match a lot of words
-  /^var\(--(?:([\w-]+)|([\w-]+), ?([a-zA-Z\d ()%#.,-]+))\)/u;
-  function parseCSSVariable(current) {
-      const match = splitCSSVariableRegex.exec(current);
-      if (!match)
-          return [,];
-      const [, token1, token2, fallback] = match;
-      return [`--${token1 ?? token2}`, fallback];
-  }
-  function getVariableValue(current, element, depth = 1) {
-      const [token, fallback] = parseCSSVariable(current);
-      // No CSS variable detected
-      if (!token)
-          return;
-      // Attempt to read this CSS variable off the element
-      const resolved = window.getComputedStyle(element).getPropertyValue(token);
-      if (resolved) {
-          const trimmed = resolved.trim();
-          return isNumericalString(trimmed) ? parseFloat(trimmed) : trimmed;
-      }
-      return isCSSVariableToken(fallback)
-          ? getVariableValue(fallback, element, depth + 1)
-          : fallback;
-  }
-
-  const underDampedSpring = {
-      type: "spring",
-      stiffness: 500,
-      damping: 25,
-      restSpeed: 10,
-  };
-  const criticallyDampedSpring = (target) => ({
-      type: "spring",
-      stiffness: 550,
-      damping: target === 0 ? 2 * Math.sqrt(550) : 30,
-      restSpeed: 10,
-  });
-  const keyframesTransition = {
-      type: "keyframes",
-      duration: 0.8,
-  };
-  /**
-   * Default easing curve is a slightly shallower version of
-   * the default browser easing curve.
-   */
-  const ease = {
-      type: "keyframes",
-      ease: [0.25, 0.1, 0.35, 1],
-      duration: 0.3,
-  };
-  const getDefaultTransition = (valueKey, { keyframes }) => {
-      if (keyframes.length > 2) {
-          return keyframesTransition;
-      }
-      else if (transformProps.has(valueKey)) {
-          return valueKey.startsWith("scale")
-              ? criticallyDampedSpring(keyframes[1])
-              : underDampedSpring;
-      }
-      return ease;
-  };
-
-  /**
-   * If `transition` has `inherit: true`, shallow-merge it with
-   * `parentTransition` (child keys win) and strip the `inherit` key.
-   * Otherwise return `transition` unchanged.
-   */
-  function resolveTransition(transition, parentTransition) {
-      if (transition?.inherit && parentTransition) {
-          const { inherit: _, ...rest } = transition;
-          return { ...parentTransition, ...rest };
-      }
-      return transition;
-  }
-
-  function getValueTransition(transition, key) {
-      const valueTransition = transition?.[key] ??
-          transition?.["default"] ??
-          transition;
-      if (valueTransition !== transition) {
-          return resolveTransition(valueTransition, transition);
-      }
-      return valueTransition;
-  }
-
-  const orchestrationKeys = new Set([
-      "when",
-      "delay",
-      "delayChildren",
-      "staggerChildren",
-      "staggerDirection",
-      "repeat",
-      "repeatType",
-      "repeatDelay",
-      "from",
-      "elapsed",
-  ]);
-  /**
-   * Decide whether a transition is defined on a given Transition.
-   * This filters out orchestration options and returns true
-   * if any options are left.
-   */
-  function isTransitionDefined(transition) {
-      for (const key in transition) {
-          if (!orchestrationKeys.has(key))
-              return true;
-      }
-      return false;
-  }
-
-  const animateMotionValue = (name, value, target, transition = {}, element, isHandoff) => (onComplete) => {
-      const valueTransition = getValueTransition(transition, name) || {};
-      /**
-       * Most transition values are currently completely overwritten by value-specific
-       * transitions. In the future it'd be nicer to blend these transitions. But for now
-       * delay actually does inherit from the root transition if not value-specific.
-       */
-      const delay = valueTransition.delay || transition.delay || 0;
-      /**
-       * Elapsed isn't a public transition option but can be passed through from
-       * optimized appear effects in milliseconds.
-       */
-      let { elapsed = 0 } = transition;
-      elapsed = elapsed - secondsToMilliseconds(delay);
-      const options = {
-          keyframes: Array.isArray(target) ? target : [null, target],
-          ease: "easeOut",
-          velocity: value.getVelocity(),
-          ...valueTransition,
-          delay: -elapsed,
-          onUpdate: (v) => {
-              value.set(v);
-              valueTransition.onUpdate && valueTransition.onUpdate(v);
-          },
-          onComplete: () => {
-              onComplete();
-              valueTransition.onComplete && valueTransition.onComplete();
-          },
-          name,
-          motionValue: value,
-          element: isHandoff ? undefined : element,
-      };
-      /**
-       * If there's no transition defined for this value, we can generate
-       * unique transition settings for this value.
-       */
-      if (!isTransitionDefined(valueTransition)) {
-          Object.assign(options, getDefaultTransition(name, options));
-      }
-      /**
-       * Both WAAPI and our internal animation functions use durations
-       * as defined by milliseconds, while our external API defines them
-       * as seconds.
-       */
-      options.duration && (options.duration = secondsToMilliseconds(options.duration));
-      options.repeatDelay && (options.repeatDelay = secondsToMilliseconds(options.repeatDelay));
-      /**
-       * Support deprecated way to set initial value. Prefer keyframe syntax.
-       */
-      if (options.from !== undefined) {
-          options.keyframes[0] = options.from;
-      }
-      let shouldSkip = false;
-      if (options.type === false ||
-          (options.duration === 0 && !options.repeatDelay)) {
-          makeAnimationInstant(options);
-          if (options.delay === 0) {
-              shouldSkip = true;
-          }
-      }
-      if (MotionGlobalConfig.instantAnimations ||
-          MotionGlobalConfig.skipAnimations ||
-          element?.shouldSkipAnimations) {
-          shouldSkip = true;
-          makeAnimationInstant(options);
-          options.delay = 0;
-      }
-      /**
-       * If the transition type or easing has been explicitly set by the user
-       * then we don't want to allow flattening the animation.
-       */
-      options.allowFlatten = !valueTransition.type && !valueTransition.ease;
-      /**
-       * If we can or must skip creating the animation, and apply only
-       * the final keyframe, do so. We also check once keyframes are resolved but
-       * this early check prevents the need to create an animation at all.
-       */
-      if (shouldSkip && !isHandoff && value.get() !== undefined) {
-          const finalKeyframe = getFinalKeyframe(options.keyframes, valueTransition);
-          if (finalKeyframe !== undefined) {
-              frame.update(() => {
-                  options.onUpdate(finalKeyframe);
-                  options.onComplete();
-              });
-              return;
-          }
-      }
-      return valueTransition.isSync
-          ? new JSAnimation(options)
-          : new AsyncMotionValueAnimation(options);
-  };
-
-  function getValueState(visualElement) {
-      const state = [{}, {}];
-      visualElement?.values.forEach((value, key) => {
-          state[0][key] = value.get();
-          state[1][key] = value.getVelocity();
-      });
-      return state;
-  }
-  function resolveVariantFromProps(props, definition, custom, visualElement) {
-      /**
-       * If the variant definition is a function, resolve.
-       */
-      if (typeof definition === "function") {
-          const [current, velocity] = getValueState(visualElement);
-          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
-      }
-      /**
-       * If the variant definition is a variant label, or
-       * the function returned a variant label, resolve.
-       */
-      if (typeof definition === "string") {
-          definition = props.variants && props.variants[definition];
-      }
-      /**
-       * At this point we've resolved both functions and variant labels,
-       * but the resolved variant label might itself have been a function.
-       * If so, resolve. This can only have returned a valid target object.
-       */
-      if (typeof definition === "function") {
-          const [current, velocity] = getValueState(visualElement);
-          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
-      }
-      return definition;
-  }
-
-  function resolveVariant(visualElement, definition, custom) {
-      const props = visualElement.getProps();
-      return resolveVariantFromProps(props, definition, custom !== undefined ? custom : props.custom, visualElement);
-  }
-
-  const positionalKeys = new Set([
-      "width",
-      "height",
-      "top",
-      "left",
-      "right",
-      "bottom",
-      ...transformPropOrder,
-  ]);
-
   const MAX_VELOCITY_DELTA = 30;
   const isFloat = (value) => {
     return !isNaN(parseFloat(value));
@@ -12550,6 +12288,269 @@ ${where}
     return new MotionValue(init, options);
   }
 
+  /**
+   * If `transition` has `inherit: true`, shallow-merge it with
+   * `parentTransition` (child keys win) and strip the `inherit` key.
+   * Otherwise return `transition` unchanged.
+   */
+  function resolveTransition(transition, parentTransition) {
+      if (transition?.inherit && parentTransition) {
+          const { inherit: _, ...rest } = transition;
+          return { ...parentTransition, ...rest };
+      }
+      return transition;
+  }
+
+  function getValueTransition(transition, key) {
+      const valueTransition = transition?.[key] ??
+          transition?.["default"] ??
+          transition;
+      if (valueTransition !== transition) {
+          return resolveTransition(valueTransition, transition);
+      }
+      return valueTransition;
+  }
+
+  const underDampedSpring = {
+      type: "spring",
+      stiffness: 500,
+      damping: 25,
+      restSpeed: 10,
+  };
+  const criticallyDampedSpring = (target) => ({
+      type: "spring",
+      stiffness: 550,
+      damping: target === 0 ? 2 * Math.sqrt(550) : 30,
+      restSpeed: 10,
+  });
+  const keyframesTransition = {
+      type: "keyframes",
+      duration: 0.8,
+  };
+  /**
+   * Default easing curve is a slightly shallower version of
+   * the default browser easing curve.
+   */
+  const ease = {
+      type: "keyframes",
+      ease: [0.25, 0.1, 0.35, 1],
+      duration: 0.3,
+  };
+  const getDefaultTransition = (valueKey, { keyframes }) => {
+      if (keyframes.length > 2) {
+          return keyframesTransition;
+      }
+      else if (transformProps.has(valueKey)) {
+          return valueKey.startsWith("scale")
+              ? criticallyDampedSpring(keyframes[1])
+              : underDampedSpring;
+      }
+      return ease;
+  };
+
+  const orchestrationKeys = new Set([
+      "when",
+      "delay",
+      "delayChildren",
+      "staggerChildren",
+      "staggerDirection",
+      "repeat",
+      "repeatType",
+      "repeatDelay",
+      "from",
+      "elapsed",
+  ]);
+  /**
+   * Decide whether a transition is defined on a given Transition.
+   * This filters out orchestration options and returns true
+   * if any options are left.
+   */
+  function isTransitionDefined(transition) {
+      for (const key in transition) {
+          if (!orchestrationKeys.has(key))
+              return true;
+      }
+      return false;
+  }
+
+  const animateMotionValue = (name, value, target, transition = {}, element, isHandoff) => (onComplete) => {
+      const valueTransition = getValueTransition(transition, name) || {};
+      /**
+       * Most transition values are currently completely overwritten by value-specific
+       * transitions. In the future it'd be nicer to blend these transitions. But for now
+       * delay actually does inherit from the root transition if not value-specific.
+       */
+      const delay = valueTransition.delay || transition.delay || 0;
+      /**
+       * Elapsed isn't a public transition option but can be passed through from
+       * optimized appear effects in milliseconds.
+       */
+      let { elapsed = 0 } = transition;
+      elapsed = elapsed - secondsToMilliseconds(delay);
+      const options = {
+          keyframes: Array.isArray(target) ? target : [null, target],
+          ease: "easeOut",
+          velocity: value.getVelocity(),
+          ...valueTransition,
+          delay: -elapsed,
+          onUpdate: (v) => {
+              value.set(v);
+              valueTransition.onUpdate && valueTransition.onUpdate(v);
+          },
+          onComplete: () => {
+              onComplete();
+              valueTransition.onComplete && valueTransition.onComplete();
+          },
+          name,
+          motionValue: value,
+          element: isHandoff ? undefined : element,
+      };
+      /**
+       * If there's no transition defined for this value, we can generate
+       * unique transition settings for this value.
+       */
+      if (!isTransitionDefined(valueTransition)) {
+          Object.assign(options, getDefaultTransition(name, options));
+      }
+      /**
+       * Both WAAPI and our internal animation functions use durations
+       * as defined by milliseconds, while our external API defines them
+       * as seconds.
+       */
+      options.duration && (options.duration = secondsToMilliseconds(options.duration));
+      options.repeatDelay && (options.repeatDelay = secondsToMilliseconds(options.repeatDelay));
+      /**
+       * Support deprecated way to set initial value. Prefer keyframe syntax.
+       */
+      if (options.from !== undefined) {
+          options.keyframes[0] = options.from;
+      }
+      let shouldSkip = false;
+      if (options.type === false ||
+          (options.duration === 0 && !options.repeatDelay)) {
+          makeAnimationInstant(options);
+          if (options.delay === 0) {
+              shouldSkip = true;
+          }
+      }
+      if (MotionGlobalConfig.instantAnimations ||
+          MotionGlobalConfig.skipAnimations ||
+          element?.shouldSkipAnimations ||
+          valueTransition.skipAnimations) {
+          shouldSkip = true;
+          makeAnimationInstant(options);
+          options.delay = 0;
+      }
+      /**
+       * If the transition type or easing has been explicitly set by the user
+       * then we don't want to allow flattening the animation.
+       */
+      options.allowFlatten = !valueTransition.type && !valueTransition.ease;
+      /**
+       * If we can or must skip creating the animation, and apply only
+       * the final keyframe, do so. We also check once keyframes are resolved but
+       * this early check prevents the need to create an animation at all.
+       */
+      if (shouldSkip && !isHandoff && value.get() !== undefined) {
+          const finalKeyframe = getFinalKeyframe(options.keyframes, valueTransition);
+          if (finalKeyframe !== undefined) {
+              frame.update(() => {
+                  options.onUpdate(finalKeyframe);
+                  options.onComplete();
+              });
+              return;
+          }
+      }
+      return valueTransition.isSync
+          ? new JSAnimation(options)
+          : new AsyncMotionValueAnimation(options);
+  };
+
+  /**
+   * Parse Framer's special CSS variable format into a CSS token and a fallback.
+   *
+   * ```
+   * `var(--foo, #fff)` => [`--foo`, '#fff']
+   * ```
+   *
+   * @param current
+   */
+  const splitCSSVariableRegex = 
+  // eslint-disable-next-line redos-detector/no-unsafe-regex -- false positive, as it can match a lot of words
+  /^var\(--(?:([\w-]+)|([\w-]+), ?([a-zA-Z\d ()%#.,-]+))\)/u;
+  function parseCSSVariable(current) {
+      const match = splitCSSVariableRegex.exec(current);
+      if (!match)
+          return [,];
+      const [, token1, token2, fallback] = match;
+      return [`--${token1 ?? token2}`, fallback];
+  }
+  function getVariableValue(current, element, depth = 1) {
+      const [token, fallback] = parseCSSVariable(current);
+      // No CSS variable detected
+      if (!token)
+          return;
+      // Attempt to read this CSS variable off the element
+      const resolved = window.getComputedStyle(element).getPropertyValue(token);
+      if (resolved) {
+          const trimmed = resolved.trim();
+          return isNumericalString(trimmed) ? parseFloat(trimmed) : trimmed;
+      }
+      return isCSSVariableToken(fallback)
+          ? getVariableValue(fallback, element, depth + 1)
+          : fallback;
+  }
+
+  function getValueState(visualElement) {
+      const state = [{}, {}];
+      visualElement?.values.forEach((value, key) => {
+          state[0][key] = value.get();
+          state[1][key] = value.getVelocity();
+      });
+      return state;
+  }
+  function resolveVariantFromProps(props, definition, custom, visualElement) {
+      /**
+       * If the variant definition is a function, resolve.
+       */
+      if (typeof definition === "function") {
+          const [current, velocity] = getValueState(visualElement);
+          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
+      }
+      /**
+       * If the variant definition is a variant label, or
+       * the function returned a variant label, resolve.
+       */
+      if (typeof definition === "string") {
+          definition = props.variants && props.variants[definition];
+      }
+      /**
+       * At this point we've resolved both functions and variant labels,
+       * but the resolved variant label might itself have been a function.
+       * If so, resolve. This can only have returned a valid target object.
+       */
+      if (typeof definition === "function") {
+          const [current, velocity] = getValueState(visualElement);
+          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
+      }
+      return definition;
+  }
+
+  function resolveVariant(visualElement, definition, custom) {
+      const props = visualElement.getProps();
+      return resolveVariantFromProps(props, definition, custom !== undefined ? custom : props.custom, visualElement);
+  }
+
+  const positionalKeys = new Set([
+      "width",
+      "height",
+      "top",
+      "left",
+      "right",
+      "bottom",
+      ...transformPropOrder,
+  ]);
+
   const isKeyframesTarget = (v) => {
       return Array.isArray(v);
   };
@@ -12631,12 +12632,18 @@ ${where}
           ? resolveTransition(transition, defaultTransition)
           : defaultTransition;
       const reduceMotion = transition?.reduceMotion;
+      const skipAnimations = transition?.skipAnimations;
       if (transitionOverride)
           transition = transitionOverride;
       const animations = [];
       const animationTypeState = type &&
           visualElement.animationState &&
           visualElement.animationState.getState()[type];
+      const path = transition?.path;
+      if (path) {
+          // path mutates `target` to claim x/y; loop below skips them.
+          path.animateVisualElement(visualElement, target, transition, delay, animations);
+      }
       for (const key in target) {
           const value = visualElement.getValue(key, visualElement.latestValues[key] ?? null);
           const valueTarget = target[key];
@@ -12649,6 +12656,8 @@ ${where}
               delay,
               ...getValueTransition(transition || {}, key),
           };
+          if (skipAnimations)
+              valueTransition.skipAnimations = true;
           /**
            * If the value is already at the defined target, skip the animation.
            * We still re-assert the value via frame.update to take precedence
@@ -12853,6 +12862,12 @@ ${where}
 
   const transformValueTypes = {
       rotate: degrees,
+      /**
+       * Internal channel for `transition.path` orientToPath. Composed onto
+       * `rotate` at the transform-build sites so the user's `rotate` is
+       * never read or overwritten. Not part of `transformPropOrder`.
+       */
+      pathRotation: degrees,
       rotateX: degrees,
       rotateY: degrees,
       rotateZ: degrees,
@@ -13893,8 +13908,6 @@ ${where}
         removeOnChange();
         if (removeSyncCheck)
           removeSyncCheck();
-        if (value.owner)
-          value.stop();
       });
     }
     sortNodePosition(other) {
@@ -14390,6 +14403,14 @@ ${where}
                   transform[key] = valueAsType;
               }
           }
+      }
+      // `pathRotation` composes onto `rotate` as a separate additive term so
+      // the user's `rotate` is never clobbered. Deliberately not a slot in
+      // `transformPropOrder`.
+      const pathRotation = latestValues.pathRotation;
+      if (pathRotation) {
+          transformIsDefault = false;
+          transformString += `rotate(${getValueAsType(pathRotation, numberValueTypes.pathRotation)}) `;
       }
       transformString = transformString.trim();
       // If we have a custom `transform` template, pass our transform values and
@@ -15048,7 +15069,8 @@ ${where}
                    */
                   let valueHasChanged = false;
                   if (isKeyframesTarget(next) && isKeyframesTarget(prev)) {
-                      valueHasChanged = !shallowCompare(next, prev);
+                      valueHasChanged =
+                          !shallowCompare(next, prev) || variantDidChange;
                   }
                   else {
                       valueHasChanged = next !== prev;
@@ -15407,11 +15429,14 @@ ${where}
           transform += `scale(${1 / treeScale.x}, ${1 / treeScale.y}) `;
       }
       if (latestTransform) {
-          const { transformPerspective, rotate, rotateX, rotateY, skewX, skewY } = latestTransform;
+          const { transformPerspective, rotate, pathRotation, rotateX, rotateY, skewX, skewY, } = latestTransform;
           if (transformPerspective)
               transform = `perspective(${transformPerspective}px) ${transform}`;
           if (rotate)
               transform += `rotate(${rotate}deg) `;
+          // Additive `rotate()` so user `rotate` isn't clobbered.
+          if (pathRotation)
+              transform += `rotate(${pathRotation}deg) `;
           if (rotateX)
               transform += `rotateX(${rotateX}deg) `;
           if (rotateY)
@@ -15945,7 +15970,8 @@ ${where}
                            * Set animation origin after starting animation to avoid layout jump
                            * caused by stopping previous layout animation
                            */
-                          this.setAnimationOrigin(delta, hasOnlyRelativeTargetChanged);
+                          this.setAnimationOrigin(delta, hasOnlyRelativeTargetChanged, animationOptions
+                              .path);
                       }
                       else {
                           /**
@@ -16649,7 +16675,7 @@ ${where}
               this.projectionDelta = createDelta();
               this.projectionDeltaWithTransform = createDelta();
           }
-          setAnimationOrigin(delta, hasOnlyRelativeTargetChanged = false) {
+          setAnimationOrigin(delta, hasOnlyRelativeTargetChanged = false, pathFn) {
               const snapshot = this.snapshot;
               const snapshotLatestValues = snapshot ? snapshot.latestValues : {};
               const mixedValues = { ...this.latestValues };
@@ -16671,10 +16697,26 @@ ${where}
                   !this.path.some(hasOpacityCrossfade));
               this.animationProgress = 0;
               let prevRelativeTarget;
+              // The path decides whether the layout shift is worth curving
+              // (distance floor) and resolves the interpolator from the delta.
+              const interpolate = pathFn?.interpolateProjection(delta);
               this.mixTargetDelta = (latest) => {
                   const progress = latest / 1000;
-                  mixAxisDelta(targetDelta.x, delta.x, progress);
-                  mixAxisDelta(targetDelta.y, delta.y, progress);
+                  const point = interpolate?.(progress);
+                  if (point) {
+                      targetDelta.x.translate = point.x;
+                      targetDelta.x.scale = mixNumber$1(delta.x.scale, 1, progress);
+                      targetDelta.x.origin = delta.x.origin;
+                      targetDelta.x.originPoint = delta.x.originPoint;
+                      targetDelta.y.translate = point.y;
+                      targetDelta.y.scale = mixNumber$1(delta.y.scale, 1, progress);
+                      targetDelta.y.origin = delta.y.origin;
+                      targetDelta.y.originPoint = delta.y.originPoint;
+                  }
+                  else {
+                      mixAxisDeltaLinear(targetDelta.x, delta.x, progress);
+                      mixAxisDeltaLinear(targetDelta.y, delta.y, progress);
+                  }
                   this.setTargetDelta(targetDelta);
                   if (this.relativeTarget &&
                       this.relativeTargetOrigin &&
@@ -16698,6 +16740,13 @@ ${where}
                   if (isSharedLayoutAnimation) {
                       this.animationValues = mixedValues;
                       mixValues(mixedValues, snapshotLatestValues, this.latestValues, progress, shouldCrossfadeOpacity, isOnlyMember);
+                  }
+                  if (point && point.rotate !== undefined) {
+                      // Dedicated `pathRotation` channel, not `rotate`, so an
+                      // animating `rotate` is composed with, never clobbered.
+                      if (!this.animationValues)
+                          this.animationValues = mixedValues;
+                      this.animationValues.pathRotation = point.rotate;
                   }
                   this.root.scheduleUpdateProjection();
                   this.scheduleRender();
@@ -17210,7 +17259,7 @@ ${where}
   function removeLeadSnapshots(stack) {
       stack.removeLeadSnapshot();
   }
-  function mixAxisDelta(output, delta, p) {
+  function mixAxisDeltaLinear(output, delta, p) {
       output.translate = mixNumber$1(delta.translate, 0, p);
       output.scale = mixNumber$1(delta.scale, 1, p);
       output.origin = delta.origin;
@@ -17381,6 +17430,7 @@ ${where}
               size.left = element.offsetLeft;
               size.right = parentWidth - size.width - size.left;
               size.bottom = parentHeight - size.height - size.top;
+              size.direction = computedStyle.direction;
           }
           return null;
       }
@@ -17402,6 +17452,7 @@ ${where}
           left: 0,
           right: 0,
           bottom: 0,
+          direction: "ltr",
       });
       const { nonce } = reactExports.useContext(MotionConfigContext);
       /**
@@ -17421,10 +17472,13 @@ ${where}
        * styles set via the style prop.
        */
       reactExports.useInsertionEffect(() => {
-          const { width, height, top, left, right, bottom } = size.current;
+          const { width, height, top, left, right, bottom, direction } = size.current;
           if (isPresent || pop === false || !ref.current || !width || !height)
               return;
-          const x = anchorX === "left" ? `left: ${left}` : `right: ${right}`;
+          const isRTL = direction === "rtl";
+          const x = anchorX === "left"
+              ? (isRTL ? `right: ${right}` : `left: ${left}`)
+              : (isRTL ? `left: ${left}` : `right: ${right}`);
           const y = anchorY === "bottom" ? `bottom: ${bottom}` : `top: ${top}`;
           ref.current.dataset.motionPopId = id;
           const style = document.createElement("style");
@@ -18091,6 +18145,9 @@ ${where}
           if (instance) {
               visualState.onMount?.(instance);
           }
+          if (visualElement) {
+              instance ? visualElement.mount(instance) : visualElement.unmount();
+          }
           const ref = externalRefContainer.current;
           if (typeof ref === "function") {
               if (instance) {
@@ -18109,9 +18166,6 @@ ${where}
           }
           else if (ref) {
               ref.current = instance;
-          }
-          if (visualElement) {
-              instance ? visualElement.mount(instance) : visualElement.unmount();
           }
       }, [visualElement]);
   }
@@ -18424,7 +18478,10 @@ ${where}
                */
               if (this.isExitComplete) {
                   const { initial, custom } = this.node.getProps();
-                  if (typeof initial === "string") {
+                  if (typeof initial === "string" ||
+                      (typeof initial === "object" &&
+                          initial !== null &&
+                          !Array.isArray(initial))) {
                       const resolved = resolveVariant(this.node, initial, custom);
                       if (resolved) {
                           const { transition, transitionEnd, ...target } = resolved;
@@ -19150,6 +19207,20 @@ ${where}
           // TODO
           if (!projection || !projection.layout)
               return false;
+          /**
+           * Refresh the root scroll offset so the constraint's viewport box
+           * translates to correct page coordinates. The scroll captured at
+           * drag mount can be stale if the document was scrolled afterwards —
+           * e.g. via the browser restoring scroll on refresh, or an ancestor
+           * layout effect running after this element's mount (#2829).
+           *
+           * Clear the cached scroll first so `updateScroll` bypasses its
+           * per-animationId cache and re-reads the live value.
+           */
+          if (projection.root) {
+              projection.root.scroll = undefined;
+              projection.root.updateScroll();
+          }
           const constraintsBox = measurePageBox(constraintsElement, projection.root, this.visualElement.getTransformPagePoint());
           let measuredConstraints = calcViewportConstraints(projection.layout.layoutBox, constraintsBox);
           /**
@@ -19223,9 +19294,7 @@ ${where}
           const externalMotionValue = props[dragKey];
           return externalMotionValue
               ? externalMotionValue
-              : this.visualElement.getValue(axis, (props.initial
-                  ? props.initial[axis]
-                  : undefined) || 0);
+              : this.visualElement.getValue(axis, this.visualElement.latestValues[axis] ?? 0);
       }
       snapToCursor(point) {
           eachAxis((axis) => {
