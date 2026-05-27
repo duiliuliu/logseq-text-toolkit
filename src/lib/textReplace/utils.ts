@@ -284,14 +284,28 @@ export const parseWrapperPattern = (invokeParams: string): { prefix: string; suf
  * @param text 文本
  * @returns 是否需要引号
  */
+/**
+ * 验证输入文本的安全性
+ * @param text - 需要验证的文本
+ * @returns 安全的文本
+ */
+export const validateInputText = (text: string): string => {
+  if (typeof text !== 'string') {
+    console.warn('Input is not a string, converting to empty string');
+    return '';
+  }
+  return text;
+};
+
 export const needsQuotes = (text: string): boolean => {
+  const safeText = validateInputText(text);
   // 跳过已经是完整 hiccup 格式的文本
-  if (text.startsWith('[:') && text.endsWith(']')) {
+  if (safeText.startsWith('[:') && safeText.endsWith(']')) {
     return false;
   }
   
   // 只有包含引号的文本才需要 wrap quotes
-  return text.includes('"') || text.includes("'");
+  return safeText.includes('"') || safeText.includes("'");
 };
 
 /**
@@ -299,8 +313,9 @@ export const needsQuotes = (text: string): boolean => {
  * 主要是为了包含引号的文本能正确显示
  */
 export const escapeHiccupText = (text: string): string => {
+  const safeText = validateInputText(text);
   // 转义双引号
-  return text.replace(/"/g, '\\"');
+  return safeText.replace(/"/g, '\\"');
 };
 
 /**
@@ -308,17 +323,19 @@ export const escapeHiccupText = (text: string): string => {
  * 自动检测是否需要引号，并正确转义特殊字符
  */
 export const wrapTextForHiccup = (text: string): string => {
-  if (needsQuotes(text)) {
-    return `"${escapeHiccupText(text)}"`;
+  const safeText = validateInputText(text);
+  if (needsQuotes(safeText)) {
+    return `"${escapeHiccupText(safeText)}"`;
   }
-  return text;
+  return safeText;
 };
 
 /**
  * 安全渲染内容，移除可能破坏布局的特殊字符
  */
 export const safeRenderContent = (content: string): string => {
-  return content
+  const safeContent = validateInputText(content);
+  return safeContent
     .replace(/\u2028/g, '') // 移除行分隔符
     .replace(/\u2029/g, '') // 移除段分隔符
     .replace(/\u0000/g, ''); // 移除空字符
@@ -332,35 +349,39 @@ export const safeRenderContent = (content: string): string => {
  * @returns 处理后的文本
  */
 export const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: string): string => {
+  const safePrefix = validateInputText(prefix);
+  const safeSuffix = validateInputText(suffix);
+  const safeText = validateInputText(text);
+  
   // 如果文本本身就是完整的 hiccup 格式，不要包裹引号
-  if (text.startsWith('[:') && text.endsWith(']')) {
-    return prefix + text + suffix;
+  if (safeText.startsWith('[:') && safeText.endsWith(']')) {
+    return safePrefix + safeText + safeSuffix;
   }
   
   // 新增：如果文本中包含 hiccup 片段，也不要包裹引号
   // 因为如果有 hiccup 片段说明已经处理过嵌套格式了
-  if (text.includes('[:')) {
-    return prefix + text + suffix;
+  if (safeText.includes('[:')) {
+    return safePrefix + safeText + safeSuffix;
   }
   
   // 检查前缀和后缀是否有引号
-  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
-  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+  const prefixHasQuote = safePrefix.endsWith('"') || safePrefix.endsWith("'");
+  const suffixHasQuote = safeSuffix.startsWith('"') || safeSuffix.startsWith("'");
   
   // 如果需要引号但没有提供，则添加引号
-  if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
-    return prefix + `"${text}"` + suffix;
+  if (needsQuotes(safeText) && !prefixHasQuote && !suffixHasQuote) {
+    return safePrefix + `"${escapeHiccupText(safeText)}"` + safeSuffix;
   }
   
   // 如果不需要引号但提供了引号，则移除引号
-  if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
-    const cleanPrefix = prefix.slice(0, -1);
-    const cleanSuffix = suffix.slice(1);
-    return cleanPrefix + text + cleanSuffix;
+  if (!needsQuotes(safeText) && prefixHasQuote && suffixHasQuote) {
+    const cleanPrefix = safePrefix.slice(0, -1);
+    const cleanSuffix = safeSuffix.slice(1);
+    return cleanPrefix + safeText + cleanSuffix;
   }
   
   // 否则保持原样
-  return prefix + text + suffix;
+  return safePrefix + safeText + safeSuffix;
 };
 
 /**
@@ -372,62 +393,67 @@ export const wrapWithQuotesIfNeeded = (prefix: string, suffix: string, text: str
  * @returns 正确处理后的结果
  */
 export const handleNestedQuotes = (prefix: string, suffix: string, text: string, nestedText: string): string => {
-  const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
-  const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
+  const safePrefix = validateInputText(prefix);
+  const safeSuffix = validateInputText(suffix);
+  const safeText = validateInputText(text);
+  const safeNestedText = validateInputText(nestedText);
   
-  const isAlreadyNested = text.startsWith('[:') && text.endsWith(']');
-  const nestedIsHiccup = nestedText.startsWith('[:') && nestedText.endsWith(']');
-  const nestedContainsHiccup = nestedText.includes('[:'); // 新增：检测是否包含任何 hiccup 片段
+  const prefixHasQuote = safePrefix.endsWith('"') || safePrefix.endsWith("'");
+  const suffixHasQuote = safeSuffix.startsWith('"') || safeSuffix.startsWith("'");
+  
+  const isAlreadyNested = safeText.startsWith('[:') && safeText.endsWith(']');
+  const nestedIsHiccup = safeNestedText.startsWith('[:') && safeNestedText.endsWith(']');
+  const nestedContainsHiccup = safeNestedText.includes('[:'); // 新增：检测是否包含任何 hiccup 片段
   
   const isEntirelyWrappedFormat = (
-    (text.startsWith('**') && text.endsWith('**')) ||
-    (text.startsWith('*') && text.endsWith('*') && !text.startsWith('**')) ||
-    (text.startsWith('~~') && text.endsWith('~~')) ||
-    (text.startsWith('==') && text.endsWith('==')) ||
-    (text.startsWith('`') && text.endsWith('`'))
+    (safeText.startsWith('**') && safeText.endsWith('**')) ||
+    (safeText.startsWith('*') && safeText.endsWith('*') && !safeText.startsWith('**')) ||
+    (safeText.startsWith('~~') && safeText.endsWith('~~')) ||
+    (safeText.startsWith('==') && safeText.endsWith('==')) ||
+    (safeText.startsWith('`') && safeText.endsWith('`'))
   );
   
-  const hasFormatMarkers = text.includes('**') || text.includes('*') || text.includes('~~') || text.includes('==') || text.includes('`');
+  const hasFormatMarkers = safeText.includes('**') || safeText.includes('*') || safeText.includes('~~') || safeText.includes('==') || safeText.includes('`');
   const isPartiallyFormatted = hasFormatMarkers && !isEntirelyWrappedFormat;
   
   if (isAlreadyNested) {
     // 如果是已嵌套格式，直接使用原始文本
     if (prefixHasQuote && suffixHasQuote) {
-      const cleanPrefix = prefix.slice(0, -1);
-      const cleanSuffix = suffix.slice(1);
-      return cleanPrefix + text + cleanSuffix;
+      const cleanPrefix = safePrefix.slice(0, -1);
+      const cleanSuffix = safeSuffix.slice(1);
+      return cleanPrefix + safeText + cleanSuffix;
     } else {
-      return prefix + text + suffix;
+      return safePrefix + safeText + safeSuffix;
     }
   }
   
   if (isEntirelyWrappedFormat) {
     if (prefixHasQuote && suffixHasQuote) {
-      const cleanPrefix = prefix.slice(0, -1);
-      const cleanSuffix = suffix.slice(1);
-      return cleanPrefix + nestedText + cleanSuffix;
+      const cleanPrefix = safePrefix.slice(0, -1);
+      const cleanSuffix = safeSuffix.slice(1);
+      return cleanPrefix + safeNestedText + cleanSuffix;
     } else {
       // 如果nestedText本身是hiccup格式或者包含hiccup片段，不要包裹引号
       if (nestedIsHiccup || nestedContainsHiccup) {
-        return prefix + nestedText + suffix;
+        return safePrefix + safeNestedText + safeSuffix;
       }
-      return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+      return wrapWithQuotesIfNeeded(safePrefix, safeSuffix, safeNestedText);
     }
   }
   
   if (isPartiallyFormatted) {
     // 如果nestedText本身是hiccup格式或者包含hiccup片段，不要包裹引号
     if (nestedIsHiccup || nestedContainsHiccup) {
-      return prefix + nestedText + suffix;
+      return safePrefix + safeNestedText + safeSuffix;
     }
-    return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+    return wrapWithQuotesIfNeeded(safePrefix, safeSuffix, safeNestedText);
   }
   
   // 如果nestedText本身是hiccup格式或者包含hiccup片段，不要包裹引号
   if (nestedIsHiccup || nestedContainsHiccup) {
-    return prefix + nestedText + suffix;
+    return safePrefix + safeNestedText + safeSuffix;
   }
-  return wrapWithQuotesIfNeeded(prefix, suffix, nestedText);
+  return wrapWithQuotesIfNeeded(safePrefix, safeSuffix, safeNestedText);
 };
 
 /*

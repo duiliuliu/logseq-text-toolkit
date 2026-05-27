@@ -14,6 +14,7 @@ import ProgressCapsule from './ProgressCapsule'
 import StepProgress from './StepProgress'
 import Tooltip from './Tooltip'
 import Fireworks from './Fireworks'
+import ErrorBoundary from './ErrorBoundary'
 import { t } from '../../translations/i18n'
 import { SupportedLanguage } from '../../translations/translations'
 
@@ -83,93 +84,109 @@ const TaskProgress: React.FC<TaskProgressProps> = ({
   }
 
   const renderNestingIndicator = () => {
-    if (!showNestingIndicator) return null
+    try {
+      if (!showNestingIndicator) return null
 
-    const levelMap: Record<number | string, string> = {
-      1: '1',
-      2: '1-2',
-      3: '1-3',
-      'all': '1-N'
+      const levelMap: Record<number | string, string> = {
+        1: '1',
+        2: '1-2',
+        3: '1-3',
+        'all': '1-N'
+      }
+
+      const levelText = levelMap[nestingLevel as number | string] || '1'
+      const leafText = onlyLeaves ? ' ◈' : ''
+
+      return (
+        <span
+          className="nesting-indicator"
+          title={`${t('taskProgress.nestingLevel', lang)}: ${levelText}${leafText}`}
+        >
+          {levelText}{leafText}
+        </span>
+      )
+    } catch (error) {
+      console.warn('Error rendering nesting indicator:', error)
+      return null
     }
-
-    const levelText = levelMap[nestingLevel as number | string] || '1'
-    const leafText = onlyLeaves ? ' ◈' : ''
-
-    return (
-      <span
-        className="nesting-indicator"
-        title={`${t('taskProgress.nestingLevel', lang)}: ${levelText}${leafText}`}
-      >
-        {levelText}{leafText}
-      </span>
-    )
   }
 
   const renderComponent = () => {
-    const commonProps = {
-      stats: progressData.statusStats,
-      progress: progressData.progress,
-      lang,
-      animationClass,
-      showLabel: config?.showLabel ?? true,
-    }
+    try {
+      const commonProps = {
+        stats: progressData.statusStats,
+        progress: progressData.progress,
+        lang,
+        animationClass,
+        showLabel: config?.showLabel ?? true,
+      }
 
-    switch (displayType) {
-      case 'mini-circle':
-        return (
-          <MiniCircleProgress
-            {...commonProps}
-            completedTasks={progressData.completedTasks}
-            totalTasks={progressData.totalTasks}
-            {...config}
-          />
-        )
-      case 'dot-matrix':
-        return (
-          <DotMatrixProgress
-            {...commonProps}
-            totalTasks={progressData.totalTasks}
-            completedTasks={progressData.completedTasks}
-            {...config}
-          />
-        )
-      case 'status-cursor':
-        return <StatusCursorProgress {...commonProps} {...config} />
-      case 'progress-capsule':
-        return (
-          <ProgressCapsule
-            {...commonProps}
-            completedTasks={progressData.completedTasks}
-            totalTasks={progressData.totalTasks}
-            {...config}
-          />
-        )
-      case 'step-progress':
-        return (
-          <StepProgress
-            {...commonProps}
-            totalTasks={progressData.totalTasks}
-            completedTasks={progressData.completedTasks}
-            {...config}
-          />
-        )
-      default:
-        return null
+      switch (displayType) {
+        case 'mini-circle':
+          return (
+            <MiniCircleProgress
+              {...commonProps}
+              completedTasks={progressData.completedTasks}
+              totalTasks={progressData.totalTasks}
+              {...config}
+            />
+          )
+        case 'dot-matrix':
+          return (
+            <DotMatrixProgress
+              {...commonProps}
+              totalTasks={progressData.totalTasks}
+              completedTasks={progressData.completedTasks}
+              {...config}
+            />
+          )
+        case 'status-cursor':
+          return <StatusCursorProgress {...commonProps} {...config} />
+        case 'progress-capsule':
+          return (
+            <ProgressCapsule
+              {...commonProps}
+              completedTasks={progressData.completedTasks}
+              totalTasks={progressData.totalTasks}
+              {...config}
+            />
+          )
+        case 'step-progress':
+          return (
+            <StepProgress
+              {...commonProps}
+              totalTasks={progressData.totalTasks}
+              completedTasks={progressData.completedTasks}
+              {...config}
+            />
+          )
+        default:
+          return null
+      }
+    } catch (error) {
+      console.warn('Error rendering progress component:', error)
+      return null
     }
   }
 
   return (
-    <div 
-      ref={componentRef}
-      className="task-progress"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}
-    >
-      {renderNestingIndicator()}
-      {renderComponent()}
-      {showFireworks && fireworksEnabled && <Fireworks targetRect={targetRect} onComplete={() => setShowFireworks(false)} />}
-    </div>
+    <ErrorBoundary>
+      <div 
+        ref={componentRef}
+        className="task-progress"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}
+      >
+        {renderNestingIndicator()}
+        {renderComponent()}
+        {showFireworks && fireworksEnabled && (
+          <ErrorBoundary fallback={null}>
+            <Fireworks targetRect={targetRect} onComplete={() => setShowFireworks(false)} />
+          </ErrorBoundary>
+        )}
+      </div>
+    </ErrorBoundary>
   )
 }
 

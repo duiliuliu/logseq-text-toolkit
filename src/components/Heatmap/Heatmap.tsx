@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import dayjs from 'dayjs';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 import YearView from './YearView';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
@@ -13,6 +15,28 @@ import { updateHeatmapRendererArgs } from '../../lib/heatmap/register';
 import { t } from '../../translations/i18n';
 import { getSettings } from '../../settings';
 import { PageGenerator } from '../../lib/summary/PageGenerator';
+
+// 扩展 dayjs 插件
+dayjs.extend(weekOfYear);
+
+/**
+ * 计算给定日期的周数
+ * @param date - 日期对象
+ * @returns 周数（1-53）
+ */
+const getWeekNumber = (date: Date): number => {
+  return dayjs(date).week();
+};
+
+/**
+ * 计算给定年份的总周数
+ * @param year - 年份
+ * @returns 该年份的总周数
+ */
+const getYearWeeksCount = (year: number): number => {
+  const lastDayOfYear = dayjs(`${year}-12-31`);
+  return lastDayOfYear.week() === 1 ? 52 : lastDayOfYear.week();
+};
 
 interface HeatmapProps {
   config: HeatmapConfig;
@@ -48,25 +72,10 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     setViewType(type);
   }, []);
 
-  const getWeekNumber = useCallback((date: Date): number => {
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const day = firstDayOfYear.getDay() || 7;
-    const adjustedStart = new Date(firstDayOfYear);
-    adjustedStart.setDate(firstDayOfYear.getDate() - day + 1);
-
-    if (adjustedStart > date) {
-      adjustedStart.setFullYear(adjustedStart.getFullYear() - 1);
-      adjustedStart.setDate(adjustedStart.getDate() - day + 1);
-    }
-
-    const diff = date.getTime() - adjustedStart.getTime();
-    const weekNumber = Math.floor(diff / 604800000) + 1;
-    return weekNumber;
-  }, []);
-
   const getViewTitle = useCallback((): string => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const date = dayjs(currentDate);
+    const year = date.year();
+    const month = date.month();
 
     switch (viewType) {
       case 'year':
@@ -74,40 +83,46 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       case 'month':
         return `${year}/${month + 1}`;
       case 'week':
-        return `${year} W${String(getWeekNumber(currentDate)).padStart(2, '0')}`;
+        return `${year} W${String(date.week()).padStart(2, '0')}`;
       default:
         return '';
     }
-  }, [viewType, currentDate, getWeekNumber]);
+  }, [viewType, currentDate]);
 
   const handlePrevPeriod = useCallback(() => {
-    const newDate = new Date(currentDate);
+    const date = dayjs(currentDate);
+    let newDate;
     switch (viewType) {
       case 'year':
-        newDate.setFullYear(newDate.getFullYear() - 1);
+        newDate = date.subtract(1, 'year').toDate();
         break;
       case 'month':
-        newDate.setMonth(newDate.getMonth() - 1);
+        newDate = date.subtract(1, 'month').toDate();
         break;
       case 'week':
-        newDate.setDate(newDate.getDate() - 7);
+        newDate = date.subtract(1, 'week').toDate();
         break;
+      default:
+        newDate = date.toDate();
     }
     setCurrentDate(newDate);
   }, [viewType, currentDate]);
 
   const handleNextPeriod = useCallback(() => {
-    const newDate = new Date(currentDate);
+    const date = dayjs(currentDate);
+    let newDate;
     switch (viewType) {
       case 'year':
-        newDate.setFullYear(newDate.getFullYear() + 1);
+        newDate = date.add(1, 'year').toDate();
         break;
       case 'month':
-        newDate.setMonth(newDate.getMonth() + 1);
+        newDate = date.add(1, 'month').toDate();
         break;
       case 'week':
-        newDate.setDate(newDate.getDate() + 7);
+        newDate = date.add(1, 'week').toDate();
         break;
+      default:
+        newDate = date.toDate();
     }
     setCurrentDate(newDate);
   }, [viewType, currentDate]);
@@ -289,19 +304,11 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       return clamp(raw, min, max);
     };
 
-    const getYearWeeksCount = (year: number) => {
-      const first = new Date(Date.UTC(year, 0, 1));
-      const startDayOfWeek = first.getDay();
-      const startPadding = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
-      const days = ((Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000) | 0;
-      return Math.ceil((startPadding + days) / 7);
-    };
-
     const yearAxis = config.displayMode !== 'minimal' ? 28 : 0;
     const monthAxis = 32;
     const weekAxis = config.displayMode !== 'minimal' ? 44 : 0;
 
-    const yearCols = getYearWeeksCount(currentDate.getFullYear());
+    const yearCols = getYearWeeksCount(dayjs(currentDate).year());
     const monthCols = 7;
     const weekCols = 7;
 
@@ -497,28 +504,23 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
 };
 
 function filterDataByView(data: HeatmapDataPoint[], viewType: HeatmapViewType, currentDate: Date): HeatmapDataPoint[] {
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const date = dayjs(currentDate);
 
   switch (viewType) {
     case 'year':
+      const year = date.year();
       return data.filter(d => d.date.startsWith(`${year}-`));
     case 'month':
-      const monthStr = (month + 1).toString().padStart(2, '0');
-      return data.filter(d => d.date.startsWith(`${year}-${monthStr}`));
+      const yearMonth = date.format('YYYY-MM');
+      return data.filter(d => d.date.startsWith(yearMonth));
     case 'week':
-      const dayOfWeek = currentDate.getDay();
-      const monday = new Date(currentDate);
-      monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-      const sunday = new Date(monday);
-      sunday.setDate(monday.getDate() + 6);
-
-      const startStr = monday.toISOString().split('T')[0];
-      const endStr = sunday.toISOString().split('T')[0];
-
+      const startOfWeek = date.startOf('week');
+      const endOfWeek = date.endOf('week');
+      
       return data.filter(d => {
-        const dateStr = d.date.split('T')[0];
-        return dateStr >= startStr && dateStr <= endStr;
+        const dDate = dayjs(d.date);
+        return dDate.isAfter(startOfWeek.subtract(1, 'second')) && 
+               dDate.isBefore(endOfWeek.add(1, 'second'));
       });
     default:
       return data;
