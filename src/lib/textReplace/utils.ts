@@ -290,8 +290,8 @@ export const needsQuotes = (text: string): boolean => {
     return false;
   }
   
-  return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
-         text.includes('"') || text.includes("'");
+  // 只有包含引号的文本才需要 wrap quotes
+  return text.includes('"') || text.includes("'");
 };
 
 /**

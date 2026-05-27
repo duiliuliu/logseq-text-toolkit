@@ -64,21 +64,17 @@ export const needsQuotes = (text: string): boolean => {
     return false;
   }
   
-  // 检查是否包含特殊字符
-  return text.includes(' ') ||      // 空格
-         text.includes('\u00A0') ||  // 不间断空格
-         text.includes('\u3000') ||  // 全角空格
-         text.includes('"') ||       // 双引号
-         text.includes("'");         // 单引号
+  // 只有包含引号的文本才需要 wrap quotes
+  return text.includes('"') || text.includes("'");
 };
 ```
 
 **示例:**
-- 输入: `text = "带空格的文本"`
+- 输入: `text = "带\"引号\"的文本"`
 - 前缀: `[:span.red `
 - 后缀: `]`
-- 触发条件: `needsQuotes("带空格的文本")` = true
-- 输出: `[:span.red "带空格的文本"]` ✅ 添加引号
+- 触发条件: `needsQuotes("带\"引号\"的文本")` = true
+- 输出: `[:span.red "带\"引号\"的文本"]` ✅ 添加引号
 
 ---
 
@@ -86,9 +82,9 @@ export const needsQuotes = (text: string): boolean => {
 
 | 场景 | 输入文本 | 前缀 | 后缀 | 是否包裹 | 输出 |
 |------|---------|------|------|---------|------|
-| ✅ 空格 | `Hello World` | `[:b ` | `]` | 是 | `[:b "Hello World"]` |
-| ✅ 不间断空格 | `Hello\u00A0World` | `[:b ` | `]` | 是 | `[:b "Hello World"]` |
-| ✅ 全角空格 | `Hello\u3000World` | `[:b ` | `]` | 是 | `[:b "Hello World"]` |
+| ❌ 空格 | `Hello World` | `[:b ` | `]` | 否 | `[:b Hello World]` |
+| ❌ 不间断空格 | `Hello\u00A0World` | `[:b ` | `]` | 否 | `[:b Hello World]` |
+| ❌ 全角空格 | `Hello\u3000World` | `[:b ` | `]` | 否 | `[:b Hello World]` |
 | ✅ 包含双引号 | `Hello"World` | `[:b ` | `]` | 是 | `[:b "Hello\"World"]` |
 | ✅ 包含单引号 | `Hello'World` | `[:b ` | `]` | 是 | `[:b "Hello'World"]` |
 | ❌ 无特殊字符 | `HelloWorld` | `[:b ` | `]` | 否 | `[:b HelloWorld]` |
@@ -150,35 +146,33 @@ NoSpaces  // 不需要引号
 
 ---
 
+## ❌ 哪些场景**不需要** wrap quotes？
+
+### ❌ 场景 1: 带空格的普通文本
+```typescript
+Hello World  // ❌ 不需要引号: [:b Hello World]
+这是 测试 文本  // ❌ 不需要引号: [:b 这是 测试 文本]
+```
+
+**为什么不需要引号？**
+Logseq 的 hiccup 解析器能够正确处理带空格的文本内容，不会将其解析为多个属性或标签。
+
+---
+
+### ❌ 场景 2: 包含特殊空格的文本
+```typescript
+Hello\u00A0World  // ❌ 不需要引号: [:b Hello World]
+中文\u3000文本  // ❌ 不需要引号: [:b 中文 文本]
+```
+
+**为什么不需要引号？**
+特殊空格（如不间断空格`\u00A0`、全角空格`\u3000`）在 Logseq 的 hiccup 解析中同样能被正确处理为内容的一部分，不需要用引号包裹。
+
+---
+
 ## ✅ 哪些场景**需要** wrap quotes？
 
-### ✅ 场景 1: 带空格的普通文本
-```typescript
-Hello World  // ✅ 需要引号: "Hello World"
-这是 测试 文本  // ✅ 需要引号: "这是 测试 文本"
-```
-
-**为什么需要引号？**
-在hiccup语法中，空格是用来分隔标签名、属性和内容的。例如：
-- `[:span Hello World]` 会被解析为标签`span`，属性`Hello`，内容`World` - 这是错误的
-- `[:span "Hello World"]` 会被正确解析为标签`span`，内容为`Hello World` - 这是正确的
-
-没有引号，hiccup解析器会把空格后的内容当成新的属性或标签，导致解析错误。
-
----
-
-### ✅ 场景 2: 包含特殊空格的文本
-```typescript
-Hello\u00A0World  // ✅ 需要引号: "Hello World"
-中文\u3000文本  // ✅ 需要引号: "中文 文本"
-```
-
-**为什么需要引号？**
-特殊空格（如不间断空格`\u00A0`、全角空格`\u3000`）在hiccup解析中同样被当作分隔符处理。即使这些空格在视觉上可能不明显，但对hiccup解析器来说，它们与普通空格的作用是一样的。如果不用引号包裹，同样会导致解析错误。
-
----
-
-### ✅ 场景 3: 包含引号的文本
+### ✅ 场景 1: 包含引号的文本
 ```typescript
 Hello"World  // ✅ 需要引号: "Hello\"World"
 say'hello'  // ✅ 需要引号: "say'hello'"
@@ -332,18 +326,19 @@ export const wrapWithQuotesIfNeeded = (
 ## 📝 总结
 
 ### 需要 wrap quotes 的场景 ✅
-1. **带空格的文本** - `Hello World` → `"Hello World"`
-2. **包含特殊空格** - `Hello\u00A0World` → `"Hello World"`
-3. **包含引号** - `Hello"World` → `"Hello\"World"`
+1. **包含引号** - `Hello"World` → `"Hello\"World"`
 
 ### 不需要 wrap quotes 的场景 ❌
-1. **完整 Hiccup** - `[:b text]` → `[:div [:b text]]`
-2. **Hiccup 片段** - `text [:b bold]` → `[:div text [:b bold]]`
-3. **无空格纯文本** - `HelloWorld` → `[:b HelloWorld]`
-4. **已转换的 Markdown** - `[:b bold]` → `[:span.red [:b bold]]`
+1. **带空格的文本** - `Hello World` → `[:b Hello World]`
+2. **包含特殊空格** - `Hello\u00A0World` → `[:b Hello World]`
+3. **完整 Hiccup** - `[:b text]` → `[:div [:b text]]`
+4. **Hiccup 片段** - `text [:b bold]` → `[:div text [:b bold]]`
+5. **无空格纯文本** - `HelloWorld` → `[:b HelloWorld]`
+6. **已转换的 Markdown** - `[:b bold]` → `[:span.red [:b bold]]`
 
 ### 关键洞察
-- **引号主要用于分隔属性和内容**，避免歧义
+- **引号仅用于处理包含引号字符的文本**
+- **Logseq 的 hiccup 解析器能够正确处理带空格的内容**
 - **Hiccup 格式内部不需要引号**，因为标签结构已经提供了分隔
-- **中文文本通常不需要引号**，除非包含空格或特殊字符
+- **中文文本通常不需要引号**
 
