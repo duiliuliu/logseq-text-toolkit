@@ -23,6 +23,7 @@ Thumbs.db
 # Build files
 build/
 out/
+dev/
 
 # Logs
 logs
@@ -31,4 +32,4 @@ logs
 # Package manager files
 package-lock.json
 yarn.lock
-pnpm-lock.yaml
+pnpm-lock.yaml 
