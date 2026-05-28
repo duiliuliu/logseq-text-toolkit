@@ -3,7 +3,7 @@
  * 测试 src/lib/toolbar/EventBus.ts 中的事件总线功能
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { EventBus } from './EventBus';
 
 describe('toolbar/EventBus', () => {
