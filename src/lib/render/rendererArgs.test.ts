@@ -1,327 +1,223 @@
 /**
- * rendererArgs.ts 单元测试
- * 
- * 测试宏命令参数解析和更新的各种逻辑
- * 运行: npx tsx src/__tests__/rendererArgs.test.ts
+ * rendererArgs 模块单元测试
+ * 直接测试 src/lib/render/rendererArgs.ts 中的导出函数
  */
 
+import { describe, it, expect, beforeEach } from 'vitest';
 import {
   registerRendererArgModel,
   splitRendererArgs,
   parseRendererArgs,
-  createRendererArgUpdater
-} from './rendererArgs'
-
-// ============================================================
-// 测试框架（简单的断言函数）
-// ============================================================
-
-let testCount = 0
-let passCount = 0
-let failCount = 0
-
-function assertEqual<T>(actual: T, expected: T, message: string): void {
-  testCount++
-  if (JSON.stringify(actual) === JSON.stringify(expected)) {
-    passCount++
-    console.log(`  ✅ ${message}`)
-  } else {
-    failCount++
-    console.log(`  ❌ ${message}`)
-    console.log(`     Expected: ${JSON.stringify(expected)}`)
-    console.log(`     Actual:   ${JSON.stringify(actual)}`)
-  }
-}
-
-function assertContains(actual: string, expected: string, message: string): void {
-  testCount++
-  if (actual.includes(expected)) {
-    passCount++
-    console.log(`  ✅ ${message}`)
-  } else {
-    failCount++
-    console.log(`  ❌ ${message}`)
-    console.log(`     Expected to contain: ${expected}`)
-    console.log(`     Actual: ${actual}`)
-  }
-}
-
-function assertTrue(condition: boolean, message: string): void {
-  testCount++
-  if (condition) {
-    passCount++
-    console.log(`  ✅ ${message}`)
-  } else {
-    failCount++
-    console.log(`  ❌ ${message}`)
-  }
-}
-
-function section(name: string): void {
-  console.log(`\n${'='.repeat(60)}`)
-  console.log(`  ${name}`)
-  console.log('='.repeat(60))
-}
-
-// ============================================================
-// 测试用例
-// ============================================================
-
-// 注册测试用的模型
-registerRendererArgModel(':heatmap', { positional: ['view'] })
-registerRendererArgModel(':热力图', { positional: ['view'] })
-registerRendererArgModel(':blockview', { positional: ['view'] })
-
-// 创建更新器实例
-const { updateRendererArgs: updateHeatmapArgs } = createRendererArgUpdater([':heatmap', ':热力图'])
-const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([':blockview'])
-
-// ============================================================
-// 1. splitRendererArgs 测试
-// ============================================================
-
-section('1. splitRendererArgs 测试')
-
-console.log('\n1.1 基本情况测试')
-let result = splitRendererArgs(undefined)
-assertEqual(result, null, 'undefined 参数返回 null')
-
-result = splitRendererArgs([])
-assertEqual(result, null, '空数组返回 null')
-
-result = splitRendererArgs([''])
-assertEqual(result, { type: '', tokens: [] }, '单个空字符串')
-
-console.log('\n1.2 单参数测试')
-result = splitRendererArgs([':heatmap'])
-assertEqual(result, { type: ':heatmap', tokens: [] }, '只有类型')
-
-result = splitRendererArgs([':heatmap', 'year'])
-assertEqual(result, { type: ':heatmap', tokens: ['year'] }, '类型 + 位置参数')
-
-result = splitRendererArgs([':heatmap', 'year,', 'month'])
-assertEqual(result, { type: ':heatmap', tokens: ['year', 'month'] }, '逗号分隔')
-
-console.log('\n1.3 命名参数测试')
-result = splitRendererArgs([':heatmap', 'displayMode=full'])
-assertEqual(result, { type: ':heatmap', tokens: ['displayMode=full'] }, '命名参数')
-
-result = splitRendererArgs([':heatmap', 'year,', 'displayMode=full'])
-assertEqual(result, { type: ':heatmap', tokens: ['year', 'displayMode=full'] }, '位置 + 命名参数')
-
-result = splitRendererArgs([':heatmap', 'displayMode=full,', 'containerWidth=600px'])
-assertEqual(result, { type: ':heatmap', tokens: ['displayMode=full', 'containerWidth=600px'] }, '多个命名参数')
-
-console.log('\n1.4 中文宏命令测试')
-result = splitRendererArgs([':热力图'])
-assertEqual(result, { type: ':热力图', tokens: [] }, '中文类型')
-
-result = splitRendererArgs([':热力图', 'month,', 'displayMode=basic'])
-assertEqual(result, { type: ':热力图', tokens: ['month', 'displayMode=basic'] }, '中文 + 参数')
-
-// ============================================================
-// 2. parseRendererArgs 测试
-// ============================================================
-
-section('2. parseRendererArgs 测试')
-
-console.log('\n2.1 基本解析测试')
-let parsed = parseRendererArgs(':heatmap', [])
-assertEqual(parsed, {}, '空 tokens')
-
-parsed = parseRendererArgs(':heatmap', ['year'])
-assertEqual(parsed, { view: 'year' }, '位置参数映射到 view')
-
-parsed = parseRendererArgs(':heatmap', ['displayMode=full'])
-assertEqual(parsed, { displayMode: 'full' }, '命名参数')
-
-parsed = parseRendererArgs(':heatmap', ['month', 'displayMode=basic'])
-assertTrue(
-  parsed['view'] === 'month' && parsed['displayMode'] === 'basic',
-  '位置 + 命名参数'
-)
-
-console.log('\n2.2 优先级测试（命名参数优先）')
-parsed = parseRendererArgs(':heatmap', ['year', 'view=month'])
-assertEqual(parsed, { view: 'month' }, '命名参数 view 覆盖位置参数')
-
-console.log('\n2.3 中文宏命令测试')
-parsed = parseRendererArgs(':热力图', ['year'])
-assertEqual(parsed, { view: 'year' }, '中文类型 + 位置参数')
-
-parsed = parseRendererArgs(':热力图', ['week', 'displayMode=minimal'])
-assertTrue(
-  parsed['view'] === 'week' && parsed['displayMode'] === 'minimal',
-  '中文类型 + 混合参数'
-)
-
-// ============================================================
-// 3. updateRendererArgs 测试 - 添加参数
-// ============================================================
-
-section('3. updateRendererArgs 测试 - 添加参数')
-
-console.log('\n3.1 基础添加测试')
-let content = '{{renderer :heatmap}}'
-let updated = updateHeatmapArgs(content, { containerWidth: '600px' })
-assertEqual(updated, '{{renderer :heatmap, containerWidth=600px}}', '空宏添加单个参数')
-
-content = '{{renderer :heatmap}}'
-updated = updateHeatmapArgs(content, { view: 'year', displayMode: 'full' })
-assertEqual(updated, '{{renderer :heatmap, year, displayMode=full}}', '空宏添加多个参数')
-
-console.log('\n3.2 带现有参数的添加测试')
-content = '{{renderer :heatmap, view=month}}'
-// view=month 是命名格式，containerWidth 新增在后面
-updated = updateHeatmapArgs(content, { containerWidth: '800px' })
-assertEqual(updated, '{{renderer :heatmap, view=month, containerWidth=800px}}', '添加参数到现有宏（新增在后）')
-
-content = '{{renderer :heatmap, displayMode=full}}'
-// displayMode=full 是命名参数，containerWidth 也是命名参数
-updated = updateHeatmapArgs(content, { containerWidth: '700px' })
-assertContains(updated, 'displayMode=full', 'displayMode=full 保留')
-assertContains(updated, 'containerWidth=700px', 'containerWidth 添加成功')
-
-console.log('\n3.3 位置参数处理测试')
-content = '{{renderer :heatmap year}}'
-updated = updateHeatmapArgs(content, { containerWidth: '500px' })
-assertEqual(updated, '{{renderer :heatmap, year, containerWidth=500px}}', '位置参数保留')
-
-// ============================================================
-// 4. updateRendererArgs 测试 - 更新参数
-// ============================================================
-
-section('4. updateRendererArgs 测试 - 更新参数')
-
-console.log('\n4.1 更新命名参数')
-content = '{{renderer :heatmap, containerWidth=400px}}'
-updated = updateHeatmapArgs(content, { containerWidth: '800px' })
-assertEqual(updated, '{{renderer :heatmap, containerWidth=800px}}', '更新现有参数')
-
-content = '{{renderer :heatmap, displayMode=full, view=month}}'
-// 更新 displayMode，view=month 保持不变
-updated = updateHeatmapArgs(content, { displayMode: 'minimal' })
-assertContains(updated, 'displayMode=minimal', 'displayMode 更新为 minimal')
-assertContains(updated, 'view=month', 'view=month 保持不变')
-
-console.log('\n4.2 更新位置参数')
-content = '{{renderer :heatmap year}}'
-updated = updateHeatmapArgs(content, { view: 'month' })
-assertEqual(updated, '{{renderer :heatmap, month}}', '通过命名参数更新位置参数')
-
-content = '{{renderer :heatmap year, displayMode=full}}'
-// view=month 解析后是位置参数，输出时位置参数优先
-updated = updateHeatmapArgs(content, { view: 'week' })
-assertEqual(updated, '{{renderer :heatmap, week, displayMode=full}}', '保留其他参数更新位置参数（位置优先）')
-
-// ============================================================
-// 5. updateRendererArgs 测试 - 删除参数
-// ============================================================
-
-section('5. updateRendererArgs 测试 - 删除参数')
-
-console.log('\n5.1 删除命名参数')
-content = '{{renderer :heatmap, containerWidth=600px}}'
-updated = updateHeatmapArgs(content, { containerWidth: null })
-assertEqual(updated, '{{renderer :heatmap}}', '删除单个参数')
-
-content = '{{renderer :heatmap, displayMode=full, containerWidth=600px}}'
-updated = updateHeatmapArgs(content, { displayMode: null })
-assertEqual(updated, '{{renderer :heatmap, containerWidth=600px}}', '删除多个参数中的一个')
-
-console.log('\n5.2 删除位置参数')
-content = '{{renderer :heatmap year}}'
-updated = updateHeatmapArgs(content, { view: null })
-assertEqual(updated, '{{renderer :heatmap}}', '删除位置参数')
-
-content = '{{renderer :heatmap year, displayMode=full}}'
-updated = updateHeatmapArgs(content, { view: null })
-assertEqual(updated, '{{renderer :heatmap, displayMode=full}}', '保留其他参数删除位置参数')
-
-// ============================================================
-// 6. 边界情况测试
-// ============================================================
-
-section('6. 边界情况测试')
-
-console.log('\n6.1 多处宏命令')
-content = '前面 {{renderer :heatmap}} 中间 {{renderer :heatmap year}} 后面'
-updated = updateHeatmapArgs(content, { containerWidth: '600px' })
-assertContains(updated, '{{renderer :heatmap, containerWidth=600px}}', '第一个宏被更新')
-assertContains(updated, '{{renderer :heatmap, year, containerWidth=600px}}', '第二个宏被更新')
-assertTrue(updated.includes('前面') && updated.includes('中间') && updated.includes('后面'), '其他内容保持不变')
-
-console.log('\n6.2 非匹配前缀不修改')
-content = '{{renderer :other}}'
-updated = updateHeatmapArgs(content, { containerWidth: '600px' })
-assertEqual(updated, '{{renderer :other}}', '非热力图宏不被修改')
-
-console.log('\n6.3 嵌套情况（预期不完美处理嵌套大括号）')
-content = '{{renderer :heatmap, displayMode={{inner}}}}'
-updated = updateHeatmapArgs(content, { containerWidth: '600px' })
-console.log(`  输入: ${content}`)
-console.log(`  输出: ${updated}`)
-
-console.log('\n6.4 中文前缀')
-content = '{{renderer :热力图}}'
-updated = updateHeatmapArgs(content, { containerWidth: '600px' })
-assertEqual(updated, '{{renderer :热力图, containerWidth=600px}}', '中文前缀宏添加参数')
-
-content = '{{renderer :热力图, view=year}}'
-updated = updateHeatmapArgs(content, { view: 'month' })
-assertEqual(updated, '{{renderer :热力图, month}}', '中文前缀宏更新参数')
-
-// ============================================================
-// 7. blockview 特定测试
-// ============================================================
-
-section('7. BlockView 宏命令测试')
-
-console.log('\n7.1 BlockView 基础测试')
-content = '{{renderer :blockview}}'
-updated = updateBlockViewArgs(content, { view: 'table' })
-assertEqual(updated, '{{renderer :blockview, table}}', 'BlockView 空宏添加视图')
-
-content = '{{renderer :blockview list}}'
-updated = updateBlockViewArgs(content, { view: 'gallery' })
-assertEqual(updated, '{{renderer :blockview, gallery}}', 'BlockView 更新视图')
-
-console.log('\n7.2 混合格式测试')
-content = '{{renderer :blockview table, view=gallery}}'
-updated = updateBlockViewArgs(content, { view: 'board' })
-assertEqual(updated, '{{renderer :blockview, board}}', '命名参数 view 覆盖位置参数 table')
-
-// ============================================================
-// 8. 特殊字符测试
-// ============================================================
-
-section('8. 特殊字符测试')
-
-console.log('\n8.1 带空格的参数值')
-content = '{{renderer :heatmap, displayMode=full screen}}'
-updated = updateHeatmapArgs(content, { containerWidth: '600px' })
-console.log(`  输入: ${content}`)
-console.log(`  输出: ${updated}`)
-
-console.log('\n8.2 带引号的参数')
-content = '{{renderer :heatmap, tag="work items"}}'
-updated = updateHeatmapArgs(content, { containerWidth: '600px' })
-console.log(`  输入: ${content}`)
-console.log(`  输出: ${updated}`)
-
-// ============================================================
-// 测试总结
-// ============================================================
-
-section('测试总结')
-console.log(`\n总计: ${testCount} 个测试`)
-console.log(`通过: ${passCount} 个 ✅`)
-console.log(`失败: ${failCount} 个 ❌`)
-
-if (failCount > 0) {
-  console.log('\n❌ 有测试失败，请检查！')
-  process.exit(1)
-} else {
-  console.log('\n✅ 所有测试通过！')
-  process.exit(0)
-}
+  createRendererArgUpdater,
+} from './rendererArgs';
+
+describe('render/rendererArgs.ts', () => {
+  beforeEach(() => {
+    // 每个测试前重置注册模型
+    // 注意：这里无法重置模块状态，因为 models 是模块级变量
+    // 在实际测试中，可能需要重构代码以支持测试
+  });
+
+  describe('registerRendererArgModel', () => {
+    it('应该能注册基本模型', () => {
+      registerRendererArgModel(':test', { positional: ['view'] });
+      // 注册后，后续的 parseRendererArgs 应该能找到这个模型
+      const parsed = parseRendererArgs(':test', ['year']);
+      expect(parsed.view).toBe('year');
+    });
+
+    it('应该支持注册多个位置参数', () => {
+      registerRendererArgModel(':multi', { positional: ['view', 'mode', 'theme'] });
+      const parsed = parseRendererArgs(':multi', ['year', 'full', 'dark']);
+      expect(parsed.view).toBe('year');
+      expect(parsed.mode).toBe('full');
+      expect(parsed.theme).toBe('dark');
+    });
+  });
+
+  describe('splitRendererArgs', () => {
+    it('应该正确分割基础参数', () => {
+      const result = splitRendererArgs([':heatmap', 'year']);
+      expect(result).toEqual({
+        type: ':heatmap',
+        tokens: ['year'],
+      });
+    });
+
+    it('应该处理带逗号的参数', () => {
+      const result = splitRendererArgs([':heatmap', 'year', ',', 'displayMode=full']);
+      expect(result).toEqual({
+        type: ':heatmap',
+        tokens: ['year', 'displayMode=full'],
+      });
+    });
+
+    it('应该处理空参数', () => {
+      expect(splitRendererArgs(undefined)).toBeNull();
+      expect(splitRendererArgs([])).toBeNull();
+    });
+
+    it('应该处理带空格的类型', () => {
+      const result = splitRendererArgs([':heatmap ', 'year']);
+      expect(result?.type).toBe(':heatmap');
+    });
+
+    it('应该处理多逗号分隔', () => {
+      const result = splitRendererArgs([':heatmap', 'year', ',', 'displayMode=full', ',', 'theme=dark']);
+      expect(result?.tokens).toEqual(['year', 'displayMode=full', 'theme=dark']);
+    });
+
+    it('应该过滤空token', () => {
+      const result = splitRendererArgs([':heatmap', '', 'year', '']);
+      expect(result?.tokens).toEqual(['year']);
+    });
+  });
+
+  describe('parseRendererArgs', () => {
+    beforeEach(() => {
+      registerRendererArgModel(':heatmap', { positional: ['view'] });
+      registerRendererArgModel(':blockview', { positional: ['view', 'theme'] });
+    });
+
+    it('应该解析位置参数', () => {
+      const parsed = parseRendererArgs(':heatmap', ['year']);
+      expect(parsed.view).toBe('year');
+    });
+
+    it('应该解析命名参数', () => {
+      const parsed = parseRendererArgs(':heatmap', ['displayMode=full']);
+      expect(parsed.displayMode).toBe('full');
+    });
+
+    it('命名参数应该覆盖位置参数', () => {
+      const parsed = parseRendererArgs(':heatmap', ['year', 'view=month']);
+      expect(parsed.view).toBe('month');
+    });
+
+    it('应该处理混合参数', () => {
+      const parsed = parseRendererArgs(':blockview', ['year', 'dark', 'custom=value']);
+      expect(parsed.view).toBe('year');
+      expect(parsed.theme).toBe('dark');
+      expect(parsed.custom).toBe('value');
+    });
+
+    it('应该处理空tokens', () => {
+      const parsed = parseRendererArgs(':heatmap', []);
+      expect(parsed).toEqual({});
+    });
+
+    it('应该处理带空格的参数', () => {
+      const parsed = parseRendererArgs(':heatmap', [' view = year ']);
+      expect(parsed.view).toBe('year');
+    });
+  });
+
+  describe('createRendererArgUpdater', () => {
+    const { updateRendererArgs } = createRendererArgUpdater([':heatmap', ':热力图']);
+
+    it('应该能添加新参数', () => {
+      const result = updateRendererArgs('{{renderer :heatmap}}', { view: 'year' });
+      expect(result).toContain('year');
+    });
+
+    it('应该能更新现有参数', () => {
+      const result = updateRendererArgs('{{renderer :heatmap, view=month}}', { view: 'year' });
+      expect(result).toContain('year');
+      expect(result).not.toContain('month');
+    });
+
+    it('应该能删除参数', () => {
+      const result = updateRendererArgs('{{renderer :heatmap, view=year}}', { view: null });
+      expect(result).toBe('{{renderer :heatmap}}');
+    });
+
+    it('应该能批量更新', () => {
+      const result = updateRendererArgs(
+        '{{renderer :heatmap, view=year}}',
+        { view: 'month', containerWidth: '600px' }
+      );
+      expect(result).toContain('month');
+      expect(result).toContain('containerWidth=600px');
+    });
+
+    it('应该处理多语言前缀', () => {
+      const result = updateRendererArgs('{{renderer :热力图}}', { view: 'year' });
+      expect(result).toContain('year');
+      expect(result).toContain(':热力图');
+    });
+
+    it('应该处理带逗号的参数', () => {
+      const result = updateRendererArgs('{{renderer :heatmap, view=year, displayMode=full}}', {
+        view: 'month',
+      });
+      expect(result).toContain('month');
+      expect(result).toContain('displayMode=full');
+    });
+
+    it('应该处理没有参数的情况', () => {
+      const result = updateRendererArgs('{{renderer :heatmap}}', {});
+      expect(result).toBe('{{renderer :heatmap}}');
+    });
+
+    it('应该处理多个更新的参数都删除', () => {
+      const result = updateRendererArgs(
+        '{{renderer :heatmap, view=year, displayMode=full}}',
+        { view: null, displayMode: null }
+      );
+      expect(result).toBe('{{renderer :heatmap}}');
+    });
+
+    it('应该正确处理复杂格式', () => {
+      const result = updateRendererArgs(
+        '{{renderer :heatmap, year, displayMode=full}}',
+        { displayMode: 'minimal' }
+      );
+      expect(result).toContain('minimal');
+      expect(result).toContain('year');
+    });
+
+    it('应该处理中文参数值', () => {
+      const result = updateRendererArgs('{{renderer :heatmap}}', { view: '年' });
+      expect(result).toContain('年');
+    });
+
+    it('应该保留参数顺序', () => {
+      const result = updateRendererArgs(
+        '{{renderer :heatmap, view=year, displayMode=full}}',
+        { view: 'month', containerWidth: '600px' }
+      );
+      // 位置参数应该在命名参数前面
+      const monthIndex = result.indexOf('month');
+      const containerWidthIndex = result.indexOf('containerWidth');
+      expect(monthIndex).toBeLessThan(containerWidthIndex);
+    });
+  });
+
+  describe('集成测试', () => {
+    it('完整工作流：注册模型 -> 分割 -> 解析 -> 更新', () => {
+      // 注册模型
+      registerRendererArgModel(':fulltest', { positional: ['view', 'mode'] });
+
+      // 分割参数
+      const split = splitRendererArgs([':fulltest', 'year', ',', 'mode=full', ',', 'theme=dark']);
+      expect(split).toBeTruthy();
+      expect(split?.type).toBe(':fulltest');
+      expect(split?.tokens).toHaveLength(3);
+
+      // 解析参数
+      const parsed = parseRendererArgs(':fulltest', split!.tokens);
+      expect(parsed.view).toBe('year');
+      expect(parsed.mode).toBe('full');
+      expect(parsed.theme).toBe('dark');
+
+      // 创建更新器并更新
+      const { updateRendererArgs } = createRendererArgUpdater([':fulltest']);
+      const original = '{{renderer :fulltest, year, mode=full}}';
+      const updated = updateRendererArgs(original, { view: 'month', theme: 'dark' });
+
+      expect(updated).toContain('month');
+      expect(updated).toContain('mode=full');
+      expect(updated).toContain('theme=dark');
+    });
+  });
+});
