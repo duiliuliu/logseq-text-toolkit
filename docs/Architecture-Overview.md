@@ -13,9 +13,9 @@ Text Toolkit 是一个功能丰富的 Logseq 插件，提供以下核心功能�
 | Toolbar | 工具栏功能 | ✅ 已实现 |
 | Comment | 内联评论功能 | ✅ 已实现 |
 | TaskProgress | 任务进度追踪 | ✅ 已实现 |
-| Heatmap | 数据热力图 | ⏳ 设计中 |
-| Summary | 总结报告生成 | ⏳ 设计中 |
-| BlockView | Block 视图渲染器 | ⏳ 设计中 |
+| Heatmap | 数据热力图 | ✅ 已实现 |
+| Summary | 总结报告生成 | ✅ 已实现 |
+| BlockView | Block 视图渲染器 | ✅ 已实现 |
 
 ---
 
@@ -27,8 +27,23 @@ Text Toolkit 是一个功能丰富的 Logseq 插件，提供以下核心功能�
 Text Toolkit Plugin (项目根目录)
 ├── src/
 │   ├── components/                     # React 组件
+│   │   ├── BlockView/                (已实现 - Block视图渲染)
+│   │   │   ├── index.ts
+│   │   │   ├── mindMapView.css
+│   │   │   ├── galleryView.css
+│   │   │   ├── boardView.css
+│   │   │   ├── tableView.css
+│   │   │   └── listView.css
 │   │   ├── Comment/                   (已实现 - 评论功能)
 │   │   ├── CustomSelect/              (已实现)
+│   │   ├── Heatmap/                   (已实现 - 热力图组件)
+│   │   │   ├── Heatmap.tsx
+│   │   │   ├── YearView.tsx
+│   │   │   ├── MonthView.tsx
+│   │   │   ├── WeekView.tsx
+│   │   │   ├── HeatmapCell.tsx
+│   │   │   ├── Statistics.tsx
+│   │   │   └── heatmap.css
 │   │   ├── Modal/                     (已实现)
 │   │   ├── SelectToolbar/             (已实现 - 选择工具栏)
 │   │   ├── SettingsModal/             (已实现 - 设置面板)
@@ -37,87 +52,91 @@ Text Toolkit Plugin (项目根目录)
 │   │   │       ├── ToolbarSettings.tsx
 │   │   │       ├── AdvancedSettings.tsx
 │   │   │       ├── TaskProgressSettings.tsx
-│   │   │       ├── HeatmapSettings.tsx          (新增)
-│   │   │       └── SummarySettings.tsx          (新增)
+│   │   │       ├── HeatmapSettings.tsx
+│   │   │       ├── BlockViewSettings.tsx
+│   │   │       └── SummarySettings.tsx
+│   │   ├── Summary/                   (已实现 - 总结报告组件)
+│   │   ├── TaskProgress/              (已实现 - 任务进度组件)
+│   │   │   ├── TaskProgress.tsx
+│   │   │   ├── MiniCircleProgress.tsx
+│   │   │   ├── DotMatrixProgress.tsx
+│   │   │   ├── StatusCursorProgress.tsx
+│   │   │   ├── ProgressCapsule.tsx
+│   │   │   ├── StepProgress.tsx
+│   │   │   ├── Tooltip.tsx
+│   │   │   ├── Fireworks.tsx
+│   │   │   └── taskProgress.css
 │   │   ├── Toast/                     (已实现)
 │   │   ├── Toolbar/                   (已实现 - 工具栏)
 │   │   ├── ToolbarItem/               (已实现)
-│   │   ├── TaskProgress/              (已实现 - 任务进度)
-│   │   ├── Heatmap/                   (新增 - 热力图组件)
-│   │   │   ├── index.ts
-│   │   │   ├── Heatmap.tsx
-│   │   │   ├── YearView.tsx
-│   │   │   ├── MonthView.tsx
-│   │   │   ├── WeekView.tsx
-│   │   │   ├── HeatmapCell.tsx
-│   │   │   ├── HeatmapTooltip.tsx
-│   │   │   ├── ViewSwitcher.tsx
-│   │   │   ├── TimeNav.tsx
-│   │   │   ├── Statistics.tsx
-│   │   │   └── heatmap.css
-│   │   └── Summary/                   (新增 - 总结报告组件)
-│   │       ├── index.ts
-│   │       ├── SummaryModal.tsx
-│   │       ├── TemplateSelector.tsx
-│   │       └── summary.css
+│   │   └── ui/                        (已实现 - UI 组件库)
 │   │
 │   ├── lib/                           # 核心业务逻辑
 │   │   ├── logger/                    (已实现 - 日志模块)
+│   │   │   ├── logger.ts
+│   │   │   ├── types.ts
+│   │   │   └── index.ts
 │   │   ├── textReplace/               (已实现 - 文本替换)
+│   │   │   └── utils.ts
 │   │   ├── toolbar/                   (已实现 - 工具栏逻辑)
+│   │   │   ├── ToolbarManager.ts
+│   │   │   ├── ActionExecutor.ts
+│   │   │   ├── ExecutorRegistry.ts
+│   │   │   ├── EventBus.ts
+│   │   │   ├── ConfigParser.ts
+│   │   │   ├── types.ts
+│   │   │   └── executors/
+│   │   │       ├── TextProcessorExecutor.ts
+│   │   │       ├── CommentExecutor.ts
+│   │   │       └── ExternalPluginExecutor.ts
 │   │   ├── taskProgress/              (已实现 - 任务进度逻辑)
-│   │   ├── heatmap/                   (新增 - 热力图逻辑)
-│   │   │   ├── index.ts
+│   │   ├── heatmap/                   (已实现 - 热力图逻辑)
 │   │   │   ├── register.ts
 │   │   │   ├── query.ts
 │   │   │   ├── colorCalculator.ts
-│   │   │   └── types.ts
-│   │   └── summary/                   (新增 - 总结逻辑)
-│   │       ├── index.ts
-│   │       ├── register.ts
-│   │       ├── types.ts
-│   │       ├── TemplateEngine.ts
-│   │       ├── DataAnalyzer.ts
-│   │       ├── QueryService.ts
-│   │       ├── AIClient.ts
-│   │       ├── PageGenerator.ts
-│   │       └── templates/
-│   │           ├── gtdWorkReview.ts
-│   │           ├── minimalDashboard.ts
-│   │           ├── okrProgress.ts
-│   │           ├── morningJournal.ts
-│   │           └── studyTracker.ts
+│   │   │   ├── pageUtils.ts
+│   │   │   ├── types.ts
+│   │   │   └── index.ts
+│   │   ├── blockView/                 (已实现 - Block视图逻辑)
+│   │   │   ├── register.ts
+│   │   │   ├── types.ts
+│   │   │   └── index.ts
+│   │   ├── summary/                   (已实现 - 总结逻辑)
+│   │   │   ├── register.ts
+│   │   │   ├── types.ts
+│   │   │   ├── DataAnalyzer.ts
+│   │   │   ├── PageGenerator.ts
+│   │   │   ├── query.ts
+│   │   │   └── templates/
+│   │   │       ├── gtdWorkReview.ts
+│   │   │       ├── minimalDashboard.ts
+│   │   │       ├── okrReview.ts
+│   │   │       ├── bulletJournal.ts
+│   │   │       └── studySummary.ts
+│   │   ├── render/                    (已实现 - 渲染器工具)
+│   │   │   ├── rendererArgs.ts
+│   │   │   ├── utils.tsx
+│   │   │   └── index.tsx
+│   │   ├── cssRegistry/               (已实现 - CSS 管理)
+│   │   │   └── index.ts
+│   │   └── dateUtils/                 (已实现 - 日期工具)
+│   │       └── index.ts
 │   │
 │   ├── logseq/                        # Logseq API 封装
 │   │   ├── index.ts                   (API 入口)
 │   │   ├── editor.ts                  (Editor API)
 │   │   ├── app.ts                     (App API)
 │   │   ├── ui.ts                      (UI API)
-│   │   ├── logger.ts                  (Logger API)
-│   │   └── utils.ts                   (工具函数)
-│   │   └── mock/                      (Mock 实现)
-│   │       ├── index.ts               (Mock 入口)
-│   │       ├── app.ts
-│   │       ├── editor.ts
-│   │       ├── ui.ts
-│   │       └── logger.ts
+│   │   ├── logger.ts                   (Logger API)
+│   │   ├── utils.ts                   (工具函数)
+│   │   └── proxy.ts                   (代理配置)
 │   │
 │   ├── settings/                      # 设置管理
 │   │   ├── index.ts
 │   │   ├── types.ts                   (类型定义)
 │   │   ├── defaultSettings.ts
 │   │   ├── defaultSettings.json
-│   │   └── useSettings.tsx
-│   │
-│   ├── styles/                        # 样式文件
-│   │   ├── index.ts
-│   │   ├── themes/
-│   │   │   ├── dark.css
-│   │   │   └── light.css
-│   │   ├── modal.css
-│   │   ├── toolbar.css
-│   │   ├── customsToolbarItems.css
-│   │   └── index.ts
+│   │   └── useSettings.tsx            (设置上下文)
 │   │
 │   ├── translations/                  # 国际化
 │   │   ├── translations.ts
@@ -126,12 +145,8 @@ Text Toolkit Plugin (项目根目录)
 │   │   ├── en.json
 │   │   └── ja.json
 │   │
-│   ├── test/                          # 测试模块
+│   ├── test/                          # 测试模块 (开发用)
 │   │   ├── testAPP.tsx
-│   │   ├── testApp.css
-│   │   ├── testConfig.ts
-│   │   ├── testData.ts
-│   │   ├── style.css
 │   │   ├── components/
 │   │   ├── services/
 │   │   └── utils/
@@ -145,8 +160,12 @@ Text Toolkit Plugin (项目根目录)
 │   ├── Task-Progress-Tracking-Design.md
 │   ├── Heatmap-Design.md
 │   ├── Toolbar-Configuration-Design.md
+│   ├── optimise/                     (优化文档)
+│   │   ├── 优化方案总结.md
+│   │   └── 代码分析报告.md
 │   └── CHANGELOG_*.md
 │
+├── vitest.config.ts                   (测试配置)
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.js
@@ -173,65 +192,73 @@ Text Toolkit Plugin (项目根目录)
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
 │  │                              main.tsx (入口)                               │   │
 │  │  ┌───────────────────────────────────────────────────────────────────┐ │   │
-│  │  │  1. 加载 CSS (styles/index.ts)                                    │ │   │
-│  │  │  2. 初始化 i18n                                                   │ │   │
+│  │  │  1. 加载 CSS (lib/cssRegistry)                                   │ │   │
+│  │  │  2. 初始化 i18n (translations/)                                  │ │   │
 │  │  │  3. 加载设置 (settings/)                                          │ │   │
-│  │  │  4. 注册工具栏模块 (registerToolbar)                               │ │   │
-│  │  │  5. 注册任务进度模块 (registerTaskProgress)                        │ │   │
-│  │  │  6. 注册热力图模块 (registerHeatmap)                              │ │   │
-│  │  │  7. 注册总结模块 (registerSummary)                              │ │   │
+│  │  │  4. 注册工具栏模块 (lib/toolbar)                                   │ │   │
+│  │  │  5. 注册任务进度模块 (lib/taskProgress)                            │ │   │
+│  │  │  6. 注册热力图模块 (lib/heatmap)                                   │ │   │
+│  │  │  7. 注册总结模块 (lib/summary)                                     │ │   │
+│  │  │  8. 注册 BlockView 模块 (lib/blockView)                            │ │   │
 │  │  └───────────────────────────────────────────────────────────────────┘ │   │
 │  └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                        Toolbar Module (已实现)                             │   │
+│  │                        Toolbar Module (✅ 已实现)                            │   │
 │  │  ┌────────────────────┐ ┌────────────────────┐ ┌──────────────────┐   │   │
 │  │  │ ToolbarManager     │ │ ActionExecutor     │ │ ExecutorRegistry  │   │   │
 │  │  │ 工具栏管理器        │ │ 动作执行器          │ │ 执行器注册表      │   │   │
 │  │  └────────────────────┘ └────────────────────┘ └──────────────────┘   │   │
+│  │  ┌────────────────────┐ ┌────────────────────┐                         │   │
+│  │  │ ConfigParser       │ │ EventBus           │                         │   │
+│  │  │ 配置解析器          │ │ 事件总线            │                         │   │   │
+│  │  └────────────────────┘ └────────────────────┘                         │   │
 │  └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                    TaskProgress Module (已实现)                           │   │
+│  │                    TaskProgress Module (✅ 已实现)                           │   │
 │  │  ┌────────────────────┐ ┌────────────────────┐                         │   │
-│  │  │ TaskQueryService   │ │ StatsCalculator     │                         │   │
+│  │  │ TaskQuery         │ │ StatsCalculator     │                         │   │
 │  │  │ 任务查询服务        │ │ 统计计算服务        │                         │   │
 │  │  └────────────────────┘ └────────────────────┘                         │   │
 │  │  ┌────────────────────────────────────────────────────────────────┐    │   │
-│  │  │ UI Components: MiniCircle | DotMatrix | StatusCursor | Capsule  │    │   │
+│  │  │ UI Components: MiniCircle | DotMatrix | StatusCursor | Capsule    │    │   │
+│  │  │                  Step | Fireworks | Tooltip                     │    │   │
 │  │  └────────────────────────────────────────────────────────────────┘    │   │
 │  └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                       Heatmap Module (设计中)                             │   │
+│  │                       Heatmap Module (✅ 已实现)                             │   │
 │  │  ┌────────────────────┐ ┌────────────────────┐ ┌──────────────────┐   │   │
-│  │  │ HeatmapQuery      │ │ ColorCalculator     │ │ TimeRangeGenerator│   │   │
-│  │  │ 数据查询            │ │ 颜色计算            │ │ 时间范围生成      │   │   │
+│  │  │ HeatmapQuery       │ │ ColorCalculator    │ │ PageUtils       │   │   │
+│  │  │ 数据查询            │ │ 颜色计算            │ │ 页面工具         │   │   │
 │  │  └────────────────────┘ └────────────────────┘ └──────────────────┘   │   │
 │  │  ┌────────────────────────────────────────────────────────────────┐    │   │
-│  │  │ UI Components: YearView | MonthView | WeekView | HeatmapCell  │    │   │
+│  │  │ UI Components: YearView | MonthView | WeekView | HeatmapCell    │    │   │
+│  │  │                  Statistics                                     │    │   │
 │  │  └────────────────────────────────────────────────────────────────┘    │   │
 │  └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                       Comment Module (已实现)                             │   │
-│  │  ┌────────────────────────────────────────────────────────────────┐    │   │
-│  │  │ CommentManager | CommentModal | CommentApp                      │    │   │
-│  │  └────────────────────────────────────────────────────────────────┘    │   │
-│  └─────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                 │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                       Summary Module (设计中)                             │   │
+│  │                       Summary Module (✅ 已实现)                             │   │
 │  │  ┌────────────────────┐ ┌────────────────────┐ ┌──────────────────┐   │   │
-│  │  │ SummaryManager     │ │ TemplateEngine   │ │ DataAnalyzer    │   │   │
-│  │  │ 总结管理器        │ │ 模板引擎        │ │ 数据分析器      │   │   │
+│  │  │ DataAnalyzer      │ │ PageGenerator     │ │ Query           │   │   │
+│  │  │ 数据分析器         │ │ 页面生成器         │ │ 查询服务         │   │   │
 │  │  └────────────────────┘ └────────────────────┘ └──────────────────┘   │   │
+│  │  ┌────────────────────────────────────────────────────────────────┐    │   │
+│  │  │ Templates: GTDWorkReview | MinimalDashboard | OKRReview        │    │   │
+│  │  │           BulletJournal | StudySummary                          │    │   │
+│  │  └────────────────────────────────────────────────────────────────┘    │   │
+│  └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────┐   │
+│  │                       BlockView Module (✅ 已实现)                          │   │
 │  │  ┌────────────────────┐ ┌────────────────────┐                         │   │
-│  │  │ AIClient         │ │ PageGenerator   │                         │   │
-│  │  │ AI API 客户端     │ │ 页面生成器      │                         │   │
+│  │  │ BlockViewManager   │ │ ViewRegistry        │                         │   │
+│  │  │ 视图管理器         │ │ 视图注册表          │                         │   │
 │  │  └────────────────────┘ └────────────────────┘                         │   │
 │  │  ┌────────────────────────────────────────────────────────────────┐    │   │
-│  │  │ UI Components: SummaryModal | TemplateSelector                        │    │   │
+│  │  │ View Types: List | Table | Gallery | Board | MindMap           │    │   │
 │  │  └────────────────────────────────────────────────────────────────┘    │   │
 │  └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
@@ -241,7 +268,7 @@ Text Toolkit Plugin (项目根目录)
 │  │ Editor API         │ │ App API           │ │ DB API                    │ │
 │  │ - getBlock()       │ │ - queryElement()  │ │ - datascriptQuery()      │ │
 │  │ - getCurrentBlock()│ │ - provideUI()     │ │ - getBlockProperties()    │ │
-│  │ - insertAtEditing() │ │ - provideStyle()  │ │                           │ │
+│  │ - insertAtEditing()│ │ - provideStyle() │ │                           │ │
 │  └────────────────────┘ └────────────────────┘ └────────────────────────────┘ │
 │                                                                                 │
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
@@ -254,174 +281,62 @@ Text Toolkit Plugin (项目根目录)
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.2 数据流架构
+---
+
+## 4. 测试架构
+
+### 4.1 测试文件结构
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                              数据流架构                                           │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│   ┌──────────────┐                                                            │
-│   │   用户输入   │  ← 用户在 Logseq 中输入宏                                    │
-│   │  User Input  │    {{renderer :taskprogress}}                               │
-│   └──────┬───────┘    {{renderer :热力图 :年度视图 :tag=work}}                   │
-│          │                                                                  │
-│          ▼                                                                  │
-│   ┌──────────────────────────────────────────────────────────────────┐        │
-│   │                    Logseq Macro Renderer                           │        │
-│   │  1. 解析宏参数                                                     │        │
-│   │  2. 调用对应的渲染函数                                              │        │
-│   │  3. 获取 slot ID                                                   │        │
-│   └──────────────────────────────────┬───────────────────────────────┘        │
-│                                      │                                          │
-│                                      ▼                                          │
-│   ┌──────────────────────────────────────────────────────────────────┐        │
-│   │                    Business Logic Layer                            │        │
-│   │  ┌──────────────────────┐  ┌──────────────────────┐             │        │
-│   │  │ TaskProgressManager   │  │ HeatmapManager       │             │        │
-│   │  │ - calculateProgress() │  │ - fetchData()       │             │        │
-│   │  │ - subscribe()         │  │ - calculateColor()  │             │        │
-│   │  └───────────┬────────────┘  └──────────┬───────────┘             │        │
-│   │              │                         │                         │        │
-│   │              ▼                         ▼                         │        │
-│   │  ┌──────────────────────┐  ┌──────────────────────┐             │        │
-│   │  │ TaskQueryService     │  │ HeatmapQuery         │             │        │
-│   │  │ - queryChildren()    │  │ - queryByTag()       │             │        │
-│   │  │ - filterTasks()       │  │ - queryByPage()     │             │        │
-│   │  │ - aggregateStats()    │  │ - queryByProperty() │             │        │
-│   │  └───────────┬────────────┘  └──────────┬───────────┘             │        │
-│   └──────────────┼─────────────────────────┼─────────────────────────┘        │
-│                  │                         │                                  │
-│                  ▼                         ▼                                  │
-│   ┌──────────────────────────────────────────────────────────────────┐        │
-│   │                      Data Access Layer                             │        │
-│   │  ┌──────────────────────────────────────────────────────────────┐ │        │
-│   │  │                   Logseq API Wrapper                           │ │        │
-│   │  │  - DB.datascriptQuery(query)                                  │ │        │
-│   │  │  - Editor.getBlockChildren(id)                                │ │        │
-│   │  │  - Editor.getBlock(id)                                        │ │        │
-│   │  └──────────────────────────────────────────────────────────────┘ │        │
-│   └──────────────────────────────────────────────────────────────────┘        │
-│                                      │                                          │
-│                                      ▼                                          │
-│   ┌──────────────────────────────────────────────────────────────────┐        │
-│   │                    Logseq Internal DB                              │        │
-│   │  ┌──────────────────────────────────────────────────────────────┐ │        │
-│   │  │  Blocks | Pages | Properties | Tags | References            │ │        │
-│   │  └──────────────────────────────────────────────────────────────┘ │        │
-│   └──────────────────────────────────────────────────────────────────┘        │
-│                                                                                 │
-└─────────────────────────────────────────────────────────────────────────────────┘
+src/
+├── lib/
+│   ├── textReplace/
+│   │   └── utils.test.ts           # 文本替换测试
+│   ├── render/
+│   │   └── rendererArgs.test.ts    # 渲染参数测试
+│   ├── dateUtils/
+│   │   └── dateUtils.test.ts      # 日期工具测试
+│   ├── logger/
+│   │   └── logger.test.ts         # 日志模块测试
+│   ├── toolbar/
+│   │   ├── EventBus.test.ts       # 事件总线测试
+│   │   └── ConfigParser.test.ts    # 配置解析测试
+│   ├── heatmap/
+│   │   └── colorCalculator.test.ts  # 颜色计算测试
+│   └── cssRegistry/
+│       └── cssRegistry.test.ts     # CSS注册测试
 ```
+
+### 4.2 测试框架配置
+
+**配置文件**: `vitest.config.ts`
+
+**测试命令**:
+```bash
+npm run test           # 运行所有测试
+npm run test:watch     # 监听模式
+npm run test:ui        # 可视化测试界面
+npm run test:coverage  # 覆盖率报告
+```
+
+### 4.3 测试覆盖情况
+
+| 模块 | 测试文件 | 状态 |
+|------|---------|------|
+| textReplace | [utils.test.ts](file:///workspace/src/lib/textReplace/utils.test.ts) | ✅ 完整 |
+| render | [rendererArgs.test.ts](file:///workspace/src/lib/render/rendererArgs.test.ts) | ✅ 完整 |
+| dateUtils | [dateUtils.test.ts](file:///workspace/src/lib/dateUtils/dateUtils.test.ts) | ✅ 完整 |
+| logger | [logger.test.ts](file:///workspace/src/lib/logger/logger.test.ts) | ✅ 完整 |
+| toolbar | [EventBus.test.ts](file:///workspace/src/lib/toolbar/EventBus.test.ts) | ✅ 完整 |
+| toolbar | [ConfigParser.test.ts](file:///workspace/src/lib/toolbar/ConfigParser.test.ts) | ✅ 完整 |
+| heatmap | [colorCalculator.test.ts](file:///workspace/src/lib/heatmap/colorCalculator.test.ts) | ✅ 完整 |
+| cssRegistry | [cssRegistry.test.ts](file:///workspace/src/lib/cssRegistry/cssRegistry.test.ts) | ✅ 完整 |
 
 ---
 
-## 4. 模块详细架构
+## 5. 模块详细架构
 
-### 4.1 TaskProgress 模块架构
-
-详细设计请参考：[Task-Progress-Tracking-Design.md](file:///workspace/docs/Task-Progress-Tracking-Design.md)
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    TaskProgress 模块架构                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 应用层 (Application Layer)                                │   │
-│  │ ┌──────────────────────────────────────────────────────┐ │   │
-│  │ │ TaskProgress Components (UI 组件)                     │ │   │
-│  │ │ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │ │   │
-│  │ │ │ MiniCircle  │ │ DotMatrix   │ │StatusCursor │ │ │   │
-│  │ │ └──────────────┘ └──────────────┘ └──────────────┘ │ │   │
-│  │ │ ┌──────────────────┐ ┌──────────────┐              │ │ │   │
-│  │ │ │ ProgressCapsule │ │ StepProgress│              │ │ │   │
-│  │ │ └──────────────────┘ └──────────────┘              │ │ │   │
-│  │ └──────────────────────────────────────────────────────┘ │   │
-│  └──────────────────────┬───────────────────────────────────┘   │
-│                         │                                        │
-├─────────────────────────┼───────────────────────────────────────┤
-│ 业务逻辑层 (Business Logic Layer)                               │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ TaskProgressManager                                        │  │
-│ │ ┌──────────────────────┐ ┌──────────────────────┐          │  │
-│ │ │ TaskQueryService    │ │ TaskStatsCalculator │          │  │
-│ │ │ (任务查询服务)       │ │ (统计计算服务)       │          │  │
-│ │ └──────────────────────┘ └──────────────────────┘          │  │
-│ └────────────────────────────────────────────────────────────┘  │
-├────────────────────────────────────────────────────────────────┤
-│ 数据访问层 (Data Access Layer)                                 │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ Logseq DB Query API Wrapper                               │  │
-│ │ - datascriptQuery() - 执行 Datascript 查询                 │  │
-│ │ - getBlockById()    - 获取块信息                          │  │
-│ │ - getBlockChildren()- 获取子块列表                        │  │
-│ └────────────────────────────────────────────────────────────┘  │
-├────────────────────────────────────────────────────────────────┤
-│ 配置与设置层 (Configuration Layer)                            │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ TaskProgressSettings Tab                                   │  │
-│ │ - 展示类型配置    - 状态颜色配置                           │  │
-│ │ - 嵌套层级配置    - 叶子节点过滤                           │  │
-│ └────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### 4.2 Heatmap 模块架构
-
-详细设计请参考：[Heatmap-Design.md](file:///workspace/docs/Heatmap-Design.md)
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                      Heatmap 模块架构                            │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 应用层 (Application Layer)                                │   │
-│  │ ┌──────────────────────────────────────────────────────┐ │   │
-│  │ │ Heatmap Components (UI 组件)                          │ │   │
-│  │ │ ┌────────────┐ ┌────────────┐ ┌────────────┐         │ │   │
-│  │ │ │ YearView  │ │ MonthView │ │ WeekView   │         │ │   │
-│  │ │ └────────────┘ └────────────┘ └────────────┘         │ │   │
-│  │ │ ┌────────────────────────────────────────┐          │ │   │
-│  │ │ │ HeatmapCell | HeatmapTooltip          │          │ │   │
-│  │ │ │ ViewSwitcher | TimeNav | Statistics   │          │ │   │
-│  │ │ └────────────────────────────────────────┘          │ │   │
-│  │ └──────────────────────────────────────────────────────┘ │   │
-│  └──────────────────────┬───────────────────────────────────┘   │
-│                         │                                        │
-├─────────────────────────┼───────────────────────────────────────┤
-│ 业务逻辑层 (Business Logic Layer)                               │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ HeatmapManager                                             │  │
-│ │ ┌──────────────────────┐ ┌──────────────────────┐          │  │
-│ │ │ HeatmapQuery        │ │ ColorCalculator    │          │  │
-│ │ │ (数据查询服务)        │ │ (颜色计算服务)      │          │  │
-│ │ └──────────────────────┘ └──────────────────────┘          │  │
-│ │ ┌──────────────────────┐                                   │  │
-│ │ │ TimeRangeGenerator  │                                   │  │
-│ │ │ (时间范围生成)        │                                   │  │
-│ │ └──────────────────────┘                                   │  │
-│ └────────────────────────────────────────────────────────────┘  │
-├────────────────────────────────────────────────────────────────┤
-│ 数据访问层 (Data Access Layer)                                 │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ Logseq DB Query API Wrapper                               │  │
-│ │ - datascriptQuery() - 执行 Datascript 查询                │  │
-│ │ - 按 tag 查询      - 按 page 查询                         │  │
-│ │ - 按 property 查询 - 时间范围过滤                         │  │
-│ └────────────────────────────────────────────────────────────┘  │
-├────────────────────────────────────────────────────────────────┤
-│ 配置与设置层 (Configuration Layer)                            │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ HeatmapSettings Tab                                       │  │
-│ │ - 视图类型配置    - 颜色主题配置                          │  │
-│ │ - 展示模式配置    - 统计信息配置                          │  │
-│ └────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### 4.3 Toolbar 模块架构
+### 5.1 Toolbar 模块架构
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -445,14 +360,14 @@ Text Toolkit Plugin (项目根目录)
 ├─────────────────────────┼───────────────────────────────────────┤
 │ 业务逻辑层 (Business Logic Layer)                               │
 │ ┌────────────────────────────────────────────────────────────┐  │
-│ │ ToolbarManager                                             │  │
+│ │ ToolbarManager                                              │  │
 │ │ ┌──────────────────────┐ ┌──────────────────────┐        │  │
 │ │ │ ActionExecutor       │ │ ExecutorRegistry    │        │  │
 │ │ │ (动作执行器)           │ │ (执行器注册表)        │        │  │
 │ │ └──────────────────────┘ └──────────────────────┘        │  │
 │ │ ┌──────────────────────┐ ┌──────────────────────┐        │  │
 │ │ │ ConfigParser        │ │ EventBus            │        │  │
-│ │ │ (配置解析器)          │ │ (事件总线)          │        │  │
+│ │ │ (配置解析器)          │ │ (事件总线)            │        │  │
 │ │ └──────────────────────┘ └──────────────────────┘        │  │
 │ └────────────────────────────────────────────────────────────┘  │
 │                                                                  │
@@ -466,60 +381,7 @@ Text Toolkit Plugin (项目根目录)
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 4.4 Summary 模块架构
-
-详细设计请参考：[2026-05-12-summary-module-design.md](file:///workspace/docs/superpowers/specs/2026-05-12-summary-module-design.md)
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Summary 模块架构                             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 应用层 (Application Layer)                                │   │
-│  │ ┌──────────────────────────────────────────────────────┐ │   │
-│  │ │ Summary Components (UI 组件)                           │ │   │
-│  │ │ ┌──────────────────┐ ┌──────────────────┐            │ │   │
-│  │ │ │ SummaryModal     │ │ TemplateSelector │            │ │   │
-│  │ │ │ (配置弹窗)       │ │ (模板选择器)      │            │ │   │
-│  │ │ └──────────────────┘ └──────────────────┘            │ │   │
-│  │ └──────────────────────────────────────────────────────┘ │   │
-│  └──────────────────────┬───────────────────────────────────┘   │
-│                         │                                        │
-├─────────────────────────┼───────────────────────────────────────┤
-│ 业务逻辑层 (Business Logic Layer)                               │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ SummaryManager                                          │  │
-│ │ ┌──────────────────────┐ ┌──────────────────────┐          │  │
-│ │ │ TemplateEngine     │ │ DataAnalyzer      │          │  │
-│ │ │ (模板引擎)          │ │ (数据分析器)          │          │  │
-│ │ └──────────────────────┘ └──────────────────────┘          │  │
-│ │ ┌──────────────────────┐ ┌──────────────────────┐          │  │
-│ │ │ AIClient        │ │ PageGenerator     │          │  │
-│ │ │ (AI API 客户端)     │ │ (页面生成器)         │          │  │
-│ │ └──────────────────────┘ └──────────────────────┘          │  │
-│ │ ┌─────────────────────────────────────────────────────┐ │  │
-│ │ │ Templates: GTDWorkReview | MinimalDashboard | OKR  │ │  │
-│ │ └─────────────────────────────────────────────────────┘ │  │
-│ └────────────────────────────────────────────────────────────┘  │
-├────────────────────────────────────────────────────────────────┤
-│ 数据访问层 (Data Access Layer)                                 │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ QueryService - BlockQuery | TaskQuery | PageQuery           │  │
-│ └────────────────────────────────────────────────────────────┘  │
-├────────────────────────────────────────────────────────────────┤
-│ 配置与设置层 (Configuration Layer)                            │
-│ ┌────────────────────────────────────────────────────────────┐  │
-│ │ SummarySettings Tab                                       │  │
-│ │ - 默认模板配置  - 日期格式配置                            │  │
-│ │ - AI API 配置  - 页面名称模板                            │  │
-│ └────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### 4.5 BlockView 模块架构
-
-详细设计请参考：[Block-View-Renderer-Design.md](file:///workspace/docs/Block-View-Renderer-Design.md)
+### 5.2 BlockView 模块架构
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -530,7 +392,7 @@ Text Toolkit Plugin (项目根目录)
 │  │ 视图层 (View Layer)                                       │   │
 │  │ ┌────────────────────────────────────────────────────┐ │   │
 │  │ │ ViewSwitcher Bar (视图切换工具条)                      │ │   │
-│  │ │ [List] [Table] [Gallery] [Board]                   │ │   │
+│  │ │ [List] [Table] [Gallery] [Board] [MindMap]         │ │   │
 │  │ └────────────────────────────────────────────────────┘ │   │
 │  └──────────────────────┬───────────────────────────────────┘   │
 │                         │                                        │
@@ -539,13 +401,9 @@ Text Toolkit Plugin (项目根目录)
 │ ┌────────────────────────────────────────────────────────────┐  │
 │ │ BlockViewManager                                          │  │
 │ │ ┌──────────────────────┐ ┌──────────────────────┐        │  │
-│ │ │ ViewRegistry         │ │ ViewSwitcher       │        │  │
-│ │ │ (视图注册表)           │ │ (视图切换器)         │        │  │
+│ │ │ ViewRegistry         │ │ MacroRenderer       │        │  │
+│ │ │ (视图注册表)           │ │ (宏命令渲染器)         │        │  │
 │ │ └──────────────────────┘ └──────────────────────┘        │  │
-│ │ ┌──────────────────────┐                                 │  │
-│ │ │ MacroRenderer       │                                 │  │
-│ │ │ (宏命令渲染器)         │                                 │  │
-│ │ └──────────────────────┘                                 │  │
 │ └────────────────────────────────────────────────────────────┘  │
 ├────────────────────────────────────────────────────────────────┤
 │ 视图类型                                                      │
@@ -554,6 +412,7 @@ Text Toolkit Plugin (项目根目录)
 │ │ Table  - 表格视图（支持列宽调整）                           │  │
 │ │ Gallery - 卡片画廊视图                                     │  │
 │ │ Board  - 看板视图                                         │  │
+│ │ MindMap - 思维导图视图                                    │  │
 │ └────────────────────────────────────────────────────────────┘  │
 ├────────────────────────────────────────────────────────────────┤
 │ CSS 样式隔离                                                  │
@@ -567,39 +426,13 @@ Text Toolkit Plugin (项目根目录)
 
 ---
 
-## 5. API 设计
+## 6. API 设计
 
-### 5.1 Logseq API Wrapper
+### 6.1 Logseq API Wrapper
 
-**文件位置**：[src/logseq/index.ts](file:///workspace/src/logseq/index.ts)
+**文件位置**: [src/logseq/index.ts](file:///workspace/src/logseq/index.ts)
 
-```typescript
-export const logseqAPI = {
-  // Editor API
-  Editor: {
-    getBlock: (id: string) => Promise<Block | null>,
-    getBlockChildren: (id: string) => Promise<Block[]>,
-    getCurrentBlock: () => Promise<Block | null>,
-    insertAtEditingCursor: (text: string) => Promise<void>,
-    registerSlashCommand: (id: string, handler: () => void) => void,
-  },
-  
-  // App API
-  App: {
-    queryElementById: (id: string) => Promise<HTMLElement | null>,
-    provideUI: (config: UIConfig) => void,
-    provideStyle: (config: StyleConfig) => void,
-    onMacroRendererSlotted: (handler: MacroHandler) => void,
-  },
-  
-  // DB API
-  DB: {
-    datascriptQuery: (query: string) => Promise<any>,
-  },
-};
-```
-
-### 5.2 模块注册接口
+### 6.2 模块注册接口
 
 ```typescript
 // TaskProgress 注册
@@ -610,106 +443,61 @@ export function registerHeatmap(): void;
 
 // Toolbar 注册
 export function registerToolbar(): void;
+
+// Summary 注册
+export function registerSummary(): void;
+
+// BlockView 注册
+export function registerBlockView(): void;
 ```
 
 ---
 
-## 6. 样式设计规范
+## 7. 设计原则
 
-### 6.1 CSS 变量
+### 7.1 组件设计原则
 
-```css
-:root {
-  /* 主色调 */
-  --ls-primary-color: #6366f1;
-  --ls-primary-background-color: #ffffff;
-  --ls-secondary-background-color: #f3f4f6;
-  
-  /* 文字颜色 */
-  --ls-primary-text-color: #1f2937;
-  --ls-secondary-text-color: #6b7280;
-  
-  /* 边框 */
-  --ls-border-color: #e5e7eb;
-  
-  /* 状态颜色 */
-  --ls-success-color: #10b981;
-  --ls-warning-color: #f59e0b;
-  --ls-error-color: #ef4444;
-}
-```
+1. **单一职责**: 每个组件只负责一个功能
+2. **可复用性**: 组件应具有通用性，可在不同场景复用
+3. **可测试性**: 组件应易于单元测试
+4. **样式隔离**: 使用 CSS Modules 或样式前缀避免样式冲突
 
-### 6.2 样式文件结构
+### 7.2 模块设计原则
 
-```
-src/styles/
-├── index.ts                 # 导出入口
-├── themes/
-│   ├── dark.css           # 深色主题
-│   └── light.css          # 浅色主题
-├── modal.css              # 弹窗样式
-├── toolbar.css            # 工具栏样式
-├── customsToolbarItems.css # 自定义工具栏项
-└── index.ts               # 导出
-```
+1. **松耦合**: 模块之间通过接口通信，减少直接依赖
+2. **可扩展**: 预留扩展点，便于后续功能添加
+3. **配置化**: 功能通过配置控制，减少硬编码
+
+### 7.3 测试原则
+
+1. **单元测试**: 每个独立模块应有完整的单元测试
+2. **覆盖率目标**:
+   - 核心模块 (textReplace, rendererArgs): ≥ 90%
+   - 工具模块 (logger, dateUtils, EventBus): ≥ 80%
+   - 业务模块 (heatmap, blockView, toolbar): ≥ 70%
 
 ---
 
-## 7. 测试架构
-
-### 7.1 Mock 架构
-
-```
-src/logseq/mock/
-├── index.ts          # Mock 入口
-├── app.ts           # App API Mock
-├── editor.ts        # Editor API Mock
-├── ui.ts            # UI API Mock
-└── logger.ts        # Logger Mock
-```
-
-### 7.2 测试模式
-
-- **开发模式**：使用真实 Logseq API
-- **测试模式**：使用 Mock API，模拟各种数据场景
-
----
-
-## 8. 设计原则
-
-### 8.1 组件设计原则
-
-1. **单一职责**：每个组件只负责一个功能
-2. **可复用性**：组件应具有通用性，可在不同场景复用
-3. **可测试性**：组件应易于单元测试
-4. **样式隔离**：使用 CSS Modules 或样式前缀避免样式冲突
-
-### 8.2 模块设计原则
-
-1. **松耦合**：模块之间通过接口通信，减少直接依赖
-2. **可扩展**：预留扩展点，便于后续功能添加
-3. **配置化**：功能通过配置控制，减少硬编码
-
-### 8.3 数据流原则
-
-1. **单向数据流**：数据从父组件向子组件传递
-2. **状态提升**：共享状态提升到最近的公共父组件
-3. **不可变性**：状态更新使用不可变数据结构
-
----
-
-## 9. 相关文档
+## 8. 相关文档
 
 | 文档 | 说明 |
 | :--- | :--- |
 | [Task-Progress-Tracking-Design.md](file:///workspace/docs/Task-Progress-Tracking-Design.md) | 任务进度追踪模块详细设计 |
 | [Heatmap-Design.md](file:///workspace/docs/Heatmap-Design.md) | 热力图组件详细设计 |
-| [Summary-Module-Design.md](file:///workspace/docs/superpowers/specs/2026-05-12-summary-module-design.md) | 总结模块详细设计 |
 | [Toolbar-Configuration-Design.md](file:///workspace/docs/Toolbar-Configuration-Design.md) | 工具栏配置设计 |
-| [Block-View-Renderer-Design.md](file:///workspace/docs/Block-View-Renderer-Design.md) | Block视图渲染器设计 |
-| [DEVELOPMENT.md](file:///workspace/docs/DEVELOPMENT.md) | 开发指南 |
+| [优化方案总结.md](file:///workspace/docs/optimise/优化方案总结.md) | 优化方案和已完成改进 |
+| [代码分析报告.md](file:///workspace/docs/optimise/代码分析报告.md) | 代码质量和性能分析 |
+
+---
+
+## 9. 版本历史
+
+| 版本 | 日期 | 变更内容 |
+|------|------|----------|
+| v1.1 | 2026-05-28 | 添加完整测试框架，更新架构文档 |
+| v1.0 | 2026-05-14 | 初始架构文档 |
 
 ---
 
 *文档版本: v1.1*
-*最后更新: 2026-05-14*
+*最后更新: 2026-05-28*
