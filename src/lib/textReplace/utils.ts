@@ -284,8 +284,15 @@ export const needsQuotes = (text: string): boolean => {
     return false;
   }
   
-  return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
-         text.includes('"') || text.includes("'");
+  // 如果文本已经被引号包裹，不需要再次包裹
+  if ((text.startsWith('"') && text.endsWith('"')) || 
+      (text.startsWith("'") && text.endsWith("'"))) {
+    return false;
+  }
+
+  // 只在包含普通空格时才需要引号
+  // 单独的全角空格、非断空格、引号等不需要强制包裹
+  return text.includes(' ');
 };
 
 /**
