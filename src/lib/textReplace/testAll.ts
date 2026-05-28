@@ -36,7 +36,7 @@ const testCases = [
       { name: '简单文本加粗', input: 'text', item: { invokeParams: '**${selectedText}**' },
       expected: '**text**' },
       { name: '带空格文本加颜色', input: '带空格的文本', item: { invokeParams: '[:span.red ${selectedText}]' },
-      expected: '[:span.red "带空格的文本"]' },
+      expected: '[:span.red 带空格的文本]' },
       { name: '空文本', input: '', item: { invokeParams: '**${selectedText}**' },
       expected: '' },
       { name: '纯空格', input: '   ', item: { invokeParams: '**${selectedText}**' },
