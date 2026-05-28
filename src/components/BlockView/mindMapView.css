@@ -256,9 +256,7 @@ html.dark .ltt-mindmap-root {
   opacity: 0.7;
 }
 
-.ltt-mindmap-root .block-control {
-  display: none !important;
-}
+
 
 /* =========================================================
    SECOND LEVEL CHILDREN - 二级内容容器

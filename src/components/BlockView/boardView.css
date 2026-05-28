@@ -484,9 +484,7 @@ html.dark .theme-indigo {
   transition: opacity 0.15s ease;
 }
 
-.ltt-board-root .block-control {
-  display: none !important;
-}
+
 
 .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
   opacity: 1;
