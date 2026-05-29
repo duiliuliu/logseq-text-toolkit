@@ -22,13 +22,13 @@ Milestone 是一个用于展示项目进度、面试流程等阶段性进展的 
 
 ```
 面试流程管理：
-  {{renderer :milestone :interview :style=capsule :property=stage}}
+  {{renderer :milestone tag=面试 style=capsule property=stage}}
 
 项目进度追踪：
-  {{renderer :milestone :project :style=progress :property=phase}}
+  {{renderer :milestone tag=项目 style=badge property=phase}}
 
-时间轴展示：
-  {{renderer :milestone :timeline :style=track :property=quarter}}
+直接指定里程碑节点：
+  {{renderer :milestone style=track list=计划,开发,测试,上线}}
 ```
 
 ## 2. 数据模型设计
@@ -53,9 +53,8 @@ export interface MilestoneItem {
 
 export type MilestoneStatus = 
   | 'completed'   // 已完成
-  | 'in-progress' // 进行中
-  | 'pending'     // 待开始
-  | 'failed';     // 已失败/未通过
+  | 'in_progress' // 进行中
+  | 'pending';     // 待开始
 
 export interface MilestoneData {
   items: MilestoneItem[];
@@ -65,13 +64,15 @@ export interface MilestoneData {
 }
 
 export interface MilestoneConfig {
-  property: string;              // 属性名 (如 "stage", "phase")
+  property?: string;             // 属性名 (如 "stage", "phase") - 与 list 二选一
+  list?: string[];              // 直接指定的里程碑节点列表 - 与 property 二选一
   tag?: string;                  // 过滤标签
   style: MilestoneDisplayStyle;  // 展示样式
   showProgress?: boolean;        // 是否显示进度
   showLabels?: boolean;          // 是否显示标签
   colorScheme?: ColorScheme;     // 颜色配置
   language?: string;             // 语言
+  dateField?: string;            // 日期字段名，默认 "scheduled"
 }
 
 export type MilestoneDisplayStyle = 
@@ -85,8 +86,7 @@ export interface ColorScheme {
   completed: string;    // 已完成颜色
   inProgress: string;   // 进行中颜色
   pending: string;      // 待开始颜色
-  failed: string;       // 失败颜色
-  background: string;    // 背景色
+  background: string;   // 背景色
   text: string;         // 文字色
 }
 ```
@@ -203,23 +203,7 @@ src/
 
 ### 4.1 属性枚举获取
 
-**需求**：获取用户自定义属性 `a` 的所有枚举值
-
-**API 示例**：
-
-```bash
-curl 'http://127.0.0.1:12315/api' \
--H 'Authorization: Bearer sw6ur06m7' \
--H 'Content-Type: application/json' \
---data-raw '{
-  "method": "logseq.DB.datascriptQuery",
-  "args": [
-    "[:find (pull ?val [* {:block/refs [:block/title]}]) 
-      :where 
-      [_ :user.property/-ae_Y5gsx ?val]]"
-  ]
-}'
-```
+**需求**：根据用户指定的属性名获取该属性的所有枚举值作为里程碑节点，或直接使用用户指定的节点列表。
 
 **实现代码**：
 
@@ -419,28 +403,33 @@ export class MilestoneQuery {
    * 执行带过滤条件的查询
    */
   static async query(
-    tag?: string,
-    property?: string,
-    propertyValue?: string
+    config: {
+      tag?: string;
+      property?: string;
+      list?: string[];
+      dateField?: string;
+    }
   ): Promise<MilestoneData> {
+    const { tag, property, list, dateField = 'scheduled' } = config;
+
     try {
-      // 1. 如果指定了属性值，直接查询该值对应的块
-      if (property && propertyValue) {
-        return await this.queryByPropertyValue(property, propertyValue, tag);
+      // 1. 如果指定了 list，直接使用用户指定的里程碑节点
+      if (list && list.length > 0) {
+        return await this.queryByList(list, tag, dateField);
       }
 
-      // 2. 如果只指定了属性，获取所有枚举值
+      // 2. 如果指定了属性，获取所有枚举值
       if (property) {
-        return await this.queryByPropertyEnum(property, tag);
+        return await this.queryByPropertyEnum(property, tag, dateField);
       }
 
       // 3. 如果只指定了标签，获取标签关联的所有块
       if (tag) {
-        return await this.queryByTag(tag);
+        return await this.queryByTag(tag, dateField);
       }
 
       // 4. 默认查询
-      return await this.queryDefault();
+      return await this.queryDefault(dateField);
     } catch (error) {
       logger.error('[MilestoneQuery] Query failed:', error);
       return this.createEmptyData();
@@ -448,17 +437,75 @@ export class MilestoneQuery {
   }
 
   /**
-   * 根据属性值查询
+   * 根据直接指定的节点列表查询
    */
-  private static async queryByPropertyValue(
-    property: string,
-    value: string,
-    tag?: string
+  private static async queryByList(
+    list: string[],
+    tag?: string,
+    dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
-    const query = this.buildPropertyValueQuery(property, value, tag);
-    const result = await logseqAPI.DB.datascriptQuery(query);
+    const items: MilestoneItem[] = [];
 
-    return this.parseBlocksToMilestone(result, property);
+    for (const label of list) {
+      const blocks = await this.getBlocksByLabel(label, tag);
+      const status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+      const progress = StatusCalculator.calculateProgress(blocks, dateField);
+      const date = StatusCalculator.getLatestDate(blocks, dateField);
+
+      items.push({
+        id: `milestone-${label}`,
+        label,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 根据标签获取对应块
+   */
+  private static async getBlocksByLabel(
+    label: string,
+    tag?: string
+  ): Promise<BlockWithProperty[]> {
+    let query = `[:find (pull ?b [*]) :where`;
+    query += ` [?b :block/content ?c]`;
+    query += ` [(contains? ?c "${label}")]`;
+    
+    if (tag) {
+      query += ` [?b :block/tags ?t]`;
+      query += ` [?t :block/title "${tag}"]`;
+    }
+    
+    query += `]`;
+
+    const result = await logseqAPI.DB.datascriptQuery(query);
+    const blocks: BlockWithProperty[] = [];
+
+    for (const row of result) {
+      if (!row || !Array.isArray(row)) continue;
+      for (const item of row) {
+        if (!item) continue;
+        blocks.push({
+          id: item.id?.toString() || '',
+          uuid: item.uuid || '',
+          content: item.content || item['block/title'] || '',
+          properties: item.properties || {},
+          createdAt: item['created-at'] || '',
+          updatedAt: item['updated-at'] || '',
+        });
+      }
+    }
+
+    return blocks;
   }
 
   /**
@@ -466,7 +513,8 @@ export class MilestoneQuery {
    */
   private static async queryByPropertyEnum(
     property: string,
-    tag?: string
+    tag?: string,
+    dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
     // 获取属性的所有枚举值
     const enums = tag 
@@ -477,8 +525,9 @@ export class MilestoneQuery {
     const items: MilestoneItem[] = enums.map((enumItem, index) => ({
       id: `milestone-${index}`,
       label: enumItem.value,
-      status: this.calculateStatus(enumItem.blocks),
-      progress: this.calculateProgress(enumItem.blocks),
+      status: this.calculateStatus(enumItem.blocks, dateField),
+      progress: this.calculateProgress(enumItem.blocks, dateField),
+      date: StatusCalculator.getLatestDate(enumItem.blocks, dateField),
       color: undefined,
     }));
 
@@ -493,7 +542,10 @@ export class MilestoneQuery {
   /**
    * 根据标签查询
    */
-  private static async queryByTag(tag: string): Promise<MilestoneData> {
+  private static async queryByTag(
+    tag: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
     const query = `
       [:find (pull ?b [*])
        :where
@@ -502,7 +554,7 @@ export class MilestoneQuery {
     `;
 
     const result = await logseqAPI.DB.datascriptQuery(query);
-    return this.parseBlocksToMilestone(result);
+    return this.parseBlocksToMilestone(result, undefined, dateField);
   }
 
   /**
@@ -536,7 +588,8 @@ export class MilestoneQuery {
    */
   private static parseBlocksToMilestone(
     result: any[],
-    property?: string
+    property?: string,
+    dateField: string = 'scheduled'
   ): MilestoneData {
     const blocks: BlockWithProperty[] = [];
 
@@ -551,8 +604,8 @@ export class MilestoneQuery {
           uuid: item.uuid || '',
           content: item.content || item['block/title'] || '',
           properties: item.properties || {},
-          createdAt: item.createdAt || '',
-          updatedAt: item.updatedAt || '',
+          createdAt: item['created-at'] || '',
+          updatedAt: item['updated-at'] || '',
         });
       }
     }
@@ -581,8 +634,9 @@ export class MilestoneQuery {
         items.push({
           id: `milestone-${index++}`,
           label: value,
-          status: this.calculateStatus(groupBlocks),
-          progress: this.calculateProgress(groupBlocks),
+          status: this.calculateStatus(groupBlocks, dateField),
+          progress: this.calculateProgress(groupBlocks, dateField),
+          date: StatusCalculator.getLatestDate(groupBlocks, dateField),
         });
       });
 
@@ -598,8 +652,9 @@ export class MilestoneQuery {
     const items: MilestoneItem[] = blocks.map((block, index) => ({
       id: `milestone-${index}`,
       label: block.content.substring(0, 50),
-      status: this.calculateStatus([block]),
-      progress: this.calculateProgress([block]),
+      status: this.calculateStatus([block], dateField),
+      progress: this.calculateProgress([block], dateField),
+      date: StatusCalculator.getLatestDate([block], dateField),
     }));
 
     return {
@@ -613,15 +668,21 @@ export class MilestoneQuery {
   /**
    * 计算状态
    */
-  private static calculateStatus(blocks: BlockWithProperty[]): MilestoneStatus {
-    return StatusCalculator.calculateFromBlocks(blocks);
+  private static calculateStatus(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): MilestoneStatus {
+    return StatusCalculator.calculateFromBlocks(blocks, dateField);
   }
 
   /**
    * 计算进度
    */
-  private static calculateProgress(blocks: BlockWithProperty[]): number {
-    return StatusCalculator.calculateProgress(blocks);
+  private static calculateProgress(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): number {
+    return StatusCalculator.calculateProgress(blocks, dateField);
   }
 
   /**
@@ -635,6 +696,18 @@ export class MilestoneQuery {
     }, 0);
 
     return Math.round(totalProgress / items.length);
+  }
+
+  /**
+   * 默认查询
+   */
+  private static async queryDefault(dateField: string = 'scheduled'): Promise<MilestoneData> {
+    return {
+      items: [],
+      totalCount: 0,
+      completedCount: 0,
+      overallProgress: 0,
+    };
   }
 
   /**
@@ -662,71 +735,155 @@ export class MilestoneQuery {
 
 import type { BlockWithProperty, MilestoneStatus } from './types.ts';
 
+const parseTimestamp = (value: any): number | null => {
+  if (!value) return null;
+  const n = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(n) ? n : null;
+};
+
+const parseCustomProperty = (value: any): number | null => {
+  if (!value) return null;
+  
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+  
+  if (typeof value === 'string') {
+    const asNumber = Number(value);
+    if (Number.isFinite(asNumber)) {
+      return asNumber;
+    }
+    
+    const asDate = new Date(value);
+    if (!isNaN(asDate.getTime())) {
+      return asDate.getTime();
+    }
+    
+    const logseqDateMatch = value.match(/^(\\d{4})[-/](\\d{1,2})[-/](\\d{1,2})/);
+    if (logseqDateMatch) {
+      const [, year, month, day] = logseqDateMatch;
+      const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+      if (!isNaN(parsedDate.getTime())) {
+        return parsedDate.getTime();
+      }
+    }
+  }
+  
+  return null;
+};
+
+const getTimestampByField = (block: any, dateField: string = 'scheduled'): number | null => {
+  switch (dateField) {
+    case 'scheduled':
+      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
+    case 'deadline':
+      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
+    case 'created-at':
+      return parseTimestamp(block?.['created-at'] ?? block?.['block/created-at']);
+    case 'updated-at':
+      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
+    default:
+      // 自定义属性
+      const customValue = block?.['block/properties']?.[dateField];
+      return parseCustomProperty(customValue);
+  }
+};
+
 export class StatusCalculator {
   /**
    * 从块列表计算状态
+   * 
+   * 规则：
+   * - 没有该节点数据：pending
+   * - 有数据且 scheduled 已过（早于今天）：completed
+   * - 有数据且 scheduled 在今天或未来：in_progress
    */
-  static calculateFromBlocks(blocks: BlockWithProperty[]): MilestoneStatus {
+  static calculateFromBlocks(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): MilestoneStatus {
     if (blocks.length === 0) {
       return 'pending';
     }
 
-    // 检查是否有 marker 属性
-    const markers = blocks
-      .map(b => b.properties?.marker?.toString().toLowerCase())
-      .filter(Boolean);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
-    if (markers.some(m => m === 'done')) {
-      // 如果有任何块标记为完成
-      if (markers.every(m => m === 'done')) {
+    // 收集所有块的日期时间戳
+    const timestamps = blocks
+      .map(b => getTimestampByField(b, dateField))
+      .filter(Boolean) as number[];
+
+    if (timestamps.length === 0) {
+      // 没有日期信息，检查 marker 作为备选
+      const markers = blocks
+        .map(b => b.properties?.marker?.toString().toLowerCase())
+        .filter(Boolean);
+
+      if (markers.some(m => m === 'done')) {
         return 'completed';
       }
-      return 'in-progress';
+      if (markers.some(m => m === 'doing' || m === 'in-progress')) {
+        return 'in_progress';
+      }
+      return 'in_progress'; // 有数据但无日期，默认进行中
     }
 
-    if (markers.some(m => m === 'doing' || m === 'in-progress')) {
-      return 'in-progress';
+    // 使用最早的日期来判断状态
+    const minTimestamp = Math.min(...timestamps);
+
+    if (minTimestamp < today) {
+      return 'completed';
     }
 
-    return 'pending';
+    return 'in_progress';
   }
 
   /**
    * 计算进度百分比
    */
-  static calculateProgress(blocks: BlockWithProperty[]): number {
+  static calculateProgress(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): number {
     if (blocks.length === 0) {
       return 0;
     }
 
-    const markers = blocks.map(b => b.properties?.marker?.toString().toLowerCase());
-    const doneCount = markers.filter(m => m === 'done').length;
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
-    return Math.round((doneCount / blocks.length) * 100);
+    const completedCount = blocks.filter(b => {
+      const ts = getTimestampByField(b, dateField);
+      if (!ts) {
+        // 无日期，检查 marker
+        return b.properties?.marker?.toString().toLowerCase() === 'done';
+      }
+      return ts < today;
+    }).length;
+
+    return Math.round((completedCount / blocks.length) * 100);
   }
 
   /**
-   * 从日期计算状态
+   * 获取最新的日期字符串（用于显示）
    */
-  static calculateFromDate(
-    dateStr: string,
-    referenceDate: Date = new Date()
-  ): MilestoneStatus {
-    const date = new Date(dateStr);
-    
-    if (isNaN(date.getTime())) {
-      return 'pending';
-    }
+  static getLatestDate(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): string | null {
+    const timestamps = blocks
+      .map(b => getTimestampByField(b, dateField))
+      .filter(Boolean) as number[];
 
-    if (date < referenceDate) {
-      return 'completed';
-    }
+    if (timestamps.length === 0) return null;
 
-    if (date.toDateString() === referenceDate.toDateString()) {
-      return 'in-progress';
-    }
-
-    return 'pending';
+    const maxTimestamp = Math.max(...timestamps);
+    const date = new Date(maxTimestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }
 ```
@@ -797,12 +954,14 @@ function parseMacroArguments(args: string[]): {
   tag?: string;
   style: MilestoneDisplayStyle;
   property?: string;
-  propertyValue?: string;
+  list?: string[];
+  dateField?: string;
 } {
   let tag: string | undefined;
   let style: MilestoneDisplayStyle = 'capsule';
   let property: string | undefined;
-  let propertyValue: string | undefined;
+  let list: string[] | undefined;
+  let dateField: string = 'scheduled';
 
   for (const arg of args) {
     if (!arg) continue;
@@ -816,26 +975,33 @@ function parseMacroArguments(args: string[]): {
       continue;
     }
 
-    // 解析 property=xxx 或 property
+    // 解析 tag=xxx
+    if (arg.startsWith('tag=')) {
+      tag = arg.substring(4);
+      continue;
+    }
+
+    // 解析 property=xxx
     if (arg.startsWith('property=')) {
       property = arg.substring(9);
-    } else if (arg.startsWith(':') && !arg.includes('=')) {
-      // 可能是 tag
-      tag = arg.substring(1);
-    } else if (arg.includes('=')) {
-      // property=value 格式
-      const [key, value] = arg.split('=');
-      if (key && value) {
-        property = key;
-        propertyValue = value;
-      }
-    } else if (!property) {
-      // 默认作为 property
-      property = arg;
+      continue;
+    }
+
+    // 解析 list=xxx,yyy,zzz
+    if (arg.startsWith('list=')) {
+      const listStr = arg.substring(5);
+      list = listStr.split(',').map(s => s.trim()).filter(Boolean);
+      continue;
+    }
+
+    // 解析 dateField=xxx
+    if (arg.startsWith('dateField=')) {
+      dateField = arg.substring(10);
+      continue;
     }
   }
 
-  return { tag, style, property, propertyValue };
+  return { tag, style, property, list, dateField };
 }
 
 /**
