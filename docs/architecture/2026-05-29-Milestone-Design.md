@@ -56,22 +56,44 @@ Milestone 组件支持**两种数据模型**，以适应不同的使用场景：
 ```
 笔记结构：
 # 安克项目
-  - 需求分析 DONE 2026-01-10
-  - 系统设计 DONE 2026-01-15
-  - 开发完成 DONE 2026-02-01
+  - 需求分析 created:2026-01-01 scheduled:2026-01-10
+  - 系统设计 created:2026-01-10 scheduled:2026-01-20
+  - 开发完成 created:2026-01-20 scheduled:2026-02-01
 
 使用宏命令：
 {{renderer :milestone, tag=安克项目, list=需求;设计;开发;测试;上线}}
 
 生成效果：
-[● 需求] [● 设计] [● 开发] [○ 测试] [○ 上线]
+[● 需求 100%] [● 设计 100%] [● 开发 100%] [○ 测试 0%] [○ 上线 0%]
 ```
 
 **特点**：
 - 固定阶段列表（如"需求;设计;开发;测试;上线"）作为里程碑节点
 - 查询每个阶段是否有对应的块
-- 有块 → 根据日期计算状态；无块 → pending
-- 适合单一实体的时间线场景
+- 无块 → pending（待开始）
+- 有块 → 根据日期计算状态和进度
+
+**状态计算规则**：
+
+| 条件 | 状态 |
+|------|------|
+| 无块 | `pending` |
+| 有块 + scheduled 已过（早于今天） | `completed` |
+| 有块 + scheduled 在今天或未来 | `in_progress` |
+
+**进度计算公式**：
+
+```
+进度 = (scheduled - today) / (scheduled - created) × 100%
+```
+
+| 时间点 | 进度 |
+|--------|------|
+| today = created | 0% |
+| today = 中间 | 按比例计算 |
+| today = scheduled | 100% |
+| today > scheduled | 100% |
+| today < created | 0% |
 
 ### 1.4 使用场景
 
@@ -539,16 +561,24 @@ export class MilestoneQuery {
   /**
    * 根据阶段列表 + 标签查询（支持 content 关键词匹配）
    * 
-   * 这是您设想的数据模型：
+   * 固定阶段列表模式：
    * 1. 指定固定的阶段列表：["需求", "设计", "开发", "测试", "上线"]
    * 2. 指定标签过滤：tag="安克项目"
    * 3. 查询每个阶段是否有对应的块（通过内容匹配）
+   * 
+   * 状态计算：
+   * - 无块 → pending
+   * - 有块 + scheduled 已过 → completed
+   * - 有块 + scheduled 未来 → in_progress
+   * 
+   * 进度计算：使用线性进度公式
+   * (scheduled - today) / (scheduled - created)
    * 
    * 使用场景：
    * {{renderer :milestone, tag=安克项目, list=需求;设计;开发;测试;上线}}
    * 
    * 会生成：
-   * [● 需求] [● 设计] [● 开发] [◐ 测试] [○ 上线]
+   * [● 需求 100%] [● 设计 100%] [● 开发 100%] [◐ 测试 60%] [○ 上线 0%]
    */
   private static async queryByStageList(
     list: string[],
@@ -561,7 +591,7 @@ export class MilestoneQuery {
       // 查询该阶段在指定标签下是否有对应的块
       const blocks = await this.getBlocksByStage(stage, tag);
       
-      // 根据块的数量和日期判断状态
+      // 根据块的数量和日期计算状态和进度
       let status: MilestoneStatus = 'pending';
       let progress = 0;
       let date: string | null = null;
@@ -569,7 +599,7 @@ export class MilestoneQuery {
       if (blocks.length > 0) {
         status = StatusCalculator.calculateFromBlocks(blocks, dateField);
         progress = StatusCalculator.calculateProgress(blocks, dateField);
-        date = StatusCalculator.getLatestDate(blocks, dateField);
+        date = StatusCalculator.getScheduledDate(blocks, dateField);
       }
 
       items.push({
@@ -944,12 +974,12 @@ const getTimestampByField = (block: any, dateField: string = 'scheduled'): numbe
 
 export class StatusCalculator {
   /**
-   * 从块列表计算状态
-   * 
+   * 从块列表计算状态（固定阶段列表模式）
+   *
    * 规则：
-   * - 没有该节点数据：pending
-   * - 有数据且 scheduled 已过（早于今天）：completed
-   * - 有数据且 scheduled 在今天或未来：in_progress
+   * - 无块 → pending
+   * - 有块 + scheduled 已过（早于今天）→ completed
+   * - 有块 + scheduled 在今天或未来 → in_progress
    */
   static calculateFromBlocks(
     blocks: BlockWithProperty[],
@@ -962,7 +992,7 @@ export class StatusCalculator {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
-    // 收集所有块的日期时间戳
+    // 收集所有块的 scheduled 时间戳
     const timestamps = blocks
       .map(b => getTimestampByField(b, dateField))
       .filter(Boolean) as number[];
@@ -985,7 +1015,7 @@ export class StatusCalculator {
       return 'in_progress'; // 有数据但无日期，默认进行中
     }
 
-    // 使用最早的日期来判断状态
+    // 使用最早的 scheduled 日期来判断状态
     const minTimestamp = Math.min(...timestamps);
 
     if (minTimestamp < today) {
@@ -996,7 +1026,18 @@ export class StatusCalculator {
   }
 
   /**
-   * 计算进度百分比
+   * 计算单个阶段的进度百分比（线性进度）
+   *
+   * 公式：(scheduled - today) / (scheduled - created)
+   *
+   * 场景：假设任务从 created 开始，计划在 scheduled 完成
+   * - 今天 = created → 进度 0%
+   * - 今天 = scheduled → 进度 100%
+   * - 今天 = 中间 → 按比例计算
+   *
+   * @param blocks - 该阶段关联的块列表
+   * @param dateField - 日期字段名，默认 scheduled
+   * @returns 进度百分比 (0-100)，无块时返回 0
    */
   static calculateProgress(
     blocks: BlockWithProperty[],
@@ -1009,22 +1050,57 @@ export class StatusCalculator {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
-    const completedCount = blocks.filter(b => {
-      const ts = getTimestampByField(b, dateField);
-      if (!ts) {
+    // 收集所有块的 scheduled 和 created 时间戳
+    const scheduledTimestamps = blocks
+      .map(b => getTimestampByField(b, dateField))
+      .filter(Boolean) as number[];
+
+    const createdTimestamps = blocks
+      .map(b => parseTimestamp(b.createdAt))
+      .filter(Boolean) as number[];
+
+    if (scheduledTimestamps.length === 0) {
+      // 无 scheduled，检查 status
+      const completedCount = blocks.filter(b => {
         const status = b.properties?.[':logseq.property/status'] ?? b.properties?.status;
         return status?.toString().toLowerCase() === 'done';
-      }
-      return ts < today;
-    }).length;
+      }).length;
+      return Math.round((completedCount / blocks.length) * 100);
+    }
 
-    return Math.round((completedCount / blocks.length) * 100);
+    // 使用最早的开始时间和最早的截止时间
+    const startTimestamp = createdTimestamps.length > 0
+      ? Math.min(...createdTimestamps)
+      : today; // 如果没有 created，使用今天作为起点
+
+    const endTimestamp = Math.min(...scheduledTimestamps);
+
+    // 计算总时长和已过时长
+    const totalDuration = endTimestamp - startTimestamp;
+    const elapsedDuration = today - startTimestamp;
+
+    // 边界处理
+    if (totalDuration <= 0) {
+      return 100; // 已过期或无效时间范围
+    }
+
+    if (elapsedDuration <= 0) {
+      return 0; // 还未开始
+    }
+
+    if (elapsedDuration >= totalDuration) {
+      return 100; // 已完成
+    }
+
+    // 计算进度百分比
+    const progress = (elapsedDuration / totalDuration) * 100;
+    return Math.min(100, Math.max(0, Math.round(progress)));
   }
 
   /**
-   * 获取最新的日期字符串（用于显示）
+   * 获取该阶段的 scheduled 日期（用于显示）
    */
-  static getLatestDate(
+  static getScheduledDate(
     blocks: BlockWithProperty[],
     dateField: string = 'scheduled'
   ): string | null {
@@ -1034,8 +1110,27 @@ export class StatusCalculator {
 
     if (timestamps.length === 0) return null;
 
-    const maxTimestamp = Math.max(...timestamps);
-    const date = new Date(maxTimestamp);
+    // 使用最早的 scheduled 日期
+    const minTimestamp = Math.min(...timestamps);
+    const date = new Date(minTimestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * 获取该阶段的创建日期
+   */
+  static getCreatedDate(blocks: BlockWithProperty[]): string | null {
+    const timestamps = blocks
+      .map(b => parseTimestamp(b.createdAt))
+      .filter(Boolean) as number[];
+
+    if (timestamps.length === 0) return null;
+
+    const minTimestamp = Math.min(...timestamps);
+    const date = new Date(minTimestamp);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
