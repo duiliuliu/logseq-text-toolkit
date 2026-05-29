@@ -1025,6 +1025,86 @@ function parseMacroArguments(type: string, tokens: string[]): MilestoneConfig {
 
 ## 5. UI 组件设计
 
+### 5.0 UI 设计总览
+
+**整体布局结构**：
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         Milestone 组件整体布局                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  Header 区域（可选）                                              │   │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │   │
+│  │  │ 总进度: 60% │  │ 已完成: 3/5  │  │ 当前阶段: 3 │              │   │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘              │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  样式选择器（可选）                                               │   │
+│  │  [胶囊] [徽标] [轨道] [卡片] [紧凑]                               │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  内容区域 - 根据 style 渲染不同样式                                 │   │
+│  │                                                                 │   │
+│  │  Style 1 - Capsule（胶囊进度条）:                                 │   │
+│  │  ┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐    │   │
+│  │  │  ●━━━│────│  ●━━━│────│  ●━━━│────│  ◐━━━│────│  ○   │    │   │
+│  │  │ 阶段1 │    │ 阶段2 │    │ 阶段3 │    │ 阶段4 │    │阶段5 │    │   │
+│  │  │ ✅    │    │ ✅    │    │ ✅    │    │ 进行中│    │ 待开始│    │   │
+│  │  └──────┘    └──────┘    └──────┘    └──────┘    └──────┘    │   │
+│  │                                                                 │   │
+│  │  Style 2 - Badge（数字徽标）:                                    │   │
+│  │  ┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌────┐                       │   │
+│  │  │ 01 │  │ 02 │  │ 03 │  │ 04 │  │ 05 │                       │   │
+│  │  │  ● │  │  ● │  │  ◐ │  │  ○ │  │  ○ │                       │   │
+│  │  │标签1│  │标签2│  │标签3│  │标签4│  │标签5│                       │   │
+│  │  └────┘  └────┘  └────┘  └────┘  └────┘                       │   │
+│  │  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░  60%           │   │
+│  │                                                                 │   │
+│  │  Style 3 - Track（极简轨道）:                                    │   │
+│  │  ●━━━━━━━━━━●━━━━━━━━━━◌━━━━━━━━━━○━━━━━━━━━━○              │   │
+│  │  标签1        标签2        标签3         标签4        标签5     │   │
+│  │                                                                 │   │
+│  │  Style 4 - Card（卡片浮层）:                                     │   │
+│  │       [卡片1]              [卡片2]              [卡片3]         │   │
+│  │           ▲                   ▲                   ▲           │   │
+│  │  ●━━━━━━━━━━━━●━━━━━━━━━━━━━●━━━━━━━━━━━━━━━━━━━━●━━━━━━━━   │   │
+│  │                         ▼                   ▼                  │   │
+│  │                    [卡片4]              [卡片5]               │   │
+│  │                                                                 │   │
+│  │  Style 5 - Compact（状态徽章）:                                  │   │
+│  │  [✓ 已完成] ─── [✓ 已完成] ─── [→ 进行中] ─── [· 待开始] ─── [· 待开始] │
+│  │                                                                 │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  Legend 图例（可选）                                             │   │
+│  │  ● 已完成  ◐ 进行中  ○ 待开始  ✕ 失败                            │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**响应式断点**：
+
+| 断点 | 宽度 | 行为 |
+|------|------|------|
+| Mobile | < 640px | 强制 Compact 样式，垂直排列 |
+| Tablet | 640px - 1024px | 优先 Track 样式，水平滚动 |
+| Desktop | > 1024px | 支持所有样式，自适应宽度 |
+
+**交互设计**：
+
+| 交互 | 效果 |
+|------|------|
+| 悬停节点 | 显示 Tooltip（日期、状态、关联块数） |
+| 点击节点 | 可配置：复制内容 / 跳转页面 / 展开详情 |
+| 拖拽调整宽度 | 实时更新容器宽度 |
+| 切换样式 | 平滑过渡动画 (300ms ease) |
+
 ### 5.1 五种展示样式
 
 #### Style 1: 胶囊进度条 (Capsule)
@@ -1676,12 +1756,45 @@ function MilestoneSettings({ settings, setSettings }: TabComponentProps) {
 
 ## 7. 国际化
 
-**文件位置**：`src/translations/milestone.json`
+**文件位置**：
+- `src/translations/zh-CN.json`
+- `src/translations/en.json`
+- `src/translations/ja.json`
+
+参考现有翻译文件结构，Milestone 国际化内容放在 `settings` 节点下：
 
 ```json
+// zh-CN.json
 {
+  "settings": {
+    "tabs": {
+      "milestone": "🎯 里程碑"
+    },
+    "milestone": {
+      "title": "里程碑设置",
+      "description": "配置里程碑组件的展示方式和行为。",
+      "enabled": "启用里程碑功能",
+      "defaultStyle": "默认样式",
+      "defaultStyleOptions": {
+        "capsule": "胶囊进度条",
+        "badge": "数字徽标",
+        "track": "极简轨道",
+        "card": "卡片浮层",
+        "compact": "状态徽章"
+      },
+      "showLabels": "显示阶段标签",
+      "showProgress": "显示进度百分比",
+      "colorScheme": "颜色方案",
+      "dateField": "日期字段",
+      "dateFieldOptions": {
+        "scheduled": "计划日期 (scheduled)",
+        "deadline": "截止日期 (deadline)",
+        "created-at": "创建时间",
+        "updated-at": "更新时间"
+      }
+    }
+  },
   "milestone": {
-    "moduleName": "里程碑",
     "styles": {
       "capsule": "胶囊进度条",
       "badge": "数字徽标",
@@ -1691,18 +1804,109 @@ function MilestoneSettings({ settings, setSettings }: TabComponentProps) {
     },
     "status": {
       "completed": "已完成",
-      "in-progress": "进行中",
+      "inProgress": "进行中",
       "pending": "待开始",
       "failed": "失败"
     },
-    "settings": {
-      "title": "里程碑设置",
-      "defaultStyle": "默认样式",
-      "showLabels": "显示标签",
-      "showProgress": "显示进度"
+    "legend": {
+      "completed": "已完成",
+      "inProgress": "进行中",
+      "pending": "待开始",
+      "failed": "失败"
+    },
+    "tooltip": {
+      "progress": "进度",
+      "blocks": "关联任务",
+      "date": "日期"
+    },
+    "empty": {
+      "title": "暂无里程碑数据",
+      "description": "请添加带有里程碑属性的块或使用 list 参数指定节点"
+    },
+    "error": {
+      "loadFailed": "加载里程碑数据失败",
+      "queryFailed": "查询失败"
     }
   }
 }
+```
+
+```json
+// en.json
+{
+  "settings": {
+    "tabs": {
+      "milestone": "🎯 Milestone"
+    },
+    "milestone": {
+      "title": "Milestone Settings",
+      "description": "Configure the display mode and behavior of milestone components.",
+      "enabled": "Enable Milestone Feature",
+      "defaultStyle": "Default Style",
+      "defaultStyleOptions": {
+        "capsule": "Capsule Progress",
+        "badge": "Number Badge",
+        "track": "Minimal Track",
+        "card": "Card Overlay",
+        "compact": "Compact Badge"
+      },
+      "showLabels": "Show Stage Labels",
+      "showProgress": "Show Progress Percentage",
+      "colorScheme": "Color Scheme",
+      "dateField": "Date Field",
+      "dateFieldOptions": {
+        "scheduled": "Scheduled Date",
+        "deadline": "Deadline",
+        "created-at": "Created At",
+        "updated-at": "Updated At"
+      }
+    }
+  },
+  "milestone": {
+    "styles": {
+      "capsule": "Capsule Progress",
+      "badge": "Number Badge",
+      "track": "Minimal Track",
+      "card": "Card Overlay",
+      "compact": "Compact Badge"
+    },
+    "status": {
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "legend": {
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "tooltip": {
+      "progress": "Progress",
+      "blocks": "Related Tasks",
+      "date": "Date"
+    },
+    "empty": {
+      "title": "No Milestone Data",
+      "description": "Add blocks with milestone properties or use the list parameter"
+    },
+    "error": {
+      "loadFailed": "Failed to load milestone data",
+      "queryFailed": "Query failed"
+    }
+  }
+}
+```
+
+**使用方式**：
+
+```typescript
+// 在组件中使用
+import { t } from '../../translations/i18n';
+
+const label = t('milestone.status.completed', lang);
+const styleLabel = t('milestone.styles.capsule', lang);
 ```
 
 ## 8. 实施计划
@@ -1803,6 +2007,54 @@ function MilestoneSettings({ settings, setSettings }: TabComponentProps) {
  :where
  [?b :user.property/company ?val]
  [?val :block/title ?company]]
+```
+
+**使用场景与意义**：
+
+按属性值分组是 Milestone 组件的核心功能之一，主要用于：
+
+| 场景 | 示例 | 分组结果 |
+|------|------|----------|
+| **面试流程** | 按 `company` 属性分组 | 安克、大疆、海康威视... |
+| **项目管理** | 按 `phase` 属性分组 | 需求、设计、开发、测试、上线 |
+| **学习计划** | 按 `subject` 属性分组 | 数学、英语、物理... |
+| **任务追踪** | 按 `priority` 属性分组 | 高、中、低 |
+
+**分组后的数据处理**：
+
+1. **每个分组作为一个里程碑节点**：如"安克公司"是一个节点，"大疆公司"是另一个节点
+
+2. **状态计算**：
+   - 检查该分组下所有块的状态
+   - 如果所有块都已完成 → `completed`
+   - 如果有块正在进行 → `in_progress`
+   - 如果没有块 → `pending`
+
+3. **进度计算**：
+   - 统计该分组下的总块数
+   - 计算已完成块数 / 总块数 = 进度百分比
+
+**实际应用示例**：
+
+假设有以下笔记结构：
+```markdown
+# 面试追踪
+
+## 安克公司
+- 投递简历 DONE 2026-01-15
+- HR筛选 DONE 2026-01-18
+- 技术一面 DONE 2026-01-25
+- 终面 SCHEDULED 2026-02-01
+
+## 大疆公司
+- 投递简历 DONE 2026-01-20
+- HR筛选 DONE 2026-01-22
+- 技术一面 SCHEDULED 2026-02-05
+```
+
+使用 `{{renderer :milestone, property=company}}` 将生成：
+```
+[● 安克 75%] ─── [◐ 大疆 40%]
 ```
 
 ---
