@@ -488,6 +488,64 @@
         properties: {}
       });
     },
+    onInputSelectionEnd(handler) {
+      logger$1.info("[Mock Editor] onInputSelectionEnd registered");
+      let isMouseDown = false;
+      let mouseUpTimeout = null;
+      const handleMouseDown = () => {
+        isMouseDown = true;
+      };
+      const handleMouseUp = (e) => {
+        if (!isMouseDown) return;
+        if (mouseUpTimeout) {
+          clearTimeout(mouseUpTimeout);
+        }
+        mouseUpTimeout = setTimeout(() => {
+          isMouseDown = false;
+          const selection = getSelection();
+          if (!selection || selection.toString().length === 0) {
+            return;
+          }
+          const text = selection.toString();
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          const start = 0;
+          const end = text.length;
+          const info = {
+            text,
+            start,
+            end,
+            caret: {
+              left: rect.left,
+              top: rect.top,
+              height: rect.height,
+              pos: 0,
+              rect
+            },
+            point: {
+              x: e.clientX,
+              y: e.clientY
+            }
+          };
+          try {
+            handler(info);
+          } catch (error) {
+            logger$1.error("[Mock Editor] onInputSelectionEnd handler error:", error);
+          }
+        }, 10);
+      };
+      const doc = getDocument();
+      doc.addEventListener("mousedown", handleMouseDown);
+      doc.addEventListener("mouseup", handleMouseUp);
+      return () => {
+        if (mouseUpTimeout) {
+          clearTimeout(mouseUpTimeout);
+        }
+        doc.removeEventListener("mousedown", handleMouseDown);
+        doc.removeEventListener("mouseup", handleMouseUp);
+        logger$1.info("[Mock Editor] onInputSelectionEnd unregistered");
+      };
+    },
     getPage: async function(pageName) {
       if (httpClient.isEnabled()) {
         try {
@@ -3834,7 +3892,7 @@
     lang = "zh-CN",
     animationClass = ""
   }) => {
-    const { stats, totalTasks, progress } = content;
+    const { stats = [], totalTasks, progress } = content;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `task-progress-tooltip-wrapper ${animationClass}`, children: [
       children,
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "task-progress-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-progress-tooltip-content", children: [
@@ -3876,7 +3934,7 @@
     large: 4
   };
   const MiniCircleProgress = ({
-    stats,
+    stats = [],
     progress,
     completedTasks,
     totalTasks,
@@ -3903,7 +3961,7 @@
       }
       return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "center-text", style: { fontSize: size === "small" ? "8px" : "10px" }, children: label });
     };
-    if (stats.length === 0 || totalTasks === 0) {
+    if (!stats || stats.length === 0 || totalTasks === 0) {
       return null;
     }
     let currentAngle = -90;
@@ -3973,7 +4031,7 @@
     large: 10
   };
   const DotMatrixProgress = ({
-    stats,
+    stats = [],
     progress,
     totalTasks,
     completedTasks,
@@ -3985,7 +4043,7 @@
     labelFormat = "fraction"
   }) => {
     const dotSize = DOT_SIZE_MAP[size];
-    if (stats.length === 0 || totalTasks === 0) {
+    if (!stats || stats.length === 0 || totalTasks === 0) {
       return null;
     }
     const dots = [];
@@ -4051,12 +4109,12 @@
   };
   const STATUS_ORDER = ["done", "doing", "in-review", "todo", "waiting", "canceled"];
   const StatusCursorProgress = ({
-    stats,
+    stats = [],
     progress,
     lang = "zh-CN",
     animationClass = ""
   }) => {
-    if (stats.length === 0) {
+    if (!stats || stats.length === 0) {
       return null;
     }
     const sortedStats = [...stats].sort((a, b) => {
@@ -4099,7 +4157,7 @@
   };
 
   const ProgressCapsule = ({
-    stats,
+    stats = [],
     progress,
     completedTasks,
     totalTasks,
@@ -4108,7 +4166,7 @@
     showLabel = true,
     labelFormat = "fraction"
   }) => {
-    if (stats.length === 0 || totalTasks === 0) {
+    if (!stats || stats.length === 0 || totalTasks === 0) {
       return null;
     }
     const renderLabel = () => {
@@ -4159,7 +4217,7 @@
   };
 
   const StepProgress = ({
-    stats,
+    stats = [],
     progress,
     totalTasks,
     completedTasks,
@@ -4168,7 +4226,7 @@
     showLabel = true,
     labelFormat = "fraction"
   }) => {
-    if (stats.length === 0) {
+    if (!stats || stats.length === 0) {
       return null;
     }
     const maxHeight = 16;
@@ -22026,6 +22084,9 @@ ${where}
 
   const parseItems = (data) => {
     const result = [];
+    if (!data || !Array.isArray(data)) {
+      return result;
+    }
     for (const item of data) {
       if (item && typeof item === "object") {
         if (item.subItems && Array.isArray(item.subItems) && item.subItems.length > 0) {
