@@ -3,23 +3,23 @@
  * 
  * 宏命令参数说明：
  * 
- * | 参数名          | 类型     | 必填  | 说明                                                                 |
- * |----------------|---------|------|----------------------------------------------------------------------|
- * | template       | string  | 否    | 预定义模板名称，如 :interview，使用此参数会忽略其他配置参数                |
- * | tag            | string  | 否    | 用于筛选的标签名称                                                    |
- * | propertyK      | string  | 否    | 分组/筛选用的属性键名，如 :user.property/company-dJukHEKU                |
- * | propertyV      | string  | 否    | 分组/筛选用的属性值，如 \"Web3 Holdings Limited\"                       |
- * | targetPropertyK| string  | 是    | 里程碑节点识别属性键名，如 :user.property/-y4PtK_O1，其值就是节点名称       |
- * | list           | string[]| 否    | 手动指定的里程碑节点列表，如 [\"投递简历\", \"HR筛选\", \"技术一面\"]      |
- * | style          | string  | 否    | 显示样式：capsule \| badge \| track \| card \| compact，默认 capsule       |
- * | showProgress   | boolean | 否    | 是否显示进度百分比，默认 true                                          |
- * | showLabels     | boolean | 否    | 是否显示节点标签，默认 true                                            |
- * | dateField      | string  | 否    | 用于计算状态和进度的日期字段，默认 scheduled                            |
+ * | 参数名              | 类型     | 必填  | 说明 & 业务作用                                                                 |
+ * |-------------------|---------|------|-------------------------------------------------------------------------------|
+ * | template          | string  | 否    | 预定义里程碑模板名（如 interview）。传入后，对于详细的参数，依赖从Settings中获取；如果同时传入模版和其他参数，则用宏命令中的其他参数对预设参数覆盖。 |
+ * | filterTag         | string  | 否    | 筛选标签：按标签过滤数据源块，示例：面试。对应查询条件：[?b :block/tags ?t] [?t :block/title \"面试\"] |
+ * | filterPropKey     | string  | 否    | 筛选属性键：联合属性值做精准过滤，示例：:user.property/company-dJukHEKU。对应查询条件：[?b ?filterPropKey ?val] |
+ * | filterPropValue   | string  | 否    | 筛选属性值：配合 filterPropKey 使用，示例：Web3 Holdings Limited、安克。对应查询条件：[?val :block/title \"xxx\"] |
+ * | milestonePropKey  | string  | 是    | 里程碑标识属性键（原 targetPropertyK）。该字段两个作用，一是从筛选后的块中读取该属性的值，作为里程碑节点名称，示例：:user.property/-y4PtK_O1；二是，在没有list信息时，根据该属性，获取所有value，作为list。同时存在优先取list。 |
+ * | milestoneList     | string[]| 否    | 手动静态里程碑列表。传入后走列表模式，不再从块中动态解析节点，示例：[\"投递简历\",\"技术一面\"] |
+ * | displayStyle      | string  | 否    | 展示样式，枚举：capsule/badge/track/card/compact，默认 capsule |
+ * | showProgress      | boolean | 否    | 是否展示进度百分比，默认 true |
+ * | showLabel         | boolean | 否    | 是否展示节点文字标签，默认 true |
+ * | dateField         | string  | 否    | 进度 / 状态计算依赖的日期属性，默认 scheduled |
  * 
  * 工作模式说明：
  * 1. 模板模式：使用 template 参数，直接调用预定义模板
- * 2. 属性模式：使用 targetPropertyK + (tag \| propertyK/propertyV)，从块属性中读取节点
- * 3. 列表模式：使用 list 参数，按固定列表检查节点是否存在
+ * 2. 属性模式：使用 milestonePropKey + (filterTag \| filterPropKey/filterPropValue)，从块属性中读取节点
+ * 3. 列表模式：使用 milestoneList 参数，按固定列表检查节点是否存在
  */
 
 export interface MilestoneItem {
@@ -51,14 +51,14 @@ export interface MilestoneData {
 export interface MilestoneConfig {
   template?: string;
   property?: string;
-  propertyK?: string;
-  propertyV?: string;
-  targetPropertyK?: string;
-  list?: string[];
-  tag?: string;
-  style: MilestoneDisplayStyle;
+  filterPropKey?: string;
+  filterPropValue?: string;
+  milestonePropKey?: string;
+  milestoneList?: string[];
+  filterTag?: string;
+  displayStyle: MilestoneDisplayStyle;
   showProgress?: boolean;
-  showLabels?: boolean;
+  showLabel?: boolean;
   colorScheme?: ColorScheme;
   language?: string;
   dateField?: string;
@@ -102,14 +102,14 @@ export interface MilestoneTemplate {
   id: string;
   name: string;
   description?: string;
-  tag?: string;
-  propertyK?: string;
-  propertyV?: string;
-  targetPropertyK?: string;
-  list?: string[];
-  defaultStyle?: MilestoneDisplayStyle;
+  filterTag?: string;
+  filterPropKey?: string;
+  filterPropValue?: string;
+  milestonePropKey?: string;
+  milestoneList?: string[];
+  displayStyle?: MilestoneDisplayStyle;
   showProgress?: boolean;
-  showLabels?: boolean;
+  showLabel?: boolean;
   dateField?: string;
 }
 

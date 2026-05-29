@@ -19,42 +19,42 @@ export class MilestoneQuery {
    */
   static async query(
     config: {
-      tag?: string;
+      filterTag?: string;
       property?: string;
-      propertyK?: string;
-      propertyV?: string;
-      targetPropertyK?: string;
-      list?: string[];
+      filterPropKey?: string;
+      filterPropValue?: string;
+      milestonePropKey?: string;
+      milestoneList?: string[];
       dateField?: string;
     }
   ): Promise<MilestoneData> {
-    const { tag, property, propertyK, propertyV, targetPropertyK, list, dateField = 'scheduled' } = config;
+    const { filterTag, property, filterPropKey, filterPropValue, milestonePropKey, milestoneList, dateField = 'scheduled' } = config;
 
     try {
-      // 优先使用 targetPropertyK 模式
-      if (targetPropertyK) {
-        if (propertyK && propertyV) {
-          return await this.queryByTargetPropertyWithFilter(targetPropertyK, propertyK, propertyV, tag, list, dateField);
+      // 优先使用 milestonePropKey 模式
+      if (milestonePropKey) {
+        if (filterPropKey && filterPropValue) {
+          return await this.queryByMilestonePropWithFilter(milestonePropKey, filterPropKey, filterPropValue, filterTag, milestoneList, dateField);
         }
-        if (tag) {
-          return await this.queryByTargetPropertyWithTag(targetPropertyK, tag, list, dateField);
+        if (filterTag) {
+          return await this.queryByMilestonePropWithTag(milestonePropKey, filterTag, milestoneList, dateField);
         }
-        return await this.queryByTargetProperty(targetPropertyK, list, dateField);
+        return await this.queryByMilestoneProp(milestonePropKey, milestoneList, dateField);
       }
 
-      if (list && list.length > 0) {
-        if (propertyK && propertyV) {
-          return await this.queryByStageListWithProperty(list, tag, propertyK, propertyV, dateField);
+      if (milestoneList && milestoneList.length > 0) {
+        if (filterPropKey && filterPropValue) {
+          return await this.queryByMilestoneListWithProperty(milestoneList, filterTag, filterPropKey, filterPropValue, dateField);
         }
-        return await this.queryByStageList(list, tag, dateField);
+        return await this.queryByMilestoneList(milestoneList, filterTag, dateField);
       }
 
       if (property) {
-        return await this.queryByPropertyEnum(property, tag, dateField);
+        return await this.queryByPropertyEnum(property, filterTag, dateField);
       }
 
-      if (tag) {
-        return await this.queryByTag(tag, dateField);
+      if (filterTag) {
+        return await this.queryByTag(filterTag, dateField);
       }
 
       return await this.queryDefault(dateField);
@@ -65,14 +65,14 @@ export class MilestoneQuery {
   }
 
   /**
-   * 通过 targetPropertyK 读取里程碑节点，带属性过滤
+   * 通过 milestonePropKey 读取里程碑节点，带属性过滤
    */
-  private static async queryByTargetPropertyWithFilter(
-    targetPropertyK: string,
-    propertyK: string,
-    propertyV: string,
-    tag: string | undefined,
-    list: string[] | undefined,
+  private static async queryByMilestonePropWithFilter(
+    milestonePropKey: string,
+    filterPropKey: string,
+    filterPropValue: string,
+    filterTag: string | undefined,
+    milestoneList: string[] | undefined,
     dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
     const targetBlocks = await this.getBlocksByProperty(propertyK, propertyV, tag);
