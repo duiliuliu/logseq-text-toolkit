@@ -418,9 +418,7 @@ html.dark .theme-indigo {
   transition: opacity 0.15s ease;
 }
 
-.ltt-gallery-root .block-control {
-  display: none !important;
-}
+
 
 .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
   opacity: 1;

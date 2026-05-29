@@ -256,13 +256,11 @@ html.dark .ltt-mindmap-root {
   opacity: 0.7;
 }
 
-.ltt-mindmap-root .block-control {
-  display: none !important;
-}
+
 
 /* =========================================================
    SECOND LEVEL CHILDREN - 二级内容容器
-========================================================= */
+   ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
   display: flex !important;
@@ -278,15 +276,15 @@ html.dark .ltt-mindmap-root {
   content: '';
   position: absolute;
   left: 10px;
-  top: -8px;
-  bottom: -8px;
+  top: 0;
+  bottom: 0;
   width: var(--ltt-connector-width);
   background: var(--ltt-connector-color);
 }
 
 /* =========================================================
    SECOND LEVEL BLOCK
-========================================================= */
+   ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
   display: flex !important;
@@ -294,6 +292,7 @@ html.dark .ltt-mindmap-root {
   gap: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
+  position: relative;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
@@ -320,7 +319,7 @@ html.dark .ltt-mindmap-root {
 
 /* =========================================================
    SECOND LEVEL NODE - 卡片样式
-========================================================= */
+   ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   background: var(--ltt-node-bg) !important;
@@ -338,13 +337,14 @@ html.dark .ltt-mindmap-root {
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
   content: '';
   position: absolute;
-  left: -4px;
-  top: 14px;
-  width: 6px;
-  height: 6px;
+  left: -10px;
+  top: 15px;
+  width: 8px;
+  height: 8px;
   background: var(--ltt-bullet-color);
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--ltt-node-bg);
+  z-index: 1;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {
@@ -362,7 +362,7 @@ html.dark .ltt-mindmap-root {
 
 /* =========================================================
    THIRD LEVEL CHILDREN - 三级细节容器
-========================================================= */
+   ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
   display: flex !important;
@@ -385,7 +385,7 @@ html.dark .ltt-mindmap-root {
 
 /* =========================================================
    THIRD LEVEL BLOCK
-========================================================= */
+   ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
   display: flex !important;
@@ -393,6 +393,7 @@ html.dark .ltt-mindmap-root {
   gap: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
+  position: relative;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
@@ -419,7 +420,7 @@ html.dark .ltt-mindmap-root {
 
 /* =========================================================
    THIRD LEVEL NODE - 卡片样式
-========================================================= */
+   ========================================================= */
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   background: var(--ltt-node-bg) !important;
@@ -437,13 +438,14 @@ html.dark .ltt-mindmap-root {
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
   content: '';
   position: absolute;
-  left: -3px;
-  top: 12px;
-  width: 5px;
-  height: 5px;
+  left: -9px;
+  top: 13px;
+  width: 7px;
+  height: 7px;
   background: var(--ltt-bullet-color);
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--ltt-node-bg);
+  z-index: 1;
 }
 
 .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {
@@ -482,11 +484,39 @@ html.dark .ltt-mindmap-root {
   background: var(--ltt-connector-color);
 }
 
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap > .ls-block {
+  position: relative;
+}
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap > .ls-block::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 12px;
+  width: 16px;
+  height: var(--ltt-connector-width);
+  background: var(--ltt-connector-color);
+}
+
 .ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   padding: 5px 10px !important;
   font-size: 11px !important;
   min-width: 80px;
   max-width: 160px;
+  position: relative;
+}
+
+.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 11px;
+  width: 6px;
+  height: 6px;
+  background: var(--ltt-bullet-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ltt-node-bg);
+  z-index: 1;
 }
 
 /* =========================================================

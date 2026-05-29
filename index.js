@@ -5789,7 +5789,7 @@ ${nestingClauses}`;
   var dayjs_min = {exports: {}};
 
   (function (module, exports) {
-  	!function(t,e){module.exports=e();}(commonjsGlobal,(function(){var t=1e3,e=6e4,n=36e5,r="millisecond",i="second",s="minute",u="hour",a="day",o="week",c="month",f="quarter",h="year",d="date",l="Invalid Date",$=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,y=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,M={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),ordinal:function(t){var e=["th","st","nd","rd"],n=t%100;return "["+t+(e[(n-20)%10]||e[n]||e[0])+"]"}},m=function(t,e,n){var r=String(t);return !r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},v={s:m,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return (e<=0?"+":"-")+m(r,2,"0")+":"+m(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return -t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,c),s=n-i<0,u=e.clone().add(r+(s?-1:1),c);return +(-(r+(n-i)/(s?i-u:u-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return {M:c,y:h,w:o,d:a,D:d,h:u,m:s,s:i,ms:r,Q:f}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},g="en",D={};D[g]=M;var p="$isDayjsObject",S=function(t){return t instanceof _||!(!t||!t[p])},w=function t(e,n,r){var i;if(!e)return g;if("string"==typeof e){var s=e.toLowerCase();D[s]&&(i=s),n&&(D[s]=n,i=s);var u=e.split("-");if(!i&&u.length>1)return t(u[0])}else {var a=e.name;D[a]=e,i=a;}return !r&&i&&(g=i),i||!r&&g},O=function(t,e){if(S(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new _(n)},b=v;b.l=w,b.i=S,b.w=function(t,e){return O(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var _=function(){function M(t){this.$L=w(t.locale,null,true),this.parse(t),this.$x=this.$x||t.x||{},this[p]=true;}var m=M.prototype;return m.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(b.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match($);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.init();},m.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds();},m.$utils=function(){return b},m.isValid=function(){return !(this.$d.toString()===l)},m.isSame=function(t,e){var n=O(t);return this.startOf(e)<=n&&n<=this.endOf(e)},m.isAfter=function(t,e){return O(t)<this.startOf(e)},m.isBefore=function(t,e){return this.endOf(e)<O(t)},m.$g=function(t,e,n){return b.u(t)?this[e]:this.set(n,t)},m.unix=function(){return Math.floor(this.valueOf()/1e3)},m.valueOf=function(){return this.$d.getTime()},m.startOf=function(t,e){var n=this,r=!!b.u(e)||e,f=b.p(t),l=function(t,e){var i=b.w(n.$u?Date.UTC(n.$y,e,t):new Date(n.$y,e,t),n);return r?i:i.endOf(a)},$=function(t,e){return b.w(n.toDate()[t].apply(n.toDate("s"),(r?[0,0,0,0]:[23,59,59,999]).slice(e)),n)},y=this.$W,M=this.$M,m=this.$D,v="set"+(this.$u?"UTC":"");switch(f){case h:return r?l(1,0):l(31,11);case c:return r?l(1,M):l(0,M+1);case o:var g=this.$locale().weekStart||0,D=(y<g?y+7:y)-g;return l(r?m-D:m+(6-D),M);case a:case d:return $(v+"Hours",0);case u:return $(v+"Minutes",1);case s:return $(v+"Seconds",2);case i:return $(v+"Milliseconds",3);default:return this.clone()}},m.endOf=function(t){return this.startOf(t,false)},m.$set=function(t,e){var n,o=b.p(t),f="set"+(this.$u?"UTC":""),l=(n={},n[a]=f+"Date",n[d]=f+"Date",n[c]=f+"Month",n[h]=f+"FullYear",n[u]=f+"Hours",n[s]=f+"Minutes",n[i]=f+"Seconds",n[r]=f+"Milliseconds",n)[o],$=o===a?this.$D+(e-this.$W):e;if(o===c||o===h){var y=this.clone().set(d,1);y.$d[l]($),y.init(),this.$d=y.set(d,Math.min(this.$D,y.daysInMonth())).$d;}else l&&this.$d[l]($);return this.init(),this},m.set=function(t,e){return this.clone().$set(t,e)},m.get=function(t){return this[b.p(t)]()},m.add=function(r,f){var d,l=this;r=Number(r);var $=b.p(f),y=function(t){var e=O(l);return b.w(e.date(e.date()+Math.round(t*r)),l)};if($===c)return this.set(c,this.$M+r);if($===h)return this.set(h,this.$y+r);if($===a)return y(1);if($===o)return y(7);var M=(d={},d[s]=e,d[u]=n,d[i]=t,d)[$]||1,m=this.$d.getTime()+r*M;return b.w(m,this)},m.subtract=function(t,e){return this.add(-1*t,e)},m.format=function(t){var e=this,n=this.$locale();if(!this.isValid())return n.invalidDate||l;var r=t||"YYYY-MM-DDTHH:mm:ssZ",i=b.z(this),s=this.$H,u=this.$m,a=this.$M,o=n.weekdays,c=n.months,f=n.meridiem,h=function(t,n,i,s){return t&&(t[n]||t(e,r))||i[n].slice(0,s)},d=function(t){return b.s(s%12||12,t,"0")},$=f||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r};return r.replace(y,(function(t,r){return r||function(t){switch(t){case "YY":return String(e.$y).slice(-2);case "YYYY":return b.s(e.$y,4,"0");case "M":return a+1;case "MM":return b.s(a+1,2,"0");case "MMM":return h(n.monthsShort,a,c,3);case "MMMM":return h(c,a);case "D":return e.$D;case "DD":return b.s(e.$D,2,"0");case "d":return String(e.$W);case "dd":return h(n.weekdaysMin,e.$W,o,2);case "ddd":return h(n.weekdaysShort,e.$W,o,3);case "dddd":return o[e.$W];case "H":return String(s);case "HH":return b.s(s,2,"0");case "h":return d(1);case "hh":return d(2);case "a":return $(s,u,true);case "A":return $(s,u,false);case "m":return String(u);case "mm":return b.s(u,2,"0");case "s":return String(e.$s);case "ss":return b.s(e.$s,2,"0");case "SSS":return b.s(e.$ms,3,"0");case "Z":return i}return null}(t)||i.replace(":","")}))},m.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},m.diff=function(r,d,l){var $,y=this,M=b.p(d),m=O(r),v=(m.utcOffset()-this.utcOffset())*e,g=this-m,D=function(){return b.m(y,m)};switch(M){case h:$=D()/12;break;case c:$=D();break;case f:$=D()/3;break;case o:$=(g-v)/6048e5;break;case a:$=(g-v)/864e5;break;case u:$=g/n;break;case s:$=g/e;break;case i:$=g/t;break;default:$=g;}return l?$:b.a($)},m.daysInMonth=function(){return this.endOf(c).$D},m.$locale=function(){return D[this.$L]},m.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=w(t,e,true);return r&&(n.$L=r),n},m.clone=function(){return b.w(this.$d,this)},m.toDate=function(){return new Date(this.valueOf())},m.toJSON=function(){return this.isValid()?this.toISOString():null},m.toISOString=function(){return this.$d.toISOString()},m.toString=function(){return this.$d.toUTCString()},M}(),k=_.prototype;return O.prototype=k,[["$ms",r],["$s",i],["$m",s],["$H",u],["$W",a],["$M",c],["$y",h],["$D",d]].forEach((function(t){k[t[1]]=function(e){return this.$g(e,t[0],t[1])};})),O.extend=function(t,e){return t.$i||(t(e,_,O),t.$i=true),O},O.locale=w,O.isDayjs=S,O.unix=function(t){return O(1e3*t)},O.en=D[g],O.Ls=D,O.p={},O})); 
+  	!function(t,e){module.exports=e();}(commonjsGlobal,(function(){var t=1e3,e=6e4,n=36e5,r="millisecond",i="second",s="minute",u="hour",a="day",o="week",c="month",f="quarter",h="year",d="date",l="Invalid Date",$=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,y=/\[([^\]]+)]|YYYY|YY|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,M={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),ordinal:function(t){var e=["th","st","nd","rd"],n=t%100;return "["+t+(e[(n-20)%10]||e[n]||e[0])+"]"}},m=function(t,e,n){var r=String(t);return !r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},v={s:m,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return (e<=0?"+":"-")+m(r,2,"0")+":"+m(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return -t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,c),s=n-i<0,u=e.clone().add(r+(s?-1:1),c);return +(-(r+(n-i)/(s?i-u:u-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return {M:c,y:h,w:o,d:a,D:d,h:u,m:s,s:i,ms:r,Q:f}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},g="en",D={};D[g]=M;var p="$isDayjsObject",S=function(t){return t instanceof _||!(!t||!t[p])},w=function t(e,n,r){var i;if(!e)return g;if("string"==typeof e){var s=e.toLowerCase();D[s]&&(i=s),n&&(D[s]=n,i=s);var u=e.split("-");if(!i&&u.length>1)return t(u[0])}else {var a=e.name;D[a]=e,i=a;}return !r&&i&&(g=i),i||!r&&g},O=function(t,e){if(S(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new _(n)},b=v;b.l=w,b.i=S,b.w=function(t,e){return O(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var _=function(){function M(t){this.$L=w(t.locale,null,true),this.parse(t),this.$x=this.$x||t.x||{},this[p]=true;}var m=M.prototype;return m.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(b.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match($);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.init();},m.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds();},m.$utils=function(){return b},m.isValid=function(){return !(this.$d.toString()===l)},m.isSame=function(t,e){var n=O(t);return this.startOf(e)<=n&&n<=this.endOf(e)},m.isAfter=function(t,e){return O(t)<this.startOf(e)},m.isBefore=function(t,e){return this.endOf(e)<O(t)},m.$g=function(t,e,n){return b.u(t)?this[e]:this.set(n,t)},m.unix=function(){return Math.floor(this.valueOf()/1e3)},m.valueOf=function(){return this.$d.getTime()},m.startOf=function(t,e){var n=this,r=!!b.u(e)||e,f=b.p(t),l=function(t,e){var i=b.w(n.$u?Date.UTC(n.$y,e,t):new Date(n.$y,e,t),n);return r?i:i.endOf(a)},$=function(t,e){return b.w(n.toDate()[t].apply(n.toDate("s"),(r?[0,0,0,0]:[23,59,59,999]).slice(e)),n)},y=this.$W,M=this.$M,m=this.$D,v="set"+(this.$u?"UTC":"");switch(f){case h:return r?l(1,0):l(31,11);case c:return r?l(1,M):l(0,M+1);case o:var g=this.$locale().weekStart||0,D=(y<g?y+7:y)-g;return l(r?m-D:m+(6-D),M);case a:case d:return $(v+"Hours",0);case u:return $(v+"Minutes",1);case s:return $(v+"Seconds",2);case i:return $(v+"Milliseconds",3);default:return this.clone()}},m.endOf=function(t){return this.startOf(t,false)},m.$set=function(t,e){var n,o=b.p(t),f="set"+(this.$u?"UTC":""),l=(n={},n[a]=f+"Date",n[d]=f+"Date",n[c]=f+"Month",n[h]=f+"FullYear",n[u]=f+"Hours",n[s]=f+"Minutes",n[i]=f+"Seconds",n[r]=f+"Milliseconds",n)[o],$=o===a?this.$D+(e-this.$W):e;if(o===c||o===h){var y=this.clone().set(d,1);y.$d[l]($),y.init(),this.$d=y.set(d,Math.min(this.$D,y.daysInMonth())).$d;}else l&&this.$d[l]($);return this.init(),this},m.set=function(t,e){return this.clone().$set(t,e)},m.get=function(t){return this[b.p(t)]()},m.add=function(r,f){var d,l=this;r=Number(r);var $=b.p(f),y=function(t){var e=O(l);return b.w(e.date(e.date()+Math.round(t*r)),l)};if($===c)return this.set(c,this.$M+r);if($===h)return this.set(h,this.$y+r);if($===a)return y(1);if($===o)return y(7);var M=(d={},d[s]=e,d[u]=n,d[i]=t,d)[$]||1,m=this.$d.getTime()+r*M;return b.w(m,this)},m.subtract=function(t,e){return this.add(-1*t,e)},m.format=function(t){var e=this,n=this.$locale();if(!this.isValid())return n.invalidDate||l;var r=t||"YYYY-MM-DDTHH:mm:ssZ",i=b.z(this),s=this.$H,u=this.$m,a=this.$M,o=n.weekdays,c=n.months,f=n.meridiem,h=function(t,n,i,s){return t&&(t[n]||t(e,r))||i[n].slice(0,s)},d=function(t){return b.s(s%12||12,t,"0")},$=f||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r};return r.replace(y,(function(t,r){return r||function(t){switch(t){case "YY":return String(e.$y).slice(-2);case "YYYY":return b.s(e.$y,4,"0");case "M":return a+1;case "MM":return b.s(a+1,2,"0");case "MMM":return h(n.monthsShort,a,c,3);case "MMMM":return h(c,a);case "D":return e.$D;case "DD":return b.s(e.$D,2,"0");case "d":return String(e.$W);case "dd":return h(n.weekdaysMin,e.$W,o,2);case "ddd":return h(n.weekdaysShort,e.$W,o,3);case "dddd":return o[e.$W];case "H":return String(s);case "HH":return b.s(s,2,"0");case "h":return d(1);case "hh":return d(2);case "a":return $(s,u,true);case "A":return $(s,u,false);case "m":return String(u);case "mm":return b.s(u,2,"0");case "s":return String(e.$s);case "ss":return b.s(e.$s,2,"0");case "SSS":return b.s(e.$ms,3,"0");case "Z":return i}return null}(t)||i.replace(":","")}))},m.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},m.diff=function(r,d,l){var $,y=this,M=b.p(d),m=O(r),v=(m.utcOffset()-this.utcOffset())*e,g=this-m,D=function(){return b.m(y,m)};switch(M){case h:$=D()/12;break;case c:$=D();break;case f:$=D()/3;break;case o:$=(g-v)/6048e5;break;case a:$=(g-v)/864e5;break;case u:$=g/n;break;case s:$=g/e;break;case i:$=g/t;break;default:$=g;}return l?$:b.a($)},m.daysInMonth=function(){return this.endOf(c).$D},m.$locale=function(){return D[this.$L]},m.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=w(t,e,true);return r&&(n.$L=r),n},m.clone=function(){return b.w(this.$d,this)},m.toDate=function(){return new Date(this.valueOf())},m.toJSON=function(){return this.isValid()?this.toISOString():null},m.toISOString=function(){return this.$d.toISOString()},m.toString=function(){return this.$d.toUTCString()},M}(),Y=_.prototype;return O.prototype=Y,[["$ms",r],["$s",i],["$m",s],["$H",u],["$W",a],["$M",c],["$y",h],["$D",d]].forEach((function(t){Y[t[1]]=function(e){return this.$g(e,t[0],t[1])};})),O.extend=function(t,e){return t.$i||(t(e,_,O),t.$i=true),O},O.locale=w,O.isDayjs=S,O.unix=function(t){return O(1e3*t)},O.en=D[g],O.Ls=D,O.p={},O})); 
   } (dayjs_min));
 
   var dayjs_minExports = dayjs_min.exports;
@@ -5900,6 +5900,9 @@ ${nestingClauses}`;
     return LOGSEQ_DATE_FORMAT_MAP[logseqFormat] || "YYYY-MM-DD";
   }
   function formatDate$1(date, logseqFormat) {
+    if (date === null || date === void 0) {
+      return "";
+    }
     const d = dayjs(date);
     if (!d.isValid()) {
       return "";
@@ -5982,6 +5985,59 @@ ${nestingClauses}`;
     const n = typeof v === "number" ? v : Number(v);
     return Number.isFinite(n) ? n : null;
   };
+  const parseTimestamp = (value) => {
+    if (!value) return null;
+    const n = typeof value === "number" ? value : Number(value);
+    return Number.isFinite(n) ? n : null;
+  };
+  const parseCustomProperty = (value) => {
+    if (!value) return null;
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? value : null;
+    }
+    if (typeof value === "string") {
+      const asNumber = Number(value);
+      if (Number.isFinite(asNumber)) {
+        return asNumber;
+      }
+      const asDate = new Date(value);
+      if (!isNaN(asDate.getTime())) {
+        return asDate.getTime();
+      }
+      const logseqDateMatch = value.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+      if (logseqDateMatch) {
+        const [, year, month, day] = logseqDateMatch;
+        const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+        if (!isNaN(parsedDate.getTime())) {
+          return parsedDate.getTime();
+        }
+      }
+    }
+    return null;
+  };
+  const getTimestampByField = (block, dateField) => {
+    if (!dateField || dateField.type === "created-at") {
+      const v = block?.["created-at"] ?? block?.["block/created-at"] ?? block?.createdAt ?? block?.created_at;
+      const n = typeof v === "number" ? v : Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+    switch (dateField.type) {
+      case "updated-at":
+        return parseTimestamp(block?.["updated-at"] ?? block?.["block/updated-at"]);
+      case "scheduled":
+        return parseTimestamp(block?.["scheduled"] ?? block?.["block/scheduled"] ?? block?.[":logseq.property/scheduled"]);
+      case "deadline":
+        return parseTimestamp(block?.["deadline"] ?? block?.["block/deadline"] ?? block?.[":logseq.property/deadline"]);
+      case "custom":
+        if (dateField.customKey) {
+          const customValue = block?.["block/properties"]?.[dateField.customKey];
+          return parseCustomProperty(customValue);
+        }
+        return null;
+      default:
+        return getCreatedAt$1(block);
+    }
+  };
   const formatDate = (d) => d.toISOString().split("T")[0];
   const buildWhereClause$1 = (params) => {
     const value = params.value || "";
@@ -6034,10 +6090,10 @@ ${where}
     monday.setHours(0, 0, 0, 0);
     return { start: monday, end: new Date(monday.getTime() + 7 * 864e5) };
   };
-  const bucketByDay = (blocks, startMs, endMs) => {
+  const bucketByDay = (blocks, startMs, endMs, dateField) => {
     const buckets = {};
     for (const b of blocks) {
-      const ts = getCreatedAt$1(b);
+      const ts = getTimestampByField(b, dateField);
       if (!ts || ts < startMs || ts >= endMs) continue;
       const key = formatDate(new Date(ts));
       if (!buckets[key]) buckets[key] = [];
@@ -6045,10 +6101,10 @@ ${where}
     }
     return buckets;
   };
-  const bucketByWeekCell = (blocks, startMs) => {
+  const bucketByWeekCell = (blocks, startMs, dateField) => {
     const buckets = {};
     for (const b of blocks) {
-      const ts = getCreatedAt$1(b);
+      const ts = getTimestampByField(b, dateField);
       if (!ts) continue;
       const dayIdx = Math.floor((ts - startMs) / 864e5);
       if (dayIdx < 0 || dayIdx >= 7) continue;
@@ -6088,7 +6144,7 @@ ${where}
     loggerProxy.debug("[Heatmap] result count:", blocks.length, "sample:", blocks[0]?.["created-at"]);
     const data = [];
     if (view === "week") {
-      const buckets = bucketByWeekCell(blocks, startMs);
+      const buckets = bucketByWeekCell(blocks, startMs, params.dateField);
       for (let h = 0; h < 6; h++) {
         for (let d = 0; d < 7; d++) {
           const key = `${d}-${h}`;
@@ -6104,7 +6160,7 @@ ${where}
         }
       }
     } else {
-      const buckets = bucketByDay(blocks, startMs, endMs);
+      const buckets = bucketByDay(blocks, startMs, endMs, params.dateField);
       for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
         const key = formatDate(new Date(d));
         const dayBlocks = buckets[key] || [];
@@ -6128,6 +6184,23 @@ ${where}
   }
   registerRendererArgModel(MACRO_PREFIX$2, { positional: ["view"] });
   registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
+  const DATE_FIELD_TYPE_MAP = {
+    "created-at": "created-at",
+    "createdat": "created-at",
+    "创建时间": "created-at",
+    "created": "created-at",
+    "updated-at": "updated-at",
+    "updatedat": "updated-at",
+    "更新时间": "updated-at",
+    "updated": "updated-at",
+    "scheduled": "scheduled",
+    "调度时间": "scheduled",
+    "schedule": "scheduled",
+    "deadline": "deadline",
+    "截止时间": "deadline",
+    "custom": "custom",
+    "自定义": "custom"
+  };
   function parseMacroArguments(tokens, argMap) {
     let viewType;
     let queryType = "tag";
@@ -6145,6 +6218,7 @@ ${where}
     let enableWeekPageCreation;
     let weekPageTemplate;
     let weekPageLogseqTemplate;
+    let dateField;
     const applyViewType = (raw) => {
       const v = VIEW_TYPE_MAP[raw.trim()] || VIEW_TYPE_MAP[raw.trim().toLowerCase()];
       if (v) viewType = v;
@@ -6192,6 +6266,25 @@ ${where}
     if (argMap.enableWeekPage) enableWeekPageCreation = argMap.enableWeekPage === "true";
     if (argMap.weekPageTemplate) weekPageTemplate = argMap.weekPageTemplate;
     if (argMap.weekPageLogseqTemplate) weekPageLogseqTemplate = argMap.weekPageLogseqTemplate;
+    const rawDateField = argMap.dateField || argMap.date || argMap.time;
+    if (rawDateField) {
+      const fieldType = DATE_FIELD_TYPE_MAP[rawDateField.trim().toLowerCase()];
+      if (fieldType) {
+        const config = { type: fieldType };
+        if (fieldType === "custom") {
+          const customKeyMatch = rawDateField.match(/custom[::/]?(.+)/i);
+          if (customKeyMatch && customKeyMatch[1]) {
+            config.customKey = customKeyMatch[1].trim();
+          } else {
+            const customKey = argMap.dateFieldKey || argMap.customKey;
+            if (customKey) {
+              config.customKey = customKey.trim();
+            }
+          }
+        }
+        dateField = config;
+      }
+    }
     for (const token of tokens) {
       const t = token.trim();
       if (!t) continue;
@@ -6253,7 +6346,8 @@ ${where}
       monthPageLogseqTemplate,
       enableWeekPageCreation,
       weekPageTemplate,
-      weekPageLogseqTemplate
+      weekPageLogseqTemplate,
+      dateField
     };
   }
   function getDateOfWeek(week, year) {
@@ -6282,7 +6376,8 @@ ${where}
         monthPageLogseqTemplate,
         enableWeekPageCreation,
         weekPageTemplate,
-        weekPageLogseqTemplate
+        weekPageLogseqTemplate,
+        dateField
       } = parseMacroArguments(tokens, argMap);
       const settings = await getSettingsWithSystem();
       const now = /* @__PURE__ */ new Date();
@@ -6347,7 +6442,8 @@ ${where}
         propertyKey,
         year: referenceYear,
         month: referenceMonth,
-        week: referenceWeek
+        week: referenceWeek,
+        dateField
       }, viewType, colorFormula);
       loggerProxy.debug("🌡️ Heatmap: Data loaded", {
         dataPoints: heatmapData.length,
@@ -7537,12 +7633,17 @@ ${where}
         try {
           const pageName = formatDateForPage(date, config?.dateFormat);
           loggerProxy.debug("📐 Heatmap: Navigating to page", { pageName, date, dateFormat: config?.dateFormat });
-          ensurePageAndNavigate(pageName);
+          const existingPage = await logseqAPI$1.Editor.getPage(pageName);
+          if (existingPage) {
+            await logseqAPI$1.UI.openInRightSidebar(existingPage.uuid);
+          } else {
+            ensurePageAndNavigate(pageName);
+          }
         } catch (err) {
           console.error("Failed to navigate to date:", err);
         }
       }
-    }, []);
+    }, [config?.dateFormat]);
     const renderView = () => {
       const viewData = filterDataByView(data, viewType, currentDate);
       switch (viewType) {
@@ -9168,9 +9269,7 @@ ${where}
    */
   const isNumericalString = (v) => /^-?(?:\d+(?:\.\d+)?|\.\d+)$/u.test(v);
 
-  function isObject(value) {
-      return typeof value === "object" && value !== null;
-  }
+  const isObject = (value) => typeof value === "object" && value !== null;
 
   /**
    * Check if the value is a zero value string like "0px" or "0%"
@@ -9197,8 +9296,7 @@ ${where}
    * @param  {...functions} transformers
    * @return {function}
    */
-  const combineFunctions = (a, b) => (v) => b(a(v));
-  const pipe = (...transformers) => transformers.reduce(combineFunctions);
+  const pipe = (...transformers) => transformers.reduce((a, b) => (v) => b(a(v)));
 
   /*
     Progress within given range
@@ -9206,16 +9304,11 @@ ${where}
     Given a lower limit and an upper limit, we return the progress
     (expressed as a number 0-1) represented by the given value, and
     limit that progress to within 0-1.
-
-    @param [number]: Lower limit
-    @param [number]: Upper limit
-    @param [number]: Value to find progress within given range
-    @return [number]: Progress of value within range as expressed 0-1
   */
   /*#__NO_SIDE_EFFECTS__*/
   const progress = (from, to, value) => {
-      const toFromDifference = to - from;
-      return toFromDifference === 0 ? 1 : (value - from) / toFromDifference;
+      const range = to - from;
+      return range ? (value - from) / range : 1;
   };
 
   class SubscriptionManager {
@@ -9268,13 +9361,9 @@ ${where}
 
   /*
     Convert velocity into velocity per second
-
-    @param [number]: Unit per frame
-    @param [number]: Frame duration in ms
   */
-  function velocityPerSecond(velocity, frameDuration) {
-      return frameDuration ? velocity * (1000 / frameDuration) : 0;
-  }
+  /*#__NO_SIDE_EFFECTS__*/
+  const velocityPerSecond = (velocity, frameDuration) => frameDuration ? velocity * (1000 / frameDuration) : 0;
 
   /*
     Bezier function generator
@@ -9315,6 +9404,7 @@ ${where}
           ++i < subdivisionMaxIterations);
       return currentT;
   }
+  /*#__NO_SIDE_EFFECTS__*/
   function cubicBezier(mX1, mY1, mX2, mY2) {
       // If this is a linear gradient, return linear easing
       if (mX1 === mY1 && mX2 === mY2)
@@ -9326,10 +9416,12 @@ ${where}
 
   // Accepts an easing function and returns a new one that outputs mirrored values for
   // the second half of the animation. Turns easeIn into easeInOut.
+  /*#__NO_SIDE_EFFECTS__*/
   const mirrorEasing = (easing) => (p) => p <= 0.5 ? easing(2 * p) / 2 : (2 - easing(2 * (1 - p))) / 2;
 
   // Accepts an easing function and returns a new one that outputs reversed values.
   // Turns easeIn into easeOut.
+  /*#__NO_SIDE_EFFECTS__*/
   const reverseEasing = (easing) => (p) => 1 - easing(1 - p);
 
   const backOut = /*@__PURE__*/ cubicBezier(0.33, 1.53, 0.69, 0.99);
@@ -9350,10 +9442,12 @@ ${where}
   const easeOut = /*@__PURE__*/ cubicBezier(0, 0, 0.58, 1);
   const easeInOut = /*@__PURE__*/ cubicBezier(0.42, 0, 0.58, 1);
 
+  /*#__NO_SIDE_EFFECTS__*/
   const isEasingArray = (ease) => {
       return Array.isArray(ease) && typeof ease[0] !== "number";
   };
 
+  /*#__NO_SIDE_EFFECTS__*/
   const isBezierDefinition = (easing) => Array.isArray(easing) && typeof easing[0] === "number";
 
   const easingLookup = {
@@ -11117,8 +11211,15 @@ ${where}
   ];
   /**
    * A quick lookup for transform props.
+   *
+   * `pathRotation` is a transform for routing purposes (skipped from raw
+   * style application, wired to the transform composite, flags transform
+   * dirty) but is intentionally NOT in `transformPropOrder` — it is
+   * composed onto `rotate` at the build sites, not serialized in its own
+   * slot, and must stay out of the order-array consumers (parse-transform,
+   * unit-conversion, keys-position).
    */
-  const transformProps = /*@__PURE__*/ (() => new Set(transformPropOrder))();
+  const transformProps = /*@__PURE__*/ (() => new Set([...transformPropOrder, "pathRotation"]))();
 
   const isNumOrPxType = (v) => v === number || v === px;
   const transformKeys = new Set(["x", "y", "z"]);
@@ -12013,268 +12114,6 @@ ${where}
               : maxStaggerDuration - index * staggerChildren;
   }
 
-  /**
-   * Parse Framer's special CSS variable format into a CSS token and a fallback.
-   *
-   * ```
-   * `var(--foo, #fff)` => [`--foo`, '#fff']
-   * ```
-   *
-   * @param current
-   */
-  const splitCSSVariableRegex = 
-  // eslint-disable-next-line redos-detector/no-unsafe-regex -- false positive, as it can match a lot of words
-  /^var\(--(?:([\w-]+)|([\w-]+), ?([a-zA-Z\d ()%#.,-]+))\)/u;
-  function parseCSSVariable(current) {
-      const match = splitCSSVariableRegex.exec(current);
-      if (!match)
-          return [,];
-      const [, token1, token2, fallback] = match;
-      return [`--${token1 ?? token2}`, fallback];
-  }
-  function getVariableValue(current, element, depth = 1) {
-      const [token, fallback] = parseCSSVariable(current);
-      // No CSS variable detected
-      if (!token)
-          return;
-      // Attempt to read this CSS variable off the element
-      const resolved = window.getComputedStyle(element).getPropertyValue(token);
-      if (resolved) {
-          const trimmed = resolved.trim();
-          return isNumericalString(trimmed) ? parseFloat(trimmed) : trimmed;
-      }
-      return isCSSVariableToken(fallback)
-          ? getVariableValue(fallback, element, depth + 1)
-          : fallback;
-  }
-
-  const underDampedSpring = {
-      type: "spring",
-      stiffness: 500,
-      damping: 25,
-      restSpeed: 10,
-  };
-  const criticallyDampedSpring = (target) => ({
-      type: "spring",
-      stiffness: 550,
-      damping: target === 0 ? 2 * Math.sqrt(550) : 30,
-      restSpeed: 10,
-  });
-  const keyframesTransition = {
-      type: "keyframes",
-      duration: 0.8,
-  };
-  /**
-   * Default easing curve is a slightly shallower version of
-   * the default browser easing curve.
-   */
-  const ease = {
-      type: "keyframes",
-      ease: [0.25, 0.1, 0.35, 1],
-      duration: 0.3,
-  };
-  const getDefaultTransition = (valueKey, { keyframes }) => {
-      if (keyframes.length > 2) {
-          return keyframesTransition;
-      }
-      else if (transformProps.has(valueKey)) {
-          return valueKey.startsWith("scale")
-              ? criticallyDampedSpring(keyframes[1])
-              : underDampedSpring;
-      }
-      return ease;
-  };
-
-  /**
-   * If `transition` has `inherit: true`, shallow-merge it with
-   * `parentTransition` (child keys win) and strip the `inherit` key.
-   * Otherwise return `transition` unchanged.
-   */
-  function resolveTransition(transition, parentTransition) {
-      if (transition?.inherit && parentTransition) {
-          const { inherit: _, ...rest } = transition;
-          return { ...parentTransition, ...rest };
-      }
-      return transition;
-  }
-
-  function getValueTransition(transition, key) {
-      const valueTransition = transition?.[key] ??
-          transition?.["default"] ??
-          transition;
-      if (valueTransition !== transition) {
-          return resolveTransition(valueTransition, transition);
-      }
-      return valueTransition;
-  }
-
-  const orchestrationKeys = new Set([
-      "when",
-      "delay",
-      "delayChildren",
-      "staggerChildren",
-      "staggerDirection",
-      "repeat",
-      "repeatType",
-      "repeatDelay",
-      "from",
-      "elapsed",
-  ]);
-  /**
-   * Decide whether a transition is defined on a given Transition.
-   * This filters out orchestration options and returns true
-   * if any options are left.
-   */
-  function isTransitionDefined(transition) {
-      for (const key in transition) {
-          if (!orchestrationKeys.has(key))
-              return true;
-      }
-      return false;
-  }
-
-  const animateMotionValue = (name, value, target, transition = {}, element, isHandoff) => (onComplete) => {
-      const valueTransition = getValueTransition(transition, name) || {};
-      /**
-       * Most transition values are currently completely overwritten by value-specific
-       * transitions. In the future it'd be nicer to blend these transitions. But for now
-       * delay actually does inherit from the root transition if not value-specific.
-       */
-      const delay = valueTransition.delay || transition.delay || 0;
-      /**
-       * Elapsed isn't a public transition option but can be passed through from
-       * optimized appear effects in milliseconds.
-       */
-      let { elapsed = 0 } = transition;
-      elapsed = elapsed - secondsToMilliseconds(delay);
-      const options = {
-          keyframes: Array.isArray(target) ? target : [null, target],
-          ease: "easeOut",
-          velocity: value.getVelocity(),
-          ...valueTransition,
-          delay: -elapsed,
-          onUpdate: (v) => {
-              value.set(v);
-              valueTransition.onUpdate && valueTransition.onUpdate(v);
-          },
-          onComplete: () => {
-              onComplete();
-              valueTransition.onComplete && valueTransition.onComplete();
-          },
-          name,
-          motionValue: value,
-          element: isHandoff ? undefined : element,
-      };
-      /**
-       * If there's no transition defined for this value, we can generate
-       * unique transition settings for this value.
-       */
-      if (!isTransitionDefined(valueTransition)) {
-          Object.assign(options, getDefaultTransition(name, options));
-      }
-      /**
-       * Both WAAPI and our internal animation functions use durations
-       * as defined by milliseconds, while our external API defines them
-       * as seconds.
-       */
-      options.duration && (options.duration = secondsToMilliseconds(options.duration));
-      options.repeatDelay && (options.repeatDelay = secondsToMilliseconds(options.repeatDelay));
-      /**
-       * Support deprecated way to set initial value. Prefer keyframe syntax.
-       */
-      if (options.from !== undefined) {
-          options.keyframes[0] = options.from;
-      }
-      let shouldSkip = false;
-      if (options.type === false ||
-          (options.duration === 0 && !options.repeatDelay)) {
-          makeAnimationInstant(options);
-          if (options.delay === 0) {
-              shouldSkip = true;
-          }
-      }
-      if (MotionGlobalConfig.instantAnimations ||
-          MotionGlobalConfig.skipAnimations ||
-          element?.shouldSkipAnimations) {
-          shouldSkip = true;
-          makeAnimationInstant(options);
-          options.delay = 0;
-      }
-      /**
-       * If the transition type or easing has been explicitly set by the user
-       * then we don't want to allow flattening the animation.
-       */
-      options.allowFlatten = !valueTransition.type && !valueTransition.ease;
-      /**
-       * If we can or must skip creating the animation, and apply only
-       * the final keyframe, do so. We also check once keyframes are resolved but
-       * this early check prevents the need to create an animation at all.
-       */
-      if (shouldSkip && !isHandoff && value.get() !== undefined) {
-          const finalKeyframe = getFinalKeyframe(options.keyframes, valueTransition);
-          if (finalKeyframe !== undefined) {
-              frame.update(() => {
-                  options.onUpdate(finalKeyframe);
-                  options.onComplete();
-              });
-              return;
-          }
-      }
-      return valueTransition.isSync
-          ? new JSAnimation(options)
-          : new AsyncMotionValueAnimation(options);
-  };
-
-  function getValueState(visualElement) {
-      const state = [{}, {}];
-      visualElement?.values.forEach((value, key) => {
-          state[0][key] = value.get();
-          state[1][key] = value.getVelocity();
-      });
-      return state;
-  }
-  function resolveVariantFromProps(props, definition, custom, visualElement) {
-      /**
-       * If the variant definition is a function, resolve.
-       */
-      if (typeof definition === "function") {
-          const [current, velocity] = getValueState(visualElement);
-          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
-      }
-      /**
-       * If the variant definition is a variant label, or
-       * the function returned a variant label, resolve.
-       */
-      if (typeof definition === "string") {
-          definition = props.variants && props.variants[definition];
-      }
-      /**
-       * At this point we've resolved both functions and variant labels,
-       * but the resolved variant label might itself have been a function.
-       * If so, resolve. This can only have returned a valid target object.
-       */
-      if (typeof definition === "function") {
-          const [current, velocity] = getValueState(visualElement);
-          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
-      }
-      return definition;
-  }
-
-  function resolveVariant(visualElement, definition, custom) {
-      const props = visualElement.getProps();
-      return resolveVariantFromProps(props, definition, custom !== undefined ? custom : props.custom, visualElement);
-  }
-
-  const positionalKeys = new Set([
-      "width",
-      "height",
-      "top",
-      "left",
-      "right",
-      "bottom",
-      ...transformPropOrder,
-  ]);
-
   const MAX_VELOCITY_DELTA = 30;
   const isFloat = (value) => {
     return !isNaN(parseFloat(value));
@@ -12550,6 +12389,269 @@ ${where}
     return new MotionValue(init, options);
   }
 
+  /**
+   * If `transition` has `inherit: true`, shallow-merge it with
+   * `parentTransition` (child keys win) and strip the `inherit` key.
+   * Otherwise return `transition` unchanged.
+   */
+  function resolveTransition(transition, parentTransition) {
+      if (transition?.inherit && parentTransition) {
+          const { inherit: _, ...rest } = transition;
+          return { ...parentTransition, ...rest };
+      }
+      return transition;
+  }
+
+  function getValueTransition(transition, key) {
+      const valueTransition = transition?.[key] ??
+          transition?.["default"] ??
+          transition;
+      if (valueTransition !== transition) {
+          return resolveTransition(valueTransition, transition);
+      }
+      return valueTransition;
+  }
+
+  const underDampedSpring = {
+      type: "spring",
+      stiffness: 500,
+      damping: 25,
+      restSpeed: 10,
+  };
+  const criticallyDampedSpring = (target) => ({
+      type: "spring",
+      stiffness: 550,
+      damping: target === 0 ? 2 * Math.sqrt(550) : 30,
+      restSpeed: 10,
+  });
+  const keyframesTransition = {
+      type: "keyframes",
+      duration: 0.8,
+  };
+  /**
+   * Default easing curve is a slightly shallower version of
+   * the default browser easing curve.
+   */
+  const ease = {
+      type: "keyframes",
+      ease: [0.25, 0.1, 0.35, 1],
+      duration: 0.3,
+  };
+  const getDefaultTransition = (valueKey, { keyframes }) => {
+      if (keyframes.length > 2) {
+          return keyframesTransition;
+      }
+      else if (transformProps.has(valueKey)) {
+          return valueKey.startsWith("scale")
+              ? criticallyDampedSpring(keyframes[1])
+              : underDampedSpring;
+      }
+      return ease;
+  };
+
+  const orchestrationKeys = new Set([
+      "when",
+      "delay",
+      "delayChildren",
+      "staggerChildren",
+      "staggerDirection",
+      "repeat",
+      "repeatType",
+      "repeatDelay",
+      "from",
+      "elapsed",
+  ]);
+  /**
+   * Decide whether a transition is defined on a given Transition.
+   * This filters out orchestration options and returns true
+   * if any options are left.
+   */
+  function isTransitionDefined(transition) {
+      for (const key in transition) {
+          if (!orchestrationKeys.has(key))
+              return true;
+      }
+      return false;
+  }
+
+  const animateMotionValue = (name, value, target, transition = {}, element, isHandoff) => (onComplete) => {
+      const valueTransition = getValueTransition(transition, name) || {};
+      /**
+       * Most transition values are currently completely overwritten by value-specific
+       * transitions. In the future it'd be nicer to blend these transitions. But for now
+       * delay actually does inherit from the root transition if not value-specific.
+       */
+      const delay = valueTransition.delay || transition.delay || 0;
+      /**
+       * Elapsed isn't a public transition option but can be passed through from
+       * optimized appear effects in milliseconds.
+       */
+      let { elapsed = 0 } = transition;
+      elapsed = elapsed - secondsToMilliseconds(delay);
+      const options = {
+          keyframes: Array.isArray(target) ? target : [null, target],
+          ease: "easeOut",
+          velocity: value.getVelocity(),
+          ...valueTransition,
+          delay: -elapsed,
+          onUpdate: (v) => {
+              value.set(v);
+              valueTransition.onUpdate && valueTransition.onUpdate(v);
+          },
+          onComplete: () => {
+              onComplete();
+              valueTransition.onComplete && valueTransition.onComplete();
+          },
+          name,
+          motionValue: value,
+          element: isHandoff ? undefined : element,
+      };
+      /**
+       * If there's no transition defined for this value, we can generate
+       * unique transition settings for this value.
+       */
+      if (!isTransitionDefined(valueTransition)) {
+          Object.assign(options, getDefaultTransition(name, options));
+      }
+      /**
+       * Both WAAPI and our internal animation functions use durations
+       * as defined by milliseconds, while our external API defines them
+       * as seconds.
+       */
+      options.duration && (options.duration = secondsToMilliseconds(options.duration));
+      options.repeatDelay && (options.repeatDelay = secondsToMilliseconds(options.repeatDelay));
+      /**
+       * Support deprecated way to set initial value. Prefer keyframe syntax.
+       */
+      if (options.from !== undefined) {
+          options.keyframes[0] = options.from;
+      }
+      let shouldSkip = false;
+      if (options.type === false ||
+          (options.duration === 0 && !options.repeatDelay)) {
+          makeAnimationInstant(options);
+          if (options.delay === 0) {
+              shouldSkip = true;
+          }
+      }
+      if (MotionGlobalConfig.instantAnimations ||
+          MotionGlobalConfig.skipAnimations ||
+          element?.shouldSkipAnimations ||
+          valueTransition.skipAnimations) {
+          shouldSkip = true;
+          makeAnimationInstant(options);
+          options.delay = 0;
+      }
+      /**
+       * If the transition type or easing has been explicitly set by the user
+       * then we don't want to allow flattening the animation.
+       */
+      options.allowFlatten = !valueTransition.type && !valueTransition.ease;
+      /**
+       * If we can or must skip creating the animation, and apply only
+       * the final keyframe, do so. We also check once keyframes are resolved but
+       * this early check prevents the need to create an animation at all.
+       */
+      if (shouldSkip && !isHandoff && value.get() !== undefined) {
+          const finalKeyframe = getFinalKeyframe(options.keyframes, valueTransition);
+          if (finalKeyframe !== undefined) {
+              frame.update(() => {
+                  options.onUpdate(finalKeyframe);
+                  options.onComplete();
+              });
+              return;
+          }
+      }
+      return valueTransition.isSync
+          ? new JSAnimation(options)
+          : new AsyncMotionValueAnimation(options);
+  };
+
+  /**
+   * Parse Framer's special CSS variable format into a CSS token and a fallback.
+   *
+   * ```
+   * `var(--foo, #fff)` => [`--foo`, '#fff']
+   * ```
+   *
+   * @param current
+   */
+  const splitCSSVariableRegex = 
+  // eslint-disable-next-line redos-detector/no-unsafe-regex -- false positive, as it can match a lot of words
+  /^var\(--(?:([\w-]+)|([\w-]+), ?([a-zA-Z\d ()%#.,-]+))\)/u;
+  function parseCSSVariable(current) {
+      const match = splitCSSVariableRegex.exec(current);
+      if (!match)
+          return [,];
+      const [, token1, token2, fallback] = match;
+      return [`--${token1 ?? token2}`, fallback];
+  }
+  function getVariableValue(current, element, depth = 1) {
+      const [token, fallback] = parseCSSVariable(current);
+      // No CSS variable detected
+      if (!token)
+          return;
+      // Attempt to read this CSS variable off the element
+      const resolved = window.getComputedStyle(element).getPropertyValue(token);
+      if (resolved) {
+          const trimmed = resolved.trim();
+          return isNumericalString(trimmed) ? parseFloat(trimmed) : trimmed;
+      }
+      return isCSSVariableToken(fallback)
+          ? getVariableValue(fallback, element, depth + 1)
+          : fallback;
+  }
+
+  function getValueState(visualElement) {
+      const state = [{}, {}];
+      visualElement?.values.forEach((value, key) => {
+          state[0][key] = value.get();
+          state[1][key] = value.getVelocity();
+      });
+      return state;
+  }
+  function resolveVariantFromProps(props, definition, custom, visualElement) {
+      /**
+       * If the variant definition is a function, resolve.
+       */
+      if (typeof definition === "function") {
+          const [current, velocity] = getValueState(visualElement);
+          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
+      }
+      /**
+       * If the variant definition is a variant label, or
+       * the function returned a variant label, resolve.
+       */
+      if (typeof definition === "string") {
+          definition = props.variants && props.variants[definition];
+      }
+      /**
+       * At this point we've resolved both functions and variant labels,
+       * but the resolved variant label might itself have been a function.
+       * If so, resolve. This can only have returned a valid target object.
+       */
+      if (typeof definition === "function") {
+          const [current, velocity] = getValueState(visualElement);
+          definition = definition(custom !== undefined ? custom : props.custom, current, velocity);
+      }
+      return definition;
+  }
+
+  function resolveVariant(visualElement, definition, custom) {
+      const props = visualElement.getProps();
+      return resolveVariantFromProps(props, definition, custom !== undefined ? custom : props.custom, visualElement);
+  }
+
+  const positionalKeys = new Set([
+      "width",
+      "height",
+      "top",
+      "left",
+      "right",
+      "bottom",
+      ...transformPropOrder,
+  ]);
+
   const isKeyframesTarget = (v) => {
       return Array.isArray(v);
   };
@@ -12631,12 +12733,18 @@ ${where}
           ? resolveTransition(transition, defaultTransition)
           : defaultTransition;
       const reduceMotion = transition?.reduceMotion;
+      const skipAnimations = transition?.skipAnimations;
       if (transitionOverride)
           transition = transitionOverride;
       const animations = [];
       const animationTypeState = type &&
           visualElement.animationState &&
           visualElement.animationState.getState()[type];
+      const path = transition?.path;
+      if (path) {
+          // path mutates `target` to claim x/y; loop below skips them.
+          path.animateVisualElement(visualElement, target, transition, delay, animations);
+      }
       for (const key in target) {
           const value = visualElement.getValue(key, visualElement.latestValues[key] ?? null);
           const valueTarget = target[key];
@@ -12649,6 +12757,8 @@ ${where}
               delay,
               ...getValueTransition(transition || {}, key),
           };
+          if (skipAnimations)
+              valueTransition.skipAnimations = true;
           /**
            * If the value is already at the defined target, skip the animation.
            * We still re-assert the value via frame.update to take precedence
@@ -12853,6 +12963,12 @@ ${where}
 
   const transformValueTypes = {
       rotate: degrees,
+      /**
+       * Internal channel for `transition.path` orientToPath. Composed onto
+       * `rotate` at the transform-build sites so the user's `rotate` is
+       * never read or overwritten. Not part of `transformPropOrder`.
+       */
+      pathRotation: degrees,
       rotateX: degrees,
       rotateY: degrees,
       rotateZ: degrees,
@@ -13893,8 +14009,6 @@ ${where}
         removeOnChange();
         if (removeSyncCheck)
           removeSyncCheck();
-        if (value.owner)
-          value.stop();
       });
     }
     sortNodePosition(other) {
@@ -14390,6 +14504,14 @@ ${where}
                   transform[key] = valueAsType;
               }
           }
+      }
+      // `pathRotation` composes onto `rotate` as a separate additive term so
+      // the user's `rotate` is never clobbered. Deliberately not a slot in
+      // `transformPropOrder`.
+      const pathRotation = latestValues.pathRotation;
+      if (pathRotation) {
+          transformIsDefault = false;
+          transformString += `rotate(${getValueAsType(pathRotation, numberValueTypes.pathRotation)}) `;
       }
       transformString = transformString.trim();
       // If we have a custom `transform` template, pass our transform values and
@@ -15048,7 +15170,8 @@ ${where}
                    */
                   let valueHasChanged = false;
                   if (isKeyframesTarget(next) && isKeyframesTarget(prev)) {
-                      valueHasChanged = !shallowCompare(next, prev);
+                      valueHasChanged =
+                          !shallowCompare(next, prev) || variantDidChange;
                   }
                   else {
                       valueHasChanged = next !== prev;
@@ -15407,11 +15530,14 @@ ${where}
           transform += `scale(${1 / treeScale.x}, ${1 / treeScale.y}) `;
       }
       if (latestTransform) {
-          const { transformPerspective, rotate, rotateX, rotateY, skewX, skewY } = latestTransform;
+          const { transformPerspective, rotate, pathRotation, rotateX, rotateY, skewX, skewY, } = latestTransform;
           if (transformPerspective)
               transform = `perspective(${transformPerspective}px) ${transform}`;
           if (rotate)
               transform += `rotate(${rotate}deg) `;
+          // Additive `rotate()` so user `rotate` isn't clobbered.
+          if (pathRotation)
+              transform += `rotate(${pathRotation}deg) `;
           if (rotateX)
               transform += `rotateX(${rotateX}deg) `;
           if (rotateY)
@@ -15945,7 +16071,8 @@ ${where}
                            * Set animation origin after starting animation to avoid layout jump
                            * caused by stopping previous layout animation
                            */
-                          this.setAnimationOrigin(delta, hasOnlyRelativeTargetChanged);
+                          this.setAnimationOrigin(delta, hasOnlyRelativeTargetChanged, animationOptions
+                              .path);
                       }
                       else {
                           /**
@@ -16649,7 +16776,7 @@ ${where}
               this.projectionDelta = createDelta();
               this.projectionDeltaWithTransform = createDelta();
           }
-          setAnimationOrigin(delta, hasOnlyRelativeTargetChanged = false) {
+          setAnimationOrigin(delta, hasOnlyRelativeTargetChanged = false, pathFn) {
               const snapshot = this.snapshot;
               const snapshotLatestValues = snapshot ? snapshot.latestValues : {};
               const mixedValues = { ...this.latestValues };
@@ -16671,10 +16798,26 @@ ${where}
                   !this.path.some(hasOpacityCrossfade));
               this.animationProgress = 0;
               let prevRelativeTarget;
+              // The path decides whether the layout shift is worth curving
+              // (distance floor) and resolves the interpolator from the delta.
+              const interpolate = pathFn?.interpolateProjection(delta);
               this.mixTargetDelta = (latest) => {
                   const progress = latest / 1000;
-                  mixAxisDelta(targetDelta.x, delta.x, progress);
-                  mixAxisDelta(targetDelta.y, delta.y, progress);
+                  const point = interpolate?.(progress);
+                  if (point) {
+                      targetDelta.x.translate = point.x;
+                      targetDelta.x.scale = mixNumber$1(delta.x.scale, 1, progress);
+                      targetDelta.x.origin = delta.x.origin;
+                      targetDelta.x.originPoint = delta.x.originPoint;
+                      targetDelta.y.translate = point.y;
+                      targetDelta.y.scale = mixNumber$1(delta.y.scale, 1, progress);
+                      targetDelta.y.origin = delta.y.origin;
+                      targetDelta.y.originPoint = delta.y.originPoint;
+                  }
+                  else {
+                      mixAxisDeltaLinear(targetDelta.x, delta.x, progress);
+                      mixAxisDeltaLinear(targetDelta.y, delta.y, progress);
+                  }
                   this.setTargetDelta(targetDelta);
                   if (this.relativeTarget &&
                       this.relativeTargetOrigin &&
@@ -16698,6 +16841,13 @@ ${where}
                   if (isSharedLayoutAnimation) {
                       this.animationValues = mixedValues;
                       mixValues(mixedValues, snapshotLatestValues, this.latestValues, progress, shouldCrossfadeOpacity, isOnlyMember);
+                  }
+                  if (point && point.rotate !== undefined) {
+                      // Dedicated `pathRotation` channel, not `rotate`, so an
+                      // animating `rotate` is composed with, never clobbered.
+                      if (!this.animationValues)
+                          this.animationValues = mixedValues;
+                      this.animationValues.pathRotation = point.rotate;
                   }
                   this.root.scheduleUpdateProjection();
                   this.scheduleRender();
@@ -17210,7 +17360,7 @@ ${where}
   function removeLeadSnapshots(stack) {
       stack.removeLeadSnapshot();
   }
-  function mixAxisDelta(output, delta, p) {
+  function mixAxisDeltaLinear(output, delta, p) {
       output.translate = mixNumber$1(delta.translate, 0, p);
       output.scale = mixNumber$1(delta.scale, 1, p);
       output.origin = delta.origin;
@@ -17381,6 +17531,7 @@ ${where}
               size.left = element.offsetLeft;
               size.right = parentWidth - size.width - size.left;
               size.bottom = parentHeight - size.height - size.top;
+              size.direction = computedStyle.direction;
           }
           return null;
       }
@@ -17402,6 +17553,7 @@ ${where}
           left: 0,
           right: 0,
           bottom: 0,
+          direction: "ltr",
       });
       const { nonce } = reactExports.useContext(MotionConfigContext);
       /**
@@ -17421,10 +17573,13 @@ ${where}
        * styles set via the style prop.
        */
       reactExports.useInsertionEffect(() => {
-          const { width, height, top, left, right, bottom } = size.current;
+          const { width, height, top, left, right, bottom, direction } = size.current;
           if (isPresent || pop === false || !ref.current || !width || !height)
               return;
-          const x = anchorX === "left" ? `left: ${left}` : `right: ${right}`;
+          const isRTL = direction === "rtl";
+          const x = anchorX === "left"
+              ? (isRTL ? `right: ${right}` : `left: ${left}`)
+              : (isRTL ? `left: ${left}` : `right: ${right}`);
           const y = anchorY === "bottom" ? `bottom: ${bottom}` : `top: ${top}`;
           ref.current.dataset.motionPopId = id;
           const style = document.createElement("style");
@@ -18091,6 +18246,9 @@ ${where}
           if (instance) {
               visualState.onMount?.(instance);
           }
+          if (visualElement) {
+              instance ? visualElement.mount(instance) : visualElement.unmount();
+          }
           const ref = externalRefContainer.current;
           if (typeof ref === "function") {
               if (instance) {
@@ -18109,9 +18267,6 @@ ${where}
           }
           else if (ref) {
               ref.current = instance;
-          }
-          if (visualElement) {
-              instance ? visualElement.mount(instance) : visualElement.unmount();
           }
       }, [visualElement]);
   }
@@ -18424,7 +18579,10 @@ ${where}
                */
               if (this.isExitComplete) {
                   const { initial, custom } = this.node.getProps();
-                  if (typeof initial === "string") {
+                  if (typeof initial === "string" ||
+                      (typeof initial === "object" &&
+                          initial !== null &&
+                          !Array.isArray(initial))) {
                       const resolved = resolveVariant(this.node, initial, custom);
                       if (resolved) {
                           const { transition, transitionEnd, ...target } = resolved;
@@ -19150,6 +19308,20 @@ ${where}
           // TODO
           if (!projection || !projection.layout)
               return false;
+          /**
+           * Refresh the root scroll offset so the constraint's viewport box
+           * translates to correct page coordinates. The scroll captured at
+           * drag mount can be stale if the document was scrolled afterwards —
+           * e.g. via the browser restoring scroll on refresh, or an ancestor
+           * layout effect running after this element's mount (#2829).
+           *
+           * Clear the cached scroll first so `updateScroll` bypasses its
+           * per-animationId cache and re-reads the live value.
+           */
+          if (projection.root) {
+              projection.root.scroll = undefined;
+              projection.root.updateScroll();
+          }
           const constraintsBox = measurePageBox(constraintsElement, projection.root, this.visualElement.getTransformPagePoint());
           let measuredConstraints = calcViewportConstraints(projection.layout.layoutBox, constraintsBox);
           /**
@@ -19223,9 +19395,7 @@ ${where}
           const externalMotionValue = props[dragKey];
           return externalMotionValue
               ? externalMotionValue
-              : this.visualElement.getValue(axis, (props.initial
-                  ? props.initial[axis]
-                  : undefined) || 0);
+              : this.visualElement.getValue(axis, this.visualElement.latestValues[axis] ?? 0);
       }
       snapToCursor(point) {
           eachAxis((axis) => {
@@ -22128,12 +22298,6 @@ ${where}
     }
     return null;
   };
-  const needsQuotes = (text) => {
-    if (text.startsWith("[:") && text.endsWith("]")) {
-      return false;
-    }
-    return text.includes(" ") || text.includes(" ") || text.includes("　") || text.includes('"') || text.includes("'");
-  };
   const wrapWithQuotesIfNeeded = (prefix, suffix, text) => {
     if (text.startsWith("[:") && text.endsWith("]")) {
       return prefix + text + suffix;
@@ -22143,10 +22307,7 @@ ${where}
     }
     const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
     const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
-    if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
-      return prefix + `"${text}"` + suffix;
-    }
-    if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
+    if (prefixHasQuote && suffixHasQuote) {
       const cleanPrefix = prefix.slice(0, -1);
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + text + cleanSuffix;
@@ -22608,7 +22769,7 @@ ${where}
   }
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22619,7 +22780,7 @@ ${where}
   }).join(" ").trim();
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22628,7 +22789,7 @@ ${where}
   const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22640,7 +22801,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22653,7 +22814,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22672,7 +22833,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22722,7 +22883,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22747,7 +22908,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22763,7 +22924,7 @@ ${where}
   const Bold = createLucideIcon("bold", __iconNode$7);
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22777,7 +22938,7 @@ ${where}
   const Highlighter = createLucideIcon("highlighter", __iconNode$6);
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22792,7 +22953,7 @@ ${where}
   const Italic = createLucideIcon("italic", __iconNode$5);
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22807,7 +22968,7 @@ ${where}
   const Menu = createLucideIcon("menu", __iconNode$4);
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22822,7 +22983,7 @@ ${where}
   const Strikethrough = createLucideIcon("strikethrough", __iconNode$3);
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22837,7 +22998,7 @@ ${where}
   const Type = createLucideIcon("type", __iconNode$2);
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -22851,7 +23012,7 @@ ${where}
   const Underline = createLucideIcon("underline", __iconNode$1);
 
   /**
-   * @license lucide-react v1.16.0 - ISC
+   * @license lucide-react v1.17.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -25422,11 +25583,11 @@ ${where}
 
   var tableViewCSSRaw = "/* =========================================================\n   BLOCK VIEW TABLE STYLES\n   Advanced Theme System with Multiple Presets\n\n   主题设计系统说明：\n   - 使用 CSS 变量驱动的设计系统\n   - 优先使用 Logseq 原生变量作为主色\n   - 提供多种预设主题风格\n   - 支持深色模式自动适配\n\n   主题风格速查：\n   | 主题    | 圆角 | 阴影 | Header | 特点                    |\n   |---------|------|------|--------|-------------------------|\n   | Default | 8px  | 柔和 | 无     | 基础风格，依赖系统变量    |\n   | Notion  | 0px  | 无   | 无     | 极简线条，专业干净        |\n   | Linear  | 6px  | 轻量 | 强调线 | 科技蓝紫，适合项目管理    |\n   | Dark    | 8px  | 深色 | 无     | 纯深色，夜间使用         |\n   | Gradient| 10px | 彩色 | 渐变   | 活力渐变，适合展示        |\n   | Tana    | 10px | 柔和 | 强调线 | 清新绿色，自然舒适        |\n   | Indigo  | 10px | 柔和 | 强调线 | 专业蓝紫，沉稳商务        |\n========================================================= */\n\n/* =========================================================\n   THEME: DEFAULT - 系统变量主题\n   设计特点：\n   - 圆角：8px（中等圆角）\n   - 阴影：柔和多层阴影\n   - Header：无特殊强调，通过背景色区分\n   - 边框：细线风格\n   - 适用场景：日常使用，与 Logseq 风格统一\n========================================================= */\n\n:root,\n.light {\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: var(--ls-border-color, #cbd5e1);\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: var(--ls-tertiary-background-color, #f8fafc);\n  --ltt-header-text: var(--ls-primary-text-color, #374151);\n  --ltt-cell-text: var(--ls-secondary-text-color, #475569);\n  --ltt-cell-bg: var(--ls-primary-background-color, rgba(255, 255, 255, 0.7));\n  --ltt-row-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-row-hover: var(--ls-tertiary-background-color, #f1f5f9);\n  --ltt-radius: 8px;\n  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);\n  --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);\n  --ltt-col-1-width: 280px;\n  --ltt-cell-padding: 12px 4px;\n  --ltt-header-height: 48px;\n}\n\n/* Default Dark Mode */\n.dark,\nhtml.dark {\n  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));\n  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: var(--ls-tertiary-background-color, #1f2937);\n  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);\n  --ltt-cell-text: var(--ls-secondary-text-color, #b8c0cc);\n  --ltt-cell-bg: var(--ls-primary-background-color, rgba(30, 33, 40, 0.9));\n  --ltt-row-bg: var(--ls-primary-background-color, #0f172a);\n  --ltt-row-hover: var(--ls-tertiary-background-color, #1e2128);\n  --ltt-radius: 8px;\n  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);\n  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);\n  --ltt-col-1-width: 280px;\n  --ltt-cell-padding: 12px 16px;\n  --ltt-header-height: 48px;\n}\n\n/* =========================================================\n   THEME: NOTION - 极简专业风格\n   设计特点：\n   - 圆角：0px（无圆角，锐利边缘）\n   - 阴影：无阴影，纯线条分隔\n   - Header：无背景色，通过分隔线区分\n   - 边框：极细线条\n   - 文本：深灰色高对比度\n   - 适用场景：文档型内容，专注阅读\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e5e5e5;\n  --ltt-hover: rgba(0, 0, 0, 0.025);\n  --ltt-header-bg: #ffffff;\n  --ltt-header-text: #37352f;\n  --ltt-cell-text: #37352f;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.95);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #fbfbfa;\n  --ltt-radius: 0px;\n  --ltt-shadow: none;\n  --ltt-header-shadow: none;\n  --ltt-col-1-width: 260px;\n  --ltt-cell-padding: 8px 10px;\n  --ltt-header-height: 32px;\n}\n\n.theme-notion .ltt-table-root > .block-children-container {\n  border: none !important;\n  border-bottom: 1px solid var(--ltt-border) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border: none !important;\n  border-bottom: 1px solid var(--ltt-border) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  border-right: none !important;\n  border-bottom: none !important;\n  background: var(--ltt-header-bg) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right: none !important;\n  border-bottom: none !important;\n  border-left: 1px solid var(--ltt-border) !important;\n}\n\n.theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:first-child {\n  border-left: none !important;\n}\n\n/* Notion Dark Mode - 使用 indigo-dark 配色 */\n.dark .theme-notion,\n[data-theme=\"notion\"].dark,\nhtml.dark .theme-notion {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-text-primary-dark));\n  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));\n  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-shadow: none;\n  --ltt-header-shadow: none;\n}\n\n.dark .theme-notion .ltt-table-root > .block-children-container,\n[data-theme=\"notion\"].dark .ltt-table-root > .block-children-container {\n  border-color: var(--ltt-border-normal-dark);\n}\n\n.dark .theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"notion\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-bottom-color: var(--ltt-border-normal-dark);\n  background: var(--ltt-bg-deepest-dark);\n}\n\n.dark .theme-notion .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,\n[data-theme=\"notion\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-bg-secondary-dark);\n  border-right-color: var(--ltt-border-normal-dark);\n}\n\n/* =========================================================\n   THEME: LINEAR - 现代科技风格\n   设计特点：\n   - 圆角：6px（轻微圆角）\n   - 阴影：轻量柔和阴影\n   - Header：底部强调线（2px indigo 线）\n   - 边框：淡紫色细线\n   - 强调色：Indigo #5e6ad2\n   - 适用场景：项目管理，任务追踪\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #ebeef1;\n  --ltt-border-strong: #dde1e7;\n  --ltt-hover: rgba(99, 110, 231, 0.04);\n  --ltt-header-bg: #f8f9fc;\n  --ltt-header-text: #5e6ad2;\n  --ltt-cell-text: #4a5168;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.9);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f5f6fb;\n  --ltt-radius: 6px;\n  --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  --ltt-header-shadow: inset 0 -2px 0 #5e6ad2;\n  --ltt-col-1-width: 240px;\n  --ltt-cell-padding: 10px 14px;\n  --ltt-header-height: 42px;\n}\n\n/* Linear Dark Mode - 使用 indigo-dark 配色 */\n.dark .theme-linear,\n[data-theme=\"linear\"].dark,\nhtml.dark .theme-linear {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));\n  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-shadow: var(--ltt-shadow-dark);\n  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);\n}\n\n.dark .theme-linear .ltt-table-root > .block-children-container,\n[data-theme=\"linear\"].dark .ltt-table-root > .block-children-container {\n  border-color: var(--ltt-border-normal-dark);\n}\n\n.dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"linear\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-bottom-color: var(--ltt-border-normal-dark);\n  background: var(--ltt-bg-deepest-dark);\n}\n\n.dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,\n[data-theme=\"linear\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-bg-secondary-dark);\n  border-right-color: var(--ltt-border-normal-dark);\n}\n\n.dark .theme-linear .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"linear\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right-color: var(--ltt-border-normal-dark);\n  background: var(--ltt-bg-tertiary-dark);\n}\n\n/* =========================================================\n   THEME: DARK - 纯深色模式\n   设计特点：\n   - 圆角：8px\n   - 阴影：深色阴影增加层次感\n   - Header：无特殊强调，深色背景\n   - 边框：半透明白色\n   - 适用场景：夜间使用，减少眼睛疲劳\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.08);\n  --ltt-border-strong: rgba(255, 255, 255, 0.12);\n  --ltt-hover: rgba(255, 255, 255, 0.03);\n  --ltt-header-bg: #1e2128;\n  --ltt-header-text: #e4e7ec;\n  --ltt-cell-text: #b8c0cc;\n  --ltt-cell-bg: rgba(30, 33, 40, 0.9);\n  --ltt-row-bg: #15171c;\n  --ltt-row-hover: #1e2128;\n  --ltt-radius: 8px;\n  --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);\n  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);\n  --ltt-col-1-width: 280px;\n  --ltt-cell-padding: 12px 16px;\n  --ltt-header-height: 48px;\n}\n\n/* =========================================================\n   THEME: GRADIENT - 活力渐变风格\n   设计特点：\n   - 圆角：10px\n   - 阴影：彩色投影效果\n   - Header：Indigo-Purple 渐变背景\n   - 边框：淡紫色\n   - 文本：深紫色\n   - 适用场景：数据展示，仪表盘，报告\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #e0e8ff;\n  --ltt-border-strong: #c7d4ff;\n  --ltt-hover: rgba(99, 102, 241, 0.05);\n  --ltt-header-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);\n  --ltt-header-text: #ffffff;\n  --ltt-cell-text: #3730a3;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.92);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #eef2ff;\n  --ltt-radius: 10px;\n  --ltt-shadow: 0 4px 24px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.06);\n  --ltt-header-shadow: none;\n  --ltt-col-1-width: 280px;\n  --ltt-cell-padding: 12px 16px;\n  --ltt-header-height: 48px;\n}\n\n/* Gradient Dark Mode - 深色渐变 */\n.dark .theme-gradient,\n[data-theme=\"gradient\"].dark,\nhtml.dark .theme-gradient {\n  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25));\n  --ltt-hover: rgba(165, 180, 252, 0.08);\n  --ltt-header-bg: linear-gradient(135deg, #312e81 0%, #3730a3 100%);\n  --ltt-header-text: var(--ltt-text-primary-dark);\n  --ltt-cell-text: var(--ltt-text-secondary-dark);\n  --ltt-cell-bg: rgba(30, 27, 75, 0.95);\n  --ltt-row-bg: #1e1b4b;\n  --ltt-row-hover: #312e81;\n  --ltt-shadow: var(--ltt-shadow-dark);\n  --ltt-header-shadow: none;\n}\n\n.dark .theme-gradient .ltt-table-root > .block-children-container,\n[data-theme=\"gradient\"].dark .ltt-table-root > .block-children-container {\n  border-color: rgba(165, 180, 252, 0.15);\n}\n\n.dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"gradient\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-bottom-color: rgba(165, 180, 252, 0.15);\n  background: #1e1b4b;\n}\n\n.dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,\n[data-theme=\"gradient\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);\n  border-right-color: rgba(165, 180, 252, 0.15);\n}\n\n.dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"gradient\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right-color: rgba(165, 180, 252, 0.15);\n  background: rgba(30, 27, 75, 0.95);\n}\n\n/* =========================================================\n   THEME: TANA - 清新自然风格\n   设计特点：\n   - 圆角：10px\n   - 阴影：柔和绿色投影\n   - Header：渐变背景 + 底部强调线\n   - 边框：淡绿色\n   - 强调色：Green #22c55e\n   - 适用场景：健康生活，目标追踪\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #e2ebe6;\n  --ltt-border-strong: #d1e2db;\n  --ltt-hover: rgba(34, 139, 115, 0.04);\n  --ltt-header-bg: linear-gradient(135deg, #f0f9f6 0%, #e8f5f0 100%);\n  --ltt-header-text: #2d5a4a;\n  --ltt-cell-text: #3d6b5a;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.95);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f5faf7;\n  --ltt-radius: 10px;\n  --ltt-shadow: 0 2px 12px rgba(34, 139, 115, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);\n  --ltt-header-shadow: inset 0 -2px 0 rgba(34, 139, 115, 0.15);\n  --ltt-col-1-width: 260px;\n  --ltt-cell-padding: 10px 14px;\n  --ltt-header-height: 44px;\n}\n\n/* Tana Dark Mode - 使用 indigo-dark 基础 */\n.dark .theme-tana,\n[data-theme=\"tana\"].dark,\nhtml.dark .theme-tana {\n  --ltt-border: var(--ls-border-color, rgba(16, 185, 129, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(16, 185, 129, 0.2));\n  --ltt-hover: rgba(16, 185, 129, 0.06);\n  --ltt-header-bg: var(--ls-tertiary-background-color, #0d3029);\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-green-dark));\n  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-cell-bg: var(--ls-primary-background-color, rgba(13, 48, 41, 0.8));\n  --ltt-row-bg: var(--ls-primary-background-color, #0a2622);\n  --ltt-row-hover: var(--ls-tertiary-background-color, #122d28);\n  --ltt-shadow: var(--ltt-shadow-dark);\n  --ltt-header-shadow: none;\n}\n\n.dark .theme-tana .ltt-table-root > .block-children-container,\n[data-theme=\"tana\"].dark .ltt-table-root > .block-children-container {\n  border-color: rgba(16, 185, 129, 0.15);\n}\n\n.dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"tana\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-bottom-color: rgba(16, 185, 129, 0.15);\n  background: #0a2622;\n}\n\n.dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,\n[data-theme=\"tana\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: #0d3029;\n  border-right-color: rgba(16, 185, 129, 0.15);\n}\n\n.dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"tana\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right-color: rgba(16, 185, 129, 0.15);\n  background: rgba(13, 48, 41, 0.8);\n}\n\n/* =========================================================\n   THEME: INDIGO - 专业沉稳风格\n   设计特点：\n   - 圆角：10px\n   - 阴影：柔和蓝色投影\n   - Header：渐变背景 + 底部强调线\n   - 边框：淡蓝紫色\n   - 强调色：Indigo #6366f1\n   - 适用场景：商务办公，数据分析，项目管理\n========================================================= */\n\n.theme-indigo,\n[data-theme=\"indigo\"] {\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  --ltt-hover: rgba(99, 102, 241, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);\n  --ltt-header-text: #4338ca;\n  --ltt-cell-text: #4f46e5;\n  --ltt-cell-bg: rgba(255, 255, 255, 0.95);\n  --ltt-row-bg: #ffffff;\n  --ltt-row-hover: #f5f3ff;\n  --ltt-radius: 10px;\n  --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03);\n  --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2);\n  --ltt-col-1-width: 260px;\n  --ltt-cell-padding: 10px 14px;\n  --ltt-header-height: 44px;\n}\n\n/* Indigo Dark Mode - 使用 indigo-dark 配色方案 */\n.dark .theme-indigo,\n[data-theme=\"indigo\"].dark,\nhtml.dark .theme-indigo {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-cell-bg: var(--ls-primary-background-color, var(--ltt-bg-tertiary-dark));\n  --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-shadow: var(--ltt-shadow-dark);\n  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);\n}\n\n.dark .theme-indigo .ltt-table-root > .block-children-container,\n[data-theme=\"indigo\"].dark .ltt-table-root > .block-children-container {\n  border-color: var(--ltt-border-normal-dark);\n}\n\n.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"indigo\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-bottom-color: var(--ltt-border-normal-dark);\n  background: var(--ltt-bg-deepest-dark);\n}\n\n.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,\n[data-theme=\"indigo\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-bg-secondary-dark);\n  border-right-color: var(--ltt-border-normal-dark);\n}\n\n.dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,\n[data-theme=\"indigo\"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  border-right-color: var(--ltt-border-normal-dark);\n  background: var(--ltt-bg-tertiary-dark);\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-table-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   TABLE SHELL\n========================================================= */\n\n.ltt-table-root > .block-children-container {\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius);\n  overflow-x: auto;\n  overflow-y: hidden;\n  background: var(--ltt-cell-bg);\n  backdrop-filter: blur(10px);\n  box-shadow: var(--ltt-shadow);\n  position: relative;\n  padding: 0 !important;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-table-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-table-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-table-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-table-root .block-control-wrap::before {\n  display: none !important;\n}\n\n.ltt-table-root .block-children-container {\n  padding-left: 0 !important;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n.ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n/* =========================================================\n   ROW\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: grid !important;\n  grid-template-columns: var(--ltt-col-1-width) repeat(20, minmax(220px, 1fr));\n  align-items: stretch;\n  min-width: fit-content;\n  position: relative;\n  transition: background 0.15s ease;\n  background: var(--ltt-row-bg);\n}\n\n/* row separator */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::after {\n  content: \"\";\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 1px;\n  background: var(--ltt-border);\n  pointer-events: none;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child::after {\n  display: none;\n}\n\n/* hover */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background: var(--ltt-row-hover);\n}\n\n/* =========================================================\n   FIRST COLUMN (HEADER)\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  display: block !important;\n  min-height: var(--ltt-header-height);\n  padding: var(--ltt-cell-padding) !important;\n  margin: 0 !important;\n  position: sticky;\n  left: 0;\n  z-index: 20;\n  width: var(--ltt-col-1-width);\n  min-width: var(--ltt-col-1-width);\n  background: var(--ltt-header-bg);\n  border-right: 1px solid var(--ltt-border);\n  box-shadow: var(--ltt-header-shadow);\n  font-weight: 600;\n  backdrop-filter: blur(18px);\n  overflow: visible;\n}\n\n/* align */\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {\n  min-height: 100%;\n  display: flex;\n  align-items: center;\n}\n\n/* =========================================================\n   RESIZE HANDLE\n========================================================= */\n\n.ltt-table-root .ltt-resize-handle {\n  position: absolute;\n  top: 0;\n  right: -4px;\n  width: 8px;\n  height: 100%;\n  cursor: col-resize;\n  z-index: 50;\n  opacity: 0;\n  transition: opacity 0.15s ease, background 0.15s ease;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .ltt-resize-handle {\n  opacity: 1;\n  background: linear-gradient(180deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.1));\n}\n\n.ltt-table-root .ltt-resize-handle:hover {\n  opacity: 1;\n  background: rgba(99, 102, 241, 0.3);\n}\n\n/* =========================================================\n   REMOVE FAKE PADDING\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > div[style*=\"padding-left\"] {\n  display: none !important;\n}\n\n/* =========================================================\n   FLATTEN CHILDREN\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container,\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children,\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .blocks-list-wrap {\n  display: contents !important;\n}\n\n/* =========================================================\n   CELL\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: block !important;\n  min-height: var(--ltt-header-height);\n  padding: var(--ltt-cell-padding) !important;\n  margin: 0 !important;\n  border-right: 1px solid var(--ltt-border);\n  background: var(--ltt-cell-bg);\n  box-sizing: border-box;\n  overflow: visible;\n  transition: background 0.15s ease;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {\n  border-right: none;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  background: var(--ltt-hover);\n}\n\n/* =========================================================\n   CELL CONTENT\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-content-wrapper {\n  width: 100% !important;\n  overflow: visible !important;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-table-root .block-title-wrap {\n  font-size: 14px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-cell-text);\n  transition: color 0.15s ease;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  font-weight: 650;\n  color: var(--ltt-header-text);\n  font-size: 14.5px;\n}\n\n/* =========================================================\n   BULLETS\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-table-root .block-control {\n  display: none !important;\n}\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   TREE LINE\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-children-left-border {\n  display: block !important;\n  opacity: 0.2;\n}\n\n/* =========================================================\n   CHILD FLOW\n========================================================= */\n\n.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-children-container {\n  padding-left: 1.5em !important;\n  margin-top: 8px !important;\n}\n\n/* =========================================================\n   TEXTAREA\n========================================================= */\n\n.ltt-table-root textarea {\n  resize: none !important;\n  overflow: hidden !important;\n  white-space: pre-wrap !important;\n  width: 100% !important;\n  color: var(--ltt-cell-text);\n}\n\n/* =========================================================\n   SCROLLBAR\n========================================================= */\n\n.ltt-table-root > .block-children-container::-webkit-scrollbar {\n  height: 10px;\n}\n\n.ltt-table-root > .block-children-container::-webkit-scrollbar-thumb {\n  background: rgba(120, 120, 120, 0.2);\n  border-radius: 999px;\n  border: 2px solid transparent;\n  background-clip: padding-box;\n}\n\n.ltt-table-root > .block-children-container::-webkit-scrollbar-thumb:hover {\n  background: rgba(120, 120, 120, 0.35);\n}\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-table-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-border-strong: var(--custom-header-border, #cbd5e1);\n  --ltt-hover: var(--custom-row-hover, rgba(0, 0, 0, 0.04));\n  --ltt-header-bg: var(--custom-header-bg, #f8fafc);\n  --ltt-header-text: var(--custom-header-text, #374151);\n  --ltt-cell-text: var(--custom-cell-text, #475569);\n  --ltt-cell-bg: var(--custom-row-bg, rgba(255, 255, 255, 0.7));\n  --ltt-row-bg: var(--custom-row-bg, #ffffff);\n  --ltt-row-hover: var(--custom-row-hover, #f1f5f9);\n  --ltt-radius: var(--custom-radius, 8px);\n  --ltt-header-height: var(--custom-header-height, 48px);\n  --ltt-cell-padding: var(--custom-cell-padding, 12px 16px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 900px) {\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    grid-template-columns: 1fr;\n  }\n\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    position: relative;\n    width: 100%;\n    min-width: 100%;\n    border-right: none;\n    border-bottom: 1px solid var(--ltt-border);\n  }\n\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    border-right: none;\n    border-bottom: 1px solid var(--ltt-border);\n    min-width: 100%;\n  }\n\n  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {\n    border-bottom: none;\n  }\n\n  .ltt-table-root .ltt-resize-handle {\n    display: none;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-table-root > .block-children-container {\n  animation: ltt-fade-in 0.2s ease-out;\n}\n";
 
-  var galleryViewCSSRaw = "/* =========================================================\n   BLOCK VIEW GALLERY STYLES\n   Advanced Theme System with Multiple Presets\n\n   主题设计系统说明：\n   - 使用 CSS 变量驱动的设计系统\n   - 优先使用 Logseq 原生变量作为主色\n   - 提供多种预设主题风格\n   - 支持深色模式自动适配\n\n   主题风格速查：\n   | 主题    | 圆角    | 阴影   | Header        | 特点                    |\n   |---------|---------|--------|---------------|-------------------------|\n   | Default | 12px   | 柔和   | 无            | 基础风格，依赖系统变量    |\n   | Notion  | 0px    | 无     | 无            | 极简线条，专业干净        |\n   | Linear  | 8px    | 轻量   | 无            | 科技蓝紫，适合项目管理    |\n   | Dark    | 12px   | 深色   | 无            | 纯深色，夜间使用         |\n   | Gradient| 16px   | 彩色   | 渐变          | 活力渐变，适合展示        |\n   | Tana    | 14px   | 柔和   | 柔和渐变      | 清新自然，舒适柔和        |\n   | Indigo  | 16px   | 柔和   | 柔和渐变      | 专业蓝紫，沉稳商务        |\n========================================================= */\n\n/* =========================================================\n   THEME: DEFAULT - 系统变量主题\n   设计特点：\n   - 圆角：12px（柔和圆角）\n   - 阴影：柔和多层阴影\n   - Header：无特殊强调，通过背景色区分\n   - 边框：细线风格\n   - 卡片间距：20px\n   - 适用场景：日常使用，与 Logseq 风格统一\n========================================================= */\n\n.ltt-gallery-root {\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: var(--ls-border-color, #cbd5e1);\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #374151);\n  --ltt-card-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-card-text: var(--ls-secondary-text-color, #475569);\n  --ltt-card-hover: var(--ls-tertiary-background-color, #f8fafc);\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* Default Dark Mode */\n.dark .ltt-gallery-root,\nhtml.dark .ltt-gallery-root {\n  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));\n  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);\n  --ltt-card-bg: var(--ls-primary-background-color, #0f172a);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c0cc);\n  --ltt-card-hover: var(--ls-tertiary-background-color, #1e2937);\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: NOTION - 极简专业风格\n   设计特点：\n   - 圆角：0px（无圆角，锐利边缘）\n   - 阴影：无阴影，纯线条分隔\n   - Header：无背景色，通过分隔线区分\n   - 边框：极细线条\n   - 文本：深灰色高对比度\n   - 卡片间距：16px\n   - 适用场景：文档型内容，专注阅读\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(0, 0, 0, 0.02);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #37352f;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #37352f;\n  --ltt-card-hover: #f9fafb;\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-card-radius: 0px;\n  --ltt-gap: 16px;\n  --ltt-padding: 20px;\n}\n\n/* Notion Dark Mode */\n.dark .theme-notion,\n[data-theme=\"notion\"].dark,\nhtml.dark .theme-notion {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-text-primary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: var(--ltt-shadow-dark);\n  --ltt-card-radius: 0px;\n  --ltt-gap: 16px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: LINEAR - 现代科技风格\n   设计特点：\n   - 圆角：8px（轻微圆角）\n   - 阴影：轻量柔和阴影\n   - Header：无特殊强调，通过背景色区分\n   - 边框：淡紫色细线\n   - 强调色：Indigo #5e6ad2\n   - 卡片间距：18px\n   - 适用场景：项目管理，任务追踪\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(94, 106, 210, 0.04);\n  --ltt-header-bg: #fafafa;\n  --ltt-header-text: #5e6ad2;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-hover: #f3f4f6;\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 16px rgba(94, 106, 210, 0.15);\n  --ltt-card-radius: 8px;\n  --ltt-gap: 18px;\n  --ltt-padding: 20px;\n}\n\n/* Linear Dark Mode */\n.dark .theme-linear,\n[data-theme=\"linear\"].dark,\nhtml.dark .theme-linear {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 8px;\n  --ltt-gap: 18px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: DARK - 纯深色模式\n   设计特点：\n   - 圆角：12px\n   - 阴影：深色阴影增加层次感\n   - Header：无特殊强调，深色背景\n   - 边框：半透明白色\n   - 卡片间距：20px\n   - 适用场景：夜间使用，减少眼睛疲劳\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.1);\n  --ltt-border-strong: rgba(255, 255, 255, 0.15);\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #f8fafc;\n  --ltt-card-bg: #0f172a;\n  --ltt-card-text: #cbd5e1;\n  --ltt-card-hover: #1f2937;\n  --ltt-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);\n  --ltt-card-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: GRADIENT - 活力渐变风格\n   设计特点：\n   - 圆角：16px\n   - 阴影：彩色投影效果\n   - Header：Indigo-Purple 渐变背景\n   - 边框：淡紫色\n   - 文本：深紫色\n   - 卡片间距：24px\n   - 适用场景：数据展示，仪表盘，报告\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #ddd6fe;\n  --ltt-border-strong: #c4b5fd;\n  --ltt-hover: rgba(139, 92, 246, 0.06);\n  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #6b21a8;\n  --ltt-card-bg: #faf5ff;\n  --ltt-card-text: #6b21a8;\n  --ltt-card-hover: #ede9fe;\n  --ltt-card-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);\n  --ltt-card-hover-shadow: 0 16px 48px rgba(139, 92, 246, 0.35);\n  --ltt-card-radius: 16px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* Gradient Dark Mode */\n.dark .theme-gradient,\n[data-theme=\"gradient\"].dark,\nhtml.dark .theme-gradient {\n  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25));\n  --ltt-hover: rgba(165, 180, 252, 0.08);\n  --ltt-header-bg: linear-gradient(180deg, rgba(165, 180, 252, 0.1) 0%, transparent 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n}\n\n/* =========================================================\n   THEME: TANA - 清新自然风格\n   设计特点：\n   - 圆角：14px（柔和圆角）\n   - 阴影：柔和绿色投影\n   - Header：浅黄紫-白色渐变背景\n   - 边框：淡绿黄色\n   - 强调色：Green #22c55e\n   - 卡片间距：24px\n   - 配色方案：\n     * 浅色：浅黄-浅紫-白色系（#fefce8 → #faf5f0 → #ffffff）\n     * 深色：深蓝-蓝紫渐变（#0a1628 → #1e1b4b）\n   - 适用场景：健康生活，目标追踪，日程管理\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #e8e4d9;\n  --ltt-border-strong: #d4cfc2;\n  --ltt-hover: rgba(34, 139, 115, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #fefce8 0%, #faf5f0 50%, #ffffff 100%);\n  --ltt-header-text: #4a5568;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #374151;\n  --ltt-card-hover: #fefce8;\n  --ltt-card-shadow: 0 4px 16px rgba(34, 139, 115, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(34, 139, 115, 0.15), 0 4px 12px rgba(0, 0, 0, 0.06);\n  --ltt-card-radius: 14px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* Tana Dark Mode */\n.dark .theme-tana,\n[data-theme=\"tana\"].dark,\nhtml.dark .theme-tana {\n  --ltt-border: var(--ls-border-color, rgba(99, 102, 241, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(99, 102, 241, 0.25));\n  --ltt-hover: rgba(99, 102, 241, 0.08);\n  --ltt-header-bg: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c5d6);\n  --ltt-card-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(99, 102, 241, 0.3);\n  --ltt-card-radius: 14px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* =========================================================\n   THEME: INDIGO - 专业沉稳风格\n   设计特点：\n   - 圆角：16px\n   - 阴影：柔和蓝色投影\n   - Header：Indigo 渐变背景\n   - 边框：淡蓝紫色\n   - 强调色：Indigo #6366f1\n   - 卡片间距：24px\n   - 适用场景：商务办公，数据分析，项目管理\n========================================================= */\n\n.theme-indigo,\n[data-theme=\"indigo\"] {\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  --ltt-hover: rgba(99, 102, 241, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);\n  --ltt-header-text: #4338ca;\n  --ltt-card-bg: #f5f3ff;\n  --ltt-card-text: #4f46e5;\n  --ltt-card-hover: #eef2ff;\n  --ltt-card-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);\n  --ltt-card-hover-shadow: 0 16px 48px rgba(99, 102, 241, 0.3);\n  --ltt-card-radius: 16px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* Indigo Dark Mode */\n.dark .theme-indigo,\n[data-theme=\"indigo\"].dark,\nhtml.dark .theme-indigo {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-gallery-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n.ltt-gallery-root > .block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n/* =========================================================\n   GRID LAYOUT\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: grid !important;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: var(--ltt-gap);\n  padding: var(--ltt-padding) !important;\n}\n\n/* =========================================================\n   CARD\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: var(--ltt-card-bg);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 20px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n  min-height: 140px;\n  box-shadow: var(--ltt-card-shadow);\n  position: relative;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  transform: translateY(-6px);\n  box-shadow: var(--ltt-card-hover-shadow);\n  border-color: var(--ltt-border-strong);\n}\n\n/* =========================================================\n   CARD HEADER\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-header-bg);\n  border: none;\n  padding: 0 0 16px 0 !important;\n  border-bottom: 1px solid var(--ltt-border);\n  margin-bottom: 16px;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* =========================================================\n   CARD CONTENT\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: transparent;\n  border: none;\n  border-radius: 0;\n  padding: 10px 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  transform: none !important;\n  min-height: auto;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-gallery-root .block-control {\n  display: none !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-gallery-root .block-title-wrap {\n  font-size: 14px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-card-text);\n  transition: color 0.15s ease;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  font-weight: 600;\n  color: var(--ltt-header-text);\n  font-size: 15px;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-gallery-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-gallery-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-gallery-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-gallery-root .block-control-wrap::before {\n  display: none !important;\n}\n\n.ltt-gallery-root .block-children-container {\n  padding-left: 0 !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  margin-left: -1px !important;\n}\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-gallery-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-card-bg: var(--custom-card-bg, #ffffff);\n  --ltt-card-text: var(--custom-card-text, #475569);\n  --ltt-card-hover: var(--custom-card-hover, #f8fafc);\n  --ltt-card-shadow: var(--custom-card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));\n  --ltt-card-hover-shadow: var(--custom-card-hover-shadow, 0 8px 24px rgba(0, 0, 0, 0.12));\n  --ltt-card-radius: var(--custom-card-radius, 12px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {\n    grid-template-columns: 1fr;\n    gap: 16px;\n    padding: 16px !important;\n  }\n\n  .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    min-height: 120px;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-gallery-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(12px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  animation: ltt-gallery-fade-in 0.3s ease-out;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {\n  animation-delay: 0s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {\n  animation-delay: 0.05s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {\n  animation-delay: 0.1s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(4) {\n  animation-delay: 0.15s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(5) {\n  animation-delay: 0.2s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+6) {\n  animation-delay: 0.25s;\n}\n";
+  var galleryViewCSSRaw = "/* =========================================================\n   BLOCK VIEW GALLERY STYLES\n   Advanced Theme System with Multiple Presets\n\n   主题设计系统说明：\n   - 使用 CSS 变量驱动的设计系统\n   - 优先使用 Logseq 原生变量作为主色\n   - 提供多种预设主题风格\n   - 支持深色模式自动适配\n\n   主题风格速查：\n   | 主题    | 圆角    | 阴影   | Header        | 特点                    |\n   |---------|---------|--------|---------------|-------------------------|\n   | Default | 12px   | 柔和   | 无            | 基础风格，依赖系统变量    |\n   | Notion  | 0px    | 无     | 无            | 极简线条，专业干净        |\n   | Linear  | 8px    | 轻量   | 无            | 科技蓝紫，适合项目管理    |\n   | Dark    | 12px   | 深色   | 无            | 纯深色，夜间使用         |\n   | Gradient| 16px   | 彩色   | 渐变          | 活力渐变，适合展示        |\n   | Tana    | 14px   | 柔和   | 柔和渐变      | 清新自然，舒适柔和        |\n   | Indigo  | 16px   | 柔和   | 柔和渐变      | 专业蓝紫，沉稳商务        |\n========================================================= */\n\n/* =========================================================\n   THEME: DEFAULT - 系统变量主题\n   设计特点：\n   - 圆角：12px（柔和圆角）\n   - 阴影：柔和多层阴影\n   - Header：无特殊强调，通过背景色区分\n   - 边框：细线风格\n   - 卡片间距：20px\n   - 适用场景：日常使用，与 Logseq 风格统一\n========================================================= */\n\n.ltt-gallery-root {\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: var(--ls-border-color, #cbd5e1);\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #374151);\n  --ltt-card-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-card-text: var(--ls-secondary-text-color, #475569);\n  --ltt-card-hover: var(--ls-tertiary-background-color, #f8fafc);\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* Default Dark Mode */\n.dark .ltt-gallery-root,\nhtml.dark .ltt-gallery-root {\n  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));\n  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);\n  --ltt-card-bg: var(--ls-primary-background-color, #0f172a);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c0cc);\n  --ltt-card-hover: var(--ls-tertiary-background-color, #1e2937);\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: NOTION - 极简专业风格\n   设计特点：\n   - 圆角：0px（无圆角，锐利边缘）\n   - 阴影：无阴影，纯线条分隔\n   - Header：无背景色，通过分隔线区分\n   - 边框：极细线条\n   - 文本：深灰色高对比度\n   - 卡片间距：16px\n   - 适用场景：文档型内容，专注阅读\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(0, 0, 0, 0.02);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #37352f;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #37352f;\n  --ltt-card-hover: #f9fafb;\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-card-radius: 0px;\n  --ltt-gap: 16px;\n  --ltt-padding: 20px;\n}\n\n/* Notion Dark Mode */\n.dark .theme-notion,\n[data-theme=\"notion\"].dark,\nhtml.dark .theme-notion {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-text-primary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: var(--ltt-shadow-dark);\n  --ltt-card-radius: 0px;\n  --ltt-gap: 16px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: LINEAR - 现代科技风格\n   设计特点：\n   - 圆角：8px（轻微圆角）\n   - 阴影：轻量柔和阴影\n   - Header：无特殊强调，通过背景色区分\n   - 边框：淡紫色细线\n   - 强调色：Indigo #5e6ad2\n   - 卡片间距：18px\n   - 适用场景：项目管理，任务追踪\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(94, 106, 210, 0.04);\n  --ltt-header-bg: #fafafa;\n  --ltt-header-text: #5e6ad2;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-hover: #f3f4f6;\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 16px rgba(94, 106, 210, 0.15);\n  --ltt-card-radius: 8px;\n  --ltt-gap: 18px;\n  --ltt-padding: 20px;\n}\n\n/* Linear Dark Mode */\n.dark .theme-linear,\n[data-theme=\"linear\"].dark,\nhtml.dark .theme-linear {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 8px;\n  --ltt-gap: 18px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: DARK - 纯深色模式\n   设计特点：\n   - 圆角：12px\n   - 阴影：深色阴影增加层次感\n   - Header：无特殊强调，深色背景\n   - 边框：半透明白色\n   - 卡片间距：20px\n   - 适用场景：夜间使用，减少眼睛疲劳\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.1);\n  --ltt-border-strong: rgba(255, 255, 255, 0.15);\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #f8fafc;\n  --ltt-card-bg: #0f172a;\n  --ltt-card-text: #cbd5e1;\n  --ltt-card-hover: #1f2937;\n  --ltt-card-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);\n  --ltt-card-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);\n  --ltt-card-radius: 12px;\n  --ltt-gap: 20px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: GRADIENT - 活力渐变风格\n   设计特点：\n   - 圆角：16px\n   - 阴影：彩色投影效果\n   - Header：Indigo-Purple 渐变背景\n   - 边框：淡紫色\n   - 文本：深紫色\n   - 卡片间距：24px\n   - 适用场景：数据展示，仪表盘，报告\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #ddd6fe;\n  --ltt-border-strong: #c4b5fd;\n  --ltt-hover: rgba(139, 92, 246, 0.06);\n  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #6b21a8;\n  --ltt-card-bg: #faf5ff;\n  --ltt-card-text: #6b21a8;\n  --ltt-card-hover: #ede9fe;\n  --ltt-card-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);\n  --ltt-card-hover-shadow: 0 16px 48px rgba(139, 92, 246, 0.35);\n  --ltt-card-radius: 16px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* Gradient Dark Mode */\n.dark .theme-gradient,\n[data-theme=\"gradient\"].dark,\nhtml.dark .theme-gradient {\n  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25));\n  --ltt-hover: rgba(165, 180, 252, 0.08);\n  --ltt-header-bg: linear-gradient(180deg, rgba(165, 180, 252, 0.1) 0%, transparent 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n}\n\n/* =========================================================\n   THEME: TANA - 清新自然风格\n   设计特点：\n   - 圆角：14px（柔和圆角）\n   - 阴影：柔和绿色投影\n   - Header：浅黄紫-白色渐变背景\n   - 边框：淡绿黄色\n   - 强调色：Green #22c55e\n   - 卡片间距：24px\n   - 配色方案：\n     * 浅色：浅黄-浅紫-白色系（#fefce8 → #faf5f0 → #ffffff）\n     * 深色：深蓝-蓝紫渐变（#0a1628 → #1e1b4b）\n   - 适用场景：健康生活，目标追踪，日程管理\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #e8e4d9;\n  --ltt-border-strong: #d4cfc2;\n  --ltt-hover: rgba(34, 139, 115, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #fefce8 0%, #faf5f0 50%, #ffffff 100%);\n  --ltt-header-text: #4a5568;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #374151;\n  --ltt-card-hover: #fefce8;\n  --ltt-card-shadow: 0 4px 16px rgba(34, 139, 115, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(34, 139, 115, 0.15), 0 4px 12px rgba(0, 0, 0, 0.06);\n  --ltt-card-radius: 14px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* Tana Dark Mode */\n.dark .theme-tana,\n[data-theme=\"tana\"].dark,\nhtml.dark .theme-tana {\n  --ltt-border: var(--ls-border-color, rgba(99, 102, 241, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(99, 102, 241, 0.25));\n  --ltt-hover: rgba(99, 102, 241, 0.08);\n  --ltt-header-bg: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c5d6);\n  --ltt-card-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(99, 102, 241, 0.3);\n  --ltt-card-radius: 14px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* =========================================================\n   THEME: INDIGO - 专业沉稳风格\n   设计特点：\n   - 圆角：16px\n   - 阴影：柔和蓝色投影\n   - Header：Indigo 渐变背景\n   - 边框：淡蓝紫色\n   - 强调色：Indigo #6366f1\n   - 卡片间距：24px\n   - 适用场景：商务办公，数据分析，项目管理\n========================================================= */\n\n.theme-indigo,\n[data-theme=\"indigo\"] {\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  --ltt-hover: rgba(99, 102, 241, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);\n  --ltt-header-text: #4338ca;\n  --ltt-card-bg: #f5f3ff;\n  --ltt-card-text: #4f46e5;\n  --ltt-card-hover: #eef2ff;\n  --ltt-card-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);\n  --ltt-card-hover-shadow: 0 16px 48px rgba(99, 102, 241, 0.3);\n  --ltt-card-radius: 16px;\n  --ltt-gap: 24px;\n  --ltt-padding: 28px;\n}\n\n/* Indigo Dark Mode */\n.dark .theme-indigo,\n[data-theme=\"indigo\"].dark,\nhtml.dark .theme-indigo {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-gallery-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n.ltt-gallery-root > .block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n/* =========================================================\n   GRID LAYOUT\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: grid !important;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: var(--ltt-gap);\n  padding: var(--ltt-padding) !important;\n}\n\n/* =========================================================\n   CARD\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: var(--ltt-card-bg);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 20px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n  min-height: 140px;\n  box-shadow: var(--ltt-card-shadow);\n  position: relative;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  transform: translateY(-6px);\n  box-shadow: var(--ltt-card-hover-shadow);\n  border-color: var(--ltt-border-strong);\n}\n\n/* =========================================================\n   CARD HEADER\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-header-bg);\n  border: none;\n  padding: 0 0 16px 0 !important;\n  border-bottom: 1px solid var(--ltt-border);\n  margin-bottom: 16px;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* =========================================================\n   CARD CONTENT\n========================================================= */\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: transparent;\n  border: none;\n  border-radius: 0;\n  padding: 10px 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  transform: none !important;\n  min-height: auto;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-gallery-root .block-title-wrap {\n  font-size: 14px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-card-text);\n  transition: color 0.15s ease;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  font-weight: 600;\n  color: var(--ltt-header-text);\n  font-size: 15px;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-gallery-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-gallery-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-gallery-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-gallery-root .block-control-wrap::before {\n  display: none !important;\n}\n\n.ltt-gallery-root .block-children-container {\n  padding-left: 0 !important;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  margin-left: -1px !important;\n}\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-gallery-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-card-bg: var(--custom-card-bg, #ffffff);\n  --ltt-card-text: var(--custom-card-text, #475569);\n  --ltt-card-hover: var(--custom-card-hover, #f8fafc);\n  --ltt-card-shadow: var(--custom-card-shadow, 0 2px 8px rgba(0, 0, 0, 0.06));\n  --ltt-card-hover-shadow: var(--custom-card-hover-shadow, 0 8px 24px rgba(0, 0, 0, 0.12));\n  --ltt-card-radius: var(--custom-card-radius, 12px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {\n    grid-template-columns: 1fr;\n    gap: 16px;\n    padding: 16px !important;\n  }\n\n  .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    min-height: 120px;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-gallery-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(12px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  animation: ltt-gallery-fade-in 0.3s ease-out;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {\n  animation-delay: 0s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {\n  animation-delay: 0.05s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {\n  animation-delay: 0.1s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(4) {\n  animation-delay: 0.15s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(5) {\n  animation-delay: 0.2s;\n}\n\n.ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+6) {\n  animation-delay: 0.25s;\n}\n";
 
-  var boardViewCSSRaw = "/* =========================================================\n   BLOCK VIEW BOARD (KANBAN) STYLES\n   Advanced Theme System with Multiple Presets\n\n   主题设计系统说明：\n   - 使用 CSS 变量驱动的设计系统\n   - 优先使用 Logseq 原生变量作为主色\n   - 提供多种预设主题风格\n   - 支持深色模式自动适配\n\n   主题风格速查：\n   | 主题    | 圆角    | 阴影   | Header        | 特点                    |\n   |---------|---------|--------|---------------|-------------------------|\n   | Default | 8px    | 柔和   | 无            | 基础风格，依赖系统变量    |\n   | Notion  | 0px    | 无     | 无            | 极简线条，专业干净        |\n   | Linear  | 8px    | 轻量   | 无            | 科技蓝紫，适合项目管理    |\n   | Dark    | 8px    | 深色   | 无            | 纯深色，夜间使用         |\n   | Gradient| 12px   | 彩色   | 渐变          | 活力渐变，适合展示        |\n   | Tana    | 14px   | 柔和   | 柔和渐变      | 清新自然，舒适柔和        |\n   | Indigo  | 12px   | 柔和   | 柔和渐变      | 专业蓝紫，沉稳商务        |\n========================================================= */\n\n/* =========================================================\n   THEME: DEFAULT - 系统变量主题\n   设计特点：\n   - 圆角：8px\n   - 阴影：轻量阴影\n   - Header：无特殊强调\n   - 边框：细线风格\n   - 列宽：320px\n   - 适用场景：日常使用，与 Logseq 风格统一\n========================================================= */\n\n.ltt-board-root {\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: var(--ls-border-color, #cbd5e1);\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #374151);\n  --ltt-column-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #f8fafc);\n  --ltt-card-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-card-text: var(--ls-secondary-text-color, #475569);\n  --ltt-card-border: var(--ls-border-color, #e2e8f0);\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* Default Dark Mode */\n.dark .ltt-board-root,\nhtml.dark .ltt-board-root {\n  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));\n  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);\n  --ltt-column-bg: var(--ls-primary-background-color, #0f172a);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #1e2937);\n  --ltt-card-bg: var(--ls-primary-background-color, #1f2937);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c0cc);\n  --ltt-card-border: var(--ls-border-color, rgba(255, 255, 255, 0.08));\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: NOTION - 极简专业风格\n   设计特点：\n   - 圆角：0px（无圆角，锐利边缘）\n   - 阴影：无阴影，纯线条分隔\n   - Header：无背景色\n   - 边框：极细线条\n   - 列宽：300px\n   - 适用场景：文档型看板，专注内容\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(0, 0, 0, 0.02);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #37352f;\n  --ltt-column-bg: #ffffff;\n  --ltt-column-hover: #fafafa;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #37352f;\n  --ltt-card-border: #e5e7eb;\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-card-radius: 0px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* Notion Dark Mode */\n.dark .theme-notion,\n[data-theme=\"notion\"].dark,\nhtml.dark .theme-notion {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-text-primary-dark));\n  --ltt-column-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-column-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: var(--ltt-shadow-dark);\n  --ltt-card-radius: 0px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* =========================================================\n   THEME: LINEAR - 现代科技风格\n   设计特点：\n   - 圆角：8px\n   - 阴影：轻量柔和阴影\n   - Header：无特殊强调\n   - 边框：淡紫色细线\n   - 强调色：Indigo #5e6ad2\n   - 列宽：300px\n   - 适用场景：项目管理，任务追踪\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(94, 106, 210, 0.04);\n  --ltt-header-bg: #fafafa;\n  --ltt-header-text: #5e6ad2;\n  --ltt-column-bg: #fafafa;\n  --ltt-column-hover: #f3f4f6;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-border: #e5e7eb;\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(94, 106, 210, 0.15);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* Linear Dark Mode */\n.dark .theme-linear,\n[data-theme=\"linear\"].dark,\nhtml.dark .theme-linear {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-column-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-column-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* =========================================================\n   THEME: DARK - 纯深色模式\n   设计特点：\n   - 圆角：8px\n   - 阴影：深色阴影增加层次感\n   - Header：无特殊强调\n   - 边框：半透明白色\n   - 列宽：320px\n   - 适用场景：夜间使用，减少眼睛疲劳\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.1);\n  --ltt-border-strong: rgba(255, 255, 255, 0.15);\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #f8fafc;\n  --ltt-column-bg: #0f172a;\n  --ltt-column-hover: #1f2937;\n  --ltt-card-bg: #1f2937;\n  --ltt-card-text: #cbd5e1;\n  --ltt-card-border: rgba(255, 255, 255, 0.08);\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: GRADIENT - 活力渐变风格\n   设计特点：\n   - 圆角：12px\n   - 阴影：彩色投影效果\n   - Header：Indigo-Purple 渐变背景\n   - 边框：淡紫色\n   - 文本：深紫色\n   - 列宽：340px\n   - 适用场景：数据展示，仪表盘看板\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #ddd6fe;\n  --ltt-border-strong: #c4b5fd;\n  --ltt-hover: rgba(139, 92, 246, 0.06);\n  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #6b21a8;\n  --ltt-column-bg: #faf5ff;\n  --ltt-column-hover: #ede9fe;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #6b21a8;\n  --ltt-card-border: #e9d5ff;\n  --ltt-card-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* Gradient Dark Mode */\n.dark .theme-gradient,\n[data-theme=\"gradient\"].dark,\nhtml.dark .theme-gradient {\n  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25));\n  --ltt-hover: rgba(165, 180, 252, 0.08);\n  --ltt-header-bg: linear-gradient(180deg, rgba(165, 180, 252, 0.1) 0%, transparent 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-column-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: TANA - 清新自然风格\n   设计特点：\n   - 圆角：14px（柔和圆角）\n   - 阴影：柔和投影\n   - Header：浅黄紫-白色渐变背景\n   - 边框：淡暖色\n   - 强调色：柔和绿调\n   - 列宽：340px\n   - 配色方案：\n     * 浅色：浅黄-浅紫-白色系（#fefce8 → #faf5f0 → #ffffff）\n     * 深色：深蓝-蓝紫渐变（#0a1628 → #1e1b4b）\n   - 适用场景：健康生活，目标追踪，日程管理\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #e8e4d9;\n  --ltt-border-strong: #d4cfc2;\n  --ltt-hover: rgba(34, 139, 115, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #fefce8 0%, #faf5f0 50%, #ffffff 100%);\n  --ltt-header-text: #4a5568;\n  --ltt-column-bg: #ffffff;\n  --ltt-column-hover: #fefce8;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #374151;\n  --ltt-card-border: #e8e4d9;\n  --ltt-card-shadow: 0 4px 16px rgba(34, 139, 115, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(34, 139, 115, 0.15), 0 4px 12px rgba(0, 0, 0, 0.06);\n  --ltt-card-radius: 14px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* Tana Dark Mode */\n.dark .theme-tana,\n[data-theme=\"tana\"].dark,\nhtml.dark .theme-tana {\n  --ltt-border: var(--ls-border-color, rgba(99, 102, 241, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(99, 102, 241, 0.25));\n  --ltt-hover: rgba(99, 102, 241, 0.08);\n  --ltt-header-bg: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-column-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c5d6);\n  --ltt-card-border: var(--ls-border-color, rgba(99, 102, 241, 0.15));\n  --ltt-card-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(99, 102, 241, 0.3);\n  --ltt-card-radius: 14px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: INDIGO - 专业沉稳风格\n   设计特点：\n   - 圆角：12px\n   - 阴影：柔和蓝色投影\n   - Header：Indigo 渐变背景\n   - 边框：淡蓝紫色\n   - 强调色：Indigo #6366f1\n   - 列宽：340px\n   - 适用场景：商务办公，数据分析，项目管理看板\n========================================================= */\n\n.theme-indigo,\n[data-theme=\"indigo\"] {\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  --ltt-hover: rgba(99, 102, 241, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);\n  --ltt-header-text: #4338ca;\n  --ltt-column-bg: #f5f3ff;\n  --ltt-column-hover: #eef2ff;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #4f46e5;\n  --ltt-card-border: #c7d2fe;\n  --ltt-card-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* Indigo Dark Mode */\n.dark .theme-indigo,\n[data-theme=\"indigo\"].dark,\nhtml.dark .theme-indigo {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-column-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-column-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-board-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n.ltt-board-root > .block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n/* =========================================================\n   BOARD LAYOUT\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  gap: var(--ltt-gap);\n  padding: var(--ltt-padding) !important;\n  overflow-x: auto;\n  align-items: flex-start;\n}\n\n/* =========================================================\n   COLUMN\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  min-width: var(--ltt-column-width);\n  max-width: var(--ltt-column-width);\n  flex-shrink: 0;\n  background: var(--ltt-column-bg);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 12px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  border-color: var(--ltt-border-strong);\n}\n\n/* =========================================================\n   COLUMN HEADER\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-header-bg);\n  border: none;\n  padding: 10px 12px !important;\n  font-weight: 600;\n  font-size: 14px;\n  margin-bottom: 8px;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-header-text);\n}\n\n/* =========================================================\n   COLUMN CONTENT (CARD CONTAINER)\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column;\n  gap: 10px;\n  padding: 8px !important;\n  min-height: 100px;\n}\n\n/* =========================================================\n   CARD\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: var(--ltt-card-bg);\n  border: 1px solid var(--ltt-card-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 12px 14px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-card-shadow);\n  position: relative;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  box-shadow: var(--ltt-card-hover-shadow);\n  transform: translateY(-2px);\n  border-color: var(--ltt-border-strong);\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-board-root .block-control {\n  display: none !important;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   CARD INNER CONTENT - ALIGN LEFT WITH HEADER\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  padding: 0 !important;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-content-wrapper {\n  width: 100% !important;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-board-root .block-title-wrap {\n  font-size: 13px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-card-text);\n  transition: color 0.15s ease;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-board-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-board-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-board-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-board-root .block-control-wrap::before {\n  display: none !important;\n}\n\n.ltt-board-root .block-children-container {\n  padding-left: 0 !important;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  margin-left: -1px !important;\n}\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-board-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-column-bg: var(--custom-column-bg, #ffffff);\n  --ltt-column-hover: var(--custom-column-hover, #f8fafc);\n  --ltt-card-bg: var(--custom-card-bg, #ffffff);\n  --ltt-card-text: var(--custom-card-text, #475569);\n  --ltt-card-border: var(--custom-card-border, #e2e8f0);\n  --ltt-card-shadow: var(--custom-card-shadow, 0 1px 3px rgba(0, 0, 0, 0.06));\n  --ltt-card-hover-shadow: var(--custom-card-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.1));\n  --ltt-card-radius: var(--custom-card-radius, 8px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 1024px) {\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {\n    flex-wrap: wrap;\n  }\n\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    min-width: 280px;\n    max-width: 100%;\n    flex: 1 1 calc(50% - var(--ltt-gap));\n  }\n}\n\n@media (max-width: 768px) {\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {\n    flex-direction: column;\n    overflow-x: visible;\n  }\n\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    min-width: 100%;\n    max-width: 100%;\n    flex: 1 1 100%;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-board-slide-in {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  animation: ltt-board-slide-in 0.3s ease-out;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {\n  animation-delay: 0s;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {\n  animation-delay: 0.1s;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {\n  animation-delay: 0.2s;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+4) {\n  animation-delay: 0.3s;\n}\n";
+  var boardViewCSSRaw = "/* =========================================================\n   BLOCK VIEW BOARD (KANBAN) STYLES\n   Advanced Theme System with Multiple Presets\n\n   主题设计系统说明：\n   - 使用 CSS 变量驱动的设计系统\n   - 优先使用 Logseq 原生变量作为主色\n   - 提供多种预设主题风格\n   - 支持深色模式自动适配\n\n   主题风格速查：\n   | 主题    | 圆角    | 阴影   | Header        | 特点                    |\n   |---------|---------|--------|---------------|-------------------------|\n   | Default | 8px    | 柔和   | 无            | 基础风格，依赖系统变量    |\n   | Notion  | 0px    | 无     | 无            | 极简线条，专业干净        |\n   | Linear  | 8px    | 轻量   | 无            | 科技蓝紫，适合项目管理    |\n   | Dark    | 8px    | 深色   | 无            | 纯深色，夜间使用         |\n   | Gradient| 12px   | 彩色   | 渐变          | 活力渐变，适合展示        |\n   | Tana    | 14px   | 柔和   | 柔和渐变      | 清新自然，舒适柔和        |\n   | Indigo  | 12px   | 柔和   | 柔和渐变      | 专业蓝紫，沉稳商务        |\n========================================================= */\n\n/* =========================================================\n   THEME: DEFAULT - 系统变量主题\n   设计特点：\n   - 圆角：8px\n   - 阴影：轻量阴影\n   - Header：无特殊强调\n   - 边框：细线风格\n   - 列宽：320px\n   - 适用场景：日常使用，与 Logseq 风格统一\n========================================================= */\n\n.ltt-board-root {\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: var(--ls-border-color, #cbd5e1);\n  --ltt-hover: rgba(0, 0, 0, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #374151);\n  --ltt-column-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #f8fafc);\n  --ltt-card-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-card-text: var(--ls-secondary-text-color, #475569);\n  --ltt-card-border: var(--ls-border-color, #e2e8f0);\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* Default Dark Mode */\n.dark .ltt-board-root,\nhtml.dark .ltt-board-root {\n  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));\n  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);\n  --ltt-column-bg: var(--ls-primary-background-color, #0f172a);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #1e2937);\n  --ltt-card-bg: var(--ls-primary-background-color, #1f2937);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c0cc);\n  --ltt-card-border: var(--ls-border-color, rgba(255, 255, 255, 0.08));\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: NOTION - 极简专业风格\n   设计特点：\n   - 圆角：0px（无圆角，锐利边缘）\n   - 阴影：无阴影，纯线条分隔\n   - Header：无背景色\n   - 边框：极细线条\n   - 列宽：300px\n   - 适用场景：文档型看板，专注内容\n========================================================= */\n\n.theme-notion,\n[data-theme=\"notion\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(0, 0, 0, 0.02);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #37352f;\n  --ltt-column-bg: #ffffff;\n  --ltt-column-hover: #fafafa;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #37352f;\n  --ltt-card-border: #e5e7eb;\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-card-radius: 0px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* Notion Dark Mode */\n.dark .theme-notion,\n[data-theme=\"notion\"].dark,\nhtml.dark .theme-notion {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-text-primary-dark));\n  --ltt-column-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-column-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-card-shadow: none;\n  --ltt-card-hover-shadow: var(--ltt-shadow-dark);\n  --ltt-card-radius: 0px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* =========================================================\n   THEME: LINEAR - 现代科技风格\n   设计特点：\n   - 圆角：8px\n   - 阴影：轻量柔和阴影\n   - Header：无特殊强调\n   - 边框：淡紫色细线\n   - 强调色：Indigo #5e6ad2\n   - 列宽：300px\n   - 适用场景：项目管理，任务追踪\n========================================================= */\n\n.theme-linear,\n[data-theme=\"linear\"] {\n  --ltt-border: #e5e7eb;\n  --ltt-border-strong: #d1d5db;\n  --ltt-hover: rgba(94, 106, 210, 0.04);\n  --ltt-header-bg: #fafafa;\n  --ltt-header-text: #5e6ad2;\n  --ltt-column-bg: #fafafa;\n  --ltt-column-hover: #f3f4f6;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #475569;\n  --ltt-card-border: #e5e7eb;\n  --ltt-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  --ltt-card-hover-shadow: 0 4px 12px rgba(94, 106, 210, 0.15);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* Linear Dark Mode */\n.dark .theme-linear,\n[data-theme=\"linear\"].dark,\nhtml.dark .theme-linear {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-column-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-column-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 300px;\n  --ltt-gap: 16px;\n  --ltt-padding: 16px;\n}\n\n/* =========================================================\n   THEME: DARK - 纯深色模式\n   设计特点：\n   - 圆角：8px\n   - 阴影：深色阴影增加层次感\n   - Header：无特殊强调\n   - 边框：半透明白色\n   - 列宽：320px\n   - 适用场景：夜间使用，减少眼睛疲劳\n========================================================= */\n\n.dark,\n.theme-dark,\n[data-theme=\"dark\"] {\n  --ltt-border: rgba(255, 255, 255, 0.1);\n  --ltt-border-strong: rgba(255, 255, 255, 0.15);\n  --ltt-hover: rgba(255, 255, 255, 0.04);\n  --ltt-header-bg: transparent;\n  --ltt-header-text: #f8fafc;\n  --ltt-column-bg: #0f172a;\n  --ltt-column-hover: #1f2937;\n  --ltt-card-bg: #1f2937;\n  --ltt-card-text: #cbd5e1;\n  --ltt-card-border: rgba(255, 255, 255, 0.08);\n  --ltt-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);\n  --ltt-card-radius: 8px;\n  --ltt-column-width: 320px;\n  --ltt-gap: 20px;\n  --ltt-padding: 20px;\n}\n\n/* =========================================================\n   THEME: GRADIENT - 活力渐变风格\n   设计特点：\n   - 圆角：12px\n   - 阴影：彩色投影效果\n   - Header：Indigo-Purple 渐变背景\n   - 边框：淡紫色\n   - 文本：深紫色\n   - 列宽：340px\n   - 适用场景：数据展示，仪表盘看板\n========================================================= */\n\n.theme-gradient,\n[data-theme=\"gradient\"] {\n  --ltt-border: #ddd6fe;\n  --ltt-border-strong: #c4b5fd;\n  --ltt-hover: rgba(139, 92, 246, 0.06);\n  --ltt-header-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);\n  --ltt-header-text: #6b21a8;\n  --ltt-column-bg: #faf5ff;\n  --ltt-column-hover: #ede9fe;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #6b21a8;\n  --ltt-card-border: #e9d5ff;\n  --ltt-card-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* Gradient Dark Mode */\n.dark .theme-gradient,\n[data-theme=\"gradient\"].dark,\nhtml.dark .theme-gradient {\n  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25));\n  --ltt-hover: rgba(165, 180, 252, 0.08);\n  --ltt-header-bg: linear-gradient(180deg, rgba(165, 180, 252, 0.1) 0%, transparent 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-column-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: TANA - 清新自然风格\n   设计特点：\n   - 圆角：14px（柔和圆角）\n   - 阴影：柔和投影\n   - Header：浅黄紫-白色渐变背景\n   - 边框：淡暖色\n   - 强调色：柔和绿调\n   - 列宽：340px\n   - 配色方案：\n     * 浅色：浅黄-浅紫-白色系（#fefce8 → #faf5f0 → #ffffff）\n     * 深色：深蓝-蓝紫渐变（#0a1628 → #1e1b4b）\n   - 适用场景：健康生活，目标追踪，日程管理\n========================================================= */\n\n.theme-tana,\n[data-theme=\"tana\"] {\n  --ltt-border: #e8e4d9;\n  --ltt-border-strong: #d4cfc2;\n  --ltt-hover: rgba(34, 139, 115, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #fefce8 0%, #faf5f0 50%, #ffffff 100%);\n  --ltt-header-text: #4a5568;\n  --ltt-column-bg: #ffffff;\n  --ltt-column-hover: #fefce8;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #374151;\n  --ltt-card-border: #e8e4d9;\n  --ltt-card-shadow: 0 4px 16px rgba(34, 139, 115, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(34, 139, 115, 0.15), 0 4px 12px rgba(0, 0, 0, 0.06);\n  --ltt-card-radius: 14px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* Tana Dark Mode */\n.dark .theme-tana,\n[data-theme=\"tana\"].dark,\nhtml.dark .theme-tana {\n  --ltt-border: var(--ls-border-color, rgba(99, 102, 241, 0.15));\n  --ltt-border-strong: var(--ls-border-color, rgba(99, 102, 241, 0.25));\n  --ltt-hover: rgba(99, 102, 241, 0.08);\n  --ltt-header-bg: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);\n  --ltt-header-text: var(--ls-primary-text-color, #c7d2fe);\n  --ltt-column-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-column-hover: var(--ls-tertiary-background-color, #312e81);\n  --ltt-card-bg: var(--ls-primary-background-color, #1e1b4b);\n  --ltt-card-text: var(--ls-secondary-text-color, #b8c5d6);\n  --ltt-card-border: var(--ls-border-color, rgba(99, 102, 241, 0.15));\n  --ltt-card-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);\n  --ltt-card-hover-shadow: 0 12px 32px rgba(99, 102, 241, 0.3);\n  --ltt-card-radius: 14px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   THEME: INDIGO - 专业沉稳风格\n   设计特点：\n   - 圆角：12px\n   - 阴影：柔和蓝色投影\n   - Header：Indigo 渐变背景\n   - 边框：淡蓝紫色\n   - 强调色：Indigo #6366f1\n   - 列宽：340px\n   - 适用场景：商务办公，数据分析，项目管理看板\n========================================================= */\n\n.theme-indigo,\n[data-theme=\"indigo\"] {\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  --ltt-hover: rgba(99, 102, 241, 0.06);\n  --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);\n  --ltt-header-text: #4338ca;\n  --ltt-column-bg: #f5f3ff;\n  --ltt-column-hover: #eef2ff;\n  --ltt-card-bg: #ffffff;\n  --ltt-card-text: #4f46e5;\n  --ltt-card-border: #c7d2fe;\n  --ltt-card-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);\n  --ltt-card-hover-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* Indigo Dark Mode */\n.dark .theme-indigo,\n[data-theme=\"indigo\"].dark,\nhtml.dark .theme-indigo {\n  --ltt-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-border-strong: var(--ls-border-color, var(--ltt-border-medium-dark));\n  --ltt-hover: var(--ltt-border-subtle-dark);\n  --ltt-header-bg: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-indigo-dark));\n  --ltt-column-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-column-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));\n  --ltt-card-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));\n  --ltt-card-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));\n  --ltt-card-border: var(--ls-border-color, var(--ltt-border-normal-dark));\n  --ltt-card-shadow: var(--ltt-shadow-dark);\n  --ltt-card-hover-shadow: var(--ltt-shadow-hover-dark);\n  --ltt-card-radius: 12px;\n  --ltt-column-width: 340px;\n  --ltt-gap: 24px;\n  --ltt-padding: 24px;\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-board-root {\n  margin: 24px 32px !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n.ltt-board-root > .block-main-container .block-content-inner .block-title-wrap {\n  margin-left: 0.6rem !important;\n}\n\n/* =========================================================\n   BOARD LAYOUT\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  gap: var(--ltt-gap);\n  padding: var(--ltt-padding) !important;\n  overflow-x: auto;\n  align-items: flex-start;\n}\n\n/* =========================================================\n   COLUMN\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  min-width: var(--ltt-column-width);\n  max-width: var(--ltt-column-width);\n  flex-shrink: 0;\n  background: var(--ltt-column-bg);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 12px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  border-color: var(--ltt-border-strong);\n}\n\n/* =========================================================\n   COLUMN HEADER\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-header-bg);\n  border: none;\n  padding: 10px 12px !important;\n  font-weight: 600;\n  font-size: 14px;\n  margin-bottom: 8px;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-header-text);\n}\n\n/* =========================================================\n   COLUMN CONTENT (CARD CONTAINER)\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column;\n  gap: 10px;\n  padding: 8px !important;\n  min-height: 100px;\n}\n\n/* =========================================================\n   CARD\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  background: var(--ltt-card-bg);\n  border: 1px solid var(--ltt-card-border);\n  border-radius: var(--ltt-card-radius);\n  padding: 12px 14px !important;\n  margin: 0 !important;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-card-shadow);\n  position: relative;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  box-shadow: var(--ltt-card-hover-shadow);\n  transform: translateY(-2px);\n  border-color: var(--ltt-border-strong);\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-control-wrap {\n  display: flex !important;\n  opacity: 0.6;\n  transition: opacity 0.15s ease;\n}\n\n\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {\n  opacity: 1;\n}\n\n/* =========================================================\n   CARD INNER CONTENT - ALIGN LEFT WITH HEADER\n========================================================= */\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  padding: 0 !important;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-content-wrapper {\n  width: 100% !important;\n}\n\n/* =========================================================\n   TYPOGRAPHY\n========================================================= */\n\n.ltt-board-root .block-title-wrap {\n  font-size: 13px;\n  line-height: 1.6;\n  white-space: normal;\n  word-break: break-word;\n  color: var(--ltt-card-text);\n  transition: color 0.15s ease;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-board-root .block-main-container .block-children-left-border {\n  opacity: 0;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-board-root .block-main-container:hover .block-children-left-border {\n  opacity: 0.18;\n}\n\n.ltt-board-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-board-root .block-control-wrap::before {\n  display: none !important;\n}\n\n.ltt-board-root .block-children-container {\n  padding-left: 0 !important;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  margin-left: -1px !important;\n}\n\n/* =========================================================\n   CUSTOM THEME OVERRIDES\n========================================================= */\n\n.ltt-board-root[data-custom-theme=\"true\"] {\n  --ltt-border: var(--custom-border-color, #e2e8f0);\n  --ltt-column-bg: var(--custom-column-bg, #ffffff);\n  --ltt-column-hover: var(--custom-column-hover, #f8fafc);\n  --ltt-card-bg: var(--custom-card-bg, #ffffff);\n  --ltt-card-text: var(--custom-card-text, #475569);\n  --ltt-card-border: var(--custom-card-border, #e2e8f0);\n  --ltt-card-shadow: var(--custom-card-shadow, 0 1px 3px rgba(0, 0, 0, 0.06));\n  --ltt-card-hover-shadow: var(--custom-card-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.1));\n  --ltt-card-radius: var(--custom-card-radius, 8px);\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 1024px) {\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {\n    flex-wrap: wrap;\n  }\n\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    min-width: 280px;\n    max-width: 100%;\n    flex: 1 1 calc(50% - var(--ltt-gap));\n  }\n}\n\n@media (max-width: 768px) {\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap {\n    flex-direction: column;\n    overflow-x: visible;\n  }\n\n  .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n    min-width: 100%;\n    max-width: 100%;\n    flex: 1 1 100%;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-board-slide-in {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  animation: ltt-board-slide-in 0.3s ease-out;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {\n  animation-delay: 0s;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {\n  animation-delay: 0.1s;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {\n  animation-delay: 0.2s;\n}\n\n.ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+4) {\n  animation-delay: 0.3s;\n}\n";
 
-  var mindMapViewCSSRaw = "/* =========================================================\n   BLOCK VIEW MINDMAP STYLES\n   幕布风格设计 - 水平思维导图\n\n   布局示意：\n   ┌─────────────────────────────────────────────────────────────┐\n   │  主标题 viewbar                                           │\n   ├─────────────────────────────────────────────────────────────┤\n   │                                                           │\n   │    ┌─────────────┐                                         │\n   │    │   主标题     │                                         │\n   │    └──────┬──────┘                                         │\n   │           │                                               │\n   │           ├───→ 一级分支1                                  │\n   │           │           ├─→ 二级内容1                        │\n   │           │           └─→ 二级内容2                        │\n   │           │                   ├─→ 三级细节1                │\n   │           │                   └─→ 三级细节2                │\n   │           ├───→ 一级分支2                                  │\n   │           │           ├─→ 二级要点1                        │\n   │           │           └─→ 二级要点2                        │\n   │           └───→ 一级分支3                                  │\n   │                       ├─→ 执行步骤                        │\n   │                       └─→ 注意事项                        │\n   │                                                           │\n   └─────────────────────────────────────────────────────────────┘\n\n   设计特点：\n   - 根节点在左侧，子节点向右水平延伸\n   - 一级分支水平排列\n   - 二级及以下层级向下垂直排列\n   - 清晰的连接线和箭头指示\n   - 卡片式节点设计\n========================================================= */\n\n/* =========================================================\n   BASE STYLES\n========================================================= */\n\n:root,\n.light,\n.ltt-mindmap-root {\n  --ltt-node-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-node-text: var(--ls-primary-text-color, #1f2937);\n  --ltt-node-muted: var(--ls-secondary-text-color, #6b7280);\n  --ltt-node-border: var(--ls-border-color, #e5e7eb);\n  --ltt-node-hover-bg: var(--ls-tertiary-background-color, #f3f4f6);\n  --ltt-node-focus-bg: #eff6ff;\n  --ltt-node-focus-border: #3b82f6;\n  --ltt-bullet-color: #9ca3af;\n  --ltt-bullet-size: 8px;\n  --ltt-connector-color: #d1d5db;\n  --ltt-connector-width: 2px;\n  --ltt-node-radius: 8px;\n  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);\n  --ltt-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n}\n\n.dark .ltt-mindmap-root,\nhtml.dark .ltt-mindmap-root {\n  --ltt-node-bg: var(--ls-primary-background-color, #1f2937);\n  --ltt-node-text: var(--ls-primary-text-color, #f3f4f6);\n  --ltt-node-muted: var(--ls-secondary-text-color, #9ca3af);\n  --ltt-node-border: var(--ls-border-color, #374151);\n  --ltt-node-hover-bg: var(--ls-tertiary-background-color, #374151);\n  --ltt-node-focus-bg: #1e3a5f;\n  --ltt-node-focus-border: #60a5fa;\n  --ltt-bullet-color: #6b7280;\n  --ltt-connector-color: #4b5563;\n  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-mindmap-root {\n  margin: 24px !important;\n  padding: 0 !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   ROOT NODE (标题节点)\n========================================================= */\n\n.ltt-mindmap-root > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 14px 20px !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  margin: 0 0 24px 0 !important;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n}\n\n.ltt-mindmap-root > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 600 !important;\n  font-size: 15px !important;\n}\n\n.ltt-mindmap-root > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* =========================================================\n   MAIN LAYOUT CONTAINER\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: flex-start !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  gap: 0 !important;\n}\n\n/* =========================================================\n   ROOT CONNECTOR - 从主标题到一级分支\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 120px;\n  top: 24px;\n  width: 32px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n.ltt-mindmap-root > .block-children-container::after {\n  content: '';\n  position: absolute;\n  left: 148px;\n  top: 20px;\n  width: 0;\n  height: 0;\n  border-top: 4px solid transparent;\n  border-bottom: 4px solid transparent;\n  border-left: 6px solid var(--ltt-connector-color);\n}\n\n/* =========================================================\n   FIRST LEVEL CHILDREN - 一级分支容器\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 16px !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n/* =========================================================\n   FIRST LEVEL BLOCK - 一级分支\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: flex !important;\n  align-items: flex-start !important;\n  background: transparent !important;\n  border: none !important;\n  border-radius: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  position: relative;\n  min-width: auto !important;\n  max-width: none !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  transform: none !important;\n  box-shadow: none !important;\n}\n\n/* =========================================================\n   FIRST LEVEL NODE - 卡片样式\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 10px 16px !important;\n  margin: 0 !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  min-width: 140px;\n  max-width: 280px;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n  content: '';\n  position: absolute;\n  left: -28px;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 28px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {\n  content: '';\n  position: absolute;\n  left: -8px;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 8px;\n  height: 8px;\n  background: var(--ltt-bullet-color);\n  border-radius: 50%;\n  box-shadow: 0 0 0 3px var(--ltt-node-bg);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-hover-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:focus-within {\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-focus-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 500 !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: flex !important;\n  opacity: 0.3;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover .block-control-wrap {\n  opacity: 0.7;\n}\n\n.ltt-mindmap-root .block-control {\n  display: none !important;\n}\n\n/* =========================================================\n   SECOND LEVEL CHILDREN - 二级内容容器\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 12px !important;\n  padding: 0 0 0 40px !important;\n  margin: 0 !important;\n  position: relative;\n  flex-shrink: 0;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 10px;\n  top: -8px;\n  bottom: -8px;\n  width: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   SECOND LEVEL BLOCK\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: flex !important;\n  align-items: flex-start !important;\n  background: transparent !important;\n  border: none !important;\n  border-radius: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {\n  content: '';\n  position: absolute;\n  left: -30px;\n  top: 16px;\n  width: 20px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   SECOND LEVEL NODE - 卡片样式\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 8px 14px !important;\n  margin: 0 !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  min-width: 120px;\n  max-width: 240px;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n  content: '';\n  position: absolute;\n  left: -4px;\n  top: 14px;\n  width: 6px;\n  height: 6px;\n  background: var(--ltt-bullet-color);\n  border-radius: 50%;\n  box-shadow: 0 0 0 2px var(--ltt-node-bg);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-hover-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 400 !important;\n  font-size: 13px !important;\n  line-height: 1.5 !important;\n}\n\n/* =========================================================\n   THIRD LEVEL CHILDREN - 三级细节容器\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 8px !important;\n  padding: 0 0 0 35px !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 8px;\n  top: 0;\n  bottom: 0;\n  width: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   THIRD LEVEL BLOCK\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: flex !important;\n  align-items: flex-start !important;\n  background: transparent !important;\n  border: none !important;\n  border-radius: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {\n  content: '';\n  position: absolute;\n  left: -27px;\n  top: 14px;\n  width: 18px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   THIRD LEVEL NODE - 卡片样式\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 6px 12px !important;\n  margin: 0 !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  min-width: 100px;\n  max-width: 200px;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n  content: '';\n  position: absolute;\n  left: -3px;\n  top: 12px;\n  width: 5px;\n  height: 5px;\n  background: var(--ltt-bullet-color);\n  border-radius: 50%;\n  box-shadow: 0 0 0 2px var(--ltt-node-bg);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-hover-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 400 !important;\n  font-size: 12px !important;\n  line-height: 1.4 !important;\n}\n\n/* =========================================================\n   DEEPER LEVELS - 更深层级\n========================================================= */\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 8px !important;\n  padding: 0 0 0 30px !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 6px;\n  top: 0;\n  bottom: 0;\n  width: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  padding: 5px 10px !important;\n  font-size: 11px !important;\n  min-width: 80px;\n  max-width: 160px;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-mindmap-root .block-main-container .block-children-left-border {\n  opacity: 0 !important;\n}\n\n.ltt-mindmap-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-mindmap-root .block-control-wrap::before {\n  display: none !important;\n}\n\n/* =========================================================\n   THEME OVERRIDES\n========================================================= */\n\n/* Notion Theme */\n.theme-notion {\n  --ltt-node-radius: 4px;\n  --ltt-node-shadow: none;\n  --ltt-node-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-node-border: #e5e7eb;\n  --ltt-connector-color: #d1d5db;\n  --ltt-bullet-color: #9ca3af;\n}\n\n.dark .theme-notion {\n  --ltt-node-border: #374151;\n  --ltt-connector-color: #4b5563;\n  --ltt-bullet-color: #6b7280;\n}\n\n/* Linear Theme */\n.theme-linear {\n  --ltt-node-radius: 6px;\n  --ltt-node-focus-border: #5e6ad2;\n  --ltt-node-focus-bg: #f5f3ff;\n  --ltt-connector-color: #c7d2fe;\n  --ltt-bullet-color: #5e6ad2;\n}\n\n.dark .theme-linear {\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: #4f46e5;\n  --ltt-bullet-color: #818cf8;\n}\n\n/* Gradient Theme */\n.theme-gradient {\n  --ltt-node-border: #ddd6fe;\n  --ltt-node-focus-border: #8b5cf6;\n  --ltt-node-focus-bg: #faf5ff;\n  --ltt-connector-color: #c4b5fd;\n  --ltt-bullet-color: #8b5cf6;\n  --ltt-node-shadow: 0 2px 8px rgba(139, 92, 246, 0.12);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(139, 92, 246, 0.2);\n}\n\n.dark .theme-gradient {\n  --ltt-node-border: rgba(165, 180, 252, 0.3);\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: rgba(129, 140, 248, 0.5);\n  --ltt-bullet-color: #818cf8;\n}\n\n/* Tana Theme */\n.theme-tana {\n  --ltt-node-border: #e8e4d9;\n  --ltt-node-focus-border: #22c55e;\n  --ltt-node-focus-bg: #f0fdf4;\n  --ltt-connector-color: #a7f3d0;\n  --ltt-bullet-color: #22c55e;\n  --ltt-node-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(34, 197, 94, 0.18);\n}\n\n.dark .theme-tana {\n  --ltt-node-border: rgba(129, 140, 248, 0.25);\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: rgba(99, 102, 241, 0.4);\n  --ltt-bullet-color: #818cf8;\n}\n\n/* Indigo Theme */\n.theme-indigo {\n  --ltt-node-border: #c7d2fe;\n  --ltt-node-focus-border: #6366f1;\n  --ltt-node-focus-bg: #eef2ff;\n  --ltt-connector-color: #a5b4fc;\n  --ltt-bullet-color: #6366f1;\n  --ltt-node-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);\n}\n\n.dark .theme-indigo {\n  --ltt-node-border: rgba(129, 140, 248, 0.3);\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: rgba(129, 140, 248, 0.5);\n  --ltt-bullet-color: #818cf8;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 1024px) {\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    max-width: 220px;\n  }\n}\n\n@media (max-width: 768px) {\n  .ltt-mindmap-root {\n    margin: 16px !important;\n  }\n\n  .ltt-mindmap-root > .block-main-container {\n    margin-bottom: 16px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    max-width: 180px;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n    padding-left: 30px !important;\n  }\n}\n\n@media (max-width: 480px) {\n  .ltt-mindmap-root {\n    margin: 12px !important;\n  }\n\n  .ltt-mindmap-root > .block-main-container {\n    padding: 10px 14px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    max-width: 140px;\n    padding: 8px 12px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n    padding-left: 20px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n    width: 18px !important;\n    left: -18px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {\n    left: -4px !important;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-mindmap-expand {\n  from {\n    opacity: 0;\n    transform: translateX(-8px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.ltt-mindmap-root > .block-main-container {\n  animation: ltt-mindmap-expand 0.3s ease-out;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  animation: ltt-mindmap-expand 0.25s ease-out;\n  animation-fill-mode: both;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {\n  animation-delay: 0.05s;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {\n  animation-delay: 0.1s;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {\n  animation-delay: 0.15s;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+4) {\n  animation-delay: 0.2s;\n}\n";
+  var mindMapViewCSSRaw = "/* =========================================================\n   BLOCK VIEW MINDMAP STYLES\n   幕布风格设计 - 水平思维导图\n\n   布局示意：\n   ┌─────────────────────────────────────────────────────────────┐\n   │  主标题 viewbar                                           │\n   ├─────────────────────────────────────────────────────────────┤\n   │                                                           │\n   │    ┌─────────────┐                                         │\n   │    │   主标题     │                                         │\n   │    └──────┬──────┘                                         │\n   │           │                                               │\n   │           ├───→ 一级分支1                                  │\n   │           │           ├─→ 二级内容1                        │\n   │           │           └─→ 二级内容2                        │\n   │           │                   ├─→ 三级细节1                │\n   │           │                   └─→ 三级细节2                │\n   │           ├───→ 一级分支2                                  │\n   │           │           ├─→ 二级要点1                        │\n   │           │           └─→ 二级要点2                        │\n   │           └───→ 一级分支3                                  │\n   │                       ├─→ 执行步骤                        │\n   │                       └─→ 注意事项                        │\n   │                                                           │\n   └─────────────────────────────────────────────────────────────┘\n\n   设计特点：\n   - 根节点在左侧，子节点向右水平延伸\n   - 一级分支水平排列\n   - 二级及以下层级向下垂直排列\n   - 清晰的连接线和箭头指示\n   - 卡片式节点设计\n========================================================= */\n\n/* =========================================================\n   BASE STYLES\n========================================================= */\n\n:root,\n.light,\n.ltt-mindmap-root {\n  --ltt-node-bg: var(--ls-primary-background-color, #ffffff);\n  --ltt-node-text: var(--ls-primary-text-color, #1f2937);\n  --ltt-node-muted: var(--ls-secondary-text-color, #6b7280);\n  --ltt-node-border: var(--ls-border-color, #e5e7eb);\n  --ltt-node-hover-bg: var(--ls-tertiary-background-color, #f3f4f6);\n  --ltt-node-focus-bg: #eff6ff;\n  --ltt-node-focus-border: #3b82f6;\n  --ltt-bullet-color: #9ca3af;\n  --ltt-bullet-size: 8px;\n  --ltt-connector-color: #d1d5db;\n  --ltt-connector-width: 2px;\n  --ltt-node-radius: 8px;\n  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);\n  --ltt-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n}\n\n.dark .ltt-mindmap-root,\nhtml.dark .ltt-mindmap-root {\n  --ltt-node-bg: var(--ls-primary-background-color, #1f2937);\n  --ltt-node-text: var(--ls-primary-text-color, #f3f4f6);\n  --ltt-node-muted: var(--ls-secondary-text-color, #9ca3af);\n  --ltt-node-border: var(--ls-border-color, #374151);\n  --ltt-node-hover-bg: var(--ls-tertiary-background-color, #374151);\n  --ltt-node-focus-bg: #1e3a5f;\n  --ltt-node-focus-border: #60a5fa;\n  --ltt-bullet-color: #6b7280;\n  --ltt-connector-color: #4b5563;\n  --ltt-node-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);\n}\n\n/* =========================================================\n   ROOT CONTAINER\n========================================================= */\n\n.ltt-mindmap-root {\n  margin: 24px !important;\n  padding: 0 !important;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n}\n\n/* =========================================================\n   ROOT NODE (标题节点)\n========================================================= */\n\n.ltt-mindmap-root > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 14px 20px !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  margin: 0 0 24px 0 !important;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n}\n\n.ltt-mindmap-root > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 600 !important;\n  font-size: 15px !important;\n}\n\n.ltt-mindmap-root > .block-main-container .block-control-wrap {\n  display: none !important;\n}\n\n/* =========================================================\n   MAIN LAYOUT CONTAINER\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: flex-start !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  gap: 0 !important;\n}\n\n/* =========================================================\n   ROOT CONNECTOR - 从主标题到一级分支\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 120px;\n  top: 24px;\n  width: 32px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n.ltt-mindmap-root > .block-children-container::after {\n  content: '';\n  position: absolute;\n  left: 148px;\n  top: 20px;\n  width: 0;\n  height: 0;\n  border-top: 4px solid transparent;\n  border-bottom: 4px solid transparent;\n  border-left: 6px solid var(--ltt-connector-color);\n}\n\n/* =========================================================\n   FIRST LEVEL CHILDREN - 一级分支容器\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 16px !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n/* =========================================================\n   FIRST LEVEL BLOCK - 一级分支\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: flex !important;\n  align-items: flex-start !important;\n  background: transparent !important;\n  border: none !important;\n  border-radius: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  position: relative;\n  min-width: auto !important;\n  max-width: none !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {\n  transform: none !important;\n  box-shadow: none !important;\n}\n\n/* =========================================================\n   FIRST LEVEL NODE - 卡片样式\n========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 10px 16px !important;\n  margin: 0 !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  min-width: 140px;\n  max-width: 280px;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n  content: '';\n  position: absolute;\n  left: -28px;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 28px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {\n  content: '';\n  position: absolute;\n  left: -8px;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 8px;\n  height: 8px;\n  background: var(--ltt-bullet-color);\n  border-radius: 50%;\n  box-shadow: 0 0 0 3px var(--ltt-node-bg);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-hover-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:focus-within {\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-focus-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 500 !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {\n  display: flex !important;\n  opacity: 0.3;\n  transition: opacity 0.15s ease;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover .block-control-wrap {\n  opacity: 0.7;\n}\n\n\n\n/* =========================================================\n   SECOND LEVEL CHILDREN - 二级内容容器\n   ========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 12px !important;\n  padding: 0 0 0 40px !important;\n  margin: 0 !important;\n  position: relative;\n  flex-shrink: 0;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 10px;\n  top: 0;\n  bottom: 0;\n  width: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   SECOND LEVEL BLOCK\n   ========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: flex !important;\n  align-items: flex-start !important;\n  background: transparent !important;\n  border: none !important;\n  border-radius: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {\n  content: '';\n  position: absolute;\n  left: -30px;\n  top: 16px;\n  width: 20px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   SECOND LEVEL NODE - 卡片样式\n   ========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 8px 14px !important;\n  margin: 0 !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  min-width: 120px;\n  max-width: 240px;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n  content: '';\n  position: absolute;\n  left: -10px;\n  top: 15px;\n  width: 8px;\n  height: 8px;\n  background: var(--ltt-bullet-color);\n  border-radius: 50%;\n  box-shadow: 0 0 0 2px var(--ltt-node-bg);\n  z-index: 1;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-hover-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 400 !important;\n  font-size: 13px !important;\n  line-height: 1.5 !important;\n}\n\n/* =========================================================\n   THIRD LEVEL CHILDREN - 三级细节容器\n   ========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 8px !important;\n  padding: 0 0 0 35px !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 8px;\n  top: 0;\n  bottom: 0;\n  width: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   THIRD LEVEL BLOCK\n   ========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  display: flex !important;\n  align-items: flex-start !important;\n  background: transparent !important;\n  border: none !important;\n  border-radius: 0 !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  position: relative;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::before {\n  content: '';\n  position: absolute;\n  left: -27px;\n  top: 14px;\n  width: 18px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n/* =========================================================\n   THIRD LEVEL NODE - 卡片样式\n   ========================================================= */\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  background: var(--ltt-node-bg) !important;\n  border: 1px solid var(--ltt-node-border) !important;\n  border-radius: var(--ltt-node-radius) !important;\n  padding: 6px 12px !important;\n  margin: 0 !important;\n  box-shadow: var(--ltt-node-shadow) !important;\n  min-width: 100px;\n  max-width: 200px;\n  position: relative;\n  transition: var(--ltt-transition);\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n  content: '';\n  position: absolute;\n  left: -9px;\n  top: 13px;\n  width: 7px;\n  height: 7px;\n  background: var(--ltt-bullet-color);\n  border-radius: 50%;\n  box-shadow: 0 0 0 2px var(--ltt-node-bg);\n  z-index: 1;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container:hover {\n  box-shadow: var(--ltt-node-hover-shadow) !important;\n  border-color: var(--ltt-node-focus-border) !important;\n  background: var(--ltt-node-hover-bg) !important;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-title-wrap {\n  color: var(--ltt-node-text) !important;\n  font-weight: 400 !important;\n  font-size: 12px !important;\n  line-height: 1.4 !important;\n}\n\n/* =========================================================\n   DEEPER LEVELS - 更深层级\n========================================================= */\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container {\n  display: flex !important;\n  flex-direction: column !important;\n  gap: 8px !important;\n  padding: 0 0 0 30px !important;\n  margin: 0 !important;\n  position: relative;\n}\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container::before {\n  content: '';\n  position: absolute;\n  left: 6px;\n  top: 0;\n  bottom: 0;\n  width: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap > .ls-block {\n  position: relative;\n}\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap > .ls-block::before {\n  content: '';\n  position: absolute;\n  left: -24px;\n  top: 12px;\n  width: 16px;\n  height: var(--ltt-connector-width);\n  background: var(--ltt-connector-color);\n}\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n  padding: 5px 10px !important;\n  font-size: 11px !important;\n  min-width: 80px;\n  max-width: 160px;\n  position: relative;\n}\n\n.ltt-mindmap-root .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container .block-children .blocks-list-wrap .ls-block .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n  content: '';\n  position: absolute;\n  left: -8px;\n  top: 11px;\n  width: 6px;\n  height: 6px;\n  background: var(--ltt-bullet-color);\n  border-radius: 50%;\n  box-shadow: 0 0 0 2px var(--ltt-node-bg);\n  z-index: 1;\n}\n\n/* =========================================================\n   REMOVE TREE STYLE\n========================================================= */\n\n.ltt-mindmap-root .block-main-container .block-children-left-border {\n  opacity: 0 !important;\n}\n\n.ltt-mindmap-root .block-control-wrap {\n  border-left: none !important;\n}\n\n.ltt-mindmap-root .block-control-wrap::before {\n  display: none !important;\n}\n\n/* =========================================================\n   THEME OVERRIDES\n========================================================= */\n\n/* Notion Theme */\n.theme-notion {\n  --ltt-node-radius: 4px;\n  --ltt-node-shadow: none;\n  --ltt-node-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  --ltt-node-border: #e5e7eb;\n  --ltt-connector-color: #d1d5db;\n  --ltt-bullet-color: #9ca3af;\n}\n\n.dark .theme-notion {\n  --ltt-node-border: #374151;\n  --ltt-connector-color: #4b5563;\n  --ltt-bullet-color: #6b7280;\n}\n\n/* Linear Theme */\n.theme-linear {\n  --ltt-node-radius: 6px;\n  --ltt-node-focus-border: #5e6ad2;\n  --ltt-node-focus-bg: #f5f3ff;\n  --ltt-connector-color: #c7d2fe;\n  --ltt-bullet-color: #5e6ad2;\n}\n\n.dark .theme-linear {\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: #4f46e5;\n  --ltt-bullet-color: #818cf8;\n}\n\n/* Gradient Theme */\n.theme-gradient {\n  --ltt-node-border: #ddd6fe;\n  --ltt-node-focus-border: #8b5cf6;\n  --ltt-node-focus-bg: #faf5ff;\n  --ltt-connector-color: #c4b5fd;\n  --ltt-bullet-color: #8b5cf6;\n  --ltt-node-shadow: 0 2px 8px rgba(139, 92, 246, 0.12);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(139, 92, 246, 0.2);\n}\n\n.dark .theme-gradient {\n  --ltt-node-border: rgba(165, 180, 252, 0.3);\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: rgba(129, 140, 248, 0.5);\n  --ltt-bullet-color: #818cf8;\n}\n\n/* Tana Theme */\n.theme-tana {\n  --ltt-node-border: #e8e4d9;\n  --ltt-node-focus-border: #22c55e;\n  --ltt-node-focus-bg: #f0fdf4;\n  --ltt-connector-color: #a7f3d0;\n  --ltt-bullet-color: #22c55e;\n  --ltt-node-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(34, 197, 94, 0.18);\n}\n\n.dark .theme-tana {\n  --ltt-node-border: rgba(129, 140, 248, 0.25);\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: rgba(99, 102, 241, 0.4);\n  --ltt-bullet-color: #818cf8;\n}\n\n/* Indigo Theme */\n.theme-indigo {\n  --ltt-node-border: #c7d2fe;\n  --ltt-node-focus-border: #6366f1;\n  --ltt-node-focus-bg: #eef2ff;\n  --ltt-connector-color: #a5b4fc;\n  --ltt-bullet-color: #6366f1;\n  --ltt-node-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);\n  --ltt-node-hover-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);\n}\n\n.dark .theme-indigo {\n  --ltt-node-border: rgba(129, 140, 248, 0.3);\n  --ltt-node-focus-border: #818cf8;\n  --ltt-node-focus-bg: #1e1b4b;\n  --ltt-connector-color: rgba(129, 140, 248, 0.5);\n  --ltt-bullet-color: #818cf8;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 1024px) {\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    max-width: 220px;\n  }\n}\n\n@media (max-width: 768px) {\n  .ltt-mindmap-root {\n    margin: 16px !important;\n  }\n\n  .ltt-mindmap-root > .block-main-container {\n    margin-bottom: 16px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    max-width: 180px;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n    padding-left: 30px !important;\n  }\n}\n\n@media (max-width: 480px) {\n  .ltt-mindmap-root {\n    margin: 12px !important;\n  }\n\n  .ltt-mindmap-root > .block-main-container {\n    padding: 10px 14px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {\n    max-width: 140px;\n    padding: 8px 12px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {\n    padding-left: 20px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::before {\n    width: 18px !important;\n    left: -18px !important;\n  }\n\n  .ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container::after {\n    left: -4px !important;\n  }\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-mindmap-expand {\n  from {\n    opacity: 0;\n    transform: translateX(-8px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.ltt-mindmap-root > .block-main-container {\n  animation: ltt-mindmap-expand 0.3s ease-out;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {\n  animation: ltt-mindmap-expand 0.25s ease-out;\n  animation-fill-mode: both;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(1) {\n  animation-delay: 0.05s;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(2) {\n  animation-delay: 0.1s;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(3) {\n  animation-delay: 0.15s;\n}\n\n.ltt-mindmap-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(n+4) {\n  animation-delay: 0.2s;\n}\n";
 
   var listViewCssRaw = ".ltt-list-root .block-title-wrap {\n    display: inline-flex !important;\n    align-items: center !important;\n    flex-wrap: wrap !important;\n    gap: 1px !important;\n}\n\n.ltt-list-root .lsp-hook-ui-slot {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    min-height: 0 !important;\n\n    margin: 0 !important;\n    padding: 0 !important;\n}\n\n.ltt-list-root .ltt-view-bar {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    flex: 0 0 auto !important;\n\n    margin: 0px !important;\n    padding: 0 !important;\n\n    vertical-align: middle !important;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n/* .ltt-list-root>.block-main-container {\n  margin-bottom: 12px;\n} */\n\n/* .ltt-list-root>.block-main-container .block-control-wrap {\n  display: none !important;\n} */\n\n.ltt-list-root>.block-main-container .block-content-inner .block-title-wrap {\n    margin-left: 0.4rem !important;\n}";
 
