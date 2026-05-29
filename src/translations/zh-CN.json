@@ -37,6 +37,7 @@
     "heatmap": "📈 热力图",
     "blockView": "📋 块视图",
     "summary": "📝 总结生成",
+    "milestone": "🎯 里程碑",
     "advanced": "⚡ 其他设置"
   },
     "saveSuccessRestart": "保存成功，请重启应用生效",
@@ -266,6 +267,19 @@
       "aiApiUrl": "API 地址",
       "aiModel": "模型",
       "aiPromptTemplate": "提示词模板"
-    }
+    },
+    "milestone": {
+      "description": "配置里程碑组件的默认行为和显示样式。",
+      "enabled": "启用里程碑功能",
+      "defaultStyle": "默认显示样式",
+      "styleCapsule": "胶囊",
+      "styleBadge": "徽章",
+      "styleTrack": "轨道",
+      "styleCard": "卡片",
+      "styleCompact": "紧凑",
+      "showLabels": "显示标签",
+      "showProgress": "显示进度"
+    },
+    "saveMilestoneSettings": "保存里程碑设置"
   }
 }

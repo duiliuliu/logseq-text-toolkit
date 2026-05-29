@@ -2,7 +2,7 @@
  * Milestone Track 样式
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
 
 interface TrackMilestoneProps {
@@ -25,6 +25,8 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const getNodeColor = (status: string): string => {
     switch (status) {
       case 'completed': return colorScheme.completed;
@@ -32,6 +34,16 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
       case 'failed': return colorScheme.failed;
       case 'pending':
       default: return colorScheme.pending;
+    }
+  };
+
+  const getStatusText = (status: string): string => {
+    switch (status) {
+      case 'completed': return '已完成';
+      case 'in_progress': return '进行中';
+      case 'failed': return '失败';
+      case 'pending':
+      default: return '待开始';
     }
   };
 
@@ -56,7 +68,23 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
               className="ltt-milestone-dot" 
               data-status={item.status}
               style={{ backgroundColor: getNodeColor(item.status) }}
+              onMouseEnter={() => setHoveredItem(item.id)}
+              onMouseLeave={() => setHoveredItem(null)}
             />
+            {hoveredItem === item.id && (
+              <div className="ltt-milestone-tooltip-track">
+                <div className="ltt-milestone-tooltip-label">{item.label}</div>
+                {item.date && (
+                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
+                )}
+                <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
+                  状态: {getStatusText(item.status)}
+                </div>
+                {item.progress !== undefined && (
+                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
+                )}
+              </div>
+            )}
             {index < items.length - 1 && (
               <div 
                 className="ltt-milestone-segment" 
@@ -74,7 +102,13 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
       {showLabels && (
         <div className="ltt-milestone-labels">
           {items.map((item, index) => (
-            <div key={item.id} className="ltt-milestone-label-item">
+            <div 
+              key={item.id} 
+              className="ltt-milestone-label-item"
+              onMouseEnter={() => setHoveredItem(item.id)}
+              onMouseLeave={() => setHoveredItem(null)}
+              style={{ position: 'relative' }}
+            >
               <span 
                 className="ltt-milestone-time"
                 style={{ color: colorScheme.text }}

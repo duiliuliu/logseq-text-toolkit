@@ -2,7 +2,7 @@
  * Milestone Card 样式
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
 
 interface CardMilestoneProps {
@@ -25,6 +25,8 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const getNodeColor = (status: string): string => {
     switch (status) {
       case 'completed': return colorScheme.completed;
@@ -37,11 +39,21 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
 
   const getStatusText = (status: string): string => {
     switch (status) {
+      case 'completed': return '已完成';
+      case 'in_progress': return '进行中';
+      case 'failed': return '失败';
+      case 'pending':
+      default: return '待开始';
+    }
+  };
+
+  const getStatusIcon = (status: string): string => {
+    switch (status) {
       case 'completed': return '✓';
       case 'in_progress': return '→';
       case 'failed': return '✕';
       case 'pending':
-      default: return '·';
+      default: return '○';
     }
   };
 
@@ -54,39 +66,66 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
   }
 
   return (
-    <div className="ltt-milestone-card">
-      <div className="ltt-milestone-center-line" style={{ backgroundColor: colorScheme.pending }} />
+    <div className="ltt-milestone-card-horizontal">
       {items.map((item, index) => (
-        <div 
-          key={item.id} 
-          className={`ltt-milestone-card-item ${index % 2 === 0 ? 'top' : 'bottom'}`}
-        >
+        <React.Fragment key={item.id}>
           <div 
-            className="ltt-milestone-card-content"
-            style={{ borderColor: getNodeColor(item.status) }}
+            className="ltt-milestone-card-item-horizontal"
+            onMouseEnter={() => setHoveredItem(item.id)}
+            onMouseLeave={() => setHoveredItem(null)}
           >
             <div 
-              className="ltt-milestone-card-title"
-              style={{ color: colorScheme.text }}
+              className="ltt-milestone-card-content-horizontal"
+              style={{ borderColor: getNodeColor(item.status) }}
             >
+              <div 
+                className="ltt-milestone-card-icon"
+                style={{ color: getNodeColor(item.status) }}
+              >
+                {getStatusIcon(item.status)}
+              </div>
+              
               {showLabels && (
-                <>
-                  <span>{getStatusText(item.status)} {item.label}</span>
+                <div className="ltt-milestone-card-info">
+                  <div className="ltt-milestone-card-title-horizontal">
+                    {item.label}
+                  </div>
                   {item.date && (
-                    <span className="ltt-milestone-card-date">{item.date}</span>
+                    <div className="ltt-milestone-card-date-horizontal">
+                      {item.date}
+                    </div>
                   )}
-                </>
+                  <div 
+                    className="ltt-milestone-card-status-horizontal"
+                    style={{ color: getNodeColor(item.status) }}
+                  >
+                    {getStatusText(item.status)}
+                  </div>
+                </div>
               )}
             </div>
+            
+            {/* Hover Tooltip */}
+            {hoveredItem === item.id && (
+              <div className="ltt-milestone-tooltip-horizontal">
+                <div className="ltt-milestone-tooltip-label">{item.label}</div>
+                {item.date && (
+                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
+                )}
+                <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
+                  状态: {getStatusText(item.status)}
+                </div>
+                {item.progress !== undefined && (
+                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
+                )}
+              </div>
+            )}
           </div>
-          <div 
-            className={`ltt-milestone-arrow ${index % 2 === 0 ? 'down' : 'up'}`}
-            style={{ 
-              borderTopColor: index % 2 === 0 ? colorScheme.pending : 'transparent',
-              borderBottomColor: index % 2 !== 0 ? colorScheme.pending : 'transparent',
-            }}
-          />
-        </div>
+          
+          {index < items.length - 1 && (
+            <div className="ltt-milestone-connector-horizontal" />
+          )}
+        </React.Fragment>
       ))}
     </div>
   );

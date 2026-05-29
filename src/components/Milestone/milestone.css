@@ -37,11 +37,18 @@
   align-items: center;
   gap: 4px;
   position: relative;
+  z-index: 1;
 }
 
 .ltt-milestone-symbol {
   font-size: 20px;
   transition: color 150ms ease;
+  cursor: pointer;
+}
+
+.ltt-milestone-symbol:hover {
+  transform: scale(1.1);
+  transition: transform 150ms ease;
 }
 
 .ltt-milestone-line {
@@ -51,6 +58,186 @@
   right: 20px;
   height: 2px;
   transition: background-color 300ms ease;
+}
+
+.ltt-milestone-line-dashed {
+  flex: 1;
+  border-top: 2px dashed;
+  opacity: 0.5;
+  margin: 0 8px;
+  align-self: center;
+  transition: opacity 150ms ease;
+}
+
+.ltt-milestone-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 180px;
+  animation: tooltipFadeIn 150ms ease;
+}
+
+.ltt-milestone-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #e5e7eb;
+}
+
+.ltt-milestone-tooltip-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2937;
+  margin-bottom: 6px;
+}
+
+.ltt-milestone-tooltip-date {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.ltt-milestone-tooltip-status {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.ltt-milestone-tooltip-progress {
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.ltt-milestone-tooltip-badge {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 160px;
+  animation: tooltipFadeInBadge 150ms ease;
+}
+
+.ltt-milestone-tooltip-badge::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #e5e7eb;
+}
+
+@keyframes tooltipFadeInBadge {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.ltt-milestone-tooltip-track {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 160px;
+  animation: tooltipFadeInTrack 150ms ease;
+}
+
+.ltt-milestone-tooltip-track::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #e5e7eb;
+}
+
+@keyframes tooltipFadeInTrack {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.ltt-milestone-tooltip-compact {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 160px;
+  animation: tooltipFadeInCompact 150ms ease;
+}
+
+.ltt-milestone-tooltip-compact::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #e5e7eb;
+}
+
+@keyframes tooltipFadeInCompact {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .ltt-milestone-info {
@@ -201,6 +388,15 @@
   padding: 20px 0;
 }
 
+.ltt-milestone-card-horizontal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 20px 10px;
+  overflow-x: auto;
+}
+
 .ltt-milestone-center-line {
   position: absolute;
   left: 0;
@@ -226,12 +422,55 @@
   padding-left: calc(50% + 16px);
 }
 
+.ltt-milestone-card-item-horizontal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
 .ltt-milestone-card-content {
   padding: 8px 12px;
   background: white;
   border-radius: 6px;
   border: 1px solid;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ltt-milestone-card-content-horizontal {
+  padding: 16px 12px;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+  max-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.ltt-milestone-card-content-horizontal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ltt-milestone-card-icon {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.ltt-milestone-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
 }
 
 .ltt-milestone-card-title {
@@ -242,9 +481,27 @@
   gap: 2px;
 }
 
+.ltt-milestone-card-title-horizontal {
+  font-weight: 600;
+  font-size: 13px;
+  color: #1f2937;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
 .ltt-milestone-card-date {
   font-size: 12px;
   opacity: 0.6;
+}
+
+.ltt-milestone-card-date-horizontal {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.ltt-milestone-card-status-horizontal {
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .ltt-milestone-arrow {
@@ -264,6 +521,52 @@
   bottom: 50%;
   left: calc(50% - 6px);
   transform: translateY(50%);
+}
+
+.ltt-milestone-connector-horizontal {
+  width: 40px;
+  height: 2px;
+  background: #e5e7eb;
+  flex-shrink: 0;
+  position: relative;
+  top: -40px;
+}
+
+.ltt-milestone-tooltip-horizontal {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 160px;
+  animation: tooltipFadeInHorizontal 150ms ease;
+}
+
+.ltt-milestone-tooltip-horizontal::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #e5e7eb;
+}
+
+@keyframes tooltipFadeInHorizontal {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 /* ========== Compact 样式 ========== */

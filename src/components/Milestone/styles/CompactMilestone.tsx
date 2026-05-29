@@ -2,7 +2,7 @@
  * Milestone Compact 样式
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
 
 interface CompactMilestoneProps {
@@ -27,6 +27,8 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   showLabels = true,
   showProgress = true,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const getStatusIcon = (status: string): string => {
     switch (status) {
       case 'completed': return '✓';
@@ -72,9 +74,27 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
           <div 
             className="ltt-milestone-badge"
             data-status={item.status}
-            style={{ backgroundColor: getStatusColor(item.status) }}
+            style={{ backgroundColor: getStatusColor(item.status), position: 'relative' }}
+            onMouseEnter={() => setHoveredItem(item.id)}
+            onMouseLeave={() => setHoveredItem(null)}
           >
             [{getStatusIcon(item.status)} {showLabels && item.label} {showProgress && `(${item.progress || 0}%)`}]
+            
+            {/* Hover Tooltip */}
+            {hoveredItem === item.id && (
+              <div className="ltt-milestone-tooltip-compact">
+                <div className="ltt-milestone-tooltip-label">{item.label}</div>
+                {item.date && (
+                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
+                )}
+                <div className="ltt-milestone-tooltip-status" style={{ color: getStatusColor(item.status) }}>
+                  状态: {getStatusText(item.status)}
+                </div>
+                {item.progress !== undefined && (
+                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
+                )}
+              </div>
+            )}
           </div>
           {index < items.length - 1 && (
             <span 

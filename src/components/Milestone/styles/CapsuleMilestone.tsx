@@ -2,7 +2,7 @@
  * Milestone Capsule 样式
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme, MilestoneDisplayStyle } from '../../lib/milestone/types';
 
 interface CapsuleMilestoneProps {
@@ -28,6 +28,8 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
   showLabels = true,
   showProgress = true,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const getNodeColor = (status: string): string => {
     switch (status) {
       case 'completed': return colorScheme.completed;
@@ -40,8 +42,8 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
 
   const getNodeSymbol = (status: string): string => {
     switch (status) {
-      case 'completed': return '●';
-      case 'in_progress': return '◐';
+      case 'completed': return '✓';
+      case 'in_progress': return '→';
       case 'failed': return '✕';
       case 'pending':
       default: return '○';
@@ -50,11 +52,11 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
 
   const getStatusText = (status: string): string => {
     switch (status) {
-      case 'completed': return '✓';
-      case 'in_progress': return '→';
-      case 'failed': return '✕';
+      case 'completed': return '已完成';
+      case 'in_progress': return '进行中';
+      case 'failed': return '失败';
       case 'pending':
-      default: return '·';
+      default: return '待开始';
     }
   };
 
@@ -71,24 +73,45 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
       <div className="ltt-milestone-track">
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
-            <div className="ltt-milestone-node">
+            <div 
+              className="ltt-milestone-node"
+              onMouseEnter={() => setHoveredItem(item.id)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
               <span 
                 className="ltt-milestone-symbol"
                 style={{ color: getNodeColor(item.status) }}
               >
                 {getNodeSymbol(item.status)}
               </span>
-              {index < items.length - 1 && (
-                <div 
-                  className="ltt-milestone-line"
-                  style={{ 
-                    backgroundColor: items[index + 1]?.status === 'completed' 
-                      ? colorScheme.completed 
-                      : colorScheme.pending 
-                  }}
-                />
+              
+              {/* Hover Tooltip */}
+              {hoveredItem === item.id && (
+                <div className="ltt-milestone-tooltip">
+                  <div className="ltt-milestone-tooltip-label">{item.label}</div>
+                  {item.date && (
+                    <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
+                  )}
+                  <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
+                    状态: {getStatusText(item.status)}
+                  </div>
+                  {item.progress !== undefined && (
+                    <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
+                  )}
+                </div>
               )}
             </div>
+            
+            {index < items.length - 1 && (
+              <div 
+                className="ltt-milestone-line-dashed"
+                style={{ 
+                  borderColor: items[index + 1]?.status === 'completed' 
+                    ? colorScheme.completed 
+                    : colorScheme.pending 
+                }}
+              />
+            )}
             
             {showLabels && (
               <div className="ltt-milestone-info">
@@ -97,10 +120,7 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
                   className="ltt-milestone-status"
                   style={{ color: getNodeColor(item.status) }}
                 >
-                  <span>{getStatusText(item.status)} </span>
-                  {item.status === 'completed' ? '已完成' : 
-                   item.status === 'in_progress' ? '进行中' : 
-                   item.status === 'failed' ? '失败' : '待开始'}
+                  {getStatusText(item.status)}
                   {showProgress && item.progress !== undefined && (
                     <span> ({item.progress}%)</span>
                   )}

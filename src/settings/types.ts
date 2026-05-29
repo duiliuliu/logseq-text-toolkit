@@ -172,6 +172,13 @@ export interface SummarySettings {
   customPageNameTemplate: string;
 }
 
+export interface MilestoneSettings {
+  enabled: boolean;
+  defaultStyle: 'capsule' | 'badge' | 'track' | 'card' | 'compact';
+  showLabels: boolean;
+  showProgress: boolean;
+}
+
 export interface Settings {
   disabled?: boolean
   theme?: ThemeType
@@ -190,5 +197,6 @@ export interface Settings {
   heatmap?: HeatmapSettings
   blockView?: BlockViewSettings
   summary?: SummarySettings
+  milestone?: MilestoneSettings
   ToolbarItems?: any[]
 }
