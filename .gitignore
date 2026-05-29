@@ -28,6 +28,9 @@ out/
 logs
 *.log
 
+# Test coverage
+coverage/
+
 # Package manager files
 package-lock.json
 yarn.lock

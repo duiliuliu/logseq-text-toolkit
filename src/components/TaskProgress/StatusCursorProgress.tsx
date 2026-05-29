@@ -29,12 +29,12 @@ const STATUS_ICONS: Record<string, string> = {
 const STATUS_ORDER = ['done', 'doing', 'in-review', 'todo', 'waiting', 'canceled']
 
 const StatusCursorProgress: React.FC<StatusCursorProgressProps> = ({
-  stats,
+  stats = [],
   progress,
   lang = 'zh-CN',
   animationClass = '',
 }) => {
-  if (stats.length === 0) {
+  if (!stats || stats.length === 0) {
     return null
   }
 

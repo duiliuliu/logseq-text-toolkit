@@ -20,6 +20,10 @@ export interface ToolbarLogicProps {
 export const parseItems = (data: Array<any>): (ToolbarItem | ToolbarGroup)[] => {
   const result: (ToolbarItem | ToolbarGroup)[] = [];
   
+  if (!data || !Array.isArray(data)) {
+    return result;
+  }
+  
   for (const item of data) {
     if (item && typeof item === 'object') {
       // 检查是否为 group 元素：有 subItems 属性且长度大于 0

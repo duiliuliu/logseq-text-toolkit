@@ -30,7 +30,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   lang = 'zh-CN',
   animationClass = '',
 }) => {
-  const { stats, totalTasks, progress } = content
+  const { stats = [], totalTasks, progress } = content
 
   return (
     <div className={`task-progress-tooltip-wrapper ${animationClass}`}>

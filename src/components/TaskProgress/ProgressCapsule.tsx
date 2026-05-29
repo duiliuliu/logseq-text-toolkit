@@ -22,7 +22,7 @@ interface ProgressCapsuleProps {
 }
 
 const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
-  stats,
+  stats = [],
   progress,
   completedTasks,
   totalTasks,
@@ -31,7 +31,7 @@ const ProgressCapsule: React.FC<ProgressCapsuleProps> = ({
   showLabel = true,
   labelFormat = 'fraction',
 }) => {
-  if (stats.length === 0 || totalTasks === 0) {
+  if (!stats || stats.length === 0 || totalTasks === 0) {
     return null
   }
 
