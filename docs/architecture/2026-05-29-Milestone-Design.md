@@ -1634,3 +1634,522 @@ function MilestoneSettings({ settings, setSettings }: TabComponentProps) {
  [?b :user.property/company ?val]
  [?val :block/title ?company]]
 ```
+
+---
+
+## 附录：C. CSS 样式规范（遵循 `ltt-` 前缀和 CSS 变量规范）
+
+### C.1 类名前缀规范
+
+根据 [CSS 变量统一化设计方案](2026-05-29-css-variables-refactor-plan.md)，所有 Milestone 组件必须使用 `ltt-` 前缀：
+
+| 组件 | 旧类名 | 新类名 | 状态 |
+|------|--------|--------|------|
+| 容器 | `.milestone-container` | `.ltt-milestone-container` | ✅ 已更新 |
+| 胶囊样式 | `.milestone-capsule` | `.ltt-milestone-capsule` | ✅ 已更新 |
+| 轨道 | `.milestone-track` | `.ltt-milestone-track` | ✅ 已更新 |
+| 节点 | `.milestone-node` | `.ltt-milestone-node` | ✅ 已更新 |
+| 符号 | `.milestone-symbol` | `.ltt-milestone-symbol` | ✅ 已更新 |
+| 连接线 | `.milestone-line` | `.ltt-milestone-line` | ✅ 已更新 |
+| 信息 | `.milestone-info` | `.ltt-milestone-info` | ✅ 已更新 |
+| 标签 | `.milestone-label` | `.ltt-milestone-label` | ✅ 已更新 |
+| 状态 | `.milestone-status` | `.ltt-milestone-status` | ✅ 已更新 |
+| 徽章样式 | `.milestone-badge` | `.ltt-milestone-badge` | ✅ 已更新 |
+| 进度条 | `.milestone-progress-bar` | `.ltt-milestone-progress-bar` | ✅ 已更新 |
+| 卡片样式 | `.milestone-card` | `.ltt-milestone-card` | ✅ 已更新 |
+
+### C.2 CSS 变量规范
+
+Milestone 组件使用统一的 CSS 变量系统：
+
+#### 全局变量
+
+```css
+:root,
+.light-mode {
+  /* 背景色 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #f8fafc;
+  --ltt-bg-tertiary: #f1f5f9;
+  
+  /* 文本色 */
+  --ltt-text-primary: #1e293b;
+  --ltt-text-secondary: #64748b;
+  --ltt-text-muted: #94a3b8;
+  
+  /* 边框色 */
+  --ltt-border: #e2e8f0;
+  
+  /* 强调色 */
+  --ltt-accent: #3b82f6;
+  
+  /* 间距 */
+  --ltt-comp-spacing-xs: 4px;
+  --ltt-comp-spacing-sm: 8px;
+  --ltt-comp-spacing-md: 16px;
+  --ltt-comp-spacing-lg: 24px;
+  
+  /* 圆角 */
+  --ltt-comp-radius-sm: 4px;
+  --ltt-comp-radius-md: 8px;
+  --ltt-comp-radius-lg: 12px;
+  --ltt-comp-radius-full: 9999px;
+  
+  /* 过渡 */
+  --ltt-transition-fast: 150ms ease;
+  --ltt-transition-normal: 300ms ease;
+}
+
+.dark-mode,
+[data-theme="dark"] {
+  --ltt-bg-primary: #0f172a;
+  --ltt-bg-secondary: #1e293b;
+  --ltt-bg-tertiary: #334155;
+  
+  --ltt-text-primary: #f1f5f9;
+  --ltt-text-secondary: #94a3b8;
+  --ltt-text-muted: #64748b;
+  
+  --ltt-border: #334155;
+  --ltt-accent: #60a5fa;
+}
+```
+
+#### 组件私有变量
+
+```css
+/* Milestone 专用变量 */
+:root {
+  /* 里程碑状态颜色 */
+  --ltt-comp-milestone-completed: #10b981;   /* 绿色 - 已完成 */
+  --ltt-comp-milestone-in-progress: #f59e0b; /* 黄色 - 进行中 */
+  --ltt-comp-milestone-pending: #d1d5db;     /* 灰色 - 待开始 */
+  --ltt-comp-milestone-failed: #ef4444;      /* 红色 - 失败 */
+  
+  /* Milestone 组件变量 */
+  --ltt-comp-milestone-symbol-size: 20px;
+  --ltt-comp-milestone-line-height: 2px;
+  --ltt-comp-milestone-node-size: 32px;
+  --ltt-comp-milestone-gap: 8px;
+}
+```
+
+### C.3 完整样式文件
+
+```css
+/**
+ * Milestone 组件样式
+ * 遵循 CSS 变量统一化设计方案
+ * 使用 ltt- 前缀规范
+ */
+
+/* ========== 容器 ========== */
+.ltt-milestone-container {
+  font-family: var(--ltt-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  padding: var(--ltt-comp-spacing-md);
+  background: var(--ltt-bg-primary);
+  border-radius: var(--ltt-comp-radius-md);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* ========== 胶囊样式 ========== */
+.ltt-milestone-capsule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-comp-milestone-gap);
+}
+
+.ltt-milestone-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.ltt-milestone-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ltt-comp-milestone-gap) / 2);
+}
+
+.ltt-milestone-symbol {
+  font-size: var(--ltt-comp-milestone-symbol-size);
+  transition: color var(--ltt-transition-fast);
+}
+
+.ltt-milestone-line {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  right: 20px;
+  height: var(--ltt-comp-milestone-line-height);
+  background: var(--ltt-border);
+  transition: background-color var(--ltt-transition-normal);
+}
+
+.ltt-milestone-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-label {
+  font-size: var(--ltt-font-size-sm);
+  font-weight: 500;
+  color: var(--ltt-text-primary);
+}
+
+.ltt-milestone-status {
+  font-size: var(--ltt-font-size-xs);
+  color: var(--ltt-text-secondary);
+}
+
+/* ========== 徽章样式 ========== */
+.ltt-milestone-badge .ltt-milestone-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ltt-comp-spacing-md);
+}
+
+.ltt-milestone-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ltt-comp-milestone-gap) / 2);
+}
+
+.ltt-milestone-badge-number {
+  width: var(--ltt-comp-milestone-node-size);
+  height: var(--ltt-comp-milestone-node-size);
+  border-radius: var(--ltt-comp-radius-full);
+  background: var(--ltt-accent);
+  color: var(--ltt-bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--ltt-font-size-sm);
+}
+
+.ltt-milestone-overall-progress {
+  margin-top: var(--ltt-comp-spacing-md);
+  height: 8px;
+  background: var(--ltt-bg-tertiary);
+  border-radius: var(--ltt-comp-radius-sm);
+  overflow: hidden;
+}
+
+.ltt-milestone-progress-bar {
+  height: 100%;
+  background: var(--ltt-accent);
+  border-radius: var(--ltt-comp-radius-sm);
+  transition: width var(--ltt-transition-normal);
+}
+
+.ltt-milestone-progress-label {
+  display: block;
+  text-align: center;
+  margin-top: var(--ltt-comp-spacing-xs);
+  font-size: var(--ltt-font-size-sm);
+  color: var(--ltt-text-secondary);
+}
+
+/* ========== 轨道样式 ========== */
+.ltt-milestone-track-minimal {
+  position: relative;
+  padding: var(--ltt-comp-spacing-md) 0;
+}
+
+.ltt-milestone-line-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 4px;
+  background: var(--ltt-border);
+  border-radius: var(--ltt-comp-radius-full);
+}
+
+.ltt-milestone-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--ltt-comp-radius-full);
+  background: var(--ltt-comp-milestone-pending);
+  border: 2px solid var(--ltt-bg-primary);
+  z-index: 1;
+  transition: background-color var(--ltt-transition-fast);
+}
+
+.ltt-milestone-dot[data-status="completed"] {
+  background: var(--ltt-comp-milestone-completed);
+}
+
+.ltt-milestone-dot[data-status="in-progress"] {
+  background: var(--ltt-comp-milestone-in-progress);
+}
+
+.ltt-milestone-segment {
+  flex: 1;
+  height: 4px;
+  background: var(--ltt-comp-milestone-pending);
+}
+
+.ltt-milestone-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--ltt-comp-spacing-sm);
+}
+
+.ltt-milestone-label-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-time {
+  font-size: var(--ltt-font-size-sm);
+  font-weight: 500;
+  color: var(--ltt-text-primary);
+}
+
+.ltt-milestone-desc {
+  font-size: var(--ltt-font-size-xs);
+  color: var(--ltt-text-muted);
+}
+
+/* ========== 卡片样式 ========== */
+.ltt-milestone-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-comp-spacing-md);
+}
+
+.ltt-milestone-center-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--ltt-border);
+  transform: translateX(-50%);
+}
+
+.ltt-milestone-card-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.ltt-milestone-card-item.top {
+  justify-content: flex-start;
+  padding-right: calc(50% + var(--ltt-comp-spacing-md));
+}
+
+.ltt-milestone-card-item.bottom {
+  justify-content: flex-end;
+  padding-left: calc(50% + var(--ltt-comp-spacing-md));
+}
+
+.ltt-milestone-card-content {
+  padding: var(--ltt-comp-spacing-sm);
+  background: var(--ltt-bg-secondary);
+  border-radius: var(--ltt-comp-radius-md);
+  border: 1px solid var(--ltt-border);
+}
+
+.ltt-milestone-card-title {
+  font-weight: 500;
+  color: var(--ltt-text-primary);
+  font-size: var(--ltt-font-size-sm);
+}
+
+.ltt-milestone-card-date {
+  font-size: var(--ltt-font-size-xs);
+  color: var(--ltt-text-muted);
+  margin-top: 2px;
+}
+
+.ltt-milestone-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+.ltt-milestone-arrow.down {
+  top: 50%;
+  left: calc(50% - 6px);
+  border-top-color: var(--ltt-border);
+  transform: translateY(-50%);
+}
+
+.ltt-milestone-arrow.up {
+  bottom: 50%;
+  left: calc(50% - 6px);
+  border-bottom-color: var(--ltt-border);
+  transform: translateY(50%);
+}
+
+/* ========== 紧凑样式 ========== */
+.ltt-milestone-compact {
+  display: flex;
+  align-items: center;
+  gap: var(--ltt-comp-spacing-xs);
+  flex-wrap: wrap;
+}
+
+.ltt-milestone-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--ltt-comp-radius-full);
+  font-size: var(--ltt-font-size-xs);
+  font-weight: 500;
+  background: var(--ltt-bg-tertiary);
+  color: var(--ltt-text-secondary);
+}
+
+.ltt-milestone-badge[data-status="completed"] {
+  background: var(--ltt-comp-milestone-completed);
+  color: white;
+}
+
+.ltt-milestone-badge[data-status="in-progress"] {
+  background: var(--ltt-comp-milestone-in-progress);
+  color: white;
+}
+
+.ltt-milestone-badge[data-status="failed"] {
+  background: var(--ltt-comp-milestone-failed);
+  color: white;
+}
+
+.ltt-milestone-connector {
+  color: var(--ltt-text-muted);
+  font-size: var(--ltt-font-size-xs);
+}
+```
+
+### C.4 组件 TypeScript 类型（已更新）
+
+```typescript
+import './milestone.css';
+
+interface MilestoneStyles {
+  container: string;
+  capsule: string;
+  track: string;
+  node: string;
+  symbol: string;
+  line: string;
+  info: string;
+  label: string;
+  status: string;
+  badge: string;
+  badgeItem: string;
+  badgeNumber: string;
+  overallProgress: string;
+  progressBar: string;
+  progressLabel: string;
+  trackMinimal: string;
+  lineContainer: string;
+  dot: string;
+  segment: string;
+  labels: string;
+  labelItem: string;
+  time: string;
+  desc: string;
+  card: string;
+  centerLine: string;
+  cardItem: string;
+  cardContent: string;
+  cardTitle: string;
+  cardDate: string;
+  arrow: string;
+  compact: string;
+  connector: string;
+}
+
+export const milestoneStyles: MilestoneStyles = {
+  container: 'ltt-milestone-container',
+  capsule: 'ltt-milestone-capsule',
+  track: 'ltt-milestone-track',
+  node: 'ltt-milestone-node',
+  symbol: 'ltt-milestone-symbol',
+  line: 'ltt-milestone-line',
+  info: 'ltt-milestone-info',
+  label: 'ltt-milestone-label',
+  status: 'ltt-milestone-status',
+  badge: 'ltt-milestone-badge',
+  badgeItem: 'ltt-milestone-badge-item',
+  badgeNumber: 'ltt-milestone-badge-number',
+  overallProgress: 'ltt-milestone-overall-progress',
+  progressBar: 'ltt-milestone-progress-bar',
+  progressLabel: 'ltt-milestone-progress-label',
+  trackMinimal: 'ltt-milestone-track-minimal',
+  lineContainer: 'ltt-milestone-line-container',
+  dot: 'ltt-milestone-dot',
+  segment: 'ltt-milestone-segment',
+  labels: 'ltt-milestone-labels',
+  labelItem: 'ltt-milestone-label-item',
+  time: 'ltt-milestone-time',
+  desc: 'ltt-milestone-desc',
+  card: 'ltt-milestone-card',
+  centerLine: 'ltt-milestone-center-line',
+  cardItem: 'ltt-milestone-card-item',
+  cardContent: 'ltt-milestone-card-content',
+  cardTitle: 'ltt-milestone-card-title',
+  cardDate: 'ltt-milestone-card-date',
+  arrow: 'ltt-milestone-arrow',
+  compact: 'ltt-milestone-compact',
+  connector: 'ltt-milestone-connector',
+};
+```
+
+### C.5 深色模式兼容性
+
+Milestone 组件完全兼容深色模式，无需额外的 `.dark` 或 `[data-theme="dark"]` 选择器。所有颜色通过 CSS 变量自动响应。
+
+### C.6 迁移指南
+
+**从旧类名迁移到新类名**：
+
+1. **React 组件**：
+   ```tsx
+   // 旧代码
+   <div className="milestone-container">
+     <div className="milestone-capsule">...</div>
+   </div>
+
+   // 新代码
+   <div className="ltt-milestone-container">
+     <div className="ltt-milestone-capsule">...</div>
+   </div>
+   ```
+
+2. **CSS 变量**：
+   ```css
+   /* 旧代码 */
+   background: var(--ls-primary-background-color, #ffffff);
+
+   /* 新代码 */
+   background: var(--ltt-bg-primary);
+   ```
+
+3. **向后兼容**（临时）：
+   ```css
+   /* 过渡阶段可以同时保留新旧类名 */
+   .ltt-milestone-container,
+   .milestone-container {
+     background: var(--ltt-bg-primary);
+   }
+   ```
+
+---
+
+**相关文档**：
+- [CSS 变量统一化设计方案](2026-05-29-css-variables-refactor-plan.md)
+- [SelectToolbar SDK 优化方案](2026-05-29-SelectToolbar-SDK-Optimization.md)

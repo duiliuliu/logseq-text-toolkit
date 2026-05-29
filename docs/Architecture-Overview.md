@@ -16,6 +16,8 @@ Text Toolkit 是一个功能丰富的 Logseq 插件，提供以下核心功能�
 | Heatmap | 数据热力图 | ✅ 已实现 |
 | Summary | 总结报告生成 | ✅ 已实现 |
 | BlockView | Block 视图渲染器 | ✅ 已实现 |
+| Milestone | 时间线/里程碑组件 | 🚧 设计中 |
+| SelectToolbar | 选择文本工具栏 | ✅ 已实现 |
 
 ---
 
@@ -69,6 +71,22 @@ Text Toolkit Plugin (项目根目录)
 │   │   ├── Toast/                     (已实现)
 │   │   ├── Toolbar/                   (已实现 - 工具栏)
 │   │   ├── ToolbarItem/               (已实现)
+│   │   ├── Milestone/                 (设计中 - 时间线组件)
+│   │   │   ├── index.ts
+│   │   │   ├── Milestone.tsx
+│   │   │   ├── MilestoneContainer.tsx
+│   │   │   ├── styles/
+│   │   │   │   ├── CapsuleMilestone.tsx
+│   │   │   │   ├── BadgeMilestone.tsx
+│   │   │   │   ├── TrackMilestone.tsx
+│   │   │   │   ├── CardMilestone.tsx
+│   │   │   │   └── CompactMilestone.tsx
+│   │   │   ├── components/
+│   │   │   │   ├── MilestoneNode.tsx
+│   │   │   │   ├── MilestoneLine.tsx
+│   │   │   │   ├── MilestoneTooltip.tsx
+│   │   │   │   └── MilestoneProgress.tsx
+│   │   │   └── milestone.css
 │   │   └── ui/                        (已实现 - UI 组件库)
 │   │
 │   ├── lib/                           # 核心业务逻辑
@@ -90,6 +108,14 @@ Text Toolkit Plugin (项目根目录)
 │   │   │       ├── CommentExecutor.ts
 │   │   │       └── ExternalPluginExecutor.ts
 │   │   ├── taskProgress/              (已实现 - 任务进度逻辑)
+│   │   ├── milestone/                 (设计中 - 里程碑逻辑)
+│   │   │   ├── index.ts
+│   │   │   ├── register.ts
+│   │   │   ├── query.ts
+│   │   │   ├── propertyEnum.ts
+│   │   │   ├── statusCalculator.ts
+│   │   │   ├── types.ts
+│   │   │   └── constants.ts
 │   │   ├── heatmap/                   (已实现 - 热力图逻辑)
 │   │   │   ├── register.ts
 │   │   │   ├── query.ts
@@ -228,6 +254,19 @@ Text Toolkit Plugin (项目根目录)
 │  └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
+│  │                    Milestone Module (🚧 设计中)                                 │   │
+│  │  ┌────────────────────┐ ┌────────────────────┐                         │   │
+│  │  │ MilestoneQuery     │ │ StatusCalculator   │                         │   │
+│  │  │ 里程碑查询          │ │ 状态计算            │                         │   │
+│  │  └────────────────────┘ └────────────────────┘                         │   │
+│  │  ┌────────────────────────────────────────────────────────────────┐    │   │
+│  │  │ MilestoneStyles: Capsule | Badge | Track | Card | Compact       │    │   │
+│  │  │ UI Components: Node | Line | Tooltip | Progress                 │    │   │
+│  │  │ CSS Variables: --ltt-comp-milestone-* (遵循 ltt- 前缀规范)      │    │   │
+│  │  └────────────────────────────────────────────────────────────────┘    │   │
+│  └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────┐   │
 │  │                       Heatmap Module (✅ 已实现)                             │   │
 │  │  ┌────────────────────┐ ┌────────────────────┐ ┌──────────────────┐   │   │
 │  │  │ HeatmapQuery       │ │ ColorCalculator    │ │ PageUtils       │   │   │
@@ -354,6 +393,10 @@ npm run test:coverage  # 覆盖率报告
 │  │ │ ┌────────────────┐ ┌────────────────┐               │ │   │
 │  │ │ │ SelectToolbar  │ │ CustomSelect   │               │ │   │
 │  │ │ └────────────────┘ └────────────────┘               │ │   │
+│  │ │ ┌────────────────────────────────────────────────┐  │ │   │
+│  │ │ │ SelectionManager | SelectionEventAdapter     │  │ │   │
+│  │ │ │ (选区管理器)      (SDK 事件适配器)                │  │ │   │
+│  │ │ └────────────────────────────────────────────────┘  │ │   │
 │  │ └──────────────────────────────────────────────────────┘ │   │
 │  └──────────────────────┬───────────────────────────────────┘   │
 │                         │                                        │
@@ -637,6 +680,10 @@ export function registerBlockView(): void;
 | [Toolbar-Configuration-Design.md](file:///workspace/docs/Toolbar-Configuration-Design.md) | 工具栏配置设计 |
 | [优化方案总结.md](file:///workspace/docs/optimise/优化方案总结.md) | 优化方案和已完成改进 |
 | [代码分析报告.md](file:///workspace/docs/optimise/代码分析报告.md) | 代码质量和性能分析 |
+| [Milestone-Design.md](file:///workspace/docs/architecture/2026-05-29-Milestone-Design.md) | 里程碑组件详细设计（遵循 ltt- 前缀规范） |
+| [SelectToolbar-SDK-Integration.md](file:///workspace/docs/architecture/SelectToolbar-SDK-Integration.md) | SelectToolbar SDK 集成方案 |
+| [CSS-Variables-Refactor-Plan.md](file:///workspace/docs/architecture/2026-05-29-css-variables-refactor-plan.md) | CSS 变量统一化设计方案 |
+| [SelectToolbar-SDK-Optimization.md](file:///workspace/docs/architecture/2026-05-29-SelectToolbar-SDK-Optimization.md) | SelectToolbar 基于 onInputSelectionEnd 优化方案 |
 
 ---
 
@@ -644,10 +691,11 @@ export function registerBlockView(): void;
 
 | 版本 | 日期 | 变更内容 |
 |------|------|----------|
+| v1.2 | 2026-05-29 | 添加 Milestone 模块架构，集成 SelectToolbar SDK 优化方案，添加 CSS 变量规范说明 |
 | v1.1 | 2026-05-28 | 添加完整测试框架，更新架构文档 |
 | v1.0 | 2026-05-14 | 初始架构文档 |
 
 ---
 
-*文档版本: v1.1*
-*最后更新: 2026-05-28*
+*文档版本: v1.2*
+*最后更新: 2026-05-29*
