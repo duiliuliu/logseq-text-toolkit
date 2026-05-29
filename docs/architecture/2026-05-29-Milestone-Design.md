@@ -815,15 +815,18 @@ export class StatusCalculator {
       .filter(Boolean) as number[];
 
     if (timestamps.length === 0) {
-      // 没有日期信息，检查 marker 作为备选
-      const markers = blocks
-        .map(b => b.properties?.marker?.toString().toLowerCase())
+      // 没有日期信息，检查 status 作为备选
+      const statuses = blocks
+        .map(b => {
+          const status = b.properties?.[':logseq.property/status'] ?? b.properties?.status;
+          return status?.toString().toLowerCase();
+        })
         .filter(Boolean);
 
-      if (markers.some(m => m === 'done')) {
+      if (statuses.some(s => s === 'done')) {
         return 'completed';
       }
-      if (markers.some(m => m === 'doing' || m === 'in-progress')) {
+      if (statuses.some(s => s === 'doing' || s === 'in-progress' || s === 'wip')) {
         return 'in_progress';
       }
       return 'in_progress'; // 有数据但无日期，默认进行中
@@ -856,8 +859,8 @@ export class StatusCalculator {
     const completedCount = blocks.filter(b => {
       const ts = getTimestampByField(b, dateField);
       if (!ts) {
-        // 无日期，检查 marker
-        return b.properties?.marker?.toString().toLowerCase() === 'done';
+        const status = b.properties?.[':logseq.property/status'] ?? b.properties?.status;
+        return status?.toString().toLowerCase() === 'done';
       }
       return ts < today;
     }).length;
