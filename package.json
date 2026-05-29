@@ -4,6 +4,20 @@
   "description": "A toolkit for text formatting and manipulation in Logseq",
   "author": "duiliuliu",
   "license": "MIT",
+  "keywords": [
+    "logseq",
+    "logseq-plugin",
+    "logseq-db",
+    "text",
+    "formatting",
+    "toolkit",
+    "milestone",
+    "renderer",
+    "文本",
+    "格式化",
+    "工具包",
+    "里程碑"
+  ],
   "main": "dist/index.html",
   "logseq": {
     "id": "logseq-text-toolkit",
