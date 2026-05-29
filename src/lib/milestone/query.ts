@@ -63,6 +63,7 @@ export class MilestoneQuery {
     dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
     const items: MilestoneItem[] = [];
+    const hasBlocksForStage: Record<string, boolean> = {};
 
     const targetBlocks = await this.getBlocksByProperty(propertyK, propertyV, tag);
     
@@ -82,7 +83,15 @@ export class MilestoneQuery {
       };
     }
 
+    // 第一遍：先收集所有阶段的块信息
     for (const stage of list) {
+      const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks);
+      hasBlocksForStage[stage] = blocks.length > 0;
+    }
+
+    // 第二遍：应用"已跳过"逻辑
+    for (let i = 0; i < list.length; i++) {
+      const stage = list[i];
       const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks);
       
       let status: MilestoneStatus = 'pending';
@@ -93,6 +102,19 @@ export class MilestoneQuery {
         status = StatusCalculator.calculateFromBlocks(blocks, dateField);
         progress = StatusCalculator.calculateProgress(blocks, dateField);
         date = StatusCalculator.getScheduledDate(blocks, dateField);
+      } else {
+        // 检查是否存在后续已完成的阶段
+        for (let j = i + 1; j < list.length; j++) {
+          const laterStage = list[j];
+          const laterBlocks = await this.getBlocksByStageAndParent(laterStage, targetBlocks);
+          if (laterBlocks.length > 0) {
+            const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+            if (laterStatus === 'completed') {
+              status = 'skipped';
+              break;
+            }
+          }
+        }
       }
 
       items.push({
@@ -110,6 +132,7 @@ export class MilestoneQuery {
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
       pendingCount: items.filter(i => i.status === 'pending').length,
+      skippedCount: items.filter(i => i.status === 'skipped').length,
       overallProgress: this.calculateOverallProgress(items),
     };
   }
@@ -196,8 +219,17 @@ export class MilestoneQuery {
   ): Promise<MilestoneData> {
     const items: MilestoneItem[] = [];
 
+    // 第一遍：先收集所有阶段的块信息
+    const stageBlocksMap: Map<string, BlockWithProperty[]> = new Map();
     for (const stage of list) {
       const blocks = await this.getBlocksByStage(stage, tag);
+      stageBlocksMap.set(stage, blocks);
+    }
+
+    // 第二遍：应用"已跳过"逻辑
+    for (let i = 0; i < list.length; i++) {
+      const stage = list[i];
+      const blocks = stageBlocksMap.get(stage) || [];
       
       let status: MilestoneStatus = 'pending';
       let progress = 0;
@@ -207,6 +239,19 @@ export class MilestoneQuery {
         status = StatusCalculator.calculateFromBlocks(blocks, dateField);
         progress = StatusCalculator.calculateProgress(blocks, dateField);
         date = StatusCalculator.getScheduledDate(blocks, dateField);
+      } else {
+        // 检查是否存在后续已完成的阶段
+        for (let j = i + 1; j < list.length; j++) {
+          const laterStage = list[j];
+          const laterBlocks = stageBlocksMap.get(laterStage) || [];
+          if (laterBlocks.length > 0) {
+            const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+            if (laterStatus === 'completed') {
+              status = 'skipped';
+              break;
+            }
+          }
+        }
       }
 
       items.push({
@@ -224,6 +269,7 @@ export class MilestoneQuery {
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
       pendingCount: items.filter(i => i.status === 'pending').length,
+      skippedCount: items.filter(i => i.status === 'skipped').length,
       overallProgress: this.calculateOverallProgress(items),
     };
   }

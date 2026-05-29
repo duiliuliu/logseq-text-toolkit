@@ -17,6 +17,7 @@ const defaultColorScheme: ColorScheme = {
   inProgress: '#f59e0b',
   pending: '#d1d5db',
   failed: '#ef4444',
+  skipped: '#9ca3af',
   background: '#ffffff',
   text: '#374151',
 };
@@ -34,6 +35,7 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
       case 'completed': return '✓';
       case 'in_progress': return '→';
       case 'failed': return '✕';
+      case 'skipped': return '~';
       case 'pending':
       default: return '·';
     }
@@ -44,6 +46,7 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
       case 'completed': return '已完成';
       case 'in_progress': return '进行中';
       case 'failed': return '失败';
+      case 'skipped': return '已跳过';
       case 'pending':
       default: return '待开始';
     }
@@ -54,6 +57,7 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
       case 'completed': return colorScheme.completed;
       case 'in_progress': return colorScheme.inProgress;
       case 'failed': return colorScheme.failed;
+      case 'skipped': return colorScheme.skipped;
       case 'pending':
       default: return colorScheme.pending;
     }

@@ -15,7 +15,8 @@ export type MilestoneStatus =
   | 'completed'
   | 'in_progress'
   | 'pending'
-  | 'failed';
+  | 'failed'
+  | 'skipped';
 
 export interface MilestoneData {
   items: MilestoneItem[];
@@ -23,6 +24,7 @@ export interface MilestoneData {
   completedCount: number;
   inProgressCount?: number;
   pendingCount?: number;
+  skippedCount?: number;
   overallProgress: number;
 }
 
@@ -52,6 +54,7 @@ export interface ColorScheme {
   inProgress: string;
   pending: string;
   failed: string;
+  skipped: string;
   background: string;
   text: string;
 }
@@ -78,6 +81,7 @@ export const DEFAULT_COLOR_SCHEME: ColorScheme = {
   inProgress: '#f59e0b',
   pending: '#d1d5db',
   failed: '#ef4444',
+  skipped: '#9ca3af',
   background: '#ffffff',
   text: '#374151',
 };
