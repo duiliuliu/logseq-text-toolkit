@@ -101,12 +101,26 @@ Milestone 组件支持**两种数据模型**，以适应不同的使用场景：
 面试流程管理（模型 A - 属性枚举）：
   {{renderer :milestone, tag=面试, style=capsule, property=company}}
 
-项目进度追踪（模型 B - 固定阶段）：
+项目进度追踪（模型 B - 固定阶段 + 标签过滤）：
   {{renderer :milestone, tag=安克项目, style=badge, list=需求;设计;开发;测试;上线}}
+
+项目进度追踪（模型 B - 固定阶段 + 属性过滤）：
+  {{renderer :milestone, tag=面试, propertyK=:user.property/ae_Y5gsx, propertyV=安克, list=需求;设计;开发;测试;上线}}
 
 直接指定里程碑节点（模型 B - 无过滤）：
   {{renderer :milestone, style=track, list=计划;开发;测试;上线}}
 ```
+
+**宏命令参数说明**：
+
+| 参数 | 说明 | 示例 |
+|------|------|------|
+| `tag` | 过滤标签 | `tag=面试` |
+| `property` | 属性名（自动获取枚举值） | `property=company` |
+| `propertyK` | 属性键名（Logseq 格式） | `propertyK=:user.property/ae_Y5gsx` |
+| `propertyV` | 属性值（与 propertyK 配合使用） | `propertyV=安克` |
+| `list` | 固定阶段列表（分号分隔） | `list=需求;设计;开发;测试;上线` |
+| `style` | 展示样式 | `style=capsule` |
 
 ## 2. 数据模型设计
 
@@ -143,15 +157,24 @@ export interface MilestoneData {
 }
 
 export interface MilestoneConfig {
-  property?: string;             // 属性名 (如 "company") - 与 list 二选一
-  list?: string[];              // 固定阶段列表 - 与 property 二选一
-  tag?: string;                 // 过滤标签
-  style: MilestoneDisplayStyle;  // 展示样式
-  showProgress?: boolean;        // 是否显示进度
-  showLabels?: boolean;          // 是否显示标签
-  colorScheme?: ColorScheme;     // 颜色配置
-  language?: string;             // 语言
-  dateField?: string;            // 日期字段名，默认 "scheduled"
+  // 属性过滤（与 list 二选一）
+  property?: string;              // 属性名 (如 "company") - 自动获取枚举值作为节点
+  propertyK?: string;            // 属性键名 (如 ":user.property/ae_Y5gsx") - Logseq 格式
+  propertyV?: string;            // 属性值 (如 "安克") - 与 propertyK 配合使用
+  
+  // 固定阶段列表（与 property 二选一）
+  list?: string[];               // 固定阶段列表 - 使用分号分隔
+  
+  // 标签过滤
+  tag?: string;                  // 过滤标签
+  
+  // 展示配置
+  style: MilestoneDisplayStyle;   // 展示样式
+  showProgress?: boolean;         // 是否显示进度
+  showLabels?: boolean;           // 是否显示标签
+  colorScheme?: ColorScheme;      // 颜色配置
+  language?: string;              // 语言
+  dateField?: string;             // 日期字段名，默认 "scheduled"
 }
 
 export type MilestoneDisplayStyle = 
@@ -485,19 +508,25 @@ export class MilestoneQuery {
     config: {
       tag?: string;
       property?: string;
+      propertyK?: string;       // 属性键名 (如 ":user.property/ae_Y5gsx")
+      propertyV?: string;        // 属性值 (如 "安克")
       list?: string[];
       dateField?: string;
     }
   ): Promise<MilestoneData> {
-    const { tag, property, list, dateField = 'scheduled' } = config;
+    const { tag, property, propertyK, propertyV, list, dateField = 'scheduled' } = config;
 
     try {
-      // 1. 如果指定了 list，直接使用用户指定的里程碑节点
+      // 1. 如果指定了 list（固定阶段列表模式）
       if (list && list.length > 0) {
-        return await this.queryByList(list, tag, dateField);
+        // 优先使用 propertyK + propertyV 精确定位
+        if (propertyK && propertyV) {
+          return await this.queryByStageListWithProperty(list, tag, propertyK, propertyV, dateField);
+        }
+        return await this.queryByStageList(list, tag, dateField);
       }
 
-      // 2. 如果指定了属性，获取所有枚举值
+      // 2. 如果指定了 property（属性枚举模式）
       if (property) {
         return await this.queryByPropertyEnum(property, tag, dateField);
       }
@@ -512,6 +541,142 @@ export class MilestoneQuery {
     } catch (error) {
       logger.error('[MilestoneQuery] Query failed:', error);
       return this.createEmptyData();
+    }
+  }
+
+  /**
+   * 根据阶段列表 + 标签 + 属性过滤查询
+   * 
+   * 使用 propertyK + propertyV 精确定位块，然后在该块下查找阶段
+   * 
+   * 示例：
+   * {{renderer :milestone, tag=面试, propertyK=:user.property/ae_Y5gsx, propertyV=安克, list=需求;设计;开发;测试;上线}}
+   */
+  private static async queryByStageListWithProperty(
+    list: string[],
+    tag: string | undefined,
+    propertyK: string,
+    propertyV: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const items: MilestoneItem[] = [];
+
+    // 1. 先根据 propertyK + propertyV 找到对应的块
+    const targetBlocks = await this.getBlocksByProperty(propertyK, propertyV, tag);
+    
+    if (targetBlocks.length === 0) {
+      // 没有找到匹配的块，所有阶段都是 pending
+      return {
+        items: list.map(stage => ({
+          id: `milestone-${stage}`,
+          label: stage,
+          status: 'pending' as const,
+          progress: 0,
+          date: null,
+        })),
+        totalCount: list.length,
+        completedCount: 0,
+        pendingCount: list.length,
+        overallProgress: 0,
+      };
+    }
+
+    // 2. 在目标块下查找每个阶段
+    for (const stage of list) {
+      const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks);
+      
+      let status: MilestoneStatus = 'pending';
+      let progress = 0;
+      let date: string | null = null;
+
+      if (blocks.length > 0) {
+        status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+        progress = StatusCalculator.calculateProgress(blocks, dateField);
+        date = StatusCalculator.getScheduledDate(blocks, dateField);
+      }
+
+      items.push({
+        id: `milestone-${stage}`,
+        label: stage,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 根据属性键名和属性值获取块
+   */
+  private static async getBlocksByProperty(
+    propertyK: string,
+    propertyV: string,
+    tag?: string
+  ): Promise<BlockWithProperty[]> {
+    // 格式化属性键名
+    const formattedKey = propertyK.startsWith(':') ? propertyK : `:${propertyK}`;
+
+    let query = `[:find (pull ?b [*])
+                    :where
+                    [?b :${formattedKey} ?val]
+                    [?val :block/title "${propertyV}"]]`;
+
+    if (tag) {
+      query = `[:find (pull ?b [*])
+                :where
+                [?b :${formattedKey} ?val]
+                [?val :block/title "${propertyV}"]
+                [?b :block/tags ?t]
+                [?t :block/title "${tag}"]]`;
+    }
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksByProperty failed:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 在父块列表中查找包含特定阶段关键词的子块
+   */
+  private static async getBlocksByStageAndParent(
+    stage: string,
+    parentBlocks: BlockWithProperty[]
+  ): Promise<BlockWithProperty[]> {
+    // 获取所有父块的 UUID
+    const parentUuids = parentBlocks.map(b => b.uuid).filter(Boolean);
+    
+    if (parentUuids.length === 0) {
+      return [];
+    }
+
+    // 查询这些父块的子块
+    const parentIdPattern = parentUuids.map(uuid => `["${uuid}"]`).join(' | ');
+    const query = `[:find (pull ?child [*])
+                    :where
+                    [?child :block/parent ?parent]
+                    [?parent :block/uuid ${parentIdPattern}]
+                    [?child :block/content ?c]
+                    [(clojure.string/includes? ?c "${stage}")]]`;
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksByStageAndParent failed:', error);
+      return [];
     }
   }
 
@@ -539,7 +704,7 @@ export class MilestoneQuery {
       const blocks = await this.getBlocksByLabel(label, tag);
       const status = StatusCalculator.calculateFromBlocks(blocks, dateField);
       const progress = StatusCalculator.calculateProgress(blocks, dateField);
-      const date = StatusCalculator.getLatestDate(blocks, dateField);
+      const date = StatusCalculator.getScheduledDate(blocks, dateField);
 
       items.push({
         id: `milestone-${label}`,
@@ -1262,6 +1427,8 @@ function parseMacroArguments(type: string, tokens: string[]): MilestoneConfig {
     tag: parsed.tag,
     style,
     property: parsed.property,
+    propertyK: parsed.propertyK,
+    propertyV: parsed.propertyV,
     list,
     dateField: parsed.dateField || 'scheduled',
     showLabels: parsed.showLabels !== 'false',
