@@ -62,7 +62,47 @@ src/
 
 ## 二、设计方案
 
-### 2.1 变量命名规范
+### 2.1 类名前缀规范（重要）
+
+**所有 CSS 类名必须使用 `ltt-` 前缀，避免与其他插件样式冲突**
+
+| 组件 | 当前类名 | 推荐类名 | 风险 |
+|------|----------|----------|------|
+| heatmap | `.heatmap-container` | `.ltt-heatmap-container` | 高 |
+| heatmap | `.heatmap-header` | `.ltt-heatmap-header` | 高 |
+| heatmap | `.heatmap-cell` | `.ltt-heatmap-cell` | 高 |
+| heatmap | `.view-controls` | `.ltt-heatmap-view-controls` | 高 |
+| heatmap | `.nav-btn` | `.ltt-heatmap-nav-btn` | 高 |
+| summary | `.summary-modal-container` | `.ltt-summary-modal-container` | 中 |
+| summary | `.summary-content` | `.ltt-summary-content` | 中 |
+| summary | `.summary-section` | `.ltt-summary-section` | 中 |
+| summary | `.summary-label` | `.ltt-summary-label` | 中 |
+| summary | `.summary-btn` | `.ltt-summary-btn` | 中 |
+| modal | `.modal-overlay` | `.ltt-modal-overlay` | 低 |
+| modal | `.modal-container` | `.ltt-modal-container` | 低 |
+
+**实施步骤**：
+1. 先在 CSS 中定义新类名（带 `ltt-` 前缀），并添加旧类名别名指向新类名
+2. 逐步在 React 组件中替换类名
+3. 确认无使用旧类名后，移除旧类名定义
+
+**示例**：
+```css
+/* 新旧类名共存阶段 */
+.ltt-heatmap-container {
+  background: var(--ltt-bg-primary);
+  border-radius: var(--ltt-comp-radius-lg);
+}
+
+/* 向后兼容别名 - 使用同一个规则 */
+.ltt-heatmap-container,
+.heatmap-container {
+  background: var(--ltt-bg-primary);
+  border-radius: var(--ltt-comp-radius-lg);
+}
+```
+
+### 2.2 变量命名规范
 
 #### 前缀策略
 | 前缀 | 用途 | 示例 |
@@ -102,7 +142,7 @@ src/
     └── weight-normal, medium, bold
 ```
 
-### 2.2 推荐的变量命名（对比表）
+### 2.3 推荐的变量命名（对比表）
 
 | 用途 | 当前命名 | 推荐命名 | 文件 |
 |------|----------|----------|------|
@@ -116,7 +156,7 @@ src/
 | 圆角 | `--card-radius` | `--ltt-comp-radius-md` | summary.css |
 | 间距 | `--card-gap` | `--ltt-comp-spacing-md` | summary.css |
 
-### 2.3 深色模式实现规范
+### 2.4 深色模式实现规范
 
 **推荐方案：CSS 变量自动响应**
 
