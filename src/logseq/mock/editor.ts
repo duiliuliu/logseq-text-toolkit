@@ -9,6 +9,24 @@
 import { getSelection, getDocument } from '../utils.ts';
 import { httpClient } from './httpClient';
 
+export interface SelectionInfo {
+  text: string;
+  start: number;
+  end: number;
+  caret?: {
+    left: number;
+    top: number;
+    height: number;
+    pos: number;
+    rect: DOMRect;
+  };
+  point?: {
+    x: number;
+    y: number;
+  };
+}
+
+type SelectionHandler = (info: SelectionInfo) => void;
 const logger = {
   info: (message: string, ...args: any[]) => console.log(`[INFO] ${message}`, ...args),
   warn: (message: string, ...args: any[]) => console.warn(`[WARN] ${message}`, ...args),
@@ -49,6 +67,77 @@ const Editor: any = {
       content: 'Default block content',
       properties: {}
     });
+  },
+
+  onInputSelectionEnd(handler: SelectionHandler): () => void {
+    logger.info('[Mock Editor] onInputSelectionEnd registered');
+    
+    let isMouseDown = false;
+    let mouseUpTimeout: ReturnType<typeof setTimeout> | null = null;
+    
+    const handleMouseDown = () => {
+      isMouseDown = true;
+    };
+    
+    const handleMouseUp = (e: MouseEvent) => {
+      if (!isMouseDown) return;
+      
+      if (mouseUpTimeout) {
+        clearTimeout(mouseUpTimeout);
+      }
+      
+      mouseUpTimeout = setTimeout(() => {
+        isMouseDown = false;
+        
+        const selection = getSelection();
+        if (!selection || selection.toString().length === 0) {
+          return;
+        }
+        
+        const text = selection.toString();
+        const range = selection.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        
+        const start = 0;
+        const end = text.length;
+        
+        const info: SelectionInfo = {
+          text,
+          start,
+          end,
+          caret: {
+            left: rect.left,
+            top: rect.top,
+            height: rect.height,
+            pos: 0,
+            rect: rect
+          },
+          point: {
+            x: e.clientX,
+            y: e.clientY
+          }
+        };
+        
+        try {
+          handler(info);
+        } catch (error) {
+          logger.error('[Mock Editor] onInputSelectionEnd handler error:', error);
+        }
+      }, 10);
+    };
+    
+    const doc = getDocument();
+    doc.addEventListener('mousedown', handleMouseDown);
+    doc.addEventListener('mouseup', handleMouseUp);
+    
+    return () => {
+      if (mouseUpTimeout) {
+        clearTimeout(mouseUpTimeout);
+      }
+      doc.removeEventListener('mousedown', handleMouseDown);
+      doc.removeEventListener('mouseup', handleMouseUp);
+      logger.info('[Mock Editor] onInputSelectionEnd unregistered');
+    };
   },
 
   getPage: async function(this: any, pageName: string) {
