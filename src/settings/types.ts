@@ -1,5 +1,6 @@
 import { logseqAPI } from '../logseq'
 import { SummaryType, TemplateType } from '../lib/summary/types'
+import type { MilestoneTemplate, MilestoneDisplayStyle } from '../lib/milestone/types'
 
 export type ThemeType = 'light' | 'dark' | 'system'
 
@@ -174,9 +175,10 @@ export interface SummarySettings {
 
 export interface MilestoneSettings {
   enabled: boolean;
-  defaultStyle: 'capsule' | 'badge' | 'track' | 'card' | 'compact';
+  defaultStyle: MilestoneDisplayStyle;
   showLabels: boolean;
   showProgress: boolean;
+  templates: MilestoneTemplate[];
 }
 
 export interface Settings {

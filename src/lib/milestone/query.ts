@@ -23,13 +23,25 @@ export class MilestoneQuery {
       property?: string;
       propertyK?: string;
       propertyV?: string;
+      targetPropertyK?: string;
       list?: string[];
       dateField?: string;
     }
   ): Promise<MilestoneData> {
-    const { tag, property, propertyK, propertyV, list, dateField = 'scheduled' } = config;
+    const { tag, property, propertyK, propertyV, targetPropertyK, list, dateField = 'scheduled' } = config;
 
     try {
+      // 优先使用 targetPropertyK 模式
+      if (targetPropertyK) {
+        if (propertyK && propertyV) {
+          return await this.queryByTargetPropertyWithFilter(targetPropertyK, propertyK, propertyV, tag, list, dateField);
+        }
+        if (tag) {
+          return await this.queryByTargetPropertyWithTag(targetPropertyK, tag, list, dateField);
+        }
+        return await this.queryByTargetProperty(targetPropertyK, list, dateField);
+      }
+
       if (list && list.length > 0) {
         if (propertyK && propertyV) {
           return await this.queryByStageListWithProperty(list, tag, propertyK, propertyV, dateField);
@@ -49,6 +61,368 @@ export class MilestoneQuery {
     } catch (error) {
       logger.error('[MilestoneQuery] Query failed:', error);
       return this.createEmptyData();
+    }
+  }
+
+  /**
+   * 通过 targetPropertyK 读取里程碑节点，带属性过滤
+   */
+  private static async queryByTargetPropertyWithFilter(
+    targetPropertyK: string,
+    propertyK: string,
+    propertyV: string,
+    tag: string | undefined,
+    list: string[] | undefined,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const targetBlocks = await this.getBlocksByProperty(propertyK, propertyV, tag);
+    
+    if (targetBlocks.length === 0) {
+      return list ? {
+        items: list.map(stage => ({
+          id: `milestone-${stage}`,
+          label: stage,
+          status: 'pending' as const,
+          progress: 0,
+          date: null,
+        })),
+        totalCount: list.length,
+        completedCount: 0,
+        pendingCount: list.length,
+        overallProgress: 0,
+      } : this.createEmptyData();
+    }
+
+    // 从块中提取里程碑节点
+    const stageMap = new Map<string, BlockWithProperty[]>();
+    
+    for (const block of targetBlocks) {
+      const stageValue = this.getBlockPropertyValue(block, targetPropertyK);
+      if (stageValue) {
+        if (!stageMap.has(stageValue)) {
+          stageMap.set(stageValue, []);
+        }
+        stageMap.get(stageValue)!.push(block);
+      }
+    }
+
+    // 确定最终的节点列表
+    let stages: string[];
+    if (list && list.length > 0) {
+      stages = list;
+    } else {
+      stages = Array.from(stageMap.keys());
+    }
+
+    const items: MilestoneItem[] = [];
+    
+    // 处理每个节点，应用"已跳过"逻辑
+    for (let i = 0; i < stages.length; i++) {
+      const stage = stages[i];
+      const blocks = stageMap.get(stage) || [];
+      
+      let status: MilestoneStatus = 'pending';
+      let progress = 0;
+      let date: string | null = null;
+
+      if (blocks.length > 0) {
+        status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+        progress = StatusCalculator.calculateProgress(blocks, dateField);
+        date = StatusCalculator.getScheduledDate(blocks, dateField);
+      } else {
+        // 检查是否存在后续已完成的阶段
+        for (let j = i + 1; j < stages.length; j++) {
+          const laterStage = stages[j];
+          const laterBlocks = stageMap.get(laterStage) || [];
+          if (laterBlocks.length > 0) {
+            const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+            if (laterStatus === 'completed') {
+              status = 'skipped';
+              break;
+            }
+          }
+        }
+      }
+
+      items.push({
+        id: `milestone-${stage}`,
+        label: stage,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      skippedCount: items.filter(i => i.status === 'skipped').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 通过 targetPropertyK 读取里程碑节点，带标签过滤
+   */
+  private static async queryByTargetPropertyWithTag(
+    targetPropertyK: string,
+    tag: string,
+    list: string[] | undefined,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const targetBlocks = await this.getBlocksByTag(tag);
+    
+    if (targetBlocks.length === 0) {
+      return list ? {
+        items: list.map(stage => ({
+          id: `milestone-${stage}`,
+          label: stage,
+          status: 'pending' as const,
+          progress: 0,
+          date: null,
+        })),
+        totalCount: list.length,
+        completedCount: 0,
+        pendingCount: list.length,
+        overallProgress: 0,
+      } : this.createEmptyData();
+    }
+
+    // 从块中提取里程碑节点
+    const stageMap = new Map<string, BlockWithProperty[]>();
+    
+    for (const block of targetBlocks) {
+      const stageValue = this.getBlockPropertyValue(block, targetPropertyK);
+      if (stageValue) {
+        if (!stageMap.has(stageValue)) {
+          stageMap.set(stageValue, []);
+        }
+        stageMap.get(stageValue)!.push(block);
+      }
+    }
+
+    // 确定最终的节点列表
+    let stages: string[];
+    if (list && list.length > 0) {
+      stages = list;
+    } else {
+      stages = Array.from(stageMap.keys());
+    }
+
+    const items: MilestoneItem[] = [];
+    
+    // 处理每个节点，应用"已跳过"逻辑
+    for (let i = 0; i < stages.length; i++) {
+      const stage = stages[i];
+      const blocks = stageMap.get(stage) || [];
+      
+      let status: MilestoneStatus = 'pending';
+      let progress = 0;
+      let date: string | null = null;
+
+      if (blocks.length > 0) {
+        status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+        progress = StatusCalculator.calculateProgress(blocks, dateField);
+        date = StatusCalculator.getScheduledDate(blocks, dateField);
+      } else {
+        // 检查是否存在后续已完成的阶段
+        for (let j = i + 1; j < stages.length; j++) {
+          const laterStage = stages[j];
+          const laterBlocks = stageMap.get(laterStage) || [];
+          if (laterBlocks.length > 0) {
+            const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+            if (laterStatus === 'completed') {
+              status = 'skipped';
+              break;
+            }
+          }
+        }
+      }
+
+      items.push({
+        id: `milestone-${stage}`,
+        label: stage,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      skippedCount: items.filter(i => i.status === 'skipped').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 通过 targetPropertyK 读取里程碑节点
+   */
+  private static async queryByTargetProperty(
+    targetPropertyK: string,
+    list: string[] | undefined,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    // 获取所有有这个属性的块
+    const targetBlocks = await this.getBlocksWithProperty(targetPropertyK);
+    
+    if (targetBlocks.length === 0) {
+      return list ? {
+        items: list.map(stage => ({
+          id: `milestone-${stage}`,
+          label: stage,
+          status: 'pending' as const,
+          progress: 0,
+          date: null,
+        })),
+        totalCount: list.length,
+        completedCount: 0,
+        pendingCount: list.length,
+        overallProgress: 0,
+      } : this.createEmptyData();
+    }
+
+    // 从块中提取里程碑节点
+    const stageMap = new Map<string, BlockWithProperty[]>();
+    
+    for (const block of targetBlocks) {
+      const stageValue = this.getBlockPropertyValue(block, targetPropertyK);
+      if (stageValue) {
+        if (!stageMap.has(stageValue)) {
+          stageMap.set(stageValue, []);
+        }
+        stageMap.get(stageValue)!.push(block);
+      }
+    }
+
+    // 确定最终的节点列表
+    let stages: string[];
+    if (list && list.length > 0) {
+      stages = list;
+    } else {
+      stages = Array.from(stageMap.keys());
+    }
+
+    const items: MilestoneItem[] = [];
+    
+    // 处理每个节点，应用"已跳过"逻辑
+    for (let i = 0; i < stages.length; i++) {
+      const stage = stages[i];
+      const blocks = stageMap.get(stage) || [];
+      
+      let status: MilestoneStatus = 'pending';
+      let progress = 0;
+      let date: string | null = null;
+
+      if (blocks.length > 0) {
+        status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+        progress = StatusCalculator.calculateProgress(blocks, dateField);
+        date = StatusCalculator.getScheduledDate(blocks, dateField);
+      } else {
+        // 检查是否存在后续已完成的阶段
+        for (let j = i + 1; j < stages.length; j++) {
+          const laterStage = stages[j];
+          const laterBlocks = stageMap.get(laterStage) || [];
+          if (laterBlocks.length > 0) {
+            const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+            if (laterStatus === 'completed') {
+              status = 'skipped';
+              break;
+            }
+          }
+        }
+      }
+
+      items.push({
+        id: `milestone-${stage}`,
+        label: stage,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      skippedCount: items.filter(i => i.status === 'skipped').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 获取块属性值
+   */
+  private static getBlockPropertyValue(block: BlockWithProperty, propertyK: string): string | null {
+    // 处理带或不带冒号的属性名
+    const cleanKey = propertyK.startsWith(':') ? propertyK.slice(1) : propertyK;
+    const keys = [propertyK, `:${cleanKey}`, cleanKey];
+    
+    for (const key of keys) {
+      const value = block.properties?.[key];
+      if (value !== undefined && value !== null) {
+        if (typeof value === 'object' && value['block/title']) {
+          return value['block/title'];
+        }
+        return String(value);
+      }
+    }
+    return null;
+  }
+
+  /**
+   * 获取所有有特定属性的块
+   */
+  private static async getBlocksWithProperty(propertyK: string): Promise<BlockWithProperty[]> {
+    if (!logseqAPI) {
+      logger.warn('[MilestoneQuery] Logseq API not initialized');
+      return [];
+    }
+
+    const cleanKey = propertyK.startsWith(':') ? propertyK.slice(1) : propertyK;
+    
+    const query = `[:find (pull ?b [*])
+                    :where
+                    [?b :${cleanKey}]]`;
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksWithProperty failed:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 通过标签获取块
+   */
+  private static async getBlocksByTag(tag: string): Promise<BlockWithProperty[]> {
+    if (!logseqAPI) {
+      return [];
+    }
+
+    const query = `[:find (pull ?b [*])
+                    :where
+                    [?b :block/tags ?t]
+                    [?t :block/title "${tag}"]]`;
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksByTag failed:', error);
+      return [];
     }
   }
 

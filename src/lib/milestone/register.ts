@@ -2,9 +2,10 @@
  * Milestone 宏命令注册
  */
 
-import type { MilestoneDisplayStyle, MilestoneConfig } from './types';
+import type { MilestoneDisplayStyle, MilestoneConfig, MilestoneTemplate } from './types';
 import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import logger from '../logger/index';
+import { getSettings } from '../../settings/index.ts';
 
 let logseqAPI: any = null;
 
@@ -42,11 +43,12 @@ export async function renderMilestoneComponent(
 
   try {
     const { MilestoneQuery } = await import('./query');
-    MilestoneQuery.query({
+    const data = await MilestoneQuery.query({
       tag: config.tag,
       property: config.property,
       propertyK: config.propertyK,
       propertyV: config.propertyV,
+      targetPropertyK: config.targetPropertyK,
       list: config.list,
       dateField: config.dateField
     });
@@ -64,7 +66,7 @@ export async function renderMilestoneComponent(
       const container = document.getElementById(containerId);
       if (container) {
         logger.debug('🎯 Milestone: Rendering component', { containerId });
-        renderFn(container, { data: null, config });
+        renderFn(container, { data, config });
       } else {
         logger.warn('🎯 Milestone: Container not found', { containerId });
       }
@@ -110,7 +112,7 @@ export function registerMilestone(
 /**
  * 解析宏参数
  */
-function parseMacroArguments(type: string, tokens: string[]): MilestoneConfig {
+function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   const parsed = parseRendererArgs(type, tokens);
 
   let style: MilestoneDisplayStyle = 'capsule';
@@ -123,16 +125,47 @@ function parseMacroArguments(type: string, tokens: string[]): MilestoneConfig {
     list = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
   }
 
+  // 检查是否使用了模板
+  let template: MilestoneTemplate | undefined;
+  const settings = getSettings();
+  const templates = settings?.milestone?.templates || [];
+  
+  if (parsed.template) {
+    // 支持两种格式：:id 或者直接 id
+    const templateId = parsed.template.startsWith(':') ? parsed.template.slice(1) : parsed.template;
+    template = templates.find(t => t.id === templateId || t.id === `template_${templateId}`);
+  }
+
+  // 合并配置：模板为基础，宏参数覆盖
+  const baseConfig: Partial<MilestoneConfig> = template ? {
+    tag: template.tag,
+    propertyK: template.propertyK,
+    propertyV: template.propertyV,
+    targetPropertyK: template.targetPropertyK,
+    list: template.list,
+    style: template.defaultStyle,
+    showLabels: template.showLabels,
+    showProgress: template.showProgress,
+    dateField: template.dateField,
+  } : {};
+
+  let finalList = list || baseConfig.list;
+  if (parsed.list) {
+    finalList = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
+  }
+
   return {
-    tag: parsed.tag,
-    style,
+    template: parsed.template,
+    tag: parsed.tag || baseConfig.tag,
+    style: parsed.style ? (parsed.style as MilestoneDisplayStyle) : baseConfig.style || style,
     property: parsed.property,
-    propertyK: parsed.propertyK,
-    propertyV: parsed.propertyV,
-    list,
-    dateField: parsed.dateField || 'scheduled',
-    showLabels: parsed.showLabels !== 'false',
-    showProgress: parsed.showProgress !== 'false',
+    propertyK: parsed.propertyK || baseConfig.propertyK,
+    propertyV: parsed.propertyV || baseConfig.propertyV,
+    targetPropertyK: parsed.targetPropertyK || baseConfig.targetPropertyK,
+    list: finalList,
+    dateField: parsed.dateField || baseConfig.dateField || 'scheduled',
+    showLabels: parsed.showLabels !== undefined ? parsed.showLabels !== 'false' : baseConfig.showLabels !== false,
+    showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : baseConfig.showProgress !== false,
     colorScheme: parsed.colorScheme ? JSON.parse(parsed.colorScheme) : undefined,
   };
 }

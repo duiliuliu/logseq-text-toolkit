@@ -37,6 +37,7 @@
       "heatmap": "📈 Heatmap",
       "blockView": "📋 Block View",
       "summary": "📝 Summary Generator",
+      "milestone": "🎯 Milestone",
       "advanced": "⚡ Other Settings"
     },
     "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
@@ -266,6 +267,33 @@
       "aiApiUrl": "API URL",
       "aiModel": "Model",
       "aiPromptTemplate": "Prompt Template"
-    }
+    },
+    "milestone": {
+      "description": "Configure default behavior and display style for milestone components.",
+      "enabled": "Enable Milestone Feature",
+      "defaultStyle": "Default Display Style",
+      "styleCapsule": "Capsule",
+      "styleBadge": "Badge",
+      "styleTrack": "Track",
+      "styleCard": "Card",
+      "styleCompact": "Compact",
+      "showLabels": "Show Labels",
+      "showProgress": "Show Progress",
+      "templates": "Predefined Templates",
+      "addTemplate": "Add Template",
+      "noTemplates": "No templates yet, click the button above to add.",
+      "newTemplate": "New Template",
+      "templateName": "Template Name",
+      "templateDescription": "Description (optional)",
+      "templateTag": "Tag (optional)",
+      "templatePropertyK": "Property Key (optional)",
+      "templatePropertyV": "Property Value (optional)",
+      "templateTargetPropertyK": "Target Property Key (required)",
+      "templateList": "Stage List (semicolon separated)",
+      "edit": "Edit",
+      "collapse": "Collapse",
+      "delete": "Delete"
+    },
+    "saveMilestoneSettings": "Save Milestone Settings"
   }
 }

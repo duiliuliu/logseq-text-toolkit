@@ -119,6 +119,13 @@
       "promptTemplate": ""
     }
   },
+  "milestone": {
+    "enabled": true,
+    "defaultStyle": "capsule",
+    "showLabels": true,
+    "showProgress": true,
+    "templates": []
+  },
   "meta": {
     "language": {
       "languages": [

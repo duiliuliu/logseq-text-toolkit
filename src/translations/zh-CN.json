@@ -278,7 +278,21 @@
       "styleCard": "卡片",
       "styleCompact": "紧凑",
       "showLabels": "显示标签",
-      "showProgress": "显示进度"
+      "showProgress": "显示进度",
+      "templates": "预定义模板",
+      "addTemplate": "添加模板",
+      "noTemplates": "暂无模板，点击上方按钮添加。",
+      "newTemplate": "新模板",
+      "templateName": "模板名称",
+      "templateDescription": "描述（可选）",
+      "templateTag": "标签（可选）",
+      "templatePropertyK": "属性键（可选）",
+      "templatePropertyV": "属性值（可选）",
+      "templateTargetPropertyK": "目标属性键（必填）",
+      "templateList": "阶段列表（分号分隔）",
+      "edit": "编辑",
+      "collapse": "收起",
+      "delete": "删除"
     },
     "saveMilestoneSettings": "保存里程碑设置"
   }
