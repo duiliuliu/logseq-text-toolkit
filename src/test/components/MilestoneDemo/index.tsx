@@ -3,8 +3,8 @@
  */
 
 import React, { useState } from 'react';
-import { Milestone } from '../../components/Milestone';
-import type { MilestoneItem, MilestoneData, MilestoneDisplayStyle, ColorScheme } from '../../lib/milestone/types';
+import { Milestone } from '../../../components/Milestone';
+import type { MilestoneItem, MilestoneData, MilestoneDisplayStyle, ColorScheme } from '../../../lib/milestone/types';
 
 const mockInterviewData: MilestoneData = {
   items: [
