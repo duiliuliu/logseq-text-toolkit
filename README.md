@@ -65,6 +65,26 @@
 
 ## 二、主要功能
 
+### 🎯 Milestone 里程碑追踪
+
+| 功能 | 说明 |
+|------|------|
+| 展示样式 | 胶囊、徽章、轨道、卡片、紧凑 五种风格 |
+| 查询方式 | 支持标签、页面、属性三种查询方式 |
+| 模板系统 | 支持预定义模板，快速配置和复用 |
+| 自动进度 | 根据任务状态自动计算里程碑进度 |
+| 时间轴 | 显示每个里程碑的计划或完成日期 |
+
+**基本使用：**
+```markdown
+{{renderer :milestone, displayStyle=capsule, filterTag=project, milestonePropKey=phase, milestoneList=需求;设计;开发;测试;上线}}
+```
+
+**使用模板：**
+```markdown
+{{renderer :milestone, template=my_template}}
+```
+
 ### 📝 文本格式化
 
 | 功能 | 说明 |

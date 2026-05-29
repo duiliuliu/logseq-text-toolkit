@@ -128,14 +128,12 @@ describe('Milestone UI Components', () => {
       expect(container.querySelector('.ltt-milestone-empty')).toBeTruthy();
     });
 
-    it('should render items with alternating positions', () => {
+    it('should render items with horizontal layout', () => {
       const { container } = render(
         <CardMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
-      expect(container.querySelector('.ltt-milestone-card')).toBeTruthy();
-      expect(container.querySelectorAll('.ltt-milestone-card-item')).toHaveLength(3);
-      expect(container.querySelector('.ltt-milestone-card-item.top')).toBeTruthy();
-      expect(container.querySelector('.ltt-milestone-card-item.bottom')).toBeTruthy();
+      expect(container.querySelector('.ltt-milestone-card-horizontal')).toBeTruthy();
+      expect(container.querySelectorAll('.ltt-milestone-card-item-horizontal')).toHaveLength(3);
     });
   });
 
