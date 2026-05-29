@@ -145,7 +145,8 @@ export interface MilestoneItem {
 export type MilestoneStatus = 
   | 'completed'   // 已完成
   | 'in_progress' // 进行中
-  | 'pending';     // 待开始
+  | 'pending'     // 待开始
+  | 'failed';     // 失败
 
 export interface MilestoneData {
   items: MilestoneItem[];
@@ -719,6 +720,8 @@ export class MilestoneQuery {
       items,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
       overallProgress: this.calculateOverallProgress(items),
     };
   }
@@ -805,8 +808,6 @@ export class MilestoneQuery {
                 [?b :block/tags ?t]
                 [?t :block/title "${tag}"]]`;
     }
-    
-    query += `]`;
 
     try {
       const result = await logseqAPI.DB.datascriptQuery(query);
@@ -873,9 +874,9 @@ export class MilestoneQuery {
     const items: MilestoneItem[] = enums.map((enumItem, index) => ({
       id: `milestone-${index}`,
       label: enumItem.value,
-      status: this.calculateStatus(enumItem.blocks, dateField),
-      progress: this.calculateProgress(enumItem.blocks, dateField),
-      date: StatusCalculator.getLatestDate(enumItem.blocks, dateField),
+      status: StatusCalculator.calculateFromBlocks(enumItem.blocks, dateField),
+      progress: StatusCalculator.calculateProgress(enumItem.blocks, dateField),
+      date: StatusCalculator.getScheduledDate(enumItem.blocks, dateField),
       color: undefined,
     }));
 
@@ -883,6 +884,8 @@ export class MilestoneQuery {
       items,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
       overallProgress: this.calculateOverallProgress(items),
     };
   }
@@ -958,7 +961,6 @@ export class MilestoneQuery {
       }
     }
 
-    // 按属性值分组
     const groupByProperty = (blocks: BlockWithProperty[], prop: string) => {
       const groups = new Map<string, BlockWithProperty[]>();
 
@@ -982,9 +984,9 @@ export class MilestoneQuery {
         items.push({
           id: `milestone-${index++}`,
           label: value,
-          status: this.calculateStatus(groupBlocks, dateField),
-          progress: this.calculateProgress(groupBlocks, dateField),
-          date: StatusCalculator.getLatestDate(groupBlocks, dateField),
+          status: StatusCalculator.calculateFromBlocks(groupBlocks, dateField),
+          progress: StatusCalculator.calculateProgress(groupBlocks, dateField),
+          date: StatusCalculator.getScheduledDate(groupBlocks, dateField),
         });
       });
 
@@ -992,45 +994,28 @@ export class MilestoneQuery {
         items,
         totalCount: items.length,
         completedCount: items.filter(i => i.status === 'completed').length,
+        inProgressCount: items.filter(i => i.status === 'in_progress').length,
+        pendingCount: items.filter(i => i.status === 'pending').length,
         overallProgress: this.calculateOverallProgress(items),
       };
     }
 
-    // 无属性分组，直接使用块作为里程碑
     const items: MilestoneItem[] = blocks.map((block, index) => ({
       id: `milestone-${index}`,
       label: block.content.substring(0, 50),
-      status: this.calculateStatus([block], dateField),
-      progress: this.calculateProgress([block], dateField),
-      date: StatusCalculator.getLatestDate([block], dateField),
+      status: StatusCalculator.calculateFromBlocks([block], dateField),
+      progress: StatusCalculator.calculateProgress([block], dateField),
+      date: StatusCalculator.getScheduledDate([block], dateField),
     }));
 
     return {
       items,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
       overallProgress: this.calculateOverallProgress(items),
     };
-  }
-
-  /**
-   * 计算状态
-   */
-  private static calculateStatus(
-    blocks: BlockWithProperty[],
-    dateField: string = 'scheduled'
-  ): MilestoneStatus {
-    return StatusCalculator.calculateFromBlocks(blocks, dateField);
-  }
-
-  /**
-   * 计算进度
-   */
-  private static calculateProgress(
-    blocks: BlockWithProperty[],
-    dateField: string = 'scheduled'
-  ): number {
-    return StatusCalculator.calculateProgress(blocks, dateField);
   }
 
   /**
@@ -1350,6 +1335,8 @@ async function renderMilestoneComponent(
     const milestoneData = await MilestoneQuery.query({
       tag: config.tag,
       property: config.property,
+      propertyK: config.propertyK,
+      propertyV: config.propertyV,
       list: config.list,
       dateField: config.dateField
     });
