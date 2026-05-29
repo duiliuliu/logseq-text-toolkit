@@ -22,13 +22,13 @@ Milestone 是一个用于展示项目进度、面试流程等阶段性进展的 
 
 ```
 面试流程管理：
-  {{renderer :milestone tag=面试 style=capsule property=stage}}
+  {{renderer :milestone, tag=面试, style=capsule, property=stage}}
 
 项目进度追踪：
-  {{renderer :milestone tag=项目 style=badge property=phase}}
+  {{renderer :milestone, tag=项目, style=badge, property=phase}}
 
-直接指定里程碑节点：
-  {{renderer :milestone style=track list=计划,开发,测试,上线}}
+直接指定里程碑节点（使用分号 ; 分隔）：
+  {{renderer :milestone, style=track, list=计划;开发;测试;上线}}
 ```
 
 ## 2. 数据模型设计
@@ -72,7 +72,7 @@ export interface MilestoneConfig {
   showLabels?: boolean;          // 是否显示标签
   colorScheme?: ColorScheme;     // 颜色配置
   language?: string;             // 语言
-  dateField?: string;            // 日期字段名，默认 "scheduled"
+  dateField?: string;            // 日期字段名，默认 "created-at"
 }
 
 export type MilestoneDisplayStyle = 
@@ -410,7 +410,7 @@ export class MilestoneQuery {
       dateField?: string;
     }
   ): Promise<MilestoneData> {
-    const { tag, property, list, dateField = 'scheduled' } = config;
+    const { tag, property, list, dateField = 'created-at' } = config;
 
     try {
       // 1. 如果指定了 list，直接使用用户指定的里程碑节点
@@ -442,7 +442,7 @@ export class MilestoneQuery {
   private static async queryByList(
     list: string[],
     tag?: string,
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): Promise<MilestoneData> {
     const items: MilestoneItem[] = [];
 
@@ -514,7 +514,7 @@ export class MilestoneQuery {
   private static async queryByPropertyEnum(
     property: string,
     tag?: string,
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): Promise<MilestoneData> {
     // 获取属性的所有枚举值
     const enums = tag 
@@ -544,7 +544,7 @@ export class MilestoneQuery {
    */
   private static async queryByTag(
     tag: string,
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): Promise<MilestoneData> {
     const query = `
       [:find (pull ?b [*])
@@ -589,7 +589,7 @@ export class MilestoneQuery {
   private static parseBlocksToMilestone(
     result: any[],
     property?: string,
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): MilestoneData {
     const blocks: BlockWithProperty[] = [];
 
@@ -670,7 +670,7 @@ export class MilestoneQuery {
    */
   private static calculateStatus(
     blocks: BlockWithProperty[],
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): MilestoneStatus {
     return StatusCalculator.calculateFromBlocks(blocks, dateField);
   }
@@ -680,7 +680,7 @@ export class MilestoneQuery {
    */
   private static calculateProgress(
     blocks: BlockWithProperty[],
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): number {
     return StatusCalculator.calculateProgress(blocks, dateField);
   }
@@ -701,7 +701,7 @@ export class MilestoneQuery {
   /**
    * 默认查询
    */
-  private static async queryDefault(dateField: string = 'scheduled'): Promise<MilestoneData> {
+  private static async queryDefault(dateField: string = 'created-at'): Promise<MilestoneData> {
     return {
       items: [],
       totalCount: 0,
@@ -772,16 +772,16 @@ const parseCustomProperty = (value: any): number | null => {
   return null;
 };
 
-const getTimestampByField = (block: any, dateField: string = 'scheduled'): number | null => {
+const getTimestampByField = (block: any, dateField: string = 'created-at'): number | null => {
   switch (dateField) {
-    case 'scheduled':
-      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
-    case 'deadline':
-      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
     case 'created-at':
       return parseTimestamp(block?.['created-at'] ?? block?.['block/created-at']);
     case 'updated-at':
       return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
+    case 'scheduled':
+      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
+    case 'deadline':
+      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
     default:
       // 自定义属性
       const customValue = block?.['block/properties']?.[dateField];
@@ -800,7 +800,7 @@ export class StatusCalculator {
    */
   static calculateFromBlocks(
     blocks: BlockWithProperty[],
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): MilestoneStatus {
     if (blocks.length === 0) {
       return 'pending';
@@ -844,7 +844,7 @@ export class StatusCalculator {
    */
   static calculateProgress(
     blocks: BlockWithProperty[],
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): number {
     if (blocks.length === 0) {
       return 0;
@@ -870,7 +870,7 @@ export class StatusCalculator {
    */
   static getLatestDate(
     blocks: BlockWithProperty[],
-    dateField: string = 'scheduled'
+    dateField: string = 'created-at'
   ): string | null {
     const timestamps = blocks
       .map(b => getTimestampByField(b, dateField))
@@ -902,7 +902,13 @@ import { MilestoneQuery } from './query.ts';
 import { PropertyEnumService } from './propertyEnum.ts';
 import { Milestone } from '../../components/Milestone/index.ts';
 import type { MilestoneDisplayStyle } from './types.ts';
+import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render/rendererArgs.ts';
 import logger from '../logger/index';
+
+// 注册 Milestone 宏命令参数模型
+registerRendererArgModel(':milestone', {
+  positional: ['style']
+});
 
 interface MacroPayload {
   arguments: string[];
@@ -922,15 +928,22 @@ export function registerMilestone(): void {
     slot 
   }: MacroPayload & MacroSlot) => {
     try {
-      // 解析参数
-      const config = parseMacroArguments(payload.arguments);
+      // 使用 rendererArgs 解析参数
+      const split = splitRendererArgs(payload.arguments);
+      if (!split) {
+        logger.warn('[Milestone] Invalid macro arguments');
+        return;
+      }
+
+      const config = parseMacroArguments(split.type, split.tokens);
 
       // 查询数据
-      const milestoneData = await MilestoneQuery.query(
-        config.tag,
-        config.property,
-        config.propertyValue
-      );
+      const milestoneData = await MilestoneQuery.query({
+        tag: config.tag,
+        property: config.property,
+        list: config.list,
+        dateField: config.dateField
+      });
 
       // 渲染组件
       const template = renderMilestoneTemplate(milestoneData, config);
@@ -949,59 +962,36 @@ export function registerMilestone(): void {
 
 /**
  * 解析宏参数
+ * 使用 rendererArgs 工具，支持 key=value 格式
  */
-function parseMacroArguments(args: string[]): {
+function parseMacroArguments(type: string, tokens: string[]): {
   tag?: string;
   style: MilestoneDisplayStyle;
   property?: string;
   list?: string[];
   dateField?: string;
 } {
-  let tag: string | undefined;
+  // 使用 rendererArgs 解析基础参数
+  const parsed = parseRendererArgs(type, tokens);
+
   let style: MilestoneDisplayStyle = 'capsule';
-  let property: string | undefined;
-  let list: string[] | undefined;
-  let dateField: string = 'scheduled';
-
-  for (const arg of args) {
-    if (!arg) continue;
-
-    // 解析 style=xxx
-    if (arg.startsWith('style=')) {
-      const styleValue = arg.substring(6);
-      if (['capsule', 'badge', 'track', 'card', 'compact'].includes(styleValue)) {
-        style = styleValue as MilestoneDisplayStyle;
-      }
-      continue;
-    }
-
-    // 解析 tag=xxx
-    if (arg.startsWith('tag=')) {
-      tag = arg.substring(4);
-      continue;
-    }
-
-    // 解析 property=xxx
-    if (arg.startsWith('property=')) {
-      property = arg.substring(9);
-      continue;
-    }
-
-    // 解析 list=xxx,yyy,zzz
-    if (arg.startsWith('list=')) {
-      const listStr = arg.substring(5);
-      list = listStr.split(',').map(s => s.trim()).filter(Boolean);
-      continue;
-    }
-
-    // 解析 dateField=xxx
-    if (arg.startsWith('dateField=')) {
-      dateField = arg.substring(10);
-      continue;
-    }
+  if (parsed.style && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.style)) {
+    style = parsed.style as MilestoneDisplayStyle;
   }
 
-  return { tag, style, property, list, dateField };
+  let list: string[] | undefined;
+  if (parsed.list) {
+    // 使用分号 ; 作为分隔符，因为逗号 , 是 rendererArgs 的特殊分隔符
+    list = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
+  }
+
+  return {
+    tag: parsed.tag,
+    style,
+    property: parsed.property,
+    list,
+    dateField: parsed.dateField || 'created-at'  // 默认使用 created-at
+  };
 }
 
 /**
