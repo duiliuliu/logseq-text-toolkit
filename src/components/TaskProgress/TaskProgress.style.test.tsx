@@ -70,24 +70,20 @@ const getStyleElement = () => {
 describe('TaskProgress 组件样式测试', () => {
   let testStyle: HTMLStyleElement
 
-  const createMockData = (progress: number): TaskProgressType => ({
-    total: 10,
-    completed: Math.floor(10 * progress / 100),
-    inProgress: 1,
-    blocked: 0,
-    pending: Math.floor(10 * (100 - progress) / 100),
-    progress,
-    status: 'in_progress',
-    label: 'in_progress',
-    percentage: progress,
-    stats: {
-      total: 10,
-      completed: Math.floor(10 * progress / 100),
-      inProgress: 1,
-      blocked: 0,
-      pending: Math.floor(10 * (100 - progress) / 100)
+  const createMockData = (progress: number): TaskProgressType => {
+    const completedTasks = Math.floor(10 * progress / 100)
+    return {
+      totalTasks: 10,
+      completedTasks,
+      progress,
+      status: 'in_progress',
+      statusStats: [
+        { status: 'todo', count: 10 - completedTasks - 1, color: '#f59e0b' },
+        { status: 'doing', count: 1, color: '#3b82f6' },
+        { status: 'done', count: completedTasks, color: '#10b981' }
+      ]
     }
-  })
+  }
 
   beforeEach(() => {
     testStyle = getStyleElement()
@@ -105,7 +101,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )
@@ -118,7 +114,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={null}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )
@@ -128,11 +124,11 @@ describe('TaskProgress 组件样式测试', () => {
   })
 
   describe('不同显示类型的样式测试', () => {
-    it('应该渲染 circle 类型样式', () => {
+    it('应该渲染 mini-circle 类型样式', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )
@@ -152,11 +148,11 @@ describe('TaskProgress 组件样式测试', () => {
       expect(container.querySelector('.task-progress')).toBeTruthy()
     })
 
-    it('应该渲染 capsule 类型样式', () => {
+    it('应该渲染 progress-capsule 类型样式', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="capsule"
+          displayType="progress-capsule"
           lang="zh-CN"
         />
       )
@@ -164,11 +160,11 @@ describe('TaskProgress 组件样式测试', () => {
       expect(container.querySelector('.task-progress')).toBeTruthy()
     })
 
-    it('应该渲染 step 类型样式', () => {
+    it('应该渲染 step-progress 类型样式', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="step"
+          displayType="step-progress"
           lang="zh-CN"
         />
       )
@@ -197,7 +193,7 @@ describe('TaskProgress 组件样式测试', () => {
         const { container } = render(
           <TaskProgress
             progressData={createMockData(50)}
-            displayType="circle"
+            displayType="mini-circle"
             lang={lang}
           />
         )
@@ -212,7 +208,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
           nestingLevel={2}
           showNestingIndicator={true}
@@ -226,7 +222,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
           nestingLevel="all"
           onlyLeaves={true}
@@ -243,7 +239,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )
@@ -264,7 +260,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )
@@ -279,7 +275,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(0)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )
@@ -291,7 +287,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(100)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )
@@ -303,7 +299,7 @@ describe('TaskProgress 组件样式测试', () => {
       const { container } = render(
         <TaskProgress
           progressData={createMockData(50)}
-          displayType="circle"
+          displayType="mini-circle"
           lang="zh-CN"
         />
       )

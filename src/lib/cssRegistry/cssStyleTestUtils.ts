@@ -181,8 +181,23 @@ export function isValidColor(color: string): boolean {
   if (!color) return false
   
   const trimmed = color.trim()
-  const colorRegex = /^(#[0-9A-Fa-f]{3,8}|rgb\(|rgba\(|hsl\(|hsla\(|[a-z]+)$/i
-  return colorRegex.test(trimmed)
+  
+  // 简化验证：常见的有效颜色格式
+  if (trimmed.startsWith('#')) {
+    return /^#[0-9A-Fa-f]{3,8}$/i.test(trimmed)
+  }
+  
+  if (trimmed.startsWith('rgb') || trimmed.startsWith('hsl')) {
+    return trimmed.includes('(') && trimmed.includes(')')
+  }
+  
+  // 简单的颜色名称
+  const colorNames = ['red', 'blue', 'green', 'black', 'white', 'yellow', 'orange', 'purple', 'pink', 'gray', 'grey']
+  if (colorNames.includes(trimmed.toLowerCase())) {
+    return true
+  }
+  
+  return false
 }
 
 /**

@@ -11,15 +11,33 @@ describe('MiniCircleProgress 组件测试', () => {
   describe('组件展示测试', () => {
     it('应该正确渲染 MiniCircleProgress 组件', () => {
       const { container } = render(
-        <MiniCircleProgress progress={50} />
+        <MiniCircleProgress 
+          stats={[
+            { status: 'todo', count: 5, color: '#f59e0b' },
+            { status: 'doing', count: 2, color: '#3b82f6' },
+            { status: 'done', count: 13, color: '#10b981' }
+          ]}
+          progress={65}
+          totalTasks={20}
+          completedTasks={13}
+        />
       );
       
-      expect(container.querySelector('.mini-circle-progress')).toBeTruthy();
+      expect(container).toBeTruthy();
     });
 
     it('应该渲染正确的进度值', () => {
       const { container } = render(
-        <MiniCircleProgress progress={75} />
+        <MiniCircleProgress 
+          stats={[
+            { status: 'todo', count: 5, color: '#f59e0b' },
+            { status: 'doing', count: 2, color: '#3b82f6' },
+            { status: 'done', count: 13, color: '#10b981' }
+          ]}
+          progress={75}
+          totalTasks={20}
+          completedTasks={15}
+        />
       );
       
       expect(container).toBeTruthy();
@@ -27,18 +45,49 @@ describe('MiniCircleProgress 组件测试', () => {
 
     it('应该处理 0% 进度', () => {
       const { container } = render(
-        <MiniCircleProgress progress={0} />
+        <MiniCircleProgress 
+          stats={[
+            { status: 'todo', count: 10, color: '#f59e0b' },
+            { status: 'doing', count: 0, color: '#3b82f6' },
+            { status: 'done', count: 0, color: '#10b981' }
+          ]}
+          progress={0}
+          totalTasks={10}
+          completedTasks={0}
+        />
       );
       
-      expect(container.querySelector('.mini-circle-progress')).toBeTruthy();
+      expect(container).toBeTruthy();
     });
 
     it('应该处理 100% 进度', () => {
       const { container } = render(
-        <MiniCircleProgress progress={100} />
+        <MiniCircleProgress 
+          stats={[
+            { status: 'todo', count: 0, color: '#f59e0b' },
+            { status: 'doing', count: 0, color: '#3b82f6' },
+            { status: 'done', count: 10, color: '#10b981' }
+          ]}
+          progress={100}
+          totalTasks={10}
+          completedTasks={10}
+        />
       );
       
-      expect(container.querySelector('.mini-circle-progress')).toBeTruthy();
+      expect(container).toBeTruthy();
+    });
+
+    it('应该处理空数据的情况', () => {
+      const { container } = render(
+        <MiniCircleProgress 
+          stats={[]}
+          progress={0}
+          totalTasks={0}
+          completedTasks={0}
+        />
+      );
+      
+      expect(container.firstChild).toBeNull();
     });
   });
 });

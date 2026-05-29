@@ -35,7 +35,7 @@ const STROKE_WIDTH_MAP = {
 }
 
 const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
-  stats,
+  stats = [],
   progress,
   completedTasks,
   totalTasks,
@@ -70,7 +70,7 @@ const MiniCircleProgress: React.FC<MiniCircleProgressProps> = ({
     )
   }
 
-  if (stats.length === 0 || totalTasks === 0) {
+  if (!stats || stats.length === 0 || totalTasks === 0) {
     return null
   }
 

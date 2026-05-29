@@ -22,7 +22,7 @@ interface StepProgressProps {
 }
 
 const StepProgress: React.FC<StepProgressProps> = ({
-  stats,
+  stats = [],
   progress,
   totalTasks,
   completedTasks,
@@ -31,7 +31,7 @@ const StepProgress: React.FC<StepProgressProps> = ({
   showLabel = true,
   labelFormat = 'fraction',
 }) => {
-  if (stats.length === 0) {
+  if (!stats || stats.length === 0) {
     return null
   }
 

@@ -30,7 +30,7 @@ const DOT_SIZE_MAP = {
 }
 
 const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
-  stats,
+  stats = [],
   progress,
   totalTasks,
   completedTasks,
@@ -43,7 +43,7 @@ const DotMatrixProgress: React.FC<DotMatrixProgressProps> = ({
 }) => {
   const dotSize = DOT_SIZE_MAP[size]
 
-  if (stats.length === 0 || totalTasks === 0) {
+  if (!stats || stats.length === 0 || totalTasks === 0) {
     return null
   }
 
