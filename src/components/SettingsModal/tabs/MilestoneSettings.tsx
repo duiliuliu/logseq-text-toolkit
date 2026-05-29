@@ -162,122 +162,172 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
-      <div style={{ margin: '32px 0 16px 0' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600 }}>
+      <div className="ltt-milestone-templates-section">
+        <div className="ltt-milestone-templates-header">
+          <h3 className="ltt-milestone-templates-title">
             {t('settings.milestone.templates', '预定义模板')}
           </h3>
           <button
-            style={{
-              padding: '6px 12px',
-              fontSize: '13px',
-              cursor: 'pointer',
-              border: '1px solid #d1d5db',
-              borderRadius: '6px',
-              backgroundColor: '#ffffff',
-            }}
+            className="ltt-milestone-add-template-btn"
             onClick={addTemplate}
           >
+            <svg className="ltt-milestone-add-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
             {t('settings.milestone.addTemplate', '添加模板')}
           </button>
         </div>
 
-        <div className="ltt-setting-item-group">
+        <div className="ltt-milestone-templates-list">
           {templates.length === 0 ? (
-            <p style={{ color: '#999', fontSize: '14px', margin: 0 }}>
-              {t('settings.milestone.noTemplates', '暂无模板，点击上方按钮添加。')}
-            </p>
+            <div className="ltt-milestone-no-templates">
+              <svg className="ltt-milestone-empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <line x1="9" y1="9" x2="15" y2="9"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+              <p className="ltt-milestone-no-templates-text">
+                {t('settings.milestone.noTemplates', '暂无模板，点击上方按钮添加。')}
+              </p>
+            </div>
           ) : (
-            templates.map((template) => (
-              <div key={template.id} style={{ borderBottom: templates.indexOf(template) !== templates.length - 1 ? '1px solid #e5e7eb' : 'none', paddingBottom: '12px', marginBottom: '12px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            templates.map((template, index) => (
+              <div 
+                key={template.id} 
+                className={`ltt-milestone-template-card ${editingTemplateId === template.id ? 'ltt-milestone-template-card-expanded' : ''}`}
+              >
+                <div className="ltt-milestone-template-card-header">
+                  <div className="ltt-milestone-template-info">
+                    <div className="ltt-milestone-template-number">
+                      {index + 1}
+                    </div>
                     <input
-                      style={{ flex: 1, padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
+                      className="ltt-milestone-template-name-input"
                       placeholder={t('settings.milestone.templateName', '模板名称')}
                       value={template.name}
                       onChange={(e) => updateTemplate(template.id, { name: e.target.value })}
                     />
-                    <span style={{ fontSize: '12px', color: '#666' }}>
+                    <span className="ltt-milestone-template-id">
                       :{template.id.replace('template_', '')}
                     </span>
                   </div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
+                  <div className="ltt-milestone-template-actions">
                     <button
-                      style={{
-                        padding: '4px 8px',
-                        fontSize: '12px',
-                        cursor: 'pointer',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '4px',
-                        backgroundColor: '#ffffff',
-                      }}
+                      className={`ltt-milestone-action-btn ltt-milestone-action-btn-edit ${editingTemplateId === template.id ? 'ltt-milestone-action-btn-active' : ''}`}
                       onClick={() => setEditingTemplateId(editingTemplateId === template.id ? null : template.id)}
+                      title={editingTemplateId === template.id ? t('settings.milestone.collapse', '收起') : t('settings.milestone.edit', '编辑')}
                     >
-                      {editingTemplateId === template.id
-                        ? t('settings.milestone.collapse', '收起')
-                        : t('settings.milestone.edit', '编辑')}
+                      {editingTemplateId === template.id ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                      ) : (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                      )}
                     </button>
                     <button
-                      style={{
-                        padding: '4px 8px',
-                        fontSize: '12px',
-                        cursor: 'pointer',
-                        border: '1px solid #ef4444',
-                        borderRadius: '4px',
-                        backgroundColor: '#ffffff',
-                        color: '#ef4444',
-                      }}
+                      className="ltt-milestone-action-btn ltt-milestone-action-btn-delete"
                       onClick={() => deleteTemplate(template.id)}
+                      title={t('settings.milestone.delete', '删除')}
                     >
-                      {t('settings.milestone.delete', '删除')}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
                     </button>
                   </div>
                 </div>
 
                 {editingTemplateId === template.id && (
-                  <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <input
-                      style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateDescription', '描述（可选）')}
-                      value={template.description || ''}
-                      onChange={(e) => updateTemplate(template.id, { description: e.target.value })}
-                    />
-                    <input
-                      style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateFilterTag', '筛选标签（可选）')}
-                      value={template.filterTag || ''}
-                      onChange={(e) => updateTemplate(template.id, { filterTag: e.target.value })}
-                    />
-                    <input
-                      style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateFilterPropKey', '筛选属性键（可选）')}
-                      value={template.filterPropKey || ''}
-                      onChange={(e) => updateTemplate(template.id, { filterPropKey: e.target.value })}
-                    />
-                    <input
-                      style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateFilterPropValue', '筛选属性值（可选）')}
-                      value={template.filterPropValue || ''}
-                      onChange={(e) => updateTemplate(template.id, { filterPropValue: e.target.value })}
-                    />
-                    <input
-                      style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateMilestonePropKey', '里程碑属性键（必填）')}
-                      value={template.milestonePropKey || ''}
-                      onChange={(e) => updateTemplate(template.id, { milestonePropKey: e.target.value })}
-                    />
-                    <input
-                      style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateMilestoneList', '里程碑列表（分号分隔）')}
-                      value={(template.milestoneList || []).join(';')}
-                      onChange={(e) => updateTemplate(template.id, { milestoneList: e.target.value.split(';').map(s => s.trim()).filter(Boolean) })}
-                    />
-                    <CustomSelect
-                      options={styleOptions}
-                      value={template.displayStyle || 'capsule'}
-                      onChange={(value) => updateTemplate(template.id, { displayStyle: value })}
-                    />
+                  <div className="ltt-milestone-template-card-body">
+                    <div className="ltt-milestone-form-grid">
+                      <div className="ltt-milestone-form-item">
+                        <label className="ltt-milestone-form-label">
+                          {t('settings.milestone.templateDescription', '描述（可选）')}
+                        </label>
+                        <input
+                          className="ltt-milestone-form-input"
+                          placeholder={t('settings.milestone.templateDescription', '描述（可选）')}
+                          value={template.description || ''}
+                          onChange={(e) => updateTemplate(template.id, { description: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="ltt-milestone-form-item">
+                        <label className="ltt-milestone-form-label">
+                          {t('settings.milestone.templateFilterTag', '筛选标签（可选）')}
+                        </label>
+                        <input
+                          className="ltt-milestone-form-input"
+                          placeholder={t('settings.milestone.templateFilterTag', '筛选标签（可选）')}
+                          value={template.filterTag || ''}
+                          onChange={(e) => updateTemplate(template.id, { filterTag: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="ltt-milestone-form-item">
+                        <label className="ltt-milestone-form-label">
+                          {t('settings.milestone.templateFilterPropKey', '筛选属性键（可选）')}
+                        </label>
+                        <input
+                          className="ltt-milestone-form-input"
+                          placeholder={t('settings.milestone.templateFilterPropKey', '筛选属性键（可选）')}
+                          value={template.filterPropKey || ''}
+                          onChange={(e) => updateTemplate(template.id, { filterPropKey: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="ltt-milestone-form-item">
+                        <label className="ltt-milestone-form-label">
+                          {t('settings.milestone.templateFilterPropValue', '筛选属性值（可选）')}
+                        </label>
+                        <input
+                          className="ltt-milestone-form-input"
+                          placeholder={t('settings.milestone.templateFilterPropValue', '筛选属性值（可选）')}
+                          value={template.filterPropValue || ''}
+                          onChange={(e) => updateTemplate(template.id, { filterPropValue: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="ltt-milestone-form-item ltt-milestone-form-item-full">
+                        <label className="ltt-milestone-form-label ltt-milestone-form-label-required">
+                          {t('settings.milestone.templateMilestonePropKey', '里程碑属性键（必填）')}
+                        </label>
+                        <input
+                          className="ltt-milestone-form-input"
+                          placeholder={t('settings.milestone.templateMilestonePropKey', '里程碑属性键（必填）')}
+                          value={template.milestonePropKey || ''}
+                          onChange={(e) => updateTemplate(template.id, { milestonePropKey: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="ltt-milestone-form-item ltt-milestone-form-item-full">
+                        <label className="ltt-milestone-form-label">
+                          {t('settings.milestone.templateMilestoneList', '里程碑列表（分号分隔）')}
+                        </label>
+                        <input
+                          className="ltt-milestone-form-input"
+                          placeholder="投递简历;技术一面;技术二面;HR面;Offer"
+                          value={(template.milestoneList || []).join(';')}
+                          onChange={(e) => updateTemplate(template.id, { milestoneList: e.target.value.split(';').map(s => s.trim()).filter(Boolean) })}
+                        />
+                      </div>
+
+                      <div className="ltt-milestone-form-item">
+                        <label className="ltt-milestone-form-label">
+                          {t('settings.milestone.defaultStyle', '显示样式')}
+                        </label>
+                        <CustomSelect
+                          options={styleOptions}
+                          value={template.displayStyle || 'capsule'}
+                          onChange={(value) => updateTemplate(template.id, { displayStyle: value })}
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
