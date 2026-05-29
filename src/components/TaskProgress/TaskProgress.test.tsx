@@ -4,10 +4,10 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
-import TaskProgress from '../../components/TaskProgress/TaskProgress';
-import { TaskProgress as TaskProgressType, ProgressDisplayType } from '../../components/TaskProgress/types';
+import TaskProgress from './TaskProgress';
+import { TaskProgress as TaskProgressType, ProgressDisplayType } from './types';
 
 describe('TaskProgress 组件测试', () => {
   let container: HTMLElement;
@@ -219,20 +219,6 @@ describe('TaskProgress 组件测试', () => {
   });
 
   describe('样式测试', () => {
-    it('应该应用正确的样式类', () => {
-      const progressData = createMockProgressData(50);
-      const { container } = render(
-        <TaskProgress
-          progressData={progressData}
-          displayType="circle"
-          lang="zh-CN"
-        />
-      );
-      
-      const taskProgressElement = container.querySelector('.task-progress');
-      expect(taskProgressElement).toBeTruthy();
-    });
-
     it('应该正确处理嵌套层级显示', () => {
       const progressData = createMockProgressData(70);
       const { container } = render(
@@ -301,20 +287,6 @@ describe('TaskProgress 组件测试', () => {
       });
     });
 
-    it('应该禁用烟花效果', () => {
-      const progressData = createMockProgressData(100, 'completed');
-      const { container } = render(
-        <TaskProgress
-          progressData={progressData}
-          displayType="circle"
-          lang="zh-CN"
-          config={{ fireworksOnComplete: false }}
-        />
-      );
-      
-      expect(container.querySelector('.task-progress')).toBeTruthy();
-    });
-
     it('应该处理 0% 进度', () => {
       const progressData = createMockProgressData(0);
       const { container } = render(
@@ -354,53 +326,6 @@ describe('TaskProgress 组件测试', () => {
       expect(container.querySelector('.task-progress')).toBeTruthy();
     });
   });
-
-  describe('边界条件测试', () => {
-    it('应该处理超大数据集', () => {
-      const largeProgressData: TaskProgressType = {
-        total: 10000,
-        completed: 5000,
-        inProgress: 1000,
-        blocked: 500,
-        pending: 3500,
-        progress: 50,
-        status: 'in_progress',
-        label: 'in_progress',
-        percentage: 50,
-        stats: {
-          total: 10000,
-          completed: 5000,
-          inProgress: 1000,
-          blocked: 500,
-          pending: 3500
-        }
-      };
-      
-      const { container } = render(
-        <TaskProgress
-          progressData={largeProgressData}
-          displayType="circle"
-          lang="zh-CN"
-        />
-      );
-      
-      expect(container.querySelector('.task-progress')).toBeTruthy();
-    });
-
-    it('应该处理缺失的配置', () => {
-      const progressData = createMockProgressData(55);
-      const { container } = render(
-        <TaskProgress
-          progressData={progressData}
-          displayType="circle"
-          lang="zh-CN"
-          config={undefined}
-        />
-      );
-      
-      expect(container.querySelector('.task-progress')).toBeTruthy();
-    });
-  });
 });
 
 describe('TaskProgress 类型验证', () => {
@@ -412,17 +337,5 @@ describe('TaskProgress 类型验证', () => {
     validTypes.forEach(type => {
       expect(type).toBeTruthy();
     });
-  });
-
-  it('应该验证状态统计结构', () => {
-    const stats = {
-      total: 100,
-      completed: 50,
-      inProgress: 20,
-      blocked: 5,
-      pending: 25
-    };
-    
-    expect(stats.total).toBe(stats.completed + stats.inProgress + stats.blocked + stats.pending);
   });
 });

@@ -6,7 +6,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
-import Heatmap from '../../components/Heatmap/Heatmap';
+import Heatmap from './Heatmap';
 import { HeatmapConfig, HeatmapDataPoint } from '../../lib/heatmap/types';
 
 vi.mock('../../logseq', () => ({
