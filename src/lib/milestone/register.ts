@@ -16,7 +16,7 @@ export function setMilestoneLogseqAPI(api: any): void {
 const PLUGIN_ID = 'milestone';
 
 registerRendererArgModel(':milestone', {
-  positional: ['style']
+  positional: ['displayStyle']
 });
 
 interface MacroPayload {
@@ -44,12 +44,12 @@ export async function renderMilestoneComponent(
   try {
     const { MilestoneQuery } = await import('./query');
     const data = await MilestoneQuery.query({
-      tag: config.tag,
+      filterTag: config.filterTag,
       property: config.property,
-      propertyK: config.propertyK,
-      propertyV: config.propertyV,
-      targetPropertyK: config.targetPropertyK,
-      list: config.list,
+      filterPropKey: config.filterPropKey,
+      filterPropValue: config.filterPropValue,
+      milestonePropKey: config.milestonePropKey,
+      milestoneList: config.milestoneList,
       dateField: config.dateField
     });
 
@@ -115,14 +115,20 @@ export function registerMilestone(
 function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   const parsed = parseRendererArgs(type, tokens);
 
-  let style: MilestoneDisplayStyle = 'capsule';
-  if (parsed.style && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.style)) {
-    style = parsed.style as MilestoneDisplayStyle;
+  let displayStyle: MilestoneDisplayStyle = 'capsule';
+  if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.displayStyle)) {
+    displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
+  } else if (parsed.style && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.style)) {
+    // 向后兼容
+    displayStyle = parsed.style as MilestoneDisplayStyle;
   }
 
-  let list: string[] | undefined;
-  if (parsed.list) {
-    list = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
+  let milestoneList: string[] | undefined;
+  if (parsed.milestoneList) {
+    milestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
+  } else if (parsed.list) {
+    // 向后兼容
+    milestoneList = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
   }
 
   // 检查是否使用了模板
@@ -138,34 +144,38 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
 
   // 合并配置：模板为基础，宏参数覆盖
   const baseConfig: Partial<MilestoneConfig> = template ? {
-    tag: template.tag,
-    propertyK: template.propertyK,
-    propertyV: template.propertyV,
-    targetPropertyK: template.targetPropertyK,
-    list: template.list,
-    style: template.defaultStyle,
-    showLabels: template.showLabels,
+    filterTag: template.filterTag,
+    filterPropKey: template.filterPropKey,
+    filterPropValue: template.filterPropValue,
+    milestonePropKey: template.milestonePropKey,
+    milestoneList: template.milestoneList,
+    displayStyle: template.displayStyle,
     showProgress: template.showProgress,
+    showLabel: template.showLabel,
     dateField: template.dateField,
   } : {};
 
-  let finalList = list || baseConfig.list;
-  if (parsed.list) {
-    finalList = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
+  let finalMilestoneList = milestoneList || baseConfig.milestoneList;
+  if (parsed.milestoneList) {
+    finalMilestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
+  } else if (parsed.list) {
+    finalMilestoneList = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
   }
 
   return {
     template: parsed.template,
-    tag: parsed.tag || baseConfig.tag,
-    style: parsed.style ? (parsed.style as MilestoneDisplayStyle) : baseConfig.style || style,
+    filterTag: parsed.filterTag || parsed.tag || baseConfig.filterTag,
+    displayStyle: displayStyle || baseConfig.displayStyle,
     property: parsed.property,
-    propertyK: parsed.propertyK || baseConfig.propertyK,
-    propertyV: parsed.propertyV || baseConfig.propertyV,
-    targetPropertyK: parsed.targetPropertyK || baseConfig.targetPropertyK,
-    list: finalList,
+    filterPropKey: parsed.filterPropKey || parsed.propertyK || baseConfig.filterPropKey,
+    filterPropValue: parsed.filterPropValue || parsed.propertyV || baseConfig.filterPropValue,
+    milestonePropKey: parsed.milestonePropKey || parsed.targetPropertyK || baseConfig.milestonePropKey,
+    milestoneList: finalMilestoneList,
     dateField: parsed.dateField || baseConfig.dateField || 'scheduled',
-    showLabels: parsed.showLabels !== undefined ? parsed.showLabels !== 'false' : baseConfig.showLabels !== false,
     showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : baseConfig.showProgress !== false,
+    showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : baseConfig.showLabel !== false,
+    // 向后兼容
+    showLabels: parsed.showLabels !== undefined ? parsed.showLabels !== 'false' : baseConfig.showLabel !== false,
     colorScheme: parsed.colorScheme ? JSON.parse(parsed.colorScheme) : undefined,
   };
 }

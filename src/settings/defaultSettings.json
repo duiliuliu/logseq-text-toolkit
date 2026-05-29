@@ -122,6 +122,7 @@
   "milestone": {
     "enabled": true,
     "defaultStyle": "capsule",
+    "showLabel": true,
     "showLabels": true,
     "showProgress": true,
     "templates": []

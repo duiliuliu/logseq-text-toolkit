@@ -54,14 +54,14 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       id: `template_${Date.now()}`,
       name: t('settings.milestone.newTemplate', '新模板'),
       description: '',
-      tag: '',
-      propertyK: '',
-      propertyV: '',
-      targetPropertyK: '',
-      list: [],
-      defaultStyle: 'capsule',
-      showLabels: true,
+      filterTag: '',
+      filterPropKey: '',
+      filterPropValue: '',
+      milestonePropKey: '',
+      milestoneList: [],
+      displayStyle: 'capsule',
       showProgress: true,
+      showLabel: true,
       dateField: 'scheduled',
     };
 
@@ -111,7 +111,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
   return (
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">
-        {t('settings.milestoneDescription', '配置里程碑组件的默认行为和显示样式。')}
+        {t('settings.milestone.description', '配置里程碑组件的默认行为和显示样式。')}
       </p>
 
       <div className="ltt-setting-item">
@@ -136,12 +136,15 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone.showLabels', '显示标签')}</label>
+        <label>{t('settings.milestone.showLabel', '显示标签')}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
-            checked={milestone.showLabels ?? true}
-            onChange={(e) => handleSettingChange('milestone.showLabels', e.target.checked)}
+            checked={milestone.showLabel ?? milestone.showLabels ?? true}
+            onChange={(e) => {
+              handleSettingChange('milestone.showLabel', e.target.checked);
+              handleSettingChange('milestone.showLabels', e.target.checked);
+            }}
           />
           <span className="ltt-switch-slider"></span>
         </label>
@@ -171,7 +174,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
               cursor: 'pointer',
               border: '1px solid #d1d5db',
               borderRadius: '6px',
-              backgroundColor: '#fff',
+              backgroundColor: '#ffffff',
             }}
             onClick={addTemplate}
           >
@@ -207,7 +210,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                         cursor: 'pointer',
                         border: '1px solid #d1d5db',
                         borderRadius: '4px',
-                        backgroundColor: '#fff',
+                        backgroundColor: '#ffffff',
                       }}
                       onClick={() => setEditingTemplateId(editingTemplateId === template.id ? null : template.id)}
                     >
@@ -222,7 +225,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                         cursor: 'pointer',
                         border: '1px solid #ef4444',
                         borderRadius: '4px',
-                        backgroundColor: '#fff',
+                        backgroundColor: '#ffffff',
                         color: '#ef4444',
                       }}
                       onClick={() => deleteTemplate(template.id)}
@@ -242,38 +245,38 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                     />
                     <input
                       style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateTag', '标签（可选）')}
-                      value={template.tag || ''}
-                      onChange={(e) => updateTemplate(template.id, { tag: e.target.value })}
+                      placeholder={t('settings.milestone.templateFilterTag', '筛选标签（可选）')}
+                      value={template.filterTag || ''}
+                      onChange={(e) => updateTemplate(template.id, { filterTag: e.target.value })}
                     />
                     <input
                       style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templatePropertyK', '属性键（可选）')}
-                      value={template.propertyK || ''}
-                      onChange={(e) => updateTemplate(template.id, { propertyK: e.target.value })}
+                      placeholder={t('settings.milestone.templateFilterPropKey', '筛选属性键（可选）')}
+                      value={template.filterPropKey || ''}
+                      onChange={(e) => updateTemplate(template.id, { filterPropKey: e.target.value })}
                     />
                     <input
                       style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templatePropertyV', '属性值（可选）')}
-                      value={template.propertyV || ''}
-                      onChange={(e) => updateTemplate(template.id, { propertyV: e.target.value })}
+                      placeholder={t('settings.milestone.templateFilterPropValue', '筛选属性值（可选）')}
+                      value={template.filterPropValue || ''}
+                      onChange={(e) => updateTemplate(template.id, { filterPropValue: e.target.value })}
                     />
                     <input
                       style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateTargetPropertyK', '目标属性键（必填）')}
-                      value={template.targetPropertyK || ''}
-                      onChange={(e) => updateTemplate(template.id, { targetPropertyK: e.target.value })}
+                      placeholder={t('settings.milestone.templateMilestonePropKey', '里程碑属性键（必填）')}
+                      value={template.milestonePropKey || ''}
+                      onChange={(e) => updateTemplate(template.id, { milestonePropKey: e.target.value })}
                     />
                     <input
                       style={{ padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '14px' }}
-                      placeholder={t('settings.milestone.templateList', '阶段列表（分号分隔）')}
-                      value={(template.list || []).join(';')}
-                      onChange={(e) => updateTemplate(template.id, { list: e.target.value.split(';').map(s => s.trim()).filter(Boolean) })}
+                      placeholder={t('settings.milestone.templateMilestoneList', '里程碑列表（分号分隔）')}
+                      value={(template.milestoneList || []).join(';')}
+                      onChange={(e) => updateTemplate(template.id, { milestoneList: e.target.value.split(';').map(s => s.trim()).filter(Boolean) })}
                     />
                     <CustomSelect
                       options={styleOptions}
-                      value={template.defaultStyle || 'capsule'}
-                      onChange={(value) => updateTemplate(template.id, { defaultStyle: value })}
+                      value={template.displayStyle || 'capsule'}
+                      onChange={(value) => updateTemplate(template.id, { displayStyle: value })}
                     />
                   </div>
                 )}
@@ -284,7 +287,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-settings-actions">
-        <button 
+        <button
           className="ltt-settings-btn ltt-settings-btn-save"
           onClick={onSave}
           disabled={isSaving}
