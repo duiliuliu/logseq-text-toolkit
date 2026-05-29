@@ -57,9 +57,9 @@ const getTimestampByField = (block: any, dateField?: DateFieldConfig): number | 
     case 'updated-at':
       return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
     case 'scheduled':
-      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.['logseq.property/scheduled']);
+      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
     case 'deadline':
-      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.['logseq.property/deadline']);
+      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
     case 'custom':
       if (dateField.customKey) {
         const customValue = block?.['block/properties']?.[dateField.customKey];
