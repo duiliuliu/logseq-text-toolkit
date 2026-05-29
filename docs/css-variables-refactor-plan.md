@@ -250,7 +250,369 @@ src/
 
 ---
 
-## 四、变量定义参考
+## 四、详细落地设计
+
+### 3.1 分批迁移清单
+
+#### 第 1 批：基础设施（Phase 1）
+**目标**：建立变量定义基础
+
+| 文件 | 修改内容 | 风险 |
+|------|----------|------|
+| `src/main.css` | 新增 `--ltt-*` 变量定义 | 低 |
+| `src/main.css` | 新增向后兼容别名 | 低 |
+| `src/main.css` | 新增 `.ltt-theme-*` 主题定义 | 低 |
+
+**测试用例**：
+- [ ] 验证 `--ltt-*` 变量在控制台可访问
+- [ ] 验证深色模式切换时变量值正确变化
+- [ ] 验证向后兼容别名与原变量值一致
+
+**回滚方式**：
+```bash
+git checkout src/main.css
+```
+
+---
+
+#### 第 2 批：低风险组件迁移（Phase 2-1）
+**目标**：迁移风险较低的组件
+
+| 文件 | 当前类名数量 | 需修改类名数 | 风险 |
+|------|-------------|-------------|------|
+| `src/components/Modal/modal.css` | 8 | 8 | 低 |
+| `src/components/Comment/inlineComment.css` | 15 | 15 | 低 |
+| `src/components/CustomSelect/customSelect.css` | 12 | 12 | 低 |
+| `src/components/ui/textarea.css` | ~5 | 5 | 低 |
+
+**迁移步骤**：
+1. 在 CSS 文件顶部添加注释：`/* TODO: 迁移到 ltt- 前缀 */`
+2. 为每个类添加新类名（带 `ltt-` 前缀），保留旧类名
+3. 更新对应 React 组件中的 className
+
+**测试用例**：
+- [ ] 验证 Modal 在浅色模式下显示正常
+- [ ] 验证 Modal 在深色模式下显示正常
+- [ ] 验证 inlineComment 弹窗显示正常
+- [ ] 验证 CustomSelect 下拉菜单样式正常
+- [ ] 验证 textarea 输入框样式正常
+
+**回滚方式**：
+```bash
+git checkout src/components/Modal/modal.css
+git checkout src/components/Comment/inlineComment.css
+git checkout src/components/CustomSelect/customSelect.css
+git checkout src/components/ui/textarea.css
+# 同时回滚 React 组件
+git checkout src/components/Modal/
+git checkout src/components/Comment/
+git checkout src/components/CustomSelect/
+git checkout src/components/ui/
+```
+
+---
+
+#### 第 3 批：中等风险组件（Phase 2-2）
+**目标**：迁移中等复杂度的组件
+
+| 文件 | 当前类名数量 | 需修改类名数 | 风险 |
+|------|-------------|-------------|------|
+| `src/components/Summary/summary.css` | 25 | 25 | 中 |
+| `src/components/TaskProgress/taskProgress.css` | 20 | 20 | 中 |
+| `src/components/SettingsModal/settingsModal.css` | 30 | 30 | 中 |
+
+**迁移步骤**：
+1. 先备份原文件
+2. 逐个组件迁移，每个组件完成后运行测试
+3. 验证深色模式兼容
+
+**测试用例**：
+- [ ] 验证 Summary 页面布局在浅色模式下正常
+- [ ] 验证 Summary 页面布局在深色模式下正常
+- [ ] 验证 TaskProgress 进度条样式正常
+- [ ] 验证 Settings Modal 各 Tab 切换正常
+- [ ] 验证开关、输入框等控件在深色模式下样式正常
+
+**回滚方式**：
+```bash
+git checkout src/components/Summary/
+git checkout src/components/TaskProgress/
+git checkout src/components/SettingsModal/
+```
+
+---
+
+#### 第 4 批：工具栏和块视图（Phase 2-3）
+**目标**：迁移 Toolbar 和 BlockView 组件
+
+| 文件 | 当前类名数量 | 需修改类名数 | 风险 |
+|------|-------------|-------------|------|
+| `src/components/Toolbar/toolbar.css` | 25 | 25 | 中 |
+| `src/components/BlockView/blockView.css` | 15 | 15 | 中 |
+| `src/components/BlockView/tableView.css` | ~20 | 20 | 中 |
+| `src/components/BlockView/galleryView.css` | ~20 | 20 | 中 |
+| `src/components/BlockView/boardView.css` | ~25 | 25 | 中 |
+| `src/components/BlockView/mindMapView.css` | ~30 | 30 | 中 |
+
+**迁移步骤**：
+1. 先迁移 toolbar.css（相对独立）
+2. 再迁移 blockView.css（基础样式）
+3. 最后迁移各视图样式文件
+
+**测试用例**：
+- [ ] 验证 Toolbar 工具栏图标和下拉菜单正常
+- [ ] 验证 Toolbar 深色主题样式正常
+- [ ] 验证 BlockView 视图切换正常
+- [ ] 验证 Table 视图行列样式正常
+- [ ] 验证 Gallery 视图卡片布局正常
+- [ ] 验证 Board 视图看板列样式正常
+- [ ] 验证 MindMap 思维导图节点样式正常
+
+**回滚方式**：
+```bash
+git checkout src/components/Toolbar/
+git checkout src/components/BlockView/
+```
+
+---
+
+#### 第 5 批：热力图组件（Phase 2-4）- 最高风险
+**目标**：迁移最复杂的 heatmap 组件
+
+| 文件 | 当前类名数量 | 需修改类名数 | 风险 |
+|------|-------------|-------------|------|
+| `src/components/Heatmap/heatmap.css` | 60+ | 60+ | 高 |
+| `src/components/Heatmap/*.tsx` | - | - | 高 |
+
+**迁移策略**：
+1. **分文件迁移**：先将 heatmap.css 按功能拆分为多个文件
+   - `heatmap-variables.css` - CSS 变量定义
+   - `heatmap-layout.css` - 布局样式
+   - `heatmap-cells.css` - 格子样式
+   - `heatmap-themes.css` - 主题相关样式
+   - `heatmap-dark.css` - 深色模式样式
+
+2. **逐个功能验证**：每迁移一个文件后验证功能正常
+
+**测试用例**：
+- [ ] 验证 Year View 年视图格子显示正常
+- [ ] 验证 Month View 月视图格子显示正常
+- [ ] 验证 Week View 周视图格子显示正常
+- [ ] 验证深色模式下格子颜色正常
+- [ ] 验证点击事件正常（跳转到日期页面）
+- [ ] 验证响应式布局（窄屏下正常）
+- [ ] 验证热力图图例颜色正常
+- [ ] 验证导航按钮样式正常
+
+**回滚方式**：
+```bash
+git checkout src/components/Heatmap/
+```
+
+---
+
+### 3.2 测试用例设计
+
+#### 自动化测试（Vitest）
+
+```typescript
+// src/__tests__/css-tokens.test.ts
+
+describe('CSS 变量系统', () => {
+  describe('变量定义完整性', () => {
+    const requiredVars = [
+      '--ltt-bg-primary',
+      '--ltt-bg-secondary',
+      '--ltt-text-primary',
+      '--ltt-text-secondary',
+      '--ltt-border',
+      '--ltt-accent',
+      '--ltt-radius-sm',
+      '--ltt-radius-md',
+      '--ltt-radius-lg',
+    ];
+
+    requiredVars.forEach(varName => {
+      it(`应该定义 ${varName}`, () => {
+        const style = getComputedStyle(document.documentElement);
+        expect(style.getPropertyValue(varName)).toBeTruthy();
+      });
+    });
+  });
+
+  describe('主题切换', () => {
+    it('浅色模式下变量值正确', () => {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+      
+      const style = getComputedStyle(document.documentElement);
+      expect(style.getPropertyValue('--ltt-bg-primary').trim()).toBe('#ffffff');
+    });
+
+    it('深色模式下变量值正确', () => {
+      document.body.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      
+      const style = getComputedStyle(document.documentElement);
+      expect(style.getPropertyValue('--ltt-bg-primary').trim()).toBe('#0f172a');
+    });
+  });
+});
+```
+
+#### 手动测试清单
+
+##### 通用测试
+- [ ] 页面加载无控制台错误
+- [ ] 所有按钮可点击
+- [ ] 所有输入框可输入
+- [ ] 下拉菜单可展开
+- [ ] 模态框可打开和关闭
+- [ ] 深色模式下所有元素可见
+- [ ] 浅色模式下所有元素可见
+
+##### 组件专项测试
+
+| 组件 | 测试点 | 浅色 | 深色 |
+|------|--------|------|------|
+| Heatmap | 年视图格子数量和颜色 | [ ] | [ ] |
+| Heatmap | 月视图导航和显示 | [ ] | [ ] |
+| Heatmap | 点击跳转功能 | [ ] | [ ] |
+| Heatmap | 响应式窄屏布局 | [ ] | [ ] |
+| Toolbar | 工具栏图标显示 | [ ] | [ ] |
+| Toolbar | 下拉菜单样式 | [ ] | [ ] |
+| Modal | 模态框居中和遮罩 | [ ] | [ ] |
+| Summary | 卡片布局和颜色 | [ ] | [ ] |
+| Settings | Tab 切换和表单控件 | [ ] | [ ] |
+| TaskProgress | 进度条动画和颜色 | [ ] | [ ] |
+
+---
+
+### 3.3 回滚策略
+
+#### 回滚层级
+
+| 层级 | 范围 | 回滚命令 | 影响 |
+|------|------|----------|------|
+| **L1-单文件** | 单个 CSS 文件 | `git checkout path/to/file.css` | 仅该文件回滚 |
+| **L2-组件** | 单个组件目录 | `git checkout path/to/components/BlockView/` | 整个组件回滚 |
+| **L3-批次** | 一批修改 | `git checkout HEAD~1 -- src/` | 所有未提交修改回滚 |
+| **L4-全局** | 全部修改 | `git reset --hard HEAD~1` | 整个分支回滚 |
+
+#### 回滚决策流程
+
+```
+发现问题
+    │
+    ▼
+问题严重吗？
+    │
+    ├─ 否 → 继续开发，下个批次修复
+    │
+    └─ 是 → 需要回滚
+              │
+              ▼
+          影响范围？
+              │
+              ├─ 单文件 → L1 回滚
+              │
+              ├─ 单组件 → L2 回滚
+              │
+              ├─ 多组件同批次 → L3 回滚
+              │
+              └─ 核心变量问题 → L4 回滚到 Phase 1 之前
+```
+
+#### 回滚后修复流程
+
+1. **分析问题**：确定是变量定义问题还是组件使用问题
+2. **制定修复方案**：针对问题类型制定修复步骤
+3. **小步验证**：每修复一处就验证一次
+4. **回归测试**：全部修复后运行完整测试
+
+#### 紧急回滚脚本
+
+```bash
+#!/bin/bash
+# 回滚到上一个稳定版本
+
+echo "正在回滚 CSS 变量迁移..."
+
+# 保存当前修改（以防需要恢复）
+git stash
+
+# 检查是否需要回滚到特定版本
+if [ "$1" == "--full" ]; then
+    echo "执行完整回滚..."
+    git reset --hard HEAD~1
+elif [ "$1" == "--batch" ]; then
+    echo "回滚最近一批修改..."
+    git reset --soft HEAD~1
+else
+    echo "默认回滚最近一次提交..."
+    git checkout HEAD~1 -- src/
+fi
+
+echo "回滚完成。请运行测试验证。"
+```
+
+---
+
+### 3.4 风险缓解措施
+
+#### 预防措施
+
+| 措施 | 说明 | 实施时机 |
+|------|------|----------|
+| **功能开关** | 添加 `ENABLE_LTT_CSS_REFACTOR` 环境变量 | Phase 1 |
+| **灰度发布** | 新 CSS 使用独立 class，逐步启用 | Phase 2 |
+| **对比快照** | 截图对比修改前后样式差异 | 每个批次 |
+| **Code Review** | 每个修改必须经过 Review | 每个 PR |
+
+#### 监控措施
+
+| 监控项 | 监控方式 | 阈值 |
+|--------|----------|------|
+| 控制台错误 | console.error 捕获 | > 0 |
+| 样式计算错误 | Chrome DevTools | 0 |
+| 布局偏移 | Layout Shift API | CLS < 0.1 |
+| 页面加载时间 | Performance API | < 2s |
+
+#### 应急响应
+
+1. **发现问题**：通过测试或用户反馈
+2. **评估影响**：确定影响范围和严重程度
+3. **决定策略**：热修复 / 回滚 / 继续观察
+4. **执行修复**：按回滚策略执行
+5. **验证确认**：确保问题已解决
+
+---
+
+### 3.5 迁移进度跟踪
+
+#### 阶段状态
+
+| 阶段 | 文件数 | 已完成 | 状态 |
+|------|--------|--------|------|
+| Phase 1 | 1 | [ ] | ⏳ 待开始 |
+| Phase 2-1 | 4 | [ ] | ⏳ 待开始 |
+| Phase 2-2 | 3 | [ ] | ⏳ 待开始 |
+| Phase 2-3 | 6 | [ ] | ⏳ 待开始 |
+| Phase 2-4 | 1 | [ ] | ⏳ 待开始 |
+| Phase 3 | 全部 | [ ] | ⏳ 待开始 |
+| Phase 4 | 全部 | [ ] | ⏳ 待开始 |
+
+#### 每日检查点
+
+- [ ] 确认昨日修改无回归
+- [ ] 运行自动化测试套件
+- [ ] 执行手动测试清单
+- [ ] 更新迁移进度表格
+- [ ] 记录遇到的问题和解决方案
+
+---
+
+## 五、变量定义参考
 
 ### 4.1 完整变量列表（推荐）
 
@@ -351,15 +713,15 @@ src/
 
 ---
 
-## 四、多套主题风格定义
+## 六、多套主题风格定义
 
-### 4.1 设计原则
+### 6.1 设计原则
 
 - **变量分层**：基础变量（`--ltt-*`）定义所有 token，主题通过覆盖变量值实现
 - **自动响应**：通过 `.ltt-theme-*` 类名切换主题，无需 JavaScript
 - **组合灵活**：主题可与深色模式叠加（`.ltt-theme-notion.dark-mode`）
 
-### 4.2 主题预览
+### 6.2 主题预览
 
 | 主题 | 类名 | 风格特征 |
 |------|------|----------|
@@ -370,9 +732,9 @@ src/
 | **Indigo 风格** | `.ltt-theme-indigo` | Indigo 渐变、科技感 |
 | **Minimal 风格** | `.ltt-theme-minimal` | 极致简洁、无边框 |
 
-### 4.3 主题变量定义
+### 6.3 主题变量定义
 
-#### 4.3.1 Logseq 原生主题（默认）
+#### 6.3.1 Logseq 原生主题（默认）
 
 ```css
 /* Logseq 原生主题 - 继承系统变量，最小干预 */
@@ -391,7 +753,7 @@ src/
 }
 ```
 
-#### 4.3.2 Notion 风格主题
+#### 6.3.2 Notion 风格主题
 
 ```css
 /* Notion 风格 - 简洁白、灰度、柔和圆角 */
@@ -434,7 +796,7 @@ src/
 }
 ```
 
-#### 4.3.3 Tana 风格主题
+#### 6.3.3 Tana 风格主题
 
 ```css
 /* Tana 风格 - 绿色强调、卡片式布局 */
@@ -477,7 +839,7 @@ src/
 }
 ```
 
-#### 4.3.4 Linear 风格主题
+#### 6.3.4 Linear 风格主题
 
 ```css
 /* Linear 风格 - 深色优先、紫色强调、紧凑 */
@@ -520,7 +882,7 @@ src/
 }
 ```
 
-#### 4.3.5 Indigo 风格主题
+#### 6.3.5 Indigo 风格主题
 
 ```css
 /* Indigo 风格 - Indigo 渐变、科技感 */
@@ -563,7 +925,7 @@ src/
 }
 ```
 
-#### 4.3.6 Minimal 风格主题
+#### 6.3.6 Minimal 风格主题
 
 ```css
 /* Minimal 风格 - 极致简洁、无边框 */
@@ -601,7 +963,7 @@ src/
 }
 ```
 
-### 4.4 深色模式与主题叠加
+### 6.4 深色模式与主题叠加
 
 主题变量可与深色模式叠加：
 
@@ -630,7 +992,7 @@ src/
 }
 ```
 
-### 4.5 主题切换实现示例
+### 6.5 主题切换实现示例
 
 ```tsx
 // React 组件中使用主题
@@ -649,7 +1011,7 @@ function App() {
 }
 ```
 
-### 4.6 各主题配色预览
+### 6.6 各主题配色预览
 
 | 主题 | 背景色 | 文本色 | 强调色 |
 |------|--------|--------|--------|
@@ -662,7 +1024,7 @@ function App() {
 
 ---
 
-## 五、迁移检查清单
+## 七、迁移检查清单
 
 ### 5.1 迁移前检查
 - [ ] 确认所有 CSS 文件备份
@@ -682,7 +1044,7 @@ function App() {
 
 ---
 
-## 六、替代方案对比
+## 八、替代方案对比
 
 | 方案 | 优点 | 缺点 | 推荐度 |
 |------|------|------|--------|
@@ -693,7 +1055,7 @@ function App() {
 
 ---
 
-## 七、总结
+## 九、总结
 
 **推荐采用方案：统一 CSS 变量 + 渐进式迁移**
 
