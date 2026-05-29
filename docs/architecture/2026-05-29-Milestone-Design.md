@@ -895,20 +895,24 @@ export class StatusCalculator {
 
 **文件位置**：`src/lib/milestone/register.ts`
 
+参考 [Heatmap](file:///workspace/src/lib/heatmap/register.ts) 和 [TaskProgress](file:///workspace/src/lib/taskProgress/register.ts) 的实现，使用 `renderComponent` 工具渲染 React 组件。
+
 ```typescript
 /**
  * Milestone 宏注册
  */
 
 import { logseqAPI } from '../../logseq/index.ts';
+import { getDocument } from '../../logseq/utils.ts';
 import { MilestoneQuery } from './query.ts';
 import { PropertyEnumService } from './propertyEnum.ts';
 import { Milestone } from '../../components/Milestone/index.ts';
-import type { MilestoneDisplayStyle } from './types.ts';
-import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render/rendererArgs.ts';
+import type { MilestoneDisplayStyle, MilestoneConfig } from './types.ts';
+import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import logger from '../logger/index';
 
-// 注册 Milestone 宏命令参数模型
+const PLUGIN_ID = 'milestone';
+
 registerRendererArgModel(':milestone', {
   positional: ['style']
 });
@@ -923,6 +927,50 @@ interface MacroSlot {
 }
 
 /**
+ * 渲染 Milestone 组件
+ */
+async function renderMilestoneComponent(
+  slot: string,
+  config: MilestoneConfig
+): Promise<boolean> {
+  try {
+    const milestoneData = await MilestoneQuery.query({
+      tag: config.tag,
+      property: config.property,
+      list: config.list,
+      dateField: config.dateField
+    });
+
+    const containerId = PLUGIN_ID + '__' + slot;
+
+    logseqAPI.provideUI({
+      key: containerId,
+      slot,
+      reset: true,
+      template: `<div id="${containerId}"></div>`,
+    });
+
+    setTimeout(() => {
+      const container = getDocument().getElementById(containerId);
+      if (container) {
+        logger.debug('🎯 Milestone: Rendering component', { containerId });
+        renderComponent(container, Milestone, {
+          data: milestoneData,
+          config,
+        });
+      } else {
+        logger.warn('🎯 Milestone: Container not found', { containerId });
+      }
+    }, 1);
+
+    return true;
+  } catch (err) {
+    logger.error('❌ Milestone: Render error', err);
+    return false;
+  }
+}
+
+/**
  * 注册 Milestone 宏渲染器
  */
 export function registerMilestone(): void {
@@ -931,7 +979,6 @@ export function registerMilestone(): void {
     slot 
   }: MacroPayload & MacroSlot) => {
     try {
-      // 使用 rendererArgs 解析参数
       const split = splitRendererArgs(payload.arguments);
       if (!split) {
         logger.warn('[Milestone] Invalid macro arguments');
@@ -939,24 +986,7 @@ export function registerMilestone(): void {
       }
 
       const config = parseMacroArguments(split.type, split.tokens);
-
-      // 查询数据
-      const milestoneData = await MilestoneQuery.query({
-        tag: config.tag,
-        property: config.property,
-        list: config.list,
-        dateField: config.dateField
-      });
-
-      // 渲染组件
-      const template = renderMilestoneTemplate(milestoneData, config);
-
-      logseqAPI.provideUI({
-        key: `milestone-${slot}`,
-        slot,
-        reset: true,
-        template,
-      });
+      await renderMilestoneComponent(slot, config);
     } catch (error) {
       logger.error('[Milestone] Render failed:', error);
     }
@@ -967,14 +997,7 @@ export function registerMilestone(): void {
  * 解析宏参数
  * 使用 rendererArgs 工具，支持 key=value 格式
  */
-function parseMacroArguments(type: string, tokens: string[]): {
-  tag?: string;
-  style: MilestoneDisplayStyle;
-  property?: string;
-  list?: string[];
-  dateField?: string;
-} {
-  // 使用 rendererArgs 解析基础参数
+function parseMacroArguments(type: string, tokens: string[]): MilestoneConfig {
   const parsed = parseRendererArgs(type, tokens);
 
   let style: MilestoneDisplayStyle = 'capsule';
@@ -984,7 +1007,6 @@ function parseMacroArguments(type: string, tokens: string[]): {
 
   let list: string[] | undefined;
   if (parsed.list) {
-    // 使用分号 ; 作为分隔符，因为逗号 , 是 rendererArgs 的特殊分隔符
     list = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
   }
 
@@ -993,22 +1015,11 @@ function parseMacroArguments(type: string, tokens: string[]): {
     style,
     property: parsed.property,
     list,
-    dateField: parsed.dateField || 'scheduled'  // 默认使用 scheduled
+    dateField: parsed.dateField || 'scheduled',
+    showLabels: parsed.showLabels !== 'false',
+    showProgress: parsed.showProgress !== 'false',
+    colorScheme: parsed.colorScheme ? JSON.parse(parsed.colorScheme) : undefined,
   };
-}
-
-/**
- * 渲染模板
- */
-function renderMilestoneTemplate(
-  data: any,
-  config: any
-): string {
-  // 使用 React 的服务端渲染
-  // 这里返回简单的 HTML 模板，实际渲染由客户端处理
-  return `<div class="milestone-renderer" data-style="${config.style}" data-config='${JSON.stringify(config)}'>
-    <div class="milestone-loading">Loading...</div>
-  </div>`;
 }
 ```
 
