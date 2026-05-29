@@ -67,6 +67,9 @@ export function formatDate(
   date: Date | string | number,
   logseqFormat?: string
 ): string {
+  if (date === null || date === undefined) {
+    return '';
+  }
   const d = dayjs(date);
   if (!d.isValid()) {
     return '';

@@ -1,6 +1,6 @@
 {
   "name": "logseq-text-toolkit",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A toolkit for text formatting and manipulation in Logseq",
   "author": "duiliuliu",
   "license": "MIT",
@@ -16,7 +16,10 @@
   },
   "scripts": {
     "dev": "vite --mode test",
-    "test": "vite --mode test",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
     "build": "vite build --mode test && npm run copy-assets",
     "build:devplugin": "vite build --config vite.devplugin.config.js && npm run copy-assets",
     "build:devplugin:watch": "vite build --config vite.devplugin.config.js --watch && npm run copy-assets",
@@ -40,13 +43,17 @@
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
     "autoprefixer": "^10.5.0",
+    "jsdom": "^23.0.0",
     "logseq-proxy": "^0.1.2",
     "postcss": "^8.5.9",
     "tailwindcss": "^4.2.2",
     "terser": "^5.46.1",
     "typescript": "^6.0.2",
     "vite": "^5.0.8",
-    "vite-plugin-logseq": "^1.1.2"
+    "vite-plugin-logseq": "^1.1.2",
+    "vitest": "^1.0.0"
   }
 }

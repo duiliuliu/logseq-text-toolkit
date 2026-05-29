@@ -1,4 +1,4 @@
-import { BlockEntity, HeatmapQueryParams, HeatmapViewType, HeatmapDataPoint, ColorFormula } from './types';
+import { BlockEntity, HeatmapQueryParams, HeatmapViewType, HeatmapDataPoint, ColorFormula, DateFieldConfig } from './types';
 import { calculateColorValueSimple, calculateColorValueWeighted } from './colorCalculator';
 import { logseqAPI } from '../../logseq';
 import logger from '../logger';
@@ -7,6 +7,68 @@ const getCreatedAt = (block: any): number | null => {
   const v = block?.['created-at'] ?? block?.['block/created-at'] ?? block?.createdAt ?? block?.created_at;
   const n = typeof v === 'number' ? v : Number(v);
   return Number.isFinite(n) ? n : null;
+};
+
+const parseTimestamp = (value: any): number | null => {
+  if (!value) return null;
+  const n = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(n) ? n : null;
+};
+
+const parseCustomProperty = (value: any): number | null => {
+  if (!value) return null;
+  
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+  
+  if (typeof value === 'string') {
+    const asNumber = Number(value);
+    if (Number.isFinite(asNumber)) {
+      return asNumber;
+    }
+    
+    const asDate = new Date(value);
+    if (!isNaN(asDate.getTime())) {
+      return asDate.getTime();
+    }
+    
+    const logseqDateMatch = value.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+    if (logseqDateMatch) {
+      const [, year, month, day] = logseqDateMatch;
+      const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+      if (!isNaN(parsedDate.getTime())) {
+        return parsedDate.getTime();
+      }
+    }
+  }
+  
+  return null;
+};
+
+const getTimestampByField = (block: any, dateField?: DateFieldConfig): number | null => {
+  if (!dateField || dateField.type === 'created-at') {
+    const v = block?.['created-at'] ?? block?.['block/created-at'] ?? block?.createdAt ?? block?.created_at;
+    const n = typeof v === 'number' ? v : Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+  
+  switch (dateField.type) {
+    case 'updated-at':
+      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
+    case 'scheduled':
+      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
+    case 'deadline':
+      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
+    case 'custom':
+      if (dateField.customKey) {
+        const customValue = block?.['block/properties']?.[dateField.customKey];
+        return parseCustomProperty(customValue);
+      }
+      return null;
+    default:
+      return getCreatedAt(block);
+  }
 };
 
 const formatDate = (d: Date) => d.toISOString().split('T')[0];
@@ -70,10 +132,10 @@ const getWeekBounds = (ref: Date) => {
   return { start: monday, end: new Date(monday.getTime() + 7 * 86400000) };
 };
 
-const bucketByDay = (blocks: any[], startMs: number, endMs: number): Record<string, any[]> => {
+const bucketByDay = (blocks: any[], startMs: number, endMs: number, dateField?: DateFieldConfig): Record<string, any[]> => {
   const buckets: Record<string, any[]> = {};
   for (const b of blocks) {
-    const ts = getCreatedAt(b);
+    const ts = getTimestampByField(b, dateField);
     if (!ts || ts < startMs || ts >= endMs) continue;
     const key = formatDate(new Date(ts));
     if (!buckets[key]) buckets[key] = [];
@@ -82,10 +144,10 @@ const bucketByDay = (blocks: any[], startMs: number, endMs: number): Record<stri
   return buckets;
 };
 
-const bucketByWeekCell = (blocks: any[], startMs: number): Record<string, any[]> => {
+const bucketByWeekCell = (blocks: any[], startMs: number, dateField?: DateFieldConfig): Record<string, any[]> => {
   const buckets: Record<string, any[]> = {};
   for (const b of blocks) {
-    const ts = getCreatedAt(b);
+    const ts = getTimestampByField(b, dateField);
     if (!ts) continue;
     const dayIdx = Math.floor((ts - startMs) / 86400000);
     if (dayIdx < 0 || dayIdx >= 7) continue;
@@ -143,7 +205,7 @@ export async function fetchHeatmapData(
   const data: HeatmapDataPoint[] = [];
 
   if (view === 'week') {
-    const buckets = bucketByWeekCell(blocks, startMs);
+    const buckets = bucketByWeekCell(blocks, startMs, params.dateField);
     for (let h = 0; h < 6; h++) {
       for (let d = 0; d < 7; d++) {
         const key = `${d}-${h}`;
@@ -159,7 +221,7 @@ export async function fetchHeatmapData(
       }
     }
   } else {
-    const buckets = bucketByDay(blocks, startMs, endMs);
+    const buckets = bucketByDay(blocks, startMs, endMs, params.dateField);
     for (const d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
       const key = formatDate(new Date(d));
       const dayBlocks = buckets[key] || [];

@@ -34,6 +34,18 @@ export interface HeatmapDataPoint {
   blocks: BlockEntity[];
 }
 
+export type DateFieldType = 
+  | 'created-at'
+  | 'updated-at'
+  | 'scheduled'
+  | 'deadline'
+  | 'custom';
+
+export interface DateFieldConfig {
+  type: DateFieldType;
+  customKey?: string;
+}
+
 export interface HeatmapQueryParams {
   type: 'tag' | 'page' | 'property' | 'all';
   value?: string;
@@ -41,6 +53,7 @@ export interface HeatmapQueryParams {
   year?: number;
   month?: number;
   week?: number;
+  dateField?: DateFieldConfig;
 }
 
 export interface HeatmapConfig {

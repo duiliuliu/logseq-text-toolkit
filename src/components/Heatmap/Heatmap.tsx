@@ -349,12 +349,18 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       try {
         const pageName = formatDateForPage(date, config?.dateFormat);
         logger.debug('📐 Heatmap: Navigating to page', { pageName, date, dateFormat: config?.dateFormat });
-        ensurePageAndNavigate(pageName);
+        
+        const existingPage = await logseqAPI.Editor.getPage(pageName);
+        if (existingPage) {
+          await logseqAPI.UI.openInRightSidebar(existingPage.uuid);
+        } else {
+          ensurePageAndNavigate(pageName);
+        }
       } catch (err) {
         console.error('Failed to navigate to date:', err);
       }
     }
-  }, []);
+  }, [config?.dateFormat]);
 
   const renderView = () => {
     const viewData = filterDataByView(data, viewType, currentDate);

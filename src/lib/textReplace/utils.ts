@@ -279,13 +279,29 @@ export const parseWrapperPattern = (invokeParams: string): { prefix: string; suf
  * @returns 是否需要引号
  */
 export const needsQuotes = (text: string): boolean => {
-  // 跳过已经是完整 hiccup 格式的文本
-  if (text.startsWith('[:') && text.endsWith(']')) {
-    return false;
-  }
+  // 暂时直接返回 false，不包裹任何引号
+  // 原有逻辑已注释，有问题可直接改回
   
-  return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
-         text.includes('"') || text.includes("'");
+  // 跳过已经是完整 hiccup 格式的文本
+  // if (text.startsWith('[:') && text.endsWith(']')) {
+  //   return false;
+  // }
+  // 
+  // // 如果文本已经被引号包裹，不需要再次包裹
+  // if ((text.startsWith('"') && text.endsWith('"')) || 
+  //     (text.startsWith("'") && text.endsWith("'"))) {
+  //   return false;
+  // }
+  //
+  // // 只在包含普通空格时才需要引号
+  // // 单独的全角空格、非断空格、引号等不需要强制包裹
+  // return text.includes(' ');
+  //
+  // // 原始完整逻辑（最初版本）：
+  // // return text.includes(' ') || text.includes('\u00A0') || text.includes('\u3000') || 
+  // //        text.includes('"') || text.includes("'");
+  
+  return false;
 };
 
 /**
