@@ -7,7 +7,9 @@ import {
   COLOR_FORMULA_MAP,
   HeatmapViewType,
   DisplayMode,
-  ColorFormula
+  ColorFormula,
+  DateFieldType,
+  DateFieldConfig
 } from './types';
 import { logseqAPI } from '../../logseq';
 import { getDocument } from '../../logseq/utils';
@@ -34,6 +36,24 @@ export function setHeatmapComponent(component: React.FC<any>) {
 registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] })
 registerRendererArgModel(MACRO_PREFIX_CN, { positional: ['view'] })
 
+const DATE_FIELD_TYPE_MAP: Record<string, DateFieldType> = {
+  'created-at': 'created-at',
+  'createdat': 'created-at',
+  '创建时间': 'created-at',
+  'created': 'created-at',
+  'updated-at': 'updated-at',
+  'updatedat': 'updated-at',
+  '更新时间': 'updated-at',
+  'updated': 'updated-at',
+  'scheduled': 'scheduled',
+  '调度时间': 'scheduled',
+  'schedule': 'scheduled',
+  'deadline': 'deadline',
+  '截止时间': 'deadline',
+  'custom': 'custom',
+  '自定义': 'custom',
+};
+
 function parseMacroArguments(tokens: string[], argMap: Record<string, string>): {
   viewType: HeatmapViewType;
   queryType: 'tag' | 'page' | 'property';
@@ -51,6 +71,7 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
   enableWeekPageCreation?: boolean;
   weekPageTemplate?: string;
   weekPageLogseqTemplate?: string;
+  dateField?: DateFieldConfig;
 } {
   let viewType: HeatmapViewType ;
   let queryType: 'tag' | 'page' | 'property' = 'tag';
@@ -68,6 +89,7 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
   let enableWeekPageCreation: boolean | undefined;
   let weekPageTemplate: string | undefined;
   let weekPageLogseqTemplate: string | undefined;
+  let dateField: DateFieldConfig | undefined;
 
   const applyViewType = (raw: string) => {
     const v = VIEW_TYPE_MAP[raw.trim()] || VIEW_TYPE_MAP[raw.trim().toLowerCase()]
@@ -128,6 +150,26 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
   if (argMap.enableWeekPage) enableWeekPageCreation = argMap.enableWeekPage === 'true'
   if (argMap.weekPageTemplate) weekPageTemplate = argMap.weekPageTemplate
   if (argMap.weekPageLogseqTemplate) weekPageLogseqTemplate = argMap.weekPageLogseqTemplate
+
+  const rawDateField = argMap.dateField || argMap.date || argMap.time;
+  if (rawDateField) {
+    const fieldType = DATE_FIELD_TYPE_MAP[rawDateField.trim().toLowerCase()];
+    if (fieldType) {
+      const config: DateFieldConfig = { type: fieldType };
+      if (fieldType === 'custom') {
+        const customKeyMatch = rawDateField.match(/custom[::/]?(.+)/i);
+        if (customKeyMatch && customKeyMatch[1]) {
+          config.customKey = customKeyMatch[1].trim();
+        } else {
+          const customKey = argMap.dateFieldKey || argMap.customKey;
+          if (customKey) {
+            config.customKey = customKey.trim();
+          }
+        }
+      }
+      dateField = config;
+    }
+  }
 
   for (const token of tokens) {
     const t = token.trim()
@@ -193,6 +235,7 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
     enableWeekPageCreation,
     weekPageTemplate,
     weekPageLogseqTemplate,
+    dateField,
   }
 }
 
@@ -224,6 +267,7 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       enableWeekPageCreation,
       weekPageTemplate,
       weekPageLogseqTemplate,
+      dateField,
     } = parseMacroArguments(tokens, argMap)
 
     const settings = await getSettingsWithSystem();
@@ -296,6 +340,7 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       year: referenceYear,
       month: referenceMonth,
       week: referenceWeek,
+      dateField,
     }, viewType, colorFormula);
 
     logger.debug('🌡️ Heatmap: Data loaded', {
