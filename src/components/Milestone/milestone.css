@@ -1,0 +1,291 @@
+/**
+ * Milestone 组件样式
+ */
+
+.ltt-milestone-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.ltt-milestone-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ========== Capsule 样式 ========== */
+.ltt-milestone-capsule {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ltt-milestone-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 20px;
+}
+
+.ltt-milestone-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.ltt-milestone-symbol {
+  font-size: 20px;
+  transition: color 150ms ease;
+}
+
+.ltt-milestone-line {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  transition: background-color 300ms ease;
+}
+
+.ltt-milestone-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.ltt-milestone-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ltt-milestone-status {
+  font-size: 12px;
+}
+
+/* ========== Badge 样式 ========== */
+.ltt-milestone-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ltt-milestone-badge .ltt-milestone-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ltt-milestone-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ltt-milestone-badge-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ltt-milestone-sublabel {
+  font-size: 12px;
+}
+
+.ltt-milestone-overall-progress {
+  margin-top: 16px;
+  height: 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ltt-milestone-progress-bar {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 4px;
+  transition: width 300ms ease;
+}
+
+.ltt-milestone-progress-label {
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+/* ========== Track 样式 ========== */
+.ltt-milestone-track-minimal {
+  position: relative;
+  padding: 16px 0;
+}
+
+.ltt-milestone-line-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 4px;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.ltt-milestone-line-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.3;
+}
+
+.ltt-milestone-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  z-index: 1;
+  transition: background-color 150ms ease;
+  flex-shrink: 0;
+}
+
+.ltt-milestone-segment {
+  flex: 1;
+  height: 4px;
+  transition: background-color 300ms ease;
+}
+
+.ltt-milestone-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.ltt-milestone-label-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-time {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ltt-milestone-desc {
+  font-size: 12px;
+}
+
+/* ========== Card 样式 ========== */
+.ltt-milestone-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+.ltt-milestone-center-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.ltt-milestone-card-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.ltt-milestone-card-item.top {
+  justify-content: flex-start;
+  padding-right: calc(50% + 16px);
+}
+
+.ltt-milestone-card-item.bottom {
+  justify-content: flex-end;
+  padding-left: calc(50% + 16px);
+}
+
+.ltt-milestone-card-content {
+  padding: 8px 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ltt-milestone-card-title {
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ltt-milestone-card-date {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.ltt-milestone-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+.ltt-milestone-arrow.down {
+  top: 50%;
+  left: calc(50% - 6px);
+  transform: translateY(-50%);
+}
+
+.ltt-milestone-arrow.up {
+  bottom: 50%;
+  left: calc(50% - 6px);
+  transform: translateY(50%);
+}
+
+/* ========== Compact 样式 ========== */
+.ltt-milestone-compact {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.ltt-milestone-compact .ltt-milestone-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  gap: 4px;
+}
+
+.ltt-milestone-connector {
+  font-size: 12px;
+  user-select: none;
+}
