@@ -20,6 +20,8 @@
     "test:watch": "vitest watch",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
+    "test:css": "vitest run src/__tests__/css*.test.ts src/__tests__/components/*.test.ts",
+    "test:css:watch": "vitest watch src/__tests__/css*.test.ts src/__tests__/components/*.test.ts",
     "build": "vite build --mode test && npm run copy-assets",
     "build:devplugin": "vite build --config vite.devplugin.config.js && npm run copy-assets",
     "build:devplugin:watch": "vite build --config vite.devplugin.config.js --watch && npm run copy-assets",

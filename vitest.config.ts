@@ -7,8 +7,8 @@ import path from 'path';
 
 export default defineConfig({
   test: {
-    // 测试环境
-    environment: 'node', // 使用 node 环境，React 组件测试可以用 jsdom
+    // 测试环境 - 支持 node 和 jsdom
+    environment: 'jsdom',
     
     // 测试文件匹配模式
     include: [
@@ -53,6 +53,13 @@ export default defineConfig({
     // 输出配置
     outputFile: {
       json: './test-results/test-results.json',
+    },
+    
+    // 全局 CSS 文件
+    css: {
+      modules: {
+        classNameStrategy: 'same',
+      },
     },
   },
   
