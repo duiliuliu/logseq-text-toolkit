@@ -18,16 +18,71 @@ Milestone 是一个用于展示项目进度、面试流程等阶段性进展的 
 3. **多样式展示**：支持 5 种不同的 UI 展示风格
 4. **动态配置**：支持通过宏参数自定义展示样式和行为
 
-### 1.3 使用场景
+### 1.3 数据模型
+
+Milestone 组件支持**两种数据模型**，以适应不同的使用场景：
+
+#### 模型 A：属性枚举模式（Property Enum）
+
+**适用场景**：按不同实体分组查看进度，如"每个公司的面试进度"
 
 ```
-面试流程管理：
-  {{renderer :milestone, tag=面试, style=capsule, property=stage}}
+笔记结构：
+# 安克公司
+  - 投递简历 DONE 2026-01-15
+  - HR筛选 DONE 2026-01-18
+  - 技术一面 DONE 2026-01-25
 
-项目进度追踪：
-  {{renderer :milestone, tag=项目, style=badge, property=phase}}
+# 大疆公司
+  - 投递简历 DONE 2026-01-20
+  - HR筛选 DONE 2026-01-22
 
-直接指定里程碑节点（使用分号 ; 分隔）：
+使用宏命令：
+{{renderer :milestone, tag=面试, property=company}}
+
+生成效果：
+[● 安克公司] ─── [◐ 大疆公司]
+```
+
+**特点**：
+- 每个属性枚举值（如"安克"）作为一个里程碑节点
+- 自动统计每个节点下的块数量和状态
+- 适合多实体对比场景
+
+#### 模型 B：固定阶段列表模式（Stage List）
+
+**适用场景**：固定流程 + 标签过滤，如"安克公司的项目阶段进度"
+
+```
+笔记结构：
+# 安克项目
+  - 需求分析 DONE 2026-01-10
+  - 系统设计 DONE 2026-01-15
+  - 开发完成 DONE 2026-02-01
+
+使用宏命令：
+{{renderer :milestone, tag=安克项目, list=需求;设计;开发;测试;上线}}
+
+生成效果：
+[● 需求] [● 设计] [● 开发] [○ 测试] [○ 上线]
+```
+
+**特点**：
+- 固定阶段列表（如"需求;设计;开发;测试;上线"）作为里程碑节点
+- 查询每个阶段是否有对应的块
+- 有块 → 根据日期计算状态；无块 → pending
+- 适合单一实体的时间线场景
+
+### 1.4 使用场景
+
+```
+面试流程管理（模型 A - 属性枚举）：
+  {{renderer :milestone, tag=面试, style=capsule, property=company}}
+
+项目进度追踪（模型 B - 固定阶段）：
+  {{renderer :milestone, tag=安克项目, style=badge, list=需求;设计;开发;测试;上线}}
+
+直接指定里程碑节点（模型 B - 无过滤）：
   {{renderer :milestone, style=track, list=计划;开发;测试;上线}}
 ```
 
@@ -60,13 +115,15 @@ export interface MilestoneData {
   items: MilestoneItem[];
   totalCount: number;
   completedCount: number;
+  inProgressCount?: number;    // 进行中数量（list 模式专用）
+  pendingCount?: number;       // 待开始数量（list 模式专用）
   overallProgress: number;
 }
 
 export interface MilestoneConfig {
-  property?: string;             // 属性名 (如 "stage", "phase") - 与 list 二选一
-  list?: string[];              // 直接指定的里程碑节点列表 - 与 property 二选一
-  tag?: string;                  // 过滤标签
+  property?: string;             // 属性名 (如 "company") - 与 list 二选一
+  list?: string[];              // 固定阶段列表 - 与 property 二选一
+  tag?: string;                 // 过滤标签
   style: MilestoneDisplayStyle;  // 展示样式
   showProgress?: boolean;        // 是否显示进度
   showLabels?: boolean;          // 是否显示标签
@@ -438,6 +495,16 @@ export class MilestoneQuery {
 
   /**
    * 根据直接指定的节点列表查询
+   * 
+   * 使用场景：固定阶段列表 + 标签过滤
+   * 
+   * 示例：
+   * - list = ["需求", "设计", "开发", "测试", "上线"]
+   * - tag = "安克项目"
+   * 
+   * 对于每个阶段，查询是否有对应的块：
+   * - 有块 → 根据日期计算状态（completed/in_progress/pending）
+   * - 无块 → pending
    */
   private static async queryByList(
     list: string[],
@@ -467,6 +534,92 @@ export class MilestoneQuery {
       completedCount: items.filter(i => i.status === 'completed').length,
       overallProgress: this.calculateOverallProgress(items),
     };
+  }
+
+  /**
+   * 根据阶段列表 + 标签查询（支持 content 关键词匹配）
+   * 
+   * 这是您设想的数据模型：
+   * 1. 指定固定的阶段列表：["需求", "设计", "开发", "测试", "上线"]
+   * 2. 指定标签过滤：tag="安克项目"
+   * 3. 查询每个阶段是否有对应的块（通过内容匹配）
+   * 
+   * 使用场景：
+   * {{renderer :milestone, tag=安克项目, list=需求;设计;开发;测试;上线}}
+   * 
+   * 会生成：
+   * [● 需求] [● 设计] [● 开发] [◐ 测试] [○ 上线]
+   */
+  private static async queryByStageList(
+    list: string[],
+    tag?: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const items: MilestoneItem[] = [];
+
+    for (const stage of list) {
+      // 查询该阶段在指定标签下是否有对应的块
+      const blocks = await this.getBlocksByStage(stage, tag);
+      
+      // 根据块的数量和日期判断状态
+      let status: MilestoneStatus = 'pending';
+      let progress = 0;
+      let date: string | null = null;
+
+      if (blocks.length > 0) {
+        status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+        progress = StatusCalculator.calculateProgress(blocks, dateField);
+        date = StatusCalculator.getLatestDate(blocks, dateField);
+      }
+
+      items.push({
+        id: `milestone-${stage}`,
+        label: stage,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 根据阶段关键词 + 标签获取对应块
+   * 支持通过内容匹配查找块
+   */
+  private static async getBlocksByStage(
+    stage: string,
+    tag?: string
+  ): Promise<BlockWithProperty[]> {
+    let query = `[:find (pull ?b [*]) :where
+                  [?b :block/content ?c]
+                  [(clojure.string/includes? ?c "${stage}")]]`;
+    
+    if (tag) {
+      query = `[:find (pull ?b [*]) :where
+                [?b :block/content ?c]
+                [(clojure.string/includes? ?c "${stage}")]
+                [?b :block/tags ?t]
+                [?t :block/title "${tag}"]]`;
+    }
+    
+    query += `]`;
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksByStage failed:', error);
+      return [];
+    }
   }
 
   /**
