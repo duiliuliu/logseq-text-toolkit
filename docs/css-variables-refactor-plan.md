@@ -351,6 +351,317 @@ src/
 
 ---
 
+## 四、多套主题风格定义
+
+### 4.1 设计原则
+
+- **变量分层**：基础变量（`--ltt-*`）定义所有 token，主题通过覆盖变量值实现
+- **自动响应**：通过 `.ltt-theme-*` 类名切换主题，无需 JavaScript
+- **组合灵活**：主题可与深色模式叠加（`.ltt-theme-notion.dark-mode`）
+
+### 4.2 主题预览
+
+| 主题 | 类名 | 风格特征 |
+|------|------|----------|
+| **Logseq 原生** | `.ltt-theme-logseq` | 继承 Logseq 原生变量，最小干预 |
+| **Notion 风格** | `.ltt-theme-notion` | 简洁白、灰度、柔和圆角 |
+| **Tana 风格** | `.ltt-theme-tana` | 绿色强调、卡片式布局 |
+| **Linear 风格** | `.ltt-theme-linear` | 深色优先、紫色强调、紧凑 |
+| **Indigo 风格** | `.ltt-theme-indigo` | Indigo 渐变、科技感 |
+| **Minimal 风格** | `.ltt-theme-minimal` | 极致简洁、无边框 |
+
+### 4.3 主题变量定义
+
+#### 4.3.1 Logseq 原生主题（默认）
+
+```css
+/* Logseq 原生主题 - 继承系统变量，最小干预 */
+.ltt-theme-logseq,
+:root {
+  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);
+  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);
+  --ltt-bg-tertiary: var(--ls-tertiary-background-color, #f1f5f9);
+  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);
+  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);
+  --ltt-border: var(--ls-border-color, #e2e8f0);
+  --ltt-accent: var(--ls-active-primary-color, #3b82f6);
+  --ltt-radius-sm: 4px;
+  --ltt-radius-md: 6px;
+  --ltt-radius-lg: 8px;
+}
+```
+
+#### 4.3.2 Notion 风格主题
+
+```css
+/* Notion 风格 - 简洁白、灰度、柔和圆角 */
+.ltt-theme-notion {
+  /* 背景 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #f7f6f3;
+  --ltt-bg-tertiary: #efefef;
+  --ltt-bg-hover: #e8e7e4;
+  
+  /* 文本 */
+  --ltt-text-primary: #37352f;
+  --ltt-text-secondary: #9b9a97;
+  --ltt-text-muted: #787774;
+  
+  /* 边框 */
+  --ltt-border: #e9e9e7;
+  --ltt-border-strong: #d9d9d7;
+  
+  /* 强调色 */
+  --ltt-accent: #2383e2;
+  --ltt-accent-hover: #1b6fc4;
+  --ltt-accent-muted: #e8f2fc;
+  
+  /* 状态色 */
+  --ltt-success: #23894c;
+  --ltt-warning: #d5a500;
+  --ltt-error: #eb5757;
+  
+  /* 圆角 */
+  --ltt-radius-sm: 3px;
+  --ltt-radius-md: 4px;
+  --ltt-radius-lg: 6px;
+  --ltt-radius-xl: 8px;
+  
+  /* 阴影 - Notion 阴影较轻 */
+  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);
+  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --ltt-shadow-lg: none;
+}
+```
+
+#### 4.3.3 Tana 风格主题
+
+```css
+/* Tana 风格 - 绿色强调、卡片式布局 */
+.ltt-theme-tana {
+  /* 背景 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #f8faf9;
+  --ltt-bg-tertiary: #f0f4f2;
+  --ltt-bg-hover: #e8f0ec;
+  
+  /* 文本 */
+  --ltt-text-primary: #1a2e22;
+  --ltt-text-secondary: #5a7265;
+  --ltt-text-muted: #8fa99a;
+  
+  /* 边框 */
+  --ltt-border: #d4e0d9;
+  --ltt-border-strong: #b8cec3;
+  
+  /* 强调色 - Tana 绿色 */
+  --ltt-accent: #10b981;
+  --ltt-accent-hover: #059669;
+  --ltt-accent-muted: #d1fae5;
+  
+  /* 状态色 */
+  --ltt-success: #10b981;
+  --ltt-warning: #f59e0b;
+  --ltt-error: #ef4444;
+  
+  /* 圆角 - Tana 圆角较大 */
+  --ltt-radius-sm: 6px;
+  --ltt-radius-md: 8px;
+  --ltt-radius-lg: 12px;
+  --ltt-radius-xl: 16px;
+  
+  /* 阴影 - Tana 卡片阴影 */
+  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);
+  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);
+  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);
+}
+```
+
+#### 4.3.4 Linear 风格主题
+
+```css
+/* Linear 风格 - 深色优先、紫色强调、紧凑 */
+.ltt-theme-linear {
+  /* 背景 - Linear 偏好深色背景 */
+  --ltt-bg-primary: #13151a;
+  --ltt-bg-secondary: #1c1f26;
+  --ltt-bg-tertiary: #252830;
+  --ltt-bg-hover: #2d323c;
+  
+  /* 文本 - 高对比度 */
+  --ltt-text-primary: #e8eaed;
+  --ltt-text-secondary: #9ca3af;
+  --ltt-text-muted: #6b7280;
+  
+  /* 边框 - Linear 边框较细 */
+  --ltt-border: #2d323c;
+  --ltt-border-strong: #3d424c;
+  
+  /* 强调色 - Linear 紫色 */
+  --ltt-accent: #5e6ad2;
+  --ltt-accent-hover: #4f5abd;
+  --ltt-accent-muted: #2a2d42;
+  
+  /* 状态色 */
+  --ltt-success: #26c940;
+  --ltt-warning: #f59e0b;
+  --ltt-error: #eb5757;
+  
+  /* 圆角 - Linear 圆角较小 */
+  --ltt-radius-sm: 3px;
+  --ltt-radius-md: 4px;
+  --ltt-radius-lg: 6px;
+  --ltt-radius-xl: 8px;
+  
+  /* 阴影 - Linear 深色阴影 */
+  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+```
+
+#### 4.3.5 Indigo 风格主题
+
+```css
+/* Indigo 风格 - Indigo 渐变、科技感 */
+.ltt-theme-indigo {
+  /* 背景 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #eef2ff;
+  --ltt-bg-tertiary: #e0e7ff;
+  --ltt-bg-hover: #c7d2fe;
+  
+  /* 文本 */
+  --ltt-text-primary: #1e1b4b;
+  --ltt-text-secondary: #4338ca;
+  --ltt-text-muted: #6366f1;
+  
+  /* 边框 */
+  --ltt-border: #c7d2fe;
+  --ltt-border-strong: #a5b4fc;
+  
+  /* 强调色 - Indigo 渐变 */
+  --ltt-accent: #6366f1;
+  --ltt-accent-hover: #4f46e5;
+  --ltt-accent-muted: #e0e7ff;
+  
+  /* 状态色 */
+  --ltt-success: #059669;
+  --ltt-warning: #d97706;
+  --ltt-error: #dc2626;
+  
+  /* 圆角 */
+  --ltt-radius-sm: 4px;
+  --ltt-radius-md: 6px;
+  --ltt-radius-lg: 8px;
+  --ltt-radius-xl: 12px;
+  
+  /* 阴影 - Indigo 阴影带色相 */
+  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);
+  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);
+  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);
+}
+```
+
+#### 4.3.6 Minimal 风格主题
+
+```css
+/* Minimal 风格 - 极致简洁、无边框 */
+.ltt-theme-minimal {
+  /* 背景 - 纯白 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #fafafa;
+  --ltt-bg-tertiary: #f5f5f5;
+  --ltt-bg-hover: #f0f0f0;
+  
+  /* 文本 */
+  --ltt-text-primary: #000000;
+  --ltt-text-secondary: #666666;
+  --ltt-text-muted: #999999;
+  
+  /* 边框 - Minimal 几乎无边框 */
+  --ltt-border: #f0f0f0;
+  --ltt-border-strong: #e0e0e0;
+  
+  /* 强调色 - Minimal 黑色强调 */
+  --ltt-accent: #000000;
+  --ltt-accent-hover: #333333;
+  --ltt-accent-muted: #f5f5f5;
+  
+  /* 圆角 - Minimal 极小圆角 */
+  --ltt-radius-sm: 0px;
+  --ltt-radius-md: 0px;
+  --ltt-radius-lg: 2px;
+  --ltt-radius-xl: 4px;
+  
+  /* 阴影 - Minimal 无阴影 */
+  --ltt-shadow-sm: none;
+  --ltt-shadow-md: none;
+  --ltt-shadow-lg: none;
+}
+```
+
+### 4.4 深色模式与主题叠加
+
+主题变量可与深色模式叠加：
+
+```css
+/* Notion 深色模式 */
+.ltt-theme-notion.dark-mode,
+.ltt-theme-notion[data-theme="dark"] {
+  --ltt-bg-primary: #191919;
+  --ltt-bg-secondary: #242424;
+  --ltt-bg-tertiary: #2d2d2d;
+  --ltt-text-primary: #ffffff;
+  --ltt-text-secondary: #9b9b9b;
+  --ltt-border: #373737;
+  --ltt-accent: #2383e2;
+}
+
+/* Linear 已是深色主题 */
+.ltt-theme-linear {
+  /* 浅色模式下切换 */
+  &.light-mode {
+    --ltt-bg-primary: #ffffff;
+    --ltt-bg-secondary: #f8f9fa;
+    --ltt-text-primary: #1e293b;
+    --ltt-accent: #5e6ad2;
+  }
+}
+```
+
+### 4.5 主题切换实现示例
+
+```tsx
+// React 组件中使用主题
+function App() {
+  const [theme, setTheme] = useState('logseq');
+  const [darkMode, setDarkMode] = useState(false);
+  
+  const themeClass = `ltt-theme-${theme}`;
+  const modeClass = darkMode ? 'dark-mode' : 'light-mode';
+  
+  return (
+    <div className={`${themeClass} ${modeClass}`}>
+      {/* 应用内容 */}
+    </div>
+  );
+}
+```
+
+### 4.6 各主题配色预览
+
+| 主题 | 背景色 | 文本色 | 强调色 |
+|------|--------|--------|--------|
+| **Logseq** | `#ffffff` | `#1e293b` | `#3b82f6` |
+| **Notion** | `#ffffff` | `#37352f` | `#2383e2` |
+| **Tana** | `#ffffff` | `#1a2e22` | `#10b981` |
+| **Linear** | `#13151a` | `#e8eaed` | `#5e6ad2` |
+| **Indigo** | `#ffffff` | `#1e1b4b` | `#6366f1` |
+| **Minimal** | `#ffffff` | `#000000` | `#000000` |
+
+---
+
 ## 五、迁移检查清单
 
 ### 5.1 迁移前检查
