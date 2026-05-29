@@ -72,7 +72,7 @@ export interface MilestoneConfig {
   showLabels?: boolean;          // 是否显示标签
   colorScheme?: ColorScheme;     // 颜色配置
   language?: string;             // 语言
-  dateField?: string;            // 日期字段名，默认 "created-at"
+  dateField?: string;            // 日期字段名，默认 "scheduled"
 }
 
 export type MilestoneDisplayStyle = 
@@ -410,7 +410,7 @@ export class MilestoneQuery {
       dateField?: string;
     }
   ): Promise<MilestoneData> {
-    const { tag, property, list, dateField = 'created-at' } = config;
+    const { tag, property, list, dateField = 'scheduled' } = config;
 
     try {
       // 1. 如果指定了 list，直接使用用户指定的里程碑节点
@@ -442,7 +442,7 @@ export class MilestoneQuery {
   private static async queryByList(
     list: string[],
     tag?: string,
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
     const items: MilestoneItem[] = [];
 
@@ -514,7 +514,7 @@ export class MilestoneQuery {
   private static async queryByPropertyEnum(
     property: string,
     tag?: string,
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
     // 获取属性的所有枚举值
     const enums = tag 
@@ -544,7 +544,7 @@ export class MilestoneQuery {
    */
   private static async queryByTag(
     tag: string,
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
     const query = `
       [:find (pull ?b [*])
@@ -589,7 +589,7 @@ export class MilestoneQuery {
   private static parseBlocksToMilestone(
     result: any[],
     property?: string,
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): MilestoneData {
     const blocks: BlockWithProperty[] = [];
 
@@ -670,7 +670,7 @@ export class MilestoneQuery {
    */
   private static calculateStatus(
     blocks: BlockWithProperty[],
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): MilestoneStatus {
     return StatusCalculator.calculateFromBlocks(blocks, dateField);
   }
@@ -680,7 +680,7 @@ export class MilestoneQuery {
    */
   private static calculateProgress(
     blocks: BlockWithProperty[],
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): number {
     return StatusCalculator.calculateProgress(blocks, dateField);
   }
@@ -701,7 +701,7 @@ export class MilestoneQuery {
   /**
    * 默认查询
    */
-  private static async queryDefault(dateField: string = 'created-at'): Promise<MilestoneData> {
+  private static async queryDefault(dateField: string = 'scheduled'): Promise<MilestoneData> {
     return {
       items: [],
       totalCount: 0,
@@ -772,16 +772,16 @@ const parseCustomProperty = (value: any): number | null => {
   return null;
 };
 
-const getTimestampByField = (block: any, dateField: string = 'created-at'): number | null => {
+const getTimestampByField = (block: any, dateField: string = 'scheduled'): number | null => {
   switch (dateField) {
-    case 'created-at':
-      return parseTimestamp(block?.['created-at'] ?? block?.['block/created-at']);
-    case 'updated-at':
-      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
     case 'scheduled':
       return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
     case 'deadline':
       return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
+    case 'created-at':
+      return parseTimestamp(block?.['created-at'] ?? block?.['block/created-at']);
+    case 'updated-at':
+      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
     default:
       // 自定义属性
       const customValue = block?.['block/properties']?.[dateField];
@@ -800,7 +800,7 @@ export class StatusCalculator {
    */
   static calculateFromBlocks(
     blocks: BlockWithProperty[],
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): MilestoneStatus {
     if (blocks.length === 0) {
       return 'pending';
@@ -844,7 +844,7 @@ export class StatusCalculator {
    */
   static calculateProgress(
     blocks: BlockWithProperty[],
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): number {
     if (blocks.length === 0) {
       return 0;
@@ -870,7 +870,7 @@ export class StatusCalculator {
    */
   static getLatestDate(
     blocks: BlockWithProperty[],
-    dateField: string = 'created-at'
+    dateField: string = 'scheduled'
   ): string | null {
     const timestamps = blocks
       .map(b => getTimestampByField(b, dateField))
@@ -990,7 +990,7 @@ function parseMacroArguments(type: string, tokens: string[]): {
     style,
     property: parsed.property,
     list,
-    dateField: parsed.dateField || 'created-at'  // 默认使用 created-at
+    dateField: parsed.dateField || 'scheduled'  // 默认使用 scheduled
   };
 }
 
