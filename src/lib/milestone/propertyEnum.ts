@@ -4,12 +4,7 @@
 
 import type { PropertyEnumValue, BlockWithProperty } from './types';
 import logger from '../logger/index';
-
-let logseqAPI: any = null;
-
-export function setLogseqAPI(api: any): void {
-  logseqAPI = api;
-}
+import { logseqAPI } from '../../logseq';
 
 export class PropertyEnumService {
   /**

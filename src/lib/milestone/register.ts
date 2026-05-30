@@ -3,21 +3,25 @@
  */
 
 import type { MilestoneDisplayStyle, MilestoneConfig, MilestoneTemplate } from './types';
+import { MilestoneQuery } from './query';
 import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import logger from '../logger/index';
 import { getSettings } from '../../settings/index.ts';
-
-let logseqAPI: any = null;
-
-export function setMilestoneLogseqAPI(api: any): void {
-  logseqAPI = api;
-}
+import { logseqAPI } from '../../logseq';
+import { getDocument } from '../../logseq/utils';
+import React from 'react';
 
 const PLUGIN_ID = 'milestone';
 
 registerRendererArgModel(':milestone', {
   positional: ['displayStyle']
 });
+
+let MilestoneComponent: React.FC<any> | null = null;
+
+export function setMilestoneComponent(component: React.FC<any>) {
+  MilestoneComponent = component;
+}
 
 interface MacroPayload {
   arguments: string[];
@@ -31,18 +35,8 @@ interface MacroSlot {
 /**
  * 渲染 Milestone 组件
  */
-export async function renderMilestoneComponent(
-  slot: string,
-  config: MilestoneConfig,
-  renderFn: (container: HTMLElement, props: any) => void
-): Promise<boolean> {
-  if (!logseqAPI) {
-    logger.warn('[Milestone] Logseq API not initialized');
-    return false;
-  }
-
+async function renderMilestone(slot: string, config: MilestoneConfig): Promise<boolean> {
   try {
-    const { MilestoneQuery } = await import('./query');
     const data = await MilestoneQuery.query({
       filterTag: config.filterTag,
       property: config.property,
@@ -52,6 +46,11 @@ export async function renderMilestoneComponent(
       milestoneList: config.milestoneList,
       dateField: config.dateField
     });
+
+    if (!MilestoneComponent) {
+      logger.warn('⚠️ Milestone: Component not registered');
+      return false;
+    }
 
     const containerId = PLUGIN_ID + '__' + slot;
 
@@ -63,10 +62,10 @@ export async function renderMilestoneComponent(
     });
 
     setTimeout(() => {
-      const container = document.getElementById(containerId);
+      const container = getDocument().getElementById(containerId);
       if (container) {
         logger.debug('🎯 Milestone: Rendering component', { containerId });
-        renderFn(container, { data, config });
+        renderComponent(container, MilestoneComponent, { data, config });
       } else {
         logger.warn('🎯 Milestone: Container not found', { containerId });
       }
@@ -82,14 +81,7 @@ export async function renderMilestoneComponent(
 /**
  * 注册 Milestone 宏渲染器
  */
-export function registerMilestone(
-  renderFn: (container: HTMLElement, props: any) => void
-): void {
-  if (!logseqAPI) {
-    logger.warn('[Milestone] Logseq API not initialized');
-    return;
-  }
-
+export function registerMilestone(): void {
   logseqAPI.App.onMacroRendererSlotted(async ({ 
     payload, 
     slot 
@@ -102,11 +94,22 @@ export function registerMilestone(
       }
 
       const config = parseMacroArguments(split.type, split.tokens);
-      await renderMilestoneComponent(slot, config, renderFn);
+      await renderMilestone(slot, config);
     } catch (error) {
       logger.error('[Milestone] Render failed:', error);
     }
   });
+
+  logseqAPI.Editor.registerSlashCommand(
+    '[Text Toolkit] Insert Milestone',
+    async () => {
+      await logseqAPI.Editor.insertAtEditingCursor(
+        `{{renderer :milestone, displayStyle=capsule}}`
+      );
+    }
+  );
+
+  logger.info('✅ Milestone: Registered successfully');
 }
 
 /**

@@ -6,12 +6,7 @@ import type { BlockWithProperty, MilestoneItem, MilestoneData, MilestoneStatus }
 import { PropertyEnumService } from './propertyEnum';
 import { StatusCalculator } from './statusCalculator';
 import logger from '../logger/index';
-
-let logseqAPI: any = null;
-
-export function setLogseqAPI(api: any): void {
-  logseqAPI = api;
-}
+import { logseqAPI } from '../../logseq';
 
 export class MilestoneQuery {
   /**

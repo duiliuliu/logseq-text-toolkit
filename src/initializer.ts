@@ -21,9 +21,7 @@ import {
   initSummaryModal,
   registerSummaryCommands,
 } from './lib/summary/register'
-import { registerMilestone, setMilestoneLogseqAPI } from './lib/milestone/register'
-import { setMilestoneQueryLogseqAPI } from './lib/milestone/query'
-import { setPropertyEnumLogseqAPI } from './lib/milestone/propertyEnum'
+import { registerMilestone, setMilestoneComponent } from './lib/milestone/register'
 import logseqAPI from './logseq'
 import { getDocument } from './logseq/utils'
 
@@ -45,8 +43,7 @@ import listViewCssRaw from './components/BlockView/listView.css?raw'
 import milestoneCSSRaw from './components/Milestone/milestone.css?raw'
 import mainCSSRaw from './main.css?raw'
 
-import Milestone from './components/Milestone'
-import { renderComponent } from './lib/render'
+import { Milestone } from './components/Milestone'
 
 
 /* ============================================================================
@@ -385,11 +382,6 @@ export async function initBlockView(): Promise<void> {
  * 注册里程碑宏渲染器和设置API
  */
 export async function initMilestone(): Promise<void> {
-  setMilestoneLogseqAPI(logseqAPI)
-  setMilestoneQueryLogseqAPI(logseqAPI)
-  setPropertyEnumLogseqAPI(logseqAPI)
-  
-  registerMilestone((container, props) => {
-    renderComponent(container, Milestone, props)
-  })
+  setMilestoneComponent(Milestone)
+  registerMilestone()
 }
