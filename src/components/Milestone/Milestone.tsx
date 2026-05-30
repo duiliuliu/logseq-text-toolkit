@@ -30,12 +30,12 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
   const commonProps = {
     items: defaultData.items,
     colorScheme,
-    showLabels: config.showLabels,
+    showLabels: config.showLabel,
     showProgress: config.showProgress,
   };
 
   const renderStyle = () => {
-    switch (config.style) {
+    switch (config.displayStyle) {
       case 'capsule':
         return <CapsuleMilestone {...commonProps} />;
       case 'badge':
@@ -59,7 +59,7 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
   return (
     <div 
       className="ltt-milestone-container" 
-      data-style={config.style}
+      data-style={config.displayStyle}
       style={{ 
         backgroundColor: colorScheme.background,
         color: colorScheme.text,
