@@ -26,7 +26,7 @@
         "size": "small"
       }
     },
-    "nestingLevel": 1,
+    "nestingLevel": 3,
     "onlyLeaves": false,
     "showNestingIndicator": false,
     "statusColors": {
@@ -46,7 +46,7 @@
     "colorScheme": {
       "minColor": "#eef2ff",
       "maxColor": "#3730a3",
-      "gradientSteps": 3
+      "gradientSteps": 5
     }
   },
   "blockView": {
