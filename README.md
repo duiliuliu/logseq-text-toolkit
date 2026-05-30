@@ -58,6 +58,11 @@
       <img width="280" alt="BlockView Mind" src="docs/screenshots/mindView.png" />
       <br>块视图 - 思维 (实验) 🧪
     </td>
+     <td align="center">
+    <img width="280"   alt="image" src="https://github.com/user-attachments/assets/23dd8a85-28c7-4ad3-ab6f-97c260a484e7" />
+      <br>里程碑
+    </td>
+
   </tr>
 </table>
 
