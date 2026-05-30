@@ -1,6 +1,6 @@
 import React from 'react';
 import HeatmapCell from './HeatmapCell';
-import { HeatmapDataPoint, HeatmapConfig, DateFieldConfig } from '../../lib/heatmap/types';
+import { HeatmapDataPoint, HeatmapConfig } from '../../lib/heatmap/types';
 import { getColorByValue } from '../../lib/heatmap/colorCalculator';
 
 interface WeekViewProps {
@@ -8,72 +8,34 @@ interface WeekViewProps {
   config: HeatmapConfig;
   currentDate: Date;
   onCellClick?: (date: string) => void;
-  dateField?: DateFieldConfig;
 }
 
 const WEEK_LABELS = ['00-04', '04-08', '08-12', '12-16', '16-20', '20-24'];
 
-const parseTimestamp = (value: any): number | null => {
-  if (value === null || value === undefined) return null;
-  if (typeof value === 'number') {
-    if (value > 1e10) return value;
-    return value * 1000;
-  }
-  if (typeof value === 'string') {
-    const num = Number(value);
-    if (!isNaN(num)) {
-      if (num > 1e10) return num;
-      return num * 1000;
-    }
-    const parsedDate = new Date(value);
-    if (!isNaN(parsedDate.getTime())) {
-      return parsedDate.getTime();
-    }
-  }
-  return null;
-};
-
-const getTimestampByField = (block: any, dateField?: DateFieldConfig): number | null => {
-  if (!dateField || dateField.type === 'created-at') {
-    const v = block?.['created-at'] ?? block?.['block/created-at'] ?? block?.createdAt ?? block?.created_at;
-    const n = typeof v === 'number' ? v : Number(v);
-    return Number.isFinite(n) ? n : null;
-  }
-  
-  switch (dateField.type) {
-    case 'updated-at':
-      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
-    case 'scheduled':
-      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
-    case 'deadline':
-      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
-    case 'custom':
-      if (dateField.customKey) {
-        const customValue = block?.['block/properties']?.[dateField.customKey] ?? block?.[dateField.customKey];
-        return parseTimestamp(customValue);
-      }
-      return null;
-    default:
-      return parseTimestamp(block?.['created-at']);
-  }
-};
-
 const parseTimeFromData = (dateValue: any): Date => {
+  // 处理多种日期格式：时间戳数字、日期字符串、或包含 'created-at' 字段的对象
   try {
     let timestamp: number;
     
+    // 如果是对象且有 'created-at' 字段
     if (typeof dateValue === 'object' && dateValue !== null && 'created-at' in dateValue) {
       timestamp = dateValue['created-at'];
-    } else if (typeof dateValue === 'number') {
+    } 
+    // 如果是数字
+    else if (typeof dateValue === 'number') {
       timestamp = dateValue;
-    } else if (typeof dateValue === 'string') {
+    } 
+    // 如果是字符串，尝试解析为数字或日期
+    else if (typeof dateValue === 'string') {
       const num = Number(dateValue);
       if (!isNaN(num)) {
         timestamp = num;
       } else {
         return new Date(dateValue);
       }
-    } else {
+    } 
+    // 其他情况，返回当前时间
+    else {
       return new Date();
     }
     
@@ -83,7 +45,7 @@ const parseTimeFromData = (dateValue: any): Date => {
   }
 };
 
-const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellClick, dateField }) => {
+const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellClick }) => {
   const dayOfWeek = currentDate.getDay();
   const monday = new Date(currentDate);
   monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
@@ -99,6 +61,7 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
     });
   }
 
+  // 从 HeatmapDataPoint 中提取 blocks 并按日期分组
   const blocksByDate = new Map<string, any[]>();
   data.forEach(dataPoint => {
     if (dataPoint && dataPoint.blocks) {
@@ -110,6 +73,7 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
     }
   });
 
+  // 初始化小时块数据
   const hourBlocksData: { date: string; count: number }[][] = [];
   for (let h = 0; h < 6; h++) {
     hourBlocksData.push([]);
@@ -118,27 +82,19 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
     }
   }
   
+  // 填充小时块数据
   days.forEach((dayInfo, dayIndex) => {
     const dayBlocks = blocksByDate.get(dayInfo.date) || [];
     dayBlocks.forEach(block => {
       try {
-        const timestamp = getTimestampByField(block, dateField);
-        if (timestamp) {
-          const blockDate = new Date(timestamp);
-          const hour = blockDate.getHours();
-          const hourIndex = Math.floor(hour / 4);
-          if (hourIndex >= 0 && hourIndex < 6) {
-            hourBlocksData[hourIndex][dayIndex].count += 1;
-          }
-        } else {
-          const blockDate = parseTimeFromData(block['created-at']);
-          const hour = blockDate.getHours();
-          const hourIndex = Math.floor(hour / 4);
-          if (hourIndex >= 0 && hourIndex < 6) {
-            hourBlocksData[hourIndex][dayIndex].count += 1;
-          }
+        const blockDate = parseTimeFromData(block['created-at'] || block.date);
+        const hour = blockDate.getHours();
+        const hourIndex = Math.floor(hour / 4);
+        if (hourIndex >= 0 && hourIndex < 6) {
+          hourBlocksData[hourIndex][dayIndex].count += 1;
         }
       } catch {
+        // 忽略解析错误
       }
     });
   });
