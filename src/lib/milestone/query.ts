@@ -409,7 +409,7 @@ export class MilestoneQuery {
 
     const cleanKey = propertyK.startsWith(':') ? propertyK.slice(1) : propertyK;
     
-    const query = `[:find (pull ?b [*])
+    const query = `[:find (pull ?b [* {:${cleanKey} [*]}])
                     :where
                     [?b :${cleanKey}]]`;
 
@@ -469,7 +469,7 @@ export class MilestoneQuery {
       return [];
     }
 
-    const query = `[:find (pull ?b [*])
+    const query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
                     :where
                     [?b :block/tags ?t]
                     [?t :block/title "${tag}"]]`;
@@ -583,13 +583,13 @@ export class MilestoneQuery {
 
     const formattedKey = filterPropKey.startsWith(':') ? filterPropKey.slice(1) : filterPropKey;
 
-    let query = `[:find (pull ?b [*])
+    let query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
                     :where
                     [?b :${formattedKey} ?val]
                     [?val :block/title "${filterPropValue}"]]`;
 
     if (filterTag) {
-      query = `[:find (pull ?b [*])
+      query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
                 :where
                 [?b :${formattedKey} ?val]
                 [?val :block/title "${filterPropValue}"]
@@ -624,7 +624,7 @@ export class MilestoneQuery {
     }
 
     const parentIdPattern = parentUuids.map(uuid => `["${uuid}"]`).join(' | ');
-    const query = `[:find (pull ?child [*])
+    const query = `[:find (pull ?child [* {:block/scheduled [*]} {:block/deadline [*]}])
                     :where
                     [?child :block/parent ?parent]
                     [?parent :block/uuid ${parentIdPattern}]
@@ -716,12 +716,12 @@ export class MilestoneQuery {
       return [];
     }
 
-    let query = `[:find (pull ?b [*]) :where
+    let query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
                   [?b :block/content ?c]
                   [(clojure.string/includes? ?c "${stage}")]]`;
     
     if (filterTag) {
-      query = `[:find (pull ?b [*]) :where
+      query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
                 [?b :block/content ?c]
                 [(clojure.string/includes? ?c "${stage}")]
                 [?b :block/tags ?t]
@@ -748,12 +748,12 @@ export class MilestoneQuery {
       return [];
     }
 
-    let query = `[:find (pull ?b [*]) :where
+    let query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
                   [?b :block/content ?c]
                   [(clojure.string/includes? ?c "${label}")]]`;
     
     if (tag) {
-      query = `[:find (pull ?b [*]) :where
+      query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
                 [?b :block/content ?c]
                 [(clojure.string/includes? ?c "${label}")]
                 [?b :block/tags ?t]
@@ -811,7 +811,7 @@ export class MilestoneQuery {
       return this.createEmptyData();
     }
 
-    const query = `[:find (pull ?b [*])
+    const query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
                     :where
                     [?b :block/tags ?t]
                     [?t :block/title "${tag}"]]`;
@@ -844,10 +844,12 @@ export class MilestoneQuery {
         blocks.push({
           id: item.id?.toString() || '',
           uuid: item.uuid || '',
-          content: item.content || item['block/title'] || '',
+          content: item.content || item['block/title'] || item[':block/title'] || '',
           properties: item.properties || {},
-          createdAt: item['created-at'] || '',
-          updatedAt: item['updated-at'] || '',
+          createdAt: item['created-at'] || item[':block/created-at'] || '',
+          updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
+          scheduled: item['scheduled'] || item[':block/scheduled'] || '',
+          deadline: item['deadline'] || item[':block/deadline'] || '',
         });
       }
     }
@@ -926,10 +928,12 @@ export class MilestoneQuery {
         blocks.push({
           id: item.id?.toString() || '',
           uuid: item.uuid || '',
-          content: item.content || item['block/title'] || '',
+          content: item.content || item['block/title'] || item[':block/title'] || '',
           properties: item.properties || {},
-          createdAt: item['created-at'] || '',
-          updatedAt: item['updated-at'] || '',
+          createdAt: item['created-at'] || item[':block/created-at'] || '',
+          updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
+          scheduled: item['scheduled'] || item[':block/scheduled'] || '',
+          deadline: item['deadline'] || item[':block/deadline'] || '',
         });
       }
     }

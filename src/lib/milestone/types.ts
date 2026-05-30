@@ -90,6 +90,8 @@ export interface BlockWithProperty {
   };
   createdAt: string;
   updatedAt: string;
+  scheduled?: string;
+  deadline?: string;
 }
 
 export interface PropertyEnumValue {
