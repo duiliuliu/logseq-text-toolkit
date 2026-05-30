@@ -1,5 +1,5 @@
 (function () {
-  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* Light theme variables - 参考 shadcn 和苹果设计 */\n:root {\n  --background-color-light: #ffffff;\n  --text-color-light: #000000;\n  --primary-text-color-light: #1e293b;\n  --secondary-text-color-light: #64748b;\n  --secondary-background-color-light: #f8fafc;\n  --border-color-light: #e2e8f0;\n  --accent-color-light: #3b82f6;\n  --hover-color-light: #f1f5f9;\n  --focus-color-light: #dbeafe;\n  \n  /* Dark theme variables - 参考 shadcn 和苹果设计 */\n  --background-color-dark: #0f172a;\n  --text-color-dark: #ffffff;\n  --primary-text-color-dark: #f1f5f9;\n  --secondary-text-color-dark: #94a3b8;\n  --secondary-background-color-dark: #1e293b;\n  --border-color-dark: #334155;\n  --accent-color-dark: #60a5fa;\n  --hover-color-dark: #334155;\n  --focus-color-dark: #1e3a8a;\n  \n  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n/* Media query for dark mode */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n  }\n}\n\n/* Theme classes */\n.light-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n}\n\n/* =========================================================\n   LTT THEME: INDIGO-DARK\n   深色配色方案 - 基于 heatmap 风格\n   \n   用途：BlockView 非默认主题深色模式\n   后期可扩展为全局 theme 方案\n   \n   配色特征：\n   - 主背景：#171f33 (深蓝紫)\n   - 强调色：indigo 系列 (#818cf8)\n   - 文本色：高对比度灰色系\n   - 边框：低透明度白色\n========================================================= */\n\n.dark-mode {\n  --ltt-bg-primary-dark: #171f33;\n  --ltt-bg-secondary-dark: #1a1d23;\n  --ltt-bg-tertiary-dark: #2d3449;\n  --ltt-bg-deepest-dark: #12151a;\n  --ltt-border-subtle-dark: rgba(255, 255, 255, 0.06);\n  --ltt-border-normal-dark: rgba(255, 255, 255, 0.08);\n  --ltt-border-medium-dark: rgba(255, 255, 255, 0.1);\n  --ltt-text-primary-dark: #e5e7eb;\n  --ltt-text-secondary-dark: #9ca3af;\n  --ltt-text-muted-dark: #6b7280;\n  --ltt-accent-blue-dark: #60a5fa;\n  --ltt-accent-indigo-dark: #818cf8;\n  --ltt-accent-purple-dark: #a78bfa;\n  --ltt-accent-green-dark: #6ee7b7;\n  --ltt-shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-hover-dark: 0 8px 24px rgba(0, 0, 0, 0.5);\n}\n\n/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  margin-top: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 6px;\n  font-size: 11px;\n  width: fit-content;\n  min-height: 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  transition: all 0.2s ease;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 11px;\n  font-weight: 500;\n  line-height: 1.4;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: var(--ls-primary-text-color);\n  font-weight: 600;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n}\n\n.ltt-view-btn svg {\n  width: 12px;\n  height: 12px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 11px;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar,\n.ltt-mindmap-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   MINDMAP VIEW\n========================================================= */\n\n/* Mindmap 视图样式已移到 mindMapView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana,\n.ltt-mindmap-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* Indigo Theme */\n.ltt-table-root.ltt-theme-indigo,\n.ltt-gallery-root.ltt-theme-indigo,\n.ltt-board-root.ltt-theme-indigo,\n.ltt-mindmap-root.ltt-theme-indigo {\n  --ltt-primary-color: #6366f1;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 3px 6px;\n    gap: 3px;\n  }\n\n  .ltt-view-btn {\n    padding: 3px 6px;\n    font-size: 10px;\n  }\n\n  .ltt-view-btn svg {\n    width: 10px;\n    height: 10px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 10px;\n  }\n}.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n/* 基础容器 */\n.ls-block:has(.ltt-summary-page) {\n  --card-radius: 10px;\n  --card-gap: 12px;\n  --tag-blue: #4387ff;\n  --tag-green: #10b981;\n  --tag-yellow: #f59e0b;\n  --tag-purple: #8b5cf6;\n  --tag-pink: #ec4899;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: var(--ls-secondary-background-color, #f8f9fa) !important;\n  padding: 24px 16px !important;\n  border-radius: 12px !important;\n  text-align: center !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(25% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  transition: all 0.3s ease !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"]:hover {\n  transform: translateY(-4px) !important;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(50% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 20px !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 8px !important;\n}\n\n/* 隐藏圆点箭头 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n/* ==================================\n3. 热门标签 → 彩色标签样式\n=================================== */\n/* .ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-children {\n  display: flex !important;\n  flex-wrap: nowrap !important;\n   gap: 8px !important;\n  flex-direction: row !important;\n   width: 100% !important;\n  overflow: visible !important;\n} */\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  /* background: var(--ls-secondary-background-color, #ffffff) !important; */\n  /* padding: 24px !important; */\n  /* border-radius: 12px !important; */\n  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important; */\n  /* border: 1px solid rgba(0, 0, 0, 0.05) !important; */\n  display: inline-block !important;\n  width: calc(15% - 16px) !important;\n  /* margin: 8px !important; */\n  /* vertical-align: top !important; */\n  min-height: 8px !important;\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  position: static !important;\n  vertical-align: top !important; */\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  min-height: unset !important;\n  white-space: nowrap !important; */\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-content .block-title-wrap {\n  display: inline-block !important;\n  padding: 6px 14px !important;\n  border-radius: 999px !important;\n  font-size: 13px !important;\n  font-weight: 500 !important;\n  color: #fff !important;\n  white-space: nowrap !important;\n}\n\n/* 自动给不同标签上色 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(1) .block-title-wrap {\n  background: var(--tag-blue);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(2) .block-title-wrap {\n  background: var(--tag-green);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(3) .block-title-wrap {\n  background: var(--tag-yellow);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(4) .block-title-wrap {\n  background: var(--tag-purple);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(5) .block-title-wrap {\n  background: var(--tag-pink);\n}\n\n/* 隐藏圆点 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .bullet-link-wrap {\n  display: none !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(2) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 24px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 30px !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] table {\n  width: 100% !important;\n  border-collapse: collapse !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] td {\n  padding: 8px 12px !important;\n  text-align: left !important;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(59, 130, 246, 0.08) !important;\n  font-weight: 600 !important;\n  font-size: 13px !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(96, 165, 250, 0.15) !important;\n}\n\n@media (max-width: 900px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(50% - 16px) !important;\n  }\n\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n@media (max-width: 500px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n/* Summary Modal Styles */\n/* 这个 CSS 文件定义了 Summary Modal 的样式，确保在不同主题下都有良好的视觉效果。 */\n\n.summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}/*$vite$:1*/";document.head.appendChild(__vite_style__);
+  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: var(--ls-active-primary-color, #3b82f6);\n  --ltt-accent-hover: #2563eb;\n  --ltt-accent-muted: var(--ls-focus-ring-color, #dbeafe);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: var(--ls-active-primary-color, #60a5fa);\n  --ltt-accent-hover: #3b82f6;\n  --ltt-accent-muted: #1e3a8a;\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-xl);\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  border-top: 2px dashed;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 180px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: space-between;\n  gap: var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin-top: var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin-top: var(--ltt-spacing-xs);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-lg);\n  border: 2px solid;\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 120px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-sm);\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  flex-wrap: wrap;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  margin-top: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 6px;\n  font-size: 11px;\n  width: fit-content;\n  min-height: 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  transition: all 0.2s ease;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 11px;\n  font-weight: 500;\n  line-height: 1.4;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: var(--ls-primary-text-color);\n  font-weight: 600;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n}\n\n.ltt-view-btn svg {\n  width: 12px;\n  height: 12px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 11px;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar,\n.ltt-mindmap-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   MINDMAP VIEW\n========================================================= */\n\n/* Mindmap 视图样式已移到 mindMapView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana,\n.ltt-mindmap-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* Indigo Theme */\n.ltt-table-root.ltt-theme-indigo,\n.ltt-gallery-root.ltt-theme-indigo,\n.ltt-board-root.ltt-theme-indigo,\n.ltt-mindmap-root.ltt-theme-indigo {\n  --ltt-primary-color: #6366f1;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 3px 6px;\n    gap: 3px;\n  }\n\n  .ltt-view-btn {\n    padding: 3px 6px;\n    font-size: 10px;\n  }\n\n  .ltt-view-btn svg {\n    width: 10px;\n    height: 10px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 10px;\n  }\n}.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 9999;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* Milestone Templates Section Styles */\n.ltt-milestone-templates-section {\n  margin-top: 32px;\n  margin-bottom: 24px;\n}\n\n.ltt-milestone-templates-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 20px;\n}\n\n.ltt-milestone-templates-title {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin, #111827);\n  letter-spacing: -0.2px;\n}\n\n.ltt-milestone-add-template-btn {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  color: white;\n  background-color: #111827;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-add-template-btn:hover {\n  background-color: #1f2937;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n\n.ltt-milestone-add-template-btn:active {\n  transform: translateY(0);\n  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-add-icon {\n  flex-shrink: 0;\n}\n\n.ltt-milestone-templates-list {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.ltt-milestone-no-templates {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);\n  border-radius: 12px;\n  border: 2px dashed #d1d5db;\n}\n\n.ltt-milestone-empty-icon {\n  color: #9ca3af;\n  margin-bottom: 12px;\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates-text {\n  margin: 0;\n  font-size: 14px;\n  color: #6b7280;\n  text-align: center;\n}\n\n.ltt-milestone-template-card {\n  background-color: white;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  overflow: visible;\n  transition: all 0.2s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);\n  position: relative;\n}\n\n.ltt-milestone-template-card:hover {\n  border-color: #d1d5db;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n  transform: translateY(-1px);\n}\n\n.ltt-milestone-template-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  background: linear-gradient(to bottom, #fafafa, #ffffff);\n  border-bottom: 1px solid #f3f4f6;\n}\n\n.ltt-milestone-template-info {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex: 1;\n}\n\n.ltt-milestone-template-number {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 28px;\n  height: 28px;\n  background: linear-gradient(135deg, #111827 0%, #374151 100%);\n  color: white;\n  font-size: 13px;\n  font-weight: 600;\n  border-radius: 6px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-name-input {\n  flex: 1;\n  padding: 8px 12px;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color-plugin, #111827);\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n  min-width: 0;\n}\n\n.ltt-milestone-template-name-input:hover {\n  background-color: #f9fafb;\n  border-color: #e5e7eb;\n}\n\n.ltt-milestone-template-name-input:focus {\n  outline: none;\n  background-color: #f9fafb;\n  border-color: #111827;\n  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);\n}\n\n.ltt-milestone-template-id {\n  font-size: 12px;\n  color: #9ca3af;\n  font-family: ui-monospace, Monaco, 'SF Mono', monospace;\n  background-color: #f3f4f6;\n  padding: 4px 8px;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-actions {\n  display: flex;\n  gap: 8px;\n}\n\n.ltt-milestone-action-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  background-color: transparent;\n  border: 1px solid #e5e7eb;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  color: #6b7280;\n}\n\n.ltt-milestone-action-btn:hover {\n  background-color: #f3f4f6;\n  border-color: #d1d5db;\n  color: #111827;\n}\n\n.ltt-milestone-action-btn:active {\n  transform: scale(0.95);\n}\n\n.ltt-milestone-action-btn-edit.ltt-milestone-action-btn-active {\n  background-color: #111827;\n  border-color: #111827;\n  color: white;\n}\n\n.ltt-milestone-action-btn-delete:hover {\n  background-color: #fef2f2;\n  border-color: #fecaca;\n  color: #dc2626;\n}\n\n.ltt-milestone-template-card-expanded {\n  border-color: #d1d5db;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-milestone-template-card-body {\n  padding: 24px 20px;\n  background: linear-gradient(to bottom, #fafafa, #ffffff);\n}\n\n.ltt-milestone-form-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 20px;\n}\n\n.ltt-milestone-form-item {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.ltt-milestone-form-item-full {\n  grid-column: 1 / -1;\n}\n\n.ltt-milestone-form-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color-plugin, #374151);\n  letter-spacing: 0.1px;\n}\n\n.ltt-milestone-form-label-required::after {\n  content: ' *';\n  color: #dc2626;\n}\n\n.ltt-milestone-form-input {\n  width: 100%;\n  padding: 10px 14px;\n  font-size: 14px;\n  color: var(--ls-primary-text-color-plugin, #111827);\n  background-color: white;\n  border: 1px solid #d1d5db;\n  border-radius: 8px;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-form-input:hover {\n  border-color: #9ca3af;\n}\n\n.ltt-milestone-form-input:focus {\n  outline: none;\n  border-color: #111827;\n  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);\n}\n\n.ltt-milestone-form-input::placeholder {\n  color: #9ca3af;\n}\n\n/* Dark Theme Styles for Milestone Section */\n[data-theme=\"dark\"] .ltt-milestone-templates-title {\n  color: var(--ls-primary-text-color-plugin, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-add-template-btn {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-add-template-btn:hover {\n  background-color: #2563eb;\n  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates {\n  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);\n  border-color: #374151;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-empty-icon {\n  color: #6b7280;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates-text {\n  color: #9ca3af;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card {\n  background-color: var(--ls-primary-background-color-plugin, #111827);\n  border-color: var(--ls-border-color-plugin, #374151);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card:hover {\n  border-color: #4b5563;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-header {\n  background: linear-gradient(to bottom, #1f2937, #111827);\n  border-bottom-color: #374151;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-number {\n  background: linear-gradient(135deg, var(--ls-accent-color-plugin, #3b82f6) 0%, #1d4ed8 100%);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-name-input {\n  color: var(--ls-primary-text-color-plugin, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-name-input:hover {\n  background-color: #1f2937;\n  border-color: #374151;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-name-input:focus {\n  background-color: #1f2937;\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-id {\n  background-color: #1f2937;\n  color: #9ca3af;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn {\n  border-color: #374151;\n  color: #9ca3af;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn:hover {\n  background-color: #1f2937;\n  border-color: #4b5563;\n  color: #f9fafb;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-edit.ltt-milestone-action-btn-active {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-delete:hover {\n  background-color: #450a0a;\n  border-color: #7f1d1d;\n  color: #fca5a5;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-expanded {\n  border-color: #4b5563;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-body {\n  background: linear-gradient(to bottom, #1f2937, #111827);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-label {\n  color: var(--ls-primary-text-color-plugin, #e5e7eb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input {\n  background-color: #1f2937;\n  border-color: #374151;\n  color: var(--ls-primary-text-color-plugin, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:hover {\n  border-color: #4b5563;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input::placeholder {\n  color: #6b7280;\n}\n\n/* Error Styles for Milestone Section */\n.ltt-milestone-input-error {\n  border-color: #dc2626 !important;\n  background-color: #fef2f2 !important;\n}\n\n.ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;\n}\n\n.ltt-milestone-error-message {\n  font-size: 12px;\n  color: #dc2626;\n  margin-top: 2px;\n  padding: 4px 8px;\n  background-color: #fef2f2;\n  border-radius: 4px;\n  border: 1px solid #fecaca;\n}\n\n/* Dark theme error styles */\n[data-theme=\"dark\"] .ltt-milestone-input-error {\n  border-color: #fca5a5 !important;\n  background-color: #450a0a !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-error-message {\n  color: #fca5a5;\n  background-color: #450a0a;\n  border-color: #7f1d1d;\n}\n\n/* Responsive Styles for Milestone Section */\n@media (max-width: 768px) {\n  .ltt-milestone-templates-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: flex-start;\n  }\n  \n  .ltt-milestone-add-template-btn {\n    width: 100%;\n    justify-content: center;\n  }\n  \n  .ltt-milestone-form-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .ltt-milestone-template-card-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: stretch;\n  }\n  \n  .ltt-milestone-template-actions {\n    justify-content: flex-end;\n  }\n\n  .ltt-milestone-template-info {\n    flex-wrap: wrap;\n  }\n\n  .ltt-milestone-error-message {\n    width: 100%;\n  }\n}\n/* 基础容器 */\n.ls-block:has(.ltt-summary-page) {\n  --card-radius: 10px;\n  --card-gap: 12px;\n  --tag-blue: #4387ff;\n  --tag-green: #10b981;\n  --tag-yellow: #f59e0b;\n  --tag-purple: #8b5cf6;\n  --tag-pink: #ec4899;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: var(--ls-secondary-background-color, #f8f9fa) !important;\n  padding: 24px 16px !important;\n  border-radius: 12px !important;\n  text-align: center !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(25% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  transition: all 0.3s ease !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"]:hover {\n  transform: translateY(-4px) !important;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(50% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 20px !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 8px !important;\n}\n\n/* 隐藏圆点箭头 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n/* ==================================\n3. 热门标签 → 彩色标签样式\n=================================== */\n/* .ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-children {\n  display: flex !important;\n  flex-wrap: nowrap !important;\n   gap: 8px !important;\n  flex-direction: row !important;\n   width: 100% !important;\n  overflow: visible !important;\n} */\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  /* background: var(--ls-secondary-background-color, #ffffff) !important; */\n  /* padding: 24px !important; */\n  /* border-radius: 12px !important; */\n  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important; */\n  /* border: 1px solid rgba(0, 0, 0, 0.05) !important; */\n  display: inline-block !important;\n  width: calc(15% - 16px) !important;\n  /* margin: 8px !important; */\n  /* vertical-align: top !important; */\n  min-height: 8px !important;\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  position: static !important;\n  vertical-align: top !important; */\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  min-height: unset !important;\n  white-space: nowrap !important; */\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-content .block-title-wrap {\n  display: inline-block !important;\n  padding: 6px 14px !important;\n  border-radius: 999px !important;\n  font-size: 13px !important;\n  font-weight: 500 !important;\n  color: #fff !important;\n  white-space: nowrap !important;\n}\n\n/* 自动给不同标签上色 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(1) .block-title-wrap {\n  background: var(--tag-blue);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(2) .block-title-wrap {\n  background: var(--tag-green);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(3) .block-title-wrap {\n  background: var(--tag-yellow);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(4) .block-title-wrap {\n  background: var(--tag-purple);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(5) .block-title-wrap {\n  background: var(--tag-pink);\n}\n\n/* 隐藏圆点 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .bullet-link-wrap {\n  display: none !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(2) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 24px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 30px !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] table {\n  width: 100% !important;\n  border-collapse: collapse !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] td {\n  padding: 8px 12px !important;\n  text-align: left !important;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(59, 130, 246, 0.08) !important;\n  font-weight: 600 !important;\n  font-size: 13px !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(96, 165, 250, 0.15) !important;\n}\n\n@media (max-width: 900px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(50% - 16px) !important;\n  }\n\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n@media (max-width: 500px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n/* Summary Modal Styles */\n/* 这个 CSS 文件定义了 Summary Modal 的样式，确保在不同主题下都有良好的视觉效果。 */\n\n.summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}/*$vite$:1*/";document.head.appendChild(__vite_style__);
 
   false&&(function polyfill() {
     const relList = document.createElement("link").relList;
@@ -1041,6 +1041,15 @@
   		promptTemplate: ""
   	}
   };
+  const milestone = {
+  	enabled: true,
+  	defaultStyle: "capsule",
+  	showLabel: true,
+  	showLabels: true,
+  	showProgress: true,
+  	templates: [
+  	]
+  };
   const meta = {
   	language: {
   		languages: [
@@ -1318,6 +1327,7 @@
   	heatmap: heatmap,
   	blockView: blockView,
   	summary: summary,
+  	milestone: milestone,
   	meta: meta,
   	ToolbarItems: ToolbarItems
   };
@@ -3036,6 +3046,7 @@
   		heatmap: "📈 Heatmap",
   		blockView: "📋 Block View",
   		summary: "📝 Summary Generator",
+  		milestone: "🎯 Milestone",
   		advanced: "⚡ Other Settings"
   	},
   	saveSuccessRestart: "Saved successfully, please restart the application to take effect",
@@ -3265,7 +3276,37 @@
   		aiApiUrl: "API URL",
   		aiModel: "Model",
   		aiPromptTemplate: "Prompt Template"
-  	}
+  	},
+  	milestone: {
+  		description: "Configure default behavior and display style for milestone components.",
+  		enabled: "Enable Milestone Feature",
+  		defaultStyle: "Default Display Style",
+  		styleCapsule: "Capsule",
+  		styleBadge: "Badge",
+  		styleTrack: "Track",
+  		styleCard: "Card",
+  		styleCompact: "Compact",
+  		showLabel: "Show Labels",
+  		showLabels: "Show Labels",
+  		showProgress: "Show Progress",
+  		templates: "Predefined Templates",
+  		addTemplate: "Add Template",
+  		noTemplates: "No templates yet, click the button above to add.",
+  		newTemplate: "New Template",
+  		templateName: "Template Name",
+  		templateDescription: "Description (optional)",
+  		templateFilterTag: "Filter Tag (optional)",
+  		templateFilterPropKey: "Filter Property Key (optional)",
+  		templateFilterPropValue: "Filter Property Value (optional)",
+  		templateMilestonePropKey: "Milestone Property Key (required)",
+  		templateMilestoneList: "Milestone List (semicolon separated)",
+  		edit: "Edit",
+  		collapse: "Collapse",
+  		"delete": "Delete",
+  		nameRequired: "Template name cannot be empty",
+  		nameDuplicate: "Template name already exists"
+  	},
+  	saveMilestoneSettings: "Save Milestone Settings"
   };
   var en$1 = {
   	taskProgress: taskProgress$2,
@@ -3314,6 +3355,7 @@
   		heatmap: "📈 ヒートマップ",
   		blockView: "📋 ブロックビュー",
   		summary: "📝 まとめ生成",
+  		milestone: "🎯 マイルストーン",
   		advanced: "⚡ その他の設定"
   	},
   	saveSuccessRestart: "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
@@ -3540,7 +3582,37 @@
   		aiApiUrl: "APIアドレス",
   		aiModel: "モデル",
   		aiPromptTemplate: "プロンプトテンプレート"
-  	}
+  	},
+  	milestone: {
+  		description: "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
+  		enabled: "マイルストーン機能を有効化",
+  		defaultStyle: "デフォルト表示スタイル",
+  		styleCapsule: "カプセル",
+  		styleBadge: "バッジ",
+  		styleTrack: "トラック",
+  		styleCard: "カード",
+  		styleCompact: "コンパクト",
+  		showLabel: "ラベルを表示",
+  		showLabels: "ラベルを表示",
+  		showProgress: "進捗を表示",
+  		templates: "事前定義テンプレート",
+  		addTemplate: "テンプレートを追加",
+  		noTemplates: "テンプレートはまだありません。上のボタンをクリックして追加してください。",
+  		newTemplate: "新規テンプレート",
+  		templateName: "テンプレート名",
+  		templateDescription: "説明（任意）",
+  		templateFilterTag: "フィルタータグ（任意）",
+  		templateFilterPropKey: "フィルタープロパティキー（任意）",
+  		templateFilterPropValue: "フィルタープロパティ値（任意）",
+  		templateMilestonePropKey: "マイルストーンプロパティキー（必須）",
+  		templateMilestoneList: "マイルストーンリスト（セミコロン区切り）",
+  		edit: "編集",
+  		collapse: "折りたたむ",
+  		"delete": "削除",
+  		nameRequired: "テンプレート名は空にできません",
+  		nameDuplicate: "テンプレート名は既に存在します"
+  	},
+  	saveMilestoneSettings: "マイルストーン設定を保存"
   };
   var ja = {
   	taskProgress: taskProgress$1,
@@ -3589,6 +3661,7 @@
   		heatmap: "📈 热力图",
   		blockView: "📋 块视图",
   		summary: "📝 总结生成",
+  		milestone: "🎯 里程碑",
   		advanced: "⚡ 其他设置"
   	},
   	saveSuccessRestart: "保存成功，请重启应用生效",
@@ -3818,7 +3891,37 @@
   		aiApiUrl: "API 地址",
   		aiModel: "模型",
   		aiPromptTemplate: "提示词模板"
-  	}
+  	},
+  	milestone: {
+  		description: "配置里程碑组件的默认行为和显示样式。",
+  		enabled: "启用里程碑功能",
+  		defaultStyle: "默认显示样式",
+  		styleCapsule: "胶囊",
+  		styleBadge: "徽章",
+  		styleTrack: "轨道",
+  		styleCard: "卡片",
+  		styleCompact: "紧凑",
+  		showLabel: "显示标签",
+  		showLabels: "显示标签",
+  		showProgress: "显示进度",
+  		templates: "预定义模板",
+  		addTemplate: "添加模板",
+  		noTemplates: "暂无模板，点击上方按钮添加。",
+  		newTemplate: "新模板",
+  		templateName: "模板名称",
+  		templateDescription: "描述（可选）",
+  		templateFilterTag: "筛选标签（可选）",
+  		templateFilterPropKey: "筛选属性键（可选）",
+  		templateFilterPropValue: "筛选属性值（可选）",
+  		templateMilestonePropKey: "里程碑属性键（必填）",
+  		templateMilestoneList: "里程碑列表（分号分隔）",
+  		edit: "编辑",
+  		collapse: "收起",
+  		"delete": "删除",
+  		nameRequired: "模板名称不能为空",
+  		nameDuplicate: "模板名称已存在"
+  	},
+  	saveMilestoneSettings: "保存里程碑设置"
   };
   var zhCN = {
   	taskProgress: taskProgress,
@@ -6043,12 +6146,12 @@ ${nestingClauses}`;
     const n = typeof v === "number" ? v : Number(v);
     return Number.isFinite(n) ? n : null;
   };
-  const parseTimestamp = (value) => {
+  const parseTimestamp$1 = (value) => {
     if (!value) return null;
     const n = typeof value === "number" ? value : Number(value);
     return Number.isFinite(n) ? n : null;
   };
-  const parseCustomProperty = (value) => {
+  const parseCustomProperty$1 = (value) => {
     if (!value) return null;
     if (typeof value === "number") {
       return Number.isFinite(value) ? value : null;
@@ -6073,7 +6176,7 @@ ${nestingClauses}`;
     }
     return null;
   };
-  const getTimestampByField = (block, dateField) => {
+  const getTimestampByField$1 = (block, dateField) => {
     if (!dateField || dateField.type === "created-at") {
       const v = block?.["created-at"] ?? block?.["block/created-at"] ?? block?.createdAt ?? block?.created_at;
       const n = typeof v === "number" ? v : Number(v);
@@ -6081,15 +6184,15 @@ ${nestingClauses}`;
     }
     switch (dateField.type) {
       case "updated-at":
-        return parseTimestamp(block?.["updated-at"] ?? block?.["block/updated-at"]);
+        return parseTimestamp$1(block?.["updated-at"] ?? block?.["block/updated-at"]);
       case "scheduled":
-        return parseTimestamp(block?.["scheduled"] ?? block?.["block/scheduled"] ?? block?.[":logseq.property/scheduled"]);
+        return parseTimestamp$1(block?.["scheduled"] ?? block?.["block/scheduled"] ?? block?.[":logseq.property/scheduled"]);
       case "deadline":
-        return parseTimestamp(block?.["deadline"] ?? block?.["block/deadline"] ?? block?.[":logseq.property/deadline"]);
+        return parseTimestamp$1(block?.["deadline"] ?? block?.["block/deadline"] ?? block?.[":logseq.property/deadline"]);
       case "custom":
         if (dateField.customKey) {
           const customValue = block?.["block/properties"]?.[dateField.customKey];
-          return parseCustomProperty(customValue);
+          return parseCustomProperty$1(customValue);
         }
         return null;
       default:
@@ -6151,7 +6254,7 @@ ${where}
   const bucketByDay = (blocks, startMs, endMs, dateField) => {
     const buckets = {};
     for (const b of blocks) {
-      const ts = getTimestampByField(b, dateField);
+      const ts = getTimestampByField$1(b, dateField);
       if (!ts || ts < startMs || ts >= endMs) continue;
       const key = formatDate(new Date(ts));
       if (!buckets[key]) buckets[key] = [];
@@ -6162,7 +6265,7 @@ ${where}
   const bucketByWeekCell = (blocks, startMs, dateField) => {
     const buckets = {};
     for (const b of blocks) {
-      const ts = getTimestampByField(b, dateField);
+      const ts = getTimestampByField$1(b, dateField);
       if (!ts) continue;
       const dayIdx = Math.floor((ts - startMs) / 864e5);
       if (dayIdx < 0 || dayIdx >= 7) continue;
@@ -6234,7 +6337,7 @@ ${where}
 
   const MACRO_PREFIX$2 = ":heatmap";
   const MACRO_PREFIX_CN = ":热力图";
-  const PLUGIN_ID$2 = "text-toolkit-heatmap";
+  const PLUGIN_ID$3 = "text-toolkit-heatmap";
   const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX$2, MACRO_PREFIX_CN]);
   let HeatmapComponent = null;
   function setHeatmapComponent(component) {
@@ -6259,7 +6362,7 @@ ${where}
     "custom": "custom",
     "自定义": "custom"
   };
-  function parseMacroArguments(tokens, argMap) {
+  function parseMacroArguments$1(tokens, argMap) {
     let viewType;
     let queryType = "tag";
     let queryValue = "";
@@ -6436,7 +6539,7 @@ ${where}
         weekPageTemplate,
         weekPageLogseqTemplate,
         dateField
-      } = parseMacroArguments(tokens, argMap);
+      } = parseMacroArguments$1(tokens, argMap);
       const settings = await getSettingsWithSystem();
       const now = /* @__PURE__ */ new Date();
       let referenceDate;
@@ -6513,7 +6616,7 @@ ${where}
         loggerProxy.warn("⚠️ Heatmap: Component not registered");
         return false;
       }
-      const containerId = PLUGIN_ID$2 + "__" + slot;
+      const containerId = PLUGIN_ID$3 + "__" + slot;
       loggerProxy.debug("🌡️ Heatmap: Container created", { containerId });
       logseqAPI$1.provideUI({
         key: containerId,
@@ -7509,7 +7612,7 @@ ${where}
       const pageName = config.monthPageTemplate.replace(/\{year\}/g, String(year)).replace(/\{month\}/g, String(month).padStart(2, "0"));
       const existingPage = await logseqAPI$1.Editor.getPage(pageName);
       if (existingPage) {
-        await logseqAPI$1.UI.openInRightSidebar(existingPage.uuid);
+        await logseqAPI$1.Editor.openInRightSidebar(existingPage.uuid);
       } else if (config.monthPageTemplateType) {
         const pageGenerator = new PageGenerator();
         const result = await pageGenerator.generateMonthlyPage(
@@ -7521,7 +7624,7 @@ ${where}
         if (result) {
           const newPage = await logseqAPI$1.Editor.getPage(result);
           if (newPage) {
-            await logseqAPI$1.UI.openInRightSidebar(newPage.uuid);
+            await logseqAPI$1.Editor.openInRightSidebar(newPage.uuid);
           }
         }
       } else {
@@ -7535,7 +7638,7 @@ ${where}
       const pageName = config.weekPageTemplate.replace(/\{year\}/g, String(year)).replace(/\{week\}/g, String(weekNumber).padStart(2, "0"));
       const existingPage = await logseqAPI$1.Editor.getPage(pageName);
       if (existingPage) {
-        await logseqAPI$1.UI.openInRightSidebar(existingPage.uuid);
+        await logseqAPI$1.Editor.openInRightSidebar(existingPage.uuid);
       } else if (config.weekPageTemplateType) {
         const pageGenerator = new PageGenerator();
         const result = await pageGenerator.generateWeeklyPage(
@@ -7547,7 +7650,7 @@ ${where}
         if (result) {
           const newPage = await logseqAPI$1.Editor.getPage(result);
           if (newPage) {
-            await logseqAPI$1.UI.openInRightSidebar(newPage.uuid);
+            await logseqAPI$1.Editor.openInRightSidebar(newPage.uuid);
           }
         }
       } else {
@@ -7693,7 +7796,7 @@ ${where}
           loggerProxy.debug("📐 Heatmap: Navigating to page", { pageName, date, dateFormat: config?.dateFormat });
           const existingPage = await logseqAPI$1.Editor.getPage(pageName);
           if (existingPage) {
-            await logseqAPI$1.UI.openInRightSidebar(existingPage.uuid);
+            await logseqAPI$1.Editor.openInRightSidebar(existingPage.uuid);
           } else {
             ensurePageAndNavigate(pageName);
           }
@@ -9049,6 +9152,913 @@ ${where}
         ] })
       ] }),
       isLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { padding: "40px", textAlign: "center", color: "#666" }, children: "加载中..." }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Heatmap, { config, data, theme })
+    ] });
+  };
+
+  const defaultColorScheme$5 = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const CapsuleMilestone = ({
+    items,
+    colorScheme = defaultColorScheme$5,
+    showLabels = true,
+    showProgress = true,
+    onNodeClick
+  }) => {
+    const [hoveredItem, setHoveredItem] = reactExports.useState(null);
+    const handleNodeClick = (item) => {
+      if (item.blockUuid) {
+        try {
+          logseqAPI$1.Editor.openInRightSidebar(item.blockUuid);
+        } catch (error) {
+          console.error("[CapsuleMilestone] Failed to open in right sidebar:", error);
+        }
+      }
+      onNodeClick?.(item);
+    };
+    const getNodeColor = (status) => {
+      switch (status) {
+        case "completed":
+          return colorScheme.completed;
+        case "in_progress":
+          return colorScheme.inProgress;
+        case "failed":
+          return colorScheme.failed;
+        case "skipped":
+          return colorScheme.skipped;
+        case "pending":
+        default:
+          return colorScheme.pending;
+      }
+    };
+    const getNodeSymbol = (status) => {
+      switch (status) {
+        case "completed":
+          return "✓";
+        case "in_progress":
+          return "→";
+        case "failed":
+          return "✕";
+        case "skipped":
+          return "~";
+        case "pending":
+        default:
+          return "○";
+      }
+    };
+    const getStatusText = (status) => {
+      switch (status) {
+        case "completed":
+          return "已完成";
+        case "in_progress":
+          return "进行中";
+        case "failed":
+          return "失败";
+        case "skipped":
+          return "已跳过";
+        case "pending":
+        default:
+          return "待开始";
+      }
+    };
+    if (items.length === 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-capsule", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-track", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "ltt-milestone-node",
+          onMouseEnter: () => setHoveredItem(item.id),
+          onMouseLeave: () => setHoveredItem(null),
+          onClick: () => handleNodeClick(item),
+          style: { cursor: item.blockUuid ? "pointer" : "default" },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                className: "ltt-milestone-symbol",
+                style: { color: getNodeColor(item.status) },
+                children: getNodeSymbol(item.status)
+              }
+            ),
+            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
+              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
+                "时间: ",
+                item.date
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
+                "状态: ",
+                getStatusText(item.status)
+              ] }),
+              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
+                "进度: ",
+                item.progress,
+                "%"
+              ] })
+            ] })
+          ]
+        }
+      ),
+      index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "ltt-milestone-line-dashed",
+          style: {
+            borderColor: items[index + 1]?.status === "completed" ? colorScheme.completed : colorScheme.pending
+          }
+        }
+      ),
+      showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-info", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-label", children: item.label }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "ltt-milestone-status",
+            style: { color: getNodeColor(item.status) },
+            children: [
+              getStatusText(item.status),
+              showProgress && item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                " (",
+                item.progress,
+                "%)"
+              ] })
+            ]
+          }
+        )
+      ] })
+    ] }, item.id)) }) });
+  };
+
+  const defaultColorScheme$4 = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const BadgeMilestone = ({
+    items,
+    colorScheme = defaultColorScheme$4,
+    showLabels = true,
+    showProgress = true,
+    overallProgress = 0,
+    onNodeClick
+  }) => {
+    const [hoveredItem, setHoveredItem] = reactExports.useState(null);
+    const handleNodeClick = (item) => {
+      if (item.blockUuid) {
+        try {
+          logseqAPI$1.Editor.openInRightSidebar(item.blockUuid);
+        } catch (error) {
+          console.error("[BadgeMilestone] Failed to open in right sidebar:", error);
+        }
+      }
+      onNodeClick?.(item);
+    };
+    const getNodeColor = (status) => {
+      switch (status) {
+        case "completed":
+          return colorScheme.completed;
+        case "in_progress":
+          return colorScheme.inProgress;
+        case "failed":
+          return colorScheme.failed;
+        case "skipped":
+          return colorScheme.skipped;
+        case "pending":
+        default:
+          return colorScheme.pending;
+      }
+    };
+    const getNodeSymbol = (status) => {
+      switch (status) {
+        case "completed":
+          return "●";
+        case "in_progress":
+          return "◐";
+        case "failed":
+          return "✕";
+        case "skipped":
+          return "~";
+        case "pending":
+        default:
+          return "○";
+      }
+    };
+    const getStatusText = (status) => {
+      switch (status) {
+        case "completed":
+          return "已完成";
+        case "in_progress":
+          return "进行中";
+        case "failed":
+          return "失败";
+        case "skipped":
+          return "已跳过";
+        case "pending":
+        default:
+          return "待开始";
+      }
+    };
+    if (items.length === 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-badge", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-grid", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "ltt-milestone-badge-item",
+          onMouseEnter: () => setHoveredItem(item.id),
+          onMouseLeave: () => setHoveredItem(null),
+          onClick: () => handleNodeClick(item),
+          style: { position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-badge-number", children: String(index + 1).padStart(2, "0") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                className: "ltt-milestone-symbol",
+                style: { color: getNodeColor(item.status) },
+                children: getNodeSymbol(item.status)
+              }
+            ),
+            showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-label", children: item.label }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "ltt-milestone-sublabel",
+                  style: { color: getNodeColor(item.status) },
+                  children: item.status === "completed" ? "已完成" : item.status === "in_progress" ? `进行中 ${item.progress || 0}%` : item.status === "failed" ? "失败" : "待开始"
+                }
+              )
+            ] }),
+            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-badge", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
+              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
+                "时间: ",
+                item.date
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
+                "状态: ",
+                getStatusText(item.status)
+              ] }),
+              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
+                "进度: ",
+                item.progress,
+                "%"
+              ] })
+            ] })
+          ]
+        },
+        item.id
+      )) }),
+      showProgress && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-overall-progress", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "ltt-milestone-progress-bar",
+            style: { width: `${overallProgress}%` }
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ltt-milestone-progress-label", children: [
+          overallProgress,
+          "%"
+        ] })
+      ] })
+    ] });
+  };
+
+  const defaultColorScheme$3 = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const TrackMilestone = ({
+    items,
+    colorScheme = defaultColorScheme$3,
+    showLabels = true,
+    onNodeClick
+  }) => {
+    const [hoveredItem, setHoveredItem] = reactExports.useState(null);
+    const handleNodeClick = (item) => {
+      if (item.blockUuid) {
+        try {
+          logseqAPI$1.Editor.openInRightSidebar(item.blockUuid);
+        } catch (error) {
+          console.error("[TrackMilestone] Failed to open in right sidebar:", error);
+        }
+      }
+      onNodeClick?.(item);
+    };
+    const getNodeColor = (status) => {
+      switch (status) {
+        case "completed":
+          return colorScheme.completed;
+        case "in_progress":
+          return colorScheme.inProgress;
+        case "failed":
+          return colorScheme.failed;
+        case "skipped":
+          return colorScheme.skipped;
+        case "pending":
+        default:
+          return colorScheme.pending;
+      }
+    };
+    const getStatusText = (status) => {
+      switch (status) {
+        case "completed":
+          return "已完成";
+        case "in_progress":
+          return "进行中";
+        case "failed":
+          return "失败";
+        case "skipped":
+          return "已跳过";
+        case "pending":
+        default:
+          return "待开始";
+      }
+    };
+    if (items.length === 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-track-minimal", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-line-container", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "ltt-milestone-line-bg",
+            style: { backgroundColor: colorScheme.pending }
+          }
+        ),
+        items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "ltt-milestone-dot",
+              "data-status": item.status,
+              style: { backgroundColor: getNodeColor(item.status), cursor: item.blockUuid ? "pointer" : "default" },
+              onMouseEnter: () => setHoveredItem(item.id),
+              onMouseLeave: () => setHoveredItem(null),
+              onClick: () => handleNodeClick(item)
+            }
+          ),
+          hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-track", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
+            item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
+              "时间: ",
+              item.date
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
+              "状态: ",
+              getStatusText(item.status)
+            ] }),
+            item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
+              "进度: ",
+              item.progress,
+              "%"
+            ] })
+          ] }),
+          index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "ltt-milestone-segment",
+              style: {
+                backgroundColor: items[index + 1]?.status === "completed" ? colorScheme.completed : colorScheme.pending
+              }
+            }
+          )
+        ] }, item.id))
+      ] }),
+      showLabels && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-labels", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "ltt-milestone-label-item",
+          onMouseEnter: () => setHoveredItem(item.id),
+          onMouseLeave: () => setHoveredItem(null),
+          onClick: () => handleNodeClick(item),
+          style: { position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                className: "ltt-milestone-time",
+                style: { color: colorScheme.text },
+                children: item.label
+              }
+            ),
+            item.date && /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                className: "ltt-milestone-desc",
+                style: { color: colorScheme.text, opacity: 0.6 },
+                children: item.date
+              }
+            )
+          ]
+        },
+        item.id
+      )) })
+    ] });
+  };
+
+  const defaultColorScheme$2 = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const CardMilestone = ({
+    items,
+    colorScheme = defaultColorScheme$2,
+    showLabels = true,
+    onNodeClick
+  }) => {
+    const [hoveredItem, setHoveredItem] = reactExports.useState(null);
+    const handleNodeClick = (item) => {
+      if (item.blockUuid) {
+        try {
+          logseqAPI$1.Editor.openInRightSidebar(item.blockUuid);
+        } catch (error) {
+          console.error("[CardMilestone] Failed to open in right sidebar:", error);
+        }
+      }
+      onNodeClick?.(item);
+    };
+    const getNodeColor = (status) => {
+      switch (status) {
+        case "completed":
+          return colorScheme.completed;
+        case "in_progress":
+          return colorScheme.inProgress;
+        case "failed":
+          return colorScheme.failed;
+        case "skipped":
+          return colorScheme.skipped;
+        case "pending":
+        default:
+          return colorScheme.pending;
+      }
+    };
+    const getStatusText = (status) => {
+      switch (status) {
+        case "completed":
+          return "已完成";
+        case "in_progress":
+          return "进行中";
+        case "failed":
+          return "失败";
+        case "skipped":
+          return "已跳过";
+        case "pending":
+        default:
+          return "待开始";
+      }
+    };
+    const getStatusIcon = (status) => {
+      switch (status) {
+        case "completed":
+          return "✓";
+        case "in_progress":
+          return "→";
+        case "failed":
+          return "✕";
+        case "skipped":
+          return "~";
+        case "pending":
+        default:
+          return "○";
+      }
+    };
+    if (items.length === 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-horizontal", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "ltt-milestone-card-item-horizontal",
+          onMouseEnter: () => setHoveredItem(item.id),
+          onMouseLeave: () => setHoveredItem(null),
+          onClick: () => handleNodeClick(item),
+          style: { cursor: item.blockUuid ? "pointer" : "default" },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "ltt-milestone-card-content-horizontal",
+                style: { borderColor: getNodeColor(item.status) },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      className: "ltt-milestone-card-icon",
+                      style: { color: getNodeColor(item.status) },
+                      children: getStatusIcon(item.status)
+                    }
+                  ),
+                  showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-card-info", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-title-horizontal", children: item.label }),
+                    item.date && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-date-horizontal", children: item.date }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: "ltt-milestone-card-status-horizontal",
+                        style: { color: getNodeColor(item.status) },
+                        children: getStatusText(item.status)
+                      }
+                    )
+                  ] })
+                ]
+              }
+            ),
+            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-horizontal", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
+              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
+                "时间: ",
+                item.date
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
+                "状态: ",
+                getStatusText(item.status)
+              ] }),
+              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
+                "进度: ",
+                item.progress,
+                "%"
+              ] })
+            ] })
+          ]
+        }
+      ),
+      index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-connector-horizontal" })
+    ] }, item.id)) });
+  };
+
+  const defaultColorScheme$1 = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const CompactMilestone = ({
+    items,
+    colorScheme = defaultColorScheme$1,
+    showLabels = true,
+    showProgress = true,
+    onNodeClick
+  }) => {
+    const [hoveredItem, setHoveredItem] = reactExports.useState(null);
+    const handleNodeClick = (item) => {
+      if (item.blockUuid) {
+        try {
+          logseqAPI$1.Editor.openInRightSidebar(item.blockUuid);
+        } catch (error) {
+          console.error("[CompactMilestone] Failed to open in right sidebar:", error);
+        }
+      }
+      onNodeClick?.(item);
+    };
+    const getStatusIcon = (status) => {
+      switch (status) {
+        case "completed":
+          return "✓";
+        case "in_progress":
+          return "→";
+        case "failed":
+          return "✕";
+        case "skipped":
+          return "~";
+        case "pending":
+        default:
+          return "·";
+      }
+    };
+    const getStatusText = (status) => {
+      switch (status) {
+        case "completed":
+          return "已完成";
+        case "in_progress":
+          return "进行中";
+        case "failed":
+          return "失败";
+        case "skipped":
+          return "已跳过";
+        case "pending":
+        default:
+          return "待开始";
+      }
+    };
+    const getStatusColor = (status) => {
+      switch (status) {
+        case "completed":
+          return colorScheme.completed;
+        case "in_progress":
+          return colorScheme.inProgress;
+        case "failed":
+          return colorScheme.failed;
+        case "skipped":
+          return colorScheme.skipped;
+        case "pending":
+        default:
+          return colorScheme.pending;
+      }
+    };
+    if (items.length === 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-compact", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "ltt-milestone-badge",
+          "data-status": item.status,
+          style: { backgroundColor: getStatusColor(item.status), position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
+          onMouseEnter: () => setHoveredItem(item.id),
+          onMouseLeave: () => setHoveredItem(null),
+          onClick: () => handleNodeClick(item),
+          children: [
+            "[",
+            getStatusIcon(item.status),
+            " ",
+            showLabels && item.label,
+            " ",
+            showProgress && `(${item.progress || 0}%)`,
+            "]",
+            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-compact", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
+              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
+                "时间: ",
+                item.date
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getStatusColor(item.status) }, children: [
+                "状态: ",
+                getStatusText(item.status)
+              ] }),
+              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
+                "进度: ",
+                item.progress,
+                "%"
+              ] })
+            ] })
+          ]
+        }
+      ),
+      index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "span",
+        {
+          className: "ltt-milestone-connector",
+          style: { color: colorScheme.text, opacity: 0.4 },
+          children: "───"
+        }
+      )
+    ] }, item.id)) });
+  };
+
+  const DEFAULT_COLOR_SCHEME = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+
+  const Milestone = ({ data, config }) => {
+    const colorScheme = config.colorScheme || DEFAULT_COLOR_SCHEME;
+    const defaultData = data || {
+      items: [],
+      overallProgress: 0
+    };
+    const commonProps = {
+      items: defaultData.items,
+      colorScheme,
+      showLabels: config.showLabel,
+      showProgress: config.showProgress
+    };
+    const renderStyle = () => {
+      switch (config.displayStyle) {
+        case "capsule":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CapsuleMilestone, { ...commonProps });
+        case "badge":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(
+            BadgeMilestone,
+            {
+              ...commonProps,
+              overallProgress: defaultData.overallProgress
+            }
+          );
+        case "track":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(TrackMilestone, { ...commonProps });
+        case "card":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CardMilestone, { ...commonProps });
+        case "compact":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CompactMilestone, { ...commonProps });
+        default:
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CapsuleMilestone, { ...commonProps });
+      }
+    };
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "ltt-milestone-container",
+        "data-style": config.displayStyle,
+        style: {
+          backgroundColor: colorScheme.background,
+          color: colorScheme.text
+        },
+        children: renderStyle()
+      }
+    );
+  };
+
+  const mockInterviewData = {
+    items: [
+      { id: "1", label: "投递简历", status: "completed", progress: 100, date: "2026-05-01" },
+      { id: "2", label: "HR筛选", status: "completed", progress: 100, date: "2026-05-05" },
+      { id: "3", label: "技术一面", status: "completed", progress: 100, date: "2026-05-10" },
+      { id: "4", label: "技术二面", status: "in_progress", progress: 60, date: "2026-05-20" },
+      { id: "5", label: "终面", status: "pending", progress: 0, date: "2026-05-25" },
+      { id: "6", label: "Offer", status: "pending", progress: 0 }
+    ],
+    totalCount: 6,
+    completedCount: 3,
+    inProgressCount: 1,
+    pendingCount: 2,
+    overallProgress: 50
+  };
+  const mockProjectData = {
+    items: [
+      { id: "1", label: "需求分析", status: "completed", progress: 100, date: "2026-04-01" },
+      { id: "2", label: "系统设计", status: "completed", progress: 100, date: "2026-04-15" },
+      { id: "3", label: "开发阶段", status: "in_progress", progress: 45, date: "2026-05-15" },
+      { id: "4", label: "测试验收", status: "pending", progress: 0, date: "2026-05-25" },
+      { id: "5", label: "上线发布", status: "pending", progress: 0, date: "2026-06-01" }
+    ],
+    totalCount: 5,
+    completedCount: 2,
+    inProgressCount: 1,
+    pendingCount: 2,
+    overallProgress: 40
+  };
+  const defaultColorScheme = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const styles = ["capsule", "badge", "track", "card", "compact"];
+  const styleLabels = {
+    capsule: "胶囊",
+    badge: "徽标",
+    track: "轨道",
+    card: "卡片",
+    compact: "紧凑"
+  };
+  const MilestoneDemo = () => {
+    const [selectedStyle, setSelectedStyle] = reactExports.useState("capsule");
+    const [showProgress, setShowProgress] = reactExports.useState(true);
+    const [showLabels, setShowLabels] = reactExports.useState(true);
+    const [selectedData, setSelectedData] = reactExports.useState("interview");
+    const currentData = selectedData === "interview" ? mockInterviewData : mockProjectData;
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "24px", padding: "16px", backgroundColor: "#f0f9ff", borderRadius: "8px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 16px 0" }, children: "🎯 Milestone 里程碑组件演示" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: 500 }, children: "数据源：" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setSelectedData("interview"),
+            style: {
+              padding: "4px 12px",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: selectedData === "interview" ? "#3b82f6" : "#e5e7eb",
+              color: selectedData === "interview" ? "white" : "#374151",
+              cursor: "pointer",
+              fontSize: "13px"
+            },
+            children: "面试流程"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setSelectedData("project"),
+            style: {
+              padding: "4px 12px",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: selectedData === "project" ? "#3b82f6" : "#e5e7eb",
+              color: selectedData === "project" ? "white" : "#374151",
+              cursor: "pointer",
+              fontSize: "13px"
+            },
+            children: "项目进度"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: 500 }, children: "样式：" }),
+        styles.map((style) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setSelectedStyle(style),
+            style: {
+              padding: "4px 12px",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: selectedStyle === style ? "#10b981" : "#e5e7eb",
+              color: selectedStyle === style ? "white" : "#374151",
+              cursor: "pointer",
+              fontSize: "13px"
+            },
+            children: styleLabels[style]
+          },
+          style
+        ))
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px", display: "flex", gap: "16px", alignItems: "center" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: showLabels,
+              onChange: (e) => setShowLabels(e.target.checked)
+            }
+          ),
+          "显示标签"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: showProgress,
+              onChange: (e) => setShowProgress(e.target.checked)
+            }
+          ),
+          "显示进度"
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+        border: "1px solid #e5e7eb",
+        borderRadius: "8px",
+        padding: "16px",
+        backgroundColor: "white"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "8px", fontSize: "14px", color: "#6b7280" }, children: [
+          "宏命令：",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("code", { style: { backgroundColor: "#f3f4f6", padding: "2px 6px", borderRadius: "4px" }, children: "{{renderer :milestone, style=" + selectedStyle + ", list=" + currentData.items.map((i) => i.label).join(";") + "}}" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Milestone,
+          {
+            data: currentData,
+            config: {
+              style: selectedStyle,
+              showLabels,
+              showProgress,
+              colorScheme: defaultColorScheme
+            }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "16px", fontSize: "13px", color: "#6b7280" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "说明：" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { style: { margin: "8px 0", paddingLeft: "20px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "面试流程示例展示了不同阶段的进度状态" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "项目进度示例展示了软件开发的标准流程" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "支持 5 种展示样式：胶囊、徽标、轨道、卡片、紧凑" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "状态计算基于 scheduled 日期：已过→已完成，未来→进行中" })
+        ] })
+      ] })
     ] });
   };
 
@@ -21761,6 +22771,7 @@ ${where}
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(HeatmapDemo, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(MilestoneDemo, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(BlockViewDemo, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryDemo, { onGenerateSuccess: handleSummaryGenerate })
     ] });
@@ -25031,6 +26042,349 @@ ${where}
     ] });
   }
 
+  const styleOptions = [
+    { value: "capsule", label: t("settings.milestone.styleCapsule", "胶囊") },
+    { value: "badge", label: t("settings.milestone.styleBadge", "徽章") },
+    { value: "track", label: t("settings.milestone.styleTrack", "轨道") },
+    { value: "card", label: t("settings.milestone.styleCard", "卡片") },
+    { value: "compact", label: t("settings.milestone.styleCompact", "紧凑") }
+  ];
+  function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }) {
+    const [errors, setErrors] = reactExports.useState({});
+    const handleSettingChange = (path, value) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        const newSettings = JSON.parse(JSON.stringify(prev));
+        const keys = path.split(".");
+        let current = newSettings;
+        for (let i = 0; i < keys.length - 1; i++) {
+          if (!current[keys[i]]) {
+            current[keys[i]] = {};
+          }
+          current = current[keys[i]];
+        }
+        current[keys[keys.length - 1]] = value;
+        return newSettings;
+      });
+    };
+    const milestone = settings.milestone || {
+      enabled: true,
+      defaultStyle: "capsule",
+      showLabels: true,
+      showProgress: true,
+      templates: []
+    };
+    const templates = milestone.templates || [];
+    const isIdUnique = (id, excludeId) => {
+      return !templates.some((t2) => t2.id === id && t2.id !== excludeId);
+    };
+    const isNameUnique = (name, excludeId) => {
+      return !templates.some((t2) => t2.name === name && t2.id !== excludeId);
+    };
+    const generateUniqueId = () => {
+      let id = `template_${Date.now()}`;
+      let counter = 1;
+      while (!isIdUnique(id)) {
+        id = `template_${Date.now()}_${counter}`;
+        counter++;
+      }
+      return id;
+    };
+    const addTemplate = () => {
+      const newTemplate = {
+        id: generateUniqueId(),
+        name: t("settings.milestone.newTemplate", "新模板"),
+        description: "",
+        filterTag: "",
+        filterPropKey: "",
+        filterPropValue: "",
+        milestonePropKey: "",
+        milestoneList: [],
+        displayStyle: "capsule",
+        showProgress: true,
+        showLabel: true,
+        dateField: "scheduled"
+      };
+      let templateName = newTemplate.name;
+      let counter = 1;
+      while (!isNameUnique(templateName)) {
+        templateName = `${t("settings.milestone.newTemplate", "新模板")} ${counter}`;
+        counter++;
+      }
+      newTemplate.name = templateName;
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          milestone: {
+            ...prev.milestone,
+            templates: [...templates, newTemplate]
+          }
+        };
+      });
+    };
+    const updateTemplate = (id, updates) => {
+      const newErrors = {};
+      if (updates.name !== void 0) {
+        if (!updates.name.trim()) {
+          newErrors[`name_${id}`] = t("settings.milestone.nameRequired", "模板名称不能为空");
+        } else if (!isNameUnique(updates.name, id)) {
+          newErrors[`name_${id}`] = t("settings.milestone.nameDuplicate", "模板名称已存在");
+        }
+      }
+      setErrors(newErrors);
+      if (newErrors[`name_${id}`] && updates.name !== void 0) {
+        return;
+      }
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          milestone: {
+            ...prev.milestone,
+            templates: templates.map((t2) => t2.id === id ? { ...t2, ...updates } : t2)
+          }
+        };
+      });
+    };
+    const deleteTemplate = (id) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          milestone: {
+            ...prev.milestone,
+            templates: templates.filter((t2) => t2.id !== id)
+          }
+        };
+      });
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[`name_${id}`];
+        return newErrors;
+      });
+    };
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.milestone.description", "配置里程碑组件的默认行为和显示样式。") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.milestone.enabled", "启用里程碑功能") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: milestone.enabled || false,
+              onChange: (e) => handleSettingChange("milestone.enabled", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.milestone.defaultStyle", "默认显示样式") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: styleOptions,
+            value: milestone.defaultStyle || "capsule",
+            onChange: (value) => handleSettingChange("milestone.defaultStyle", value)
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.milestone.showLabel", "显示标签") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: milestone.showLabel ?? milestone.showLabels ?? true,
+              onChange: (e) => {
+                handleSettingChange("milestone.showLabel", e.target.checked);
+                handleSettingChange("milestone.showLabels", e.target.checked);
+              }
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.milestone.showProgress", "显示进度") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: milestone.showProgress ?? true,
+              onChange: (e) => handleSettingChange("milestone.showProgress", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-templates-section", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-templates-header", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "ltt-milestone-templates-title", children: t("settings.milestone.templates", "预定义模板") }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              className: "ltt-milestone-add-template-btn",
+              onClick: addTemplate,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { className: "ltt-milestone-add-icon", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "12", y1: "5", x2: "12", y2: "19" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "5", y1: "12", x2: "19", y2: "12" })
+                ] }),
+                t("settings.milestone.addTemplate", "添加模板")
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-templates-list", children: templates.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-no-templates", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { className: "ltt-milestone-empty-icon", width: "48", height: "48", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "3", y: "3", width: "18", height: "18", rx: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "9", y1: "9", x2: "15", y2: "9" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "9", y1: "15", x2: "15", y2: "15" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-milestone-no-templates-text", children: t("settings.milestone.noTemplates", "暂无模板，点击上方按钮添加。") })
+        ] }) : templates.map((template, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "ltt-milestone-template-card ltt-milestone-template-card-expanded",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-template-card-header", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-template-info", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-template-number", children: index + 1 }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      className: `ltt-milestone-template-name-input ${errors[`name_${template.id}`] ? "ltt-milestone-input-error" : ""}`,
+                      placeholder: t("settings.milestone.templateName", "模板名称"),
+                      value: template.name,
+                      onChange: (e) => updateTemplate(template.id, { name: e.target.value })
+                    }
+                  ),
+                  errors[`name_${template.id}`] && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-error-message", children: errors[`name_${template.id}`] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ltt-milestone-template-id", children: [
+                    ":",
+                    template.id.replace("template_", "")
+                  ] })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-template-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: "ltt-milestone-action-btn ltt-milestone-action-btn-delete",
+                    onClick: () => deleteTemplate(template.id),
+                    title: t("settings.milestone.delete", "删除"),
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "3 6 5 6 21 6" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" })
+                    ] })
+                  }
+                ) })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-template-card-body", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-grid", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label", children: t("settings.milestone.templateDescription", "描述（可选）") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      className: "ltt-milestone-form-input",
+                      placeholder: t("settings.milestone.templateDescription", "描述（可选）"),
+                      value: template.description || "",
+                      onChange: (e) => updateTemplate(template.id, { description: e.target.value })
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label", children: t("settings.milestone.templateFilterTag", "筛选标签（可选）") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      className: "ltt-milestone-form-input",
+                      placeholder: t("settings.milestone.templateFilterTag", "筛选标签（可选）"),
+                      value: template.filterTag || "",
+                      onChange: (e) => updateTemplate(template.id, { filterTag: e.target.value })
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label", children: t("settings.milestone.templateFilterPropKey", "筛选属性键（可选）") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      className: "ltt-milestone-form-input",
+                      placeholder: t("settings.milestone.templateFilterPropKey", "筛选属性键（可选）"),
+                      value: template.filterPropKey || "",
+                      onChange: (e) => updateTemplate(template.id, { filterPropKey: e.target.value })
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label", children: t("settings.milestone.templateFilterPropValue", "筛选属性值（可选）") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      className: "ltt-milestone-form-input",
+                      placeholder: t("settings.milestone.templateFilterPropValue", "筛选属性值（可选）"),
+                      value: template.filterPropValue || "",
+                      onChange: (e) => updateTemplate(template.id, { filterPropValue: e.target.value })
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item ltt-milestone-form-item-full", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label ltt-milestone-form-label-required", children: t("settings.milestone.templateMilestonePropKey", "里程碑属性键（必填）") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      className: "ltt-milestone-form-input",
+                      placeholder: t("settings.milestone.templateMilestonePropKey", "里程碑属性键（必填）"),
+                      value: template.milestonePropKey || "",
+                      onChange: (e) => updateTemplate(template.id, { milestonePropKey: e.target.value })
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item ltt-milestone-form-item-full", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label", children: t("settings.milestone.templateMilestoneList", "里程碑列表（分号分隔）") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      className: "ltt-milestone-form-input",
+                      placeholder: "投递简历;技术一面;技术二面;HR面;Offer",
+                      value: (template.milestoneList || []).join(";"),
+                      onChange: (e) => updateTemplate(template.id, { milestoneList: e.target.value.split(";").map((s) => s.trim()).filter(Boolean) })
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label", children: t("settings.milestone.defaultStyle", "显示样式") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CustomSelect,
+                    {
+                      options: styleOptions,
+                      value: template.displayStyle || "capsule",
+                      onChange: (value) => updateTemplate(template.id, { displayStyle: value })
+                    }
+                  )
+                ] })
+              ] }) })
+            ]
+          },
+          template.id
+        )) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          className: "ltt-settings-btn ltt-settings-btn-save",
+          onClick: onSave,
+          disabled: isSaving,
+          children: isSaving ? t("settings.saving", "保存中...") : t("settings.saveMilestoneSettings", "保存里程碑设置")
+        }
+      ) })
+    ] });
+  }
+
   function SettingsModal({ isOpen, onClose, theme }) {
     const {
       settings: loadedSettings,
@@ -25077,6 +26431,7 @@ ${where}
       { id: "heatmap", component: HeatmapSettings, label: t("settings.tabs.heatmap", language), icon: "" },
       { id: "block-view", component: BlockViewSettings, label: t("settings.tabs.blockView", language), icon: "" },
       { id: "summary", component: SummarySettings, label: t("settings.tabs.summary", language), icon: "" },
+      { id: "milestone", component: MilestoneSettings, label: t("settings.tabs.milestone", language), icon: "" },
       { id: "advanced", component: AdvancedSettings, label: t("settings.tabs.advanced", language), icon: "" }
     ];
     const TabComponent = tabs.find((tab) => tab.id === activeTab)?.component;
@@ -25107,7 +26462,7 @@ ${where}
   }
 
   const MACRO_PREFIX$1 = ":taskprogress";
-  const PLUGIN_ID$1 = "text-toolkit-taskprogress";
+  const PLUGIN_ID$2 = "text-toolkit-taskprogress";
   registerRendererArgModel(MACRO_PREFIX$1, { positional: ["display", "size"] });
   const DISPLAY_TYPE_MAP = {
     "mini-circle": "mini-circle",
@@ -25165,7 +26520,7 @@ ${where}
         const progressData = await calculateTaskProgress(blockId, { nestingLevel, onlyLeaves });
         if (!progressData) {
           logseqAPI$1.provideUI({
-            key: PLUGIN_ID$1 + "__" + slot,
+            key: PLUGIN_ID$2 + "__" + slot,
             slot,
             reset: true,
             template: ""
@@ -25173,9 +26528,9 @@ ${where}
           return;
         }
         const lang = settings?.language || "zh-CN";
-        const containerId = PLUGIN_ID$1 + slot;
+        const containerId = PLUGIN_ID$2 + slot;
         logseqAPI$1.provideUI({
-          key: PLUGIN_ID$1 + "__" + slot,
+          key: PLUGIN_ID$2 + "__" + slot,
           slot,
           reset: true,
           template: `<div id="${containerId}"></div>`
@@ -25211,7 +26566,7 @@ ${where}
   }
 
   const MACRO_PREFIX = ":blockview";
-  const PLUGIN_ID = "text-toolkit-blockview";
+  const PLUGIN_ID$1 = "text-toolkit-blockview";
   registerRendererArgModel(MACRO_PREFIX, { positional: ["view"] });
   const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
   const VIEW_CLASSES = [
@@ -25374,7 +26729,7 @@ ${where}
   }
   async function renderViewBar(blockId, slot, tokens) {
     const doc = getDocument();
-    const containerId = `${PLUGIN_ID}__${slot}`;
+    const containerId = `${PLUGIN_ID$1}__${slot}`;
     const settings = await getSettingsWithSystem();
     const blockViewSettings = settings?.blockView || {
       defaultView: "list",
@@ -25622,9 +26977,1176 @@ ${where}
     return pageName;
   }
 
+  class PropertyEnumService {
+    /**
+     * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
+     */
+    static formatPropertyKey(key) {
+      if (key.startsWith(":user.property/") || key.startsWith(":logseq.property/")) {
+        return key;
+      }
+      const cleanKey = key.startsWith(":") ? key.slice(1) : key;
+      return `:user.property/${cleanKey}`;
+    }
+    /**
+     * 获取属性的所有枚举值
+     */
+    static async getPropertyEnums(propertyKey) {
+      if (!logseqAPI$1) {
+        loggerProxy.warn("[PropertyEnum] Logseq API not initialized");
+        return [];
+      }
+      try {
+        const formattedKey = this.formatPropertyKey(propertyKey);
+        const query = this.buildEnumQuery(formattedKey);
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        if (!result || !Array.isArray(result)) {
+          loggerProxy.warn("[PropertyEnum] No results found");
+          return [];
+        }
+        return this.parseQueryResult(result, formattedKey);
+      } catch (error) {
+        loggerProxy.error("[PropertyEnum] Query failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 构建枚举查询语句
+     */
+    static buildEnumQuery(propertyKey) {
+      const cleanKey = propertyKey.startsWith(":") ? propertyKey.slice(1) : propertyKey;
+      return `[:find (pull ?val [* {:block/refs [:block/title]}]) 
+                    :where 
+                    [_ :${cleanKey} ?val]]`;
+    }
+    /**
+     * 解析查询结果
+     */
+    static parseQueryResult(result, propertyKey) {
+      const enumMap = /* @__PURE__ */ new Map();
+      for (const row of result) {
+        if (!row || !Array.isArray(row)) continue;
+        for (const item of row) {
+          if (!item || !item["block/title"]) continue;
+          const value = item["block/title"];
+          const refBlocks = item["block/refs"] || [];
+          if (!enumMap.has(value)) {
+            enumMap.set(value, {
+              value,
+              count: 0,
+              blocks: []
+            });
+          }
+          const enumValue = enumMap.get(value);
+          enumValue.count++;
+          refBlocks.forEach((ref) => {
+            if (ref && ref["block/title"]) {
+              enumValue.blocks.push({
+                id: ref.id?.toString() || "",
+                uuid: ref.uuid || "",
+                content: ref["block/title"],
+                properties: {},
+                createdAt: "",
+                updatedAt: ""
+              });
+            }
+          });
+        }
+      }
+      return Array.from(enumMap.values()).sort((a, b) => b.count - a.count);
+    }
+    /**
+     * 获取带标签过滤的属性枚举值
+     */
+    static async getPropertyEnumsWithTag(propertyKey, tag) {
+      if (!logseqAPI$1) {
+        loggerProxy.warn("[PropertyEnum] Logseq API not initialized");
+        return [];
+      }
+      try {
+        const formattedKey = this.formatPropertyKey(propertyKey);
+        const query = this.buildFilteredEnumQuery(formattedKey, tag);
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        if (!result || !Array.isArray(result)) {
+          return [];
+        }
+        return this.parseQueryResult(result, formattedKey);
+      } catch (error) {
+        loggerProxy.error("[PropertyEnum] Filtered query failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 构建带标签过滤的查询语句
+     */
+    static buildFilteredEnumQuery(propertyKey, tag) {
+      const cleanKey = propertyKey.startsWith(":") ? propertyKey.slice(1) : propertyKey;
+      return `[:find (pull ?b [*])
+                    :where
+                    [?b :${cleanKey} ?val]
+                    [?val :block/title ?title]
+                    [?b :block/tags ?t]
+                    [?t :block/title "${tag}"]]`;
+    }
+  }
+
+  const parseTimestamp = (value) => {
+    if (!value) return null;
+    const n = typeof value === "number" ? value : Number(value);
+    return Number.isFinite(n) ? n : null;
+  };
+  const parseCustomProperty = (value) => {
+    if (!value) return null;
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? value : null;
+    }
+    if (typeof value === "string") {
+      const asNumber = Number(value);
+      if (Number.isFinite(asNumber)) {
+        return asNumber;
+      }
+      const asDate = new Date(value);
+      if (!isNaN(asDate.getTime())) {
+        return asDate.getTime();
+      }
+      const logseqDateMatch = value.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+      if (logseqDateMatch) {
+        const [, year, month, day] = logseqDateMatch;
+        const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+        if (!isNaN(parsedDate.getTime())) {
+          return parsedDate.getTime();
+        }
+      }
+    }
+    return null;
+  };
+  const getTimestampByField = (block, dateField = "scheduled") => {
+    switch (dateField) {
+      case "scheduled":
+        return parseTimestamp(block?.["scheduled"] ?? block?.["block/scheduled"] ?? block?.[":logseq.property/scheduled"]);
+      case "deadline":
+        return parseTimestamp(block?.["deadline"] ?? block?.["block/deadline"] ?? block?.[":logseq.property/deadline"]);
+      case "created-at":
+        return parseTimestamp(block?.["created-at"] ?? block?.["block/created-at"]);
+      case "updated-at":
+        return parseTimestamp(block?.["updated-at"] ?? block?.["block/updated-at"]);
+      default:
+        const customValue = block?.["block/properties"]?.[dateField];
+        return parseCustomProperty(customValue);
+    }
+  };
+  class StatusCalculator {
+    /**
+     * 从块列表计算状态
+     * 
+     * 规则：
+     * - 无块 → pending
+     * - 有块 + scheduled 已过（早于今天）→ completed
+     * - 有块 + scheduled 在今天或未来 → in_progress
+     */
+    static calculateFromBlocks(blocks, dateField = "scheduled") {
+      if (blocks.length === 0) {
+        return "pending";
+      }
+      const now = /* @__PURE__ */ new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const timestamps = blocks.map((b) => getTimestampByField(b, dateField)).filter(Boolean);
+      if (timestamps.length === 0) {
+        const statuses = blocks.map((b) => {
+          const status = b.properties?.[":logseq.property/status"] ?? b.properties?.status;
+          return status?.toString().toLowerCase();
+        }).filter(Boolean);
+        if (statuses.some((s) => s === "done")) {
+          return "completed";
+        }
+        if (statuses.some((s) => s === "doing" || s === "in-progress" || s === "wip")) {
+          return "in_progress";
+        }
+        return "in_progress";
+      }
+      const minTimestamp = Math.min(...timestamps);
+      if (minTimestamp < today) {
+        return "completed";
+      }
+      return "in_progress";
+    }
+    /**
+     * 计算单个阶段的进度百分比
+     * 
+     * 公式：(scheduled - today) / (scheduled - created) × 100%
+     */
+    static calculateProgress(blocks, dateField = "scheduled") {
+      if (blocks.length === 0) {
+        return 0;
+      }
+      const now = /* @__PURE__ */ new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const scheduledTimestamps = blocks.map((b) => getTimestampByField(b, dateField)).filter(Boolean);
+      const createdTimestamps = blocks.map((b) => parseTimestamp(b.createdAt)).filter(Boolean);
+      if (scheduledTimestamps.length === 0) {
+        const completedCount = blocks.filter((b) => {
+          const status = b.properties?.[":logseq.property/status"] ?? b.properties?.status;
+          return status?.toString().toLowerCase() === "done";
+        }).length;
+        return Math.round(completedCount / blocks.length * 100);
+      }
+      const startTimestamp = createdTimestamps.length > 0 ? Math.min(...createdTimestamps) : today;
+      const endTimestamp = Math.min(...scheduledTimestamps);
+      const totalDuration = endTimestamp - startTimestamp;
+      const elapsedDuration = today - startTimestamp;
+      if (totalDuration <= 0) {
+        return 100;
+      }
+      if (elapsedDuration <= 0) {
+        return 0;
+      }
+      if (elapsedDuration >= totalDuration) {
+        return 100;
+      }
+      const progress = elapsedDuration / totalDuration * 100;
+      return Math.min(100, Math.max(0, Math.round(progress)));
+    }
+    /**
+     * 获取该阶段的 scheduled 日期（用于显示）
+     */
+    static getScheduledDate(blocks, dateField = "scheduled") {
+      const timestamps = blocks.map((b) => getTimestampByField(b, dateField)).filter(Boolean);
+      if (timestamps.length === 0) return null;
+      const minTimestamp = Math.min(...timestamps);
+      const date = new Date(minTimestamp);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+    /**
+     * 获取该阶段的创建日期
+     */
+    static getCreatedDate(blocks) {
+      const timestamps = blocks.map((b) => parseTimestamp(b.createdAt)).filter(Boolean);
+      if (timestamps.length === 0) return null;
+      const minTimestamp = Math.min(...timestamps);
+      const date = new Date(minTimestamp);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+  }
+
+  class MilestoneQuery {
+    /**
+     * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
+     */
+    static formatPropertyKey(key) {
+      if (!key) return void 0;
+      if (key.startsWith(":user.property/") || key.startsWith(":logseq.property/")) {
+        return key;
+      }
+      const cleanKey = key.startsWith(":") ? key.slice(1) : key;
+      return `:user.property/${cleanKey}`;
+    }
+    /**
+     * 执行带过滤条件的查询
+     */
+    static async query(config) {
+      const { filterTag, property, filterPropKey, filterPropValue, milestonePropKey, milestoneList, dateField = "scheduled" } = config;
+      const formattedFilterPropKey = this.formatPropertyKey(filterPropKey);
+      const formattedMilestonePropKey = this.formatPropertyKey(milestonePropKey);
+      try {
+        if (formattedMilestonePropKey) {
+          if (formattedFilterPropKey && filterPropValue) {
+            return await this.queryByMilestonePropWithFilter(formattedMilestonePropKey, formattedFilterPropKey, filterPropValue, filterTag, milestoneList, dateField);
+          }
+          if (filterTag) {
+            return await this.queryByMilestonePropWithTag(formattedMilestonePropKey, filterTag, milestoneList, dateField);
+          }
+          return await this.queryByMilestoneProp(formattedMilestonePropKey, milestoneList, dateField);
+        }
+        if (milestoneList && milestoneList.length > 0) {
+          if (formattedFilterPropKey && filterPropValue) {
+            return await this.queryByMilestoneListWithProperty(milestoneList, filterTag, formattedFilterPropKey, filterPropValue, dateField, formattedMilestonePropKey);
+          }
+          return await this.queryByMilestoneList(milestoneList, filterTag, dateField, formattedMilestonePropKey);
+        }
+        if (property) {
+          return await this.queryByPropertyEnum(property, filterTag, dateField, formattedMilestonePropKey);
+        }
+        if (filterTag) {
+          return await this.queryByTag(filterTag, dateField, formattedMilestonePropKey);
+        }
+        return await this.queryDefault(dateField);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] Query failed:", error);
+        return this.createEmptyData();
+      }
+    }
+    /**
+     * 通过 milestonePropKey 读取里程碑节点，带属性过滤
+     */
+    static async queryByMilestonePropWithFilter(milestonePropKey, filterPropKey, filterPropValue, filterTag, milestoneList, dateField = "scheduled") {
+      const targetBlocks = await this.getBlocksByProperty(filterPropKey, filterPropValue, filterTag, milestonePropKey);
+      if (targetBlocks.length === 0) {
+        return milestoneList ? {
+          items: milestoneList.map((stage) => ({
+            id: `milestone-${stage}`,
+            label: stage,
+            status: "pending",
+            progress: 0,
+            date: null
+          })),
+          totalCount: milestoneList.length,
+          completedCount: 0,
+          pendingCount: milestoneList.length,
+          overallProgress: 0
+        } : this.createEmptyData();
+      }
+      const stageMap = /* @__PURE__ */ new Map();
+      for (const block of targetBlocks) {
+        const stageValue = this.getBlockPropertyValue(block, milestonePropKey);
+        if (stageValue) {
+          if (!stageMap.has(stageValue)) {
+            stageMap.set(stageValue, []);
+          }
+          stageMap.get(stageValue).push(block);
+        }
+      }
+      let stages;
+      if (milestoneList && milestoneList.length > 0) {
+        stages = milestoneList;
+      } else {
+        stages = Array.from(stageMap.keys());
+      }
+      const items = [];
+      for (let i = 0; i < stages.length; i++) {
+        const stage = stages[i];
+        const blocks = stageMap.get(stage) || [];
+        let status = "pending";
+        let progress = 0;
+        let date = null;
+        if (blocks.length > 0) {
+          status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+          progress = StatusCalculator.calculateProgress(blocks, dateField);
+          date = StatusCalculator.getScheduledDate(blocks, dateField);
+        } else {
+          for (let j = i + 1; j < stages.length; j++) {
+            const laterStage = stages[j];
+            const laterBlocks = stageMap.get(laterStage) || [];
+            if (laterBlocks.length > 0) {
+              const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+              if (laterStatus === "completed") {
+                status = "skipped";
+                break;
+              }
+            }
+          }
+        }
+        items.push({
+          id: `milestone-${stage}`,
+          label: stage,
+          status,
+          progress,
+          date,
+          blockId: blocks[0]?.id,
+          blockUuid: blocks[0]?.uuid
+        });
+      }
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter((i) => i.status === "completed").length,
+        inProgressCount: items.filter((i) => i.status === "in_progress").length,
+        pendingCount: items.filter((i) => i.status === "pending").length,
+        skippedCount: items.filter((i) => i.status === "skipped").length,
+        overallProgress: this.calculateOverallProgress(items)
+      };
+    }
+    /**
+     * 通过 milestonePropKey 读取里程碑节点，带标签过滤
+     */
+    static async queryByMilestonePropWithTag(milestonePropKey, filterTag, milestoneList, dateField = "scheduled") {
+      const targetBlocks = await this.getBlocksByTag(filterTag, milestonePropKey);
+      if (targetBlocks.length === 0) {
+        return milestoneList ? {
+          items: milestoneList.map((stage) => ({
+            id: `milestone-${stage}`,
+            label: stage,
+            status: "pending",
+            progress: 0,
+            date: null
+          })),
+          totalCount: milestoneList.length,
+          completedCount: 0,
+          pendingCount: milestoneList.length,
+          overallProgress: 0
+        } : this.createEmptyData();
+      }
+      const stageMap = /* @__PURE__ */ new Map();
+      for (const block of targetBlocks) {
+        const stageValue = this.getBlockPropertyValue(block, milestonePropKey);
+        if (stageValue) {
+          if (!stageMap.has(stageValue)) {
+            stageMap.set(stageValue, []);
+          }
+          stageMap.get(stageValue).push(block);
+        }
+      }
+      let stages;
+      if (milestoneList && milestoneList.length > 0) {
+        stages = milestoneList;
+      } else {
+        stages = Array.from(stageMap.keys());
+      }
+      const items = [];
+      for (let i = 0; i < stages.length; i++) {
+        const stage = stages[i];
+        const blocks = stageMap.get(stage) || [];
+        let status = "pending";
+        let progress = 0;
+        let date = null;
+        if (blocks.length > 0) {
+          status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+          progress = StatusCalculator.calculateProgress(blocks, dateField);
+          date = StatusCalculator.getScheduledDate(blocks, dateField);
+        } else {
+          for (let j = i + 1; j < stages.length; j++) {
+            const laterStage = stages[j];
+            const laterBlocks = stageMap.get(laterStage) || [];
+            if (laterBlocks.length > 0) {
+              const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+              if (laterStatus === "completed") {
+                status = "skipped";
+                break;
+              }
+            }
+          }
+        }
+        items.push({
+          id: `milestone-${stage}`,
+          label: stage,
+          status,
+          progress,
+          date,
+          blockId: blocks[0]?.id,
+          blockUuid: blocks[0]?.uuid
+        });
+      }
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter((i) => i.status === "completed").length,
+        inProgressCount: items.filter((i) => i.status === "in_progress").length,
+        pendingCount: items.filter((i) => i.status === "pending").length,
+        skippedCount: items.filter((i) => i.status === "skipped").length,
+        overallProgress: this.calculateOverallProgress(items)
+      };
+    }
+    /**
+     * 通过 milestonePropKey 读取里程碑节点
+     */
+    static async queryByMilestoneProp(milestonePropKey, milestoneList, dateField = "scheduled") {
+      const targetBlocks = await this.getBlocksWithProperty(milestonePropKey);
+      if (targetBlocks.length === 0) {
+        return milestoneList ? {
+          items: milestoneList.map((stage) => ({
+            id: `milestone-${stage}`,
+            label: stage,
+            status: "pending",
+            progress: 0,
+            date: null
+          })),
+          totalCount: milestoneList.length,
+          completedCount: 0,
+          pendingCount: milestoneList.length,
+          overallProgress: 0
+        } : this.createEmptyData();
+      }
+      const stageMap = /* @__PURE__ */ new Map();
+      for (const block of targetBlocks) {
+        const stageValue = this.getBlockPropertyValue(block, milestonePropKey);
+        if (stageValue) {
+          if (!stageMap.has(stageValue)) {
+            stageMap.set(stageValue, []);
+          }
+          stageMap.get(stageValue).push(block);
+        }
+      }
+      let stages;
+      if (milestoneList && milestoneList.length > 0) {
+        stages = milestoneList;
+      } else {
+        stages = await this.getDistinctPropertyValues(milestonePropKey);
+      }
+      const items = [];
+      for (let i = 0; i < stages.length; i++) {
+        const stage = stages[i];
+        const blocks = stageMap.get(stage) || [];
+        let status = "pending";
+        let progress = 0;
+        let date = null;
+        if (blocks.length > 0) {
+          status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+          progress = StatusCalculator.calculateProgress(blocks, dateField);
+          date = StatusCalculator.getScheduledDate(blocks, dateField);
+        } else {
+          for (let j = i + 1; j < stages.length; j++) {
+            const laterStage = stages[j];
+            const laterBlocks = stageMap.get(laterStage) || [];
+            if (laterBlocks.length > 0) {
+              const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+              if (laterStatus === "completed") {
+                status = "skipped";
+                break;
+              }
+            }
+          }
+        }
+        items.push({
+          id: `milestone-${stage}`,
+          label: stage,
+          status,
+          progress,
+          date,
+          blockId: blocks[0]?.id,
+          blockUuid: blocks[0]?.uuid
+        });
+      }
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter((i) => i.status === "completed").length,
+        inProgressCount: items.filter((i) => i.status === "in_progress").length,
+        pendingCount: items.filter((i) => i.status === "pending").length,
+        skippedCount: items.filter((i) => i.status === "skipped").length,
+        overallProgress: this.calculateOverallProgress(items)
+      };
+    }
+    /**
+     * 获取块属性值
+     */
+    static getBlockPropertyValue(block, propertyK) {
+      const cleanKey = propertyK.startsWith(":") ? propertyK.slice(1) : propertyK;
+      const keys = [propertyK, `:${cleanKey}`, cleanKey];
+      for (const key of keys) {
+        const value = block.properties?.[key];
+        if (value !== void 0 && value !== null) {
+          if (typeof value === "object") {
+            if (value["title"]) return value["title"];
+            if (value["block/title"]) return value["block/title"];
+            if (value[":block/title"]) return value[":block/title"];
+          }
+          return String(value);
+        }
+      }
+      return null;
+    }
+    /**
+     * 获取所有有特定属性的块
+     */
+    static async getBlocksWithProperty(propertyK) {
+      if (!logseqAPI$1) {
+        loggerProxy.warn("[MilestoneQuery] Logseq API not initialized");
+        return [];
+      }
+      const cleanKey = propertyK.startsWith(":") ? propertyK.slice(1) : propertyK;
+      const query = `[:find (pull ?b [* {:${cleanKey} [*]}])
+                    :where
+                    [?b :${cleanKey}]]`;
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        return this.parseBlocksResult(result);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] getBlocksWithProperty failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 获取某个属性的所有不同值
+     */
+    static async getDistinctPropertyValues(propertyK) {
+      if (!logseqAPI$1) {
+        loggerProxy.warn("[MilestoneQuery] Logseq API not initialized");
+        return [];
+      }
+      const cleanKey = propertyK.startsWith(":") ? propertyK.slice(1) : propertyK;
+      const query = `[:find (pull ?val [:block/title :db/id])
+                    :where
+                    [_ :${cleanKey} ?val]]`;
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        const values = [];
+        for (const row of result) {
+          if (row && Array.isArray(row)) {
+            for (const item of row) {
+              if (item && item["block/title"]) {
+                values.push(item["block/title"]);
+              } else if (item && typeof item === "string") {
+                values.push(item);
+              }
+            }
+          }
+        }
+        return Array.from(new Set(values)).sort();
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] getDistinctPropertyValues failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 通过标签获取块
+     */
+    static async getBlocksByTag(tag, milestonePropKey) {
+      if (!logseqAPI$1) {
+        return [];
+      }
+      const pullSpec = milestonePropKey ? `[* {${milestonePropKey} [:block/title]}]` : `[*]`;
+      const query = `[:find (pull ?b ${pullSpec})
+                    :where
+                    [?b :block/tags ?t]
+                    [?t :block/title "${tag}"]]`;
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        return this.parseBlocksResult(result);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] getBlocksByTag failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 根据里程碑列表 + 标签 + 属性过滤查询
+     */
+    static async queryByMilestoneListWithProperty(milestoneList, filterTag, filterPropKey, filterPropValue, dateField = "scheduled", milestonePropKey) {
+      const items = [];
+      const targetBlocks = await this.getBlocksByProperty(filterPropKey, filterPropValue, filterTag, milestonePropKey);
+      if (targetBlocks.length === 0) {
+        return {
+          items: milestoneList.map((stage) => ({
+            id: `milestone-${stage}`,
+            label: stage,
+            status: "pending",
+            progress: 0,
+            date: null
+          })),
+          totalCount: milestoneList.length,
+          completedCount: 0,
+          pendingCount: milestoneList.length,
+          overallProgress: 0
+        };
+      }
+      for (const stage of milestoneList) {
+        const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks, milestonePropKey);
+        blocks.length > 0;
+      }
+      for (let i = 0; i < milestoneList.length; i++) {
+        const stage = milestoneList[i];
+        const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks, milestonePropKey);
+        let status = "pending";
+        let progress = 0;
+        let date = null;
+        if (blocks.length > 0) {
+          status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+          progress = StatusCalculator.calculateProgress(blocks, dateField);
+          date = StatusCalculator.getScheduledDate(blocks, dateField);
+        } else {
+          for (let j = i + 1; j < milestoneList.length; j++) {
+            const laterStage = milestoneList[j];
+            const laterBlocks = await this.getBlocksByStageAndParent(laterStage, targetBlocks);
+            if (laterBlocks.length > 0) {
+              const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+              if (laterStatus === "completed") {
+                status = "skipped";
+                break;
+              }
+            }
+          }
+        }
+        items.push({
+          id: `milestone-${stage}`,
+          label: stage,
+          status,
+          progress,
+          date,
+          blockId: blocks[0]?.id,
+          blockUuid: blocks[0]?.uuid
+        });
+      }
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter((i) => i.status === "completed").length,
+        inProgressCount: items.filter((i) => i.status === "in_progress").length,
+        pendingCount: items.filter((i) => i.status === "pending").length,
+        skippedCount: items.filter((i) => i.status === "skipped").length,
+        overallProgress: this.calculateOverallProgress(items)
+      };
+    }
+    /**
+     * 根据属性键名和属性值获取块
+     */
+    static async getBlocksByProperty(filterPropKey, filterPropValue, filterTag, milestonePropKey) {
+      if (!logseqAPI$1) {
+        loggerProxy.warn("[MilestoneQuery] Logseq API not initialized");
+        return [];
+      }
+      const formattedKey = filterPropKey.startsWith(":") ? filterPropKey.slice(1) : filterPropKey;
+      const pullSpec = milestonePropKey ? `[* {${milestonePropKey} [:block/title]}]` : `[*]`;
+      let query = `[:find (pull ?b ${pullSpec})
+                    :where
+                    [?b :${formattedKey} ?val]
+                    [?val :block/title "${filterPropValue}"]]`;
+      if (filterTag) {
+        query = `[:find (pull ?b ${pullSpec})
+                :where
+                [?b :${formattedKey} ?val]
+                [?val :block/title "${filterPropValue}"]
+                [?b :block/tags ?t]
+                [?t :block/title "${filterTag}"]]`;
+      }
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        return this.parseBlocksResult(result);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] getBlocksByProperty failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 在父块列表中查找包含特定阶段关键词的子块
+     */
+    static async getBlocksByStageAndParent(stage, parentBlocks, milestonePropKey) {
+      if (!logseqAPI$1) {
+        return [];
+      }
+      const parentUuids = parentBlocks.map((b) => b.uuid).filter(Boolean);
+      if (parentUuids.length === 0) {
+        return [];
+      }
+      const pullSpec = milestonePropKey ? `[* {${milestonePropKey} [:block/title]}]` : `[*]`;
+      const parentIdPattern = parentUuids.map((uuid) => `["${uuid}"]`).join(" | ");
+      const query = `[:find (pull ?child ${pullSpec})
+                    :where
+                    [?child :block/parent ?parent]
+                    [?parent :block/uuid ${parentIdPattern}]
+                    [?child :block/content ?c]
+                    [(clojure.string/includes? ?c "${stage}")]]`;
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        return this.parseBlocksResult(result);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] getBlocksByStageAndParent failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 根据里程碑列表 + 标签查询
+     */
+    static async queryByMilestoneList(milestoneList, filterTag, dateField = "scheduled", milestonePropKey) {
+      const items = [];
+      const stageBlocksMap = /* @__PURE__ */ new Map();
+      for (const stage of milestoneList) {
+        const blocks = await this.getBlocksByStage(stage, filterTag, milestonePropKey);
+        stageBlocksMap.set(stage, blocks);
+      }
+      for (let i = 0; i < milestoneList.length; i++) {
+        const stage = milestoneList[i];
+        const blocks = stageBlocksMap.get(stage) || [];
+        let status = "pending";
+        let progress = 0;
+        let date = null;
+        if (blocks.length > 0) {
+          status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+          progress = StatusCalculator.calculateProgress(blocks, dateField);
+          date = StatusCalculator.getScheduledDate(blocks, dateField);
+        } else {
+          for (let j = i + 1; j < milestoneList.length; j++) {
+            const laterStage = milestoneList[j];
+            const laterBlocks = stageBlocksMap.get(laterStage) || [];
+            if (laterBlocks.length > 0) {
+              const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
+              if (laterStatus === "completed") {
+                status = "skipped";
+                break;
+              }
+            }
+          }
+        }
+        items.push({
+          id: `milestone-${stage}`,
+          label: stage,
+          status,
+          progress,
+          date,
+          blockId: blocks[0]?.id,
+          blockUuid: blocks[0]?.uuid
+        });
+      }
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter((i) => i.status === "completed").length,
+        inProgressCount: items.filter((i) => i.status === "in_progress").length,
+        pendingCount: items.filter((i) => i.status === "pending").length,
+        skippedCount: items.filter((i) => i.status === "skipped").length,
+        overallProgress: this.calculateOverallProgress(items)
+      };
+    }
+    /**
+     * 根据阶段关键词 + 标签获取对应块
+     */
+    static async getBlocksByStage(stage, filterTag, milestonePropKey) {
+      if (!logseqAPI$1) {
+        return [];
+      }
+      const pullSpec = milestonePropKey ? `[* {${milestonePropKey} [:block/title]}]` : `[*]`;
+      let query = `[:find (pull ?b ${pullSpec}) :where
+                  [?b :block/content ?c]
+                  [(clojure.string/includes? ?c "${stage}")]]`;
+      if (filterTag) {
+        query = `[:find (pull ?b ${pullSpec}) :where
+                [?b :block/content ?c]
+                [(clojure.string/includes? ?c "${stage}")]
+                [?b :block/tags ?t]
+                [?t :block/title "${filterTag}"]]`;
+      }
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        return this.parseBlocksResult(result);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] getBlocksByStage failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 根据标签获取对应块
+     */
+    static async getBlocksByLabel(label, tag, milestonePropKey) {
+      if (!logseqAPI$1) {
+        return [];
+      }
+      const pullSpec = milestonePropKey ? `[* {${milestonePropKey} [:block/title]}]` : `[*]`;
+      let query = `[:find (pull ?b ${pullSpec}) :where
+                  [?b :block/content ?c]
+                  [(clojure.string/includes? ?c "${label}")]]`;
+      if (tag) {
+        query = `[:find (pull ?b ${pullSpec}) :where
+                [?b :block/content ?c]
+                [(clojure.string/includes? ?c "${label}")]
+                [?b :block/tags ?t]
+                [?t :block/title "${tag}"]]`;
+      }
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        return this.parseBlocksResult(result);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] getBlocksByLabel failed:", error);
+        return [];
+      }
+    }
+    /**
+     * 根据属性枚举查询
+     */
+    static async queryByPropertyEnum(property, tag, dateField = "scheduled") {
+      const enums = tag ? await PropertyEnumService.getPropertyEnumsWithTag(property, tag) : await PropertyEnumService.getPropertyEnums(property);
+      const items = enums.map((enumItem, index) => ({
+        id: `milestone-${index}`,
+        label: enumItem.value,
+        status: StatusCalculator.calculateFromBlocks(enumItem.blocks, dateField),
+        progress: StatusCalculator.calculateProgress(enumItem.blocks, dateField),
+        date: StatusCalculator.getScheduledDate(enumItem.blocks, dateField),
+        color: void 0,
+        blockId: enumItem.blocks[0]?.id,
+        blockUuid: enumItem.blocks[0]?.uuid
+      }));
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter((i) => i.status === "completed").length,
+        inProgressCount: items.filter((i) => i.status === "in_progress").length,
+        pendingCount: items.filter((i) => i.status === "pending").length,
+        overallProgress: this.calculateOverallProgress(items)
+      };
+    }
+    /**
+     * 根据标签查询
+     */
+    static async queryByTag(tag, dateField = "scheduled", milestonePropKey) {
+      if (!logseqAPI$1) {
+        return this.createEmptyData();
+      }
+      const pullSpec = milestonePropKey ? `[* {${milestonePropKey} [:block/title]}]` : `[*]`;
+      const query = `[:find (pull ?b ${pullSpec})
+                    :where
+                    [?b :block/tags ?t]
+                    [?t :block/title "${tag}"]]`;
+      try {
+        const result = await logseqAPI$1.DB.datascriptQuery(query);
+        return this.parseBlocksToMilestone(result, void 0, dateField);
+      } catch (error) {
+        loggerProxy.error("[MilestoneQuery] queryByTag failed:", error);
+        return this.createEmptyData();
+      }
+    }
+    /**
+     * 解析块数据为里程碑数据
+     */
+    static parseBlocksToMilestone(result, property, dateField = "scheduled") {
+      const blocks = [];
+      for (const row of result) {
+        if (!row || !Array.isArray(row)) continue;
+        for (const item of row) {
+          if (!item) continue;
+          const properties = { ...item.properties || {} };
+          for (const key of Object.keys(item)) {
+            if (key.startsWith(":user.property/") || key.startsWith(":logseq.property/")) {
+              properties[key] = item[key];
+            }
+          }
+          blocks.push({
+            id: item.id?.toString() || "",
+            uuid: item.uuid || "",
+            content: item.content || item["block/title"] || item[":block/title"] || "",
+            properties,
+            createdAt: item["created-at"] || item[":block/created-at"] || "",
+            updatedAt: item["updated-at"] || item[":block/updated-at"] || "",
+            scheduled: item["scheduled"] || item["block/scheduled"] || item[":logseq.property/scheduled"] || "",
+            deadline: item["deadline"] || item["block/deadline"] || item[":logseq.property/deadline"] || ""
+          });
+        }
+      }
+      const groupByProperty = (blocks2, prop) => {
+        const groups = /* @__PURE__ */ new Map();
+        blocks2.forEach((block) => {
+          const value = block.properties?.[prop]?.toString() || "Unknown";
+          if (!groups.has(value)) {
+            groups.set(value, []);
+          }
+          groups.get(value).push(block);
+        });
+        return groups;
+      };
+      if (property) {
+        const groups = groupByProperty(blocks, property);
+        const items2 = [];
+        let index = 0;
+        groups.forEach((groupBlocks, value) => {
+          items2.push({
+            id: `milestone-${index++}`,
+            label: value,
+            status: StatusCalculator.calculateFromBlocks(groupBlocks, dateField),
+            progress: StatusCalculator.calculateProgress(groupBlocks, dateField),
+            date: StatusCalculator.getScheduledDate(groupBlocks, dateField),
+            blockId: groupBlocks[0]?.id,
+            blockUuid: groupBlocks[0]?.uuid
+          });
+        });
+        return {
+          items: items2,
+          totalCount: items2.length,
+          completedCount: items2.filter((i) => i.status === "completed").length,
+          inProgressCount: items2.filter((i) => i.status === "in_progress").length,
+          pendingCount: items2.filter((i) => i.status === "pending").length,
+          overallProgress: this.calculateOverallProgress(items2)
+        };
+      }
+      const items = blocks.map((block, index) => ({
+        id: `milestone-${index}`,
+        label: block.content.substring(0, 50),
+        status: StatusCalculator.calculateFromBlocks([block], dateField),
+        progress: StatusCalculator.calculateProgress([block], dateField),
+        date: StatusCalculator.getScheduledDate([block], dateField),
+        blockId: block.id,
+        blockUuid: block.uuid
+      }));
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter((i) => i.status === "completed").length,
+        inProgressCount: items.filter((i) => i.status === "in_progress").length,
+        pendingCount: items.filter((i) => i.status === "pending").length,
+        overallProgress: this.calculateOverallProgress(items)
+      };
+    }
+    /**
+     * 解析查询结果
+     */
+    static parseBlocksResult(result) {
+      const blocks = [];
+      if (!result || !Array.isArray(result)) {
+        return blocks;
+      }
+      for (const row of result) {
+        if (!row || !Array.isArray(row)) continue;
+        for (const item of row) {
+          if (!item) continue;
+          const properties = { ...item.properties || {} };
+          for (const key of Object.keys(item)) {
+            if (key.startsWith(":user.property/") || key.startsWith(":logseq.property/")) {
+              properties[key] = item[key];
+            }
+          }
+          blocks.push({
+            id: item.id?.toString() || "",
+            uuid: item.uuid || "",
+            content: item.content || item["block/title"] || item[":block/title"] || "",
+            properties,
+            createdAt: item["created-at"] || item[":block/created-at"] || "",
+            updatedAt: item["updated-at"] || item[":block/updated-at"] || "",
+            scheduled: item["scheduled"] || item["block/scheduled"] || item[":logseq.property/scheduled"] || "",
+            deadline: item["deadline"] || item["block/deadline"] || item[":logseq.property/deadline"] || ""
+          });
+        }
+      }
+      return blocks;
+    }
+    /**
+     * 计算总体进度
+     */
+    static calculateOverallProgress(items) {
+      if (items.length === 0) return 0;
+      const totalProgress = items.reduce((sum, item) => {
+        return sum + (item.progress || 0);
+      }, 0);
+      return Math.round(totalProgress / items.length);
+    }
+    /**
+     * 默认查询
+     */
+    static async queryDefault(dateField = "scheduled") {
+      return {
+        items: [],
+        totalCount: 0,
+        completedCount: 0,
+        overallProgress: 0
+      };
+    }
+    /**
+     * 创建空数据
+     */
+    static createEmptyData() {
+      return {
+        items: [],
+        totalCount: 0,
+        completedCount: 0,
+        overallProgress: 0
+      };
+    }
+  }
+
+  const PLUGIN_ID = "milestone";
+  registerRendererArgModel(":milestone", {
+    positional: ["displayStyle"]
+  });
+  let MilestoneComponent = null;
+  function setMilestoneComponent(component) {
+    MilestoneComponent = component;
+  }
+  async function renderMilestone(slot, config) {
+    try {
+      const data = await MilestoneQuery.query({
+        filterTag: config.filterTag,
+        property: config.property,
+        filterPropKey: config.filterPropKey,
+        filterPropValue: config.filterPropValue,
+        milestonePropKey: config.milestonePropKey,
+        milestoneList: config.milestoneList,
+        dateField: config.dateField
+      });
+      if (!MilestoneComponent) {
+        loggerProxy.warn("⚠️ Milestone: Component not registered");
+        return false;
+      }
+      const containerId = PLUGIN_ID + "__" + slot;
+      logseqAPI$1.provideUI({
+        key: containerId,
+        slot,
+        reset: true,
+        template: `<div id="${containerId}"></div>`
+      });
+      setTimeout(() => {
+        const container = getDocument().getElementById(containerId);
+        if (container) {
+          loggerProxy.debug("🎯 Milestone: Rendering component", { containerId });
+          renderComponent(container, MilestoneComponent, { data, config });
+        } else {
+          loggerProxy.warn("🎯 Milestone: Container not found", { containerId });
+        }
+      }, 1);
+      return true;
+    } catch (err) {
+      loggerProxy.error("❌ Milestone: Render error", err);
+      return false;
+    }
+  }
+  function registerMilestone() {
+    logseqAPI$1.App.onMacroRendererSlotted(async ({ payload, slot }) => {
+      try {
+        const split = splitRendererArgs(payload.arguments);
+        if (!split) {
+          loggerProxy.warn("[Milestone] Invalid macro arguments");
+          return;
+        }
+        const config = parseMacroArguments(split.type, split.tokens);
+        await renderMilestone(slot, config);
+      } catch (error) {
+        loggerProxy.error("[Milestone] Render failed:", error);
+      }
+    });
+    logseqAPI$1.Editor.registerSlashCommand(
+      "[Text Toolkit] Insert Milestone",
+      async () => {
+        await logseqAPI$1.Editor.insertAtEditingCursor(
+          `{{renderer :milestone, displayStyle=capsule}}`
+        );
+      }
+    );
+    loggerProxy.info("✅ Milestone: Registered successfully");
+  }
+  function parseMacroArguments(type, tokens) {
+    const parsed = parseRendererArgs(type, tokens);
+    let template;
+    const settings = getSettings();
+    const templates = settings?.milestone?.templates || [];
+    if (parsed.template) {
+      template = templates.find((t) => t.id === parsed.template || t.name === parsed.template);
+    }
+    const baseConfig = template ? {
+      filterTag: template.filterTag,
+      filterPropKey: template.filterPropKey,
+      filterPropValue: template.filterPropValue,
+      milestonePropKey: template.milestonePropKey,
+      milestoneList: template.milestoneList,
+      displayStyle: template.displayStyle,
+      showProgress: template.showProgress,
+      showLabel: template.showLabel,
+      dateField: template.dateField
+    } : {};
+    let displayStyle = baseConfig.displayStyle || "capsule";
+    if (parsed.displayStyle && ["capsule", "badge", "track", "card", "compact"].includes(parsed.displayStyle)) {
+      displayStyle = parsed.displayStyle;
+    }
+    let finalMilestoneList = baseConfig.milestoneList;
+    if (parsed.milestoneList) {
+      finalMilestoneList = parsed.milestoneList.split(";").map((s) => s.trim()).filter(Boolean);
+    }
+    return {
+      template: parsed.template,
+      filterTag: parsed.filterTag || baseConfig.filterTag,
+      displayStyle,
+      property: parsed.property,
+      filterPropKey: parsed.filterPropKey || baseConfig.filterPropKey,
+      filterPropValue: parsed.filterPropValue || baseConfig.filterPropValue,
+      milestonePropKey: parsed.milestonePropKey || baseConfig.milestonePropKey,
+      milestoneList: finalMilestoneList,
+      dateField: parsed.dateField || baseConfig.dateField || "scheduled",
+      showProgress: parsed.showProgress !== void 0 ? parsed.showProgress !== "false" : baseConfig.showProgress !== false,
+      showLabel: parsed.showLabel !== void 0 ? parsed.showLabel !== "false" : baseConfig.showLabel !== false,
+      colorScheme: parsed.colorScheme ? JSON.parse(parsed.colorScheme) : void 0
+    };
+  }
+
   var toolbarCSSRaw = ".ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n";
 
-  var settingsModalCSSRaw = "/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n";
+  var settingsModalCSSRaw = "/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* 自定义滚动条样式 */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ls-border-color-plugin, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ls-border-color-plugin, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ls-secondary-background-color-plugin, #f5f5f5);\n  color: var(--ls-primary-text-color-plugin, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #e0e0e0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-color: var(--ls-border-color-plugin, #e0e0e0);\n  border-bottom: 1px solid var(--ls-primary-background-color-plugin, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ls-secondary-text-color-plugin, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: #f5f5f5 !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch开关样式 */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: white;\n  transition: .4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: #000;\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 8px 12px !important;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px !important;\n  font-size: 14px !important;\n  background-color: #f5f5f5;\n  color: var(--ls-primary-text-color-plugin, #333);\n  white-space: nowrap;\n  transition: all 0.2s ease;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus,\n.ltt-setting-item select:focus {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n  outline: none;\n}\n\n/* 确保工具栏配置在窄屏模式下正常显示 */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON编辑器样式 */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ls-border-color-plugin, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: monospace !important;\n  background-color: var(--ls-primary-background-color-plugin, #fff) !important;\n  color: var(--ls-primary-text-color-plugin, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px var(--ls-focus-color-plugin, #dbeafe);\n  outline: none;\n}\n\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: #ef4444;\n  margin-bottom: 12px;\n}\n\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 0;\n  background: none;\n  border-radius: 0;\n  border: none;\n  box-shadow: none;\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 16px;\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 4px;\n  font-size: 11px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ls-secondary-text-color-plugin, #94a3b8);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 60px;\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 8px;\n  padding-bottom: 8px;\n}\n\n.ltt-settings-btn {\n  padding: 6px 14px;\n  border: none;\n  border-radius: 4px;\n  font-size: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.ltt-settings-btn-save {\n  background-color: #000;\n  color: white;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-settings-btn-save::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0));\n}\n\n.ltt-settings-btn-save::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 1px;\n  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.3));\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: #333;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);\n  transform: translateY(1px);\n}\n\n.ltt-settings-btn-save:active:not(:disabled) {\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);\n  transform: translateY(2px);\n}\n\n.ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #ccc);\n  cursor: not-allowed;\n}\n\n.ltt-settings-placeholder {\n  text-align: center;\n  padding: 60px 20px;\n  color: var(--ls-primary-text-color-plugin, #999);\n}\n\n.ltt-settings-placeholder p {\n  margin: 8px 0;\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .ltt-settings-container {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tabs {\n  border-bottom-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px 8px 0 0;\n  padding: 10px 16px;\n  font-size: 14px;\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n}\n\n[data-theme=\"dark\"] .ltt-settings-tab.active {\n  background-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #ffffff);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-bottom-color: var(--ls-primary-background-color-plugin, #1e1e1e);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-tab-section-description-small {\n  color: var(--ls-secondary-text-color-plugin, #a0a0a0);\n}\n\n[data-theme=\"dark\"] .ltt-setting-item label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  font-size: 14px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"],\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"],\n[data-theme=\"dark\"] .ltt-setting-item select,\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  border-color: var(--ls-border-color-plugin, #333333);\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 8px;\n  padding: 10px 12px;\n  font-size: 14px;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"text\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item input[type=\"number\"]:focus,\n[data-theme=\"dark\"] .ltt-setting-item select:focus,\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n[data-theme=\"dark\"] .ltt-settings-placeholder {\n  color: var(--ls-secondary-text-color-plugin, #666666);\n}\n\n/* 确保工具栏图标在不同主题下都可见 */\n[data-theme=\"dark\"] .ltt-toolbar-icon {\n  filter: brightness(1.5);\n}\n\n/* 深色主题下的按钮样式 */\n[data-theme=\"dark\"] .ltt-settings-btn-save {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n  border-radius: 8px;\n  padding: 10px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:hover:not(:disabled) {\n  background-color: var(--ls-accent-color-plugin, #2563eb);\n  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);\n  transform: translateY(-1px);\n}\n\n[data-theme=\"dark\"] .ltt-settings-btn-save:disabled {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n\n/* 深色主题下的开关样式 */\n[data-theme=\"dark\"] .ltt-switch-slider {\n  background-color: var(--ls-secondary-background-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] input:checked + .ltt-switch-slider {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n}\n\n/* 深色主题下的 JSON 编辑器样式 */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ls-accent-color-plugin, #60a5fa);\n  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);\n  outline: none;\n}\n\n/* 响应式调整 */\n@media (max-width: 768px) {\n  .ltt-settings-tab {\n    font-size: 12px;\n    padding: 6px 12px;\n  }\n  \n  /* 移动端：设置项一行展示（最小改动） */\n  .ltt-setting-item {\n    display: flex !important;\n    flex-direction: row !important;\n    align-items: center !important;\n    justify-content: space-between !important;\n    gap: 12px !important;\n    width: 100% !important;\n    margin-bottom: 12px !important;\n  }\n  \n  .ltt-setting-item > label {\n    flex-shrink: 0 !important;\n    width: auto !important;\n    min-width: 36px !important;\n    text-align: left !important;\n    font-size: 13px !important;\n  }\n  \n  .ltt-setting-item > select,\n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    flex: 1 !important;\n    min-width: 120px !important;\n    max-width: 200px !important;\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n    width: 100% !important;\n    min-width: 100% !important;\n    box-sizing: border-box !important;\n  }\n  \n  .ltt-json-editor {\n    width: 100% !important;\n    max-width: 100% !important;\n  }\n}\n\n/* 针对更窄屏幕的调整 */\n@media (max-width: 480px) {\n  .ltt-settings-container {\n    padding: 0 8px;\n  }\n  \n  .ltt-settings-tab {\n    font-size: 11px;\n    padding: 4px 8px;\n  }\n  \n  .ltt-setting-item > label {\n    width: 36px !important;\n  }\n  \n  .ltt-setting-item input[type=\"text\"],\n  .ltt-setting-item input[type=\"number\"] {\n    padding: 6px 8px !important;\n    font-size: 12px !important;\n  }\n  \n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n  \n  .ltt-settings-actions {\n    margin-top: 40px;\n    justify-content: center;\n    padding-right: 0;\n  }\n  \n  .ltt-settings-btn {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n}\n\n/* 设置项组样式 */\n.ltt-setting-item-group {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 16px;\n  padding: 16px;\n  background-color: #f5f5f5;\n  border-radius: 8px;\n  border: 1px solid #e0e0e0;\n}\n\n.ltt-setting-item-group .ltt-setting-item {\n  margin-bottom: 0 !important;\n}\n\n/* 深色主题下的设置项组样式 */\n[data-theme=\"dark\"] .ltt-setting-item-group {\n  background-color: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-color: var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n  padding: 16px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n}\n\n/* 状态颜色网格样式 */\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 10px;\n  border-radius: 6px;\n  border: 1px solid #e5e7eb;\n  transition: all 0.2s ease;\n}\n\n.ltt-status-color-row:hover {\n  border-color: #cbd5e1;\n}\n\n.ltt-color-input {\n  width: 28px;\n  height: 22px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n  box-shadow: none;\n  transition: border-color 0.2s ease;\n}\n\n.ltt-color-input:hover {\n  border-color: #94a3b8;\n}\n\n.ltt-status-label {\n  font-size: 14px;\n  color: #374151;\n  font-weight: 500;\n  flex: 1;\n}\n\n/* 深色主题下的状态颜色行 */\n[data-theme=\"dark\"] .ltt-status-colors-grid {\n  gap: 12px;\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row {\n  border-color: var(--ls-border-color-plugin, #333333);\n}\n\n[data-theme=\"dark\"] .ltt-status-color-row:hover {\n  border-color: #444444;\n}\n\n[data-theme=\"dark\"] .ltt-status-label {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* Milestone Templates Section Styles */\n.ltt-milestone-templates-section {\n  margin-top: 32px;\n  margin-bottom: 24px;\n}\n\n.ltt-milestone-templates-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 20px;\n}\n\n.ltt-milestone-templates-title {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin, #111827);\n  letter-spacing: -0.2px;\n}\n\n.ltt-milestone-add-template-btn {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  color: white;\n  background-color: #111827;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-add-template-btn:hover {\n  background-color: #1f2937;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n\n.ltt-milestone-add-template-btn:active {\n  transform: translateY(0);\n  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-add-icon {\n  flex-shrink: 0;\n}\n\n.ltt-milestone-templates-list {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.ltt-milestone-no-templates {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);\n  border-radius: 12px;\n  border: 2px dashed #d1d5db;\n}\n\n.ltt-milestone-empty-icon {\n  color: #9ca3af;\n  margin-bottom: 12px;\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates-text {\n  margin: 0;\n  font-size: 14px;\n  color: #6b7280;\n  text-align: center;\n}\n\n.ltt-milestone-template-card {\n  background-color: white;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  overflow: visible;\n  transition: all 0.2s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);\n  position: relative;\n}\n\n.ltt-milestone-template-card:hover {\n  border-color: #d1d5db;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n  transform: translateY(-1px);\n}\n\n.ltt-milestone-template-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  background: linear-gradient(to bottom, #fafafa, #ffffff);\n  border-bottom: 1px solid #f3f4f6;\n}\n\n.ltt-milestone-template-info {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex: 1;\n}\n\n.ltt-milestone-template-number {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 28px;\n  height: 28px;\n  background: linear-gradient(135deg, #111827 0%, #374151 100%);\n  color: white;\n  font-size: 13px;\n  font-weight: 600;\n  border-radius: 6px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-name-input {\n  flex: 1;\n  padding: 8px 12px;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color-plugin, #111827);\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n  min-width: 0;\n}\n\n.ltt-milestone-template-name-input:hover {\n  background-color: #f9fafb;\n  border-color: #e5e7eb;\n}\n\n.ltt-milestone-template-name-input:focus {\n  outline: none;\n  background-color: #f9fafb;\n  border-color: #111827;\n  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);\n}\n\n.ltt-milestone-template-id {\n  font-size: 12px;\n  color: #9ca3af;\n  font-family: ui-monospace, Monaco, 'SF Mono', monospace;\n  background-color: #f3f4f6;\n  padding: 4px 8px;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-actions {\n  display: flex;\n  gap: 8px;\n}\n\n.ltt-milestone-action-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  background-color: transparent;\n  border: 1px solid #e5e7eb;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  color: #6b7280;\n}\n\n.ltt-milestone-action-btn:hover {\n  background-color: #f3f4f6;\n  border-color: #d1d5db;\n  color: #111827;\n}\n\n.ltt-milestone-action-btn:active {\n  transform: scale(0.95);\n}\n\n.ltt-milestone-action-btn-edit.ltt-milestone-action-btn-active {\n  background-color: #111827;\n  border-color: #111827;\n  color: white;\n}\n\n.ltt-milestone-action-btn-delete:hover {\n  background-color: #fef2f2;\n  border-color: #fecaca;\n  color: #dc2626;\n}\n\n.ltt-milestone-template-card-expanded {\n  border-color: #d1d5db;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-milestone-template-card-body {\n  padding: 24px 20px;\n  background: linear-gradient(to bottom, #fafafa, #ffffff);\n}\n\n.ltt-milestone-form-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 20px;\n}\n\n.ltt-milestone-form-item {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.ltt-milestone-form-item-full {\n  grid-column: 1 / -1;\n}\n\n.ltt-milestone-form-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color-plugin, #374151);\n  letter-spacing: 0.1px;\n}\n\n.ltt-milestone-form-label-required::after {\n  content: ' *';\n  color: #dc2626;\n}\n\n.ltt-milestone-form-input {\n  width: 100%;\n  padding: 10px 14px;\n  font-size: 14px;\n  color: var(--ls-primary-text-color-plugin, #111827);\n  background-color: white;\n  border: 1px solid #d1d5db;\n  border-radius: 8px;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-form-input:hover {\n  border-color: #9ca3af;\n}\n\n.ltt-milestone-form-input:focus {\n  outline: none;\n  border-color: #111827;\n  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);\n}\n\n.ltt-milestone-form-input::placeholder {\n  color: #9ca3af;\n}\n\n/* Dark Theme Styles for Milestone Section */\n[data-theme=\"dark\"] .ltt-milestone-templates-title {\n  color: var(--ls-primary-text-color-plugin, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-add-template-btn {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-add-template-btn:hover {\n  background-color: #2563eb;\n  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates {\n  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);\n  border-color: #374151;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-empty-icon {\n  color: #6b7280;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates-text {\n  color: #9ca3af;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card {\n  background-color: var(--ls-primary-background-color-plugin, #111827);\n  border-color: var(--ls-border-color-plugin, #374151);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card:hover {\n  border-color: #4b5563;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-header {\n  background: linear-gradient(to bottom, #1f2937, #111827);\n  border-bottom-color: #374151;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-number {\n  background: linear-gradient(135deg, var(--ls-accent-color-plugin, #3b82f6) 0%, #1d4ed8 100%);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-name-input {\n  color: var(--ls-primary-text-color-plugin, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-name-input:hover {\n  background-color: #1f2937;\n  border-color: #374151;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-name-input:focus {\n  background-color: #1f2937;\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-id {\n  background-color: #1f2937;\n  color: #9ca3af;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn {\n  border-color: #374151;\n  color: #9ca3af;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn:hover {\n  background-color: #1f2937;\n  border-color: #4b5563;\n  color: #f9fafb;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-edit.ltt-milestone-action-btn-active {\n  background-color: var(--ls-accent-color-plugin, #3b82f6);\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  color: white;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-delete:hover {\n  background-color: #450a0a;\n  border-color: #7f1d1d;\n  color: #fca5a5;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-expanded {\n  border-color: #4b5563;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-body {\n  background: linear-gradient(to bottom, #1f2937, #111827);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-label {\n  color: var(--ls-primary-text-color-plugin, #e5e7eb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input {\n  background-color: #1f2937;\n  border-color: #374151;\n  color: var(--ls-primary-text-color-plugin, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:hover {\n  border-color: #4b5563;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:focus {\n  border-color: var(--ls-accent-color-plugin, #3b82f6);\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input::placeholder {\n  color: #6b7280;\n}\n\n/* Error Styles for Milestone Section */\n.ltt-milestone-input-error {\n  border-color: #dc2626 !important;\n  background-color: #fef2f2 !important;\n}\n\n.ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;\n}\n\n.ltt-milestone-error-message {\n  font-size: 12px;\n  color: #dc2626;\n  margin-top: 2px;\n  padding: 4px 8px;\n  background-color: #fef2f2;\n  border-radius: 4px;\n  border: 1px solid #fecaca;\n}\n\n/* Dark theme error styles */\n[data-theme=\"dark\"] .ltt-milestone-input-error {\n  border-color: #fca5a5 !important;\n  background-color: #450a0a !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-error-message {\n  color: #fca5a5;\n  background-color: #450a0a;\n  border-color: #7f1d1d;\n}\n\n/* Responsive Styles for Milestone Section */\n@media (max-width: 768px) {\n  .ltt-milestone-templates-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: flex-start;\n  }\n  \n  .ltt-milestone-add-template-btn {\n    width: 100%;\n    justify-content: center;\n  }\n  \n  .ltt-milestone-form-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .ltt-milestone-template-card-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: stretch;\n  }\n  \n  .ltt-milestone-template-actions {\n    justify-content: flex-end;\n  }\n\n  .ltt-milestone-template-info {\n    flex-wrap: wrap;\n  }\n\n  .ltt-milestone-error-message {\n    width: 100%;\n  }\n}\n";
 
   var modalCSSRaw = "/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n";
 
@@ -25634,7 +28156,7 @@ ${where}
 
   var taskProgressCSSRaw = ".task-progress {\n  display: inline-flex;\n  align-items: center;\n  margin-left: 8px;\n  vertical-align: middle;\n}\n\n.task-progress-mini-circle {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.task-progress-mini-circle svg {\n  transform: rotate(-90deg);\n}\n\n.task-progress-mini-circle .center-text {\n  position: absolute;\n  font-size: 10px;\n  font-weight: 600;\n}\n\n.task-progress-dot-matrix {\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.task-progress-dot {\n  width: 6px;\n  height: 6px;\n  border-radius: 50%;\n}\n\n.task-progress-capsule {\n  display: inline-flex;\n  align-items: center;\n  padding: 2px 8px;\n  border-radius: 9999px;\n  background-color: var(--ls-secondary-background-color);\n}\n\n.task-progress-capsule-bar {\n  flex: 1;\n  height: 4px;\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.task-progress-capsule-segment {\n  height: 100%;\n  float: left;\n}\n\n.task-progress-cursor {\n  font-size: 14px;\n  cursor: help;\n}\n\n.task-progress-step {\n  display: flex;\n  align-items: flex-end;\n  height: 16px;\n  gap: 1px;\n}\n\n.task-progress-step-segment {\n  width: 8px;\n  border-radius: 2px 2px 0 0;\n}\n\n.task-progress-label {\n  margin-left: 4px;\n  font-size: 10px;\n  font-weight: 500;\n}\n\n/* Tooltip 样式 - 使用纯 CSS hover 控制 */\n.task-progress-tooltip-wrapper {\n  position: relative;\n  display: inline-block;\n}\n\n.task-progress-tooltip {\n  position: absolute;\n  z-index: 99999;\n  padding: 8px 12px;\n  background-color: var(--ls-secondary-background-color, #fff);\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  font-size: 12px;\n  min-width: 140px;\n  pointer-events: none;\n  /* 初始隐藏 */\n  opacity: 0;\n  visibility: hidden;\n  transform: translateX(-50%) translateY(4px);\n  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;\n  /* 定位在底部 */\n  top: calc(100% + 8px);\n  left: 50%;\n}\n\n/* Hover 时显示 tooltip */\n.task-progress-tooltip-wrapper:hover .task-progress-tooltip {\n  opacity: 1;\n  visibility: visible;\n  transform: translateX(-50%) translateY(0);\n}\n\n.task-progress-tooltip-wrapper.hover-bounce .task-progress-mini-circle,\n.task-progress-tooltip-wrapper.hover-bounce .task-progress-dot-matrix,\n.task-progress-tooltip-wrapper.hover-bounce .task-progress-capsule,\n.task-progress-tooltip-wrapper.hover-bounce .task-progress-cursor,\n.task-progress-tooltip-wrapper.hover-bounce .task-progress-step {\n  animation: task-progress-bounce 0.3s ease;\n}\n\n@keyframes task-progress-bounce {\n  0%, 100% { transform: scale(1); }\n  50% { transform: scale(1.1); }\n}\n\n.task-progress-tooltip-content {\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.tooltip-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 6px;\n  padding-bottom: 6px;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.tooltip-progress-label {\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #10b981);\n}\n\n.tooltip-progress-value {\n  font-weight: 700;\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #10b981);\n}\n\n.tooltip-stats {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.tooltip-stat-row {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 11px;\n}\n\n.tooltip-stat-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  flex-shrink: 0;\n}\n\n.tooltip-stat-name {\n  flex: 1;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.tooltip-stat-count {\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.tooltip-footer {\n  margin-top: 6px;\n  padding-top: 6px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: right;\n  font-size: 11px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.task-progress-tooltip-wrapper.hover-scale .task-progress-mini-circle,\n.task-progress-tooltip-wrapper.hover-scale .task-progress-dot-matrix,\n.task-progress-tooltip-wrapper.hover-scale .task-progress-capsule,\n.task-progress-tooltip-wrapper.hover-scale .task-progress-cursor,\n.task-progress-tooltip-wrapper.hover-scale .task-progress-step {\n  animation: task-progress-scale 0.25s ease;\n}\n\n@keyframes task-progress-scale {\n  0%, 100% { transform: scale(1); }\n  50% { transform: scale(1.15); }\n}\n\n.task-progress-tooltip-wrapper.hover-glow .task-progress-mini-circle,\n.task-progress-tooltip-wrapper.hover-glow .task-progress-dot-matrix,\n.task-progress-tooltip-wrapper.hover-glow .task-progress-capsule,\n.task-progress-tooltip-wrapper.hover-glow .task-progress-cursor,\n.task-progress-tooltip-wrapper.hover-glow .task-progress-step {\n  animation: task-progress-glow 0.4s ease;\n  filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.5));\n}\n\n@keyframes task-progress-glow {\n  0%, 100% { filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.3)); }\n  50% { filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)); }\n}\n\n/* 微型圆环悬停动画 */\n.task-progress-tooltip-wrapper:hover .task-progress-mini-circle {\n  animation: mini-circle-expand 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;\n}\n\n@keyframes mini-circle-expand {\n  0% {\n    transform: scale(1);\n  }\n  50% {\n    transform: scale(1.15);\n  }\n  100% {\n    transform: scale(1.1);\n  }\n}\n\n.task-progress-mini-circle svg {\n  transform: rotate(-90deg);\n  transition: transform 0.3s ease;\n}\n\n.task-progress-tooltip-wrapper:hover .task-progress-mini-circle svg {\n  transform: rotate(-90deg) scale(1.05);\n}\n\n/* 点阵进度水波动画 */\n.task-progress-tooltip-wrapper:hover .task-progress-dot {\n  animation: dot-wave 0.8s ease-in-out infinite;\n}\n\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(1) { animation-delay: 0s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(2) { animation-delay: 0.1s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(3) { animation-delay: 0.2s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(4) { animation-delay: 0.3s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(5) { animation-delay: 0.4s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(6) { animation-delay: 0.5s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(7) { animation-delay: 0.6s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(8) { animation-delay: 0.7s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(9) { animation-delay: 0.8s; }\n.task-progress-tooltip-wrapper:hover .task-progress-dot:nth-child(10) { animation-delay: 0.9s; }\n\n@keyframes dot-wave {\n  0%, 100% {\n    transform: scale(1);\n    box-shadow: 0 0 0 rgba(59, 130, 246, 0);\n  }\n  50% {\n    transform: scale(1.4);\n    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);\n  }\n}\n\n/* 状态光标动画 - 有趣的跳动效果 */\n.task-progress-tooltip-wrapper:hover .task-progress-cursor {\n  animation: cursor-bounce 0.6s ease-in-out infinite;\n}\n\n@keyframes cursor-bounce {\n  0%, 100% {\n    transform: translateY(0) rotate(0deg);\n  }\n  25% {\n    transform: translateY(-3px) rotate(-2deg);\n  }\n  75% {\n    transform: translateY(-3px) rotate(2deg);\n  }\n}\n\n.task-progress-cursor > span {\n  display: inline-block;\n  transition: transform 0.2s ease;\n}\n\n.task-progress-tooltip-wrapper:hover .task-progress-cursor > span {\n  animation: cursor-pulse 0.5s ease-in-out infinite;\n}\n\n.task-progress-tooltip-wrapper:hover .task-progress-cursor > span:nth-child(1) { animation-delay: 0s; }\n.task-progress-tooltip-wrapper:hover .task-progress-cursor > span:nth-child(2) { animation-delay: 0.1s; }\n.task-progress-tooltip-wrapper:hover .task-progress-cursor > span:nth-child(3) { animation-delay: 0.2s; }\n.task-progress-tooltip-wrapper:hover .task-progress-cursor > span:nth-child(4) { animation-delay: 0.3s; }\n.task-progress-tooltip-wrapper:hover .task-progress-cursor > span:nth-child(5) { animation-delay: 0.4s; }\n.task-progress-tooltip-wrapper:hover .task-progress-cursor > span:nth-child(6) { animation-delay: 0.5s; }\n\n@keyframes cursor-pulse {\n  0%, 100% {\n    transform: scale(1);\n  }\n  50% {\n    transform: scale(1.3);\n  }\n}\n\n/* 阶梯摇晃动画 */\n.task-progress-tooltip-wrapper:hover .task-progress-step {\n  animation: step-shake 0.5s ease-in-out;\n}\n\n@keyframes step-shake {\n  0%, 100% { transform: rotate(0deg); }\n  25% { transform: rotate(-2deg); }\n  75% { transform: rotate(2deg); }\n}\n\n.task-progress-tooltip-wrapper:hover .task-progress-step-segment {\n  animation: step-grow 0.6s ease-in-out infinite;\n}\n\n.task-progress-tooltip-wrapper:hover .task-progress-step-segment:nth-child(1) { animation-delay: 0s; }\n.task-progress-tooltip-wrapper:hover .task-progress-step-segment:nth-child(2) { animation-delay: 0.08s; }\n.task-progress-tooltip-wrapper:hover .task-progress-step-segment:nth-child(3) { animation-delay: 0.16s; }\n.task-progress-tooltip-wrapper:hover .task-progress-step-segment:nth-child(4) { animation-delay: 0.24s; }\n.task-progress-tooltip-wrapper:hover .task-progress-step-segment:nth-child(5) { animation-delay: 0.32s; }\n.task-progress-tooltip-wrapper:hover .task-progress-step-segment:nth-child(6) { animation-delay: 0.4s; }\n\n@keyframes step-grow {\n  0%, 100% {\n    transform: scaleY(1);\n    transform-origin: bottom;\n  }\n  50% {\n    transform: scaleY(1.3);\n    transform-origin: bottom;\n  }\n}\n\n/* 进度胶囊动画 */\n.task-progress-tooltip-wrapper:hover .task-progress-capsule {\n  animation: capsule-pulse 0.5s ease-in-out;\n}\n\n@keyframes capsule-pulse {\n  0%, 100% { transform: scale(1); }\n  50% { transform: scale(1.05); }\n}\n\n.task-progress-tooltip-wrapper:hover .task-progress-capsule-segment {\n  animation: segment-breathe 1s ease-in-out infinite;\n}\n\n@keyframes segment-breathe {\n  0%, 100% {\n    opacity: 1;\n  }\n  50% {\n    opacity: 0.8;\n  }\n}\n\n/* 嵌套指示器样式 */\n.nesting-indicator {\n  font-size: 10px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  background-color: var(--ls-secondary-background-color, #f3f4f6);\n  padding: 2px 6px;\n  border-radius: 4px;\n  margin-right: 6px;\n  font-family: monospace;\n  cursor: help;\n}\n\n.nesting-indicator::before {\n  content: '';\n}\n";
 
-  var customSelectCSSRaw = "/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}";
+  var customSelectCSSRaw = "/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 9999;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}";
 
   var heatmapCSSRaw = ".heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n";
 
@@ -25652,7 +28174,9 @@ ${where}
 
   var listViewCssRaw = ".ltt-list-root .block-title-wrap {\n    display: inline-flex !important;\n    align-items: center !important;\n    flex-wrap: wrap !important;\n    gap: 1px !important;\n}\n\n.ltt-list-root .lsp-hook-ui-slot {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    min-height: 0 !important;\n\n    margin: 0 !important;\n    padding: 0 !important;\n}\n\n.ltt-list-root .ltt-view-bar {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    flex: 0 0 auto !important;\n\n    margin: 0px !important;\n    padding: 0 !important;\n\n    vertical-align: middle !important;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n/* .ltt-list-root>.block-main-container {\n  margin-bottom: 12px;\n} */\n\n/* .ltt-list-root>.block-main-container .block-control-wrap {\n  display: none !important;\n} */\n\n.ltt-list-root>.block-main-container .block-content-inner .block-title-wrap {\n    margin-left: 0.4rem !important;\n}";
 
-  var mainCSSRaw = "/* src/main.css */\n\n/* Light theme variables - 参考 shadcn 和苹果设计 */\n:root {\n  --background-color-light: #ffffff;\n  --text-color-light: #000000;\n  --primary-text-color-light: #1e293b;\n  --secondary-text-color-light: #64748b;\n  --secondary-background-color-light: #f8fafc;\n  --border-color-light: #e2e8f0;\n  --accent-color-light: #3b82f6;\n  --hover-color-light: #f1f5f9;\n  --focus-color-light: #dbeafe;\n  \n  /* Dark theme variables - 参考 shadcn 和苹果设计 */\n  --background-color-dark: #0f172a;\n  --text-color-dark: #ffffff;\n  --primary-text-color-dark: #f1f5f9;\n  --secondary-text-color-dark: #94a3b8;\n  --secondary-background-color-dark: #1e293b;\n  --border-color-dark: #334155;\n  --accent-color-dark: #60a5fa;\n  --hover-color-dark: #334155;\n  --focus-color-dark: #1e3a8a;\n  \n  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n/* Media query for dark mode */\n@media (prefers-color-scheme: dark) {\n  :root {\n    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n  }\n}\n\n/* Theme classes */\n.light-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));\n  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));\n  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));\n  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));\n  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));\n  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));\n  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));\n  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));\n}\n\n/* =========================================================\n   LTT THEME: INDIGO-DARK\n   深色配色方案 - 基于 heatmap 风格\n   \n   用途：BlockView 非默认主题深色模式\n   后期可扩展为全局 theme 方案\n   \n   配色特征：\n   - 主背景：#171f33 (深蓝紫)\n   - 强调色：indigo 系列 (#818cf8)\n   - 文本色：高对比度灰色系\n   - 边框：低透明度白色\n========================================================= */\n\n.dark-mode {\n  --ltt-bg-primary-dark: #171f33;\n  --ltt-bg-secondary-dark: #1a1d23;\n  --ltt-bg-tertiary-dark: #2d3449;\n  --ltt-bg-deepest-dark: #12151a;\n  --ltt-border-subtle-dark: rgba(255, 255, 255, 0.06);\n  --ltt-border-normal-dark: rgba(255, 255, 255, 0.08);\n  --ltt-border-medium-dark: rgba(255, 255, 255, 0.1);\n  --ltt-text-primary-dark: #e5e7eb;\n  --ltt-text-secondary-dark: #9ca3af;\n  --ltt-text-muted-dark: #6b7280;\n  --ltt-accent-blue-dark: #60a5fa;\n  --ltt-accent-indigo-dark: #818cf8;\n  --ltt-accent-purple-dark: #a78bfa;\n  --ltt-accent-green-dark: #6ee7b7;\n  --ltt-shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-hover-dark: 0 8px 24px rgba(0, 0, 0, 0.5);\n}\n\n";
+  var milestoneCSSRaw = "/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-xl);\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  border-top: 2px dashed;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 180px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: space-between;\n  gap: var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin-top: var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin-top: var(--ltt-spacing-xs);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-lg);\n  border: 2px solid;\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 120px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-sm);\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  flex-wrap: wrap;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n";
+
+  var mainCSSRaw = "/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: var(--ls-active-primary-color, #3b82f6);\n  --ltt-accent-hover: #2563eb;\n  --ltt-accent-muted: var(--ls-focus-ring-color, #dbeafe);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: var(--ls-active-primary-color, #60a5fa);\n  --ltt-accent-hover: #3b82f6;\n  --ltt-accent-muted: #1e3a8a;\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n";
 
   const ID = {
     TOOLBAR: "text-toolkit-toolbar",
@@ -25755,6 +28279,11 @@ ${where}
       inlineContent: listViewCssRaw,
       externalPath: "listView.css"
     });
+    registerCSS("milestone", {
+      type: "both",
+      inlineContent: milestoneCSSRaw,
+      externalPath: "milestone.css"
+    });
   }
   let settingsModalOpen = false;
   function renderSettingsModal() {
@@ -25849,6 +28378,10 @@ ${where}
   async function initBlockView() {
     registerBlockView();
   }
+  async function initMilestone() {
+    setMilestoneComponent(Milestone);
+    registerMilestone();
+  }
 
   async function initializePlugin() {
     try {
@@ -25883,6 +28416,8 @@ ${where}
     loggerProxy.info("📋 Plugin: Summary ready");
     await initBlockView();
     loggerProxy.info("📊 Plugin: BlockView ready");
+    await initMilestone();
+    loggerProxy.info("🏷️ Plugin: Milestone ready");
     loggerProxy.info("✅ Plugin: Components initialized");
   }
   async function main() {

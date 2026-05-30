@@ -52,7 +52,7 @@
   border-radius: 12px;
   background-color: var(--ls-primary-background-color-plugin, #fff);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 9999;
   max-height: 300px;
   overflow-y: auto;
   box-sizing: border-box;
