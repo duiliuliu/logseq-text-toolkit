@@ -23,14 +23,7 @@ export function setMilestoneComponent(component: React.FC<any>) {
   MilestoneComponent = component;
 }
 
-interface MacroPayload {
-  arguments: string[];
-  uuid: string;
-}
 
-interface MacroSlot {
-  slot: string;
-}
 
 /**
  * 渲染 Milestone 组件
@@ -82,10 +75,7 @@ async function renderMilestone(slot: string, config: MilestoneConfig): Promise<b
  * 注册 Milestone 宏渲染器
  */
 export function registerMilestone(): void {
-  logseqAPI.App.onMacroRendererSlotted(async ({ 
-    payload, 
-    slot 
-  }: MacroPayload & MacroSlot) => {
+  logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
     try {
       const split = splitRendererArgs(payload.arguments);
       if (!split) {
@@ -121,17 +111,11 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   let displayStyle: MilestoneDisplayStyle = 'capsule';
   if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.displayStyle)) {
     displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
-  } else if (parsed.style && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.style)) {
-    // 向后兼容
-    displayStyle = parsed.style as MilestoneDisplayStyle;
   }
 
   let milestoneList: string[] | undefined;
   if (parsed.milestoneList) {
     milestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
-  } else if (parsed.list) {
-    // 向后兼容
-    milestoneList = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
   }
 
   // 检查是否使用了模板
@@ -140,9 +124,8 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   const templates = settings?.milestone?.templates || [];
   
   if (parsed.template) {
-    // 支持两种格式：:id 或者直接 id
-    const templateId = parsed.template.startsWith(':') ? parsed.template.slice(1) : parsed.template;
-    template = templates.find(t => t.id === templateId || t.id === `template_${templateId}`);
+    // 支持两种格式：id 或者 name
+    template = templates.find(t => t.id === parsed.template || t.name === parsed.template);
   }
 
   // 合并配置：模板为基础，宏参数覆盖
@@ -161,24 +144,20 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   let finalMilestoneList = milestoneList || baseConfig.milestoneList;
   if (parsed.milestoneList) {
     finalMilestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
-  } else if (parsed.list) {
-    finalMilestoneList = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
   }
 
   return {
     template: parsed.template,
-    filterTag: parsed.filterTag || parsed.tag || baseConfig.filterTag,
+    filterTag: parsed.filterTag || baseConfig.filterTag,
     displayStyle: displayStyle || baseConfig.displayStyle,
     property: parsed.property,
-    filterPropKey: parsed.filterPropKey || parsed.propertyK || baseConfig.filterPropKey,
-    filterPropValue: parsed.filterPropValue || parsed.propertyV || baseConfig.filterPropValue,
-    milestonePropKey: parsed.milestonePropKey || parsed.targetPropertyK || baseConfig.milestonePropKey,
+    filterPropKey: parsed.filterPropKey || baseConfig.filterPropKey,
+    filterPropValue: parsed.filterPropValue || baseConfig.filterPropValue,
+    milestonePropKey: parsed.milestonePropKey || baseConfig.milestonePropKey,
     milestoneList: finalMilestoneList,
     dateField: parsed.dateField || baseConfig.dateField || 'scheduled',
     showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : baseConfig.showProgress !== false,
     showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : baseConfig.showLabel !== false,
-    // 向后兼容
-    showLabels: parsed.showLabels !== undefined ? parsed.showLabels !== 'false' : baseConfig.showLabel !== false,
     colorScheme: parsed.colorScheme ? JSON.parse(parsed.colorScheme) : undefined,
   };
 }
