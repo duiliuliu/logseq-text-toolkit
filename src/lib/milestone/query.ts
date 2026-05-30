@@ -389,8 +389,11 @@ export class MilestoneQuery {
     for (const key of keys) {
       const value = block.properties?.[key];
       if (value !== undefined && value !== null) {
-        if (typeof value === 'object' && value['block/title']) {
-          return value['block/title'];
+        if (typeof value === 'object') {
+          // 尝试多种可能的标题键名
+          if (value['title']) return value['title'];
+          if (value['block/title']) return value['block/title'];
+          if (value[':block/title']) return value[':block/title'];
         }
         return String(value);
       }
