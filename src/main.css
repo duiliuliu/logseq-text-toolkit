@@ -24,9 +24,9 @@
   --ltt-border-strong: #cbd5e1;
 
   /* ---- 颜色 - 强调 ---- */
-  --ltt-accent: var(--ls-active-primary-color, #3b82f6);
-  --ltt-accent-hover: #2563eb;
-  --ltt-accent-muted: var(--ls-focus-ring-color, #dbeafe);
+  --ltt-accent: #000000;
+  --ltt-accent-hover: #1a1a1a;
+  --ltt-accent-muted: rgba(0, 0, 0, 0.1);
 
   /* ---- 颜色 - 状态 ---- */
   --ltt-success: #10b981;
@@ -89,9 +89,9 @@
   --ltt-text-muted: #64748b;
   --ltt-border: var(--ls-border-color, #334155);
   --ltt-border-strong: #475569;
-  --ltt-accent: var(--ls-active-primary-color, #60a5fa);
-  --ltt-accent-hover: #3b82f6;
-  --ltt-accent-muted: #1e3a8a;
+  --ltt-accent: #e5e5e5;
+  --ltt-accent-hover: #f5f5f5;
+  --ltt-accent-muted: rgba(255, 255, 255, 0.1);
 }
 
 /* =========================================================

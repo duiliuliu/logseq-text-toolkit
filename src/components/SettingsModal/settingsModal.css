@@ -184,6 +184,7 @@
 
 input:checked + .ltt-switch-slider {
   background-color: var(--ltt-accent, #000);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 }
 
 input:checked + .ltt-switch-slider:before {
