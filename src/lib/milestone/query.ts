@@ -848,8 +848,8 @@ export class MilestoneQuery {
           properties: item.properties || {},
           createdAt: item['created-at'] || item[':block/created-at'] || '',
           updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
-          scheduled: item['scheduled'] || item[':block/scheduled'] || '',
-          deadline: item['deadline'] || item[':block/deadline'] || '',
+          scheduled: item['scheduled'] || item['block/scheduled'] || item[':logseq.property/scheduled'] || '',
+          deadline: item['deadline'] || item['block/deadline'] || item[':logseq.property/deadline'] || '',
         });
       }
     }
@@ -932,8 +932,8 @@ export class MilestoneQuery {
           properties: item.properties || {},
           createdAt: item['created-at'] || item[':block/created-at'] || '',
           updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
-          scheduled: item['scheduled'] || item[':block/scheduled'] || '',
-          deadline: item['deadline'] || item[':block/deadline'] || '',
+          scheduled: item['scheduled'] || item['block/scheduled'] || item[':logseq.property/scheduled'] || '',
+          deadline: item['deadline'] || item['block/deadline'] || item[':logseq.property/deadline'] || '',
         });
       }
     }
