@@ -423,34 +423,26 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                   </div>
 
                   <div className="ltt-milestone-template-color-section">
-                    <h5 className="ltt-milestone-template-color-title">模板颜色方案（可选）</h5>
-                    <div className="ltt-milestone-color-grid">
+                    <div className="ltt-milestone-template-color-header">
+                      <span className="ltt-milestone-template-color-title">自定义配色</span>
+                      <span className="ltt-milestone-template-color-hint">可选</span>
+                    </div>
+                    <div className="ltt-milestone-color-grid-compact">
                       {colorInputs.map(({ key, label, defaultValue }) => (
-                        <div key={key} className="ltt-milestone-color-input">
-                          <label className="ltt-milestone-color-label">{label}</label>
-                          <div className="ltt-milestone-color-row">
-                            <input
-                              type="color"
-                              value={(template.colorScheme as any)?.[key] || defaultValue}
-                              onChange={(e) => updateTemplate(template.id, { 
-                                colorScheme: {
-                                  ...template.colorScheme,
-                                  [key]: e.target.value
-                                } as any
-                              })}
-                            />
-                            <input
-                              type="text"
-                              value={(template.colorScheme as any)?.[key] || defaultValue}
-                              onChange={(e) => updateTemplate(template.id, { 
-                                colorScheme: {
-                                  ...template.colorScheme,
-                                  [key]: e.target.value
-                                } as any
-                              })}
-                              className="ltt-milestone-color-text"
-                            />
-                          </div>
+                        <div key={key} className="ltt-milestone-color-item-compact">
+                          <input
+                            type="color"
+                            value={(template.colorScheme as any)?.[key] || defaultValue}
+                            onChange={(e) => updateTemplate(template.id, { 
+                              colorScheme: {
+                                ...template.colorScheme,
+                                [key]: e.target.value
+                              } as any
+                            })}
+                            title={label}
+                          />
+                          <span className="ltt-milestone-color-dot" style={{ backgroundColor: (template.colorScheme as any)?.[key] || defaultValue }}></span>
+                          <span className="ltt-milestone-color-label">{label}</span>
                         </div>
                       ))}
                     </div>
