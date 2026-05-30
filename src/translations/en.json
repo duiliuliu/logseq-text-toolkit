@@ -90,6 +90,7 @@
     "settingsNotConfigured": "This settings area is not configured yet",
     "comingSoon": "More features coming soon...",
     "taskProgressDescription": "Configure the display mode and behavior of task progress tracking.",
+    "milestoneDescription": "Configure default behavior and display style for milestone components.",
     "taskProgress": {
       "enabled": "Enable Task Progress Feature",
       "nestingSettings": "Nesting Settings",
@@ -291,6 +292,7 @@
       "templateFilterPropValue": "Filter Property Value (optional)",
       "templateMilestonePropKey": "Milestone Property Key (required)",
       "templateMilestoneList": "Milestone List (semicolon separated)",
+      "defaultColors": "Default Colors",
       "edit": "Edit",
       "collapse": "Collapse",
       "delete": "Delete",
