@@ -851,11 +851,21 @@ export class MilestoneQuery {
       for (const item of row) {
         if (!item) continue;
 
+        // 从 item.properties 初始化，并收集所有 :user.property/ 和 :logseq.property/ 前缀的属性
+        const properties: { [key: string]: any } = { ...(item.properties || {}) };
+        
+        // 遍历 item 的所有 key，收集带 :user.property/ 或 :logseq.property/ 前缀的属性
+        for (const key of Object.keys(item)) {
+          if (key.startsWith(':user.property/') || key.startsWith(':logseq.property/')) {
+            properties[key] = item[key];
+          }
+        }
+
         blocks.push({
           id: item.id?.toString() || '',
           uuid: item.uuid || '',
           content: item.content || item['block/title'] || item[':block/title'] || '',
-          properties: item.properties || {},
+          properties,
           createdAt: item['created-at'] || item[':block/created-at'] || '',
           updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
           scheduled: item['scheduled'] || item['block/scheduled'] || item[':logseq.property/scheduled'] || '',
@@ -935,11 +945,22 @@ export class MilestoneQuery {
       if (!row || !Array.isArray(row)) continue;
       for (const item of row) {
         if (!item) continue;
+        
+        // 从 item.properties 初始化，并收集所有 :user.property/ 和 :logseq.property/ 前缀的属性
+        const properties: { [key: string]: any } = { ...(item.properties || {}) };
+        
+        // 遍历 item 的所有 key，收集带 :user.property/ 或 :logseq.property/ 前缀的属性
+        for (const key of Object.keys(item)) {
+          if (key.startsWith(':user.property/') || key.startsWith(':logseq.property/')) {
+            properties[key] = item[key];
+          }
+        }
+        
         blocks.push({
           id: item.id?.toString() || '',
           uuid: item.uuid || '',
           content: item.content || item['block/title'] || item[':block/title'] || '',
-          properties: item.properties || {},
+          properties,
           createdAt: item['created-at'] || item[':block/created-at'] || '',
           updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
           scheduled: item['scheduled'] || item['block/scheduled'] || item[':logseq.property/scheduled'] || '',
