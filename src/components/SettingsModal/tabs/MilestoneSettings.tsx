@@ -166,21 +166,21 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
   return (
     <div className="ltt-settings-tab-content">
       <div className="ltt-milestone-base-section">
-        <div className="ltt-milestone-base-row">
-          <div className="ltt-milestone-base-item">
-            <label className="ltt-milestone-base-label">
-              {t('settings.milestone.enabled', '启用功能')}
-            </label>
-            <label className="ltt-switch ltt-switch-sm">
-              <input
-                type="checkbox"
-                checked={milestone.enabled || false}
-                onChange={(e) => handleSettingChange('milestone.enabled', e.target.checked)}
-              />
-              <span className="ltt-switch-slider"></span>
-            </label>
-          </div>
+        <div className="ltt-milestone-enabled-row">
+          <label className="ltt-milestone-enabled-label">
+            {t('settings.milestone.enabled', '启用里程碑功能')}
+          </label>
+          <label className="ltt-switch ltt-switch-md">
+            <input
+              type="checkbox"
+              checked={milestone.enabled || false}
+              onChange={(e) => handleSettingChange('milestone.enabled', e.target.checked)}
+            />
+            <span className="ltt-switch-slider"></span>
+          </label>
+        </div>
 
+        <div className="ltt-milestone-base-row">
           <div className="ltt-milestone-base-item">
             <label className="ltt-milestone-base-label">
               {t('settings.milestone.defaultStyle', '默认样式')}
@@ -196,7 +196,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
             <label className="ltt-milestone-base-label">
               {t('settings.milestone.showLabel', '显示标签')}
             </label>
-            <label className="ltt-switch ltt-switch-sm">
+            <label className="ltt-switch ltt-switch-md">
               <input
                 type="checkbox"
                 checked={milestone.showLabel ?? milestone.showLabels ?? true}
@@ -213,7 +213,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
             <label className="ltt-milestone-base-label">
               {t('settings.milestone.showProgress', '显示进度')}
             </label>
-            <label className="ltt-switch ltt-switch-sm">
+            <label className="ltt-switch ltt-switch-md">
               <input
                 type="checkbox"
                 checked={milestone.showProgress ?? true}
