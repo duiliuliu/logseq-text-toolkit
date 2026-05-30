@@ -472,7 +472,11 @@ export class MilestoneQuery {
       return [];
     }
 
-    const query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
+    const pullSpec = milestonePropKey 
+      ? `[* {${milestonePropKey} [:block/title]}]` 
+      : `[*]`;
+
+    const query = `[:find (pull ?b ${pullSpec})
                     :where
                     [?b :block/tags ?t]
                     [?t :block/title "${tag}"]]`;
@@ -588,13 +592,17 @@ export class MilestoneQuery {
 
     const formattedKey = filterPropKey.startsWith(':') ? filterPropKey.slice(1) : filterPropKey;
 
-    let query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
+    const pullSpec = milestonePropKey 
+      ? `[* {${milestonePropKey} [:block/title]}]` 
+      : `[*]`;
+
+    let query = `[:find (pull ?b ${pullSpec})
                     :where
                     [?b :${formattedKey} ?val]
                     [?val :block/title "${filterPropValue}"]]`;
 
     if (filterTag) {
-      query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
+      query = `[:find (pull ?b ${pullSpec})
                 :where
                 [?b :${formattedKey} ?val]
                 [?val :block/title "${filterPropValue}"]
@@ -629,8 +637,12 @@ export class MilestoneQuery {
       return [];
     }
 
+    const pullSpec = milestonePropKey 
+      ? `[* {${milestonePropKey} [:block/title]}]` 
+      : `[*]`;
+
     const parentIdPattern = parentUuids.map(uuid => `["${uuid}"]`).join(' | ');
-    const query = `[:find (pull ?child [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
+    const query = `[:find (pull ?child ${pullSpec})
                     :where
                     [?child :block/parent ?parent]
                     [?parent :block/uuid ${parentIdPattern}]
@@ -724,12 +736,16 @@ export class MilestoneQuery {
       return [];
     }
 
-    let query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
+    const pullSpec = milestonePropKey 
+      ? `[* {${milestonePropKey} [:block/title]}]` 
+      : `[*]`;
+
+    let query = `[:find (pull ?b ${pullSpec}) :where
                   [?b :block/content ?c]
                   [(clojure.string/includes? ?c "${stage}")]]`;
     
     if (filterTag) {
-      query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
+      query = `[:find (pull ?b ${pullSpec}) :where
                 [?b :block/content ?c]
                 [(clojure.string/includes? ?c "${stage}")]
                 [?b :block/tags ?t]
@@ -757,12 +773,16 @@ export class MilestoneQuery {
       return [];
     }
 
-    let query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
+    const pullSpec = milestonePropKey 
+      ? `[* {${milestonePropKey} [:block/title]}]` 
+      : `[*]`;
+
+    let query = `[:find (pull ?b ${pullSpec}) :where
                   [?b :block/content ?c]
                   [(clojure.string/includes? ?c "${label}")]]`;
     
     if (tag) {
-      query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
+      query = `[:find (pull ?b ${pullSpec}) :where
                 [?b :block/content ?c]
                 [(clojure.string/includes? ?c "${label}")]
                 [?b :block/tags ?t]
@@ -821,7 +841,11 @@ export class MilestoneQuery {
       return this.createEmptyData();
     }
 
-    const query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
+    const pullSpec = milestonePropKey 
+      ? `[* {${milestonePropKey} [:block/title]}]` 
+      : `[*]`;
+
+    const query = `[:find (pull ?b ${pullSpec})
                     :where
                     [?b :block/tags ?t]
                     [?t :block/title "${tag}"]]`;
