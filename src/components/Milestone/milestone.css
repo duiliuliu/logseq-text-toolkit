@@ -1,0 +1,594 @@
+/**
+ * Milestone 组件样式 - 使用 LTT Design Tokens
+ */
+
+.ltt-milestone-container {
+  font-family: var(--ltt-font-family);
+  padding: var(--ltt-spacing-lg);
+  border-radius: var(--ltt-radius-lg);
+  box-shadow: var(--ltt-shadow-sm);
+}
+
+.ltt-milestone-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ltt-spacing-xl);
+}
+
+/* ========== Capsule 样式 ========== */
+.ltt-milestone-capsule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-spacing-sm);
+}
+
+.ltt-milestone-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 var(--ltt-spacing-xl);
+}
+
+.ltt-milestone-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ltt-spacing-xs);
+  position: relative;
+  z-index: 1;
+}
+
+.ltt-milestone-symbol {
+  font-size: 20px;
+  transition: color var(--ltt-transition-fast);
+  cursor: pointer;
+}
+
+.ltt-milestone-symbol:hover {
+  transform: scale(1.1);
+  transition: transform var(--ltt-transition-fast);
+}
+
+.ltt-milestone-line {
+  position: absolute;
+  top: 10px;
+  left: var(--ltt-spacing-xl);
+  right: var(--ltt-spacing-xl);
+  height: 2px;
+  transition: background-color var(--ltt-transition-slow);
+}
+
+.ltt-milestone-line-dashed {
+  flex: 1;
+  border-top: 2px dashed;
+  opacity: 0.5;
+  margin: 0 var(--ltt-spacing-sm);
+  align-self: center;
+  transition: opacity var(--ltt-transition-fast);
+}
+
+.ltt-milestone-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ltt-bg-primary);
+  border: 1px solid var(--ltt-border);
+  border-radius: var(--ltt-radius-lg);
+  padding: var(--ltt-spacing-md);
+  box-shadow: var(--ltt-shadow-md);
+  z-index: 9999;
+  min-width: 180px;
+  animation: tooltipFadeIn var(--ltt-transition-fast) ease;
+}
+
+.ltt-milestone-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--ltt-border);
+}
+
+.ltt-milestone-tooltip-label {
+  font-weight: 600;
+  font-size: var(--ltt-font-size-md);
+  color: var(--ltt-text-primary);
+  margin-bottom: 6px;
+}
+
+.ltt-milestone-tooltip-date {
+  font-size: var(--ltt-font-size-sm);
+  color: var(--ltt-text-muted);
+  margin-bottom: 4px;
+}
+
+.ltt-milestone-tooltip-status {
+  font-size: var(--ltt-font-size-sm);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.ltt-milestone-tooltip-progress {
+  font-size: var(--ltt-font-size-sm);
+  color: var(--ltt-text-secondary);
+}
+
+.ltt-milestone-tooltip-badge {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--ltt-spacing-sm);
+  background: var(--ltt-bg-primary);
+  border: 1px solid var(--ltt-border);
+  border-radius: var(--ltt-radius-lg);
+  padding: var(--ltt-spacing-md);
+  box-shadow: var(--ltt-shadow-md);
+  z-index: 9999;
+  min-width: 160px;
+  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;
+}
+
+.ltt-milestone-tooltip-badge::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--ltt-border);
+}
+
+@keyframes tooltipFadeInBadge {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.ltt-milestone-tooltip-track {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--ltt-spacing-sm);
+  background: var(--ltt-bg-primary);
+  border: 1px solid var(--ltt-border);
+  border-radius: var(--ltt-radius-lg);
+  padding: var(--ltt-spacing-md);
+  box-shadow: var(--ltt-shadow-md);
+  z-index: 9999;
+  min-width: 160px;
+  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;
+}
+
+.ltt-milestone-tooltip-track::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--ltt-border);
+}
+
+@keyframes tooltipFadeInTrack {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.ltt-milestone-tooltip-compact {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--ltt-spacing-sm);
+  background: var(--ltt-bg-primary);
+  border: 1px solid var(--ltt-border);
+  border-radius: var(--ltt-radius-lg);
+  padding: var(--ltt-spacing-md);
+  box-shadow: var(--ltt-shadow-md);
+  z-index: 9999;
+  min-width: 160px;
+  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;
+}
+
+.ltt-milestone-tooltip-compact::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--ltt-border);
+}
+
+@keyframes tooltipFadeInCompact {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.ltt-milestone-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: var(--ltt-spacing-xs);
+}
+
+.ltt-milestone-label {
+  font-size: var(--ltt-font-size-md);
+  font-weight: 500;
+}
+
+.ltt-milestone-status {
+  font-size: var(--ltt-font-size-sm);
+}
+
+/* ========== Badge 样式 ========== */
+.ltt-milestone-badge {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-spacing-md);
+}
+
+.ltt-milestone-badge .ltt-milestone-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ltt-spacing-lg);
+}
+
+.ltt-milestone-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ltt-spacing-xs);
+}
+
+.ltt-milestone-badge-number {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--ltt-radius-full);
+  background: var(--ltt-accent);
+  color: var(--ltt-text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--ltt-font-size-md);
+}
+
+.ltt-milestone-sublabel {
+  font-size: var(--ltt-font-size-sm);
+}
+
+.ltt-milestone-overall-progress {
+  margin-top: var(--ltt-spacing-lg);
+  height: 8px;
+  background: var(--ltt-bg-secondary);
+  border-radius: var(--ltt-radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.ltt-milestone-progress-bar {
+  height: 100%;
+  background: var(--ltt-accent);
+  border-radius: var(--ltt-radius-sm);
+  transition: width var(--ltt-transition-slow);
+}
+
+.ltt-milestone-progress-label {
+  display: block;
+  text-align: center;
+  margin-top: var(--ltt-spacing-xs);
+  font-size: var(--ltt-font-size-md);
+}
+
+/* ========== Track 样式 ========== */
+.ltt-milestone-track-minimal {
+  position: relative;
+  padding: var(--ltt-spacing-lg) 0;
+}
+
+.ltt-milestone-line-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 4px;
+  border-radius: var(--ltt-radius-full);
+  overflow: hidden;
+}
+
+.ltt-milestone-line-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.3;
+}
+
+.ltt-milestone-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--ltt-radius-full);
+  border: 2px solid var(--ltt-bg-primary);
+  z-index: 1;
+  transition: background-color var(--ltt-transition-fast);
+  flex-shrink: 0;
+}
+
+.ltt-milestone-segment {
+  flex: 1;
+  height: 4px;
+  transition: background-color var(--ltt-transition-slow);
+}
+
+.ltt-milestone-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--ltt-spacing-sm);
+}
+
+.ltt-milestone-label-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-time {
+  font-size: var(--ltt-font-size-md);
+  font-weight: 500;
+}
+
+.ltt-milestone-desc {
+  font-size: var(--ltt-font-size-sm);
+}
+
+/* ========== Card 样式 ========== */
+.ltt-milestone-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-spacing-xl);
+  padding: 20px 0;
+}
+
+.ltt-milestone-card-horizontal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 20px 10px;
+  overflow-x: auto;
+}
+
+.ltt-milestone-center-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.ltt-milestone-card-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.ltt-milestone-card-item.top {
+  justify-content: flex-start;
+  padding-right: calc(50% + var(--ltt-spacing-md));
+}
+
+.ltt-milestone-card-item.bottom {
+  justify-content: flex-end;
+  padding-left: calc(50% + var(--ltt-spacing-md));
+}
+
+.ltt-milestone-card-item-horizontal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.ltt-milestone-card-content {
+  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);
+  background: var(--ltt-bg-primary);
+  border-radius: var(--ltt-radius-sm);
+  border: 1px solid;
+  box-shadow: var(--ltt-shadow-sm);
+}
+
+.ltt-milestone-card-content-horizontal {
+  padding: var(--ltt-spacing-md);
+  background: var(--ltt-bg-primary);
+  border-radius: var(--ltt-radius-lg);
+  border: 2px solid;
+  box-shadow: var(--ltt-shadow-sm);
+  min-width: 120px;
+  max-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ltt-spacing-sm);
+  cursor: pointer;
+  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease;
+}
+
+.ltt-milestone-card-content-horizontal:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ltt-shadow-md);
+}
+
+.ltt-milestone-card-icon {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.ltt-milestone-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ltt-spacing-xs);
+  text-align: center;
+}
+
+.ltt-milestone-card-title {
+  font-weight: 500;
+  font-size: var(--ltt-font-size-md);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ltt-milestone-card-title-horizontal {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ltt-text-primary);
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.ltt-milestone-card-date {
+  font-size: var(--ltt-font-size-sm);
+  opacity: 0.6;
+}
+
+.ltt-milestone-card-date-horizontal {
+  font-size: 11px;
+  color: var(--ltt-text-muted);
+}
+
+.ltt-milestone-card-status-horizontal {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.ltt-milestone-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+.ltt-milestone-arrow.down {
+  top: 50%;
+  left: calc(50% - 6px);
+  transform: translateY(-50%);
+}
+
+.ltt-milestone-arrow.up {
+  bottom: 50%;
+  left: calc(50% - 6px);
+  transform: translateY(50%);
+}
+
+.ltt-milestone-connector-horizontal {
+  width: 40px;
+  height: 2px;
+  background: var(--ltt-border);
+  flex-shrink: 0;
+  position: relative;
+  top: -40px;
+}
+
+.ltt-milestone-tooltip-horizontal {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--ltt-spacing-sm);
+  background: var(--ltt-bg-primary);
+  border: 1px solid var(--ltt-border);
+  border-radius: var(--ltt-radius-lg);
+  padding: var(--ltt-spacing-md);
+  box-shadow: var(--ltt-shadow-md);
+  z-index: 9999;
+  min-width: 160px;
+  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;
+}
+
+.ltt-milestone-tooltip-horizontal::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--ltt-border);
+}
+
+@keyframes tooltipFadeInHorizontal {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ========== Compact 样式 ========== */
+.ltt-milestone-compact {
+  display: flex;
+  align-items: center;
+  gap: var(--ltt-spacing-xs);
+  flex-wrap: wrap;
+}
+
+.ltt-milestone-compact .ltt-milestone-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);
+  border-radius: var(--ltt-radius-full);
+  font-size: var(--ltt-font-size-sm);
+  font-weight: 500;
+  color: var(--ltt-text-inverse);
+  gap: var(--ltt-spacing-xs);
+}
+
+.ltt-milestone-connector {
+  font-size: var(--ltt-font-size-sm);
+  user-select: none;
+}

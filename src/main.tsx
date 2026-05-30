@@ -21,6 +21,7 @@ import {
   initHeatmap,
   initSummary,
   initBlockView,
+  initMilestone,
   registerLogseqButton,
   settingToggle,
   registerAllCSS,
@@ -115,6 +116,9 @@ export async function initializeComponent(): Promise<void> {
 
   await initBlockView()
   logger.info('📊 Plugin: BlockView ready')
+
+  await initMilestone()
+  logger.info('🏷️ Plugin: Milestone ready')
 
   cleanupFunctions.push(() => logger.info('🧹 Plugin: Cleaning up...'))
   logger.info('✅ Plugin: Components initialized')

@@ -67,8 +67,10 @@ export const getLogseqAPI = (): ILSPluginUser => {
   }
 
   logger.info('Using official Logseq API (production mode)');
-  // 直接返回官方的logseq对象,并使用日志代理包装它
-  // return createLoggerProxy(logseq) as ILSPluginUser;
+  const isDevMode = import.meta.env.MODE === 'dev';
+  if (isDevMode) {
+    return createLoggerProxy(logseq) as ILSPluginUser;
+  }
   return logseq
 };
 

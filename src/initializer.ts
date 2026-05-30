@@ -21,6 +21,7 @@ import {
   initSummaryModal,
   registerSummaryCommands,
 } from './lib/summary/register'
+import { registerMilestone, setMilestoneComponent } from './lib/milestone/register'
 import logseqAPI from './logseq'
 import { getDocument } from './logseq/utils'
 
@@ -39,7 +40,10 @@ import galleryViewCSSRaw from './components/BlockView/galleryView.css?raw'
 import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
 import mindMapViewCSSRaw from './components/BlockView/mindMapView.css?raw'
 import listViewCssRaw from './components/BlockView/listView.css?raw'
+import milestoneCSSRaw from './components/Milestone/milestone.css?raw'
 import mainCSSRaw from './main.css?raw'
+
+import { Milestone } from './components/Milestone'
 
 
 /* ============================================================================
@@ -179,6 +183,12 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: listViewCssRaw,
     externalPath: 'listView.css'
+  })
+
+  registerCSS('milestone', {
+    type: 'both',
+    inlineContent: milestoneCSSRaw,
+    externalPath: 'milestone.css'
   })
 }
 
@@ -361,4 +371,17 @@ export async function initSummary(): Promise<void> {
  */
 export async function initBlockView(): Promise<void> {
   registerBlockView()
+}
+
+/* ============================================================================
+   Milestone 组件
+   ============================================================================ */
+
+/**
+ * Milestone 初始化
+ * 注册里程碑宏渲染器和设置API
+ */
+export async function initMilestone(): Promise<void> {
+  setMilestoneComponent(Milestone)
+  registerMilestone()
 }

@@ -7,6 +7,7 @@ import HiccupRenderer from './components/HiccupRenderer/index'
 import BlockRenderer from './components/BlockRenderer/index'
 import TaskProgressDemo from './components/TaskProgressDemo/index'
 import HeatmapDemo from './components/HeatmapDemo/index'
+import MilestoneDemo from './components/MilestoneDemo/index'
 import { SummaryDemo } from './components/SummaryDemo'
 import { ProxySettings } from './components/ProxySettings'
 import { BlockViewDemo } from './components/BlockViewDemo'
@@ -315,6 +316,8 @@ function TestApp() {
       </div>
 
       <HeatmapDemo />
+
+      <MilestoneDemo />
 
       {/* BlockView 演示 */}
       <BlockViewDemo />
