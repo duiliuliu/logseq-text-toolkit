@@ -108,16 +108,6 @@ export function registerMilestone(): void {
 function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   const parsed = parseRendererArgs(type, tokens);
 
-  let displayStyle: MilestoneDisplayStyle = 'capsule';
-  if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.displayStyle)) {
-    displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
-  }
-
-  let milestoneList: string[] | undefined;
-  if (parsed.milestoneList) {
-    milestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
-  }
-
   // 检查是否使用了模板
   let template: MilestoneTemplate | undefined;
   const settings = getSettings();
@@ -141,7 +131,14 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
     dateField: template.dateField,
   } : {};
 
-  let finalMilestoneList = milestoneList || baseConfig.milestoneList;
+  // 解析 displayStyle，优先使用宏参数，否则使用模板或默认值
+  let displayStyle: MilestoneDisplayStyle = baseConfig.displayStyle || 'capsule';
+  if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.displayStyle)) {
+    displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
+  }
+
+  // 解析 milestoneList，优先使用宏参数
+  let finalMilestoneList = baseConfig.milestoneList;
   if (parsed.milestoneList) {
     finalMilestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
   }
@@ -149,7 +146,7 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   return {
     template: parsed.template,
     filterTag: parsed.filterTag || baseConfig.filterTag,
-    displayStyle: displayStyle || baseConfig.displayStyle,
+    displayStyle: displayStyle,
     property: parsed.property,
     filterPropKey: parsed.filterPropKey || baseConfig.filterPropKey,
     filterPropValue: parsed.filterPropValue || baseConfig.filterPropValue,
