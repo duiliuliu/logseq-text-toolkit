@@ -31,15 +31,15 @@
   "settings": {
     "title": "设置",
     "tabs": {
-    "general": "⚙️ 通用设置",
-    "toolbar": "🛠️ 工具栏设置",
-    "taskProgress": "📊 任务进度",
-    "heatmap": "📈 热力图",
-    "blockView": "📋 块视图",
-    "summary": "📝 总结生成",
-    "milestone": "🎯 里程碑",
-    "advanced": "⚡ 其他设置"
-  },
+      "general": "⚙️ 通用设置",
+      "toolbar": "🛠️ 工具栏设置",
+      "taskProgress": "📊 任务进度",
+      "heatmap": "📈 热力图",
+      "blockView": "📋 块视图",
+      "summary": "📝 总结生成",
+      "milestone": "🎯 里程碑",
+      "advanced": "⚡ 其他设置"
+    },
     "saveSuccessRestart": "保存成功，请重启应用生效",
     "generalSettings": "通用设置",
     "theme": "主题",
@@ -90,6 +90,7 @@
     "settingsNotConfigured": "此设置区域暂未配置",
     "comingSoon": "敬请期待更多功能...",
     "taskProgressDescription": "配置任务进度追踪功能的展示方式和行为。",
+    "milestoneDescription": "配置里程碑组件的默认行为和显示样式。",
     "taskProgress": {
       "enabled": "启用任务进度功能",
       "nestingSettings": "嵌套任务设置",
@@ -291,6 +292,7 @@
       "templateFilterPropValue": "筛选属性值（可选）",
       "templateMilestonePropKey": "里程碑属性键（必填）",
       "templateMilestoneList": "里程碑列表（分号分隔）",
+      "defaultColors": "默认配色",
       "edit": "编辑",
       "collapse": "收起",
       "delete": "删除",

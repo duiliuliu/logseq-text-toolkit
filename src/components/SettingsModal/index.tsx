@@ -87,6 +87,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   }
 
   const language = settings.language || 'zh-CN'
+  const modalTheme = settings.theme === 'dark' ? 'dark' : 'light'
 
   interface Tab {
     id: string
@@ -109,8 +110,8 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={theme}>
-      <div className="ltt-settings-container" data-theme={theme}>
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={modalTheme}>
+      <div className="ltt-settings-container" data-theme={modalTheme}>
         <div className="ltt-settings-header">
           <div className="ltt-settings-tabs">
           {tabs.map(tab => (

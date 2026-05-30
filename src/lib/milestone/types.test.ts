@@ -16,12 +16,13 @@ import {
 describe('Milestone Types', () => {
   describe('MilestoneStatus', () => {
     it('should support all status values', () => {
-      const statuses: MilestoneStatus[] = ['completed', 'in_progress', 'pending', 'failed'];
-      expect(statuses).toHaveLength(4);
+      const statuses: MilestoneStatus[] = ['completed', 'in_progress', 'pending', 'failed', 'skipped'];
+      expect(statuses).toHaveLength(5);
       expect(statuses).toContain('completed');
       expect(statuses).toContain('in_progress');
       expect(statuses).toContain('pending');
       expect(statuses).toContain('failed');
+      expect(statuses).toContain('skipped');
     });
   });
 
@@ -64,6 +65,31 @@ describe('Milestone Types', () => {
       expect(item.progress).toBeUndefined();
       expect(item.date).toBeUndefined();
       expect(item.color).toBeUndefined();
+      expect(item.blockId).toBeUndefined();
+      expect(item.blockUuid).toBeUndefined();
+    });
+
+    it('should support blockId and blockUuid fields', () => {
+      const item: MilestoneItem = {
+        id: 'test-id',
+        label: 'Test Label',
+        status: 'in_progress',
+        blockId: 'block-123',
+        blockUuid: 'uuid-456',
+      };
+      
+      expect(item.blockId).toBe('block-123');
+      expect(item.blockUuid).toBe('uuid-456');
+    });
+
+    it('should support skipped status', () => {
+      const item: MilestoneItem = {
+        id: 'test-id',
+        label: 'Skipped Item',
+        status: 'skipped',
+      };
+      
+      expect(item.status).toBe('skipped');
     });
   });
 
@@ -81,6 +107,7 @@ describe('Milestone Types', () => {
       expect(data.completedCount).toBe(0);
       expect(data.inProgressCount).toBeUndefined();
       expect(data.pendingCount).toBeUndefined();
+      expect(data.skippedCount).toBeUndefined();
     });
 
     it('should support optional count fields', () => {
@@ -89,12 +116,14 @@ describe('Milestone Types', () => {
         totalCount: 5,
         completedCount: 2,
         inProgressCount: 1,
-        pendingCount: 2,
+        pendingCount: 1,
+        skippedCount: 1,
         overallProgress: 60,
       };
       
       expect(data.inProgressCount).toBe(1);
-      expect(data.pendingCount).toBe(2);
+      expect(data.pendingCount).toBe(1);
+      expect(data.skippedCount).toBe(1);
       expect(data.overallProgress).toBe(60);
     });
   });
@@ -141,6 +170,7 @@ describe('Milestone Types', () => {
       expect(DEFAULT_COLOR_SCHEME.inProgress).toBe('#f59e0b');
       expect(DEFAULT_COLOR_SCHEME.pending).toBe('#d1d5db');
       expect(DEFAULT_COLOR_SCHEME.failed).toBe('#ef4444');
+      expect(DEFAULT_COLOR_SCHEME.skipped).toBe('#9ca3af');
       expect(DEFAULT_COLOR_SCHEME.background).toBe('#ffffff');
       expect(DEFAULT_COLOR_SCHEME.text).toBe('#374151');
     });

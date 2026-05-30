@@ -279,11 +279,11 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       const weekStart = getDateOfWeek(referenceWeek, referenceYear || now.getFullYear());
       referenceDate = weekStart;
     } else {
-      referenceDate = new Date(
-        referenceYear || now.getFullYear(),
-        (referenceMonth !== undefined ? referenceMonth - 1 : now.getMonth()),
-        1
-      );
+      const year = referenceYear || now.getFullYear();
+      const month = referenceMonth !== undefined ? referenceMonth - 1 : now.getMonth();
+      const day = now.getDate();
+      
+      referenceDate = new Date(year, month, day);
     }
 
     const resolvedTheme: 'light' | 'dark' = settings?.theme === 'dark' ? 'dark' : 'light';

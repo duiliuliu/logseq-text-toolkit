@@ -90,6 +90,7 @@
     "settingsNotConfigured": "この設定エリアはまだ設定されていません",
     "comingSoon": "近日追加予定...",
     "taskProgressDescription": "タスク進捗追跡機能の表示と動作を設定します。",
+    "milestoneDescription": "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
     "taskProgress": {
       "enabled": "タスク進捗機能を有効化",
       "nestingSettings": "ネスト設定",
@@ -288,6 +289,7 @@
       "templateFilterPropValue": "フィルタープロパティ値（任意）",
       "templateMilestonePropKey": "マイルストーンプロパティキー（必須）",
       "templateMilestoneList": "マイルストーンリスト（セミコロン区切り）",
+      "defaultColors": "デフォルト配色",
       "edit": "編集",
       "collapse": "折りたたむ",
       "delete": "削除",
