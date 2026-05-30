@@ -73,6 +73,7 @@ export interface HeatmapConfig {
   weekPageTemplate?: string;
   weekPageTemplateType?: string;
   dateFormat?: string;
+  dateField?: DateFieldConfig;
 }
 
 export interface IndigoColorScheme {

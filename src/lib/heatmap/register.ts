@@ -312,6 +312,7 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageTemplate || '',
       weekPageTemplateType: settings?.heatmap?.weekPageTemplateType || '',
       dateFormat: settings?.dateFormat || '',
+      dateField,
     };
     logger.debug('🌡️ Heatmap: Configuration resolved', {
       displayMode,
