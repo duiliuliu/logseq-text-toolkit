@@ -39,8 +39,9 @@ export class MilestoneQuery {
     }
 
     try {
-      const block = await logseqAPI.Editor.getBlock(blockUuid, { includeChildren: false });
-      if (!block || !block.properties) {
+      // 使用 getBlockProperties API 获取块属性
+      const properties = await logseqAPI.Editor.getBlockProperties(blockUuid);
+      if (!properties) {
         return undefined;
       }
 
@@ -49,7 +50,7 @@ export class MilestoneQuery {
       const keysToTry = [propertyKey, `:${cleanKey}`, cleanKey];
       
       for (const key of keysToTry) {
-        const value = block.properties[key];
+        const value = properties[key];
         if (value !== undefined && value !== null) {
           if (typeof value === 'object') {
             // 尝试多种可能的标题键名
