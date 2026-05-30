@@ -165,96 +165,100 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
   return (
     <div className="ltt-settings-tab-content">
-      <p className="ltt-tab-section-description-small">
-        {t('settings.milestone.description', '配置里程碑组件的默认行为和显示样式。')}
-      </p>
+      <div className="ltt-milestone-base-section">
+        <div className="ltt-milestone-base-row">
+          <div className="ltt-milestone-base-item">
+            <label className="ltt-milestone-base-label">
+              {t('settings.milestone.enabled', '启用功能')}
+            </label>
+            <label className="ltt-switch ltt-switch-sm">
+              <input
+                type="checkbox"
+                checked={milestone.enabled || false}
+                onChange={(e) => handleSettingChange('milestone.enabled', e.target.checked)}
+              />
+              <span className="ltt-switch-slider"></span>
+            </label>
+          </div>
 
-      <div className="ltt-setting-item">
-        <label>{t('settings.milestone.enabled', '启用里程碑功能')}</label>
-        <label className="ltt-switch">
-          <input
-            type="checkbox"
-            checked={milestone.enabled || false}
-            onChange={(e) => handleSettingChange('milestone.enabled', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
-      </div>
+          <div className="ltt-milestone-base-item">
+            <label className="ltt-milestone-base-label">
+              {t('settings.milestone.defaultStyle', '默认样式')}
+            </label>
+            <CustomSelect
+              options={styleOptions}
+              value={milestone.defaultStyle || 'capsule'}
+              onChange={(value) => handleSettingChange('milestone.defaultStyle', value)}
+            />
+          </div>
 
-      <div className="ltt-setting-item">
-        <label>{t('settings.milestone.defaultStyle', '默认显示样式')}</label>
-        <CustomSelect
-          options={styleOptions}
-          value={milestone.defaultStyle || 'capsule'}
-          onChange={(value) => handleSettingChange('milestone.defaultStyle', value)}
-        />
-      </div>
+          <div className="ltt-milestone-base-item">
+            <label className="ltt-milestone-base-label">
+              {t('settings.milestone.showLabel', '显示标签')}
+            </label>
+            <label className="ltt-switch ltt-switch-sm">
+              <input
+                type="checkbox"
+                checked={milestone.showLabel ?? milestone.showLabels ?? true}
+                onChange={(e) => {
+                  handleSettingChange('milestone.showLabel', e.target.checked);
+                  handleSettingChange('milestone.showLabels', e.target.checked);
+                }}
+              />
+              <span className="ltt-switch-slider"></span>
+            </label>
+          </div>
 
-      <div className="ltt-setting-item">
-        <label>{t('settings.milestone.showLabel', '显示标签')}</label>
-        <label className="ltt-switch">
-          <input
-            type="checkbox"
-            checked={milestone.showLabel ?? milestone.showLabels ?? true}
-            onChange={(e) => {
-              handleSettingChange('milestone.showLabel', e.target.checked);
-              handleSettingChange('milestone.showLabels', e.target.checked);
-            }}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
-      </div>
+          <div className="ltt-milestone-base-item">
+            <label className="ltt-milestone-base-label">
+              {t('settings.milestone.showProgress', '显示进度')}
+            </label>
+            <label className="ltt-switch ltt-switch-sm">
+              <input
+                type="checkbox"
+                checked={milestone.showProgress ?? true}
+                onChange={(e) => handleSettingChange('milestone.showProgress', e.target.checked)}
+              />
+              <span className="ltt-switch-slider"></span>
+            </label>
+          </div>
+        </div>
 
-      <div className="ltt-setting-item">
-        <label>{t('settings.milestone.showProgress', '显示进度')}</label>
-        <label className="ltt-switch">
-          <input
-            type="checkbox"
-            checked={milestone.showProgress ?? true}
-            onChange={(e) => handleSettingChange('milestone.showProgress', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
-      </div>
-
-      <div className="ltt-setting-section">
-        <h4 className="ltt-setting-section-title">默认颜色方案</h4>
-        <div className="ltt-milestone-color-grid">
-          {colorInputs.map(({ key, label, defaultValue }) => (
-            <div key={key} className="ltt-milestone-color-input">
-              <label className="ltt-milestone-color-label">{label}</label>
-              <div className="ltt-milestone-color-row">
+        <div className="ltt-milestone-color-section">
+          <div className="ltt-milestone-color-header">
+            <span className="ltt-milestone-color-title">默认配色</span>
+          </div>
+          <div className="ltt-milestone-color-grid-compact">
+            {colorInputs.map(({ key, label, defaultValue }) => (
+              <div key={key} className="ltt-milestone-color-item-compact">
                 <input
                   type="color"
                   value={(milestone.defaultColorScheme as any)?.[key] || defaultValue}
                   onChange={(e) => handleSettingChange(`milestone.defaultColorScheme.${key}`, e.target.value)}
+                  title={label}
                 />
-                <input
-                  type="text"
-                  value={(milestone.defaultColorScheme as any)?.[key] || defaultValue}
-                  onChange={(e) => handleSettingChange(`milestone.defaultColorScheme.${key}`, e.target.value)}
-                  className="ltt-milestone-color-text"
-                />
+                <span className="ltt-milestone-color-dot" style={{ backgroundColor: (milestone.defaultColorScheme as any)?.[key] || defaultValue }}></span>
+                <span className="ltt-milestone-color-label">{label}</span>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="ltt-milestone-templates-section">
         <div className="ltt-milestone-templates-header">
           <h3 className="ltt-milestone-templates-title">
-            {t('settings.milestone.templates', '预定义模板')}
+            {t('settings.milestone.templates', '模板配置')}
           </h3>
           <button
             className="ltt-milestone-add-template-btn"
             onClick={addTemplate}
           >
-            <svg className="ltt-milestone-add-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="ltt-milestone-add-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
-            {t('settings.milestone.addTemplate', '添加模板')}
+            {t('settings.milestone.addTemplate', '添加')}
           </button>
         </div>
 
