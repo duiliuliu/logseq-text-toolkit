@@ -29,6 +29,8 @@ export interface MilestoneItem {
   date?: string;
   progress?: number;
   color?: string;
+  blockId?: string;
+  blockUuid?: string;
 }
 
 export type MilestoneStatus = 

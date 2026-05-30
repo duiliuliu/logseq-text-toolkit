@@ -4,11 +4,13 @@
 
 import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import { logseqAPI } from '../../../logseq';
 
 interface CardMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
+  onNodeClick?: (item: MilestoneItem) => void;
 }
 
 const defaultColorScheme: ColorScheme = {
@@ -25,8 +27,20 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
   items,
   colorScheme = defaultColorScheme,
   showLabels = true,
+  onNodeClick,
 }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  const handleNodeClick = (item: MilestoneItem) => {
+    if (item.blockUuid) {
+      try {
+        logseqAPI.Editor.openInRightSidebar(item.blockUuid);
+      } catch (error) {
+        console.error('[CardMilestone] Failed to open in right sidebar:', error);
+      }
+    }
+    onNodeClick?.(item);
+  };
 
   const getNodeColor = (status: string): string => {
     switch (status) {
@@ -77,6 +91,8 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
             className="ltt-milestone-card-item-horizontal"
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => handleNodeClick(item)}
+            style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
           >
             <div 
               className="ltt-milestone-card-content-horizontal"

@@ -167,6 +167,8 @@ export class MilestoneQuery {
         status,
         progress,
         date,
+        blockId: blocks[0]?.id,
+        blockUuid: blocks[0]?.uuid,
       });
     }
 
@@ -265,6 +267,8 @@ export class MilestoneQuery {
         status,
         progress,
         date,
+        blockId: blocks[0]?.id,
+        blockUuid: blocks[0]?.uuid,
       });
     }
 
@@ -364,6 +368,8 @@ export class MilestoneQuery {
         status,
         progress,
         date,
+        blockId: blocks[0]?.id,
+        blockUuid: blocks[0]?.uuid,
       });
     }
 
@@ -565,6 +571,8 @@ export class MilestoneQuery {
         status,
         progress,
         date,
+        blockId: blocks[0]?.id,
+        blockUuid: blocks[0]?.uuid,
       });
     }
 
@@ -713,6 +721,8 @@ export class MilestoneQuery {
         status,
         progress,
         date,
+        blockId: blocks[0]?.id,
+        blockUuid: blocks[0]?.uuid,
       });
     }
 
@@ -820,6 +830,8 @@ export class MilestoneQuery {
       progress: StatusCalculator.calculateProgress(enumItem.blocks, dateField),
       date: StatusCalculator.getScheduledDate(enumItem.blocks, dateField),
       color: undefined,
+      blockId: enumItem.blocks[0]?.id,
+      blockUuid: enumItem.blocks[0]?.uuid,
     }));
 
     return {
@@ -927,6 +939,8 @@ export class MilestoneQuery {
           status: StatusCalculator.calculateFromBlocks(groupBlocks, dateField),
           progress: StatusCalculator.calculateProgress(groupBlocks, dateField),
           date: StatusCalculator.getScheduledDate(groupBlocks, dateField),
+          blockId: groupBlocks[0]?.id,
+          blockUuid: groupBlocks[0]?.uuid,
         });
       });
 
@@ -946,6 +960,8 @@ export class MilestoneQuery {
       status: StatusCalculator.calculateFromBlocks([block], dateField),
       progress: StatusCalculator.calculateProgress([block], dateField),
       date: StatusCalculator.getScheduledDate([block], dateField),
+      blockId: block.id,
+      blockUuid: block.uuid,
     }));
 
     return {

@@ -4,11 +4,13 @@
 
 import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import { logseqAPI } from '../../../logseq';
 
 interface TrackMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
+  onNodeClick?: (item: MilestoneItem) => void;
 }
 
 const defaultColorScheme: ColorScheme = {
@@ -25,8 +27,20 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
   items,
   colorScheme = defaultColorScheme,
   showLabels = true,
+  onNodeClick,
 }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  const handleNodeClick = (item: MilestoneItem) => {
+    if (item.blockUuid) {
+      try {
+        logseqAPI.Editor.openInRightSidebar(item.blockUuid);
+      } catch (error) {
+        console.error('[TrackMilestone] Failed to open in right sidebar:', error);
+      }
+    }
+    onNodeClick?.(item);
+  };
 
   const getNodeColor = (status: string): string => {
     switch (status) {
@@ -70,9 +84,10 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
             <div 
               className="ltt-milestone-dot" 
               data-status={item.status}
-              style={{ backgroundColor: getNodeColor(item.status) }}
+              style={{ backgroundColor: getNodeColor(item.status), cursor: item.blockUuid ? 'pointer' : 'default' }}
               onMouseEnter={() => setHoveredItem(item.id)}
               onMouseLeave={() => setHoveredItem(null)}
+              onClick={() => handleNodeClick(item)}
             />
             {hoveredItem === item.id && (
               <div className="ltt-milestone-tooltip-track">
@@ -110,7 +125,8 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
               className="ltt-milestone-label-item"
               onMouseEnter={() => setHoveredItem(item.id)}
               onMouseLeave={() => setHoveredItem(null)}
-              style={{ position: 'relative' }}
+              onClick={() => handleNodeClick(item)}
+              style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
             >
               <span 
                 className="ltt-milestone-time"

@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme, MilestoneDisplayStyle } from '../../lib/milestone/types';
+import { logseqAPI } from '../../../logseq';
 
 interface CapsuleMilestoneProps {
   items: MilestoneItem[];
@@ -11,6 +12,7 @@ interface CapsuleMilestoneProps {
   showLabels?: boolean;
   showProgress?: boolean;
   style?: MilestoneDisplayStyle;
+  onNodeClick?: (item: MilestoneItem) => void;
 }
 
 const defaultColorScheme: ColorScheme = {
@@ -28,8 +30,20 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
   showProgress = true,
+  onNodeClick,
 }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  const handleNodeClick = (item: MilestoneItem) => {
+    if (item.blockUuid) {
+      try {
+        logseqAPI.Editor.openInRightSidebar(item.blockUuid);
+      } catch (error) {
+        console.error('[CapsuleMilestone] Failed to open in right sidebar:', error);
+      }
+    }
+    onNodeClick?.(item);
+  };
 
   const getNodeColor = (status: string): string => {
     switch (status) {
@@ -81,6 +95,8 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
               className="ltt-milestone-node"
               onMouseEnter={() => setHoveredItem(item.id)}
               onMouseLeave={() => setHoveredItem(null)}
+              onClick={() => handleNodeClick(item)}
+              style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
             >
               <span 
                 className="ltt-milestone-symbol"

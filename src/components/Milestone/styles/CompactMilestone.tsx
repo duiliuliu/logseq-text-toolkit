@@ -4,12 +4,14 @@
 
 import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import { logseqAPI } from '../../../logseq';
 
 interface CompactMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
   showProgress?: boolean;
+  onNodeClick?: (item: MilestoneItem) => void;
 }
 
 const defaultColorScheme: ColorScheme = {
@@ -27,8 +29,20 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
   showProgress = true,
+  onNodeClick,
 }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  const handleNodeClick = (item: MilestoneItem) => {
+    if (item.blockUuid) {
+      try {
+        logseqAPI.Editor.openInRightSidebar(item.blockUuid);
+      } catch (error) {
+        console.error('[CompactMilestone] Failed to open in right sidebar:', error);
+      }
+    }
+    onNodeClick?.(item);
+  };
 
   const getStatusIcon = (status: string): string => {
     switch (status) {
@@ -78,9 +92,10 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
           <div 
             className="ltt-milestone-badge"
             data-status={item.status}
-            style={{ backgroundColor: getStatusColor(item.status), position: 'relative' }}
+            style={{ backgroundColor: getStatusColor(item.status), position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => handleNodeClick(item)}
           >
             [{getStatusIcon(item.status)} {showLabels && item.label} {showProgress && `(${item.progress || 0}%)`}]
             

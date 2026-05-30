@@ -125,7 +125,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const existingPage = await logseqAPI.Editor.getPage(pageName);
     
     if (existingPage) {
-      await logseqAPI.UI.openInRightSidebar(existingPage.uuid);
+      await logseqAPI.Editor.openInRightSidebar(existingPage.uuid);
     } else if (config.monthPageTemplateType) {
       const pageGenerator = new PageGenerator();
       const result = await pageGenerator.generateMonthlyPage(
@@ -138,7 +138,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       if (result) {
         const newPage = await logseqAPI.Editor.getPage(result);
         if (newPage) {
-          await logseqAPI.UI.openInRightSidebar(newPage.uuid);
+          await logseqAPI.Editor.openInRightSidebar(newPage.uuid);
         }
       }
     } else {
@@ -158,7 +158,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     const existingPage = await logseqAPI.Editor.getPage(pageName);
     
     if (existingPage) {
-      await logseqAPI.UI.openInRightSidebar(existingPage.uuid);
+      await logseqAPI.Editor.openInRightSidebar(existingPage.uuid);
     } else if (config.weekPageTemplateType) {
       const pageGenerator = new PageGenerator();
       const result = await pageGenerator.generateWeeklyPage(
@@ -171,7 +171,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
       if (result) {
         const newPage = await logseqAPI.Editor.getPage(result);
         if (newPage) {
-          await logseqAPI.UI.openInRightSidebar(newPage.uuid);
+          await logseqAPI.Editor.openInRightSidebar(newPage.uuid);
         }
       }
     } else {
@@ -352,7 +352,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
         
         const existingPage = await logseqAPI.Editor.getPage(pageName);
         if (existingPage) {
-          await logseqAPI.UI.openInRightSidebar(existingPage.uuid);
+          await logseqAPI.Editor.openInRightSidebar(existingPage.uuid);
         } else {
           ensurePageAndNavigate(pageName);
         }

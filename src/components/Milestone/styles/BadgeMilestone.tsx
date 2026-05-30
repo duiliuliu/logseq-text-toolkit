@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme, MilestoneDisplayStyle } from '../../lib/milestone/types';
+import { logseqAPI } from '../../../logseq';
 
 interface BadgeMilestoneProps {
   items: MilestoneItem[];
@@ -11,6 +12,7 @@ interface BadgeMilestoneProps {
   showLabels?: boolean;
   showProgress?: boolean;
   overallProgress?: number;
+  onNodeClick?: (item: MilestoneItem) => void;
 }
 
 const defaultColorScheme: ColorScheme = {
@@ -29,8 +31,20 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
   showLabels = true,
   showProgress = true,
   overallProgress = 0,
+  onNodeClick,
 }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  const handleNodeClick = (item: MilestoneItem) => {
+    if (item.blockUuid) {
+      try {
+        logseqAPI.Editor.openInRightSidebar(item.blockUuid);
+      } catch (error) {
+        console.error('[BadgeMilestone] Failed to open in right sidebar:', error);
+      }
+    }
+    onNodeClick?.(item);
+  };
 
   const getNodeColor = (status: string): string => {
     switch (status) {
@@ -82,7 +96,8 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
             className="ltt-milestone-badge-item"
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
-            style={{ position: 'relative' }}
+            onClick={() => handleNodeClick(item)}
+            style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
           >
             <div className="ltt-milestone-badge-number">
               {String(index + 1).padStart(2, '0')}
