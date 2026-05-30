@@ -776,9 +776,10 @@ input:checked + .ltt-switch-slider:before {
   background-color: white;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.2s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 .ltt-milestone-template-card:hover {
