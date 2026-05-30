@@ -99,6 +99,28 @@ A powerful and flexible Logseq plugin designed to enhance text editing and forma
 
 ---
 
+### 🎯 Milestone Tracking
+
+| Feature | Description |
+|---------|-------------|
+| Display Styles | Capsule, Badge, Track, Card, Compact five styles |
+| Query Methods | Supports tag, page, property three query methods |
+| Template System | Pre-defined templates for quick configuration and reuse |
+| Auto Progress | Automatically calculates milestone progress based on task status |
+| Timeline | Shows planned or completed dates for each milestone |
+
+**Basic Usage**:
+```markdown
+{{renderer :milestone, displayStyle=capsule, filterTag=project, milestonePropKey=phase, milestoneList=Requirement;Design;Development;Testing;Launch}}
+```
+
+**Using Template**:
+```markdown
+{{renderer :milestone, template=my_template}}
+```
+
+---
+
 ### 🔥 Heatmap
 
 | Feature | Description |

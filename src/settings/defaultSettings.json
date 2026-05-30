@@ -46,7 +46,7 @@
     "colorScheme": {
       "minColor": "#eef2ff",
       "maxColor": "#3730a3",
-      "gradientSteps": 5
+      "gradientSteps": 3
     }
   },
   "blockView": {
