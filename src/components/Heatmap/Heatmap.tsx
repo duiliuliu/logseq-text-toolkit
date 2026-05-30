@@ -520,12 +520,17 @@ function filterDataByView(data: HeatmapDataPoint[], viewType: HeatmapViewType, c
       const sunday = new Date(monday);
       sunday.setDate(monday.getDate() + 6);
 
-      const startStr = monday.toISOString().split('T')[0];
-      const endStr = sunday.toISOString().split('T')[0];
+      const expandedStart = new Date(monday);
+      expandedStart.setDate(expandedStart.getDate() - 30);
+      const expandedEnd = new Date(sunday);
+      expandedEnd.setDate(expandedEnd.getDate() + 30);
+
+      const expandedStartStr = expandedStart.toISOString().split('T')[0];
+      const expandedEndStr = expandedEnd.toISOString().split('T')[0];
 
       return data.filter(d => {
         const dateStr = d.date.split('T')[0];
-        return dateStr >= startStr && dateStr <= endStr;
+        return dateStr >= expandedStartStr && dateStr <= expandedEndStr;
       });
     default:
       return data;

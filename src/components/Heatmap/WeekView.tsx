@@ -99,17 +99,6 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
     });
   }
 
-  const blocksByDate = new Map<string, any[]>();
-  data.forEach(dataPoint => {
-    if (dataPoint && dataPoint.blocks) {
-      const dateKey = dataPoint.date.split('T')[0];
-      if (!blocksByDate.has(dateKey)) {
-        blocksByDate.set(dateKey, []);
-      }
-      blocksByDate.get(dateKey)!.push(...dataPoint.blocks);
-    }
-  });
-
   const hourBlocksData: { date: string; count: number }[][] = [];
   for (let h = 0; h < 6; h++) {
     hourBlocksData.push([]);
@@ -119,19 +108,32 @@ const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellCl
   }
   
   days.forEach((dayInfo, dayIndex) => {
-    const dayBlocks = blocksByDate.get(dayInfo.date) || [];
+    const dayBlocks: any[] = [];
+    
+    data.forEach(dataPoint => {
+      if (dataPoint && dataPoint.blocks) {
+        dataPoint.blocks.forEach(block => {
+          try {
+            const timestamp = getTimestampByField(block, dateField);
+            if (timestamp) {
+              const blockDate = new Date(timestamp);
+              const blockDateStr = blockDate.toISOString().split('T')[0];
+              
+              if (blockDateStr === dayInfo.date) {
+                dayBlocks.push(block);
+              }
+            }
+          } catch {
+          }
+        });
+      }
+    });
+    
     dayBlocks.forEach(block => {
       try {
         const timestamp = getTimestampByField(block, dateField);
         if (timestamp) {
           const blockDate = new Date(timestamp);
-          const hour = blockDate.getHours();
-          const hourIndex = Math.floor(hour / 4);
-          if (hourIndex >= 0 && hourIndex < 6) {
-            hourBlocksData[hourIndex][dayIndex].count += 1;
-          }
-        } else {
-          const blockDate = parseTimeFromData(block['created-at']);
           const hour = blockDate.getHours();
           const hourIndex = Math.floor(hour / 4);
           if (hourIndex >= 0 && hourIndex < 6) {
