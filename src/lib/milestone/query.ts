@@ -61,17 +61,17 @@ export class MilestoneQuery {
 
       if (milestoneList && milestoneList.length > 0) {
         if (formattedFilterPropKey && filterPropValue) {
-          return await this.queryByMilestoneListWithProperty(milestoneList, filterTag, formattedFilterPropKey, filterPropValue, dateField);
+          return await this.queryByMilestoneListWithProperty(milestoneList, filterTag, formattedFilterPropKey, filterPropValue, dateField, formattedMilestonePropKey);
         }
-        return await this.queryByMilestoneList(milestoneList, filterTag, dateField);
+        return await this.queryByMilestoneList(milestoneList, filterTag, dateField, formattedMilestonePropKey);
       }
 
       if (property) {
-        return await this.queryByPropertyEnum(property, filterTag, dateField);
+        return await this.queryByPropertyEnum(property, filterTag, dateField, formattedMilestonePropKey);
       }
 
       if (filterTag) {
-        return await this.queryByTag(filterTag, dateField);
+        return await this.queryByTag(filterTag, dateField, formattedMilestonePropKey);
       }
 
       return await this.queryDefault(dateField);
@@ -92,7 +92,7 @@ export class MilestoneQuery {
     milestoneList: string[] | undefined,
     dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
-    const targetBlocks = await this.getBlocksByProperty(filterPropKey, filterPropValue, filterTag);
+    const targetBlocks = await this.getBlocksByProperty(filterPropKey, filterPropValue, filterTag, milestonePropKey);
     
     if (targetBlocks.length === 0) {
       return milestoneList ? {
@@ -190,7 +190,7 @@ export class MilestoneQuery {
     milestoneList: string[] | undefined,
     dateField: string = 'scheduled'
   ): Promise<MilestoneData> {
-    const targetBlocks = await this.getBlocksByTag(filterTag);
+    const targetBlocks = await this.getBlocksByTag(filterTag, milestonePropKey);
     
     if (targetBlocks.length === 0) {
       return milestoneList ? {
@@ -464,12 +464,15 @@ export class MilestoneQuery {
   /**
    * 通过标签获取块
    */
-  private static async getBlocksByTag(tag: string): Promise<BlockWithProperty[]> {
+  private static async getBlocksByTag(
+    tag: string,
+    milestonePropKey?: string
+  ): Promise<BlockWithProperty[]> {
     if (!logseqAPI) {
       return [];
     }
 
-    const query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
+    const query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
                     :where
                     [?b :block/tags ?t]
                     [?t :block/title "${tag}"]]`;
@@ -491,12 +494,13 @@ export class MilestoneQuery {
     filterTag: string | undefined,
     filterPropKey: string,
     filterPropValue: string,
-    dateField: string = 'scheduled'
+    dateField: string = 'scheduled',
+    milestonePropKey?: string
   ): Promise<MilestoneData> {
     const items: MilestoneItem[] = [];
     const hasBlocksForStage: Record<string, boolean> = {};
 
-    const targetBlocks = await this.getBlocksByProperty(filterPropKey, filterPropValue, filterTag);
+    const targetBlocks = await this.getBlocksByProperty(filterPropKey, filterPropValue, filterTag, milestonePropKey);
     
     if (targetBlocks.length === 0) {
       return {
@@ -516,14 +520,14 @@ export class MilestoneQuery {
 
     // 第一遍：先收集所有阶段的块信息
     for (const stage of milestoneList) {
-      const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks);
+      const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks, milestonePropKey);
       hasBlocksForStage[stage] = blocks.length > 0;
     }
 
     // 第二遍：应用"已跳过"逻辑
     for (let i = 0; i < milestoneList.length; i++) {
       const stage = milestoneList[i];
-      const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks);
+      const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks, milestonePropKey);
       
       let status: MilestoneStatus = 'pending';
       let progress = 0;
@@ -574,7 +578,8 @@ export class MilestoneQuery {
   private static async getBlocksByProperty(
     filterPropKey: string,
     filterPropValue: string,
-    filterTag?: string
+    filterTag?: string,
+    milestonePropKey?: string
   ): Promise<BlockWithProperty[]> {
     if (!logseqAPI) {
       logger.warn('[MilestoneQuery] Logseq API not initialized');
@@ -583,13 +588,13 @@ export class MilestoneQuery {
 
     const formattedKey = filterPropKey.startsWith(':') ? filterPropKey.slice(1) : filterPropKey;
 
-    let query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
+    let query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
                     :where
                     [?b :${formattedKey} ?val]
                     [?val :block/title "${filterPropValue}"]]`;
 
     if (filterTag) {
-      query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
+      query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
                 :where
                 [?b :${formattedKey} ?val]
                 [?val :block/title "${filterPropValue}"]
@@ -611,7 +616,8 @@ export class MilestoneQuery {
    */
   private static async getBlocksByStageAndParent(
     stage: string,
-    parentBlocks: BlockWithProperty[]
+    parentBlocks: BlockWithProperty[],
+    milestonePropKey?: string
   ): Promise<BlockWithProperty[]> {
     if (!logseqAPI) {
       return [];
@@ -624,7 +630,7 @@ export class MilestoneQuery {
     }
 
     const parentIdPattern = parentUuids.map(uuid => `["${uuid}"]`).join(' | ');
-    const query = `[:find (pull ?child [* {:block/scheduled [*]} {:block/deadline [*]}])
+    const query = `[:find (pull ?child [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
                     :where
                     [?child :block/parent ?parent]
                     [?parent :block/uuid ${parentIdPattern}]
@@ -646,14 +652,15 @@ export class MilestoneQuery {
   private static async queryByMilestoneList(
     milestoneList: string[],
     filterTag: string | undefined,
-    dateField: string = 'scheduled'
+    dateField: string = 'scheduled',
+    milestonePropKey?: string
   ): Promise<MilestoneData> {
     const items: MilestoneItem[] = [];
 
     // 第一遍：先收集所有阶段的块信息
     const stageBlocksMap: Map<string, BlockWithProperty[]> = new Map();
     for (const stage of milestoneList) {
-      const blocks = await this.getBlocksByStage(stage, filterTag);
+      const blocks = await this.getBlocksByStage(stage, filterTag, milestonePropKey);
       stageBlocksMap.set(stage, blocks);
     }
 
@@ -710,18 +717,19 @@ export class MilestoneQuery {
    */
   private static async getBlocksByStage(
     stage: string,
-    filterTag?: string
+    filterTag?: string,
+    milestonePropKey?: string
   ): Promise<BlockWithProperty[]> {
     if (!logseqAPI) {
       return [];
     }
 
-    let query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
+    let query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
                   [?b :block/content ?c]
                   [(clojure.string/includes? ?c "${stage}")]]`;
     
     if (filterTag) {
-      query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
+      query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
                 [?b :block/content ?c]
                 [(clojure.string/includes? ?c "${stage}")]
                 [?b :block/tags ?t]
@@ -742,18 +750,19 @@ export class MilestoneQuery {
    */
   private static async getBlocksByLabel(
     label: string,
-    tag?: string
+    tag?: string,
+    milestonePropKey?: string
   ): Promise<BlockWithProperty[]> {
     if (!logseqAPI) {
       return [];
     }
 
-    let query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
+    let query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
                   [?b :block/content ?c]
                   [(clojure.string/includes? ?c "${label}")]]`;
     
     if (tag) {
-      query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}]) :where
+      query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''}]) :where
                 [?b :block/content ?c]
                 [(clojure.string/includes? ?c "${label}")]
                 [?b :block/tags ?t]
@@ -805,13 +814,14 @@ export class MilestoneQuery {
    */
   private static async queryByTag(
     tag: string,
-    dateField: string = 'scheduled'
+    dateField: string = 'scheduled',
+    milestonePropKey?: string
   ): Promise<MilestoneData> {
     if (!logseqAPI) {
       return this.createEmptyData();
     }
 
-    const query = `[:find (pull ?b [* {:block/scheduled [*]} {:block/deadline [*]}])
+    const query = `[:find (pull ?b [* ${milestonePropKey ? `{${milestonePropKey} [:block/title]}` : ''})
                     :where
                     [?b :block/tags ?t]
                     [?t :block/title "${tag}"]]`;
