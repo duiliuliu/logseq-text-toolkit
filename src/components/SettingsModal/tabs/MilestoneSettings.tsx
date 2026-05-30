@@ -411,11 +411,13 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                             <label className="ltt-milestone-form-label">
                               {t('settings.milestone.defaultStyle', '显示样式')}
                             </label>
-                            <CustomSelect
-                              options={styleOptions}
-                              value={template.displayStyle || 'capsule'}
-                              onChange={(value) => updateTemplate(template.id, { displayStyle: value })}
-                            />
+                            <div className="ltt-setting-item">
+                              <CustomSelect
+                                options={styleOptions}
+                                value={template.displayStyle || 'capsule'}
+                                onChange={(value) => updateTemplate(template.id, { displayStyle: value })}
+                              />
+                            </div>
                           </div>
 
                           <div className="ltt-milestone-form-item">
