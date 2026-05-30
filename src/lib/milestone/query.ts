@@ -10,6 +10,24 @@ import { logseqAPI } from '../../logseq';
 
 export class MilestoneQuery {
   /**
+   * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
+   */
+  private static formatPropertyKey(key?: string): string | undefined {
+    if (!key) return undefined;
+    
+    // 如果已有前缀，直接返回
+    if (key.startsWith(':user.property/') || key.startsWith(':logseq.property/')) {
+      return key;
+    }
+    
+    // 移除可能的前导冒号
+    const cleanKey = key.startsWith(':') ? key.slice(1) : key;
+    
+    // 添加 :user.property/ 前缀
+    return `:user.property/${cleanKey}`;
+  }
+
+  /**
    * 执行带过滤条件的查询
    */
   static async query(
@@ -24,22 +42,26 @@ export class MilestoneQuery {
     }
   ): Promise<MilestoneData> {
     const { filterTag, property, filterPropKey, filterPropValue, milestonePropKey, milestoneList, dateField = 'scheduled' } = config;
+    
+    // 格式化属性键
+    const formattedFilterPropKey = this.formatPropertyKey(filterPropKey);
+    const formattedMilestonePropKey = this.formatPropertyKey(milestonePropKey);
 
     try {
       // 优先使用 milestonePropKey 模式
-      if (milestonePropKey) {
-        if (filterPropKey && filterPropValue) {
-          return await this.queryByMilestonePropWithFilter(milestonePropKey, filterPropKey, filterPropValue, filterTag, milestoneList, dateField);
+      if (formattedMilestonePropKey) {
+        if (formattedFilterPropKey && filterPropValue) {
+          return await this.queryByMilestonePropWithFilter(formattedMilestonePropKey, formattedFilterPropKey, filterPropValue, filterTag, milestoneList, dateField);
         }
         if (filterTag) {
-          return await this.queryByMilestonePropWithTag(milestonePropKey, filterTag, milestoneList, dateField);
+          return await this.queryByMilestonePropWithTag(formattedMilestonePropKey, filterTag, milestoneList, dateField);
         }
-        return await this.queryByMilestoneProp(milestonePropKey, milestoneList, dateField);
+        return await this.queryByMilestoneProp(formattedMilestonePropKey, milestoneList, dateField);
       }
 
       if (milestoneList && milestoneList.length > 0) {
-        if (filterPropKey && filterPropValue) {
-          return await this.queryByMilestoneListWithProperty(milestoneList, filterTag, filterPropKey, filterPropValue, dateField);
+        if (formattedFilterPropKey && filterPropValue) {
+          return await this.queryByMilestoneListWithProperty(milestoneList, filterTag, formattedFilterPropKey, filterPropValue, dateField);
         }
         return await this.queryByMilestoneList(milestoneList, filterTag, dateField);
       }

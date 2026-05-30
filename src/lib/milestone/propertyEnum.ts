@@ -8,6 +8,22 @@ import { logseqAPI } from '../../logseq';
 
 export class PropertyEnumService {
   /**
+   * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
+   */
+  private static formatPropertyKey(key: string): string {
+    // 如果已有前缀，直接返回
+    if (key.startsWith(':user.property/') || key.startsWith(':logseq.property/')) {
+      return key;
+    }
+    
+    // 移除可能的前导冒号
+    const cleanKey = key.startsWith(':') ? key.slice(1) : key;
+    
+    // 添加 :user.property/ 前缀
+    return `:user.property/${cleanKey}`;
+  }
+
+  /**
    * 获取属性的所有枚举值
    */
   static async getPropertyEnums(propertyKey: string): Promise<PropertyEnumValue[]> {
@@ -17,7 +33,8 @@ export class PropertyEnumService {
     }
 
     try {
-      const query = this.buildEnumQuery(propertyKey);
+      const formattedKey = this.formatPropertyKey(propertyKey);
+      const query = this.buildEnumQuery(formattedKey);
       const result = await logseqAPI.DB.datascriptQuery(query);
       
       if (!result || !Array.isArray(result)) {
@@ -25,7 +42,7 @@ export class PropertyEnumService {
         return [];
       }
 
-      return this.parseQueryResult(result, propertyKey);
+      return this.parseQueryResult(result, formattedKey);
     } catch (error) {
       logger.error('[PropertyEnum] Query failed:', error);
       return [];
@@ -36,13 +53,11 @@ export class PropertyEnumService {
    * 构建枚举查询语句
    */
   private static buildEnumQuery(propertyKey: string): string {
-    const formattedKey = propertyKey.startsWith('user.property/') 
-      ? propertyKey 
-      : `user.property/${propertyKey}`;
-
+    const cleanKey = propertyKey.startsWith(':') ? propertyKey.slice(1) : propertyKey;
+    
     return `[:find (pull ?val [* {:block/refs [:block/title]}]) 
                     :where 
-                    [_ :${formattedKey} ?val]]`;
+                    [_ :${cleanKey} ?val]]`;
   }
 
   /**
@@ -105,14 +120,15 @@ export class PropertyEnumService {
     }
 
     try {
-      const query = this.buildFilteredEnumQuery(propertyKey, tag);
+      const formattedKey = this.formatPropertyKey(propertyKey);
+      const query = this.buildFilteredEnumQuery(formattedKey, tag);
       const result = await logseqAPI.DB.datascriptQuery(query);
 
       if (!result || !Array.isArray(result)) {
         return [];
       }
 
-      return this.parseQueryResult(result, propertyKey);
+      return this.parseQueryResult(result, formattedKey);
     } catch (error) {
       logger.error('[PropertyEnum] Filtered query failed:', error);
       return [];
@@ -126,13 +142,11 @@ export class PropertyEnumService {
     propertyKey: string,
     tag: string
   ): string {
-    const formattedKey = propertyKey.startsWith('user.property/') 
-      ? propertyKey 
-      : `user.property/${propertyKey}`;
+    const cleanKey = propertyKey.startsWith(':') ? propertyKey.slice(1) : propertyKey;
 
     return `[:find (pull ?b [*])
                     :where
-                    [?b :${formattedKey} ?val]
+                    [?b :${cleanKey} ?val]
                     [?val :block/title ?title]
                     [?b :block/tags ?t]
                     [?t :block/title "${tag}"]]`;
