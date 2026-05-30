@@ -293,7 +293,9 @@
       "templateMilestoneList": "里程碑列表（分号分隔）",
       "edit": "编辑",
       "collapse": "收起",
-      "delete": "删除"
+      "delete": "删除",
+      "nameRequired": "模板名称不能为空",
+      "nameDuplicate": "模板名称已存在"
     },
     "saveMilestoneSettings": "保存里程碑设置"
   }

@@ -1081,6 +1081,42 @@ input:checked + .ltt-switch-slider:before {
   color: #6b7280;
 }
 
+/* Error Styles for Milestone Section */
+.ltt-milestone-input-error {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.ltt-milestone-input-error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+.ltt-milestone-error-message {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 2px;
+  padding: 4px 8px;
+  background-color: #fef2f2;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
+}
+
+/* Dark theme error styles */
+[data-theme="dark"] .ltt-milestone-input-error {
+  border-color: #fca5a5 !important;
+  background-color: #450a0a !important;
+}
+
+[data-theme="dark"] .ltt-milestone-input-error:focus {
+  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;
+}
+
+[data-theme="dark"] .ltt-milestone-error-message {
+  color: #fca5a5;
+  background-color: #450a0a;
+  border-color: #7f1d1d;
+}
+
 /* Responsive Styles for Milestone Section */
 @media (max-width: 768px) {
   .ltt-milestone-templates-header {
@@ -1106,5 +1142,13 @@ input:checked + .ltt-switch-slider:before {
   
   .ltt-milestone-template-actions {
     justify-content: flex-end;
+  }
+
+  .ltt-milestone-template-info {
+    flex-wrap: wrap;
+  }
+
+  .ltt-milestone-error-message {
+    width: 100%;
   }
 }

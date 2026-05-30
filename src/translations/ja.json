@@ -37,6 +37,7 @@
       "heatmap": "📈 ヒートマップ",
       "blockView": "📋 ブロックビュー",
       "summary": "📝 まとめ生成",
+      "milestone": "🎯 マイルストーン",
       "advanced": "⚡ その他の設定"
     },
     "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
@@ -263,6 +264,36 @@
       "aiApiUrl": "APIアドレス",
       "aiModel": "モデル",
       "aiPromptTemplate": "プロンプトテンプレート"
-    }
+    },
+    "milestone": {
+      "description": "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
+      "enabled": "マイルストーン機能を有効化",
+      "defaultStyle": "デフォルト表示スタイル",
+      "styleCapsule": "カプセル",
+      "styleBadge": "バッジ",
+      "styleTrack": "トラック",
+      "styleCard": "カード",
+      "styleCompact": "コンパクト",
+      "showLabel": "ラベルを表示",
+      "showLabels": "ラベルを表示",
+      "showProgress": "進捗を表示",
+      "templates": "事前定義テンプレート",
+      "addTemplate": "テンプレートを追加",
+      "noTemplates": "テンプレートはまだありません。上のボタンをクリックして追加してください。",
+      "newTemplate": "新規テンプレート",
+      "templateName": "テンプレート名",
+      "templateDescription": "説明（任意）",
+      "templateFilterTag": "フィルタータグ（任意）",
+      "templateFilterPropKey": "フィルタープロパティキー（任意）",
+      "templateFilterPropValue": "フィルタープロパティ値（任意）",
+      "templateMilestonePropKey": "マイルストーンプロパティキー（必須）",
+      "templateMilestoneList": "マイルストーンリスト（セミコロン区切り）",
+      "edit": "編集",
+      "collapse": "折りたたむ",
+      "delete": "削除",
+      "nameRequired": "テンプレート名は空にできません",
+      "nameDuplicate": "テンプレート名は既に存在します"
+    },
+    "saveMilestoneSettings": "マイルストーン設定を保存"
   }
 }

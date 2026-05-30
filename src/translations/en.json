@@ -293,7 +293,9 @@
       "templateMilestoneList": "Milestone List (semicolon separated)",
       "edit": "Edit",
       "collapse": "Collapse",
-      "delete": "Delete"
+      "delete": "Delete",
+      "nameRequired": "Template name cannot be empty",
+      "nameDuplicate": "Template name already exists"
     },
     "saveMilestoneSettings": "Save Milestone Settings"
   }
