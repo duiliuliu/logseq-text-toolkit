@@ -54,7 +54,6 @@ export interface MilestoneConfig {
   template?: string;
   property?: string;
   filterPropKey?: string;
-  filterPropValue?: string;
   milestonePropKey?: string;
   milestoneList?: string[];
   filterTag?: string;
@@ -64,6 +63,8 @@ export interface MilestoneConfig {
   colorScheme?: ColorScheme;
   language?: string;
   dateField?: string;
+  // 当前渲染的block UUID，用于获取属性值
+  currentBlockUuid?: string;
 }
 
 export type MilestoneDisplayStyle = 
@@ -108,13 +109,13 @@ export interface MilestoneTemplate {
   description?: string;
   filterTag?: string;
   filterPropKey?: string;
-  filterPropValue?: string;
   milestonePropKey?: string;
   milestoneList?: string[];
   displayStyle?: MilestoneDisplayStyle;
   showProgress?: boolean;
   showLabel?: boolean;
   dateField?: string;
+  colorScheme?: ColorScheme;
 }
 
 export const DEFAULT_COLOR_SCHEME: ColorScheme = {

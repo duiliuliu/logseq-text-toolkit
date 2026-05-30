@@ -28,6 +28,47 @@ export class MilestoneQuery {
   }
 
   /**
+   * 获取当前block的指定属性值
+   */
+  private static async getCurrentBlockPropertyValue(
+    blockUuid: string | undefined,
+    propertyKey: string
+  ): Promise<string | undefined> {
+    if (!blockUuid || !logseqAPI) {
+      return undefined;
+    }
+
+    try {
+      const block = await logseqAPI.Editor.getBlock(blockUuid, { includeChildren: false });
+      if (!block || !block.properties) {
+        return undefined;
+      }
+
+      // 处理带前缀的属性键
+      const cleanKey = propertyKey.startsWith(':') ? propertyKey.slice(1) : propertyKey;
+      const keysToTry = [propertyKey, `:${cleanKey}`, cleanKey];
+      
+      for (const key of keysToTry) {
+        const value = block.properties[key];
+        if (value !== undefined && value !== null) {
+          if (typeof value === 'object') {
+            // 尝试多种可能的标题键名
+            if (value['title']) return value['title'];
+            if (value['block/title']) return value['block/title'];
+            if (value[':block/title']) return value[':block/title'];
+          }
+          return String(value);
+        }
+      }
+      
+      return undefined;
+    } catch (error) {
+      logger.warn('[MilestoneQuery] Failed to get block property value:', error);
+      return undefined;
+    }
+  }
+
+  /**
    * 执行带过滤条件的查询
    */
   static async query(
@@ -35,17 +76,23 @@ export class MilestoneQuery {
       filterTag?: string;
       property?: string;
       filterPropKey?: string;
-      filterPropValue?: string;
       milestonePropKey?: string;
       milestoneList?: string[];
       dateField?: string;
+      currentBlockUuid?: string;
     }
   ): Promise<MilestoneData> {
-    const { filterTag, property, filterPropKey, filterPropValue, milestonePropKey, milestoneList, dateField = 'scheduled' } = config;
+    const { filterTag, property, filterPropKey, milestonePropKey, milestoneList, dateField = 'scheduled', currentBlockUuid } = config;
     
     // 格式化属性键
     const formattedFilterPropKey = this.formatPropertyKey(filterPropKey);
     const formattedMilestonePropKey = this.formatPropertyKey(milestonePropKey);
+    
+    // 如果有 filterPropKey，尝试从当前 block 获取属性值
+    let filterPropValue: string | undefined;
+    if (formattedFilterPropKey && currentBlockUuid) {
+      filterPropValue = await this.getCurrentBlockPropertyValue(currentBlockUuid, formattedFilterPropKey);
+    }
 
     try {
       // 优先使用 milestonePropKey 模式

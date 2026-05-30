@@ -179,6 +179,15 @@ export interface MilestoneSettings {
   showLabels: boolean;
   showProgress: boolean;
   templates: MilestoneTemplate[];
+  defaultColorScheme?: {
+    completed?: string;
+    inProgress?: string;
+    pending?: string;
+    failed?: string;
+    skipped?: string;
+    background?: string;
+    text?: string;
+  };
 }
 
 export interface Settings {

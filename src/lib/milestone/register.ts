@@ -28,16 +28,16 @@ export function setMilestoneComponent(component: React.FC<any>) {
 /**
  * 渲染 Milestone 组件
  */
-async function renderMilestone(slot: string, config: MilestoneConfig): Promise<boolean> {
+async function renderMilestone(slot: string, config: MilestoneConfig, currentBlockUuid?: string): Promise<boolean> {
   try {
     const data = await MilestoneQuery.query({
       filterTag: config.filterTag,
       property: config.property,
       filterPropKey: config.filterPropKey,
-      filterPropValue: config.filterPropValue,
       milestonePropKey: config.milestonePropKey,
       milestoneList: config.milestoneList,
-      dateField: config.dateField
+      dateField: config.dateField,
+      currentBlockUuid: currentBlockUuid
     });
 
     if (!MilestoneComponent) {
@@ -84,7 +84,7 @@ export function registerMilestone(): void {
       }
 
       const config = parseMacroArguments(split.type, split.tokens);
-      await renderMilestone(slot, config);
+      await renderMilestone(slot, config, payload.uuid);
     } catch (error) {
       logger.error('[Milestone] Render failed:', error);
     }
@@ -112,6 +112,7 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   let template: MilestoneTemplate | undefined;
   const settings = getSettings();
   const templates = settings?.milestone?.templates || [];
+  const defaultColorScheme = settings?.milestone?.defaultColorScheme;
   
   if (parsed.template) {
     // 支持两种格式：id 或者 name
@@ -122,17 +123,17 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   const baseConfig: Partial<MilestoneConfig> = template ? {
     filterTag: template.filterTag,
     filterPropKey: template.filterPropKey,
-    filterPropValue: template.filterPropValue,
     milestonePropKey: template.milestonePropKey,
     milestoneList: template.milestoneList,
     displayStyle: template.displayStyle,
     showProgress: template.showProgress,
     showLabel: template.showLabel,
     dateField: template.dateField,
+    colorScheme: template.colorScheme,
   } : {};
 
   // 解析 displayStyle，优先使用宏参数，否则使用模板或默认值
-  let displayStyle: MilestoneDisplayStyle = baseConfig.displayStyle || 'capsule';
+  let displayStyle: MilestoneDisplayStyle = baseConfig.displayStyle || settings?.milestone?.defaultStyle || 'capsule';
   if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.displayStyle)) {
     displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
   }
@@ -143,18 +144,27 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
     finalMilestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
   }
 
+  // 确定最终的颜色方案：宏参数 > 模板 > 默认设置
+  let finalColorScheme = undefined;
+  if (parsed.colorScheme) {
+    finalColorScheme = JSON.parse(parsed.colorScheme);
+  } else if (baseConfig.colorScheme) {
+    finalColorScheme = baseConfig.colorScheme;
+  } else if (defaultColorScheme) {
+    finalColorScheme = defaultColorScheme;
+  }
+
   return {
     template: parsed.template,
     filterTag: parsed.filterTag || baseConfig.filterTag,
     displayStyle: displayStyle,
     property: parsed.property,
     filterPropKey: parsed.filterPropKey || baseConfig.filterPropKey,
-    filterPropValue: parsed.filterPropValue || baseConfig.filterPropValue,
     milestonePropKey: parsed.milestonePropKey || baseConfig.milestonePropKey,
     milestoneList: finalMilestoneList,
     dateField: parsed.dateField || baseConfig.dateField || 'scheduled',
-    showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : baseConfig.showProgress !== false,
-    showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : baseConfig.showLabel !== false,
-    colorScheme: parsed.colorScheme ? JSON.parse(parsed.colorScheme) : undefined,
+    showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : (baseConfig.showProgress !== undefined ? baseConfig.showProgress : settings?.milestone?.showProgress !== false),
+    showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : (baseConfig.showLabel !== undefined ? baseConfig.showLabel : settings?.milestone?.showLabel !== false),
+    colorScheme: finalColorScheme,
   };
 }
