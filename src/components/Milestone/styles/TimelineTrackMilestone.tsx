@@ -2,16 +2,19 @@
  * Milestone Timeline Track 样式
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckCircle2, Clock, XCircle, SkipForward, Loader2 } from 'lucide-react';
-import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
+import { MilestoneTooltip as MilestoneTooltipContent } from '../MilestoneTooltip';
 
 interface TimelineTrackMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
   showProgress?: boolean;
+  tooltipStyle?: MilestoneTooltipStyle;
   onNodeClick?: (item: MilestoneItem) => void;
 }
 
@@ -30,10 +33,9 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
   showProgress = true,
+  tooltipStyle = 'compact',
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -103,47 +105,56 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
               )}
               
               {/* 节点 */}
-              <div 
-                className={`ltt-milestone-timeline-node ${item.status === 'in_progress' ? 'ltt-milestone-timeline-node-active' : ''}`}
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
-                onClick={() => handleNodeClick(item)}
-                style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
-              >
-                {/* 图标层 */}
-                <div 
-                  className="ltt-milestone-timeline-icon-wrapper"
-                  style={{ 
-                    backgroundColor: item.status === 'completed' ? getNodeColor(item.status) : 'transparent',
-                    borderColor: getNodeColor(item.status)
-                  }}
-                >
+              <Tooltip>
+                <TooltipTrigger asChild>
                   <div 
-                    className="ltt-milestone-timeline-icon"
-                    style={{ 
-                      color: item.status === 'completed' ? '#ffffff' : getNodeColor(item.status) 
-                    }}
+                    className={`ltt-milestone-timeline-node ${item.status === 'inProgress' ? 'ltt-milestone-timeline-node-active' : ''}`}
+                    onClick={() => handleNodeClick(item)}
+                    style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
                   >
-                    {getStatusIcon(item.status)}
-                  </div>
-                </div>
-                
-                {/* 内容层（下面小字 */}
-                {showLabels && (
-                  <div className="ltt-milestone-timeline-content">
-                    <div className="ltt-milestone-timeline-label">{item.label}</div>
+                    {/* 图标层 */}
                     <div 
-                      className="ltt-milestone-timeline-status"
-                      style={{ color: getNodeColor(item.status) }}
+                      className="ltt-milestone-timeline-icon-wrapper"
+                      style={{ 
+                        backgroundColor: item.status === 'completed' ? getNodeColor(item.status) : 'transparent',
+                        borderColor: getNodeColor(item.status)
+                      }}
                     >
-                      {getStatusText(item.status)}
-                      {showProgress && item.progress !== undefined && (
-                        <span className="ltt-milestone-timeline-progress"> ({item.progress}%)</span>
-                      )}
+                      <div 
+                        className="ltt-milestone-timeline-icon"
+                        style={{ 
+                          color: item.status === 'completed' ? '#ffffff' : getNodeColor(item.status) 
+                        }}
+                      >
+                        {getStatusIcon(item.status)}
+                      </div>
                     </div>
+                    
+                    {/* 内容层（下面小字 */}
+                    {showLabels && (
+                      <div className="ltt-milestone-timeline-content">
+                        <div className="ltt-milestone-timeline-label">{item.label}</div>
+                        <div 
+                          className="ltt-milestone-timeline-status"
+                          style={{ color: getNodeColor(item.status) }}
+                        >
+                          {getStatusText(item.status)}
+                          {showProgress && item.progress !== undefined && (
+                            <span className="ltt-milestone-timeline-progress"> ({item.progress}%)</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" sideOffset={4}>
+                  <MilestoneTooltipContent 
+                    item={item} 
+                    colorScheme={colorScheme} 
+                    tooltipStyle={tooltipStyle}
+                  />
+                </TooltipContent>
+              </Tooltip>
               
               {/* 后连接线 */}
               {index < items.length - 1 && (
@@ -155,22 +166,6 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
                 />
               )}
             </div>
-            
-            {/* Hover Tooltip */}
-            {hoveredItem === item.id && (
-              <div className="ltt-milestone-tooltip">
-                <div className="ltt-milestone-tooltip-label">{item.label}</div>
-                {item.date && (
-                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
-                )}
-                <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
-                  状态: {getStatusText(item.status)}
-                </div>
-                {item.progress !== undefined && (
-                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
-                )}
-              </div>
-            )}
           </React.Fragment>
         ))}
       </div>

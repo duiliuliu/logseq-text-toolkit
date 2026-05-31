@@ -12,7 +12,7 @@ import CompactMilestone from './styles/CompactMilestone';
 import ArrowCapsuleMilestone from './styles/ArrowCapsuleMilestone';
 import TimelineTrackMilestone from './styles/TimelineTrackMilestone';
 import { DEFAULT_COLOR_SCHEME } from '../../lib/milestone/types';
-import { TooltipProvider } from '../ui';
+import { TooltipProvider } from '../ui/Tooltip';
 import './milestone.css';
 
 interface MilestoneProps {
@@ -35,6 +35,7 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
     colorScheme,
     showLabels: config.showLabel,
     showProgress: config.showProgress,
+    tooltipStyle: config.tooltipStyle,
   };
 
   const renderStyle = () => {

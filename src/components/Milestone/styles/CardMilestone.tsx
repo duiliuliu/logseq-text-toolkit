@@ -2,15 +2,18 @@
  * Milestone Card 样式
  */
 
-import React, { useState } from 'react';
-import { CheckCircle2, Clock, AlertCircle, XCircle, SkipForward, Loader2 } from 'lucide-react';
-import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import React from 'react';
+import { CheckCircle2, Clock, XCircle, SkipForward, Loader2 } from 'lucide-react';
+import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
+import { MilestoneTooltip as MilestoneTooltipContent } from '../MilestoneTooltip';
 
 interface CardMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
+  tooltipStyle?: MilestoneTooltipStyle;
   onNodeClick?: (item: MilestoneItem) => void;
 }
 
@@ -28,10 +31,9 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
   items,
   colorScheme = defaultColorScheme,
   showLabels = true,
+  tooltipStyle = 'compact',
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -88,84 +90,77 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
     <div className="ltt-milestone-card-horizontal">
       {items.map((item, index) => (
         <React.Fragment key={item.id}>
-          <div 
-            className="ltt-milestone-card-item-horizontal"
-            onMouseEnter={() => setHoveredItem(item.id)}
-            onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => handleNodeClick(item)}
-            style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
-          >
-            <div 
-              className={`ltt-milestone-card-content-horizontal ${item.status === 'in_progress' ? 'ltt-milestone-pulse-card' : ''}`}
-              style={{ borderColor: getNodeColor(item.status) }}
-            >
-              {/* 第一层：状态文字+图标 */}
-              <div className="ltt-milestone-card-header">
-                <span 
-                  className="ltt-milestone-card-status-text"
-                  style={{ color: getNodeColor(item.status) }}
-                >
-                  {getStatusText(item.status)}
-                </span>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div 
+                className="ltt-milestone-card-item-horizontal"
+                onClick={() => handleNodeClick(item)}
+                style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
+              >
                 <div 
-                  className="ltt-milestone-card-icon-wrapper"
-                  style={{ borderColor: getNodeColor(item.status), backgroundColor: getNodeColor(item.status) + '10' }}
+                  className={`ltt-milestone-card-content-horizontal ${item.status === 'in_progress' ? 'ltt-milestone-pulse-card' : ''}`}
+                  style={{ borderColor: getNodeColor(item.status) }}
                 >
-                  <div style={{ color: getNodeColor(item.status) }}>
-                    {getStatusIcon(item.status)}
+                  {/* 第一层：状态文字+图标 */}
+                  <div className="ltt-milestone-card-header">
+                    <span 
+                      className="ltt-milestone-card-status-text"
+                      style={{ color: getNodeColor(item.status) }}
+                    >
+                      {getStatusText(item.status)}
+                    </span>
+                    <div 
+                      className="ltt-milestone-card-icon-wrapper"
+                      style={{ borderColor: getNodeColor(item.status), backgroundColor: getNodeColor(item.status) + '10' }}
+                    >
+                      <div style={{ color: getNodeColor(item.status) }}>
+                        {getStatusIcon(item.status)}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* 第二层：节点描述 */}
+                  {showLabels && (
+                    <div className="ltt-milestone-card-description">
+                      {item.label}
+                    </div>
+                  )}
+                  
+                  {/* 第三层：进度条 */}
+                  <div className="ltt-milestone-card-progress">
+                    <div className="ltt-milestone-card-progress-bg" />
+                    <div 
+                      className="ltt-milestone-card-progress-fill"
+                      style={{ 
+                        width: `${item.progress || 0}%`,
+                        backgroundColor: getNodeColor(item.status)
+                      }}
+                    />
+                  </div>
+                  
+                  {/* 第四层：时间和进度百分比 */}
+                  <div className="ltt-milestone-card-footer">
+                    <span className="ltt-milestone-card-date">
+                      {item.date || '-'}
+                    </span>
+                    <span 
+                      className="ltt-milestone-card-percent"
+                      style={{ color: getNodeColor(item.status) }}
+                    >
+                      {item.progress || 0}%
+                    </span>
                   </div>
                 </div>
               </div>
-              
-              {/* 第二层：节点描述 */}
-              {showLabels && (
-                <div className="ltt-milestone-card-description">
-                  {item.label}
-                </div>
-              )}
-              
-              {/* 第三层：进度条 */}
-              <div className="ltt-milestone-card-progress">
-                <div className="ltt-milestone-card-progress-bg" />
-                <div 
-                  className="ltt-milestone-card-progress-fill"
-                  style={{ 
-                    width: `${item.progress || 0}%`,
-                    backgroundColor: getNodeColor(item.status)
-                  }}
-                />
-              </div>
-              
-              {/* 第四层：时间和进度百分比 */}
-              <div className="ltt-milestone-card-footer">
-                <span className="ltt-milestone-card-date">
-                  {item.date || '-'}
-                </span>
-                <span 
-                  className="ltt-milestone-card-percent"
-                  style={{ color: getNodeColor(item.status) }}
-                >
-                  {item.progress || 0}%
-                </span>
-              </div>
-            </div>
-            
-            {/* Hover Tooltip */}
-            {hoveredItem === item.id && (
-              <div className="ltt-milestone-tooltip-horizontal">
-                <div className="ltt-milestone-tooltip-label">{item.label}</div>
-                {item.date && (
-                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
-                )}
-                <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
-                  状态: {getStatusText(item.status)}
-                </div>
-                {item.progress !== undefined && (
-                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
-                )}
-              </div>
-            )}
-          </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" sideOffset={4}>
+              <MilestoneTooltipContent 
+                item={item} 
+                colorScheme={colorScheme} 
+                tooltipStyle={tooltipStyle}
+              />
+            </TooltipContent>
+          </Tooltip>
           
           {index < items.length - 1 && (
             <div className="ltt-milestone-connector-horizontal" />

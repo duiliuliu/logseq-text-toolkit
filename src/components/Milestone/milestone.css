@@ -1208,3 +1208,199 @@
 .ltt-milestone-compact-tooltip-progress {
   font-size: 9px;
 }
+
+/* ========== Tooltip 样式变体 ========== */
+
+/* 简约模式 */
+.ltt-milestone-tooltip-minimal {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 10px;
+  min-width: 100px;
+}
+
+.ltt-milestone-tooltip-minimal-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ltt-text-primary);
+  line-height: 1.3;
+}
+
+.ltt-milestone-tooltip-minimal-status {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* 紧凑模式 */
+.ltt-milestone-tooltip-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  min-width: 140px;
+  line-height: 1.3;
+}
+
+.ltt-milestone-tooltip-compact-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ltt-text-primary);
+  word-wrap: break-word;
+}
+
+.ltt-milestone-tooltip-compact-date {
+  font-size: 10px;
+  color: var(--ltt-text-secondary);
+}
+
+.ltt-milestone-tooltip-compact-status {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.ltt-milestone-tooltip-compact-progress {
+  font-size: 10px;
+}
+
+/* 详细模式 */
+.ltt-milestone-tooltip-detailed {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+  min-width: 180px;
+  max-width: 240px;
+}
+
+.ltt-milestone-tooltip-detailed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.ltt-milestone-tooltip-detailed-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ltt-text-primary);
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.ltt-milestone-tooltip-detailed-status {
+  font-size: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.ltt-milestone-tooltip-detailed-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+}
+
+.ltt-milestone-tooltip-detailed-date-label {
+  color: var(--ltt-text-secondary);
+  font-weight: 500;
+}
+
+.ltt-milestone-tooltip-detailed-date-value {
+  color: var(--ltt-text-primary);
+  font-weight: 400;
+}
+
+.ltt-milestone-tooltip-detailed-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ltt-milestone-tooltip-detailed-progress-label {
+  font-size: 10px;
+  color: var(--ltt-text-secondary);
+  font-weight: 500;
+}
+
+.ltt-milestone-tooltip-detailed-progress-bar-container {
+  height: 4px;
+  background: var(--ltt-bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ltt-milestone-tooltip-detailed-progress-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.ltt-milestone-tooltip-detailed-progress-value {
+  font-size: 10px;
+  color: var(--ltt-text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* 优雅模式 */
+.ltt-milestone-tooltip-elegant {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
+  min-width: 160px;
+  max-width: 260px;
+  background: linear-gradient(135deg, var(--ltt-bg-primary) 0%, var(--ltt-bg-secondary) 100%);
+  border: 1px solid var(--ltt-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.ltt-milestone-tooltip-elegant-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.ltt-milestone-tooltip-elegant-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.ltt-milestone-tooltip-elegant-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ltt-text-primary);
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.ltt-milestone-tooltip-elegant-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ltt-border), transparent);
+  margin: 2px 0;
+}
+
+.ltt-milestone-tooltip-elegant-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.ltt-milestone-tooltip-elegant-icon {
+  font-size: 12px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.ltt-milestone-tooltip-elegant-text {
+  color: var(--ltt-text-secondary);
+  font-weight: 500;
+}
+

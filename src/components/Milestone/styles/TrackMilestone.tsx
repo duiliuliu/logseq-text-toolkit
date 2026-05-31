@@ -2,14 +2,17 @@
  * Milestone Track 样式
  */
 
-import React, { useState } from 'react';
-import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import React from 'react';
+import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
+import { MilestoneTooltip as MilestoneTooltipContent } from '../MilestoneTooltip';
 
 interface TrackMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
+  tooltipStyle?: MilestoneTooltipStyle;
   onNodeClick?: (item: MilestoneItem) => void;
 }
 
@@ -27,10 +30,9 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
   items,
   colorScheme = defaultColorScheme,
   showLabels = true,
+  tooltipStyle = 'compact',
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -53,17 +55,6 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
     }
   };
 
-  const getStatusText = (status: string): string => {
-    switch (status) {
-      case 'completed': return '已完成';
-      case 'in_progress': return '进行中';
-      case 'failed': return '失败';
-      case 'skipped': return '已跳过';
-      case 'pending':
-      default: return '待开始';
-    }
-  };
-
   if (items.length === 0) {
     return (
       <div className="ltt-milestone-empty">
@@ -81,28 +72,23 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
         />
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
-            <div 
-              className="ltt-milestone-dot" 
-              data-status={item.status}
-              style={{ backgroundColor: getNodeColor(item.status), cursor: item.blockUuid ? 'pointer' : 'default' }}
-              onMouseEnter={() => setHoveredItem(item.id)}
-              onMouseLeave={() => setHoveredItem(null)}
-              onClick={() => handleNodeClick(item)}
-            />
-            {hoveredItem === item.id && (
-              <div className="ltt-milestone-tooltip-track">
-                <div className="ltt-milestone-tooltip-label">{item.label}</div>
-                {item.date && (
-                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
-                )}
-                <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
-                  状态: {getStatusText(item.status)}
-                </div>
-                {item.progress !== undefined && (
-                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
-                )}
-              </div>
-            )}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div 
+                  className="ltt-milestone-dot" 
+                  data-status={item.status}
+                  style={{ backgroundColor: getNodeColor(item.status), cursor: item.blockUuid ? 'pointer' : 'default' }}
+                  onClick={() => handleNodeClick(item)}
+                />
+              </TooltipTrigger>
+              <TooltipContent side="top" sideOffset={4}>
+                <MilestoneTooltipContent 
+                  item={item} 
+                  colorScheme={colorScheme} 
+                  tooltipStyle={tooltipStyle}
+                />
+              </TooltipContent>
+            </Tooltip>
             {index < items.length - 1 && (
               <div 
                 className="ltt-milestone-segment" 
@@ -120,29 +106,37 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
       {showLabels && (
         <div className="ltt-milestone-labels">
           {items.map((item, index) => (
-            <div 
-              key={item.id} 
-              className="ltt-milestone-label-item"
-              onMouseEnter={() => setHoveredItem(item.id)}
-              onMouseLeave={() => setHoveredItem(null)}
-              onClick={() => handleNodeClick(item)}
-              style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
-            >
-              <span 
-                className="ltt-milestone-time"
-                style={{ color: colorScheme.text }}
-              >
-                {item.label}
-              </span>
-              {item.date && (
-                <span 
-                  className="ltt-milestone-desc"
-                  style={{ color: colorScheme.text, opacity: 0.6 }}
+            <Tooltip key={item.id}>
+              <TooltipTrigger asChild>
+                <div 
+                  className="ltt-milestone-label-item"
+                  onClick={() => handleNodeClick(item)}
+                  style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
                 >
-                  {item.date}
-                </span>
-              )}
-            </div>
+                  <span 
+                    className="ltt-milestone-time"
+                    style={{ color: colorScheme.text }}
+                  >
+                    {item.label}
+                  </span>
+                  {item.date && (
+                    <span 
+                      className="ltt-milestone-desc"
+                      style={{ color: colorScheme.text, opacity: 0.6 }}
+                    >
+                      {item.date}
+                    </span>
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" sideOffset={4}>
+                <MilestoneTooltipContent 
+                  item={item} 
+                  colorScheme={colorScheme} 
+                  tooltipStyle={tooltipStyle}
+                />
+              </TooltipContent>
+            </Tooltip>
           ))}
         </div>
       )}

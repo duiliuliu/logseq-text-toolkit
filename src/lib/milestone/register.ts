@@ -174,5 +174,6 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
     showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : (baseConfig.showLabel !== undefined ? baseConfig.showLabel : settings?.milestone?.showLabel !== false),
     inline: inline,
     colorScheme: finalColorScheme,
+    tooltipStyle: settings?.milestone?.tooltipStyle || 'compact',
   };
 }

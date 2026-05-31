@@ -2,15 +2,18 @@
  * Milestone Arrow Capsule 样式 - 箭头胶囊
  */
 
-import React, { useState } from 'react';
-import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import React from 'react';
+import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
+import { MilestoneTooltip as MilestoneTooltipContent } from '../MilestoneTooltip';
 
 interface ArrowCapsuleMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
   showProgress?: boolean;
+  tooltipStyle?: MilestoneTooltipStyle;
   onNodeClick?: (item: MilestoneItem) => void;
 }
 
@@ -29,10 +32,9 @@ const ArrowCapsuleMilestone: React.FC<ArrowCapsuleMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
   showProgress = true,
+  tooltipStyle = 'compact',
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -90,58 +92,51 @@ const ArrowCapsuleMilestone: React.FC<ArrowCapsuleMilestoneProps> = ({
       <div className="ltt-milestone-arrow-track">
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
-            <div 
-              className={`ltt-milestone-arrow-node ${item.status === 'in_progress' ? 'ltt-milestone-arrow-node-active' : ''}`}
-              onMouseEnter={() => setHoveredItem(item.id)}
-              onMouseLeave={() => setHoveredItem(null)}
-              onClick={() => handleNodeClick(item)}
-              style={{ 
-                cursor: item.blockUuid ? 'pointer' : 'default' }}
-            >
-              <div 
-                className="ltt-milestone-arrow-icon-wrapper"
-                style={{ borderColor: getNodeColor(item.status), backgroundColor: item.status === 'completed' ? getNodeColor(item.status) : 'transparent' }}
-              >
-                <span 
-                  className="ltt-milestone-arrow-icon"
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div 
+                  className={`ltt-milestone-arrow-node ${item.status === 'in_progress' ? 'ltt-milestone-arrow-node-active' : ''}`}
+                  onClick={() => handleNodeClick(item)}
                   style={{ 
-                    color: item.status === 'completed' ? '#ffffff' : getNodeColor(item.status) }}
+                    cursor: item.blockUuid ? 'pointer' : 'default' }}
                 >
-                  {getNodeIcon(item.status)}
-                </span>
-              </div>
-
-              {showLabels && (
-                <div className="ltt-milestone-arrow-content">
-                  <div className="ltt-milestone-arrow-label">{item.label}</div>
                   <div 
-                    className="ltt-milestone-arrow-status"
-                    style={{ color: getNodeColor(item.status) }}
+                    className="ltt-milestone-arrow-icon-wrapper"
+                    style={{ borderColor: getNodeColor(item.status), backgroundColor: item.status === 'completed' ? getNodeColor(item.status) : 'transparent' }}
                   >
-                    {getStatusText(item.status)}
-                    {showProgress && item.progress !== undefined && (
-                      <span> ({item.progress}%)</span>
-                    )}
+                    <span 
+                      className="ltt-milestone-arrow-icon"
+                      style={{ 
+                        color: item.status === 'completed' ? '#ffffff' : getNodeColor(item.status) }}
+                    >
+                      {getNodeIcon(item.status)}
+                    </span>
                   </div>
-                </div>
-              )}
-            </div>
 
-            {/* Hover Tooltip */}
-            {hoveredItem === item.id && (
-              <div className="ltt-milestone-tooltip">
-                <div className="ltt-milestone-tooltip-label">{item.label}</div>
-                {item.date && (
-                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
-                )}
-                <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
-                  状态: {getStatusText(item.status)}
+                  {showLabels && (
+                    <div className="ltt-milestone-arrow-content">
+                      <div className="ltt-milestone-arrow-label">{item.label}</div>
+                      <div 
+                        className="ltt-milestone-arrow-status"
+                        style={{ color: getNodeColor(item.status) }}
+                      >
+                        {getStatusText(item.status)}
+                        {showProgress && item.progress !== undefined && (
+                          <span> ({item.progress}%)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                {item.progress !== undefined && (
-                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
-                )}
-              </div>
-            )}
+              </TooltipTrigger>
+              <TooltipContent side="top" sideOffset={4}>
+                <MilestoneTooltipContent 
+                  item={item} 
+                  colorScheme={colorScheme} 
+                  tooltipStyle={tooltipStyle}
+                />
+              </TooltipContent>
+            </Tooltip>
 
             {index < items.length - 1 && (
               <div className="ltt-milestone-arrow-connector">

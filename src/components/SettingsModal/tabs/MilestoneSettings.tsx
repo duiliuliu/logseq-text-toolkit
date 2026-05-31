@@ -8,7 +8,7 @@
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
 import { TabComponentProps } from '../index.tsx'
-import { MilestoneTemplate, DEFAULT_COLOR_SCHEME } from '../../../lib/milestone/types.ts'
+import { MilestoneTemplate, DEFAULT_COLOR_SCHEME, TOOLTIP_STYLE_LABELS } from '../../../lib/milestone/types.ts'
 import React, { useState } from 'react'
 
 const styleOptions = [
@@ -19,6 +19,13 @@ const styleOptions = [
   { value: 'compact', label: t('settings.milestone.styleCompact', '紧凑') },
   { value: 'arrow-capsule', label: t('settings.milestone.styleArrowCapsule', '箭头胶囊') },
   { value: 'timeline-track', label: t('settings.milestone.styleTimelineTrack', '时间线轨道') },
+]
+
+const tooltipStyleOptions = [
+  { value: 'minimal', label: TOOLTIP_STYLE_LABELS['minimal'].zh },
+  { value: 'compact', label: TOOLTIP_STYLE_LABELS['compact'].zh },
+  { value: 'detailed', label: TOOLTIP_STYLE_LABELS['detailed'].zh },
+  { value: 'elegant', label: TOOLTIP_STYLE_LABELS['elegant'].zh },
 ]
 
 const colorInputs = [
@@ -248,6 +255,15 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
           />
           <span className="ltt-switch-slider"></span>
         </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.milestone.tooltipStyle', 'Tooltip 样式')}</label>
+        <CustomSelect
+          options={tooltipStyleOptions}
+          value={milestone.tooltipStyle ?? 'compact'}
+          onChange={(value) => handleSettingChange('milestone.tooltipStyle', value)}
+        />
       </div>
 
       {/* Default Colors Section */}

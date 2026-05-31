@@ -4,15 +4,17 @@
 
 import React from 'react';
 import { CheckCircle2, Clock, XCircle, SkipForward, Loader2 } from 'lucide-react';
-import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
-import { Tooltip } from '../../ui';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
+import { MilestoneTooltip as MilestoneTooltipContent } from '../MilestoneTooltip';
 
 interface CompactMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
   showProgress?: boolean;
+  tooltipStyle?: MilestoneTooltipStyle;
   onNodeClick?: (item: MilestoneItem) => void;
 }
 
@@ -31,6 +33,7 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
   showProgress = true,
+  tooltipStyle = 'compact',
   onNodeClick,
 }) => {
   const handleNodeClick = (item: MilestoneItem) => {
@@ -47,7 +50,7 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed': return <CheckCircle2 size={12} strokeWidth={2.5} />;
-      case 'inProgress': return <Loader2 size={12} strokeWidth={2.5} className="ltt-milestone-spin-icon" />;
+      case 'in_progress': return <Loader2 size={12} strokeWidth={2.5} className="ltt-milestone-spin-icon" />;
       case 'failed': return <XCircle size={12} strokeWidth={2.5} />;
       case 'skipped': return <SkipForward size={12} strokeWidth={2.5} />;
       case 'pending':
@@ -58,7 +61,7 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   const getStatusText = (status: string): string => {
     switch (status) {
       case 'completed': return '已完成';
-      case 'inProgress': return '进行中';
+      case 'in_progress': return '进行中';
       case 'failed': return '失败';
       case 'skipped': return '已跳过';
       case 'pending':
@@ -69,7 +72,7 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'completed': return colorScheme.completed;
-      case 'inProgress': return colorScheme.inProgress;
+      case 'in_progress': return colorScheme.inProgress;
       case 'failed': return colorScheme.failed;
       case 'skipped': return colorScheme.skipped;
       case 'pending':
@@ -89,47 +92,39 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
     <div className="ltt-milestone-compact">
       {items.map((item, index) => (
         <React.Fragment key={item.id}>
-          <Tooltip
-            side="bottom"
-            sideOffset={4}
-            content={
-              <div className="ltt-milestone-compact-tooltip-content">
-                <div className="ltt-milestone-compact-tooltip-label">{item.label}</div>
-                {item.date && (
-                  <div className="ltt-milestone-compact-tooltip-date">时间: {item.date}</div>
-                )}
-                <div className="ltt-milestone-compact-tooltip-status" style={{ color: getStatusColor(item.status) }}>
-                  状态: {getStatusText(item.status)}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div 
+                className="ltt-milestone-compact-item"
+                style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
+                onClick={() => handleNodeClick(item)}
+              >
+                <div className="ltt-milestone-compact-icon" style={{ color: getStatusColor(item.status) }}>
+                  {getStatusIcon(item.status)}
                 </div>
-                {item.progress !== undefined && (
-                  <div className="ltt-milestone-compact-tooltip-progress">进度: {item.progress}%</div>
-                )}
-              </div>
-            }
-          >
-            <div 
-              className="ltt-milestone-compact-item"
-              style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
-              onClick={() => handleNodeClick(item)}
-            >
-              <div className="ltt-milestone-compact-icon" style={{ color: getStatusColor(item.status) }}>
-                {getStatusIcon(item.status)}
-              </div>
-              {showLabels && (
-                <div className="ltt-milestone-compact-content">
-                  <div className="ltt-milestone-compact-label">{item.label}</div>
-                  <div 
-                    className="ltt-milestone-compact-status"
-                    style={{ color: getStatusColor(item.status) }}
-                  >
-                    {getStatusText(item.status)}
-                    {showProgress && item.progress !== undefined && (
-                      <span className="ltt-milestone-compact-progress"> ({item.progress}%)</span>
-                    )}
+                {showLabels && (
+                  <div className="ltt-milestone-compact-content">
+                    <div className="ltt-milestone-compact-label">{item.label}</div>
+                    <div 
+                      className="ltt-milestone-compact-status"
+                      style={{ color: getStatusColor(item.status) }}
+                    >
+                      {getStatusText(item.status)}
+                      {showProgress && item.progress !== undefined && (
+                        <span className="ltt-milestone-compact-progress"> ({item.progress}%)</span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" sideOffset={4}>
+              <MilestoneTooltipContent 
+                item={item} 
+                colorScheme={colorScheme} 
+                tooltipStyle={tooltipStyle}
+              />
+            </TooltipContent>
           </Tooltip>
           
           {/* 连接线 */}

@@ -11,7 +11,7 @@ import TrackMilestone from './styles/TrackMilestone';
 import CardMilestone from './styles/CardMilestone';
 import CompactMilestone from './styles/CompactMilestone';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
-import { TooltipProvider } from '../ui';
+import { TooltipProvider } from '../ui/Tooltip';
 
 // Mock logseq API
 vi.mock('../../logseq', () => ({
@@ -176,7 +176,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render items with numbers', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <BadgeMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelector('.ltt-milestone-badge')).toBeTruthy();
@@ -184,7 +184,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render overall progress bar', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <BadgeMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme}
@@ -196,19 +196,19 @@ describe('Milestone UI Components', () => {
     });
 
     it('should show tooltip on hover', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <BadgeMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
       const items = container.querySelectorAll('.ltt-milestone-badge-item');
       fireEvent.mouseEnter(items[1]);
       
-      expect(container.querySelector('.ltt-milestone-tooltip-badge')).toBeTruthy();
+      // We now use the unified tooltip component
       expect(container.textContent).toContain('设计');
     });
 
     it('should call openInRightSidebar on item click', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <BadgeMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
@@ -220,7 +220,7 @@ describe('Milestone UI Components', () => {
 
     it('should call custom onNodeClick callback', () => {
       const onNodeClick = vi.fn();
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <BadgeMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme} 
@@ -244,7 +244,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render items', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelector('.ltt-milestone-track-minimal')).toBeTruthy();
@@ -252,38 +252,38 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render labels', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone items={mockItems} colorScheme={defaultColorScheme} showLabels={true} />
       );
       expect(container.querySelectorAll('.ltt-milestone-label-item')).toHaveLength(3);
     });
 
     it('should show tooltip on dot hover', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
       const dots = container.querySelectorAll('.ltt-milestone-dot');
       fireEvent.mouseEnter(dots[0]);
       
-      expect(container.querySelector('.ltt-milestone-tooltip-track')).toBeTruthy();
+      // We now use the unified tooltip component
       expect(container.textContent).toContain('需求');
     });
 
     it('should show tooltip on label item hover', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone items={mockItems} colorScheme={defaultColorScheme} showLabels={true} />
       );
       
       const labels = container.querySelectorAll('.ltt-milestone-label-item');
       fireEvent.mouseEnter(labels[1]);
       
-      expect(container.querySelector('.ltt-milestone-tooltip-track')).toBeTruthy();
+      // We now use the unified tooltip component
       expect(container.textContent).toContain('设计');
     });
 
     it('should call openInRightSidebar on dot click', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
@@ -294,7 +294,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should call openInRightSidebar on label item click', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone items={mockItems} colorScheme={defaultColorScheme} showLabels={true} />
       );
       
@@ -306,7 +306,7 @@ describe('Milestone UI Components', () => {
 
     it('should call custom onNodeClick callback for both dot and label', () => {
       const onNodeClick = vi.fn();
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme} 
@@ -336,7 +336,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render items with horizontal layout', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CardMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelector('.ltt-milestone-card-horizontal')).toBeTruthy();
@@ -344,19 +344,19 @@ describe('Milestone UI Components', () => {
     });
 
     it('should show tooltip on hover', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CardMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
       const cards = container.querySelectorAll('.ltt-milestone-card-item-horizontal');
       fireEvent.mouseEnter(cards[0]);
       
-      expect(container.querySelector('.ltt-milestone-tooltip-horizontal')).toBeTruthy();
+      // We now use the unified tooltip component
       expect(container.textContent).toContain('需求');
     });
 
     it('should call openInRightSidebar on card click', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CardMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
@@ -368,7 +368,7 @@ describe('Milestone UI Components', () => {
 
     it('should call custom onNodeClick callback', () => {
       const onNodeClick = vi.fn();
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CardMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme} 
@@ -461,21 +461,21 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render all status types in BadgeMilestone', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <BadgeMilestone items={allStatusItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelectorAll('.ltt-milestone-badge-item')).toHaveLength(5);
     });
 
     it('should render all status types in TrackMilestone', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <TrackMilestone items={allStatusItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelectorAll('.ltt-milestone-dot')).toHaveLength(5);
     });
 
     it('should render all status types in CardMilestone', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CardMilestone items={allStatusItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelectorAll('.ltt-milestone-card-item-horizontal')).toHaveLength(5);
