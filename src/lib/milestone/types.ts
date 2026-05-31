@@ -60,6 +60,7 @@ export interface MilestoneConfig {
   displayStyle: MilestoneDisplayStyle;
   showProgress?: boolean;
   showLabel?: boolean;
+  inline?: boolean;
   colorScheme?: ColorScheme;
   language?: string;
   dateField?: string;
@@ -72,7 +73,34 @@ export type MilestoneDisplayStyle =
   | 'badge'
   | 'track'
   | 'card'
-  | 'compact';
+  | 'compact'
+  | 'arrow-capsule'
+  | 'timeline-track';
+
+export type MilestoneTooltipStyle =
+  | 'minimal'
+  | 'compact'
+  | 'detailed'
+  | 'elegant';
+
+export interface MilestoneConfig {
+  template?: string;
+  property?: string;
+  filterPropKey?: string;
+  milestonePropKey?: string;
+  milestoneList?: string[];
+  filterTag?: string;
+  displayStyle: MilestoneDisplayStyle;
+  showProgress?: boolean;
+  showLabel?: boolean;
+  inline?: boolean;
+  colorScheme?: ColorScheme;
+  language?: string;
+  dateField?: string;
+  // 当前渲染的block UUID，用于获取属性值
+  currentBlockUuid?: string;
+  tooltipStyle?: MilestoneTooltipStyle;
+}
 
 export interface ColorScheme {
   completed: string;
@@ -114,6 +142,7 @@ export interface MilestoneTemplate {
   displayStyle?: MilestoneDisplayStyle;
   showProgress?: boolean;
   showLabel?: boolean;
+  inline?: boolean;
   dateField?: string;
   colorScheme?: ColorScheme;
 }
@@ -134,4 +163,13 @@ export const STYLE_LABELS: Record<MilestoneDisplayStyle, { zh: string; en: strin
   track: { zh: '极简轨道', en: 'Minimal Track' },
   card: { zh: '卡片浮层', en: 'Card Overlay' },
   compact: { zh: '状态徽章', en: 'Compact Badge' },
+  'arrow-capsule': { zh: '箭头胶囊', en: 'Arrow Capsule' },
+  'timeline-track': { zh: '时间线轨道', en: 'Timeline Track' },
+};
+
+export const TOOLTIP_STYLE_LABELS: Record<MilestoneTooltipStyle, { zh: string; en: string }> = {
+  minimal: { zh: '简约模式', en: 'Minimal' },
+  compact: { zh: '紧凑模式', en: 'Compact' },
+  detailed: { zh: '详细模式', en: 'Detailed' },
+  elegant: { zh: '优雅模式', en: 'Elegant' },
 };

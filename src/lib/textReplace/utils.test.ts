@@ -136,7 +136,6 @@ describe('textReplace/utils.ts (纯函数测试)', () => {
   describe('needsQuotes', () => {
     it('当前实现应该始终返回false（优化后）', () => {
       expect(needsQuotes('plain text')).toBe(false);
-      expect(needsQuotes('text with space')).toBe(false);
       expect(needsQuotes('中文文本')).toBe(false);
       expect(needsQuotes('text with "quotes"')).toBe(false);
     });
@@ -144,6 +143,17 @@ describe('textReplace/utils.ts (纯函数测试)', () => {
     it('应该处理各种空格变体', () => {
       expect(needsQuotes('text\u00A0with nbsp')).toBe(false);
       expect(needsQuotes('text\u3000with ideographic space')).toBe(false);
+    });
+
+    it('应该对包含/字符的文本返回true（修复斜杠解析问题）', () => {
+      expect(needsQuotes('回滚/降级/不合理SQLkill')).toBe(true);
+      expect(needsQuotes('text/with/slashes')).toBe(true);
+      expect(needsQuotes('合理SQL 前置开发拦截 + 中间件拦截 + 回滚/降级/不合理SQLkill + 治理')).toBe(true);
+    });
+
+    it('应该对不包含/字符的普通文本返回false', () => {
+      expect(needsQuotes('普通文本')).toBe(false);
+      expect(needsQuotes('no slashes here')).toBe(false);
     });
   });
 
@@ -158,14 +168,28 @@ describe('textReplace/utils.ts (纯函数测试)', () => {
       expect(result).toBe('[:b "some [:i text]"]');
     });
 
-    it('当前实现不应添加引号（needsQuotes始终返回false）', () => {
-      const result = wrapWithQuotesIfNeeded('[:b "', '"]', 'plain text');
-      expect(result).toBe('[:b plain text]');
-    });
-
-    it('应该正确处理普通文本', () => {
+    it('应该正确处理普通文本（不添加引号）', () => {
       const result = wrapWithQuotesIfNeeded('**', '**', 'plain text');
       expect(result).toBe('**plain text**');
+    });
+
+    it('应该对包含/字符的文本添加引号包裹', () => {
+      const result = wrapWithQuotesIfNeeded('[:span.blue "', '"]', '回滚/降级/不合理SQLkill');
+      expect(result).toBe('[:span.blue "回滚/降级/不合理SQLkill"]');
+    });
+
+    it('应该对包含/字符的普通文本添加引号包裹', () => {
+      const result = wrapWithQuotesIfNeeded('**', '**', 'text/with/slashes');
+      expect(result).toBe('**"text/with/slashes"**');
+    });
+
+    it('应该处理包含/的复杂文本', () => {
+      const result = wrapWithQuotesIfNeeded(
+        '[:span.blue "',
+        '"]',
+        '不合理SQL 前置开发拦截 + 中间件拦截 + 回滚/降级/不合理SQLkill + 治理'
+      );
+      expect(result).toBe('[:span.blue "不合理SQL 前置开发拦截 + 中间件拦截 + 回滚/降级/不合理SQLkill + 治理"]');
     });
   });
 

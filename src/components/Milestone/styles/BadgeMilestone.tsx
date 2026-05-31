@@ -3,14 +3,17 @@
  */
 
 import React, { useState } from 'react';
-import type { MilestoneItem, ColorScheme, MilestoneDisplayStyle } from '../../lib/milestone/types';
+import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
+import { MilestoneTooltip as MilestoneTooltipContent } from '../MilestoneTooltip';
 
 interface BadgeMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
   showProgress?: boolean;
+  tooltipStyle?: MilestoneTooltipStyle;
   overallProgress?: number;
   onNodeClick?: (item: MilestoneItem) => void;
 }
@@ -30,6 +33,7 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
   colorScheme = defaultColorScheme,
   showLabels = true,
   showProgress = true,
+  tooltipStyle = 'compact',
   overallProgress = 0,
   onNodeClick,
 }) => {
@@ -68,17 +72,6 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
     }
   };
 
-  const getStatusText = (status: string): string => {
-    switch (status) {
-      case 'completed': return '已完成';
-      case 'in_progress': return '进行中';
-      case 'failed': return '失败';
-      case 'skipped': return '已跳过';
-      case 'pending':
-      default: return '待开始';
-    }
-  };
-
   if (items.length === 0) {
     return (
       <div className="ltt-milestone-empty">
@@ -90,54 +83,45 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
   return (
     <div className="ltt-milestone-badge">
       <div className="ltt-milestone-grid">
-        {items.map((item, index) => (
-          <div 
-            key={item.id} 
-            className="ltt-milestone-badge-item"
-            onMouseEnter={() => setHoveredItem(item.id)}
-            onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => handleNodeClick(item)}
-            style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
-          >
-            <div className="ltt-milestone-badge-number">
-              {String(index + 1).padStart(2, '0')}
-            </div>
-            <span 
-              className="ltt-milestone-symbol"
-              style={{ color: getNodeColor(item.status) }}
-            >
-              {getNodeSymbol(item.status)}
-            </span>
-            {showLabels && (
-              <>
-                <div className="ltt-milestone-label">{item.label}</div>
-                <div 
-                  className="ltt-milestone-sublabel"
+        {items.map((item) => (
+          <Tooltip key={item.id} open={hoveredItem === item.id}>
+            <TooltipTrigger asChild>
+              <div 
+                className={`ltt-milestone-badge-item ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
+                onClick={() => handleNodeClick(item)}
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
+                style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
+              >
+                <span 
+                  className="ltt-milestone-symbol"
                   style={{ color: getNodeColor(item.status) }}
                 >
-                  {item.status === 'completed' ? '已完成' : 
-                   item.status === 'in_progress' ? `进行中 ${item.progress || 0}%` : 
-                   item.status === 'failed' ? '失败' : '待开始'}
-                </div>
-              </>
-            )}
-            
-            {/* Hover Tooltip */}
-            {hoveredItem === item.id && (
-              <div className="ltt-milestone-tooltip-badge">
-                <div className="ltt-milestone-tooltip-label">{item.label}</div>
-                {item.date && (
-                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
-                )}
-                <div className="ltt-milestone-tooltip-status" style={{ color: getNodeColor(item.status) }}>
-                  状态: {getStatusText(item.status)}
-                </div>
-                {item.progress !== undefined && (
-                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
+                  {getNodeSymbol(item.status)}
+                </span>
+                {showLabels && (
+                  <>
+                    <div className="ltt-milestone-label">{item.label}</div>
+                    <div 
+                      className="ltt-milestone-sublabel"
+                      style={{ color: getNodeColor(item.status) }}
+                    >
+                      {item.status === 'completed' ? '已完成' : 
+                       item.status === 'in_progress' ? `进行中 ${item.progress || 0}%` : 
+                       item.status === 'failed' ? '失败' : '待开始'}
+                    </div>
+                  </>
                 )}
               </div>
-            )}
-          </div>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <MilestoneTooltipContent 
+                item={item} 
+                colorScheme={colorScheme} 
+                tooltipStyle={tooltipStyle}
+              />
+            </TooltipContent>
+          </Tooltip>
         ))}
       </div>
       

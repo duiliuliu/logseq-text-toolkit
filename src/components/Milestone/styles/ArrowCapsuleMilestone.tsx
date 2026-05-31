@@ -1,19 +1,18 @@
 /**
- * Milestone Capsule 样式
+ * Milestone Arrow Capsule 样式 - 箭头胶囊
  */
 
 import React, { useState } from 'react';
-import type { MilestoneItem, ColorScheme, MilestoneDisplayStyle, MilestoneTooltipStyle } from '../../lib/milestone/types';
+import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
 import { MilestoneTooltip as MilestoneTooltipContent } from '../MilestoneTooltip';
 
-interface CapsuleMilestoneProps {
+interface ArrowCapsuleMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
   showProgress?: boolean;
-  style?: MilestoneDisplayStyle;
   tooltipStyle?: MilestoneTooltipStyle;
   onNodeClick?: (item: MilestoneItem) => void;
 }
@@ -28,7 +27,7 @@ const defaultColorScheme: ColorScheme = {
   text: '#374151',
 };
 
-const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
+const ArrowCapsuleMilestone: React.FC<ArrowCapsuleMilestoneProps> = ({
   items,
   colorScheme = defaultColorScheme,
   showLabels = true,
@@ -43,7 +42,7 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
       try {
         logseqAPI.Editor.openInRightSidebar(item.blockUuid);
       } catch (error) {
-        console.error('[CapsuleMilestone] Failed to open in right sidebar:', error);
+        console.error('[ArrowCapsuleMilestone] Failed to open in right sidebar:', error);
       }
     }
     onNodeClick?.(item);
@@ -60,12 +59,12 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
     }
   };
 
-  const getNodeSymbol = (status: string): string => {
+  const getNodeIcon = (status: string): string => {
     switch (status) {
       case 'completed': return '✓';
-      case 'in_progress': return '→';
+      case 'in_progress': return '⏳';
       case 'failed': return '✕';
-      case 'skipped': return '~';
+      case 'skipped': return '≈';
       case 'pending':
       default: return '○';
     }
@@ -91,25 +90,47 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
   }
 
   return (
-    <div className="ltt-milestone-capsule">
-      <div className="ltt-milestone-track">
+    <div className="ltt-milestone-arrow-capsule">
+      <div className="ltt-milestone-arrow-track">
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
             <Tooltip open={hoveredItem === item.id}>
               <TooltipTrigger asChild>
                 <div 
-                  className={`ltt-milestone-node ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
+                  className={`ltt-milestone-arrow-node ${item.status === 'in_progress' ? 'ltt-milestone-arrow-node-active' : ''}`}
                   onClick={() => handleNodeClick(item)}
                   onMouseEnter={() => setHoveredItem(item.id)}
                   onMouseLeave={() => setHoveredItem(null)}
-                  style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
+                  style={{ 
+                    cursor: item.blockUuid ? 'pointer' : 'default' }}
                 >
-                  <span 
-                    className="ltt-milestone-symbol"
-                    style={{ color: getNodeColor(item.status) }}
+                  <div 
+                    className="ltt-milestone-arrow-icon-wrapper"
+                    style={{ borderColor: getNodeColor(item.status), backgroundColor: item.status === 'completed' ? getNodeColor(item.status) : 'transparent' }}
                   >
-                    {getNodeSymbol(item.status)}
-                  </span>
+                    <span 
+                      className="ltt-milestone-arrow-icon"
+                      style={{ 
+                        color: item.status === 'completed' ? '#ffffff' : getNodeColor(item.status) }}
+                    >
+                      {getNodeIcon(item.status)}
+                    </span>
+                  </div>
+
+                  {showLabels && (
+                    <div className="ltt-milestone-arrow-content">
+                      <div className="ltt-milestone-arrow-label">{item.label}</div>
+                      <div 
+                        className="ltt-milestone-arrow-status"
+                        style={{ color: getNodeColor(item.status) }}
+                      >
+                        {getStatusText(item.status)}
+                        {showProgress && item.progress !== undefined && (
+                          <span> ({item.progress}%)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </TooltipTrigger>
               <TooltipContent side="top">
@@ -120,30 +141,9 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
                 />
               </TooltipContent>
             </Tooltip>
-            
+
             {index < items.length - 1 && (
-              <div 
-                className="ltt-milestone-line-dashed"
-                style={{ 
-                  borderColor: items[index + 1]?.status === 'completed' 
-                    ? colorScheme.completed 
-                    : colorScheme.pending 
-                }}
-              />
-            )}
-            
-            {showLabels && (
-              <div className="ltt-milestone-info">
-                <div className="ltt-milestone-label">{item.label}</div>
-                <div 
-                  className="ltt-milestone-status"
-                  style={{ color: getNodeColor(item.status) }}
-                >
-                  {getStatusText(item.status)}
-                  {showProgress && item.progress !== undefined && (
-                    <span> ({item.progress}%)</span>
-                  )}
-                </div>
+              <div className="ltt-milestone-arrow-connector">
               </div>
             )}
           </React.Fragment>
@@ -153,4 +153,4 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
   );
 };
 
-export default CapsuleMilestone;
+export default ArrowCapsuleMilestone;

@@ -28,9 +28,14 @@ function CustomSelect({ options, value, onChange, placeholder = '' }: CustomSele
     }
 
     const doc = getDocument()
-    doc.addEventListener('mousedown', handleClickOutside)
+    if (doc && doc.addEventListener) {
+      doc.addEventListener('mousedown', handleClickOutside)
+    }
     return () => {
-      doc.removeEventListener('mousedown', handleClickOutside)
+      const cleanupDoc = getDocument()
+      if (cleanupDoc && cleanupDoc.removeEventListener) {
+        cleanupDoc.removeEventListener('mousedown', handleClickOutside)
+      }
     }
   }, [])
 

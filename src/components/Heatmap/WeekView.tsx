@@ -45,7 +45,7 @@ const parseTimeFromData = (dateValue: any): Date => {
   }
 };
 
-const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate, onCellClick }) => {
+const WeekView: React.FC<WeekViewProps> = ({ data, config, currentDate = new Date(), onCellClick }) => {
   const dayOfWeek = currentDate.getDay();
   const monday = new Date(currentDate);
   monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));

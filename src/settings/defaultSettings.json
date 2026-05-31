@@ -125,6 +125,7 @@
     "showLabel": true,
     "showLabels": true,
     "showProgress": true,
+    "tooltipStyle": "compact",
     "templates": [],
     "defaultColorScheme": {
       "completed": "#10b981",

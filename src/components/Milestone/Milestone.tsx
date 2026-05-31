@@ -9,7 +9,10 @@ import BadgeMilestone from './styles/BadgeMilestone';
 import TrackMilestone from './styles/TrackMilestone';
 import CardMilestone from './styles/CardMilestone';
 import CompactMilestone from './styles/CompactMilestone';
+import ArrowCapsuleMilestone from './styles/ArrowCapsuleMilestone';
+import TimelineTrackMilestone from './styles/TimelineTrackMilestone';
 import { DEFAULT_COLOR_SCHEME } from '../../lib/milestone/types';
+import { TooltipProvider } from '../ui/Tooltip';
 import './milestone.css';
 
 interface MilestoneProps {
@@ -32,6 +35,7 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
     colorScheme,
     showLabels: config.showLabel,
     showProgress: config.showProgress,
+    tooltipStyle: config.tooltipStyle,
   };
 
   const renderStyle = () => {
@@ -51,22 +55,30 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
         return <CardMilestone {...commonProps} />;
       case 'compact':
         return <CompactMilestone {...commonProps} />;
+      case 'arrow-capsule':
+        return <ArrowCapsuleMilestone {...commonProps} />;
+      case 'timeline-track':
+        return <TimelineTrackMilestone {...commonProps} />;
       default:
         return <CapsuleMilestone {...commonProps} />;
     }
   };
 
+  const isInline = config.inline;
+
   return (
-    <div 
-      className="ltt-milestone-container" 
-      data-style={config.displayStyle}
-      style={{ 
-        backgroundColor: colorScheme.background,
-        color: colorScheme.text,
-      }}
-    >
-      {renderStyle()}
-    </div>
+    <TooltipProvider>
+      <div 
+        className={`ltt-milestone-container ${isInline ? 'ltt-milestone-container-inline' : ''}`} 
+        data-style={config.displayStyle}
+        style={{ 
+          backgroundColor: isInline ? 'transparent' : colorScheme.background,
+          color: colorScheme.text,
+        }}
+      >
+        {renderStyle()}
+      </div>
+    </TooltipProvider>
   );
 };
 

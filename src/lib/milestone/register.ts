@@ -14,7 +14,8 @@ import React from 'react';
 const PLUGIN_ID = 'milestone';
 
 registerRendererArgModel(':milestone', {
-  positional: ['displayStyle']
+  positional: ['displayStyle'],
+  named: ['inline']
 });
 
 let MilestoneComponent: React.FC<any> | null = null;
@@ -134,8 +135,14 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
 
   // 解析 displayStyle，优先使用宏参数，否则使用模板或默认值
   let displayStyle: MilestoneDisplayStyle = baseConfig.displayStyle || settings?.milestone?.defaultStyle || 'capsule';
-  if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.displayStyle)) {
+  if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact', 'arrow-capsule', 'timeline-track'].includes(parsed.displayStyle)) {
     displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
+  }
+
+  // 解析 inline，优先使用宏参数，否则使用模板或默认值
+  let inline: boolean = baseConfig.inline !== undefined ? baseConfig.inline : (settings?.milestone?.inline ?? false);
+  if (parsed.inline !== undefined) {
+    inline = parsed.inline !== 'false';
   }
 
   // 解析 milestoneList，优先使用宏参数
@@ -165,6 +172,8 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
     dateField: parsed.dateField || baseConfig.dateField || 'scheduled',
     showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : (baseConfig.showProgress !== undefined ? baseConfig.showProgress : settings?.milestone?.showProgress !== false),
     showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : (baseConfig.showLabel !== undefined ? baseConfig.showLabel : settings?.milestone?.showLabel !== false),
+    inline: inline,
     colorScheme: finalColorScheme,
+    tooltipStyle: settings?.milestone?.tooltipStyle || 'compact',
   };
 }

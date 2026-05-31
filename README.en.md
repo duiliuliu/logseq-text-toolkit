@@ -248,18 +248,58 @@ Override default styles via Logseq CSS:
 
 ### 4.1 Text Formatting
 
-Select text → Toolbar auto-pops up → Click button
+Select text → Toolbar auto-pops up → Click button. Toolbar supports the following features:
 
-**Color Options**:
-- 🔴 Red
-- 🟡 Yellow
-- 🔵 Blue
-- 🟢 Green
-- 🟣 Purple
+#### 4.1.1 Formatting Toolbar Features
 
-### 4.2 Task Progress Tracking
+The toolbar consists of multiple functional groups and individual buttons. Complete feature list:
 
-#### Supported Task Statuses
+| Group/Button | Function | Shortcut | Output Format |
+|-------------|---------|---------|---------------|
+| **Format (Formatting Group)** | - | - | - |
+| → Bold | Bold text | - | `**${selectedText}**` |
+| → Italic | Italic text | mod+shift+i | `*${selectedText}*` |
+| → Strike through | Strikethrough | - | `~~${selectedText}~~` |
+| → Subscript | Subscript | - | `[:sub ${selectedText}]` |
+| → Superscript | Superscript | - | `[:sup ${selectedText}]` |
+| → Code | Inline code | - | `` `${selectedText}` `` |
+| **Highlight (Highlight Group)** | - | - | - |
+| → Yellow | Yellow highlight | - | `==${selectedText}==` |
+| → Red | Red highlight | - | `[:mark.red ${selectedText}]` |
+| → Blue | Blue highlight | - | `[:mark.blue ${selectedText}]` |
+| → Green | Green highlight | - | `[:mark.green ${selectedText}]` |
+| → Purple | Purple highlight | - | `[:mark.purple ${selectedText}]` |
+| **Text Color (Text Color Group)** | - | - | - |
+| → Red text | Red text color | - | `[:span.red ${selectedText}]` |
+| → Blue text | Blue text color | - | `[:span.blue ${selectedText}]` |
+| → Yellow text | Yellow text color | - | `[:span.yellow ${selectedText}]` |
+| → Green text | Green text color | - | `[:span.green ${selectedText}]` |
+| → Purple text | Purple text color | - | `[:span.purple ${selectedText}]` |
+| **Underline (Underline Group)** | - | - | - |
+| → Red underline | Red underline | - | `[:u.red ${selectedText}]` |
+| → Blue underline | Blue underline | - | `[:u.blue ${selectedText}]` |
+| → Yellow underline | Yellow underline | - | `[:u.yellow ${selectedText}]` |
+| → Green underline | Green underline | - | `[:u.green ${selectedText}]` |
+| → Purple underline | Purple underline | - | `[:u.purple ${selectedText}]` |
+| **Cloze (Hidden by default)** | - | - | `[:span.cloze ${selectedText}]` |
+| **Remove formatting** | Remove all formatting | mod+shift+x | - |
+| **Comment** | Add inline comment | - | - |
+
+#### 4.1.2 Color Options Summary
+
+All highlight and color options use the following colors:
+
+| Color | Color Code | Supported Formats |
+|-------|------------|------------------|
+| 🔴 Red | #ef4444 | Highlight, Text Color, Underline |
+| 🟡 Yellow | #f59e0b | Highlight, Text Color, Underline |
+| 🔵 Blue | #3b82f6 | Highlight, Text Color, Underline |
+| 🟢 Green | #22c55e | Highlight, Text Color, Underline |
+| 🟣 Purple | #a855f7 | Highlight, Text Color, Underline |
+
+### 4.3 Task Progress Tracking
+
+#### 4.3.1 Supported Task Statuses
 
 | Status | Label | Description |
 |--------|-------|-------------|

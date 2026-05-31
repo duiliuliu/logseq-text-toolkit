@@ -7,21 +7,38 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render } from '@testing-library/react'
 import React from 'react'
 import Heatmap from './Heatmap'
-import { HeatmapConfig } from '../../lib/heatmap/types'
+import { HeatmapConfig, HeatmapDataPoint } from '../../lib/heatmap/types'
 
 // Mock logseq API
 vi.mock('../../logseq', () => ({
   logseqAPI: {
-    db: { datascriptQuery: vi.fn().mockResolvedValue([]) }
+    db: { datascriptQuery: vi.fn().mockResolvedValue([]) },
+    Editor: {
+      getPage: vi.fn().mockResolvedValue({ uuid: 'test-uuid' }),
+      openInRightSidebar: vi.fn().mockResolvedValue(undefined)
+    }
   }
 }))
 
 vi.mock('../../logseq/utils', () => ({
-  getDocument: vi.fn().mockReturnValue({ querySelector: vi.fn() })
+  getDocument: vi.fn().mockReturnValue({ 
+    querySelector: vi.fn(),
+    getElementById: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn()
+  })
 }))
 
 vi.mock('../../lib/heatmap/register', () => ({
   updateHeatmapRendererArgs: vi.fn()
+}))
+
+vi.mock('../../settings', () => ({
+  getSettings: vi.fn().mockReturnValue({ language: 'zh-CN' })
+}))
+
+vi.mock('../../translations/i18n', () => ({
+  t: vi.fn((key: string) => key)
 }))
 
 const getStyleElement = () => {
@@ -62,18 +79,22 @@ describe('Heatmap 组件样式测试', () => {
   let testStyle: HTMLStyleElement
 
   const defaultConfig: HeatmapConfig = {
-    displayMode: 'year',
+    displayMode: 'full',
     viewType: 'year',
     referenceDate: new Date('2026-06-15'),
     containerWidth: '800px',
     colorScheme: {
-      colors: ['#e0e7ff', '#c7d2fe', '#a5b4fc', '#818cf8', '#6366f1'],
-      emptyColor: '#f3f4f6'
-    }
+      name: 'indigo',
+      colors: ['#e0e7ff', '#c7d2fe', '#a5b4fc', '#818cf8', '#6366f1', '#3730a3']
+    },
+    colorFormula: 'simple',
+    minColor: '#eef2ff',
+    maxColor: '#3730a3',
+    language: 'zh-CN'
   }
 
-  const defaultData = [
-    { date: '2026-06-01', count: 5, level: 4 }
+  const defaultData: HeatmapDataPoint[] = [
+    { date: '2026-06-01', count: 5, blocks: [] }
   ]
 
   beforeEach(() => {
@@ -113,7 +134,6 @@ describe('Heatmap 组件样式测试', () => {
       const element = container.querySelector('.heatmap-container') as HTMLElement
       expect(element).toBeTruthy()
       
-      // 检查是否有 position: relative
       const computed = window.getComputedStyle(element)
       expect(computed).toBeTruthy()
     })
@@ -145,7 +165,6 @@ describe('Heatmap 组件样式测试', () => {
       const element = container.querySelector('.heatmap-container') as HTMLElement
       expect(element).toBeTruthy()
       
-      // 检查变量是否可以被获取
       const computed = window.getComputedStyle(element)
       expect(computed).toBeTruthy()
     })
@@ -180,10 +199,10 @@ describe('Heatmap 组件样式测试', () => {
   })
 
   describe('显示模式样式测试', () => {
-    it('应该应用 year 模式样式', () => {
+    it('应该应用 full 模式样式', () => {
       const { container } = render(
         <Heatmap
-          config={{ ...defaultConfig, displayMode: 'year' }}
+          config={{ ...defaultConfig, displayMode: 'full' }}
           data={defaultData}
           theme="light"
         />
@@ -193,10 +212,10 @@ describe('Heatmap 组件样式测试', () => {
       expect(element).toBeTruthy()
     })
 
-    it('应该应用 month 模式样式', () => {
+    it('应该应用 basic 模式样式', () => {
       const { container } = render(
         <Heatmap
-          config={{ ...defaultConfig, displayMode: 'month' }}
+          config={{ ...defaultConfig, displayMode: 'basic' }}
           data={defaultData}
           theme="light"
         />
@@ -206,10 +225,10 @@ describe('Heatmap 组件样式测试', () => {
       expect(element).toBeTruthy()
     })
 
-    it('应该应用 week 模式样式', () => {
+    it('应该应用 minimal 模式样式', () => {
       const { container } = render(
         <Heatmap
-          config={{ ...defaultConfig, displayMode: 'week' }}
+          config={{ ...defaultConfig, displayMode: 'minimal' }}
           data={defaultData}
           theme="light"
         />
@@ -232,7 +251,6 @@ describe('Heatmap 组件样式测试', () => {
       
       const element = container.querySelector('.heatmap-container') as HTMLElement
       
-      // 应用内联样式来测试
       if (element) {
         element.style.background = '#ff0000'
         const computed = window.getComputedStyle(element)
@@ -263,7 +281,6 @@ describe('Heatmap 组件样式测试', () => {
 
 describe('Heatmap 子组件样式验证', () => {
   it('应该验证 YearView 组件样式结构', () => {
-    // 这里我们测试组件渲染时的样式类
     expect('.heatmap-year-view').toBeTruthy()
   })
 
