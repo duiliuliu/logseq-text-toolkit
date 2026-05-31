@@ -41,13 +41,8 @@ const CUSTOM_CSS_VARS = [
   '--custom-column-bg', '--custom-column-hover', '--custom-card-border'
 ];
 
-function removeViewStyles(blockElement: HTMLElement, blockId?: string): void {
+function removeViewStyles(blockElement: HTMLElement): void {
   blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
-  
-  // 如果有 blockId，清理表格样式
-  if (blockId) {
-    cleanupTableStyles(blockId);
-  }
 }
 
 function applyViewStyles(blockElement: HTMLElement, viewType: ViewType, themeType: ThemeType): void {
@@ -111,122 +106,6 @@ async function applyCustomTheme(blockElement: HTMLElement, viewType: ViewType): 
   }
 }
 
-// 跟踪已注入的样式，用于卸载
-const INJECTED_STYLES = new Map<string, HTMLStyleElement>();
-
-// 表格列配置：最小宽度、最大宽度、对齐方式
-const TABLE_COLUMN_CONFIG = {
-  minWidth: 150,
-  maxWidth: 400,
-  firstColMinWidth: 150,
-  firstColMaxWidth: 350,
-  alignments: ['left', 'left', 'left', 'left', 'left'] // 可根据需要调整
-};
-
-/**
- * 计算并注入表格样式
- */
-function injectTableStyles(blockElement: HTMLElement, blockId: string): void {
-  // 清理旧样式
-  cleanupTableStyles(blockId);
-
-  const rows = blockElement.querySelectorAll<HTMLElement>(
-    ':scope > .block-children-container > .block-children > .blocks-list-wrap > .ls-block'
-  );
-  
-  if (rows.length === 0) return;
-
-  // 获取所有行的单元格，计算最大宽度
-  const columnMaxWidths: number[] = [];
-  
-  rows.forEach(row => {
-    // 处理第一列（表头单元格）
-    const headerCell = row.querySelector<HTMLElement>(':scope > .block-main-container');
-    if (headerCell) {
-      const contentWidth = headerCell.scrollWidth;
-      const finalWidth = Math.max(TABLE_COLUMN_CONFIG.firstColMinWidth, 
-                                 Math.min(contentWidth, TABLE_COLUMN_CONFIG.firstColMaxWidth));
-      if (!columnMaxWidths[0] || finalWidth > columnMaxWidths[0]) {
-        columnMaxWidths[0] = finalWidth;
-      }
-    }
-    
-    // 处理其他列
-    const childCells = row.querySelectorAll<HTMLElement>(
-      ':scope > .block-children-container > .block-children > .blocks-list-wrap > *'
-    );
-    
-    childCells.forEach((cell, index) => {
-      const cellIndex = index + 1; // 第一列是 index 0
-      const contentWidth = cell.scrollWidth;
-      const finalWidth = Math.max(TABLE_COLUMN_CONFIG.minWidth, 
-                                 Math.min(contentWidth, TABLE_COLUMN_CONFIG.maxWidth));
-      
-      if (!columnMaxWidths[cellIndex] || finalWidth > columnMaxWidths[cellIndex]) {
-        columnMaxWidths[cellIndex] = finalWidth;
-      }
-    });
-  });
-
-  // 生成 CSS 样式
-  const styleEl = document.createElement('style');
-  styleEl.id = `ltt-table-style-${blockId}`;
-  
-  let cssRules = '';
-  
-  columnMaxWidths.forEach((width, index) => {
-    const alignment = TABLE_COLUMN_CONFIG.alignments[index] || 'left';
-    const justifyContent = alignment === 'center' ? 'center' : 
-                          alignment === 'right' ? 'flex-end' : 'flex-start';
-    
-    if (index === 0) {
-      // 第一列（表头）
-      cssRules += `
-        .ltt-table-root[data-block-id="${blockId}"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-          min-width: ${width}px !important;
-          width: ${width}px !important;
-          max-width: ${width}px !important;
-          flex-shrink: 0 !important;
-        }
-        .ltt-table-root[data-block-id="${blockId}"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
-          justify-content: ${justifyContent} !important;
-        }
-      `;
-    } else {
-      // 其他列
-      cssRules += `
-        .ltt-table-root[data-block-id="${blockId}"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:nth-child(${index - 1}) {
-          min-width: ${width}px !important;
-          width: ${width}px !important;
-          max-width: ${width}px !important;
-          flex-shrink: 0 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: ${justifyContent} !important;
-        }
-      `;
-    }
-  });
-  
-  styleEl.textContent = cssRules;
-  document.head.appendChild(styleEl);
-  INJECTED_STYLES.set(blockId, styleEl);
-  
-  logger.debug('[BlockView] Table styles injected', { blockId, columnMaxWidths });
-}
-
-/**
- * 清理表格样式
- */
-function cleanupTableStyles(blockId: string): void {
-  const existingStyle = INJECTED_STYLES.get(blockId);
-  if (existingStyle && existingStyle.parentNode) {
-    existingStyle.parentNode.removeChild(existingStyle);
-    INJECTED_STYLES.delete(blockId);
-    logger.debug('[BlockView] Table styles cleaned up', { blockId });
-  }
-}
-
 async function applyViewStyle(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
   const doc = getDocument();
 
@@ -236,8 +115,7 @@ async function applyViewStyle(blockId: string, viewType: ViewType, themeType: Th
     return;
   }
 
-  // 先清理所有旧样式
-  removeViewStyles(blockElement, blockId);
+  removeViewStyles(blockElement);
   applyViewStyles(blockElement, viewType, themeType);
 
   if (themeType === 'custom') {
@@ -245,19 +123,6 @@ async function applyViewStyle(blockId: string, viewType: ViewType, themeType: Th
   } else {
     blockElement.setAttribute('data-custom-theme', 'false');
     CUSTOM_CSS_VARS.forEach(v => blockElement.style.removeProperty(v));
-  }
-
-  // 如果是表格视图，注入表格样式
-  if (viewType === 'table') {
-    // 设置 data-block-id 用于样式选择器
-    if (!blockElement.hasAttribute('data-block-id')) {
-      blockElement.setAttribute('data-block-id', blockId);
-    }
-    
-    // 延迟执行，确保 DOM 渲染完成
-    requestAnimationFrame(() => {
-      injectTableStyles(blockElement, blockId);
-    });
   }
 
   logger.debug('[BlockView] View & theme applied', { blockId, viewType, themeType });
