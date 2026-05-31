@@ -3,33 +3,33 @@
    Advanced View System with Multiple Themes
 
    特性：
-   1. 优化的视图切换栏
+   1. 优化的视图切换栏 - 完全内联显示
    2. 多主题支持
    3. 响应式设计
 ========================================================= */
 
 /* =========================================================
-   VIEW BAR
+   VIEW BAR - 完全内联显示
+   使用 inline 布局，不占用额外空间
 ========================================================= */
 
 .ltt-view-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 6px;
+  display: inline;
+  padding: 0;
   margin: 0;
-  background: var(--ls-secondary-background-color);
-  border: 1px solid var(--ls-border-color);
-  border-radius: 4px;
-  font-size: 11px;
-  width: fit-content;
-  height: 24px;
-  min-height: 24px;
-  max-height: 24px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.ltt-view-bar > * {
+  display: inline;
   vertical-align: middle;
-  line-height: 1;
+  font-size: 0;
+  line-height: 0;
 }
 
 .ltt-view-btn {
@@ -37,68 +37,79 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 2px 6px;
+  padding: 2px 4px;
   border: none;
   border-radius: 3px;
-  background: transparent;
+  background: var(--ls-secondary-background-color);
   color: var(--ls-secondary-text-color);
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   line-height: 1;
-  height: 20px;
-  min-height: 20px;
-  max-height: 20px;
+  height: 18px;
+  min-height: 18px;
+  max-height: 18px;
+  vertical-align: middle;
 }
 
 .ltt-view-btn:hover {
   background: var(--ls-hover-color);
   color: var(--ls-primary-text-color);
-  transform: translateY(-1px);
 }
 
 .ltt-view-btn.active {
   background: var(--ls-primary-color);
   color: var(--ls-primary-text-color);
   font-weight: 600;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
-
-.ltt-view-btn.active:hover {
-  transform: translateY(0);
 }
 
 .ltt-view-btn svg {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   flex-shrink: 0;
 }
 
 .ltt-view-btn span {
-  font-size: 11px;
+  font-size: 10px;
 }
 
-/* =========================================================
-   VIEW BAR POSITIONING
-   Place inline with .block-title-wrap - consistent across all views
-========================================================= */
-
+/* ViewBar与block-title-wrap对齐 - 关键优化 */
 .block-main-container .ltt-view-bar,
 .ltt-list-root .ltt-view-bar,
 .ltt-table-root .ltt-view-bar,
 .ltt-gallery-root .ltt-view-bar,
 .ltt-board-root .ltt-view-bar,
 .ltt-mindmap-root .ltt-view-bar {
-  display: inline-flex !important;
+  display: inline !important;
   margin-left: 8px !important;
-  vertical-align: middle !important;
-  width: fit-content !important;
-  height: 24px !important;
-  min-height: 24px !important;
-  max-height: 24px !important;
+  vertical-align: baseline !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  gap: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: auto !important;
+  width: auto !important;
+  flex: none !important;
+}
+
+.block-main-container .ltt-view-bar > *,
+.ltt-list-root .ltt-view-bar > *,
+.ltt-table-root .ltt-view-bar > *,
+.ltt-gallery-root .ltt-view-bar > *,
+.ltt-board-root .ltt-view-bar > *,
+.ltt-mindmap-root .ltt-view-bar > * {
+  display: inline-flex !important;
+  font-size: 10px !important;
   line-height: 1 !important;
+  vertical-align: middle !important;
 }
 
 /* =========================================================
@@ -187,46 +198,25 @@
 }
 
 /* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@keyframes ltt-view-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.ltt-view-bar {
-  animation: ltt-view-fade-in 0.2s ease-out;
-}
-
-/* =========================================================
    RESPONSIVE
 ========================================================= */
 
 @media (max-width: 768px) {
   .ltt-view-bar {
-    padding: 3px 6px;
-    gap: 3px;
+    padding: 0;
   }
 
   .ltt-view-btn {
-    padding: 3px 6px;
-    font-size: 10px;
+    padding: 2px 3px;
+    font-size: 9px;
   }
 
   .ltt-view-btn svg {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
   }
 
   .ltt-view-btn span {
-    font-size: 10px;
+    font-size: 9px;
   }
 }
