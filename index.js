@@ -12948,10 +12948,11 @@ ${where}
   const TooltipProvider = Provider;
   const Tooltip = Root3;
   const TooltipTrigger = Trigger;
-  const TooltipContent = reactExports.forwardRef(({ className, sideOffset = 5, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+  const TooltipContent = reactExports.forwardRef(({ className, side = "bottom", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
     Content2,
     {
       ref,
+      side,
       sideOffset,
       className: "ltt-tooltip",
       ...props
@@ -32667,6 +32668,7 @@ ${where}
       displayStyle: template.displayStyle,
       showProgress: template.showProgress,
       showLabel: template.showLabel,
+      inline: template.inline,
       dateField: template.dateField,
       colorScheme: template.colorScheme
     } : {};
