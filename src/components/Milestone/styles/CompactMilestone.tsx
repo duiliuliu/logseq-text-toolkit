@@ -2,7 +2,7 @@
  * Milestone Compact 样式
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckCircle2, Clock, XCircle, SkipForward, Loader2 } from 'lucide-react';
 import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
@@ -36,8 +36,6 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   tooltipStyle = 'compact',
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -94,13 +92,11 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
     <div className="ltt-milestone-compact">
       {items.map((item, index) => (
         <React.Fragment key={item.id}>
-          <Tooltip open={hoveredItem === item.id}>
+          <Tooltip>
             <TooltipTrigger asChild>
-              <div
+              <div 
                 className="ltt-milestone-compact-item"
                 style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => handleNodeClick(item)}
               >
                 <div className="ltt-milestone-compact-icon" style={{ color: getStatusColor(item.status) }}>

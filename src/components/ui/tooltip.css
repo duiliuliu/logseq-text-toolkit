@@ -1,0 +1,102 @@
+/* Tooltip 样式 - 基于 radix-ui/react-tooltip，shadcn 风格 */
+
+.ltt-tooltip {
+  z-index: 99999;
+  max-width: 240px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ltt-text-primary, #374151);
+  background-color: var(--ltt-bg-primary, #ffffff);
+  border: 1px solid var(--ltt-border, #e5e7eb);
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  user-select: none;
+  
+  /* 动画 */
+  animation-duration: 0.2s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: forwards;
+}
+
+.ltt-tooltip[data-state="delayed-open"][data-side="top"] {
+  animation-name: slideDownAndFade;
+}
+
+.ltt-tooltip[data-state="delayed-open"][data-side="right"] {
+  animation-name: slideLeftAndFade;
+}
+
+.ltt-tooltip[data-state="delayed-open"][data-side="bottom"] {
+  animation-name: slideUpAndFade;
+}
+
+.ltt-tooltip[data-state="delayed-open"][data-side="left"] {
+  animation-name: slideRightAndFade;
+}
+
+.ltt-tooltip-arrow {
+  width: 8px;
+  height: 8px;
+  fill: var(--ltt-bg-primary, #ffffff);
+  border-left: 1px solid var(--ltt-border, #e5e7eb);
+  border-top: 1px solid var(--ltt-border, #e5e7eb);
+}
+
+@keyframes slideUpAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRightAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 深色主题 */
+[data-theme="dark"] .ltt-tooltip {
+  color: var(--ltt-text-secondary, #f3f4f6);
+  background-color: var(--ltt-bg-secondary, #1f2937);
+  border-color: var(--ltt-border-secondary, #374151);
+}
+
+[data-theme="dark"] .ltt-tooltip-arrow {
+  fill: var(--ltt-bg-secondary, #1f2937);
+  border-left-color: var(--ltt-border-secondary, #374151);
+  border-top-color: var(--ltt-border-secondary, #374151);
+}

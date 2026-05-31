@@ -2,7 +2,7 @@
  * Milestone Track 样式
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
@@ -33,8 +33,6 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
   tooltipStyle = 'compact',
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -108,12 +106,10 @@ const TrackMilestone: React.FC<TrackMilestoneProps> = ({
       {showLabels && (
         <div className="ltt-milestone-labels">
           {items.map((item, index) => (
-            <Tooltip key={item.id} open={hoveredItem === item.id}>
+            <Tooltip key={item.id}>
               <TooltipTrigger asChild>
-                <div
+                <div 
                   className="ltt-milestone-label-item"
-                  onMouseEnter={() => setHoveredItem(item.id)}
-                  onMouseLeave={() => setHoveredItem(null)}
                   onClick={() => handleNodeClick(item)}
                   style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
                 >

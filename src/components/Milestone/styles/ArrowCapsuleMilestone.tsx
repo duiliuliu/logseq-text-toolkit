@@ -2,7 +2,7 @@
  * Milestone Arrow Capsule 样式 - 箭头胶囊
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
@@ -35,8 +35,6 @@ const ArrowCapsuleMilestone: React.FC<ArrowCapsuleMilestoneProps> = ({
   tooltipStyle = 'compact',
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -94,14 +92,12 @@ const ArrowCapsuleMilestone: React.FC<ArrowCapsuleMilestoneProps> = ({
       <div className="ltt-milestone-arrow-track">
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
-            <Tooltip open={hoveredItem === item.id}>
+            <Tooltip>
               <TooltipTrigger asChild>
-                <div
+                <div 
                   className={`ltt-milestone-arrow-node ${item.status === 'in_progress' ? 'ltt-milestone-arrow-node-active' : ''}`}
-                  onMouseEnter={() => setHoveredItem(item.id)}
-                  onMouseLeave={() => setHoveredItem(null)}
                   onClick={() => handleNodeClick(item)}
-                  style={{
+                  style={{ 
                     cursor: item.blockUuid ? 'pointer' : 'default' }}
                 >
                   <div 
