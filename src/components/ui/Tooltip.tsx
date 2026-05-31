@@ -14,9 +14,10 @@ export const TooltipTrigger = TooltipPrimitive.Trigger;
 export const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 5, ...props }, ref) => (
+>(({ className, side = 'bottom', sideOffset = 4, ...props }, ref) => (
   <TooltipPrimitive.Content
     ref={ref}
+    side={side}
     sideOffset={sideOffset}
     className={
       'ltt-tooltip'
