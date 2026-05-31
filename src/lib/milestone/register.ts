@@ -129,6 +129,7 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
     displayStyle: template.displayStyle,
     showProgress: template.showProgress,
     showLabel: template.showLabel,
+    inline: template.inline,
     dateField: template.dateField,
     colorScheme: template.colorScheme,
   } : {};
