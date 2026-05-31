@@ -9,6 +9,7 @@ import BadgeMilestone from './styles/BadgeMilestone';
 import TrackMilestone from './styles/TrackMilestone';
 import CardMilestone from './styles/CardMilestone';
 import CompactMilestone from './styles/CompactMilestone';
+import ArrowCapsuleMilestone from './styles/ArrowCapsuleMilestone';
 import { DEFAULT_COLOR_SCHEME } from '../../lib/milestone/types';
 import './milestone.css';
 
@@ -51,17 +52,21 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
         return <CardMilestone {...commonProps} />;
       case 'compact':
         return <CompactMilestone {...commonProps} />;
+      case 'arrow-capsule':
+        return <ArrowCapsuleMilestone {...commonProps} />;
       default:
         return <CapsuleMilestone {...commonProps} />;
     }
   };
 
+  const isInline = config.inline;
+
   return (
     <div 
-      className="ltt-milestone-container" 
+      className={`ltt-milestone-container ${isInline ? 'ltt-milestone-container-inline' : ''}`} 
       data-style={config.displayStyle}
       style={{ 
-        backgroundColor: colorScheme.background,
+        backgroundColor: isInline ? 'transparent' : colorScheme.background,
         color: colorScheme.text,
       }}
     >

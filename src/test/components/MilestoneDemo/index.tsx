@@ -46,7 +46,7 @@ const defaultColorScheme: ColorScheme = {
   text: '#374151',
 };
 
-const styles: MilestoneDisplayStyle[] = ['capsule', 'badge', 'track', 'card', 'compact'];
+const styles: MilestoneDisplayStyle[] = ['capsule', 'badge', 'track', 'card', 'compact', 'arrow-capsule'];
 
 const styleLabels: Record<MilestoneDisplayStyle, string> = {
   capsule: '胶囊',
@@ -54,6 +54,7 @@ const styleLabels: Record<MilestoneDisplayStyle, string> = {
   track: '轨道',
   card: '卡片',
   compact: '紧凑',
+  'arrow-capsule': '箭头胶囊',
 };
 
 const MilestoneDemo: React.FC = () => {
@@ -61,6 +62,7 @@ const MilestoneDemo: React.FC = () => {
   const [showProgress, setShowProgress] = useState(true);
   const [showLabels, setShowLabels] = useState(true);
   const [selectedData, setSelectedData] = useState<'interview' | 'project'>('interview');
+  const [inlineMode, setInlineMode] = useState(false);
 
   const currentData = selectedData === 'interview' ? mockInterviewData : mockProjectData;
 
@@ -121,7 +123,7 @@ const MilestoneDemo: React.FC = () => {
         ))}
       </div>
 
-      <div style={{ marginBottom: '16px', display: 'flex', gap: '16px', alignItems: 'center' }}>
+      <div style={{ marginBottom: '16px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
           <input
             type="checkbox"
@@ -138,19 +140,36 @@ const MilestoneDemo: React.FC = () => {
           />
           显示进度
         </label>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={inlineMode}
+            onChange={(e) => setInlineMode(e.target.checked)}
+          />
+          行内模式 (Inline)
+        </label>
       </div>
 
       <div style={{ 
-        border: '1px solid #e5e7eb', 
-        borderRadius: '8px', 
-        padding: '16px',
-        backgroundColor: 'white',
+        border: inlineMode ? 'none' : '1px solid #e5e7eb', 
+        borderRadius: inlineMode ? '0' : '8px', 
+        padding: inlineMode ? '0' : '16px',
+        backgroundColor: inlineMode ? 'transparent' : 'white',
+        display: inlineMode ? 'inline-flex' : 'block',
+        alignItems: 'center',
+        gap: '12px'
       }}>
-        <div style={{ marginBottom: '8px', fontSize: '14px', color: '#6b7280' }}>
-          宏命令：<code style={{ backgroundColor: '#f3f4f6', padding: '2px 6px', borderRadius: '4px' }}>
-            {'{{renderer :milestone, style=' + selectedStyle + ', list=' + currentData.items.map(i => i.label).join(';') + '}}'}
-          </code>
-        </div>
+        {!inlineMode && (
+          <div style={{ marginBottom: '8px', fontSize: '14px', color: '#6b7280' }}>
+            宏命令：<code style={{ backgroundColor: '#f3f4f6', padding: '2px 6px', borderRadius: '4px' }}>
+              {'{{renderer :milestone, style=' + selectedStyle + ', list=' + currentData.items.map(i => i.label).join(';') + '}}'}
+            </code>
+          </div>
+        )}
+        
+        {inlineMode && (
+          <span style={{ color: '#374151', fontWeight: 500 }}>当前进度：</span>
+        )}
         
         <Milestone
           data={currentData}
@@ -158,6 +177,7 @@ const MilestoneDemo: React.FC = () => {
             displayStyle: selectedStyle,
             showLabel: showLabels,
             showProgress,
+            inline: inlineMode,
             colorScheme: defaultColorScheme,
           }}
         />

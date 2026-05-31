@@ -1,15 +1,16 @@
 /**
- * Milestone Card 样式
+ * Milestone Arrow Capsule 样式 - 箭头胶囊
  */
 
 import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
 
-interface CardMilestoneProps {
+interface ArrowCapsuleMilestoneProps {
   items: MilestoneItem[];
   colorScheme?: ColorScheme;
   showLabels?: boolean;
+  showProgress?: boolean;
   onNodeClick?: (item: MilestoneItem) => void;
 }
 
@@ -23,10 +24,11 @@ const defaultColorScheme: ColorScheme = {
   text: '#374151',
 };
 
-const CardMilestone: React.FC<CardMilestoneProps> = ({
+const ArrowCapsuleMilestone: React.FC<ArrowCapsuleMilestoneProps> = ({
   items,
   colorScheme = defaultColorScheme,
   showLabels = true,
+  showProgress = true,
   onNodeClick,
 }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -36,7 +38,7 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
       try {
         logseqAPI.Editor.openInRightSidebar(item.blockUuid);
       } catch (error) {
-        console.error('[CardMilestone] Failed to open in right sidebar:', error);
+        console.error('[ArrowCapsuleMilestone] Failed to open in right sidebar:', error);
       }
     }
     onNodeClick?.(item);
@@ -53,6 +55,17 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
     }
   };
 
+  const getNodeIcon = (status: string): string => {
+    switch (status) {
+      case 'completed': return '✓';
+      case 'in_progress': return '⏳';
+      case 'failed': return '✕';
+      case 'skipped': return '≈';
+      case 'pending':
+      default: return '○';
+    }
+  };
+
   const getStatusText = (status: string): string => {
     switch (status) {
       case 'completed': return '已完成';
@@ -61,17 +74,6 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
       case 'skipped': return '已跳过';
       case 'pending':
       default: return '待开始';
-    }
-  };
-
-  const getStatusIcon = (status: string): string => {
-    switch (status) {
-      case 'completed': return '✓';
-      case 'in_progress': return '→';
-      case 'failed': return '✕';
-      case 'skipped': return '~';
-      case 'pending':
-      default: return '○';
     }
   };
 
@@ -84,50 +86,50 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
   }
 
   return (
-    <div className="ltt-milestone-card-horizontal">
-      {items.map((item, index) => (
-        <React.Fragment key={item.id}>
-          <div 
-            className="ltt-milestone-card-item-horizontal"
-            onMouseEnter={() => setHoveredItem(item.id)}
-            onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => handleNodeClick(item)}
-            style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
-          >
+    <div className="ltt-milestone-arrow-capsule">
+      <div className="ltt-milestone-arrow-track">
+        {items.map((item, index) => (
+          <React.Fragment key={item.id}>
             <div 
-              className={`ltt-milestone-card-content-horizontal ${item.status === 'in_progress' ? 'ltt-milestone-pulse-card' : ''}`}
-              style={{ borderColor: getNodeColor(item.status) }}
+              className={`ltt-milestone-arrow-node ${item.status === 'in_progress' ? 'ltt-milestone-arrow-node-active' : ''}`}
+              onMouseEnter={() => setHoveredItem(item.id)}
+              onMouseLeave={() => setHoveredItem(null)}
+              onClick={() => handleNodeClick(item)}
+              style={{ 
+                cursor: item.blockUuid ? 'pointer' : 'default' }}
             >
               <div 
-                className={`ltt-milestone-card-icon ${item.status === 'in_progress' ? 'ltt-milestone-spin-icon' : ''}`}
-                style={{ color: getNodeColor(item.status) }}
+                className="ltt-milestone-arrow-icon-wrapper"
+                style={{ borderColor: getNodeColor(item.status), backgroundColor: item.status === 'completed' ? getNodeColor(item.status) : 'transparent' }}
               >
-                {getStatusIcon(item.status)}
+                <span 
+                  className="ltt-milestone-arrow-icon"
+                  style={{ 
+                    color: item.status === 'completed' ? '#ffffff' : getNodeColor(item.status) }}
+                >
+                  {getNodeIcon(item.status)}
+                </span>
               </div>
-              
+
               {showLabels && (
-                <div className="ltt-milestone-card-info">
-                  <div className="ltt-milestone-card-title-horizontal">
-                    {item.label}
-                  </div>
-                  {item.date && (
-                    <div className="ltt-milestone-card-date-horizontal">
-                      {item.date}
-                    </div>
-                  )}
+                <div className="ltt-milestone-arrow-content">
+                  <div className="ltt-milestone-arrow-label">{item.label}</div>
                   <div 
-                    className="ltt-milestone-card-status-horizontal"
+                    className="ltt-milestone-arrow-status"
                     style={{ color: getNodeColor(item.status) }}
                   >
                     {getStatusText(item.status)}
+                    {showProgress && item.progress !== undefined && (
+                      <span> ({item.progress}%)</span>
+                    )}
                   </div>
                 </div>
               )}
             </div>
-            
+
             {/* Hover Tooltip */}
             {hoveredItem === item.id && (
-              <div className="ltt-milestone-tooltip-horizontal">
+              <div className="ltt-milestone-tooltip">
                 <div className="ltt-milestone-tooltip-label">{item.label}</div>
                 {item.date && (
                   <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
@@ -140,15 +142,16 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
                 )}
               </div>
             )}
-          </div>
-          
-          {index < items.length - 1 && (
-            <div className="ltt-milestone-connector-horizontal" />
-          )}
-        </React.Fragment>
-      ))}
+
+            {index < items.length - 1 && (
+              <div className="ltt-milestone-arrow-connector">
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default CardMilestone;
+export default ArrowCapsuleMilestone;

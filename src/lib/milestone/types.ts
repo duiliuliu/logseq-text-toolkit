@@ -60,6 +60,7 @@ export interface MilestoneConfig {
   displayStyle: MilestoneDisplayStyle;
   showProgress?: boolean;
   showLabel?: boolean;
+  inline?: boolean;
   colorScheme?: ColorScheme;
   language?: string;
   dateField?: string;
@@ -72,7 +73,8 @@ export type MilestoneDisplayStyle =
   | 'badge'
   | 'track'
   | 'card'
-  | 'compact';
+  | 'compact'
+  | 'arrow-capsule';
 
 export interface ColorScheme {
   completed: string;
@@ -134,4 +136,5 @@ export const STYLE_LABELS: Record<MilestoneDisplayStyle, { zh: string; en: strin
   track: { zh: '极简轨道', en: 'Minimal Track' },
   card: { zh: '卡片浮层', en: 'Card Overlay' },
   compact: { zh: '状态徽章', en: 'Compact Badge' },
+  'arrow-capsule': { zh: '箭头胶囊', en: 'Arrow Capsule' },
 };

@@ -92,7 +92,7 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
             <div 
-              className="ltt-milestone-node"
+              className={`ltt-milestone-node ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
               onMouseEnter={() => setHoveredItem(item.id)}
               onMouseLeave={() => setHoveredItem(null)}
               onClick={() => handleNodeClick(item)}

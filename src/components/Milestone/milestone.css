@@ -7,6 +7,19 @@
   padding: var(--ltt-spacing-lg);
   border-radius: var(--ltt-radius-lg);
   box-shadow: var(--ltt-shadow-sm);
+  background: var(--ltt-bg-primary);
+  border: 1px solid var(--ltt-border);
+  overflow: hidden;
+}
+
+.ltt-milestone-container-inline {
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
 }
 
 .ltt-milestone-empty {
@@ -16,19 +29,79 @@
   padding: var(--ltt-spacing-xl);
 }
 
+/* ========== 通用动画 ========== */
+@keyframes ltt-milestone-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes ltt-milestone-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  }
+}
+
+@keyframes ltt-milestone-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ltt-milestone-pulse {
+  animation: ltt-milestone-pulse 2s ease-in-out infinite;
+}
+
+.ltt-milestone-glow {
+  animation: ltt-milestone-glow 2s ease-in-out infinite;
+}
+
+.ltt-milestone-spin {
+  animation: ltt-milestone-spin 2s linear infinite;
+}
+
 /* ========== Capsule 样式 ========== */
 .ltt-milestone-capsule {
   display: flex;
   flex-direction: column;
   gap: var(--ltt-spacing-sm);
+  overflow-x: auto;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ltt-milestone-capsule::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ltt-milestone-capsule::-webkit-scrollbar-track {
+  background: var(--ltt-bg-secondary);
+  border-radius: 2px;
+}
+
+.ltt-milestone-capsule::-webkit-scrollbar-thumb {
+  background: var(--ltt-border);
+  border-radius: 2px;
 }
 
 .ltt-milestone-track {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   position: relative;
-  padding: 0 var(--ltt-spacing-xl);
+  padding: 0 var(--ltt-spacing-lg);
+  min-width: max-content;
 }
 
 .ltt-milestone-node {
@@ -38,6 +111,11 @@
   gap: var(--ltt-spacing-xs);
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
+}
+
+.ltt-milestone-node.ltt-milestone-pulse-node .ltt-milestone-symbol {
+  animation: ltt-milestone-pulse 2s ease-in-out infinite;
 }
 
 .ltt-milestone-symbol {
@@ -62,7 +140,9 @@
 
 .ltt-milestone-line-dashed {
   flex: 1;
+  min-width: 40px;
   border-top: 2px dashed;
+  border-bottom: 2px dashed transparent;
   opacity: 0.5;
   margin: 0 var(--ltt-spacing-sm);
   align-self: center;
@@ -251,6 +331,7 @@
 .ltt-milestone-label {
   font-size: var(--ltt-font-size-md);
   font-weight: 500;
+  color: var(--ltt-text-primary);
 }
 
 .ltt-milestone-status {
@@ -290,6 +371,11 @@
   font-size: var(--ltt-font-size-md);
 }
 
+.ltt-milestone-badge-item.ltt-milestone-pulse-node .ltt-milestone-badge-number {
+  animation: ltt-milestone-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
 .ltt-milestone-sublabel {
   font-size: var(--ltt-font-size-sm);
 }
@@ -321,6 +407,20 @@
 .ltt-milestone-track-minimal {
   position: relative;
   padding: var(--ltt-spacing-lg) 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ltt-milestone-track-minimal::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ltt-milestone-track-minimal::-webkit-scrollbar-track {
+  background: var(--ltt-bg-secondary);
+}
+
+.ltt-milestone-track-minimal::-webkit-scrollbar-thumb {
+  background: var(--ltt-border);
 }
 
 .ltt-milestone-line-container {
@@ -330,6 +430,7 @@
   height: 4px;
   border-radius: var(--ltt-radius-full);
   overflow: hidden;
+  min-width: max-content;
 }
 
 .ltt-milestone-line-bg {
@@ -351,6 +452,10 @@
   flex-shrink: 0;
 }
 
+.ltt-milestone-dot.ltt-milestone-pulse-dot {
+  animation: ltt-milestone-pulse 2s ease-in-out infinite;
+}
+
 .ltt-milestone-segment {
   flex: 1;
   height: 4px;
@@ -361,6 +466,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: var(--ltt-spacing-sm);
+  min-width: max-content;
 }
 
 .ltt-milestone-label-item {
@@ -368,6 +474,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  flex-shrink: 0;
 }
 
 .ltt-milestone-time {
@@ -395,6 +502,19 @@
   gap: 0;
   padding: 20px 10px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ltt-milestone-card-horizontal::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ltt-milestone-card-horizontal::-webkit-scrollbar-track {
+  background: var(--ltt-bg-secondary);
+}
+
+.ltt-milestone-card-horizontal::-webkit-scrollbar-thumb {
+  background: var(--ltt-border);
 }
 
 .ltt-milestone-center-line {
@@ -443,7 +563,7 @@
   padding: var(--ltt-spacing-md);
   background: var(--ltt-bg-primary);
   border-radius: var(--ltt-radius-lg);
-  border: 2px solid;
+  border: 1px solid var(--ltt-border);
   box-shadow: var(--ltt-shadow-sm);
   min-width: 120px;
   max-width: 160px;
@@ -452,7 +572,8 @@
   align-items: center;
   gap: var(--ltt-spacing-sm);
   cursor: pointer;
-  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease;
+  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease, border-color var(--ltt-transition-fast);
+  position: relative;
 }
 
 .ltt-milestone-card-content-horizontal:hover {
@@ -460,9 +581,26 @@
   box-shadow: var(--ltt-shadow-md);
 }
 
+.ltt-milestone-card-content-horizontal.ltt-milestone-pulse-card {
+  animation: ltt-milestone-glow 2s ease-in-out infinite;
+  border-color: var(--ltt-accent);
+}
+
 .ltt-milestone-card-icon {
   font-size: 24px;
   font-weight: bold;
+  position: relative;
+}
+
+.ltt-milestone-card-icon.ltt-milestone-spin-icon {
+  animation: ltt-milestone-spin 2s linear infinite;
+}
+
+.ltt-milestone-card-icon-corner {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 12px;
 }
 
 .ltt-milestone-card-info {
@@ -591,4 +729,135 @@
 .ltt-milestone-connector {
   font-size: var(--ltt-font-size-sm);
   user-select: none;
+}
+
+/* ========== Arrow Capsule 样式 ========== */
+.ltt-milestone-arrow-capsule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-spacing-sm);
+  overflow-x: auto;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ltt-milestone-arrow-capsule::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ltt-milestone-arrow-capsule::-webkit-scrollbar-track {
+  background: var(--ltt-bg-secondary);
+  border-radius: 2px;
+}
+
+.ltt-milestone-arrow-capsule::-webkit-scrollbar-thumb {
+  background: var(--ltt-border);
+  border-radius: 2px;
+}
+
+.ltt-milestone-arrow-track {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 var(--ltt-spacing-lg);
+  min-width: max-content;
+}
+
+.ltt-milestone-arrow-node {
+  display: flex;
+  align-items: center;
+  gap: var(--ltt-spacing-md);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);
+  border-radius: var(--ltt-radius-lg);
+  border: 1px solid var(--ltt-border);
+  background: var(--ltt-bg-primary);
+  transition: all var(--ltt-transition-fast);
+}
+
+.ltt-milestone-arrow-node:hover {
+  border-color: var(--ltt-accent);
+  box-shadow: var(--ltt-shadow-sm);
+}
+
+.ltt-milestone-arrow-node.ltt-milestone-arrow-node-active {
+  animation: ltt-milestone-glow 2s ease-in-out infinite;
+  border-color: var(--ltt-accent);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.ltt-milestone-arrow-icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--ltt-radius-full);
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ltt-milestone-arrow-node-active .ltt-milestone-arrow-icon-wrapper {
+  animation: ltt-milestone-pulse 2s ease-in-out infinite;
+}
+
+.ltt-milestone-arrow-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ltt-milestone-arrow-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 100px;
+}
+
+.ltt-milestone-arrow-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ltt-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ltt-milestone-arrow-status {
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ltt-milestone-arrow-connector {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ltt-milestone-arrow-connector::after {
+  content: '→';
+  font-size: 20px;
+  color: var(--ltt-border);
+}
+
+/* ========== Dark Theme Support ========== */
+[data-theme='dark'] .ltt-milestone-container {
+  background: var(--ltt-bg-secondary);
+  border-color: var(--ltt-border);
+}
+
+[data-theme='dark'] .ltt-milestone-card-content-horizontal,
+[data-theme='dark'] .ltt-milestone-arrow-node {
+  background: var(--ltt-bg-secondary);
+}
+
+[data-theme='dark'] .ltt-milestone-tooltip {
+  background: var(--ltt-bg-secondary);
+  border-color: var(--ltt-border);
 }

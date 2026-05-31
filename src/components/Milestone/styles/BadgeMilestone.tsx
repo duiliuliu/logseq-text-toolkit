@@ -93,7 +93,7 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
         {items.map((item, index) => (
           <div 
             key={item.id} 
-            className="ltt-milestone-badge-item"
+            className={`ltt-milestone-badge-item ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => handleNodeClick(item)}
