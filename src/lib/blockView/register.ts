@@ -41,76 +41,8 @@ const CUSTOM_CSS_VARS = [
   '--custom-column-bg', '--custom-column-hover', '--custom-card-border'
 ];
 
-// 跟踪已注入的样式
-const INJECTED_STYLES = new Map<string, HTMLStyleElement>();
-
-function removeTableStyles(blockId: string): void {
-  const styleElement = INJECTED_STYLES.get(blockId);
-  if (styleElement) {
-    styleElement.remove();
-    INJECTED_STYLES.delete(blockId);
-    logger.debug('[BlockView] Table styles removed', { blockId });
-  }
-}
-
-function injectTableStyles(blockId: string, blockElement: HTMLElement): void {
-  // 先移除旧样式
-  removeTableStyles(blockId);
-
-  const doc = getDocument();
-  const styleElement = doc.createElement('style');
-  // 使用 blockid 属性或 id 选择器，优先级：id > blockid
-  const uniqueSelector = `#ls-block-${blockId}, [blockid="${blockId}"]`;
-
-  styleElement.textContent = `
-    /* 表格头部 - 隐藏折叠和小圆点 */
-    ${uniqueSelector} > .block-main-container .block-control-wrap,
-    ${uniqueSelector} > .block-main-container .block-title-wrap .block-control-wrap,
-    ${uniqueSelector} > .block-main-container .block-children-left-border {
-      display: none !important;
-    }
-    
-    /* 表格头部 - 标题靠左 */
-    ${uniqueSelector} > .block-main-container .block-content-inner .block-title-wrap {
-      margin-left: 0.6rem !important;
-      justify-content: flex-start !important;
-    }
-    
-    /* 表格行的单元格对齐 */
-    ${uniqueSelector}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
-      justify-content: flex-start !important;
-    }
-    
-    ${uniqueSelector}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-    }
-    
-    /* 列对齐样式 - 可根据需要调整 */
-    ${uniqueSelector}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:nth-child(1) {
-      justify-content: flex-start !important;
-    }
-    
-    ${uniqueSelector}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:nth-child(2) {
-      justify-content: flex-start !important;
-    }
-    
-    ${uniqueSelector}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:nth-child(3) {
-      justify-content: flex-start !important;
-    }
-  `;
-
-  doc.head.appendChild(styleElement);
-  INJECTED_STYLES.set(blockId, styleElement);
-  logger.debug('[BlockView] Table styles injected', { blockId });
-}
-
-function removeViewStyles(blockElement: HTMLElement, blockId?: string): void {
+function removeViewStyles(blockElement: HTMLElement): void {
   blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
-  if (blockId) {
-    removeTableStyles(blockId);
-  }
 }
 
 function applyViewStyles(blockElement: HTMLElement, viewType: ViewType, themeType: ThemeType): void {
@@ -177,19 +109,14 @@ async function applyCustomTheme(blockElement: HTMLElement, viewType: ViewType): 
 async function applyViewStyle(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
   const doc = getDocument();
 
-  const blockElement = doc.querySelector(`#ls-block-${blockId}`) || doc.querySelector(`[blockid="${blockId}"]`);
+  const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
   if (!blockElement) {
     logger.warn('[BlockView] Block element not found', { blockId });
     return;
   }
 
-  removeViewStyles(blockElement, blockId);
+  removeViewStyles(blockElement);
   applyViewStyles(blockElement, viewType, themeType);
-
-  // 表格视图注入专用样式
-  if (viewType === 'table') {
-    injectTableStyles(blockId, blockElement);
-  }
 
   if (themeType === 'custom') {
     await applyCustomTheme(blockElement, viewType);
