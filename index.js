@@ -1,5 +1,20 @@
 (function () {
-  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #1a1a1a;\n  --ltt-accent-muted: rgba(0, 0, 0, 0.1);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: #e5e5e5;\n  --ltt-accent-hover: #f5f5f5;\n  --ltt-accent-muted: rgba(255, 255, 255, 0.1);\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-xl);\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  border-top: 2px dashed;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 180px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: space-between;\n  gap: var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin-top: var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin-top: var(--ltt-spacing-xs);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-lg);\n  border: 2px solid;\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 120px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-sm);\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  flex-wrap: wrap;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  margin-top: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 6px;\n  font-size: 11px;\n  width: fit-content;\n  min-height: 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  transition: all 0.2s ease;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 11px;\n  font-weight: 500;\n  line-height: 1.4;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: var(--ls-primary-text-color);\n  font-weight: 600;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n}\n\n.ltt-view-btn svg {\n  width: 12px;\n  height: 12px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 11px;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar,\n.ltt-mindmap-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   MINDMAP VIEW\n========================================================= */\n\n/* Mindmap 视图样式已移到 mindMapView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana,\n.ltt-mindmap-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* Indigo Theme */\n.ltt-table-root.ltt-theme-indigo,\n.ltt-gallery-root.ltt-theme-indigo,\n.ltt-board-root.ltt-theme-indigo,\n.ltt-mindmap-root.ltt-theme-indigo {\n  --ltt-primary-color: #6366f1;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 3px 6px;\n    gap: 3px;\n  }\n\n  .ltt-view-btn {\n    padding: 3px 6px;\n    font-size: 10px;\n  }\n\n  .ltt-view-btn svg {\n    width: 10px;\n    height: 10px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 10px;\n  }\n}.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 9999;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* Custom scrollbar styles */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ltt-text-secondary, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ltt-border, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ltt-border, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ltt-bg-secondary, #f5f5f5);\n  color: var(--ltt-text-secondary, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ltt-bg-hover, #e0e0e0);\n  color: var(--ltt-text-primary, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ltt-bg-primary, #fff);\n  color: var(--ltt-text-primary, #333);\n  border-color: var(--ltt-border, #e0e0e0);\n  border-bottom: 1px solid var(--ltt-bg-primary, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ltt-text-muted, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ltt-text-primary, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch styles */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: var(--ltt-border, #ccc);\n  transition: 0.4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: var(--ltt-bg-primary, white);\n  transition: 0.4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: var(--ltt-accent, #000);\n  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 6px 10px !important;\n  border: 1px solid var(--ltt-border, #ccc) !important;\n  border-radius: 6px !important;\n  font-size: 13px !important;\n  box-sizing: border-box !important;\n  background: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #333) !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #000) !important;\n  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;\n}\n\n.ltt-settings-section {\n  margin: 24px 0;\n  padding: 0;\n}\n\n.ltt-settings-section h4 {\n  margin: 0 0 12px 0;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #333);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n.ltt-section-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #999);\n  margin: 4px 0 12px 0;\n  line-height: 1.4;\n}\n\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));\n  gap: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.ltt-status-color-row input[type=\"color\"] {\n  width: 30px;\n  height: 30px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 6px;\n}\n\n.ltt-status-label {\n  font-size: 13px;\n  color: var(--ltt-text-primary, #333);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 24px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ltt-border, #e0e0e0);\n  display: flex;\n  justify-content: flex-end;\n}\n\n.ltt-settings-btn {\n  padding: 8px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.ltt-settings-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.ltt-settings-btn-save {\n  background-color: var(--ltt-accent, #000);\n  color: var(--ltt-bg-primary, #fff);\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  opacity: 0.9;\n  transform: translateY(-1px);\n}\n\n/* Milestone Base Section Styles */\n.ltt-milestone-base-section {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n  margin-bottom: 24px;\n  padding: 0;\n}\n\n.ltt-milestone-color-grid-compact {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));\n  gap: 12px;\n}\n\n.ltt-milestone-color-item-compact {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 6px 10px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n}\n\n.ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact {\n  background: var(--ltt-bg-primary, #1e1e1e);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"] {\n  width: 24px;\n  height: 24px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 4px;\n}\n\n.ltt-milestone-color-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-dot {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.ltt-milestone-color-label {\n  font-size: 12px;\n  color: var(--ltt-text-secondary, #6b7280);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-label {\n  color: var(--ltt-text-secondary, #a0aec0);\n}\n\n/* Template Color Section */\n.ltt-milestone-template-color-section {\n  margin-top: 24px;\n  padding-top: 20px;\n  border-top: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-section {\n  border-top-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-template-color-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.ltt-milestone-template-color-title {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-template-color-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  background: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 2px 8px;\n  border-radius: 10px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-hint {\n  background: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n/* Milestone Templates Section Styles */\n.ltt-milestone-templates-section {\n  margin-bottom: 24px;\n}\n\n.ltt-milestone-templates-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n  padding-bottom: 12px;\n  border-bottom: 2px solid var(--ltt-border, #e5e7eb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-header {\n  border-bottom-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-templates-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-add-template-btn {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 14px;\n  background: var(--ltt-accent, #667eea);\n  color: var(--ltt-bg-primary, white);\n  border: none;\n  border-radius: var(--ltt-radius-md, 8px);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(102, 126, 234, 0.3));\n}\n\n.ltt-milestone-add-template-btn:hover {\n  transform: translateY(-1px);\n  box-shadow: var(--ltt-shadow-md, 0 4px 12px rgba(102, 126, 234, 0.4));\n}\n\n.ltt-milestone-add-icon {\n  width: 14px;\n  height: 14px;\n}\n\n/* Template Card Styles */\n.ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-xl, 12px);\n  margin-bottom: 12px;\n  transition: all 0.2s ease;\n  overflow: hidden;\n}\n\n.ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, #1a1a1a);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-template-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  background: var(--ltt-bg-secondary, #fafafa);\n  border-bottom: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-header {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-bottom-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-template-info {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex: 1;\n}\n\n.ltt-milestone-template-number {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 28px;\n  height: 28px;\n  background: linear-gradient(135deg, var(--ltt-accent, #111827) 0%, var(--ltt-accent-hover, #374151) 100%);\n  color: var(--ltt-bg-primary, white);\n  font-size: 13px;\n  font-weight: 600;\n  border-radius: var(--ltt-radius-md, 6px);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-name-input {\n  flex: 1;\n  padding: 6px 10px;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #111827);\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n  min-width: 0;\n}\n\n.ltt-milestone-template-name-input:hover {\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-border, #e5e7eb);\n}\n\n.ltt-milestone-template-name-input:focus {\n  outline: none;\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.05);\n}\n\n.ltt-milestone-template-id {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  font-family: ui-monospace, Monaco, 'SF Mono', monospace;\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 4px 8px;\n  border-radius: var(--ltt-radius-sm, 4px);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-id {\n  background-color: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n.ltt-milestone-template-actions {\n  display: flex;\n  gap: 8px;\n}\n\n.ltt-milestone-action-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  background-color: transparent;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 8px);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  border-color: var(--ltt-border-strong, #d1d5db);\n  color: var(--ltt-text-primary, #111827);\n}\n\n.ltt-milestone-action-btn:active {\n  transform: scale(0.95);\n}\n\n.ltt-milestone-action-btn-delete:hover {\n  background-color: var(--ltt-error, #fef2f2);\n  border-color: var(--ltt-error, #fecaca);\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-action-btn-collapse:hover {\n  background-color: var(--ltt-bg-hover, #e0e7ff);\n  border-color: var(--ltt-accent, #667eea);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn {\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border-strong, #4b5568);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-delete:hover {\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.3);\n  color: var(--ltt-error, #fca5a5);\n}\n\n.ltt-milestone-template-card-expanded {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-md, 0 8px 24px rgba(0, 0, 0, 0.12));\n}\n\n.ltt-milestone-template-card-body {\n  padding: 24px 20px;\n  background: var(--ltt-bg-primary, white);\n  animation: slideDown 0.2s ease-out;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-body {\n  background: var(--ltt-bg-primary, #111827);\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-milestone-form-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 20px;\n}\n\n.ltt-milestone-form-item {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.ltt-milestone-form-item-full {\n  grid-column: 1 / -1;\n}\n\n.ltt-milestone-form-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #374151);\n  letter-spacing: 0.1px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-label {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-form-label-required:after {\n  content: \" *\";\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-form-input {\n  width: 100%;\n  padding: 10px 14px;\n  font-size: 14px;\n  color: var(--ltt-text-primary, #111827);\n  background-color: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #d1d5db);\n  border-radius: var(--ltt-radius-md, 8px);\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #9ca3af);\n}\n\n.ltt-milestone-form-input:focus {\n  outline: none;\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);\n}\n\n.ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input {\n  background-color: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #4b5568);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:focus {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #6b7280);\n}\n\n/* Template Display Row - 3 items in a row on wide screens */\n.ltt-milestone-template-display-row {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n  grid-column: 1 / -1;\n}\n\n@media (max-width: 900px) {\n  .ltt-milestone-template-display-row {\n    grid-template-columns: 1fr;\n  }\n}\n\n/* Form Hints - Smaller & Lighter */\n.ltt-milestone-form-hint {\n  font-size: 10px;\n  color: var(--ltt-text-muted, #c0c4cc);\n  margin-top: 4px;\n  font-weight: 400;\n  line-height: 1.3;\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-hint {\n  color: var(--ltt-text-muted, #6a7280);\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #f9fafb) 0%, var(--ltt-bg-tertiary, #f3f4f6) 100%);\n  border-radius: var(--ltt-radius-xl, 12px);\n  border: 2px dashed var(--ltt-border, #d1d5db);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates {\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #1f2937) 0%, var(--ltt-bg-tertiary, #111827) 100%);\n  border-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-empty-icon {\n  color: var(--ltt-text-muted, #9ca3af);\n  margin-bottom: 12px;\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates-text {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ltt-text-secondary, #6b7280);\n  text-align: center;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates-text {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n/* Error Styles */\n.ltt-milestone-input-error {\n  border-color: var(--ltt-error, #dc2626) !important;\n  background-color: rgba(220, 38, 38, 0.05) !important;\n}\n\n.ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;\n}\n\n.ltt-milestone-error-message {\n  font-size: 12px;\n  color: var(--ltt-error, #dc2626);\n  margin-top: 2px;\n  padding: 4px 8px;\n  background-color: rgba(220, 38, 38, 0.05);\n  border-radius: 4px;\n  border: 1px solid rgba(220, 38, 38, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error {\n  border-color: var(--ltt-error, #fca5a5) !important;\n  background-color: rgba(239, 68, 68, 0.1) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-error-message {\n  color: var(--ltt-error, #fca5a5);\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(252, 165, 165, 0.2);\n}\n\n/* Responsive Styles */\n@media (max-width: 768px) {\n  .ltt-milestone-templates-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: flex-start;\n  }\n\n  .ltt-milestone-add-template-btn {\n    width: 100%;\n    justify-content: center;\n  }\n\n  .ltt-milestone-form-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .ltt-milestone-template-card-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: stretch;\n  }\n\n  .ltt-milestone-template-actions {\n    justify-content: flex-end;\n  }\n\n  .ltt-milestone-template-info {\n    flex-wrap: wrap;\n  }\n\n  .ltt-milestone-error-message {\n    width: 100%;\n  }\n}\n\n/* ============================================================================\n   Toolbar Settings - JSON Editor Styles (Restored from v1.1.6)\n   ============================================================================ */\n\n/* Toolbar-specific styles */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON Editor Container */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n/* JSON Editor */\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ltt-border, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  background-color: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #3b82f6) !important;\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;\n}\n\n/* JSON Error Message */\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: var(--ltt-error, #ef4444);\n  margin-bottom: 12px;\n  padding: 8px 12px;\n  background-color: rgba(239, 68, 68, 0.1);\n  border-radius: 4px;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n/* JSON Editor Hint */\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 20px;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 6px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #374151);\n  font-weight: 600;\n}\n\n/* Dark Theme for JSON Editor */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ltt-bg-secondary, #1f2937) !important;\n  border: 1px solid var(--ltt-border, #374151) !important;\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ltt-text-primary, #e5e7eb) !important;\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-json-error {\n  background-color: rgba(239, 68, 68, 0.15);\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint {\n  background: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint ul {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n/* Responsive Styles for Toolbar Settings */\n@media (max-width: 768px) {\n  #ltt-toolbar-settings .ltt-settings-tab-content {\n    padding: 0 4px;\n  }\n\n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n  }\n\n  .ltt-setting-item.ltt-setting-item-json {\n    margin-bottom: 16px;\n  }\n}\n\n@media (max-width: 480px) {\n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n}\n/* 基础容器 */\n.ls-block:has(.ltt-summary-page) {\n  --card-radius: 10px;\n  --card-gap: 12px;\n  --tag-blue: #4387ff;\n  --tag-green: #10b981;\n  --tag-yellow: #f59e0b;\n  --tag-purple: #8b5cf6;\n  --tag-pink: #ec4899;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: var(--ls-secondary-background-color, #f8f9fa) !important;\n  padding: 24px 16px !important;\n  border-radius: 12px !important;\n  text-align: center !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(25% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  transition: all 0.3s ease !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"]:hover {\n  transform: translateY(-4px) !important;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(50% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 20px !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 8px !important;\n}\n\n/* 隐藏圆点箭头 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n/* ==================================\n3. 热门标签 → 彩色标签样式\n=================================== */\n/* .ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-children {\n  display: flex !important;\n  flex-wrap: nowrap !important;\n   gap: 8px !important;\n  flex-direction: row !important;\n   width: 100% !important;\n  overflow: visible !important;\n} */\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  /* background: var(--ls-secondary-background-color, #ffffff) !important; */\n  /* padding: 24px !important; */\n  /* border-radius: 12px !important; */\n  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important; */\n  /* border: 1px solid rgba(0, 0, 0, 0.05) !important; */\n  display: inline-block !important;\n  width: calc(15% - 16px) !important;\n  /* margin: 8px !important; */\n  /* vertical-align: top !important; */\n  min-height: 8px !important;\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  position: static !important;\n  vertical-align: top !important; */\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  min-height: unset !important;\n  white-space: nowrap !important; */\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-content .block-title-wrap {\n  display: inline-block !important;\n  padding: 6px 14px !important;\n  border-radius: 999px !important;\n  font-size: 13px !important;\n  font-weight: 500 !important;\n  color: #fff !important;\n  white-space: nowrap !important;\n}\n\n/* 自动给不同标签上色 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(1) .block-title-wrap {\n  background: var(--tag-blue);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(2) .block-title-wrap {\n  background: var(--tag-green);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(3) .block-title-wrap {\n  background: var(--tag-yellow);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(4) .block-title-wrap {\n  background: var(--tag-purple);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(5) .block-title-wrap {\n  background: var(--tag-pink);\n}\n\n/* 隐藏圆点 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .bullet-link-wrap {\n  display: none !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(2) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 24px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 30px !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] table {\n  width: 100% !important;\n  border-collapse: collapse !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] td {\n  padding: 8px 12px !important;\n  text-align: left !important;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(59, 130, 246, 0.08) !important;\n  font-weight: 600 !important;\n  font-size: 13px !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(96, 165, 250, 0.15) !important;\n}\n\n@media (max-width: 900px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(50% - 16px) !important;\n  }\n\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n@media (max-width: 500px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n/* Summary Modal Styles */\n/* 这个 CSS 文件定义了 Summary Modal 的样式，确保在不同主题下都有良好的视觉效果。 */\n\n.summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}/*$vite$:1*/";document.head.appendChild(__vite_style__);
+  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #1a1a1a;\n  --ltt-accent-muted: rgba(0, 0, 0, 0.1);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: #e5e5e5;\n  --ltt-accent-hover: #f5f5f5;\n  --ltt-accent-muted: rgba(255, 255, 255, 0.1);\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  overflow-y: visible;\n  overflow-x: hidden;\n  position: relative;\n}\n\n.ltt-milestone-container-inline {\n  padding: 0;\n  border-radius: 0;\n  box-shadow: none;\n  border: none;\n  background: transparent;\n  display: inline-flex;\n  align-items: center;\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== 通用动画 ========== */\n@keyframes ltt-milestone-pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.8;\n    transform: scale(1.02);\n  }\n}\n\n@keyframes ltt-milestone-glow {\n  0%, 100% {\n    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);\n  }\n  50% {\n    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);\n  }\n}\n\n@keyframes ltt-milestone-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.ltt-milestone-pulse {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-glow {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n}\n\n.ltt-milestone-spin {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 8px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-lg);\n  min-width: max-content;\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-node.ltt-milestone-pulse-node .ltt-milestone-symbol {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  min-width: 40px;\n  border-top: 2px dashed;\n  border-bottom: 2px dashed transparent;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 180px;\n  max-width: 280px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: flex-start;\n  gap: var(--ltt-spacing-lg);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  width: 100%;\n  max-width: 100%;\n  box-sizing: border-box;\n  position: relative;\n  margin: 0 var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-badge-item.ltt-milestone-pulse-node .ltt-milestone-badge-number {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin: var(--ltt-spacing-lg) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n  width: auto;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin: var(--ltt-spacing-xs) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n  min-width: max-content;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-dot.ltt-milestone-pulse-dot {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n  min-width: max-content;\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: 12px;\n  background: var(--ltt-bg-primary);\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 140px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease, border-color var(--ltt-transition-fast);\n  position: relative;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-content-horizontal.ltt-milestone-pulse-card {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n/* 第一层：卡片头部 */\n.ltt-milestone-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-status-text {\n  font-size: 11px;\n  font-weight: 600;\n  white-space: nowrap;\n}\n\n.ltt-milestone-card-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 1.5px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n  position: relative;\n}\n\n.ltt-milestone-card-icon.ltt-milestone-spin-icon {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n.ltt-milestone-card-icon-corner {\n  position: absolute;\n  top: 4px;\n  right: 4px;\n  font-size: 12px;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第二层：描述 */\n.ltt-milestone-card-description {\n  font-size: 12px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.4;\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第三层：进度条 */\n.ltt-milestone-card-progress {\n  position: relative;\n  height: 4px;\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-card-progress-bg {\n  position: absolute;\n  inset: 0;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-card-progress-fill {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n/* 第四层：底部 */\n.ltt-milestone-card-footer {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-footer .ltt-milestone-card-date {\n  font-size: 10px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-percent {\n  font-size: 11px;\n  font-weight: 600;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n  min-height: 48px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact-item {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  cursor: pointer;\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-compact-icon {\n  flex-shrink: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-compact-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n}\n\n.ltt-milestone-compact-label {\n  font-size: 9px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n}\n\n.ltt-milestone-compact-status {\n  font-size: 8px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-compact-progress {\n  font-size: 8px;\n}\n\n.ltt-milestone-compact-connector {\n  width: 16px;\n  height: 2px;\n  flex-shrink: 0;\n  border-radius: 1px;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n\n/* ========== Arrow Capsule 样式 ========== */\n.ltt-milestone-arrow-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-track {\n  display: flex;\n  align-items: center;\n  position: relative;\n  padding: 0 var(--ltt-spacing-md);\n  min-width: max-content;\n}\n\n.ltt-milestone-arrow-node {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n  padding: 6px 10px;\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  background: var(--ltt-bg-primary);\n  transition: all var(--ltt-transition-fast);\n}\n\n.ltt-milestone-arrow-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-arrow-node.ltt-milestone-arrow-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-milestone-arrow-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-node-active .ltt-milestone-arrow-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-arrow-icon {\n  font-size: 12px;\n  font-weight: bold;\n}\n\n.ltt-milestone-arrow-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  min-width: 80px;\n}\n\n.ltt-milestone-arrow-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-status {\n  font-size: 10px;\n  font-weight: 500;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-connector {\n  width: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-connector::after {\n  content: '→';\n  font-size: 14px;\n  color: var(--ltt-border);\n}\n\n/* ========== Timeline Track 样式 ========== */\n.ltt-milestone-timeline-track {\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 12px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track-inner {\n  display: flex;\n  align-items: center;\n  min-width: max-content;\n  padding: 0 16px;\n  position: relative;\n}\n\n.ltt-milestone-timeline-node-wrapper {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-timeline-connector {\n  height: 4px;\n  flex: 1;\n  min-width: 40px;\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-connector-left {\n  margin-right: 4px;\n}\n\n.ltt-milestone-timeline-connector-right {\n  margin-left: 4px;\n}\n\n.ltt-milestone-timeline-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n  padding: 6px 6px;\n  border-radius: 10px;\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  transition: all var(--ltt-transition-fast);\n  flex-shrink: 0;\n  cursor: pointer;\n  min-width: 64px;\n}\n\n.ltt-milestone-timeline-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-timeline-node.ltt-milestone-timeline-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n.ltt-milestone-timeline-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  transition: all 0.3s ease;\n}\n\n.ltt-milestone-timeline-node-active .ltt-milestone-timeline-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-timeline-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-timeline-content {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1px;\n  text-align: center;\n}\n\n.ltt-milestone-timeline-label {\n  font-size: 8px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n  word-wrap: break-word;\n  word-break: break-word;\n  max-width: 60px;\n}\n\n.ltt-milestone-timeline-status {\n  font-size: 7px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-timeline-progress {\n  font-size: 7px;\n}\n\n/* ========== Dark Theme Support ========== */\n[data-theme='dark'] .ltt-milestone-container {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n[data-theme='dark'] .ltt-milestone-card-content-horizontal,\n[data-theme='dark'] .ltt-milestone-arrow-node,\n[data-theme='dark'] .ltt-milestone-timeline-node {\n  background: var(--ltt-bg-secondary);\n}\n\n[data-theme='dark'] .ltt-milestone-tooltip {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n/* ========== Compact Tooltip 内容样式（通用） ========== */\n.ltt-milestone-compact-tooltip-content {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-compact-tooltip-label {\n  font-size: 10px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-compact-tooltip-date {\n  font-size: 9px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-compact-tooltip-status {\n  font-size: 9px;\n  font-weight: 500;\n}\n\n.ltt-milestone-compact-tooltip-progress {\n  font-size: 9px;\n}\n\n/* ========== Tooltip 样式变体 ========== */\n\n/* 简约模式 */\n.ltt-milestone-tooltip-minimal {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 6px 10px;\n  min-width: 100px;\n}\n\n.ltt-milestone-tooltip-minimal-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-minimal-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n/* 紧凑模式 */\n.ltt-milestone-tooltip-compact {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  padding: 8px 12px;\n  min-width: 140px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-compact-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-compact-date {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-compact-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-compact-progress {\n  font-size: 10px;\n}\n\n/* 详细模式 */\n.ltt-milestone-tooltip-detailed {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 10px 14px;\n  min-width: 180px;\n  max-width: 240px;\n}\n\n.ltt-milestone-tooltip-detailed-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-tooltip-detailed-label {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-detailed-status {\n  font-size: 10px;\n  font-weight: 600;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-tooltip-detailed-date {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n  font-size: 10px;\n}\n\n.ltt-milestone-tooltip-detailed-date-label {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-date-value {\n  color: var(--ltt-text-primary);\n  font-weight: 400;\n}\n\n.ltt-milestone-tooltip-detailed-progress-section {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.ltt-milestone-tooltip-detailed-progress-label {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar-container {\n  height: 4px;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar {\n  height: 100%;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-tooltip-detailed-progress-value {\n  font-size: 10px;\n  color: var(--ltt-text-primary);\n  font-weight: 600;\n  text-align: right;\n}\n\n/* 优雅模式 */\n.ltt-milestone-tooltip-elegant {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 12px 16px;\n  min-width: 160px;\n  max-width: 260px;\n  background: linear-gradient(135deg, var(--ltt-bg-primary) 0%, var(--ltt-bg-secondary) 100%);\n  border: 1px solid var(--ltt-border);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n\n.ltt-milestone-tooltip-elegant-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 2px;\n}\n\n.ltt-milestone-tooltip-elegant-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  flex-shrink: 0;\n  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);\n}\n\n.ltt-milestone-tooltip-elegant-label {\n  font-size: 13px;\n  font-weight: 700;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-elegant-divider {\n  height: 1px;\n  background: linear-gradient(90deg, transparent, var(--ltt-border), transparent);\n  margin: 2px 0;\n}\n\n.ltt-milestone-tooltip-elegant-row {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 11px;\n}\n\n.ltt-milestone-tooltip-elegant-icon {\n  font-size: 12px;\n  flex-shrink: 0;\n  opacity: 0.7;\n}\n\n.ltt-milestone-tooltip-elegant-text {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 4px;\n  padding: 4px 8px;\n  margin-top: 8px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 6px;\n  font-size: 11px;\n  width: fit-content;\n  min-height: 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);\n  transition: all 0.2s ease;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 4px 8px;\n  border: none;\n  border-radius: 4px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 11px;\n  font-weight: 500;\n  line-height: 1.4;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-color);\n  color: var(--ls-primary-text-color);\n  font-weight: 600;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n}\n\n.ltt-view-btn svg {\n  width: 12px;\n  height: 12px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 11px;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar,\n.ltt-mindmap-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   MINDMAP VIEW\n========================================================= */\n\n/* Mindmap 视图样式已移到 mindMapView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana,\n.ltt-mindmap-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* Indigo Theme */\n.ltt-table-root.ltt-theme-indigo,\n.ltt-gallery-root.ltt-theme-indigo,\n.ltt-board-root.ltt-theme-indigo,\n.ltt-mindmap-root.ltt-theme-indigo {\n  --ltt-primary-color: #6366f1;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 3px 6px;\n    gap: 3px;\n  }\n\n  .ltt-view-btn {\n    padding: 3px 6px;\n    font-size: 10px;\n  }\n\n  .ltt-view-btn svg {\n    width: 10px;\n    height: 10px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 10px;\n  }\n}.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 9999;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n}\n\n/* Custom scrollbar styles */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ltt-text-secondary, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ltt-border, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ltt-border, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ltt-bg-secondary, #f5f5f5);\n  color: var(--ltt-text-secondary, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ltt-bg-hover, #e0e0e0);\n  color: var(--ltt-text-primary, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ltt-bg-primary, #fff);\n  color: var(--ltt-text-primary, #333);\n  border-color: var(--ltt-border, #e0e0e0);\n  border-bottom: 1px solid var(--ltt-bg-primary, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ltt-text-muted, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ltt-text-primary, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch styles */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: var(--ltt-border, #ccc);\n  transition: 0.4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: var(--ltt-bg-primary, white);\n  transition: 0.4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: var(--ltt-accent, #000);\n  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 6px 10px !important;\n  border: 1px solid var(--ltt-border, #ccc) !important;\n  border-radius: 6px !important;\n  font-size: 13px !important;\n  box-sizing: border-box !important;\n  background: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #333) !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #000) !important;\n  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;\n}\n\n.ltt-settings-section {\n  margin: 24px 0;\n  padding: 0;\n}\n\n.ltt-settings-section h4 {\n  margin: 0 0 12px 0;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #333);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n.ltt-section-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #999);\n  margin: 4px 0 12px 0;\n  line-height: 1.4;\n}\n\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));\n  gap: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.ltt-status-color-row input[type=\"color\"] {\n  width: 30px;\n  height: 30px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 6px;\n}\n\n.ltt-status-label {\n  font-size: 13px;\n  color: var(--ltt-text-primary, #333);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 24px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ltt-border, #e0e0e0);\n  display: flex;\n  justify-content: flex-end;\n}\n\n.ltt-settings-btn {\n  padding: 8px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.ltt-settings-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.ltt-settings-btn-save {\n  background-color: var(--ltt-accent, #000);\n  color: var(--ltt-bg-primary, #fff);\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  opacity: 0.9;\n  transform: translateY(-1px);\n}\n\n/* Milestone Base Section Styles */\n.ltt-milestone-base-section {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n  margin-bottom: 24px;\n  padding: 0;\n}\n\n.ltt-milestone-color-grid-compact {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));\n  gap: 12px;\n}\n\n.ltt-milestone-color-item-compact {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 6px 10px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n}\n\n.ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact {\n  background: var(--ltt-bg-primary, #1e1e1e);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"] {\n  width: 24px;\n  height: 24px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 4px;\n}\n\n.ltt-milestone-color-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-dot {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.ltt-milestone-color-label {\n  font-size: 12px;\n  color: var(--ltt-text-secondary, #6b7280);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-label {\n  color: var(--ltt-text-secondary, #a0aec0);\n}\n\n/* Template Color Section */\n.ltt-milestone-template-color-section {\n  margin-top: 24px;\n  padding-top: 20px;\n  border-top: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-section {\n  border-top-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-template-color-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.ltt-milestone-template-color-title {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-template-color-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  background: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 2px 8px;\n  border-radius: 10px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-hint {\n  background: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n/* Milestone Templates Section Styles */\n.ltt-milestone-templates-section {\n  margin-bottom: 24px;\n}\n\n.ltt-milestone-templates-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n  padding-bottom: 12px;\n  border-bottom: 2px solid var(--ltt-border, #e5e7eb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-header {\n  border-bottom-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-templates-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-add-template-btn {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 14px;\n  background: var(--ltt-accent, #667eea);\n  color: var(--ltt-bg-primary, white);\n  border: none;\n  border-radius: var(--ltt-radius-md, 8px);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(102, 126, 234, 0.3));\n}\n\n.ltt-milestone-add-template-btn:hover {\n  transform: translateY(-1px);\n  box-shadow: var(--ltt-shadow-md, 0 4px 12px rgba(102, 126, 234, 0.4));\n}\n\n.ltt-milestone-add-icon {\n  width: 14px;\n  height: 14px;\n}\n\n/* Template Card Styles */\n.ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-xl, 12px);\n  margin-bottom: 12px;\n  transition: all 0.2s ease;\n  overflow: hidden;\n}\n\n.ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, #1a1a1a);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-template-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  background: var(--ltt-bg-secondary, #fafafa);\n  border-bottom: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-header {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-bottom-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-template-info {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex: 1;\n}\n\n.ltt-milestone-template-number {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 28px;\n  height: 28px;\n  background: linear-gradient(135deg, var(--ltt-accent, #111827) 0%, var(--ltt-accent-hover, #374151) 100%);\n  color: var(--ltt-bg-primary, white);\n  font-size: 13px;\n  font-weight: 600;\n  border-radius: var(--ltt-radius-md, 6px);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-name-input {\n  flex: 1;\n  padding: 6px 10px;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #111827);\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n  min-width: 0;\n}\n\n.ltt-milestone-template-name-input:hover {\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-border, #e5e7eb);\n}\n\n.ltt-milestone-template-name-input:focus {\n  outline: none;\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.05);\n}\n\n.ltt-milestone-template-id {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  font-family: ui-monospace, Monaco, 'SF Mono', monospace;\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 4px 8px;\n  border-radius: var(--ltt-radius-sm, 4px);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-id {\n  background-color: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n.ltt-milestone-template-actions {\n  display: flex;\n  gap: 8px;\n}\n\n.ltt-milestone-action-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  background-color: transparent;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 8px);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  border-color: var(--ltt-border-strong, #d1d5db);\n  color: var(--ltt-text-primary, #111827);\n}\n\n.ltt-milestone-action-btn:active {\n  transform: scale(0.95);\n}\n\n.ltt-milestone-action-btn-delete:hover {\n  background-color: var(--ltt-error, #fef2f2);\n  border-color: var(--ltt-error, #fecaca);\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-action-btn-collapse:hover {\n  background-color: var(--ltt-bg-hover, #e0e7ff);\n  border-color: var(--ltt-accent, #667eea);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn {\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border-strong, #4b5568);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-delete:hover {\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.3);\n  color: var(--ltt-error, #fca5a5);\n}\n\n.ltt-milestone-template-card-expanded {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-md, 0 8px 24px rgba(0, 0, 0, 0.12));\n}\n\n.ltt-milestone-template-card-body {\n  padding: 24px 20px;\n  background: var(--ltt-bg-primary, white);\n  animation: slideDown 0.2s ease-out;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-body {\n  background: var(--ltt-bg-primary, #111827);\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-milestone-form-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 20px;\n}\n\n.ltt-milestone-form-item {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.ltt-milestone-form-item-full {\n  grid-column: 1 / -1;\n}\n\n.ltt-milestone-form-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #374151);\n  letter-spacing: 0.1px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-label {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-form-label-required:after {\n  content: \" *\";\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-form-input {\n  width: 100%;\n  padding: 10px 14px;\n  font-size: 14px;\n  color: var(--ltt-text-primary, #111827);\n  background-color: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #d1d5db);\n  border-radius: var(--ltt-radius-md, 8px);\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #9ca3af);\n}\n\n.ltt-milestone-form-input:focus {\n  outline: none;\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);\n}\n\n.ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input {\n  background-color: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #4b5568);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:focus {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #6b7280);\n}\n\n/* Template Display Row - 3 items in a row on wide screens */\n.ltt-milestone-template-display-row {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n  grid-column: 1 / -1;\n}\n\n@media (max-width: 900px) {\n  .ltt-milestone-template-display-row {\n    grid-template-columns: 1fr;\n  }\n}\n\n/* Form Hints - Smaller & Lighter */\n.ltt-milestone-form-hint {\n  font-size: 10px;\n  color: var(--ltt-text-muted, #c0c4cc);\n  margin-top: 4px;\n  font-weight: 400;\n  line-height: 1.3;\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-hint {\n  color: var(--ltt-text-muted, #6a7280);\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #f9fafb) 0%, var(--ltt-bg-tertiary, #f3f4f6) 100%);\n  border-radius: var(--ltt-radius-xl, 12px);\n  border: 2px dashed var(--ltt-border, #d1d5db);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates {\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #1f2937) 0%, var(--ltt-bg-tertiary, #111827) 100%);\n  border-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-empty-icon {\n  color: var(--ltt-text-muted, #9ca3af);\n  margin-bottom: 12px;\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates-text {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ltt-text-secondary, #6b7280);\n  text-align: center;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates-text {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n/* Error Styles */\n.ltt-milestone-input-error {\n  border-color: var(--ltt-error, #dc2626) !important;\n  background-color: rgba(220, 38, 38, 0.05) !important;\n}\n\n.ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;\n}\n\n.ltt-milestone-error-message {\n  font-size: 12px;\n  color: var(--ltt-error, #dc2626);\n  margin-top: 2px;\n  padding: 4px 8px;\n  background-color: rgba(220, 38, 38, 0.05);\n  border-radius: 4px;\n  border: 1px solid rgba(220, 38, 38, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error {\n  border-color: var(--ltt-error, #fca5a5) !important;\n  background-color: rgba(239, 68, 68, 0.1) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-error-message {\n  color: var(--ltt-error, #fca5a5);\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(252, 165, 165, 0.2);\n}\n\n/* Responsive Styles */\n@media (max-width: 768px) {\n  .ltt-milestone-templates-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: flex-start;\n  }\n\n  .ltt-milestone-add-template-btn {\n    width: 100%;\n    justify-content: center;\n  }\n\n  .ltt-milestone-form-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .ltt-milestone-template-card-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: stretch;\n  }\n\n  .ltt-milestone-template-actions {\n    justify-content: flex-end;\n  }\n\n  .ltt-milestone-template-info {\n    flex-wrap: wrap;\n  }\n\n  .ltt-milestone-error-message {\n    width: 100%;\n  }\n}\n\n/* ============================================================================\n   Toolbar Settings - JSON Editor Styles (Restored from v1.1.6)\n   ============================================================================ */\n\n/* Toolbar-specific styles */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON Editor Container */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n/* JSON Editor */\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ltt-border, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  background-color: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #3b82f6) !important;\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;\n}\n\n/* JSON Error Message */\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: var(--ltt-error, #ef4444);\n  margin-bottom: 12px;\n  padding: 8px 12px;\n  background-color: rgba(239, 68, 68, 0.1);\n  border-radius: 4px;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n/* JSON Editor Hint */\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 20px;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 6px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #374151);\n  font-weight: 600;\n}\n\n/* Dark Theme for JSON Editor */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ltt-bg-secondary, #1f2937) !important;\n  border: 1px solid var(--ltt-border, #374151) !important;\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ltt-text-primary, #e5e7eb) !important;\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-json-error {\n  background-color: rgba(239, 68, 68, 0.15);\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint {\n  background: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint ul {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n/* Responsive Styles for Toolbar Settings */\n@media (max-width: 768px) {\n  #ltt-toolbar-settings .ltt-settings-tab-content {\n    padding: 0 4px;\n  }\n\n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n  }\n\n  .ltt-setting-item.ltt-setting-item-json {\n    margin-bottom: 16px;\n  }\n}\n\n@media (max-width: 480px) {\n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n}\n/* 基础容器 */\n.ls-block:has(.ltt-summary-page) {\n  --card-radius: 10px;\n  --card-gap: 12px;\n  --tag-blue: #4387ff;\n  --tag-green: #10b981;\n  --tag-yellow: #f59e0b;\n  --tag-purple: #8b5cf6;\n  --tag-pink: #ec4899;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: var(--ls-secondary-background-color, #f8f9fa) !important;\n  padding: 24px 16px !important;\n  border-radius: 12px !important;\n  text-align: center !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(25% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  transition: all 0.3s ease !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"]:hover {\n  transform: translateY(-4px) !important;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(50% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 20px !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 8px !important;\n}\n\n/* 隐藏圆点箭头 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n/* ==================================\n3. 热门标签 → 彩色标签样式\n=================================== */\n/* .ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-children {\n  display: flex !important;\n  flex-wrap: nowrap !important;\n   gap: 8px !important;\n  flex-direction: row !important;\n   width: 100% !important;\n  overflow: visible !important;\n} */\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  /* background: var(--ls-secondary-background-color, #ffffff) !important; */\n  /* padding: 24px !important; */\n  /* border-radius: 12px !important; */\n  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important; */\n  /* border: 1px solid rgba(0, 0, 0, 0.05) !important; */\n  display: inline-block !important;\n  width: calc(15% - 16px) !important;\n  /* margin: 8px !important; */\n  /* vertical-align: top !important; */\n  min-height: 8px !important;\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  position: static !important;\n  vertical-align: top !important; */\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  min-height: unset !important;\n  white-space: nowrap !important; */\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-content .block-title-wrap {\n  display: inline-block !important;\n  padding: 6px 14px !important;\n  border-radius: 999px !important;\n  font-size: 13px !important;\n  font-weight: 500 !important;\n  color: #fff !important;\n  white-space: nowrap !important;\n}\n\n/* 自动给不同标签上色 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(1) .block-title-wrap {\n  background: var(--tag-blue);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(2) .block-title-wrap {\n  background: var(--tag-green);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(3) .block-title-wrap {\n  background: var(--tag-yellow);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(4) .block-title-wrap {\n  background: var(--tag-purple);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(5) .block-title-wrap {\n  background: var(--tag-pink);\n}\n\n/* 隐藏圆点 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .bullet-link-wrap {\n  display: none !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(2) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 24px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 30px !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] table {\n  width: 100% !important;\n  border-collapse: collapse !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] td {\n  padding: 8px 12px !important;\n  text-align: left !important;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(59, 130, 246, 0.08) !important;\n  font-weight: 600 !important;\n  font-size: 13px !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(96, 165, 250, 0.15) !important;\n}\n\n@media (max-width: 900px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(50% - 16px) !important;\n  }\n\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n@media (max-width: 500px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n/* Summary Modal Styles */\n/* 这个 CSS 文件定义了 Summary Modal 的样式，确保在不同主题下都有良好的视觉效果。 */\n\n.summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}/*$vite$:1*/";document.head.appendChild(__vite_style__);
+
+  function _mergeNamespaces(n, m) {
+    m.forEach(function (e) {
+      e && typeof e !== 'string' && !Array.isArray(e) && Object.keys(e).forEach(function (k) {
+        if (k !== 'default' && !(k in n)) {
+          var d = Object.getOwnPropertyDescriptor(e, k);
+          Object.defineProperty(n, k, d.get ? d : {
+            enumerable: true,
+            get: function () { return e[k]; }
+          });
+        }
+      });
+    });
+    return Object.freeze(Object.defineProperty(n, Symbol.toStringTag, { value: 'Module' }));
+  }
 
   false&&(function polyfill() {
     const relList = document.createElement("link").relList;
@@ -44,7 +59,7 @@
       return document;
     }
   };
-  const getWindow = () => {
+  const getWindow$1 = () => {
     {
       return window;
     }
@@ -1047,6 +1062,7 @@
   	showLabel: true,
   	showLabels: true,
   	showProgress: true,
+  	tooltipStyle: "compact",
   	templates: [
   	],
   	defaultColorScheme: {
@@ -1901,6 +1917,11 @@
 
   var reactExports = react.exports;
   var React = /*@__PURE__*/getDefaultExportFromCjs(reactExports);
+
+  var React$1 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    default: React
+  }, [reactExports]);
 
   /**
    * @license React
@@ -3296,6 +3317,14 @@
   		styleTrack: "Track",
   		styleCard: "Card",
   		styleCompact: "Compact",
+  		styleArrowCapsule: "Arrow Capsule",
+  		styleTimelineTrack: "Timeline Track",
+  		tooltipStyle: "Tooltip Style",
+  		tooltipStyleMinimal: "Minimal",
+  		tooltipStyleCompact: "Compact",
+  		tooltipStyleDetailed: "Detailed",
+  		tooltipStyleElegant: "Elegant",
+  		inline: "Inline Mode",
   		showLabel: "Show Labels",
   		showLabels: "Show Labels",
   		showProgress: "Show Progress",
@@ -3604,6 +3633,14 @@
   		styleTrack: "トラック",
   		styleCard: "カード",
   		styleCompact: "コンパクト",
+  		styleArrowCapsule: "アローカプセル",
+  		styleTimelineTrack: "タイムライントラック",
+  		tooltipStyle: "Tooltip スタイル",
+  		tooltipStyleMinimal: "ミニマル",
+  		tooltipStyleCompact: "コンパクト",
+  		tooltipStyleDetailed: "詳細",
+  		tooltipStyleElegant: "エレガント",
+  		inline: "インラインモード",
   		showLabel: "ラベルを表示",
   		showLabels: "ラベルを表示",
   		showProgress: "進捗を表示",
@@ -3915,6 +3952,14 @@
   		styleTrack: "轨道",
   		styleCard: "卡片",
   		styleCompact: "紧凑",
+  		styleArrowCapsule: "箭头胶囊",
+  		styleTimelineTrack: "时间线轨道",
+  		tooltipStyle: "Tooltip 样式",
+  		tooltipStyleMinimal: "简约模式",
+  		tooltipStyleCompact: "紧凑模式",
+  		tooltipStyleDetailed: "详细模式",
+  		tooltipStyleElegant: "优雅模式",
+  		inline: "行内模式",
   		showLabel: "显示标签",
   		showLabels: "显示标签",
   		showProgress: "显示进度",
@@ -4004,7 +4049,7 @@
     return getNestedValue(builtInTranslation, key);
   };
 
-  const Tooltip$1 = ({
+  const Tooltip$3 = ({
     children,
     content,
     lang = "zh-CN",
@@ -4123,7 +4168,7 @@
       );
     });
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Tooltip$1,
+      Tooltip$3,
       {
         content: { stats, totalTasks, progress },
         lang,
@@ -4186,7 +4231,7 @@
       return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "task-progress-label", style: { fontSize: "10px" }, children: label });
     };
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Tooltip$1,
+      Tooltip$3,
       {
         content: { stats, totalTasks, progress },
         lang,
@@ -4244,7 +4289,7 @@
       return indexA - indexB;
     });
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Tooltip$1,
+      Tooltip$3,
       {
         content: { stats, totalTasks: stats.reduce((sum, s) => sum + s.count, 0), progress },
         lang,
@@ -4301,7 +4346,7 @@
       return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "task-progress-label", children: label });
     };
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Tooltip$1,
+      Tooltip$3,
       {
         content: { stats, totalTasks, progress },
         lang,
@@ -4364,7 +4409,7 @@
       return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "task-progress-label", style: { fontSize: "10px", marginLeft: "4px" }, children: label });
     };
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Tooltip$1,
+      Tooltip$3,
       {
         content: { stats, totalTasks, progress },
         lang,
@@ -4486,8 +4531,8 @@
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       const resizeCanvas = () => {
-        canvas.width = getWindow().innerWidth;
-        canvas.height = getWindow().innerHeight;
+        canvas.width = getWindow$1().innerWidth;
+        canvas.height = getWindow$1().innerHeight;
       };
       resizeCanvas();
       const animate = () => {
@@ -4535,12 +4580,12 @@
       };
       animationRef.current = requestAnimationFrame(animate);
       const handleResize = () => resizeCanvas();
-      getWindow().addEventListener("resize", handleResize, { passive: true });
+      getWindow$1().addEventListener("resize", handleResize, { passive: true });
       return () => {
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
         }
-        getWindow().removeEventListener("resize", handleResize);
+        getWindow$1().removeEventListener("resize", handleResize);
       };
     }, [fireworks, particles, createExplosion]);
     if (!targetRect) return null;
@@ -5200,7 +5245,7 @@ ${nestingClauses}`;
     return "█".repeat(filled) + "░".repeat(empty);
   }
 
-  const Tooltip = ({ data, cellRect, theme = "light" }) => {
+  const Tooltip$2 = ({ data, cellRect, theme = "light" }) => {
     const isDark = theme === "dark";
     const progressBar = generateProgressBar(data.percentage);
     const style = {
@@ -5302,7 +5347,7 @@ ${nestingClauses}`;
         }
       ),
       isHovered && cellRect && !isEmpty && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Tooltip,
+        Tooltip$2,
         {
           data: { date, count: value, percentage, maxValue },
           cellRect,
@@ -5312,7 +5357,7 @@ ${nestingClauses}`;
     ] });
   };
 
-  const YearView = ({ data, config, currentDate, onCellClick, onMonthLabelClick, theme = "light" }) => {
+  const YearView = ({ data, config, currentDate = /* @__PURE__ */ new Date(), onCellClick, onMonthLabelClick, theme = "light" }) => {
     const year = currentDate.getFullYear();
     const dataMap = /* @__PURE__ */ new Map();
     data.forEach((d) => {
@@ -5448,7 +5493,7 @@ ${nestingClauses}`;
     const weekNumber = Math.floor(diff / 6048e5) + 1;
     return weekNumber;
   };
-  const MonthView = ({ data, config, currentDate, onCellClick, onWeekLabelClick, theme = "light" }) => {
+  const MonthView = ({ data, config, currentDate = /* @__PURE__ */ new Date(), onCellClick, onWeekLabelClick, theme = "light" }) => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const dataMap = /* @__PURE__ */ new Map();
@@ -5593,7 +5638,7 @@ ${nestingClauses}`;
       return /* @__PURE__ */ new Date();
     }
   };
-  const WeekView = ({ data, config, currentDate, onCellClick }) => {
+  const WeekView = ({ data, config, currentDate = /* @__PURE__ */ new Date(), onCellClick }) => {
     const dayOfWeek = currentDate.getDay();
     const monday = new Date(currentDate);
     monday.setDate(currentDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
@@ -7720,23 +7765,28 @@ ${where}
           cancelAnimationFrame(animationFrameId);
         }
         animationFrameId = requestAnimationFrame(() => {
-          const blockEl2 = getDocument().getElementById(blockElementId);
-          if (!blockEl2) return;
+          const blockEl = getDocument().getElementById(blockElementId);
+          if (!blockEl) return;
           const containerWidth2 = el.getBoundingClientRect().width;
-          const blockWidth = blockEl2.getBoundingClientRect().width;
+          const blockWidth = blockEl.getBoundingClientRect().width;
           const safeWidth = Math.min(containerWidth2, blockWidth);
           setContainerWidth(safeWidth);
         });
       });
       ro.observe(el);
-      const blockEl = getDocument().getElementById(blockElementId);
-      if (blockEl) ro.observe(blockEl);
-      const initialBlockEl = getDocument().getElementById(blockElementId);
-      const initialWidth = Math.min(
-        el.getBoundingClientRect().width,
-        initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
-      );
-      setContainerWidth(initialWidth);
+      const doc = getDocument();
+      if (doc) {
+        const blockEl = doc.getElementById(blockElementId);
+        if (blockEl) ro.observe(blockEl);
+        const initialBlockEl = doc.getElementById(blockElementId);
+        const initialWidth = Math.min(
+          el.getBoundingClientRect().width,
+          initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
+        );
+        setContainerWidth(initialWidth);
+      } else {
+        setContainerWidth(el.getBoundingClientRect().width);
+      }
       return () => {
         ro.disconnect();
         if (animationFrameId) {
@@ -9169,7 +9219,3905 @@ ${where}
     ] });
   };
 
-  const defaultColorScheme$5 = {
+  // src/primitive.tsx
+  function composeEventHandlers(originalEventHandler, ourEventHandler, { checkForDefaultPrevented = true } = {}) {
+    return function handleEvent(event) {
+      originalEventHandler?.(event);
+      if (checkForDefaultPrevented === false || !event.defaultPrevented) {
+        return ourEventHandler?.(event);
+      }
+    };
+  }
+
+  // packages/react/compose-refs/src/compose-refs.tsx
+  function setRef$1(ref, value) {
+    if (typeof ref === "function") {
+      return ref(value);
+    } else if (ref !== null && ref !== void 0) {
+      ref.current = value;
+    }
+  }
+  function composeRefs$1(...refs) {
+    return (node) => {
+      let hasCleanup = false;
+      const cleanups = refs.map((ref) => {
+        const cleanup = setRef$1(ref, node);
+        if (!hasCleanup && typeof cleanup == "function") {
+          hasCleanup = true;
+        }
+        return cleanup;
+      });
+      if (hasCleanup) {
+        return () => {
+          for (let i = 0; i < cleanups.length; i++) {
+            const cleanup = cleanups[i];
+            if (typeof cleanup == "function") {
+              cleanup();
+            } else {
+              setRef$1(refs[i], null);
+            }
+          }
+        };
+      }
+    };
+  }
+  function useComposedRefs$1(...refs) {
+    return reactExports.useCallback(composeRefs$1(...refs), refs);
+  }
+
+  // packages/react/context/src/create-context.tsx
+  function createContextScope(scopeName, createContextScopeDeps = []) {
+    let defaultContexts = [];
+    function createContext3(rootComponentName, defaultContext) {
+      const BaseContext = reactExports.createContext(defaultContext);
+      const index = defaultContexts.length;
+      defaultContexts = [...defaultContexts, defaultContext];
+      const Provider = (props) => {
+        const { scope, children, ...context } = props;
+        const Context = scope?.[scopeName]?.[index] || BaseContext;
+        const value = reactExports.useMemo(() => context, Object.values(context));
+        return /* @__PURE__ */ jsxRuntimeExports.jsx(Context.Provider, { value, children });
+      };
+      Provider.displayName = rootComponentName + "Provider";
+      function useContext2(consumerName, scope) {
+        const Context = scope?.[scopeName]?.[index] || BaseContext;
+        const context = reactExports.useContext(Context);
+        if (context) return context;
+        if (defaultContext !== void 0) return defaultContext;
+        throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+      }
+      return [Provider, useContext2];
+    }
+    const createScope = () => {
+      const scopeContexts = defaultContexts.map((defaultContext) => {
+        return reactExports.createContext(defaultContext);
+      });
+      return function useScope(scope) {
+        const contexts = scope?.[scopeName] || scopeContexts;
+        return reactExports.useMemo(
+          () => ({ [`__scope${scopeName}`]: { ...scope, [scopeName]: contexts } }),
+          [scope, contexts]
+        );
+      };
+    };
+    createScope.scopeName = scopeName;
+    return [createContext3, composeContextScopes(createScope, ...createContextScopeDeps)];
+  }
+  function composeContextScopes(...scopes) {
+    const baseScope = scopes[0];
+    if (scopes.length === 1) return baseScope;
+    const createScope = () => {
+      const scopeHooks = scopes.map((createScope2) => ({
+        useScope: createScope2(),
+        scopeName: createScope2.scopeName
+      }));
+      return function useComposedScopes(overrideScopes) {
+        const nextScopes = scopeHooks.reduce((nextScopes2, { useScope, scopeName }) => {
+          const scopeProps = useScope(overrideScopes);
+          const currentScope = scopeProps[`__scope${scopeName}`];
+          return { ...nextScopes2, ...currentScope };
+        }, {});
+        return reactExports.useMemo(() => ({ [`__scope${baseScope.scopeName}`]: nextScopes }), [nextScopes]);
+      };
+    };
+    createScope.scopeName = baseScope.scopeName;
+    return createScope;
+  }
+
+  // src/slot.tsx
+  // @__NO_SIDE_EFFECTS__
+  function createSlot(ownerName) {
+    const SlotClone = /* @__PURE__ */ createSlotClone(ownerName);
+    const Slot2 = reactExports.forwardRef((props, forwardedRef) => {
+      const { children, ...slotProps } = props;
+      const childrenArray = reactExports.Children.toArray(children);
+      const slottable = childrenArray.find(isSlottable);
+      if (slottable) {
+        const newElement = slottable.props.children;
+        const newChildren = childrenArray.map((child) => {
+          if (child === slottable) {
+            if (reactExports.Children.count(newElement) > 1) return reactExports.Children.only(null);
+            return reactExports.isValidElement(newElement) ? newElement.props.children : null;
+          } else {
+            return child;
+          }
+        });
+        return /* @__PURE__ */ jsxRuntimeExports.jsx(SlotClone, { ...slotProps, ref: forwardedRef, children: reactExports.isValidElement(newElement) ? reactExports.cloneElement(newElement, void 0, newChildren) : null });
+      }
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(SlotClone, { ...slotProps, ref: forwardedRef, children });
+    });
+    Slot2.displayName = `${ownerName}.Slot`;
+    return Slot2;
+  }
+  // @__NO_SIDE_EFFECTS__
+  function createSlotClone(ownerName) {
+    const SlotClone = reactExports.forwardRef((props, forwardedRef) => {
+      const { children, ...slotProps } = props;
+      if (reactExports.isValidElement(children)) {
+        const childrenRef = getElementRef$1(children);
+        const props2 = mergeProps(slotProps, children.props);
+        if (children.type !== reactExports.Fragment) {
+          props2.ref = forwardedRef ? composeRefs$1(forwardedRef, childrenRef) : childrenRef;
+        }
+        return reactExports.cloneElement(children, props2);
+      }
+      return reactExports.Children.count(children) > 1 ? reactExports.Children.only(null) : null;
+    });
+    SlotClone.displayName = `${ownerName}.SlotClone`;
+    return SlotClone;
+  }
+  var SLOTTABLE_IDENTIFIER = Symbol("radix.slottable");
+  // @__NO_SIDE_EFFECTS__
+  function createSlottable(ownerName) {
+    const Slottable2 = ({ children }) => {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children });
+    };
+    Slottable2.displayName = `${ownerName}.Slottable`;
+    Slottable2.__radixId = SLOTTABLE_IDENTIFIER;
+    return Slottable2;
+  }
+  function isSlottable(child) {
+    return reactExports.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER;
+  }
+  function mergeProps(slotProps, childProps) {
+    const overrideProps = { ...childProps };
+    for (const propName in childProps) {
+      const slotPropValue = slotProps[propName];
+      const childPropValue = childProps[propName];
+      const isHandler = /^on[A-Z]/.test(propName);
+      if (isHandler) {
+        if (slotPropValue && childPropValue) {
+          overrideProps[propName] = (...args) => {
+            const result = childPropValue(...args);
+            slotPropValue(...args);
+            return result;
+          };
+        } else if (slotPropValue) {
+          overrideProps[propName] = slotPropValue;
+        }
+      } else if (propName === "style") {
+        overrideProps[propName] = { ...slotPropValue, ...childPropValue };
+      } else if (propName === "className") {
+        overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
+      }
+    }
+    return { ...slotProps, ...overrideProps };
+  }
+  function getElementRef$1(element) {
+    let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
+    let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+    if (mayWarn) {
+      return element.ref;
+    }
+    getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
+    mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+    if (mayWarn) {
+      return element.props.ref;
+    }
+    return element.props.ref || element.ref;
+  }
+
+  // src/primitive.tsx
+  var NODES = [
+    "a",
+    "button",
+    "div",
+    "form",
+    "h2",
+    "h3",
+    "img",
+    "input",
+    "label",
+    "li",
+    "nav",
+    "ol",
+    "p",
+    "select",
+    "span",
+    "svg",
+    "ul"
+  ];
+  var Primitive = NODES.reduce((primitive, node) => {
+    const Slot = createSlot(`Primitive.${node}`);
+    const Node = reactExports.forwardRef((props, forwardedRef) => {
+      const { asChild, ...primitiveProps } = props;
+      const Comp = asChild ? Slot : node;
+      if (typeof window !== "undefined") {
+        window[Symbol.for("radix-ui")] = true;
+      }
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(Comp, { ...primitiveProps, ref: forwardedRef });
+    });
+    Node.displayName = `Primitive.${node}`;
+    return { ...primitive, [node]: Node };
+  }, {});
+  function dispatchDiscreteCustomEvent(target, event) {
+    if (target) reactDomExports.flushSync(() => target.dispatchEvent(event));
+  }
+
+  // packages/react/use-callback-ref/src/use-callback-ref.tsx
+  function useCallbackRef(callback) {
+    const callbackRef = reactExports.useRef(callback);
+    reactExports.useEffect(() => {
+      callbackRef.current = callback;
+    });
+    return reactExports.useMemo(() => (...args) => callbackRef.current?.(...args), []);
+  }
+
+  // packages/react/use-escape-keydown/src/use-escape-keydown.tsx
+  function useEscapeKeydown(onEscapeKeyDownProp, ownerDocument = globalThis?.document) {
+    const onEscapeKeyDown = useCallbackRef(onEscapeKeyDownProp);
+    reactExports.useEffect(() => {
+      const handleKeyDown = (event) => {
+        if (event.key === "Escape") {
+          onEscapeKeyDown(event);
+        }
+      };
+      ownerDocument.addEventListener("keydown", handleKeyDown, { capture: true });
+      return () => ownerDocument.removeEventListener("keydown", handleKeyDown, { capture: true });
+    }, [onEscapeKeyDown, ownerDocument]);
+  }
+
+  var DISMISSABLE_LAYER_NAME = "DismissableLayer";
+  var CONTEXT_UPDATE = "dismissableLayer.update";
+  var POINTER_DOWN_OUTSIDE = "dismissableLayer.pointerDownOutside";
+  var FOCUS_OUTSIDE = "dismissableLayer.focusOutside";
+  var originalBodyPointerEvents;
+  var DismissableLayerContext = reactExports.createContext({
+    layers: /* @__PURE__ */ new Set(),
+    layersWithOutsidePointerEventsDisabled: /* @__PURE__ */ new Set(),
+    branches: /* @__PURE__ */ new Set()
+  });
+  var DismissableLayer = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      const {
+        disableOutsidePointerEvents = false,
+        onEscapeKeyDown,
+        onPointerDownOutside,
+        onFocusOutside,
+        onInteractOutside,
+        onDismiss,
+        ...layerProps
+      } = props;
+      const context = reactExports.useContext(DismissableLayerContext);
+      const [node, setNode] = reactExports.useState(null);
+      const ownerDocument = node?.ownerDocument ?? globalThis?.document;
+      const [, force] = reactExports.useState({});
+      const composedRefs = useComposedRefs$1(forwardedRef, (node2) => setNode(node2));
+      const layers = Array.from(context.layers);
+      const [highestLayerWithOutsidePointerEventsDisabled] = [...context.layersWithOutsidePointerEventsDisabled].slice(-1);
+      const highestLayerWithOutsidePointerEventsDisabledIndex = layers.indexOf(highestLayerWithOutsidePointerEventsDisabled);
+      const index = node ? layers.indexOf(node) : -1;
+      const isBodyPointerEventsDisabled = context.layersWithOutsidePointerEventsDisabled.size > 0;
+      const isPointerEventsEnabled = index >= highestLayerWithOutsidePointerEventsDisabledIndex;
+      const pointerDownOutside = usePointerDownOutside((event) => {
+        const target = event.target;
+        const isPointerDownOnBranch = [...context.branches].some((branch) => branch.contains(target));
+        if (!isPointerEventsEnabled || isPointerDownOnBranch) return;
+        onPointerDownOutside?.(event);
+        onInteractOutside?.(event);
+        if (!event.defaultPrevented) onDismiss?.();
+      }, ownerDocument);
+      const focusOutside = useFocusOutside((event) => {
+        const target = event.target;
+        const isFocusInBranch = [...context.branches].some((branch) => branch.contains(target));
+        if (isFocusInBranch) return;
+        onFocusOutside?.(event);
+        onInteractOutside?.(event);
+        if (!event.defaultPrevented) onDismiss?.();
+      }, ownerDocument);
+      useEscapeKeydown((event) => {
+        const isHighestLayer = index === context.layers.size - 1;
+        if (!isHighestLayer) return;
+        onEscapeKeyDown?.(event);
+        if (!event.defaultPrevented && onDismiss) {
+          event.preventDefault();
+          onDismiss();
+        }
+      }, ownerDocument);
+      reactExports.useEffect(() => {
+        if (!node) return;
+        if (disableOutsidePointerEvents) {
+          if (context.layersWithOutsidePointerEventsDisabled.size === 0) {
+            originalBodyPointerEvents = ownerDocument.body.style.pointerEvents;
+            ownerDocument.body.style.pointerEvents = "none";
+          }
+          context.layersWithOutsidePointerEventsDisabled.add(node);
+        }
+        context.layers.add(node);
+        dispatchUpdate();
+        return () => {
+          if (disableOutsidePointerEvents && context.layersWithOutsidePointerEventsDisabled.size === 1) {
+            ownerDocument.body.style.pointerEvents = originalBodyPointerEvents;
+          }
+        };
+      }, [node, ownerDocument, disableOutsidePointerEvents, context]);
+      reactExports.useEffect(() => {
+        return () => {
+          if (!node) return;
+          context.layers.delete(node);
+          context.layersWithOutsidePointerEventsDisabled.delete(node);
+          dispatchUpdate();
+        };
+      }, [node, context]);
+      reactExports.useEffect(() => {
+        const handleUpdate = () => force({});
+        document.addEventListener(CONTEXT_UPDATE, handleUpdate);
+        return () => document.removeEventListener(CONTEXT_UPDATE, handleUpdate);
+      }, []);
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Primitive.div,
+        {
+          ...layerProps,
+          ref: composedRefs,
+          style: {
+            pointerEvents: isBodyPointerEventsDisabled ? isPointerEventsEnabled ? "auto" : "none" : void 0,
+            ...props.style
+          },
+          onFocusCapture: composeEventHandlers(props.onFocusCapture, focusOutside.onFocusCapture),
+          onBlurCapture: composeEventHandlers(props.onBlurCapture, focusOutside.onBlurCapture),
+          onPointerDownCapture: composeEventHandlers(
+            props.onPointerDownCapture,
+            pointerDownOutside.onPointerDownCapture
+          )
+        }
+      );
+    }
+  );
+  DismissableLayer.displayName = DISMISSABLE_LAYER_NAME;
+  var BRANCH_NAME = "DismissableLayerBranch";
+  var DismissableLayerBranch = reactExports.forwardRef((props, forwardedRef) => {
+    const context = reactExports.useContext(DismissableLayerContext);
+    const ref = reactExports.useRef(null);
+    const composedRefs = useComposedRefs$1(forwardedRef, ref);
+    reactExports.useEffect(() => {
+      const node = ref.current;
+      if (node) {
+        context.branches.add(node);
+        return () => {
+          context.branches.delete(node);
+        };
+      }
+    }, [context.branches]);
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(Primitive.div, { ...props, ref: composedRefs });
+  });
+  DismissableLayerBranch.displayName = BRANCH_NAME;
+  function usePointerDownOutside(onPointerDownOutside, ownerDocument = globalThis?.document) {
+    const handlePointerDownOutside = useCallbackRef(onPointerDownOutside);
+    const isPointerInsideReactTreeRef = reactExports.useRef(false);
+    const handleClickRef = reactExports.useRef(() => {
+    });
+    reactExports.useEffect(() => {
+      const handlePointerDown = (event) => {
+        if (event.target && !isPointerInsideReactTreeRef.current) {
+          let handleAndDispatchPointerDownOutsideEvent2 = function() {
+            handleAndDispatchCustomEvent(
+              POINTER_DOWN_OUTSIDE,
+              handlePointerDownOutside,
+              eventDetail,
+              { discrete: true }
+            );
+          };
+          const eventDetail = { originalEvent: event };
+          if (event.pointerType === "touch") {
+            ownerDocument.removeEventListener("click", handleClickRef.current);
+            handleClickRef.current = handleAndDispatchPointerDownOutsideEvent2;
+            ownerDocument.addEventListener("click", handleClickRef.current, { once: true });
+          } else {
+            handleAndDispatchPointerDownOutsideEvent2();
+          }
+        } else {
+          ownerDocument.removeEventListener("click", handleClickRef.current);
+        }
+        isPointerInsideReactTreeRef.current = false;
+      };
+      const timerId = window.setTimeout(() => {
+        ownerDocument.addEventListener("pointerdown", handlePointerDown);
+      }, 0);
+      return () => {
+        window.clearTimeout(timerId);
+        ownerDocument.removeEventListener("pointerdown", handlePointerDown);
+        ownerDocument.removeEventListener("click", handleClickRef.current);
+      };
+    }, [ownerDocument, handlePointerDownOutside]);
+    return {
+      // ensures we check React component tree (not just DOM tree)
+      onPointerDownCapture: () => isPointerInsideReactTreeRef.current = true
+    };
+  }
+  function useFocusOutside(onFocusOutside, ownerDocument = globalThis?.document) {
+    const handleFocusOutside = useCallbackRef(onFocusOutside);
+    const isFocusInsideReactTreeRef = reactExports.useRef(false);
+    reactExports.useEffect(() => {
+      const handleFocus = (event) => {
+        if (event.target && !isFocusInsideReactTreeRef.current) {
+          const eventDetail = { originalEvent: event };
+          handleAndDispatchCustomEvent(FOCUS_OUTSIDE, handleFocusOutside, eventDetail, {
+            discrete: false
+          });
+        }
+      };
+      ownerDocument.addEventListener("focusin", handleFocus);
+      return () => ownerDocument.removeEventListener("focusin", handleFocus);
+    }, [ownerDocument, handleFocusOutside]);
+    return {
+      onFocusCapture: () => isFocusInsideReactTreeRef.current = true,
+      onBlurCapture: () => isFocusInsideReactTreeRef.current = false
+    };
+  }
+  function dispatchUpdate() {
+    const event = new CustomEvent(CONTEXT_UPDATE);
+    document.dispatchEvent(event);
+  }
+  function handleAndDispatchCustomEvent(name, handler, detail, { discrete }) {
+    const target = detail.originalEvent.target;
+    const event = new CustomEvent(name, { bubbles: false, cancelable: true, detail });
+    if (handler) target.addEventListener(name, handler, { once: true });
+    if (discrete) {
+      dispatchDiscreteCustomEvent(target, event);
+    } else {
+      target.dispatchEvent(event);
+    }
+  }
+
+  // packages/react/use-layout-effect/src/use-layout-effect.tsx
+  var useLayoutEffect2 = globalThis?.document ? reactExports.useLayoutEffect : () => {
+  };
+
+  // packages/react/id/src/id.tsx
+  var useReactId = React$1[" useId ".trim().toString()] || (() => void 0);
+  var count = 0;
+  function useId(deterministicId) {
+    const [id, setId] = reactExports.useState(useReactId());
+    useLayoutEffect2(() => {
+      setId((reactId) => reactId ?? String(count++));
+    }, [deterministicId]);
+    return (id ? `radix-${id}` : "");
+  }
+
+  /**
+   * Custom positioning reference element.
+   * @see https://floating-ui.com/docs/virtual-elements
+   */
+
+  const sides = ['top', 'right', 'bottom', 'left'];
+  const min = Math.min;
+  const max = Math.max;
+  const round = Math.round;
+  const floor = Math.floor;
+  const createCoords = v => ({
+    x: v,
+    y: v
+  });
+  const oppositeSideMap = {
+    left: 'right',
+    right: 'left',
+    bottom: 'top',
+    top: 'bottom'
+  };
+  function clamp$1(start, value, end) {
+    return max(start, min(value, end));
+  }
+  function evaluate(value, param) {
+    return typeof value === 'function' ? value(param) : value;
+  }
+  function getSide(placement) {
+    return placement.split('-')[0];
+  }
+  function getAlignment(placement) {
+    return placement.split('-')[1];
+  }
+  function getOppositeAxis(axis) {
+    return axis === 'x' ? 'y' : 'x';
+  }
+  function getAxisLength(axis) {
+    return axis === 'y' ? 'height' : 'width';
+  }
+  function getSideAxis(placement) {
+    const firstChar = placement[0];
+    return firstChar === 't' || firstChar === 'b' ? 'y' : 'x';
+  }
+  function getAlignmentAxis(placement) {
+    return getOppositeAxis(getSideAxis(placement));
+  }
+  function getAlignmentSides(placement, rects, rtl) {
+    if (rtl === void 0) {
+      rtl = false;
+    }
+    const alignment = getAlignment(placement);
+    const alignmentAxis = getAlignmentAxis(placement);
+    const length = getAxisLength(alignmentAxis);
+    let mainAlignmentSide = alignmentAxis === 'x' ? alignment === (rtl ? 'end' : 'start') ? 'right' : 'left' : alignment === 'start' ? 'bottom' : 'top';
+    if (rects.reference[length] > rects.floating[length]) {
+      mainAlignmentSide = getOppositePlacement(mainAlignmentSide);
+    }
+    return [mainAlignmentSide, getOppositePlacement(mainAlignmentSide)];
+  }
+  function getExpandedPlacements(placement) {
+    const oppositePlacement = getOppositePlacement(placement);
+    return [getOppositeAlignmentPlacement(placement), oppositePlacement, getOppositeAlignmentPlacement(oppositePlacement)];
+  }
+  function getOppositeAlignmentPlacement(placement) {
+    return placement.includes('start') ? placement.replace('start', 'end') : placement.replace('end', 'start');
+  }
+  const lrPlacement = ['left', 'right'];
+  const rlPlacement = ['right', 'left'];
+  const tbPlacement = ['top', 'bottom'];
+  const btPlacement = ['bottom', 'top'];
+  function getSideList(side, isStart, rtl) {
+    switch (side) {
+      case 'top':
+      case 'bottom':
+        if (rtl) return isStart ? rlPlacement : lrPlacement;
+        return isStart ? lrPlacement : rlPlacement;
+      case 'left':
+      case 'right':
+        return isStart ? tbPlacement : btPlacement;
+      default:
+        return [];
+    }
+  }
+  function getOppositeAxisPlacements(placement, flipAlignment, direction, rtl) {
+    const alignment = getAlignment(placement);
+    let list = getSideList(getSide(placement), direction === 'start', rtl);
+    if (alignment) {
+      list = list.map(side => side + "-" + alignment);
+      if (flipAlignment) {
+        list = list.concat(list.map(getOppositeAlignmentPlacement));
+      }
+    }
+    return list;
+  }
+  function getOppositePlacement(placement) {
+    const side = getSide(placement);
+    return oppositeSideMap[side] + placement.slice(side.length);
+  }
+  function expandPaddingObject(padding) {
+    return {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      ...padding
+    };
+  }
+  function getPaddingObject(padding) {
+    return typeof padding !== 'number' ? expandPaddingObject(padding) : {
+      top: padding,
+      right: padding,
+      bottom: padding,
+      left: padding
+    };
+  }
+  function rectToClientRect(rect) {
+    const {
+      x,
+      y,
+      width,
+      height
+    } = rect;
+    return {
+      width,
+      height,
+      top: y,
+      left: x,
+      right: x + width,
+      bottom: y + height,
+      x,
+      y
+    };
+  }
+
+  function computeCoordsFromPlacement(_ref, placement, rtl) {
+    let {
+      reference,
+      floating
+    } = _ref;
+    const sideAxis = getSideAxis(placement);
+    const alignmentAxis = getAlignmentAxis(placement);
+    const alignLength = getAxisLength(alignmentAxis);
+    const side = getSide(placement);
+    const isVertical = sideAxis === 'y';
+    const commonX = reference.x + reference.width / 2 - floating.width / 2;
+    const commonY = reference.y + reference.height / 2 - floating.height / 2;
+    const commonAlign = reference[alignLength] / 2 - floating[alignLength] / 2;
+    let coords;
+    switch (side) {
+      case 'top':
+        coords = {
+          x: commonX,
+          y: reference.y - floating.height
+        };
+        break;
+      case 'bottom':
+        coords = {
+          x: commonX,
+          y: reference.y + reference.height
+        };
+        break;
+      case 'right':
+        coords = {
+          x: reference.x + reference.width,
+          y: commonY
+        };
+        break;
+      case 'left':
+        coords = {
+          x: reference.x - floating.width,
+          y: commonY
+        };
+        break;
+      default:
+        coords = {
+          x: reference.x,
+          y: reference.y
+        };
+    }
+    switch (getAlignment(placement)) {
+      case 'start':
+        coords[alignmentAxis] -= commonAlign * (rtl && isVertical ? -1 : 1);
+        break;
+      case 'end':
+        coords[alignmentAxis] += commonAlign * (rtl && isVertical ? -1 : 1);
+        break;
+    }
+    return coords;
+  }
+
+  /**
+   * Resolves with an object of overflow side offsets that determine how much the
+   * element is overflowing a given clipping boundary on each side.
+   * - positive = overflowing the boundary by that number of pixels
+   * - negative = how many pixels left before it will overflow
+   * - 0 = lies flush with the boundary
+   * @see https://floating-ui.com/docs/detectOverflow
+   */
+  async function detectOverflow(state, options) {
+    var _await$platform$isEle;
+    if (options === void 0) {
+      options = {};
+    }
+    const {
+      x,
+      y,
+      platform,
+      rects,
+      elements,
+      strategy
+    } = state;
+    const {
+      boundary = 'clippingAncestors',
+      rootBoundary = 'viewport',
+      elementContext = 'floating',
+      altBoundary = false,
+      padding = 0
+    } = evaluate(options, state);
+    const paddingObject = getPaddingObject(padding);
+    const altContext = elementContext === 'floating' ? 'reference' : 'floating';
+    const element = elements[altBoundary ? altContext : elementContext];
+    const clippingClientRect = rectToClientRect(await platform.getClippingRect({
+      element: ((_await$platform$isEle = await (platform.isElement == null ? void 0 : platform.isElement(element))) != null ? _await$platform$isEle : true) ? element : element.contextElement || (await (platform.getDocumentElement == null ? void 0 : platform.getDocumentElement(elements.floating))),
+      boundary,
+      rootBoundary,
+      strategy
+    }));
+    const rect = elementContext === 'floating' ? {
+      x,
+      y,
+      width: rects.floating.width,
+      height: rects.floating.height
+    } : rects.reference;
+    const offsetParent = await (platform.getOffsetParent == null ? void 0 : platform.getOffsetParent(elements.floating));
+    const offsetScale = (await (platform.isElement == null ? void 0 : platform.isElement(offsetParent))) ? (await (platform.getScale == null ? void 0 : platform.getScale(offsetParent))) || {
+      x: 1,
+      y: 1
+    } : {
+      x: 1,
+      y: 1
+    };
+    const elementClientRect = rectToClientRect(platform.convertOffsetParentRelativeRectToViewportRelativeRect ? await platform.convertOffsetParentRelativeRectToViewportRelativeRect({
+      elements,
+      rect,
+      offsetParent,
+      strategy
+    }) : rect);
+    return {
+      top: (clippingClientRect.top - elementClientRect.top + paddingObject.top) / offsetScale.y,
+      bottom: (elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom) / offsetScale.y,
+      left: (clippingClientRect.left - elementClientRect.left + paddingObject.left) / offsetScale.x,
+      right: (elementClientRect.right - clippingClientRect.right + paddingObject.right) / offsetScale.x
+    };
+  }
+
+  // Maximum number of resets that can occur before bailing to avoid infinite reset loops.
+  const MAX_RESET_COUNT = 50;
+
+  /**
+   * Computes the `x` and `y` coordinates that will place the floating element
+   * next to a given reference element.
+   *
+   * This export does not have any `platform` interface logic. You will need to
+   * write one for the platform you are using Floating UI with.
+   */
+  const computePosition$1 = async (reference, floating, config) => {
+    const {
+      placement = 'bottom',
+      strategy = 'absolute',
+      middleware = [],
+      platform
+    } = config;
+    const platformWithDetectOverflow = platform.detectOverflow ? platform : {
+      ...platform,
+      detectOverflow
+    };
+    const rtl = await (platform.isRTL == null ? void 0 : platform.isRTL(floating));
+    let rects = await platform.getElementRects({
+      reference,
+      floating,
+      strategy
+    });
+    let {
+      x,
+      y
+    } = computeCoordsFromPlacement(rects, placement, rtl);
+    let statefulPlacement = placement;
+    let resetCount = 0;
+    const middlewareData = {};
+    for (let i = 0; i < middleware.length; i++) {
+      const currentMiddleware = middleware[i];
+      if (!currentMiddleware) {
+        continue;
+      }
+      const {
+        name,
+        fn
+      } = currentMiddleware;
+      const {
+        x: nextX,
+        y: nextY,
+        data,
+        reset
+      } = await fn({
+        x,
+        y,
+        initialPlacement: placement,
+        placement: statefulPlacement,
+        strategy,
+        middlewareData,
+        rects,
+        platform: platformWithDetectOverflow,
+        elements: {
+          reference,
+          floating
+        }
+      });
+      x = nextX != null ? nextX : x;
+      y = nextY != null ? nextY : y;
+      middlewareData[name] = {
+        ...middlewareData[name],
+        ...data
+      };
+      if (reset && resetCount < MAX_RESET_COUNT) {
+        resetCount++;
+        if (typeof reset === 'object') {
+          if (reset.placement) {
+            statefulPlacement = reset.placement;
+          }
+          if (reset.rects) {
+            rects = reset.rects === true ? await platform.getElementRects({
+              reference,
+              floating,
+              strategy
+            }) : reset.rects;
+          }
+          ({
+            x,
+            y
+          } = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
+        }
+        i = -1;
+      }
+    }
+    return {
+      x,
+      y,
+      placement: statefulPlacement,
+      strategy,
+      middlewareData
+    };
+  };
+
+  /**
+   * Provides data to position an inner element of the floating element so that it
+   * appears centered to the reference element.
+   * @see https://floating-ui.com/docs/arrow
+   */
+  const arrow$3 = options => ({
+    name: 'arrow',
+    options,
+    async fn(state) {
+      const {
+        x,
+        y,
+        placement,
+        rects,
+        platform,
+        elements,
+        middlewareData
+      } = state;
+      // Since `element` is required, we don't Partial<> the type.
+      const {
+        element,
+        padding = 0
+      } = evaluate(options, state) || {};
+      if (element == null) {
+        return {};
+      }
+      const paddingObject = getPaddingObject(padding);
+      const coords = {
+        x,
+        y
+      };
+      const axis = getAlignmentAxis(placement);
+      const length = getAxisLength(axis);
+      const arrowDimensions = await platform.getDimensions(element);
+      const isYAxis = axis === 'y';
+      const minProp = isYAxis ? 'top' : 'left';
+      const maxProp = isYAxis ? 'bottom' : 'right';
+      const clientProp = isYAxis ? 'clientHeight' : 'clientWidth';
+      const endDiff = rects.reference[length] + rects.reference[axis] - coords[axis] - rects.floating[length];
+      const startDiff = coords[axis] - rects.reference[axis];
+      const arrowOffsetParent = await (platform.getOffsetParent == null ? void 0 : platform.getOffsetParent(element));
+      let clientSize = arrowOffsetParent ? arrowOffsetParent[clientProp] : 0;
+
+      // DOM platform can return `window` as the `offsetParent`.
+      if (!clientSize || !(await (platform.isElement == null ? void 0 : platform.isElement(arrowOffsetParent)))) {
+        clientSize = elements.floating[clientProp] || rects.floating[length];
+      }
+      const centerToReference = endDiff / 2 - startDiff / 2;
+
+      // If the padding is large enough that it causes the arrow to no longer be
+      // centered, modify the padding so that it is centered.
+      const largestPossiblePadding = clientSize / 2 - arrowDimensions[length] / 2 - 1;
+      const minPadding = min(paddingObject[minProp], largestPossiblePadding);
+      const maxPadding = min(paddingObject[maxProp], largestPossiblePadding);
+
+      // Make sure the arrow doesn't overflow the floating element if the center
+      // point is outside the floating element's bounds.
+      const min$1 = minPadding;
+      const max = clientSize - arrowDimensions[length] - maxPadding;
+      const center = clientSize / 2 - arrowDimensions[length] / 2 + centerToReference;
+      const offset = clamp$1(min$1, center, max);
+
+      // If the reference is small enough that the arrow's padding causes it to
+      // to point to nothing for an aligned placement, adjust the offset of the
+      // floating element itself. To ensure `shift()` continues to take action,
+      // a single reset is performed when this is true.
+      const shouldAddOffset = !middlewareData.arrow && getAlignment(placement) != null && center !== offset && rects.reference[length] / 2 - (center < min$1 ? minPadding : maxPadding) - arrowDimensions[length] / 2 < 0;
+      const alignmentOffset = shouldAddOffset ? center < min$1 ? center - min$1 : center - max : 0;
+      return {
+        [axis]: coords[axis] + alignmentOffset,
+        data: {
+          [axis]: offset,
+          centerOffset: center - offset - alignmentOffset,
+          ...(shouldAddOffset && {
+            alignmentOffset
+          })
+        },
+        reset: shouldAddOffset
+      };
+    }
+  });
+
+  /**
+   * Optimizes the visibility of the floating element by flipping the `placement`
+   * in order to keep it in view when the preferred placement(s) will overflow the
+   * clipping boundary. Alternative to `autoPlacement`.
+   * @see https://floating-ui.com/docs/flip
+   */
+  const flip$2 = function (options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return {
+      name: 'flip',
+      options,
+      async fn(state) {
+        var _middlewareData$arrow, _middlewareData$flip;
+        const {
+          placement,
+          middlewareData,
+          rects,
+          initialPlacement,
+          platform,
+          elements
+        } = state;
+        const {
+          mainAxis: checkMainAxis = true,
+          crossAxis: checkCrossAxis = true,
+          fallbackPlacements: specifiedFallbackPlacements,
+          fallbackStrategy = 'bestFit',
+          fallbackAxisSideDirection = 'none',
+          flipAlignment = true,
+          ...detectOverflowOptions
+        } = evaluate(options, state);
+
+        // If a reset by the arrow was caused due to an alignment offset being
+        // added, we should skip any logic now since `flip()` has already done its
+        // work.
+        // https://github.com/floating-ui/floating-ui/issues/2549#issuecomment-1719601643
+        if ((_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) {
+          return {};
+        }
+        const side = getSide(placement);
+        const initialSideAxis = getSideAxis(initialPlacement);
+        const isBasePlacement = getSide(initialPlacement) === initialPlacement;
+        const rtl = await (platform.isRTL == null ? void 0 : platform.isRTL(elements.floating));
+        const fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipAlignment ? [getOppositePlacement(initialPlacement)] : getExpandedPlacements(initialPlacement));
+        const hasFallbackAxisSideDirection = fallbackAxisSideDirection !== 'none';
+        if (!specifiedFallbackPlacements && hasFallbackAxisSideDirection) {
+          fallbackPlacements.push(...getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl));
+        }
+        const placements = [initialPlacement, ...fallbackPlacements];
+        const overflow = await platform.detectOverflow(state, detectOverflowOptions);
+        const overflows = [];
+        let overflowsData = ((_middlewareData$flip = middlewareData.flip) == null ? void 0 : _middlewareData$flip.overflows) || [];
+        if (checkMainAxis) {
+          overflows.push(overflow[side]);
+        }
+        if (checkCrossAxis) {
+          const sides = getAlignmentSides(placement, rects, rtl);
+          overflows.push(overflow[sides[0]], overflow[sides[1]]);
+        }
+        overflowsData = [...overflowsData, {
+          placement,
+          overflows
+        }];
+
+        // One or more sides is overflowing.
+        if (!overflows.every(side => side <= 0)) {
+          var _middlewareData$flip2, _overflowsData$filter;
+          const nextIndex = (((_middlewareData$flip2 = middlewareData.flip) == null ? void 0 : _middlewareData$flip2.index) || 0) + 1;
+          const nextPlacement = placements[nextIndex];
+          if (nextPlacement) {
+            const ignoreCrossAxisOverflow = checkCrossAxis === 'alignment' ? initialSideAxis !== getSideAxis(nextPlacement) : false;
+            if (!ignoreCrossAxisOverflow ||
+            // We leave the current main axis only if every placement on that axis
+            // overflows the main axis.
+            overflowsData.every(d => getSideAxis(d.placement) === initialSideAxis ? d.overflows[0] > 0 : true)) {
+              // Try next placement and re-run the lifecycle.
+              return {
+                data: {
+                  index: nextIndex,
+                  overflows: overflowsData
+                },
+                reset: {
+                  placement: nextPlacement
+                }
+              };
+            }
+          }
+
+          // First, find the candidates that fit on the mainAxis side of overflow,
+          // then find the placement that fits the best on the main crossAxis side.
+          let resetPlacement = (_overflowsData$filter = overflowsData.filter(d => d.overflows[0] <= 0).sort((a, b) => a.overflows[1] - b.overflows[1])[0]) == null ? void 0 : _overflowsData$filter.placement;
+
+          // Otherwise fallback.
+          if (!resetPlacement) {
+            switch (fallbackStrategy) {
+              case 'bestFit':
+                {
+                  var _overflowsData$filter2;
+                  const placement = (_overflowsData$filter2 = overflowsData.filter(d => {
+                    if (hasFallbackAxisSideDirection) {
+                      const currentSideAxis = getSideAxis(d.placement);
+                      return currentSideAxis === initialSideAxis ||
+                      // Create a bias to the `y` side axis due to horizontal
+                      // reading directions favoring greater width.
+                      currentSideAxis === 'y';
+                    }
+                    return true;
+                  }).map(d => [d.placement, d.overflows.filter(overflow => overflow > 0).reduce((acc, overflow) => acc + overflow, 0)]).sort((a, b) => a[1] - b[1])[0]) == null ? void 0 : _overflowsData$filter2[0];
+                  if (placement) {
+                    resetPlacement = placement;
+                  }
+                  break;
+                }
+              case 'initialPlacement':
+                resetPlacement = initialPlacement;
+                break;
+            }
+          }
+          if (placement !== resetPlacement) {
+            return {
+              reset: {
+                placement: resetPlacement
+              }
+            };
+          }
+        }
+        return {};
+      }
+    };
+  };
+
+  function getSideOffsets(overflow, rect) {
+    return {
+      top: overflow.top - rect.height,
+      right: overflow.right - rect.width,
+      bottom: overflow.bottom - rect.height,
+      left: overflow.left - rect.width
+    };
+  }
+  function isAnySideFullyClipped(overflow) {
+    return sides.some(side => overflow[side] >= 0);
+  }
+  /**
+   * Provides data to hide the floating element in applicable situations, such as
+   * when it is not in the same clipping context as the reference element.
+   * @see https://floating-ui.com/docs/hide
+   */
+  const hide$2 = function (options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return {
+      name: 'hide',
+      options,
+      async fn(state) {
+        const {
+          rects,
+          platform
+        } = state;
+        const {
+          strategy = 'referenceHidden',
+          ...detectOverflowOptions
+        } = evaluate(options, state);
+        switch (strategy) {
+          case 'referenceHidden':
+            {
+              const overflow = await platform.detectOverflow(state, {
+                ...detectOverflowOptions,
+                elementContext: 'reference'
+              });
+              const offsets = getSideOffsets(overflow, rects.reference);
+              return {
+                data: {
+                  referenceHiddenOffsets: offsets,
+                  referenceHidden: isAnySideFullyClipped(offsets)
+                }
+              };
+            }
+          case 'escaped':
+            {
+              const overflow = await platform.detectOverflow(state, {
+                ...detectOverflowOptions,
+                altBoundary: true
+              });
+              const offsets = getSideOffsets(overflow, rects.floating);
+              return {
+                data: {
+                  escapedOffsets: offsets,
+                  escaped: isAnySideFullyClipped(offsets)
+                }
+              };
+            }
+          default:
+            {
+              return {};
+            }
+        }
+      }
+    };
+  };
+
+  const originSides = /*#__PURE__*/new Set(['left', 'top']);
+
+  // For type backwards-compatibility, the `OffsetOptions` type was also
+  // Derivable.
+
+  async function convertValueToCoords(state, options) {
+    const {
+      placement,
+      platform,
+      elements
+    } = state;
+    const rtl = await (platform.isRTL == null ? void 0 : platform.isRTL(elements.floating));
+    const side = getSide(placement);
+    const alignment = getAlignment(placement);
+    const isVertical = getSideAxis(placement) === 'y';
+    const mainAxisMulti = originSides.has(side) ? -1 : 1;
+    const crossAxisMulti = rtl && isVertical ? -1 : 1;
+    const rawValue = evaluate(options, state);
+
+    // eslint-disable-next-line prefer-const
+    let {
+      mainAxis,
+      crossAxis,
+      alignmentAxis
+    } = typeof rawValue === 'number' ? {
+      mainAxis: rawValue,
+      crossAxis: 0,
+      alignmentAxis: null
+    } : {
+      mainAxis: rawValue.mainAxis || 0,
+      crossAxis: rawValue.crossAxis || 0,
+      alignmentAxis: rawValue.alignmentAxis
+    };
+    if (alignment && typeof alignmentAxis === 'number') {
+      crossAxis = alignment === 'end' ? alignmentAxis * -1 : alignmentAxis;
+    }
+    return isVertical ? {
+      x: crossAxis * crossAxisMulti,
+      y: mainAxis * mainAxisMulti
+    } : {
+      x: mainAxis * mainAxisMulti,
+      y: crossAxis * crossAxisMulti
+    };
+  }
+
+  /**
+   * Modifies the placement by translating the floating element along the
+   * specified axes.
+   * A number (shorthand for `mainAxis` or distance), or an axes configuration
+   * object may be passed.
+   * @see https://floating-ui.com/docs/offset
+   */
+  const offset$2 = function (options) {
+    if (options === void 0) {
+      options = 0;
+    }
+    return {
+      name: 'offset',
+      options,
+      async fn(state) {
+        var _middlewareData$offse, _middlewareData$arrow;
+        const {
+          x,
+          y,
+          placement,
+          middlewareData
+        } = state;
+        const diffCoords = await convertValueToCoords(state, options);
+
+        // If the placement is the same and the arrow caused an alignment offset
+        // then we don't need to change the positioning coordinates.
+        if (placement === ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse.placement) && (_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) {
+          return {};
+        }
+        return {
+          x: x + diffCoords.x,
+          y: y + diffCoords.y,
+          data: {
+            ...diffCoords,
+            placement
+          }
+        };
+      }
+    };
+  };
+
+  /**
+   * Optimizes the visibility of the floating element by shifting it in order to
+   * keep it in view when it will overflow the clipping boundary.
+   * @see https://floating-ui.com/docs/shift
+   */
+  const shift$2 = function (options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return {
+      name: 'shift',
+      options,
+      async fn(state) {
+        const {
+          x,
+          y,
+          placement,
+          platform
+        } = state;
+        const {
+          mainAxis: checkMainAxis = true,
+          crossAxis: checkCrossAxis = false,
+          limiter = {
+            fn: _ref => {
+              let {
+                x,
+                y
+              } = _ref;
+              return {
+                x,
+                y
+              };
+            }
+          },
+          ...detectOverflowOptions
+        } = evaluate(options, state);
+        const coords = {
+          x,
+          y
+        };
+        const overflow = await platform.detectOverflow(state, detectOverflowOptions);
+        const crossAxis = getSideAxis(getSide(placement));
+        const mainAxis = getOppositeAxis(crossAxis);
+        let mainAxisCoord = coords[mainAxis];
+        let crossAxisCoord = coords[crossAxis];
+        if (checkMainAxis) {
+          const minSide = mainAxis === 'y' ? 'top' : 'left';
+          const maxSide = mainAxis === 'y' ? 'bottom' : 'right';
+          const min = mainAxisCoord + overflow[minSide];
+          const max = mainAxisCoord - overflow[maxSide];
+          mainAxisCoord = clamp$1(min, mainAxisCoord, max);
+        }
+        if (checkCrossAxis) {
+          const minSide = crossAxis === 'y' ? 'top' : 'left';
+          const maxSide = crossAxis === 'y' ? 'bottom' : 'right';
+          const min = crossAxisCoord + overflow[minSide];
+          const max = crossAxisCoord - overflow[maxSide];
+          crossAxisCoord = clamp$1(min, crossAxisCoord, max);
+        }
+        const limitedCoords = limiter.fn({
+          ...state,
+          [mainAxis]: mainAxisCoord,
+          [crossAxis]: crossAxisCoord
+        });
+        return {
+          ...limitedCoords,
+          data: {
+            x: limitedCoords.x - x,
+            y: limitedCoords.y - y,
+            enabled: {
+              [mainAxis]: checkMainAxis,
+              [crossAxis]: checkCrossAxis
+            }
+          }
+        };
+      }
+    };
+  };
+  /**
+   * Built-in `limiter` that will stop `shift()` at a certain point.
+   */
+  const limitShift$2 = function (options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return {
+      options,
+      fn(state) {
+        const {
+          x,
+          y,
+          placement,
+          rects,
+          middlewareData
+        } = state;
+        const {
+          offset = 0,
+          mainAxis: checkMainAxis = true,
+          crossAxis: checkCrossAxis = true
+        } = evaluate(options, state);
+        const coords = {
+          x,
+          y
+        };
+        const crossAxis = getSideAxis(placement);
+        const mainAxis = getOppositeAxis(crossAxis);
+        let mainAxisCoord = coords[mainAxis];
+        let crossAxisCoord = coords[crossAxis];
+        const rawOffset = evaluate(offset, state);
+        const computedOffset = typeof rawOffset === 'number' ? {
+          mainAxis: rawOffset,
+          crossAxis: 0
+        } : {
+          mainAxis: 0,
+          crossAxis: 0,
+          ...rawOffset
+        };
+        if (checkMainAxis) {
+          const len = mainAxis === 'y' ? 'height' : 'width';
+          const limitMin = rects.reference[mainAxis] - rects.floating[len] + computedOffset.mainAxis;
+          const limitMax = rects.reference[mainAxis] + rects.reference[len] - computedOffset.mainAxis;
+          if (mainAxisCoord < limitMin) {
+            mainAxisCoord = limitMin;
+          } else if (mainAxisCoord > limitMax) {
+            mainAxisCoord = limitMax;
+          }
+        }
+        if (checkCrossAxis) {
+          var _middlewareData$offse, _middlewareData$offse2;
+          const len = mainAxis === 'y' ? 'width' : 'height';
+          const isOriginSide = originSides.has(getSide(placement));
+          const limitMin = rects.reference[crossAxis] - rects.floating[len] + (isOriginSide ? ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse[crossAxis]) || 0 : 0) + (isOriginSide ? 0 : computedOffset.crossAxis);
+          const limitMax = rects.reference[crossAxis] + rects.reference[len] + (isOriginSide ? 0 : ((_middlewareData$offse2 = middlewareData.offset) == null ? void 0 : _middlewareData$offse2[crossAxis]) || 0) - (isOriginSide ? computedOffset.crossAxis : 0);
+          if (crossAxisCoord < limitMin) {
+            crossAxisCoord = limitMin;
+          } else if (crossAxisCoord > limitMax) {
+            crossAxisCoord = limitMax;
+          }
+        }
+        return {
+          [mainAxis]: mainAxisCoord,
+          [crossAxis]: crossAxisCoord
+        };
+      }
+    };
+  };
+
+  /**
+   * Provides data that allows you to change the size of the floating element —
+   * for instance, prevent it from overflowing the clipping boundary or match the
+   * width of the reference element.
+   * @see https://floating-ui.com/docs/size
+   */
+  const size$2 = function (options) {
+    if (options === void 0) {
+      options = {};
+    }
+    return {
+      name: 'size',
+      options,
+      async fn(state) {
+        var _state$middlewareData, _state$middlewareData2;
+        const {
+          placement,
+          rects,
+          platform,
+          elements
+        } = state;
+        const {
+          apply = () => {},
+          ...detectOverflowOptions
+        } = evaluate(options, state);
+        const overflow = await platform.detectOverflow(state, detectOverflowOptions);
+        const side = getSide(placement);
+        const alignment = getAlignment(placement);
+        const isYAxis = getSideAxis(placement) === 'y';
+        const {
+          width,
+          height
+        } = rects.floating;
+        let heightSide;
+        let widthSide;
+        if (side === 'top' || side === 'bottom') {
+          heightSide = side;
+          widthSide = alignment === ((await (platform.isRTL == null ? void 0 : platform.isRTL(elements.floating))) ? 'start' : 'end') ? 'left' : 'right';
+        } else {
+          widthSide = side;
+          heightSide = alignment === 'end' ? 'top' : 'bottom';
+        }
+        const maximumClippingHeight = height - overflow.top - overflow.bottom;
+        const maximumClippingWidth = width - overflow.left - overflow.right;
+        const overflowAvailableHeight = min(height - overflow[heightSide], maximumClippingHeight);
+        const overflowAvailableWidth = min(width - overflow[widthSide], maximumClippingWidth);
+        const noShift = !state.middlewareData.shift;
+        let availableHeight = overflowAvailableHeight;
+        let availableWidth = overflowAvailableWidth;
+        if ((_state$middlewareData = state.middlewareData.shift) != null && _state$middlewareData.enabled.x) {
+          availableWidth = maximumClippingWidth;
+        }
+        if ((_state$middlewareData2 = state.middlewareData.shift) != null && _state$middlewareData2.enabled.y) {
+          availableHeight = maximumClippingHeight;
+        }
+        if (noShift && !alignment) {
+          const xMin = max(overflow.left, 0);
+          const xMax = max(overflow.right, 0);
+          const yMin = max(overflow.top, 0);
+          const yMax = max(overflow.bottom, 0);
+          if (isYAxis) {
+            availableWidth = width - 2 * (xMin !== 0 || xMax !== 0 ? xMin + xMax : max(overflow.left, overflow.right));
+          } else {
+            availableHeight = height - 2 * (yMin !== 0 || yMax !== 0 ? yMin + yMax : max(overflow.top, overflow.bottom));
+          }
+        }
+        await apply({
+          ...state,
+          availableWidth,
+          availableHeight
+        });
+        const nextDimensions = await platform.getDimensions(elements.floating);
+        if (width !== nextDimensions.width || height !== nextDimensions.height) {
+          return {
+            reset: {
+              rects: true
+            }
+          };
+        }
+        return {};
+      }
+    };
+  };
+
+  function hasWindow() {
+    return typeof window !== 'undefined';
+  }
+  function getNodeName(node) {
+    if (isNode(node)) {
+      return (node.nodeName || '').toLowerCase();
+    }
+    // Mocked nodes in testing environments may not be instances of Node. By
+    // returning `#document` an infinite loop won't occur.
+    // https://github.com/floating-ui/floating-ui/issues/2317
+    return '#document';
+  }
+  function getWindow(node) {
+    var _node$ownerDocument;
+    return (node == null || (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
+  }
+  function getDocumentElement(node) {
+    var _ref;
+    return (_ref = (isNode(node) ? node.ownerDocument : node.document) || window.document) == null ? void 0 : _ref.documentElement;
+  }
+  function isNode(value) {
+    if (!hasWindow()) {
+      return false;
+    }
+    return value instanceof Node || value instanceof getWindow(value).Node;
+  }
+  function isElement(value) {
+    if (!hasWindow()) {
+      return false;
+    }
+    return value instanceof Element || value instanceof getWindow(value).Element;
+  }
+  function isHTMLElement$1(value) {
+    if (!hasWindow()) {
+      return false;
+    }
+    return value instanceof HTMLElement || value instanceof getWindow(value).HTMLElement;
+  }
+  function isShadowRoot(value) {
+    if (!hasWindow() || typeof ShadowRoot === 'undefined') {
+      return false;
+    }
+    return value instanceof ShadowRoot || value instanceof getWindow(value).ShadowRoot;
+  }
+  function isOverflowElement(element) {
+    const {
+      overflow,
+      overflowX,
+      overflowY,
+      display
+    } = getComputedStyle$2(element);
+    return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && display !== 'inline' && display !== 'contents';
+  }
+  function isTableElement(element) {
+    return /^(table|td|th)$/.test(getNodeName(element));
+  }
+  function isTopLayer(element) {
+    try {
+      if (element.matches(':popover-open')) {
+        return true;
+      }
+    } catch (_e) {
+      // no-op
+    }
+    try {
+      return element.matches(':modal');
+    } catch (_e) {
+      return false;
+    }
+  }
+  const willChangeRe = /transform|translate|scale|rotate|perspective|filter/;
+  const containRe = /paint|layout|strict|content/;
+  const isNotNone = value => !!value && value !== 'none';
+  let isWebKitValue;
+  function isContainingBlock(elementOrCss) {
+    const css = isElement(elementOrCss) ? getComputedStyle$2(elementOrCss) : elementOrCss;
+
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+    // https://drafts.csswg.org/css-transforms-2/#individual-transforms
+    return isNotNone(css.transform) || isNotNone(css.translate) || isNotNone(css.scale) || isNotNone(css.rotate) || isNotNone(css.perspective) || !isWebKit() && (isNotNone(css.backdropFilter) || isNotNone(css.filter)) || willChangeRe.test(css.willChange || '') || containRe.test(css.contain || '');
+  }
+  function getContainingBlock(element) {
+    let currentNode = getParentNode(element);
+    while (isHTMLElement$1(currentNode) && !isLastTraversableNode(currentNode)) {
+      if (isContainingBlock(currentNode)) {
+        return currentNode;
+      } else if (isTopLayer(currentNode)) {
+        return null;
+      }
+      currentNode = getParentNode(currentNode);
+    }
+    return null;
+  }
+  function isWebKit() {
+    if (isWebKitValue == null) {
+      isWebKitValue = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('-webkit-backdrop-filter', 'none');
+    }
+    return isWebKitValue;
+  }
+  function isLastTraversableNode(node) {
+    return /^(html|body|#document)$/.test(getNodeName(node));
+  }
+  function getComputedStyle$2(element) {
+    return getWindow(element).getComputedStyle(element);
+  }
+  function getNodeScroll(element) {
+    if (isElement(element)) {
+      return {
+        scrollLeft: element.scrollLeft,
+        scrollTop: element.scrollTop
+      };
+    }
+    return {
+      scrollLeft: element.scrollX,
+      scrollTop: element.scrollY
+    };
+  }
+  function getParentNode(node) {
+    if (getNodeName(node) === 'html') {
+      return node;
+    }
+    const result =
+    // Step into the shadow DOM of the parent of a slotted node.
+    node.assignedSlot ||
+    // DOM Element detected.
+    node.parentNode ||
+    // ShadowRoot detected.
+    isShadowRoot(node) && node.host ||
+    // Fallback.
+    getDocumentElement(node);
+    return isShadowRoot(result) ? result.host : result;
+  }
+  function getNearestOverflowAncestor(node) {
+    const parentNode = getParentNode(node);
+    if (isLastTraversableNode(parentNode)) {
+      return node.ownerDocument ? node.ownerDocument.body : node.body;
+    }
+    if (isHTMLElement$1(parentNode) && isOverflowElement(parentNode)) {
+      return parentNode;
+    }
+    return getNearestOverflowAncestor(parentNode);
+  }
+  function getOverflowAncestors(node, list, traverseIframes) {
+    var _node$ownerDocument2;
+    if (list === void 0) {
+      list = [];
+    }
+    if (traverseIframes === void 0) {
+      traverseIframes = true;
+    }
+    const scrollableAncestor = getNearestOverflowAncestor(node);
+    const isBody = scrollableAncestor === ((_node$ownerDocument2 = node.ownerDocument) == null ? void 0 : _node$ownerDocument2.body);
+    const win = getWindow(scrollableAncestor);
+    if (isBody) {
+      const frameElement = getFrameElement(win);
+      return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], frameElement && traverseIframes ? getOverflowAncestors(frameElement) : []);
+    } else {
+      return list.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor, [], traverseIframes));
+    }
+  }
+  function getFrameElement(win) {
+    return win.parent && Object.getPrototypeOf(win.parent) ? win.frameElement : null;
+  }
+
+  function getCssDimensions(element) {
+    const css = getComputedStyle$2(element);
+    // In testing environments, the `width` and `height` properties are empty
+    // strings for SVG elements, returning NaN. Fallback to `0` in this case.
+    let width = parseFloat(css.width) || 0;
+    let height = parseFloat(css.height) || 0;
+    const hasOffset = isHTMLElement$1(element);
+    const offsetWidth = hasOffset ? element.offsetWidth : width;
+    const offsetHeight = hasOffset ? element.offsetHeight : height;
+    const shouldFallback = round(width) !== offsetWidth || round(height) !== offsetHeight;
+    if (shouldFallback) {
+      width = offsetWidth;
+      height = offsetHeight;
+    }
+    return {
+      width,
+      height,
+      $: shouldFallback
+    };
+  }
+
+  function unwrapElement(element) {
+    return !isElement(element) ? element.contextElement : element;
+  }
+
+  function getScale(element) {
+    const domElement = unwrapElement(element);
+    if (!isHTMLElement$1(domElement)) {
+      return createCoords(1);
+    }
+    const rect = domElement.getBoundingClientRect();
+    const {
+      width,
+      height,
+      $
+    } = getCssDimensions(domElement);
+    let x = ($ ? round(rect.width) : rect.width) / width;
+    let y = ($ ? round(rect.height) : rect.height) / height;
+
+    // 0, NaN, or Infinity should always fallback to 1.
+
+    if (!x || !Number.isFinite(x)) {
+      x = 1;
+    }
+    if (!y || !Number.isFinite(y)) {
+      y = 1;
+    }
+    return {
+      x,
+      y
+    };
+  }
+
+  const noOffsets = /*#__PURE__*/createCoords(0);
+  function getVisualOffsets(element) {
+    const win = getWindow(element);
+    if (!isWebKit() || !win.visualViewport) {
+      return noOffsets;
+    }
+    return {
+      x: win.visualViewport.offsetLeft,
+      y: win.visualViewport.offsetTop
+    };
+  }
+  function shouldAddVisualOffsets(element, isFixed, floatingOffsetParent) {
+    if (isFixed === void 0) {
+      isFixed = false;
+    }
+    if (!floatingOffsetParent || isFixed && floatingOffsetParent !== getWindow(element)) {
+      return false;
+    }
+    return isFixed;
+  }
+
+  function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetParent) {
+    if (includeScale === void 0) {
+      includeScale = false;
+    }
+    if (isFixedStrategy === void 0) {
+      isFixedStrategy = false;
+    }
+    const clientRect = element.getBoundingClientRect();
+    const domElement = unwrapElement(element);
+    let scale = createCoords(1);
+    if (includeScale) {
+      if (offsetParent) {
+        if (isElement(offsetParent)) {
+          scale = getScale(offsetParent);
+        }
+      } else {
+        scale = getScale(element);
+      }
+    }
+    const visualOffsets = shouldAddVisualOffsets(domElement, isFixedStrategy, offsetParent) ? getVisualOffsets(domElement) : createCoords(0);
+    let x = (clientRect.left + visualOffsets.x) / scale.x;
+    let y = (clientRect.top + visualOffsets.y) / scale.y;
+    let width = clientRect.width / scale.x;
+    let height = clientRect.height / scale.y;
+    if (domElement) {
+      const win = getWindow(domElement);
+      const offsetWin = offsetParent && isElement(offsetParent) ? getWindow(offsetParent) : offsetParent;
+      let currentWin = win;
+      let currentIFrame = getFrameElement(currentWin);
+      while (currentIFrame && offsetParent && offsetWin !== currentWin) {
+        const iframeScale = getScale(currentIFrame);
+        const iframeRect = currentIFrame.getBoundingClientRect();
+        const css = getComputedStyle$2(currentIFrame);
+        const left = iframeRect.left + (currentIFrame.clientLeft + parseFloat(css.paddingLeft)) * iframeScale.x;
+        const top = iframeRect.top + (currentIFrame.clientTop + parseFloat(css.paddingTop)) * iframeScale.y;
+        x *= iframeScale.x;
+        y *= iframeScale.y;
+        width *= iframeScale.x;
+        height *= iframeScale.y;
+        x += left;
+        y += top;
+        currentWin = getWindow(currentIFrame);
+        currentIFrame = getFrameElement(currentWin);
+      }
+    }
+    return rectToClientRect({
+      width,
+      height,
+      x,
+      y
+    });
+  }
+
+  // If <html> has a CSS width greater than the viewport, then this will be
+  // incorrect for RTL.
+  function getWindowScrollBarX(element, rect) {
+    const leftScroll = getNodeScroll(element).scrollLeft;
+    if (!rect) {
+      return getBoundingClientRect(getDocumentElement(element)).left + leftScroll;
+    }
+    return rect.left + leftScroll;
+  }
+
+  function getHTMLOffset(documentElement, scroll) {
+    const htmlRect = documentElement.getBoundingClientRect();
+    const x = htmlRect.left + scroll.scrollLeft - getWindowScrollBarX(documentElement, htmlRect);
+    const y = htmlRect.top + scroll.scrollTop;
+    return {
+      x,
+      y
+    };
+  }
+
+  function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
+    let {
+      elements,
+      rect,
+      offsetParent,
+      strategy
+    } = _ref;
+    const isFixed = strategy === 'fixed';
+    const documentElement = getDocumentElement(offsetParent);
+    const topLayer = elements ? isTopLayer(elements.floating) : false;
+    if (offsetParent === documentElement || topLayer && isFixed) {
+      return rect;
+    }
+    let scroll = {
+      scrollLeft: 0,
+      scrollTop: 0
+    };
+    let scale = createCoords(1);
+    const offsets = createCoords(0);
+    const isOffsetParentAnElement = isHTMLElement$1(offsetParent);
+    if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+      if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
+        scroll = getNodeScroll(offsetParent);
+      }
+      if (isOffsetParentAnElement) {
+        const offsetRect = getBoundingClientRect(offsetParent);
+        scale = getScale(offsetParent);
+        offsets.x = offsetRect.x + offsetParent.clientLeft;
+        offsets.y = offsetRect.y + offsetParent.clientTop;
+      }
+    }
+    const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll) : createCoords(0);
+    return {
+      width: rect.width * scale.x,
+      height: rect.height * scale.y,
+      x: rect.x * scale.x - scroll.scrollLeft * scale.x + offsets.x + htmlOffset.x,
+      y: rect.y * scale.y - scroll.scrollTop * scale.y + offsets.y + htmlOffset.y
+    };
+  }
+
+  function getClientRects(element) {
+    return Array.from(element.getClientRects());
+  }
+
+  // Gets the entire size of the scrollable document area, even extending outside
+  // of the `<html>` and `<body>` rect bounds if horizontally scrollable.
+  function getDocumentRect(element) {
+    const html = getDocumentElement(element);
+    const scroll = getNodeScroll(element);
+    const body = element.ownerDocument.body;
+    const width = max(html.scrollWidth, html.clientWidth, body.scrollWidth, body.clientWidth);
+    const height = max(html.scrollHeight, html.clientHeight, body.scrollHeight, body.clientHeight);
+    let x = -scroll.scrollLeft + getWindowScrollBarX(element);
+    const y = -scroll.scrollTop;
+    if (getComputedStyle$2(body).direction === 'rtl') {
+      x += max(html.clientWidth, body.clientWidth) - width;
+    }
+    return {
+      width,
+      height,
+      x,
+      y
+    };
+  }
+
+  // Safety check: ensure the scrollbar space is reasonable in case this
+  // calculation is affected by unusual styles.
+  // Most scrollbars leave 15-18px of space.
+  const SCROLLBAR_MAX = 25;
+  function getViewportRect(element, strategy) {
+    const win = getWindow(element);
+    const html = getDocumentElement(element);
+    const visualViewport = win.visualViewport;
+    let width = html.clientWidth;
+    let height = html.clientHeight;
+    let x = 0;
+    let y = 0;
+    if (visualViewport) {
+      width = visualViewport.width;
+      height = visualViewport.height;
+      const visualViewportBased = isWebKit();
+      if (!visualViewportBased || visualViewportBased && strategy === 'fixed') {
+        x = visualViewport.offsetLeft;
+        y = visualViewport.offsetTop;
+      }
+    }
+    const windowScrollbarX = getWindowScrollBarX(html);
+    // <html> `overflow: hidden` + `scrollbar-gutter: stable` reduces the
+    // visual width of the <html> but this is not considered in the size
+    // of `html.clientWidth`.
+    if (windowScrollbarX <= 0) {
+      const doc = html.ownerDocument;
+      const body = doc.body;
+      const bodyStyles = getComputedStyle(body);
+      const bodyMarginInline = doc.compatMode === 'CSS1Compat' ? parseFloat(bodyStyles.marginLeft) + parseFloat(bodyStyles.marginRight) || 0 : 0;
+      const clippingStableScrollbarWidth = Math.abs(html.clientWidth - body.clientWidth - bodyMarginInline);
+      if (clippingStableScrollbarWidth <= SCROLLBAR_MAX) {
+        width -= clippingStableScrollbarWidth;
+      }
+    } else if (windowScrollbarX <= SCROLLBAR_MAX) {
+      // If the <body> scrollbar is on the left, the width needs to be extended
+      // by the scrollbar amount so there isn't extra space on the right.
+      width += windowScrollbarX;
+    }
+    return {
+      width,
+      height,
+      x,
+      y
+    };
+  }
+
+  // Returns the inner client rect, subtracting scrollbars if present.
+  function getInnerBoundingClientRect(element, strategy) {
+    const clientRect = getBoundingClientRect(element, true, strategy === 'fixed');
+    const top = clientRect.top + element.clientTop;
+    const left = clientRect.left + element.clientLeft;
+    const scale = isHTMLElement$1(element) ? getScale(element) : createCoords(1);
+    const width = element.clientWidth * scale.x;
+    const height = element.clientHeight * scale.y;
+    const x = left * scale.x;
+    const y = top * scale.y;
+    return {
+      width,
+      height,
+      x,
+      y
+    };
+  }
+  function getClientRectFromClippingAncestor(element, clippingAncestor, strategy) {
+    let rect;
+    if (clippingAncestor === 'viewport') {
+      rect = getViewportRect(element, strategy);
+    } else if (clippingAncestor === 'document') {
+      rect = getDocumentRect(getDocumentElement(element));
+    } else if (isElement(clippingAncestor)) {
+      rect = getInnerBoundingClientRect(clippingAncestor, strategy);
+    } else {
+      const visualOffsets = getVisualOffsets(element);
+      rect = {
+        x: clippingAncestor.x - visualOffsets.x,
+        y: clippingAncestor.y - visualOffsets.y,
+        width: clippingAncestor.width,
+        height: clippingAncestor.height
+      };
+    }
+    return rectToClientRect(rect);
+  }
+  function hasFixedPositionAncestor(element, stopNode) {
+    const parentNode = getParentNode(element);
+    if (parentNode === stopNode || !isElement(parentNode) || isLastTraversableNode(parentNode)) {
+      return false;
+    }
+    return getComputedStyle$2(parentNode).position === 'fixed' || hasFixedPositionAncestor(parentNode, stopNode);
+  }
+
+  // A "clipping ancestor" is an `overflow` element with the characteristic of
+  // clipping (or hiding) child elements. This returns all clipping ancestors
+  // of the given element up the tree.
+  function getClippingElementAncestors(element, cache) {
+    const cachedResult = cache.get(element);
+    if (cachedResult) {
+      return cachedResult;
+    }
+    let result = getOverflowAncestors(element, [], false).filter(el => isElement(el) && getNodeName(el) !== 'body');
+    let currentContainingBlockComputedStyle = null;
+    const elementIsFixed = getComputedStyle$2(element).position === 'fixed';
+    let currentNode = elementIsFixed ? getParentNode(element) : element;
+
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+    while (isElement(currentNode) && !isLastTraversableNode(currentNode)) {
+      const computedStyle = getComputedStyle$2(currentNode);
+      const currentNodeIsContaining = isContainingBlock(currentNode);
+      if (!currentNodeIsContaining && computedStyle.position === 'fixed') {
+        currentContainingBlockComputedStyle = null;
+      }
+      const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === 'static' && !!currentContainingBlockComputedStyle && (currentContainingBlockComputedStyle.position === 'absolute' || currentContainingBlockComputedStyle.position === 'fixed') || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
+      if (shouldDropCurrentNode) {
+        // Drop non-containing blocks.
+        result = result.filter(ancestor => ancestor !== currentNode);
+      } else {
+        // Record last containing block for next iteration.
+        currentContainingBlockComputedStyle = computedStyle;
+      }
+      currentNode = getParentNode(currentNode);
+    }
+    cache.set(element, result);
+    return result;
+  }
+
+  // Gets the maximum area that the element is visible in due to any number of
+  // clipping ancestors.
+  function getClippingRect(_ref) {
+    let {
+      element,
+      boundary,
+      rootBoundary,
+      strategy
+    } = _ref;
+    const elementClippingAncestors = boundary === 'clippingAncestors' ? isTopLayer(element) ? [] : getClippingElementAncestors(element, this._c) : [].concat(boundary);
+    const clippingAncestors = [...elementClippingAncestors, rootBoundary];
+    const firstRect = getClientRectFromClippingAncestor(element, clippingAncestors[0], strategy);
+    let top = firstRect.top;
+    let right = firstRect.right;
+    let bottom = firstRect.bottom;
+    let left = firstRect.left;
+    for (let i = 1; i < clippingAncestors.length; i++) {
+      const rect = getClientRectFromClippingAncestor(element, clippingAncestors[i], strategy);
+      top = max(rect.top, top);
+      right = min(rect.right, right);
+      bottom = min(rect.bottom, bottom);
+      left = max(rect.left, left);
+    }
+    return {
+      width: right - left,
+      height: bottom - top,
+      x: left,
+      y: top
+    };
+  }
+
+  function getDimensions(element) {
+    const {
+      width,
+      height
+    } = getCssDimensions(element);
+    return {
+      width,
+      height
+    };
+  }
+
+  function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
+    const isOffsetParentAnElement = isHTMLElement$1(offsetParent);
+    const documentElement = getDocumentElement(offsetParent);
+    const isFixed = strategy === 'fixed';
+    const rect = getBoundingClientRect(element, true, isFixed, offsetParent);
+    let scroll = {
+      scrollLeft: 0,
+      scrollTop: 0
+    };
+    const offsets = createCoords(0);
+
+    // If the <body> scrollbar appears on the left (e.g. RTL systems). Use
+    // Firefox with layout.scrollbar.side = 3 in about:config to test this.
+    function setLeftRTLScrollbarOffset() {
+      offsets.x = getWindowScrollBarX(documentElement);
+    }
+    if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+      if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
+        scroll = getNodeScroll(offsetParent);
+      }
+      if (isOffsetParentAnElement) {
+        const offsetRect = getBoundingClientRect(offsetParent, true, isFixed, offsetParent);
+        offsets.x = offsetRect.x + offsetParent.clientLeft;
+        offsets.y = offsetRect.y + offsetParent.clientTop;
+      } else if (documentElement) {
+        setLeftRTLScrollbarOffset();
+      }
+    }
+    if (isFixed && !isOffsetParentAnElement && documentElement) {
+      setLeftRTLScrollbarOffset();
+    }
+    const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll) : createCoords(0);
+    const x = rect.left + scroll.scrollLeft - offsets.x - htmlOffset.x;
+    const y = rect.top + scroll.scrollTop - offsets.y - htmlOffset.y;
+    return {
+      x,
+      y,
+      width: rect.width,
+      height: rect.height
+    };
+  }
+
+  function isStaticPositioned(element) {
+    return getComputedStyle$2(element).position === 'static';
+  }
+
+  function getTrueOffsetParent(element, polyfill) {
+    if (!isHTMLElement$1(element) || getComputedStyle$2(element).position === 'fixed') {
+      return null;
+    }
+    if (polyfill) {
+      return polyfill(element);
+    }
+    let rawOffsetParent = element.offsetParent;
+
+    // Firefox returns the <html> element as the offsetParent if it's non-static,
+    // while Chrome and Safari return the <body> element. The <body> element must
+    // be used to perform the correct calculations even if the <html> element is
+    // non-static.
+    if (getDocumentElement(element) === rawOffsetParent) {
+      rawOffsetParent = rawOffsetParent.ownerDocument.body;
+    }
+    return rawOffsetParent;
+  }
+
+  // Gets the closest ancestor positioned element. Handles some edge cases,
+  // such as table ancestors and cross browser bugs.
+  function getOffsetParent(element, polyfill) {
+    const win = getWindow(element);
+    if (isTopLayer(element)) {
+      return win;
+    }
+    if (!isHTMLElement$1(element)) {
+      let svgOffsetParent = getParentNode(element);
+      while (svgOffsetParent && !isLastTraversableNode(svgOffsetParent)) {
+        if (isElement(svgOffsetParent) && !isStaticPositioned(svgOffsetParent)) {
+          return svgOffsetParent;
+        }
+        svgOffsetParent = getParentNode(svgOffsetParent);
+      }
+      return win;
+    }
+    let offsetParent = getTrueOffsetParent(element, polyfill);
+    while (offsetParent && isTableElement(offsetParent) && isStaticPositioned(offsetParent)) {
+      offsetParent = getTrueOffsetParent(offsetParent, polyfill);
+    }
+    if (offsetParent && isLastTraversableNode(offsetParent) && isStaticPositioned(offsetParent) && !isContainingBlock(offsetParent)) {
+      return win;
+    }
+    return offsetParent || getContainingBlock(element) || win;
+  }
+
+  const getElementRects = async function (data) {
+    const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
+    const getDimensionsFn = this.getDimensions;
+    const floatingDimensions = await getDimensionsFn(data.floating);
+    return {
+      reference: getRectRelativeToOffsetParent(data.reference, await getOffsetParentFn(data.floating), data.strategy),
+      floating: {
+        x: 0,
+        y: 0,
+        width: floatingDimensions.width,
+        height: floatingDimensions.height
+      }
+    };
+  };
+
+  function isRTL(element) {
+    return getComputedStyle$2(element).direction === 'rtl';
+  }
+
+  const platform = {
+    convertOffsetParentRelativeRectToViewportRelativeRect,
+    getDocumentElement,
+    getClippingRect,
+    getOffsetParent,
+    getElementRects,
+    getClientRects,
+    getDimensions,
+    getScale,
+    isElement,
+    isRTL
+  };
+
+  function rectsAreEqual(a, b) {
+    return a.x === b.x && a.y === b.y && a.width === b.width && a.height === b.height;
+  }
+
+  // https://samthor.au/2021/observing-dom/
+  function observeMove(element, onMove) {
+    let io = null;
+    let timeoutId;
+    const root = getDocumentElement(element);
+    function cleanup() {
+      var _io;
+      clearTimeout(timeoutId);
+      (_io = io) == null || _io.disconnect();
+      io = null;
+    }
+    function refresh(skip, threshold) {
+      if (skip === void 0) {
+        skip = false;
+      }
+      if (threshold === void 0) {
+        threshold = 1;
+      }
+      cleanup();
+      const elementRectForRootMargin = element.getBoundingClientRect();
+      const {
+        left,
+        top,
+        width,
+        height
+      } = elementRectForRootMargin;
+      if (!skip) {
+        onMove();
+      }
+      if (!width || !height) {
+        return;
+      }
+      const insetTop = floor(top);
+      const insetRight = floor(root.clientWidth - (left + width));
+      const insetBottom = floor(root.clientHeight - (top + height));
+      const insetLeft = floor(left);
+      const rootMargin = -insetTop + "px " + -insetRight + "px " + -insetBottom + "px " + -insetLeft + "px";
+      const options = {
+        rootMargin,
+        threshold: max(0, min(1, threshold)) || 1
+      };
+      let isFirstUpdate = true;
+      function handleObserve(entries) {
+        const ratio = entries[0].intersectionRatio;
+        if (ratio !== threshold) {
+          if (!isFirstUpdate) {
+            return refresh();
+          }
+          if (!ratio) {
+            // If the reference is clipped, the ratio is 0. Throttle the refresh
+            // to prevent an infinite loop of updates.
+            timeoutId = setTimeout(() => {
+              refresh(false, 1e-7);
+            }, 1000);
+          } else {
+            refresh(false, ratio);
+          }
+        }
+        if (ratio === 1 && !rectsAreEqual(elementRectForRootMargin, element.getBoundingClientRect())) {
+          // It's possible that even though the ratio is reported as 1, the
+          // element is not actually fully within the IntersectionObserver's root
+          // area anymore. This can happen under performance constraints. This may
+          // be a bug in the browser's IntersectionObserver implementation. To
+          // work around this, we compare the element's bounding rect now with
+          // what it was at the time we created the IntersectionObserver. If they
+          // are not equal then the element moved, so we refresh.
+          refresh();
+        }
+        isFirstUpdate = false;
+      }
+
+      // Older browsers don't support a `document` as the root and will throw an
+      // error.
+      try {
+        io = new IntersectionObserver(handleObserve, {
+          ...options,
+          // Handle <iframe>s
+          root: root.ownerDocument
+        });
+      } catch (_e) {
+        io = new IntersectionObserver(handleObserve, options);
+      }
+      io.observe(element);
+    }
+    refresh(true);
+    return cleanup;
+  }
+
+  /**
+   * Automatically updates the position of the floating element when necessary.
+   * Should only be called when the floating element is mounted on the DOM or
+   * visible on the screen.
+   * @returns cleanup function that should be invoked when the floating element is
+   * removed from the DOM or hidden from the screen.
+   * @see https://floating-ui.com/docs/autoUpdate
+   */
+  function autoUpdate(reference, floating, update, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    const {
+      ancestorScroll = true,
+      ancestorResize = true,
+      elementResize = typeof ResizeObserver === 'function',
+      layoutShift = typeof IntersectionObserver === 'function',
+      animationFrame = false
+    } = options;
+    const referenceEl = unwrapElement(reference);
+    const ancestors = ancestorScroll || ancestorResize ? [...(referenceEl ? getOverflowAncestors(referenceEl) : []), ...(floating ? getOverflowAncestors(floating) : [])] : [];
+    ancestors.forEach(ancestor => {
+      ancestorScroll && ancestor.addEventListener('scroll', update, {
+        passive: true
+      });
+      ancestorResize && ancestor.addEventListener('resize', update);
+    });
+    const cleanupIo = referenceEl && layoutShift ? observeMove(referenceEl, update) : null;
+    let reobserveFrame = -1;
+    let resizeObserver = null;
+    if (elementResize) {
+      resizeObserver = new ResizeObserver(_ref => {
+        let [firstEntry] = _ref;
+        if (firstEntry && firstEntry.target === referenceEl && resizeObserver && floating) {
+          // Prevent update loops when using the `size` middleware.
+          // https://github.com/floating-ui/floating-ui/issues/1740
+          resizeObserver.unobserve(floating);
+          cancelAnimationFrame(reobserveFrame);
+          reobserveFrame = requestAnimationFrame(() => {
+            var _resizeObserver;
+            (_resizeObserver = resizeObserver) == null || _resizeObserver.observe(floating);
+          });
+        }
+        update();
+      });
+      if (referenceEl && !animationFrame) {
+        resizeObserver.observe(referenceEl);
+      }
+      if (floating) {
+        resizeObserver.observe(floating);
+      }
+    }
+    let frameId;
+    let prevRefRect = animationFrame ? getBoundingClientRect(reference) : null;
+    if (animationFrame) {
+      frameLoop();
+    }
+    function frameLoop() {
+      const nextRefRect = getBoundingClientRect(reference);
+      if (prevRefRect && !rectsAreEqual(prevRefRect, nextRefRect)) {
+        update();
+      }
+      prevRefRect = nextRefRect;
+      frameId = requestAnimationFrame(frameLoop);
+    }
+    update();
+    return () => {
+      var _resizeObserver2;
+      ancestors.forEach(ancestor => {
+        ancestorScroll && ancestor.removeEventListener('scroll', update);
+        ancestorResize && ancestor.removeEventListener('resize', update);
+      });
+      cleanupIo == null || cleanupIo();
+      (_resizeObserver2 = resizeObserver) == null || _resizeObserver2.disconnect();
+      resizeObserver = null;
+      if (animationFrame) {
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }
+
+  /**
+   * Modifies the placement by translating the floating element along the
+   * specified axes.
+   * A number (shorthand for `mainAxis` or distance), or an axes configuration
+   * object may be passed.
+   * @see https://floating-ui.com/docs/offset
+   */
+  const offset$1 = offset$2;
+
+  /**
+   * Optimizes the visibility of the floating element by shifting it in order to
+   * keep it in view when it will overflow the clipping boundary.
+   * @see https://floating-ui.com/docs/shift
+   */
+  const shift$1 = shift$2;
+
+  /**
+   * Optimizes the visibility of the floating element by flipping the `placement`
+   * in order to keep it in view when the preferred placement(s) will overflow the
+   * clipping boundary. Alternative to `autoPlacement`.
+   * @see https://floating-ui.com/docs/flip
+   */
+  const flip$1 = flip$2;
+
+  /**
+   * Provides data that allows you to change the size of the floating element —
+   * for instance, prevent it from overflowing the clipping boundary or match the
+   * width of the reference element.
+   * @see https://floating-ui.com/docs/size
+   */
+  const size$1 = size$2;
+
+  /**
+   * Provides data to hide the floating element in applicable situations, such as
+   * when it is not in the same clipping context as the reference element.
+   * @see https://floating-ui.com/docs/hide
+   */
+  const hide$1 = hide$2;
+
+  /**
+   * Provides data to position an inner element of the floating element so that it
+   * appears centered to the reference element.
+   * @see https://floating-ui.com/docs/arrow
+   */
+  const arrow$2 = arrow$3;
+
+  /**
+   * Built-in `limiter` that will stop `shift()` at a certain point.
+   */
+  const limitShift$1 = limitShift$2;
+
+  /**
+   * Computes the `x` and `y` coordinates that will place the floating element
+   * next to a given reference element.
+   */
+  const computePosition = (reference, floating, options) => {
+    // This caches the expensive `getClippingElementAncestors` function so that
+    // multiple lifecycle resets re-use the same result. It only lives for a
+    // single call. If other functions become expensive, we can add them as well.
+    const cache = new Map();
+    const mergedOptions = {
+      platform,
+      ...options
+    };
+    const platformWithCache = {
+      ...mergedOptions.platform,
+      _c: cache
+    };
+    return computePosition$1(reference, floating, {
+      ...mergedOptions,
+      platform: platformWithCache
+    });
+  };
+
+  var isClient = typeof document !== 'undefined';
+
+  var noop$1 = function noop() {};
+  var index = isClient ? reactExports.useLayoutEffect : noop$1;
+
+  // Fork of `fast-deep-equal` that only does the comparisons we need and compares
+  // functions
+  function deepEqual(a, b) {
+    if (a === b) {
+      return true;
+    }
+    if (typeof a !== typeof b) {
+      return false;
+    }
+    if (typeof a === 'function' && a.toString() === b.toString()) {
+      return true;
+    }
+    let length;
+    let i;
+    let keys;
+    if (a && b && typeof a === 'object') {
+      if (Array.isArray(a)) {
+        length = a.length;
+        if (length !== b.length) return false;
+        for (i = length; i-- !== 0;) {
+          if (!deepEqual(a[i], b[i])) {
+            return false;
+          }
+        }
+        return true;
+      }
+      keys = Object.keys(a);
+      length = keys.length;
+      if (length !== Object.keys(b).length) {
+        return false;
+      }
+      for (i = length; i-- !== 0;) {
+        if (!{}.hasOwnProperty.call(b, keys[i])) {
+          return false;
+        }
+      }
+      for (i = length; i-- !== 0;) {
+        const key = keys[i];
+        if (key === '_owner' && a.$$typeof) {
+          continue;
+        }
+        if (!deepEqual(a[key], b[key])) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return a !== a && b !== b;
+  }
+
+  function getDPR(element) {
+    if (typeof window === 'undefined') {
+      return 1;
+    }
+    const win = element.ownerDocument.defaultView || window;
+    return win.devicePixelRatio || 1;
+  }
+
+  function roundByDPR(element, value) {
+    const dpr = getDPR(element);
+    return Math.round(value * dpr) / dpr;
+  }
+
+  function useLatestRef(value) {
+    const ref = reactExports.useRef(value);
+    index(() => {
+      ref.current = value;
+    });
+    return ref;
+  }
+
+  /**
+   * Provides data to position a floating element.
+   * @see https://floating-ui.com/docs/useFloating
+   */
+  function useFloating(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    const {
+      placement = 'bottom',
+      strategy = 'absolute',
+      middleware = [],
+      platform,
+      elements: {
+        reference: externalReference,
+        floating: externalFloating
+      } = {},
+      transform = true,
+      whileElementsMounted,
+      open
+    } = options;
+    const [data, setData] = reactExports.useState({
+      x: 0,
+      y: 0,
+      strategy,
+      placement,
+      middlewareData: {},
+      isPositioned: false
+    });
+    const [latestMiddleware, setLatestMiddleware] = reactExports.useState(middleware);
+    if (!deepEqual(latestMiddleware, middleware)) {
+      setLatestMiddleware(middleware);
+    }
+    const [_reference, _setReference] = reactExports.useState(null);
+    const [_floating, _setFloating] = reactExports.useState(null);
+    const setReference = reactExports.useCallback(node => {
+      if (node !== referenceRef.current) {
+        referenceRef.current = node;
+        _setReference(node);
+      }
+    }, []);
+    const setFloating = reactExports.useCallback(node => {
+      if (node !== floatingRef.current) {
+        floatingRef.current = node;
+        _setFloating(node);
+      }
+    }, []);
+    const referenceEl = externalReference || _reference;
+    const floatingEl = externalFloating || _floating;
+    const referenceRef = reactExports.useRef(null);
+    const floatingRef = reactExports.useRef(null);
+    const dataRef = reactExports.useRef(data);
+    const hasWhileElementsMounted = whileElementsMounted != null;
+    const whileElementsMountedRef = useLatestRef(whileElementsMounted);
+    const platformRef = useLatestRef(platform);
+    const openRef = useLatestRef(open);
+    const update = reactExports.useCallback(() => {
+      if (!referenceRef.current || !floatingRef.current) {
+        return;
+      }
+      const config = {
+        placement,
+        strategy,
+        middleware: latestMiddleware
+      };
+      if (platformRef.current) {
+        config.platform = platformRef.current;
+      }
+      computePosition(referenceRef.current, floatingRef.current, config).then(data => {
+        const fullData = {
+          ...data,
+          // The floating element's position may be recomputed while it's closed
+          // but still mounted (such as when transitioning out). To ensure
+          // `isPositioned` will be `false` initially on the next open, avoid
+          // setting it to `true` when `open === false` (must be specified).
+          isPositioned: openRef.current !== false
+        };
+        if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
+          dataRef.current = fullData;
+          reactDomExports.flushSync(() => {
+            setData(fullData);
+          });
+        }
+      });
+    }, [latestMiddleware, placement, strategy, platformRef, openRef]);
+    index(() => {
+      if (open === false && dataRef.current.isPositioned) {
+        dataRef.current.isPositioned = false;
+        setData(data => ({
+          ...data,
+          isPositioned: false
+        }));
+      }
+    }, [open]);
+    const isMountedRef = reactExports.useRef(false);
+    index(() => {
+      isMountedRef.current = true;
+      return () => {
+        isMountedRef.current = false;
+      };
+    }, []);
+    index(() => {
+      if (referenceEl) referenceRef.current = referenceEl;
+      if (floatingEl) floatingRef.current = floatingEl;
+      if (referenceEl && floatingEl) {
+        if (whileElementsMountedRef.current) {
+          return whileElementsMountedRef.current(referenceEl, floatingEl, update);
+        }
+        update();
+      }
+    }, [referenceEl, floatingEl, update, whileElementsMountedRef, hasWhileElementsMounted]);
+    const refs = reactExports.useMemo(() => ({
+      reference: referenceRef,
+      floating: floatingRef,
+      setReference,
+      setFloating
+    }), [setReference, setFloating]);
+    const elements = reactExports.useMemo(() => ({
+      reference: referenceEl,
+      floating: floatingEl
+    }), [referenceEl, floatingEl]);
+    const floatingStyles = reactExports.useMemo(() => {
+      const initialStyles = {
+        position: strategy,
+        left: 0,
+        top: 0
+      };
+      if (!elements.floating) {
+        return initialStyles;
+      }
+      const x = roundByDPR(elements.floating, data.x);
+      const y = roundByDPR(elements.floating, data.y);
+      if (transform) {
+        return {
+          ...initialStyles,
+          transform: "translate(" + x + "px, " + y + "px)",
+          ...(getDPR(elements.floating) >= 1.5 && {
+            willChange: 'transform'
+          })
+        };
+      }
+      return {
+        position: strategy,
+        left: x,
+        top: y
+      };
+    }, [strategy, transform, elements.floating, data.x, data.y]);
+    return reactExports.useMemo(() => ({
+      ...data,
+      update,
+      refs,
+      elements,
+      floatingStyles
+    }), [data, update, refs, elements, floatingStyles]);
+  }
+
+  /**
+   * Provides data to position an inner element of the floating element so that it
+   * appears centered to the reference element.
+   * This wraps the core `arrow` middleware to allow React refs as the element.
+   * @see https://floating-ui.com/docs/arrow
+   */
+  const arrow$1 = options => {
+    function isRef(value) {
+      return {}.hasOwnProperty.call(value, 'current');
+    }
+    return {
+      name: 'arrow',
+      options,
+      fn(state) {
+        const {
+          element,
+          padding
+        } = typeof options === 'function' ? options(state) : options;
+        if (element && isRef(element)) {
+          if (element.current != null) {
+            return arrow$2({
+              element: element.current,
+              padding
+            }).fn(state);
+          }
+          return {};
+        }
+        if (element) {
+          return arrow$2({
+            element,
+            padding
+          }).fn(state);
+        }
+        return {};
+      }
+    };
+  };
+
+  /**
+   * Modifies the placement by translating the floating element along the
+   * specified axes.
+   * A number (shorthand for `mainAxis` or distance), or an axes configuration
+   * object may be passed.
+   * @see https://floating-ui.com/docs/offset
+   */
+  const offset = (options, deps) => {
+    const result = offset$1(options);
+    return {
+      name: result.name,
+      fn: result.fn,
+      options: [options, deps]
+    };
+  };
+
+  /**
+   * Optimizes the visibility of the floating element by shifting it in order to
+   * keep it in view when it will overflow the clipping boundary.
+   * @see https://floating-ui.com/docs/shift
+   */
+  const shift = (options, deps) => {
+    const result = shift$1(options);
+    return {
+      name: result.name,
+      fn: result.fn,
+      options: [options, deps]
+    };
+  };
+
+  /**
+   * Built-in `limiter` that will stop `shift()` at a certain point.
+   */
+  const limitShift = (options, deps) => {
+    const result = limitShift$1(options);
+    return {
+      fn: result.fn,
+      options: [options, deps]
+    };
+  };
+
+  /**
+   * Optimizes the visibility of the floating element by flipping the `placement`
+   * in order to keep it in view when the preferred placement(s) will overflow the
+   * clipping boundary. Alternative to `autoPlacement`.
+   * @see https://floating-ui.com/docs/flip
+   */
+  const flip = (options, deps) => {
+    const result = flip$1(options);
+    return {
+      name: result.name,
+      fn: result.fn,
+      options: [options, deps]
+    };
+  };
+
+  /**
+   * Provides data that allows you to change the size of the floating element —
+   * for instance, prevent it from overflowing the clipping boundary or match the
+   * width of the reference element.
+   * @see https://floating-ui.com/docs/size
+   */
+  const size = (options, deps) => {
+    const result = size$1(options);
+    return {
+      name: result.name,
+      fn: result.fn,
+      options: [options, deps]
+    };
+  };
+
+  /**
+   * Provides data to hide the floating element in applicable situations, such as
+   * when it is not in the same clipping context as the reference element.
+   * @see https://floating-ui.com/docs/hide
+   */
+  const hide = (options, deps) => {
+    const result = hide$1(options);
+    return {
+      name: result.name,
+      fn: result.fn,
+      options: [options, deps]
+    };
+  };
+
+  /**
+   * Provides data to position an inner element of the floating element so that it
+   * appears centered to the reference element.
+   * This wraps the core `arrow` middleware to allow React refs as the element.
+   * @see https://floating-ui.com/docs/arrow
+   */
+  const arrow = (options, deps) => {
+    const result = arrow$1(options);
+    return {
+      name: result.name,
+      fn: result.fn,
+      options: [options, deps]
+    };
+  };
+
+  // src/arrow.tsx
+  var NAME$1 = "Arrow";
+  var Arrow$1 = reactExports.forwardRef((props, forwardedRef) => {
+    const { children, width = 10, height = 5, ...arrowProps } = props;
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Primitive.svg,
+      {
+        ...arrowProps,
+        ref: forwardedRef,
+        width,
+        height,
+        viewBox: "0 0 30 10",
+        preserveAspectRatio: "none",
+        children: props.asChild ? children : /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0,0 30,0 15,10" })
+      }
+    );
+  });
+  Arrow$1.displayName = NAME$1;
+  var Root$1 = Arrow$1;
+
+  // packages/react/use-size/src/use-size.tsx
+  function useSize(element) {
+    const [size, setSize] = reactExports.useState(void 0);
+    useLayoutEffect2(() => {
+      if (element) {
+        setSize({ width: element.offsetWidth, height: element.offsetHeight });
+        const resizeObserver = new ResizeObserver((entries) => {
+          if (!Array.isArray(entries)) {
+            return;
+          }
+          if (!entries.length) {
+            return;
+          }
+          const entry = entries[0];
+          let width;
+          let height;
+          if ("borderBoxSize" in entry) {
+            const borderSizeEntry = entry["borderBoxSize"];
+            const borderSize = Array.isArray(borderSizeEntry) ? borderSizeEntry[0] : borderSizeEntry;
+            width = borderSize["inlineSize"];
+            height = borderSize["blockSize"];
+          } else {
+            width = element.offsetWidth;
+            height = element.offsetHeight;
+          }
+          setSize({ width, height });
+        });
+        resizeObserver.observe(element, { box: "border-box" });
+        return () => resizeObserver.unobserve(element);
+      } else {
+        setSize(void 0);
+      }
+    }, [element]);
+    return size;
+  }
+
+  var POPPER_NAME = "Popper";
+  var [createPopperContext, createPopperScope] = createContextScope(POPPER_NAME);
+  var [PopperProvider, usePopperContext] = createPopperContext(POPPER_NAME);
+  var Popper = (props) => {
+    const { __scopePopper, children } = props;
+    const [anchor, setAnchor] = reactExports.useState(null);
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(PopperProvider, { scope: __scopePopper, anchor, onAnchorChange: setAnchor, children });
+  };
+  Popper.displayName = POPPER_NAME;
+  var ANCHOR_NAME = "PopperAnchor";
+  var PopperAnchor = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      const { __scopePopper, virtualRef, ...anchorProps } = props;
+      const context = usePopperContext(ANCHOR_NAME, __scopePopper);
+      const ref = reactExports.useRef(null);
+      const composedRefs = useComposedRefs$1(forwardedRef, ref);
+      const anchorRef = reactExports.useRef(null);
+      reactExports.useEffect(() => {
+        const previousAnchor = anchorRef.current;
+        anchorRef.current = virtualRef?.current || ref.current;
+        if (previousAnchor !== anchorRef.current) {
+          context.onAnchorChange(anchorRef.current);
+        }
+      });
+      return virtualRef ? null : /* @__PURE__ */ jsxRuntimeExports.jsx(Primitive.div, { ...anchorProps, ref: composedRefs });
+    }
+  );
+  PopperAnchor.displayName = ANCHOR_NAME;
+  var CONTENT_NAME$1 = "PopperContent";
+  var [PopperContentProvider, useContentContext] = createPopperContext(CONTENT_NAME$1);
+  var PopperContent = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      const {
+        __scopePopper,
+        side = "bottom",
+        sideOffset = 0,
+        align = "center",
+        alignOffset = 0,
+        arrowPadding = 0,
+        avoidCollisions = true,
+        collisionBoundary = [],
+        collisionPadding: collisionPaddingProp = 0,
+        sticky = "partial",
+        hideWhenDetached = false,
+        updatePositionStrategy = "optimized",
+        onPlaced,
+        ...contentProps
+      } = props;
+      const context = usePopperContext(CONTENT_NAME$1, __scopePopper);
+      const [content, setContent] = reactExports.useState(null);
+      const composedRefs = useComposedRefs$1(forwardedRef, (node) => setContent(node));
+      const [arrow$1, setArrow] = reactExports.useState(null);
+      const arrowSize = useSize(arrow$1);
+      const arrowWidth = arrowSize?.width ?? 0;
+      const arrowHeight = arrowSize?.height ?? 0;
+      const desiredPlacement = side + (align !== "center" ? "-" + align : "");
+      const collisionPadding = typeof collisionPaddingProp === "number" ? collisionPaddingProp : { top: 0, right: 0, bottom: 0, left: 0, ...collisionPaddingProp };
+      const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
+      const hasExplicitBoundaries = boundary.length > 0;
+      const detectOverflowOptions = {
+        padding: collisionPadding,
+        boundary: boundary.filter(isNotNull$1),
+        // with `strategy: 'fixed'`, this is the only way to get it to respect boundaries
+        altBoundary: hasExplicitBoundaries
+      };
+      const { refs, floatingStyles, placement, isPositioned, middlewareData } = useFloating({
+        // default to `fixed` strategy so users don't have to pick and we also avoid focus scroll issues
+        strategy: "fixed",
+        placement: desiredPlacement,
+        whileElementsMounted: (...args) => {
+          const cleanup = autoUpdate(...args, {
+            animationFrame: updatePositionStrategy === "always"
+          });
+          return cleanup;
+        },
+        elements: {
+          reference: context.anchor
+        },
+        middleware: [
+          offset({ mainAxis: sideOffset + arrowHeight, alignmentAxis: alignOffset }),
+          avoidCollisions && shift({
+            mainAxis: true,
+            crossAxis: false,
+            limiter: sticky === "partial" ? limitShift() : void 0,
+            ...detectOverflowOptions
+          }),
+          avoidCollisions && flip({ ...detectOverflowOptions }),
+          size({
+            ...detectOverflowOptions,
+            apply: ({ elements, rects, availableWidth, availableHeight }) => {
+              const { width: anchorWidth, height: anchorHeight } = rects.reference;
+              const contentStyle = elements.floating.style;
+              contentStyle.setProperty("--radix-popper-available-width", `${availableWidth}px`);
+              contentStyle.setProperty("--radix-popper-available-height", `${availableHeight}px`);
+              contentStyle.setProperty("--radix-popper-anchor-width", `${anchorWidth}px`);
+              contentStyle.setProperty("--radix-popper-anchor-height", `${anchorHeight}px`);
+            }
+          }),
+          arrow$1 && arrow({ element: arrow$1, padding: arrowPadding }),
+          transformOrigin({ arrowWidth, arrowHeight }),
+          hideWhenDetached && hide({ strategy: "referenceHidden", ...detectOverflowOptions })
+        ]
+      });
+      const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement);
+      const handlePlaced = useCallbackRef(onPlaced);
+      useLayoutEffect2(() => {
+        if (isPositioned) {
+          handlePlaced?.();
+        }
+      }, [isPositioned, handlePlaced]);
+      const arrowX = middlewareData.arrow?.x;
+      const arrowY = middlewareData.arrow?.y;
+      const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0;
+      const [contentZIndex, setContentZIndex] = reactExports.useState();
+      useLayoutEffect2(() => {
+        if (content) setContentZIndex(window.getComputedStyle(content).zIndex);
+      }, [content]);
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          ref: refs.setFloating,
+          "data-radix-popper-content-wrapper": "",
+          style: {
+            ...floatingStyles,
+            transform: isPositioned ? floatingStyles.transform : "translate(0, -200%)",
+            // keep off the page when measuring
+            minWidth: "max-content",
+            zIndex: contentZIndex,
+            ["--radix-popper-transform-origin"]: [
+              middlewareData.transformOrigin?.x,
+              middlewareData.transformOrigin?.y
+            ].join(" "),
+            // hide the content if using the hide middleware and should be hidden
+            // set visibility to hidden and disable pointer events so the UI behaves
+            // as if the PopperContent isn't there at all
+            ...middlewareData.hide?.referenceHidden && {
+              visibility: "hidden",
+              pointerEvents: "none"
+            }
+          },
+          dir: props.dir,
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            PopperContentProvider,
+            {
+              scope: __scopePopper,
+              placedSide,
+              onArrowChange: setArrow,
+              arrowX,
+              arrowY,
+              shouldHideArrow: cannotCenterArrow,
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Primitive.div,
+                {
+                  "data-side": placedSide,
+                  "data-align": placedAlign,
+                  ...contentProps,
+                  ref: composedRefs,
+                  style: {
+                    ...contentProps.style,
+                    // if the PopperContent hasn't been placed yet (not all measurements done)
+                    // we prevent animations so that users's animation don't kick in too early referring wrong sides
+                    animation: !isPositioned ? "none" : void 0
+                  }
+                }
+              )
+            }
+          )
+        }
+      );
+    }
+  );
+  PopperContent.displayName = CONTENT_NAME$1;
+  var ARROW_NAME$1 = "PopperArrow";
+  var OPPOSITE_SIDE = {
+    top: "bottom",
+    right: "left",
+    bottom: "top",
+    left: "right"
+  };
+  var PopperArrow = reactExports.forwardRef(function PopperArrow2(props, forwardedRef) {
+    const { __scopePopper, ...arrowProps } = props;
+    const contentContext = useContentContext(ARROW_NAME$1, __scopePopper);
+    const baseSide = OPPOSITE_SIDE[contentContext.placedSide];
+    return (
+      // we have to use an extra wrapper because `ResizeObserver` (used by `useSize`)
+      // doesn't report size as we'd expect on SVG elements.
+      // it reports their bounding box which is effectively the largest path inside the SVG.
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "span",
+        {
+          ref: contentContext.onArrowChange,
+          style: {
+            position: "absolute",
+            left: contentContext.arrowX,
+            top: contentContext.arrowY,
+            [baseSide]: 0,
+            transformOrigin: {
+              top: "",
+              right: "0 0",
+              bottom: "center 0",
+              left: "100% 0"
+            }[contentContext.placedSide],
+            transform: {
+              top: "translateY(100%)",
+              right: "translateY(50%) rotate(90deg) translateX(-50%)",
+              bottom: `rotate(180deg)`,
+              left: "translateY(50%) rotate(-90deg) translateX(50%)"
+            }[contentContext.placedSide],
+            visibility: contentContext.shouldHideArrow ? "hidden" : void 0
+          },
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Root$1,
+            {
+              ...arrowProps,
+              ref: forwardedRef,
+              style: {
+                ...arrowProps.style,
+                // ensures the element can be measured correctly (mostly for if SVG)
+                display: "block"
+              }
+            }
+          )
+        }
+      )
+    );
+  });
+  PopperArrow.displayName = ARROW_NAME$1;
+  function isNotNull$1(value) {
+    return value !== null;
+  }
+  var transformOrigin = (options) => ({
+    name: "transformOrigin",
+    options,
+    fn(data) {
+      const { placement, rects, middlewareData } = data;
+      const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0;
+      const isArrowHidden = cannotCenterArrow;
+      const arrowWidth = isArrowHidden ? 0 : options.arrowWidth;
+      const arrowHeight = isArrowHidden ? 0 : options.arrowHeight;
+      const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement);
+      const noArrowAlign = { start: "0%", center: "50%", end: "100%" }[placedAlign];
+      const arrowXCenter = (middlewareData.arrow?.x ?? 0) + arrowWidth / 2;
+      const arrowYCenter = (middlewareData.arrow?.y ?? 0) + arrowHeight / 2;
+      let x = "";
+      let y = "";
+      if (placedSide === "bottom") {
+        x = isArrowHidden ? noArrowAlign : `${arrowXCenter}px`;
+        y = `${-arrowHeight}px`;
+      } else if (placedSide === "top") {
+        x = isArrowHidden ? noArrowAlign : `${arrowXCenter}px`;
+        y = `${rects.floating.height + arrowHeight}px`;
+      } else if (placedSide === "right") {
+        x = `${-arrowHeight}px`;
+        y = isArrowHidden ? noArrowAlign : `${arrowYCenter}px`;
+      } else if (placedSide === "left") {
+        x = `${rects.floating.width + arrowHeight}px`;
+        y = isArrowHidden ? noArrowAlign : `${arrowYCenter}px`;
+      }
+      return { data: { x, y } };
+    }
+  });
+  function getSideAndAlignFromPlacement(placement) {
+    const [side, align = "center"] = placement.split("-");
+    return [side, align];
+  }
+  var Root2 = Popper;
+  var Anchor = PopperAnchor;
+  var Content = PopperContent;
+  var Arrow = PopperArrow;
+
+  function useStateMachine(initialState, machine) {
+    return reactExports.useReducer((state, event) => {
+      const nextState = machine[state][event];
+      return nextState ?? state;
+    }, initialState);
+  }
+
+  // src/presence.tsx
+  var Presence = (props) => {
+    const { present, children } = props;
+    const presence = usePresence$1(present);
+    const child = typeof children === "function" ? children({ present: presence.isPresent }) : reactExports.Children.only(children);
+    const ref = useComposedRefs$1(presence.ref, getElementRef(child));
+    const forceMount = typeof children === "function";
+    return forceMount || presence.isPresent ? reactExports.cloneElement(child, { ref }) : null;
+  };
+  Presence.displayName = "Presence";
+  function usePresence$1(present) {
+    const [node, setNode] = reactExports.useState();
+    const stylesRef = reactExports.useRef(null);
+    const prevPresentRef = reactExports.useRef(present);
+    const prevAnimationNameRef = reactExports.useRef("none");
+    const initialState = present ? "mounted" : "unmounted";
+    const [state, send] = useStateMachine(initialState, {
+      mounted: {
+        UNMOUNT: "unmounted",
+        ANIMATION_OUT: "unmountSuspended"
+      },
+      unmountSuspended: {
+        MOUNT: "mounted",
+        ANIMATION_END: "unmounted"
+      },
+      unmounted: {
+        MOUNT: "mounted"
+      }
+    });
+    reactExports.useEffect(() => {
+      const currentAnimationName = getAnimationName(stylesRef.current);
+      prevAnimationNameRef.current = state === "mounted" ? currentAnimationName : "none";
+    }, [state]);
+    useLayoutEffect2(() => {
+      const styles = stylesRef.current;
+      const wasPresent = prevPresentRef.current;
+      const hasPresentChanged = wasPresent !== present;
+      if (hasPresentChanged) {
+        const prevAnimationName = prevAnimationNameRef.current;
+        const currentAnimationName = getAnimationName(styles);
+        if (present) {
+          send("MOUNT");
+        } else if (currentAnimationName === "none" || styles?.display === "none") {
+          send("UNMOUNT");
+        } else {
+          const isAnimating = prevAnimationName !== currentAnimationName;
+          if (wasPresent && isAnimating) {
+            send("ANIMATION_OUT");
+          } else {
+            send("UNMOUNT");
+          }
+        }
+        prevPresentRef.current = present;
+      }
+    }, [present, send]);
+    useLayoutEffect2(() => {
+      if (node) {
+        let timeoutId;
+        const ownerWindow = node.ownerDocument.defaultView ?? window;
+        const handleAnimationEnd = (event) => {
+          const currentAnimationName = getAnimationName(stylesRef.current);
+          const isCurrentAnimation = currentAnimationName.includes(CSS.escape(event.animationName));
+          if (event.target === node && isCurrentAnimation) {
+            send("ANIMATION_END");
+            if (!prevPresentRef.current) {
+              const currentFillMode = node.style.animationFillMode;
+              node.style.animationFillMode = "forwards";
+              timeoutId = ownerWindow.setTimeout(() => {
+                if (node.style.animationFillMode === "forwards") {
+                  node.style.animationFillMode = currentFillMode;
+                }
+              });
+            }
+          }
+        };
+        const handleAnimationStart = (event) => {
+          if (event.target === node) {
+            prevAnimationNameRef.current = getAnimationName(stylesRef.current);
+          }
+        };
+        node.addEventListener("animationstart", handleAnimationStart);
+        node.addEventListener("animationcancel", handleAnimationEnd);
+        node.addEventListener("animationend", handleAnimationEnd);
+        return () => {
+          ownerWindow.clearTimeout(timeoutId);
+          node.removeEventListener("animationstart", handleAnimationStart);
+          node.removeEventListener("animationcancel", handleAnimationEnd);
+          node.removeEventListener("animationend", handleAnimationEnd);
+        };
+      } else {
+        send("ANIMATION_END");
+      }
+    }, [node, send]);
+    return {
+      isPresent: ["mounted", "unmountSuspended"].includes(state),
+      ref: reactExports.useCallback((node2) => {
+        stylesRef.current = node2 ? getComputedStyle(node2) : null;
+        setNode(node2);
+      }, [])
+    };
+  }
+  function getAnimationName(styles) {
+    return styles?.animationName || "none";
+  }
+  function getElementRef(element) {
+    let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
+    let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+    if (mayWarn) {
+      return element.ref;
+    }
+    getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
+    mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+    if (mayWarn) {
+      return element.props.ref;
+    }
+    return element.props.ref || element.ref;
+  }
+
+  // src/use-controllable-state.tsx
+  var useInsertionEffect = React$1[" useInsertionEffect ".trim().toString()] || useLayoutEffect2;
+  function useControllableState({
+    prop,
+    defaultProp,
+    onChange = () => {
+    },
+    caller
+  }) {
+    const [uncontrolledProp, setUncontrolledProp, onChangeRef] = useUncontrolledState({
+      defaultProp,
+      onChange
+    });
+    const isControlled = prop !== void 0;
+    const value = isControlled ? prop : uncontrolledProp;
+    {
+      const isControlledRef = reactExports.useRef(prop !== void 0);
+      reactExports.useEffect(() => {
+        const wasControlled = isControlledRef.current;
+        if (wasControlled !== isControlled) {
+          const from = wasControlled ? "controlled" : "uncontrolled";
+          const to = isControlled ? "controlled" : "uncontrolled";
+          console.warn(
+            `${caller} is changing from ${from} to ${to}. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.`
+          );
+        }
+        isControlledRef.current = isControlled;
+      }, [isControlled, caller]);
+    }
+    const setValue = reactExports.useCallback(
+      (nextValue) => {
+        if (isControlled) {
+          const value2 = isFunction(nextValue) ? nextValue(prop) : nextValue;
+          if (value2 !== prop) {
+            onChangeRef.current?.(value2);
+          }
+        } else {
+          setUncontrolledProp(nextValue);
+        }
+      },
+      [isControlled, prop, setUncontrolledProp, onChangeRef]
+    );
+    return [value, setValue];
+  }
+  function useUncontrolledState({
+    defaultProp,
+    onChange
+  }) {
+    const [value, setValue] = reactExports.useState(defaultProp);
+    const prevValueRef = reactExports.useRef(value);
+    const onChangeRef = reactExports.useRef(onChange);
+    useInsertionEffect(() => {
+      onChangeRef.current = onChange;
+    }, [onChange]);
+    reactExports.useEffect(() => {
+      if (prevValueRef.current !== value) {
+        onChangeRef.current?.(value);
+        prevValueRef.current = value;
+      }
+    }, [value, prevValueRef]);
+    return [value, setValue, onChangeRef];
+  }
+  function isFunction(value) {
+    return typeof value === "function";
+  }
+
+  // src/visually-hidden.tsx
+  var VISUALLY_HIDDEN_STYLES = Object.freeze({
+    // See: https://github.com/twbs/bootstrap/blob/main/scss/mixins/_visually-hidden.scss
+    position: "absolute",
+    border: 0,
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: "hidden",
+    clip: "rect(0, 0, 0, 0)",
+    whiteSpace: "nowrap",
+    wordWrap: "normal"
+  });
+  var NAME = "VisuallyHidden";
+  var VisuallyHidden = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Primitive.span,
+        {
+          ...props,
+          ref: forwardedRef,
+          style: { ...VISUALLY_HIDDEN_STYLES, ...props.style }
+        }
+      );
+    }
+  );
+  VisuallyHidden.displayName = NAME;
+  var Root = VisuallyHidden;
+
+  var [createTooltipContext] = createContextScope("Tooltip", [
+    createPopperScope
+  ]);
+  var usePopperScope = createPopperScope();
+  var PROVIDER_NAME = "TooltipProvider";
+  var DEFAULT_DELAY_DURATION = 700;
+  var TOOLTIP_OPEN = "tooltip.open";
+  var [TooltipProviderContextProvider, useTooltipProviderContext] = createTooltipContext(PROVIDER_NAME);
+  var TooltipProvider$1 = (props) => {
+    const {
+      __scopeTooltip,
+      delayDuration = DEFAULT_DELAY_DURATION,
+      skipDelayDuration = 300,
+      disableHoverableContent = false,
+      children
+    } = props;
+    const isOpenDelayedRef = reactExports.useRef(true);
+    const isPointerInTransitRef = reactExports.useRef(false);
+    const skipDelayTimerRef = reactExports.useRef(0);
+    reactExports.useEffect(() => {
+      const skipDelayTimer = skipDelayTimerRef.current;
+      return () => window.clearTimeout(skipDelayTimer);
+    }, []);
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TooltipProviderContextProvider,
+      {
+        scope: __scopeTooltip,
+        isOpenDelayedRef,
+        delayDuration,
+        onOpen: reactExports.useCallback(() => {
+          window.clearTimeout(skipDelayTimerRef.current);
+          isOpenDelayedRef.current = false;
+        }, []),
+        onClose: reactExports.useCallback(() => {
+          window.clearTimeout(skipDelayTimerRef.current);
+          skipDelayTimerRef.current = window.setTimeout(
+            () => isOpenDelayedRef.current = true,
+            skipDelayDuration
+          );
+        }, [skipDelayDuration]),
+        isPointerInTransitRef,
+        onPointerInTransitChange: reactExports.useCallback((inTransit) => {
+          isPointerInTransitRef.current = inTransit;
+        }, []),
+        disableHoverableContent,
+        children
+      }
+    );
+  };
+  TooltipProvider$1.displayName = PROVIDER_NAME;
+  var TOOLTIP_NAME = "Tooltip";
+  var [TooltipContextProvider, useTooltipContext] = createTooltipContext(TOOLTIP_NAME);
+  var Tooltip$1 = (props) => {
+    const {
+      __scopeTooltip,
+      children,
+      open: openProp,
+      defaultOpen,
+      onOpenChange,
+      disableHoverableContent: disableHoverableContentProp,
+      delayDuration: delayDurationProp
+    } = props;
+    const providerContext = useTooltipProviderContext(TOOLTIP_NAME, props.__scopeTooltip);
+    const popperScope = usePopperScope(__scopeTooltip);
+    const [trigger, setTrigger] = reactExports.useState(null);
+    const contentId = useId();
+    const openTimerRef = reactExports.useRef(0);
+    const disableHoverableContent = disableHoverableContentProp ?? providerContext.disableHoverableContent;
+    const delayDuration = delayDurationProp ?? providerContext.delayDuration;
+    const wasOpenDelayedRef = reactExports.useRef(false);
+    const [open, setOpen] = useControllableState({
+      prop: openProp,
+      defaultProp: defaultOpen ?? false,
+      onChange: (open2) => {
+        if (open2) {
+          providerContext.onOpen();
+          document.dispatchEvent(new CustomEvent(TOOLTIP_OPEN));
+        } else {
+          providerContext.onClose();
+        }
+        onOpenChange?.(open2);
+      },
+      caller: TOOLTIP_NAME
+    });
+    const stateAttribute = reactExports.useMemo(() => {
+      return open ? wasOpenDelayedRef.current ? "delayed-open" : "instant-open" : "closed";
+    }, [open]);
+    const handleOpen = reactExports.useCallback(() => {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = 0;
+      wasOpenDelayedRef.current = false;
+      setOpen(true);
+    }, [setOpen]);
+    const handleClose = reactExports.useCallback(() => {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = 0;
+      setOpen(false);
+    }, [setOpen]);
+    const handleDelayedOpen = reactExports.useCallback(() => {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = window.setTimeout(() => {
+        wasOpenDelayedRef.current = true;
+        setOpen(true);
+        openTimerRef.current = 0;
+      }, delayDuration);
+    }, [delayDuration, setOpen]);
+    reactExports.useEffect(() => {
+      return () => {
+        if (openTimerRef.current) {
+          window.clearTimeout(openTimerRef.current);
+          openTimerRef.current = 0;
+        }
+      };
+    }, []);
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(Root2, { ...popperScope, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TooltipContextProvider,
+      {
+        scope: __scopeTooltip,
+        contentId,
+        open,
+        stateAttribute,
+        trigger,
+        onTriggerChange: setTrigger,
+        onTriggerEnter: reactExports.useCallback(() => {
+          if (providerContext.isOpenDelayedRef.current) handleDelayedOpen();
+          else handleOpen();
+        }, [providerContext.isOpenDelayedRef, handleDelayedOpen, handleOpen]),
+        onTriggerLeave: reactExports.useCallback(() => {
+          if (disableHoverableContent) {
+            handleClose();
+          } else {
+            window.clearTimeout(openTimerRef.current);
+            openTimerRef.current = 0;
+          }
+        }, [handleClose, disableHoverableContent]),
+        onOpen: handleOpen,
+        onClose: handleClose,
+        disableHoverableContent,
+        children
+      }
+    ) });
+  };
+  Tooltip$1.displayName = TOOLTIP_NAME;
+  var TRIGGER_NAME = "TooltipTrigger";
+  var TooltipTrigger$1 = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      const { __scopeTooltip, ...triggerProps } = props;
+      const context = useTooltipContext(TRIGGER_NAME, __scopeTooltip);
+      const providerContext = useTooltipProviderContext(TRIGGER_NAME, __scopeTooltip);
+      const popperScope = usePopperScope(__scopeTooltip);
+      const ref = reactExports.useRef(null);
+      const composedRefs = useComposedRefs$1(forwardedRef, ref, context.onTriggerChange);
+      const isPointerDownRef = reactExports.useRef(false);
+      const hasPointerMoveOpenedRef = reactExports.useRef(false);
+      const handlePointerUp = reactExports.useCallback(() => isPointerDownRef.current = false, []);
+      reactExports.useEffect(() => {
+        return () => document.removeEventListener("pointerup", handlePointerUp);
+      }, [handlePointerUp]);
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(Anchor, { asChild: true, ...popperScope, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Primitive.button,
+        {
+          "aria-describedby": context.open ? context.contentId : void 0,
+          "data-state": context.stateAttribute,
+          ...triggerProps,
+          ref: composedRefs,
+          onPointerMove: composeEventHandlers(props.onPointerMove, (event) => {
+            if (event.pointerType === "touch") return;
+            if (!hasPointerMoveOpenedRef.current && !providerContext.isPointerInTransitRef.current) {
+              context.onTriggerEnter();
+              hasPointerMoveOpenedRef.current = true;
+            }
+          }),
+          onPointerLeave: composeEventHandlers(props.onPointerLeave, () => {
+            context.onTriggerLeave();
+            hasPointerMoveOpenedRef.current = false;
+          }),
+          onPointerDown: composeEventHandlers(props.onPointerDown, () => {
+            if (context.open) {
+              context.onClose();
+            }
+            isPointerDownRef.current = true;
+            document.addEventListener("pointerup", handlePointerUp, { once: true });
+          }),
+          onFocus: composeEventHandlers(props.onFocus, () => {
+            if (!isPointerDownRef.current) context.onOpen();
+          }),
+          onBlur: composeEventHandlers(props.onBlur, context.onClose),
+          onClick: composeEventHandlers(props.onClick, context.onClose)
+        }
+      ) });
+    }
+  );
+  TooltipTrigger$1.displayName = TRIGGER_NAME;
+  var PORTAL_NAME = "TooltipPortal";
+  var [PortalProvider, usePortalContext] = createTooltipContext(PORTAL_NAME, {
+    forceMount: void 0
+  });
+  var CONTENT_NAME = "TooltipContent";
+  var TooltipContent$1 = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      const portalContext = usePortalContext(CONTENT_NAME, props.__scopeTooltip);
+      const { forceMount = portalContext.forceMount, side = "top", ...contentProps } = props;
+      const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip);
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(Presence, { present: forceMount || context.open, children: context.disableHoverableContent ? /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContentImpl, { side, ...contentProps, ref: forwardedRef }) : /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContentHoverable, { side, ...contentProps, ref: forwardedRef }) });
+    }
+  );
+  var TooltipContentHoverable = reactExports.forwardRef((props, forwardedRef) => {
+    const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip);
+    const providerContext = useTooltipProviderContext(CONTENT_NAME, props.__scopeTooltip);
+    const ref = reactExports.useRef(null);
+    const composedRefs = useComposedRefs$1(forwardedRef, ref);
+    const [pointerGraceArea, setPointerGraceArea] = reactExports.useState(null);
+    const { trigger, onClose } = context;
+    const content = ref.current;
+    const { onPointerInTransitChange } = providerContext;
+    const handleRemoveGraceArea = reactExports.useCallback(() => {
+      setPointerGraceArea(null);
+      onPointerInTransitChange(false);
+    }, [onPointerInTransitChange]);
+    const handleCreateGraceArea = reactExports.useCallback(
+      (event, hoverTarget) => {
+        const currentTarget = event.currentTarget;
+        const exitPoint = { x: event.clientX, y: event.clientY };
+        const exitSide = getExitSideFromRect(exitPoint, currentTarget.getBoundingClientRect());
+        const paddedExitPoints = getPaddedExitPoints(exitPoint, exitSide);
+        const hoverTargetPoints = getPointsFromRect(hoverTarget.getBoundingClientRect());
+        const graceArea = getHull([...paddedExitPoints, ...hoverTargetPoints]);
+        setPointerGraceArea(graceArea);
+        onPointerInTransitChange(true);
+      },
+      [onPointerInTransitChange]
+    );
+    reactExports.useEffect(() => {
+      return () => handleRemoveGraceArea();
+    }, [handleRemoveGraceArea]);
+    reactExports.useEffect(() => {
+      if (trigger && content) {
+        const handleTriggerLeave = (event) => handleCreateGraceArea(event, content);
+        const handleContentLeave = (event) => handleCreateGraceArea(event, trigger);
+        trigger.addEventListener("pointerleave", handleTriggerLeave);
+        content.addEventListener("pointerleave", handleContentLeave);
+        return () => {
+          trigger.removeEventListener("pointerleave", handleTriggerLeave);
+          content.removeEventListener("pointerleave", handleContentLeave);
+        };
+      }
+    }, [trigger, content, handleCreateGraceArea, handleRemoveGraceArea]);
+    reactExports.useEffect(() => {
+      if (pointerGraceArea) {
+        const handleTrackPointerGrace = (event) => {
+          const target = event.target;
+          const pointerPosition = { x: event.clientX, y: event.clientY };
+          const hasEnteredTarget = trigger?.contains(target) || content?.contains(target);
+          const isPointerOutsideGraceArea = !isPointInPolygon(pointerPosition, pointerGraceArea);
+          if (hasEnteredTarget) {
+            handleRemoveGraceArea();
+          } else if (isPointerOutsideGraceArea) {
+            handleRemoveGraceArea();
+            onClose();
+          }
+        };
+        document.addEventListener("pointermove", handleTrackPointerGrace);
+        return () => document.removeEventListener("pointermove", handleTrackPointerGrace);
+      }
+    }, [trigger, content, pointerGraceArea, onClose, handleRemoveGraceArea]);
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContentImpl, { ...props, ref: composedRefs });
+  });
+  var [VisuallyHiddenContentContextProvider, useVisuallyHiddenContentContext] = createTooltipContext(TOOLTIP_NAME, { isInside: false });
+  var Slottable = createSlottable("TooltipContent");
+  var TooltipContentImpl = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      const {
+        __scopeTooltip,
+        children,
+        "aria-label": ariaLabel,
+        onEscapeKeyDown,
+        onPointerDownOutside,
+        ...contentProps
+      } = props;
+      const context = useTooltipContext(CONTENT_NAME, __scopeTooltip);
+      const popperScope = usePopperScope(__scopeTooltip);
+      const { onClose } = context;
+      reactExports.useEffect(() => {
+        document.addEventListener(TOOLTIP_OPEN, onClose);
+        return () => document.removeEventListener(TOOLTIP_OPEN, onClose);
+      }, [onClose]);
+      reactExports.useEffect(() => {
+        if (context.trigger) {
+          const handleScroll = (event) => {
+            const target = event.target;
+            if (target?.contains(context.trigger)) onClose();
+          };
+          window.addEventListener("scroll", handleScroll, { capture: true });
+          return () => window.removeEventListener("scroll", handleScroll, { capture: true });
+        }
+      }, [context.trigger, onClose]);
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+        DismissableLayer,
+        {
+          asChild: true,
+          disableOutsidePointerEvents: false,
+          onEscapeKeyDown,
+          onPointerDownOutside,
+          onFocusOutside: (event) => event.preventDefault(),
+          onDismiss: onClose,
+          children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            Content,
+            {
+              "data-state": context.stateAttribute,
+              ...popperScope,
+              ...contentProps,
+              ref: forwardedRef,
+              style: {
+                ...contentProps.style,
+                // re-namespace exposed content custom properties
+                ...{
+                  "--radix-tooltip-content-transform-origin": "var(--radix-popper-transform-origin)",
+                  "--radix-tooltip-content-available-width": "var(--radix-popper-available-width)",
+                  "--radix-tooltip-content-available-height": "var(--radix-popper-available-height)",
+                  "--radix-tooltip-trigger-width": "var(--radix-popper-anchor-width)",
+                  "--radix-tooltip-trigger-height": "var(--radix-popper-anchor-height)"
+                }
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Slottable, { children }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(VisuallyHiddenContentContextProvider, { scope: __scopeTooltip, isInside: true, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Root, { id: context.contentId, role: "tooltip", children: ariaLabel || children }) })
+              ]
+            }
+          )
+        }
+      );
+    }
+  );
+  TooltipContent$1.displayName = CONTENT_NAME;
+  var ARROW_NAME = "TooltipArrow";
+  var TooltipArrow = reactExports.forwardRef(
+    (props, forwardedRef) => {
+      const { __scopeTooltip, ...arrowProps } = props;
+      const popperScope = usePopperScope(__scopeTooltip);
+      const visuallyHiddenContentContext = useVisuallyHiddenContentContext(
+        ARROW_NAME,
+        __scopeTooltip
+      );
+      return visuallyHiddenContentContext.isInside ? null : /* @__PURE__ */ jsxRuntimeExports.jsx(Arrow, { ...popperScope, ...arrowProps, ref: forwardedRef });
+    }
+  );
+  TooltipArrow.displayName = ARROW_NAME;
+  function getExitSideFromRect(point, rect) {
+    const top = Math.abs(rect.top - point.y);
+    const bottom = Math.abs(rect.bottom - point.y);
+    const right = Math.abs(rect.right - point.x);
+    const left = Math.abs(rect.left - point.x);
+    switch (Math.min(top, bottom, right, left)) {
+      case left:
+        return "left";
+      case right:
+        return "right";
+      case top:
+        return "top";
+      case bottom:
+        return "bottom";
+      default:
+        throw new Error("unreachable");
+    }
+  }
+  function getPaddedExitPoints(exitPoint, exitSide, padding = 5) {
+    const paddedExitPoints = [];
+    switch (exitSide) {
+      case "top":
+        paddedExitPoints.push(
+          { x: exitPoint.x - padding, y: exitPoint.y + padding },
+          { x: exitPoint.x + padding, y: exitPoint.y + padding }
+        );
+        break;
+      case "bottom":
+        paddedExitPoints.push(
+          { x: exitPoint.x - padding, y: exitPoint.y - padding },
+          { x: exitPoint.x + padding, y: exitPoint.y - padding }
+        );
+        break;
+      case "left":
+        paddedExitPoints.push(
+          { x: exitPoint.x + padding, y: exitPoint.y - padding },
+          { x: exitPoint.x + padding, y: exitPoint.y + padding }
+        );
+        break;
+      case "right":
+        paddedExitPoints.push(
+          { x: exitPoint.x - padding, y: exitPoint.y - padding },
+          { x: exitPoint.x - padding, y: exitPoint.y + padding }
+        );
+        break;
+    }
+    return paddedExitPoints;
+  }
+  function getPointsFromRect(rect) {
+    const { top, right, bottom, left } = rect;
+    return [
+      { x: left, y: top },
+      { x: right, y: top },
+      { x: right, y: bottom },
+      { x: left, y: bottom }
+    ];
+  }
+  function isPointInPolygon(point, polygon) {
+    const { x, y } = point;
+    let inside = false;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const ii = polygon[i];
+      const jj = polygon[j];
+      const xi = ii.x;
+      const yi = ii.y;
+      const xj = jj.x;
+      const yj = jj.y;
+      const intersect = yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }
+  function getHull(points) {
+    const newPoints = points.slice();
+    newPoints.sort((a, b) => {
+      if (a.x < b.x) return -1;
+      else if (a.x > b.x) return 1;
+      else if (a.y < b.y) return -1;
+      else if (a.y > b.y) return 1;
+      else return 0;
+    });
+    return getHullPresorted(newPoints);
+  }
+  function getHullPresorted(points) {
+    if (points.length <= 1) return points.slice();
+    const upperHull = [];
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      while (upperHull.length >= 2) {
+        const q = upperHull[upperHull.length - 1];
+        const r = upperHull[upperHull.length - 2];
+        if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x)) upperHull.pop();
+        else break;
+      }
+      upperHull.push(p);
+    }
+    upperHull.pop();
+    const lowerHull = [];
+    for (let i = points.length - 1; i >= 0; i--) {
+      const p = points[i];
+      while (lowerHull.length >= 2) {
+        const q = lowerHull[lowerHull.length - 1];
+        const r = lowerHull[lowerHull.length - 2];
+        if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x)) lowerHull.pop();
+        else break;
+      }
+      lowerHull.push(p);
+    }
+    lowerHull.pop();
+    if (upperHull.length === 1 && lowerHull.length === 1 && upperHull[0].x === lowerHull[0].x && upperHull[0].y === lowerHull[0].y) {
+      return upperHull;
+    } else {
+      return upperHull.concat(lowerHull);
+    }
+  }
+  var Provider = TooltipProvider$1;
+  var Root3 = Tooltip$1;
+  var Trigger = TooltipTrigger$1;
+  var Content2 = TooltipContent$1;
+
+  const TooltipProvider = Provider;
+  const Tooltip = Root3;
+  const TooltipTrigger = Trigger;
+  const TooltipContent = reactExports.forwardRef(({ className, sideOffset = 5, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Content2,
+    {
+      ref,
+      sideOffset,
+      className: "ltt-tooltip",
+      ...props
+    }
+  ));
+  TooltipContent.displayName = Content2.displayName;
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case "completed":
+        return "已完成";
+      case "in_progress":
+        return "进行中";
+      case "failed":
+        return "失败";
+      case "skipped":
+        return "已跳过";
+      case "pending":
+      default:
+        return "待开始";
+    }
+  };
+  const getStatusColor = (status, colorScheme) => {
+    switch (status) {
+      case "completed":
+        return colorScheme.completed;
+      case "in_progress":
+        return colorScheme.inProgress;
+      case "failed":
+        return colorScheme.failed;
+      case "skipped":
+        return colorScheme.skipped;
+      case "pending":
+      default:
+        return colorScheme.pending;
+    }
+  };
+  const MinimalTooltip = ({ item, colorScheme }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-minimal", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-minimal-label", children: item.label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "ltt-milestone-tooltip-minimal-status",
+        style: { color: getStatusColor(item.status, colorScheme) },
+        children: getStatusText(item.status)
+      }
+    )
+  ] });
+  const CompactTooltip = ({ item, colorScheme }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-compact", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-compact-label", children: item.label }),
+    item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-compact-date", children: [
+      "时间: ",
+      item.date
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "ltt-milestone-tooltip-compact-status",
+        style: { color: getStatusColor(item.status, colorScheme) },
+        children: [
+          "状态: ",
+          getStatusText(item.status)
+        ]
+      }
+    ),
+    item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-compact-progress", children: [
+      "进度: ",
+      item.progress,
+      "%"
+    ] })
+  ] });
+  const DetailedTooltip = ({ item, colorScheme }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-detailed", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-detailed-header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-detailed-label", children: item.label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "ltt-milestone-tooltip-detailed-status",
+          style: { color: getStatusColor(item.status, colorScheme) },
+          children: getStatusText(item.status)
+        }
+      )
+    ] }),
+    item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-detailed-date", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-tooltip-detailed-date-label", children: "时间:" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-tooltip-detailed-date-value", children: item.date })
+    ] }),
+    item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-detailed-progress-section", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-detailed-progress-label", children: "进度" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-detailed-progress-bar-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "ltt-milestone-tooltip-detailed-progress-bar",
+          style: {
+            width: `${item.progress}%`,
+            backgroundColor: getStatusColor(item.status, colorScheme)
+          }
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-detailed-progress-value", children: [
+        item.progress,
+        "%"
+      ] })
+    ] })
+  ] });
+  const ElegantTooltip = ({ item, colorScheme }) => {
+    const statusColor = getStatusColor(item.status, colorScheme);
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-elegant", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-elegant-header", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "ltt-milestone-tooltip-elegant-dot",
+            style: { backgroundColor: statusColor }
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-elegant-label", children: item.label })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-elegant-divider" }),
+      item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-elegant-row", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-tooltip-elegant-icon", children: "📅" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-tooltip-elegant-text", children: item.date })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-elegant-row", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-tooltip-elegant-icon", children: "🏷️" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            className: "ltt-milestone-tooltip-elegant-text",
+            style: { color: statusColor },
+            children: getStatusText(item.status)
+          }
+        )
+      ] }),
+      item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-elegant-row", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-tooltip-elegant-icon", children: "📊" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ltt-milestone-tooltip-elegant-text", children: [
+          item.progress,
+          "% 完成"
+        ] })
+      ] })
+    ] });
+  };
+  const MilestoneTooltip = ({
+    item,
+    colorScheme,
+    tooltipStyle = "compact"
+  }) => {
+    const content = (() => {
+      switch (tooltipStyle) {
+        case "minimal":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(MinimalTooltip, { item, colorScheme });
+        case "compact":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CompactTooltip, { item, colorScheme });
+        case "detailed":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(DetailedTooltip, { item, colorScheme });
+        case "elegant":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(ElegantTooltip, { item, colorScheme });
+        default:
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CompactTooltip, { item, colorScheme });
+      }
+    })();
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { children: content });
+  };
+
+  const defaultColorScheme$7 = {
     completed: "#10b981",
     inProgress: "#f59e0b",
     pending: "#d1d5db",
@@ -9180,9 +13128,10 @@ ${where}
   };
   const CapsuleMilestone = ({
     items,
-    colorScheme = defaultColorScheme$5,
+    colorScheme = defaultColorScheme$7,
     showLabels = true,
     showProgress = true,
+    tooltipStyle = "compact",
     onNodeClick
   }) => {
     const [hoveredItem, setHoveredItem] = reactExports.useState(null);
@@ -9245,42 +13194,34 @@ ${where}
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
     }
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-capsule", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-track", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "ltt-milestone-node",
-          onMouseEnter: () => setHoveredItem(item.id),
-          onMouseLeave: () => setHoveredItem(null),
-          onClick: () => handleNodeClick(item),
-          style: { cursor: item.blockUuid ? "pointer" : "default" },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: `ltt-milestone-node ${item.status === "in_progress" ? "ltt-milestone-pulse-node" : ""}`,
+            onClick: () => handleNodeClick(item),
+            onMouseEnter: () => setHoveredItem(item.id),
+            onMouseLeave: () => setHoveredItem(null),
+            style: { cursor: item.blockUuid ? "pointer" : "default" },
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(
               "span",
               {
                 className: "ltt-milestone-symbol",
                 style: { color: getNodeColor(item.status) },
                 children: getNodeSymbol(item.status)
               }
-            ),
-            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
-              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
-                "时间: ",
-                item.date
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
-                "状态: ",
-                getStatusText(item.status)
-              ] }),
-              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
-                "进度: ",
-                item.progress,
-                "%"
-              ] })
-            ] })
-          ]
-        }
-      ),
+            )
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MilestoneTooltip,
+          {
+            item,
+            colorScheme,
+            tooltipStyle
+          }
+        ) })
+      ] }),
       index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
@@ -9311,7 +13252,7 @@ ${where}
     ] }, item.id)) }) });
   };
 
-  const defaultColorScheme$4 = {
+  const defaultColorScheme$6 = {
     completed: "#10b981",
     inProgress: "#f59e0b",
     pending: "#d1d5db",
@@ -9322,9 +13263,10 @@ ${where}
   };
   const BadgeMilestone = ({
     items,
-    colorScheme = defaultColorScheme$4,
+    colorScheme = defaultColorScheme$6,
     showLabels = true,
     showProgress = true,
+    tooltipStyle = "compact",
     overallProgress = 0,
     onNodeClick
   }) => {
@@ -9369,74 +13311,51 @@ ${where}
           return "○";
       }
     };
-    const getStatusText = (status) => {
-      switch (status) {
-        case "completed":
-          return "已完成";
-        case "in_progress":
-          return "进行中";
-        case "failed":
-          return "失败";
-        case "skipped":
-          return "已跳过";
-        case "pending":
-        default:
-          return "待开始";
-      }
-    };
     if (items.length === 0) {
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
     }
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-badge", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-grid", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "ltt-milestone-badge-item",
-          onMouseEnter: () => setHoveredItem(item.id),
-          onMouseLeave: () => setHoveredItem(null),
-          onClick: () => handleNodeClick(item),
-          style: { position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-badge-number", children: String(index + 1).padStart(2, "0") }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "span",
-              {
-                className: "ltt-milestone-symbol",
-                style: { color: getNodeColor(item.status) },
-                children: getNodeSymbol(item.status)
-              }
-            ),
-            showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-label", children: item.label }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-grid", children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `ltt-milestone-badge-item ${item.status === "in_progress" ? "ltt-milestone-pulse-node" : ""}`,
+            onClick: () => handleNodeClick(item),
+            onMouseEnter: () => setHoveredItem(item.id),
+            onMouseLeave: () => setHoveredItem(null),
+            style: { position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
+            children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "div",
+                "span",
                 {
-                  className: "ltt-milestone-sublabel",
+                  className: "ltt-milestone-symbol",
                   style: { color: getNodeColor(item.status) },
-                  children: item.status === "completed" ? "已完成" : item.status === "in_progress" ? `进行中 ${item.progress || 0}%` : item.status === "failed" ? "失败" : "待开始"
+                  children: getNodeSymbol(item.status)
                 }
-              )
-            ] }),
-            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-badge", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
-              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
-                "时间: ",
-                item.date
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
-                "状态: ",
-                getStatusText(item.status)
-              ] }),
-              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
-                "进度: ",
-                item.progress,
-                "%"
+              ),
+              showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-label", children: item.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    className: "ltt-milestone-sublabel",
+                    style: { color: getNodeColor(item.status) },
+                    children: item.status === "completed" ? "已完成" : item.status === "in_progress" ? `进行中 ${item.progress || 0}%` : item.status === "failed" ? "失败" : "待开始"
+                  }
+                )
               ] })
-            ] })
-          ]
-        },
-        item.id
-      )) }),
+            ]
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MilestoneTooltip,
+          {
+            item,
+            colorScheme,
+            tooltipStyle
+          }
+        ) })
+      ] }, item.id)) }),
       showProgress && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-overall-progress", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
@@ -9453,7 +13372,7 @@ ${where}
     ] });
   };
 
-  const defaultColorScheme$3 = {
+  const defaultColorScheme$5 = {
     completed: "#10b981",
     inProgress: "#f59e0b",
     pending: "#d1d5db",
@@ -9464,8 +13383,9 @@ ${where}
   };
   const TrackMilestone = ({
     items,
-    colorScheme = defaultColorScheme$3,
+    colorScheme = defaultColorScheme$5,
     showLabels = true,
+    tooltipStyle = "compact",
     onNodeClick
   }) => {
     const [hoveredItem, setHoveredItem] = reactExports.useState(null);
@@ -9494,21 +13414,6 @@ ${where}
           return colorScheme.pending;
       }
     };
-    const getStatusText = (status) => {
-      switch (status) {
-        case "completed":
-          return "已完成";
-        case "in_progress":
-          return "进行中";
-        case "failed":
-          return "失败";
-        case "skipped":
-          return "已跳过";
-        case "pending":
-        default:
-          return "待开始";
-      }
-    };
     if (items.length === 0) {
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
     }
@@ -9522,32 +13427,26 @@ ${where}
           }
         ),
         items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "ltt-milestone-dot",
-              "data-status": item.status,
-              style: { backgroundColor: getNodeColor(item.status), cursor: item.blockUuid ? "pointer" : "default" },
-              onMouseEnter: () => setHoveredItem(item.id),
-              onMouseLeave: () => setHoveredItem(null),
-              onClick: () => handleNodeClick(item)
-            }
-          ),
-          hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-track", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
-            item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
-              "时间: ",
-              item.date
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
-              "状态: ",
-              getStatusText(item.status)
-            ] }),
-            item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
-              "进度: ",
-              item.progress,
-              "%"
-            ] })
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: "ltt-milestone-dot",
+                "data-status": item.status,
+                style: { backgroundColor: getNodeColor(item.status), cursor: item.blockUuid ? "pointer" : "default" },
+                onClick: () => handleNodeClick(item),
+                onMouseEnter: () => setHoveredItem(item.id),
+                onMouseLeave: () => setHoveredItem(null)
+              }
+            ) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              MilestoneTooltip,
+              {
+                item,
+                colorScheme,
+                tooltipStyle
+              }
+            ) })
           ] }),
           index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
             "div",
@@ -9560,39 +13459,379 @@ ${where}
           )
         ] }, item.id))
       ] }),
-      showLabels && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-labels", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "ltt-milestone-label-item",
-          onMouseEnter: () => setHoveredItem(item.id),
-          onMouseLeave: () => setHoveredItem(null),
-          onClick: () => handleNodeClick(item),
-          style: { position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "span",
-              {
-                className: "ltt-milestone-time",
-                style: { color: colorScheme.text },
-                children: item.label
-              }
-            ),
-            item.date && /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "span",
-              {
-                className: "ltt-milestone-desc",
-                style: { color: colorScheme.text, opacity: 0.6 },
-                children: item.date
-              }
-            )
-          ]
-        },
-        item.id
-      )) })
+      showLabels && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-labels", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "ltt-milestone-label-item",
+            onClick: () => handleNodeClick(item),
+            onMouseEnter: () => setHoveredItem(item.id),
+            onMouseLeave: () => setHoveredItem(null),
+            style: { position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "span",
+                {
+                  className: "ltt-milestone-time",
+                  style: { color: colorScheme.text },
+                  children: item.label
+                }
+              ),
+              item.date && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "span",
+                {
+                  className: "ltt-milestone-desc",
+                  style: { color: colorScheme.text, opacity: 0.6 },
+                  children: item.date
+                }
+              )
+            ]
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "bottom", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MilestoneTooltip,
+          {
+            item,
+            colorScheme,
+            tooltipStyle
+          }
+        ) })
+      ] }, item.id)) })
     ] });
   };
 
-  const defaultColorScheme$2 = {
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+  const mergeClasses = (...classes) => classes.filter((className, index, array) => {
+    return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
+  }).join(" ").trim();
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+  const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+  const toCamelCase = (string) => string.replace(
+    /^([A-Z])|[\s-_]+(\w)/g,
+    (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
+  );
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const toPascalCase = (string) => {
+    const camelCase = toCamelCase(string);
+    return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+  };
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+  var defaultAttributes = {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 24,
+    height: 24,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  };
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+  const hasA11yProp = (props) => {
+    for (const prop in props) {
+      if (prop.startsWith("aria-") || prop === "role" || prop === "title") {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const LucideContext = reactExports.createContext({});
+  const useLucideContext = () => reactExports.useContext(LucideContext);
+
+  const Icon = reactExports.forwardRef(
+    ({ color, size, strokeWidth, absoluteStrokeWidth, className = "", children, iconNode, ...rest }, ref) => {
+      const {
+        size: contextSize = 24,
+        strokeWidth: contextStrokeWidth = 2,
+        absoluteStrokeWidth: contextAbsoluteStrokeWidth = false,
+        color: contextColor = "currentColor",
+        className: contextClass = ""
+      } = useLucideContext() ?? {};
+      const calculatedStrokeWidth = absoluteStrokeWidth ?? contextAbsoluteStrokeWidth ? Number(strokeWidth ?? contextStrokeWidth) * 24 / Number(size ?? contextSize) : strokeWidth ?? contextStrokeWidth;
+      return reactExports.createElement(
+        "svg",
+        {
+          ref,
+          ...defaultAttributes,
+          width: size ?? contextSize ?? defaultAttributes.width,
+          height: size ?? contextSize ?? defaultAttributes.height,
+          stroke: color ?? contextColor,
+          strokeWidth: calculatedStrokeWidth,
+          className: mergeClasses("lucide", contextClass, className),
+          ...!children && !hasA11yProp(rest) && { "aria-hidden": "true" },
+          ...rest
+        },
+        [
+          ...iconNode.map(([tag, attrs]) => reactExports.createElement(tag, attrs)),
+          ...Array.isArray(children) ? children : [children]
+        ]
+      );
+    }
+  );
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const createLucideIcon = (iconName, iconNode) => {
+    const Component = reactExports.forwardRef(
+      ({ className, ...props }, ref) => reactExports.createElement(Icon, {
+        ref,
+        iconNode,
+        className: mergeClasses(
+          `lucide-${toKebabCase(toPascalCase(iconName))}`,
+          `lucide-${iconName}`,
+          className
+        ),
+        ...props
+      })
+    );
+    Component.displayName = toPascalCase(iconName);
+    return Component;
+  };
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$c = [
+    [
+      "path",
+      { d: "M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8", key: "mg9rjx" }
+    ]
+  ];
+  const Bold = createLucideIcon("bold", __iconNode$c);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$b = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
+  ];
+  const CircleCheck = createLucideIcon("circle-check", __iconNode$b);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$a = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
+    ["path", { d: "m9 9 6 6", key: "z0biqf" }]
+  ];
+  const CircleX = createLucideIcon("circle-x", __iconNode$a);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$9 = [
+    ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+    ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }]
+  ];
+  const Clock = createLucideIcon("clock", __iconNode$9);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$8 = [
+    ["path", { d: "m9 11-6 6v3h9l3-3", key: "1a3l36" }],
+    ["path", { d: "m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4", key: "14a9rk" }]
+  ];
+  const Highlighter = createLucideIcon("highlighter", __iconNode$8);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$7 = [
+    ["line", { x1: "19", x2: "10", y1: "4", y2: "4", key: "15jd3p" }],
+    ["line", { x1: "14", x2: "5", y1: "20", y2: "20", key: "bu0au3" }],
+    ["line", { x1: "15", x2: "9", y1: "4", y2: "20", key: "uljnxc" }]
+  ];
+  const Italic = createLucideIcon("italic", __iconNode$7);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$6 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+  const LoaderCircle = createLucideIcon("loader-circle", __iconNode$6);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$5 = [
+    ["path", { d: "M4 5h16", key: "1tepv9" }],
+    ["path", { d: "M4 12h16", key: "1lakjw" }],
+    ["path", { d: "M4 19h16", key: "1djgab" }]
+  ];
+  const Menu = createLucideIcon("menu", __iconNode$5);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$4 = [
+    ["path", { d: "M21 4v16", key: "7j8fe9" }],
+    [
+      "path",
+      {
+        d: "M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z",
+        key: "zs4d6"
+      }
+    ]
+  ];
+  const SkipForward = createLucideIcon("skip-forward", __iconNode$4);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$3 = [
+    ["path", { d: "M16 4H9a3 3 0 0 0-2.83 4", key: "43sutm" }],
+    ["path", { d: "M14 12a4 4 0 0 1 0 8H6", key: "nlfj13" }],
+    ["line", { x1: "4", x2: "20", y1: "12", y2: "12", key: "1e0a9i" }]
+  ];
+  const Strikethrough = createLucideIcon("strikethrough", __iconNode$3);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$2 = [
+    ["path", { d: "M12 4v16", key: "1654pz" }],
+    ["path", { d: "M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2", key: "e0r10z" }],
+    ["path", { d: "M9 20h6", key: "s66wpe" }]
+  ];
+  const Type = createLucideIcon("type", __iconNode$2);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode$1 = [
+    ["path", { d: "M6 4v6a6 6 0 0 0 12 0V4", key: "9kb039" }],
+    ["line", { x1: "4", x2: "20", y1: "20", y2: "20", key: "nun2al" }]
+  ];
+  const Underline = createLucideIcon("underline", __iconNode$1);
+
+  /**
+   * @license lucide-react v1.17.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
+
+
+  const __iconNode = [
+    ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+    ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
+  ];
+  const X = createLucideIcon("x", __iconNode);
+
+  const defaultColorScheme$4 = {
     completed: "#10b981",
     inProgress: "#f59e0b",
     pending: "#d1d5db",
@@ -9603,8 +13842,9 @@ ${where}
   };
   const CardMilestone = ({
     items,
-    colorScheme = defaultColorScheme$2,
+    colorScheme = defaultColorScheme$4,
     showLabels = true,
+    tooltipStyle = "compact",
     onNodeClick
   }) => {
     const [hoveredItem, setHoveredItem] = reactExports.useState(null);
@@ -9651,84 +13891,102 @@ ${where}
     const getStatusIcon = (status) => {
       switch (status) {
         case "completed":
-          return "✓";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 16, strokeWidth: 2.5 });
         case "in_progress":
-          return "→";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(LoaderCircle, { size: 16, strokeWidth: 2.5, className: "ltt-milestone-spin-icon" });
         case "failed":
-          return "✕";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CircleX, { size: 16, strokeWidth: 2.5 });
         case "skipped":
-          return "~";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(SkipForward, { size: 16, strokeWidth: 2.5 });
         case "pending":
         default:
-          return "○";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { size: 16, strokeWidth: 2.5 });
       }
     };
     if (items.length === 0) {
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
     }
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-horizontal", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "ltt-milestone-card-item-horizontal",
-          onMouseEnter: () => setHoveredItem(item.id),
-          onMouseLeave: () => setHoveredItem(null),
-          onClick: () => handleNodeClick(item),
-          style: { cursor: item.blockUuid ? "pointer" : "default" },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "ltt-milestone-card-item-horizontal",
+            onClick: () => handleNodeClick(item),
+            onMouseEnter: () => setHoveredItem(item.id),
+            onMouseLeave: () => setHoveredItem(null),
+            style: { cursor: item.blockUuid ? "pointer" : "default" },
+            children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "div",
               {
-                className: "ltt-milestone-card-content-horizontal",
+                className: `ltt-milestone-card-content-horizontal ${item.status === "in_progress" ? "ltt-milestone-pulse-card" : ""}`,
                 style: { borderColor: getNodeColor(item.status) },
                 children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "div",
-                    {
-                      className: "ltt-milestone-card-icon",
-                      style: { color: getNodeColor(item.status) },
-                      children: getStatusIcon(item.status)
-                    }
-                  ),
-                  showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-card-info", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-title-horizontal", children: item.label }),
-                    item.date && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-date-horizontal", children: item.date }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-card-header", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "span",
+                      {
+                        className: "ltt-milestone-card-status-text",
+                        style: { color: getNodeColor(item.status) },
+                        children: getStatusText(item.status)
+                      }
+                    ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "div",
                       {
-                        className: "ltt-milestone-card-status-horizontal",
+                        className: "ltt-milestone-card-icon-wrapper",
+                        style: { borderColor: getNodeColor(item.status), backgroundColor: getNodeColor(item.status) + "10" },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { color: getNodeColor(item.status) }, children: getStatusIcon(item.status) })
+                      }
+                    )
+                  ] }),
+                  showLabels && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-description", children: item.label }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-card-progress", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-card-progress-bg" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: "ltt-milestone-card-progress-fill",
+                        style: {
+                          width: `${item.progress || 0}%`,
+                          backgroundColor: getNodeColor(item.status)
+                        }
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-card-footer", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-milestone-card-date", children: item.date || "-" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "span",
+                      {
+                        className: "ltt-milestone-card-percent",
                         style: { color: getNodeColor(item.status) },
-                        children: getStatusText(item.status)
+                        children: [
+                          item.progress || 0,
+                          "%"
+                        ]
                       }
                     )
                   ] })
                 ]
               }
-            ),
-            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-horizontal", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
-              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
-                "时间: ",
-                item.date
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getNodeColor(item.status) }, children: [
-                "状态: ",
-                getStatusText(item.status)
-              ] }),
-              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
-                "进度: ",
-                item.progress,
-                "%"
-              ] })
-            ] })
-          ]
-        }
-      ),
+            )
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MilestoneTooltip,
+          {
+            item,
+            colorScheme,
+            tooltipStyle
+          }
+        ) })
+      ] }),
       index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-connector-horizontal" })
     ] }, item.id)) });
   };
 
-  const defaultColorScheme$1 = {
+  const defaultColorScheme$3 = {
     completed: "#10b981",
     inProgress: "#f59e0b",
     pending: "#d1d5db",
@@ -9739,9 +13997,10 @@ ${where}
   };
   const CompactMilestone = ({
     items,
-    colorScheme = defaultColorScheme$1,
+    colorScheme = defaultColorScheme$3,
     showLabels = true,
     showProgress = true,
+    tooltipStyle = "compact",
     onNodeClick
   }) => {
     const [hoveredItem, setHoveredItem] = reactExports.useState(null);
@@ -9758,16 +14017,16 @@ ${where}
     const getStatusIcon = (status) => {
       switch (status) {
         case "completed":
-          return "✓";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 12, strokeWidth: 2.5 });
         case "in_progress":
-          return "→";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(LoaderCircle, { size: 12, strokeWidth: 2.5, className: "ltt-milestone-spin-icon" });
         case "failed":
-          return "✕";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CircleX, { size: 12, strokeWidth: 2.5 });
         case "skipped":
-          return "~";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(SkipForward, { size: 12, strokeWidth: 2.5 });
         case "pending":
         default:
-          return "·";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { size: 12, strokeWidth: 2.5 });
       }
     };
     const getStatusText = (status) => {
@@ -9804,51 +14063,353 @@ ${where}
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
     }
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-compact", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "ltt-milestone-compact-item",
+            style: { position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
+            onClick: () => handleNodeClick(item),
+            onMouseEnter: () => setHoveredItem(item.id),
+            onMouseLeave: () => setHoveredItem(null),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-compact-icon", style: { color: getStatusColor(item.status) }, children: getStatusIcon(item.status) }),
+              showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-compact-content", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-compact-label", children: item.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "ltt-milestone-compact-status",
+                    style: { color: getStatusColor(item.status) },
+                    children: [
+                      getStatusText(item.status),
+                      showProgress && item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ltt-milestone-compact-progress", children: [
+                        " (",
+                        item.progress,
+                        "%)"
+                      ] })
+                    ]
+                  }
+                )
+              ] })
+            ]
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "bottom", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MilestoneTooltip,
+          {
+            item,
+            colorScheme,
+            tooltipStyle
+          }
+        ) })
+      ] }),
+      index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
-          className: "ltt-milestone-badge",
-          "data-status": item.status,
-          style: { backgroundColor: getStatusColor(item.status), position: "relative", cursor: item.blockUuid ? "pointer" : "default" },
-          onMouseEnter: () => setHoveredItem(item.id),
-          onMouseLeave: () => setHoveredItem(null),
-          onClick: () => handleNodeClick(item),
-          children: [
-            "[",
-            getStatusIcon(item.status),
-            " ",
-            showLabels && item.label,
-            " ",
-            showProgress && `(${item.progress || 0}%)`,
-            "]",
-            hoveredItem === item.id && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-compact", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-tooltip-label", children: item.label }),
-              item.date && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-date", children: [
-                "时间: ",
-                item.date
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-status", style: { color: getStatusColor(item.status) }, children: [
-                "状态: ",
-                getStatusText(item.status)
-              ] }),
-              item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-tooltip-progress", children: [
-                "进度: ",
-                item.progress,
-                "%"
-              ] })
-            ] })
-          ]
-        }
-      ),
-      index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "span",
-        {
-          className: "ltt-milestone-connector",
-          style: { color: colorScheme.text, opacity: 0.4 },
-          children: "───"
+          className: "ltt-milestone-compact-connector",
+          style: { backgroundColor: getStatusColor(item.status) }
         }
       )
     ] }, item.id)) });
+  };
+
+  const defaultColorScheme$2 = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const ArrowCapsuleMilestone = ({
+    items,
+    colorScheme = defaultColorScheme$2,
+    showLabels = true,
+    showProgress = true,
+    tooltipStyle = "compact",
+    onNodeClick
+  }) => {
+    const [hoveredItem, setHoveredItem] = reactExports.useState(null);
+    const handleNodeClick = (item) => {
+      if (item.blockUuid) {
+        try {
+          logseqAPI$1.Editor.openInRightSidebar(item.blockUuid);
+        } catch (error) {
+          console.error("[ArrowCapsuleMilestone] Failed to open in right sidebar:", error);
+        }
+      }
+      onNodeClick?.(item);
+    };
+    const getNodeColor = (status) => {
+      switch (status) {
+        case "completed":
+          return colorScheme.completed;
+        case "in_progress":
+          return colorScheme.inProgress;
+        case "failed":
+          return colorScheme.failed;
+        case "skipped":
+          return colorScheme.skipped;
+        case "pending":
+        default:
+          return colorScheme.pending;
+      }
+    };
+    const getNodeIcon = (status) => {
+      switch (status) {
+        case "completed":
+          return "✓";
+        case "in_progress":
+          return "⏳";
+        case "failed":
+          return "✕";
+        case "skipped":
+          return "≈";
+        case "pending":
+        default:
+          return "○";
+      }
+    };
+    const getStatusText = (status) => {
+      switch (status) {
+        case "completed":
+          return "已完成";
+        case "in_progress":
+          return "进行中";
+        case "failed":
+          return "失败";
+        case "skipped":
+          return "已跳过";
+        case "pending":
+        default:
+          return "待开始";
+      }
+    };
+    if (items.length === 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-arrow-capsule", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-arrow-track", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `ltt-milestone-arrow-node ${item.status === "in_progress" ? "ltt-milestone-arrow-node-active" : ""}`,
+            onClick: () => handleNodeClick(item),
+            onMouseEnter: () => setHoveredItem(item.id),
+            onMouseLeave: () => setHoveredItem(null),
+            style: {
+              cursor: item.blockUuid ? "pointer" : "default"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "ltt-milestone-arrow-icon-wrapper",
+                  style: { borderColor: getNodeColor(item.status), backgroundColor: item.status === "completed" ? getNodeColor(item.status) : "transparent" },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "span",
+                    {
+                      className: "ltt-milestone-arrow-icon",
+                      style: {
+                        color: item.status === "completed" ? "#ffffff" : getNodeColor(item.status)
+                      },
+                      children: getNodeIcon(item.status)
+                    }
+                  )
+                }
+              ),
+              showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-arrow-content", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-arrow-label", children: item.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "ltt-milestone-arrow-status",
+                    style: { color: getNodeColor(item.status) },
+                    children: [
+                      getStatusText(item.status),
+                      showProgress && item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                        " (",
+                        item.progress,
+                        "%)"
+                      ] })
+                    ]
+                  }
+                )
+              ] })
+            ]
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MilestoneTooltip,
+          {
+            item,
+            colorScheme,
+            tooltipStyle
+          }
+        ) })
+      ] }),
+      index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-arrow-connector" })
+    ] }, item.id)) }) });
+  };
+
+  const defaultColorScheme$1 = {
+    completed: "#10b981",
+    inProgress: "#f59e0b",
+    pending: "#d1d5db",
+    failed: "#ef4444",
+    skipped: "#9ca3af",
+    background: "#ffffff",
+    text: "#374151"
+  };
+  const TimelineTrackMilestone = ({
+    items,
+    colorScheme = defaultColorScheme$1,
+    showLabels = true,
+    showProgress = true,
+    tooltipStyle = "compact",
+    onNodeClick
+  }) => {
+    const [hoveredItem, setHoveredItem] = reactExports.useState(null);
+    const handleNodeClick = (item) => {
+      if (item.blockUuid) {
+        try {
+          logseqAPI$1.Editor.openInRightSidebar(item.blockUuid);
+        } catch (error) {
+          console.error("[TimelineTrackMilestone] Failed to open in right sidebar:", error);
+        }
+      }
+      onNodeClick?.(item);
+    };
+    const getNodeColor = (status) => {
+      switch (status) {
+        case "completed":
+          return colorScheme.completed;
+        case "inProgress":
+          return colorScheme.inProgress;
+        case "failed":
+          return colorScheme.failed;
+        case "skipped":
+          return colorScheme.skipped;
+        case "pending":
+        default:
+          return colorScheme.pending;
+      }
+    };
+    const getStatusText = (status) => {
+      switch (status) {
+        case "completed":
+          return "已完成";
+        case "inProgress":
+          return "进行中";
+        case "failed":
+          return "失败";
+        case "skipped":
+          return "已跳过";
+        case "pending":
+        default:
+          return "待开始";
+      }
+    };
+    const getStatusIcon = (status) => {
+      switch (status) {
+        case "completed":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 14, strokeWidth: 2.5 });
+        case "inProgress":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(LoaderCircle, { size: 14, strokeWidth: 2.5, className: "ltt-milestone-spin-icon" });
+        case "failed":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(CircleX, { size: 14, strokeWidth: 2.5 });
+        case "skipped":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(SkipForward, { size: 14, strokeWidth: 2.5 });
+        case "pending":
+        default:
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { size: 14, strokeWidth: 2.5 });
+      }
+    };
+    if (items.length === 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-empty", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: colorScheme.text, opacity: 0.6 }, children: "暂无里程碑数据" }) });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-timeline-track", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-timeline-track-inner", children: items.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(React.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-timeline-node-wrapper", children: [
+      index > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "ltt-milestone-timeline-connector ltt-milestone-timeline-connector-left",
+          style: {
+            backgroundColor: getNodeColor(items[index - 1].status)
+          }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Tooltip, { open: hoveredItem === item.id, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `ltt-milestone-timeline-node ${item.status === "inProgress" ? "ltt-milestone-timeline-node-active" : ""}`,
+            onClick: () => handleNodeClick(item),
+            onMouseEnter: () => setHoveredItem(item.id),
+            onMouseLeave: () => setHoveredItem(null),
+            style: { cursor: item.blockUuid ? "pointer" : "default" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "ltt-milestone-timeline-icon-wrapper",
+                  style: {
+                    backgroundColor: item.status === "completed" ? getNodeColor(item.status) : "transparent",
+                    borderColor: getNodeColor(item.status)
+                  },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      className: "ltt-milestone-timeline-icon",
+                      style: {
+                        color: item.status === "completed" ? "#ffffff" : getNodeColor(item.status)
+                      },
+                      children: getStatusIcon(item.status)
+                    }
+                  )
+                }
+              ),
+              showLabels && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-timeline-content", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-milestone-timeline-label", children: item.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "ltt-milestone-timeline-status",
+                    style: { color: getNodeColor(item.status) },
+                    children: [
+                      getStatusText(item.status),
+                      showProgress && item.progress !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ltt-milestone-timeline-progress", children: [
+                        " (",
+                        item.progress,
+                        "%)"
+                      ] })
+                    ]
+                  }
+                )
+              ] })
+            ]
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipContent, { side: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MilestoneTooltip,
+          {
+            item,
+            colorScheme,
+            tooltipStyle
+          }
+        ) })
+      ] }),
+      index < items.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "ltt-milestone-timeline-connector ltt-milestone-timeline-connector-right",
+          style: {
+            backgroundColor: getNodeColor(item.status)
+          }
+        }
+      )
+    ] }) }, item.id)) }) });
   };
 
   const DEFAULT_COLOR_SCHEME = {
@@ -9871,7 +14432,8 @@ ${where}
       items: defaultData.items,
       colorScheme,
       showLabels: config.showLabel,
-      showProgress: config.showProgress
+      showProgress: config.showProgress,
+      tooltipStyle: config.tooltipStyle
     };
     const renderStyle = () => {
       switch (config.displayStyle) {
@@ -9891,22 +14453,27 @@ ${where}
           return /* @__PURE__ */ jsxRuntimeExports.jsx(CardMilestone, { ...commonProps });
         case "compact":
           return /* @__PURE__ */ jsxRuntimeExports.jsx(CompactMilestone, { ...commonProps });
+        case "arrow-capsule":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowCapsuleMilestone, { ...commonProps });
+        case "timeline-track":
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(TimelineTrackMilestone, { ...commonProps });
         default:
           return /* @__PURE__ */ jsxRuntimeExports.jsx(CapsuleMilestone, { ...commonProps });
       }
     };
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    const isInline = config.inline;
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(TooltipProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
       {
-        className: "ltt-milestone-container",
+        className: `ltt-milestone-container ${isInline ? "ltt-milestone-container-inline" : ""}`,
         "data-style": config.displayStyle,
         style: {
-          backgroundColor: colorScheme.background,
+          backgroundColor: isInline ? "transparent" : colorScheme.background,
           color: colorScheme.text
         },
         children: renderStyle()
       }
-    );
+    ) });
   };
 
   const mockInterviewData = {
@@ -9946,19 +14513,22 @@ ${where}
     background: "#ffffff",
     text: "#374151"
   };
-  const styles = ["capsule", "badge", "track", "card", "compact"];
+  const styles = ["capsule", "badge", "track", "card", "compact", "arrow-capsule", "timeline-track"];
   const styleLabels = {
     capsule: "胶囊",
     badge: "徽标",
     track: "轨道",
     card: "卡片",
-    compact: "紧凑"
+    compact: "紧凑",
+    "arrow-capsule": "箭头胶囊",
+    "timeline-track": "时间线"
   };
   const MilestoneDemo = () => {
     const [selectedStyle, setSelectedStyle] = reactExports.useState("capsule");
     const [showProgress, setShowProgress] = reactExports.useState(true);
     const [showLabels, setShowLabels] = reactExports.useState(true);
     const [selectedData, setSelectedData] = reactExports.useState("interview");
+    const [inlineMode, setInlineMode] = reactExports.useState(false);
     const currentData = selectedData === "interview" ? mockInterviewData : mockProjectData;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "24px", padding: "16px", backgroundColor: "#f0f9ff", borderRadius: "8px" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 16px 0" }, children: "🎯 Milestone 里程碑组件演示" }),
@@ -10017,7 +14587,7 @@ ${where}
           style
         ))
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px", display: "flex", gap: "16px", alignItems: "center" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "16px", display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
@@ -10039,26 +14609,42 @@ ${where}
             }
           ),
           "显示进度"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: inlineMode,
+              onChange: (e) => setInlineMode(e.target.checked)
+            }
+          ),
+          "行内模式 (Inline)"
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-        border: "1px solid #e5e7eb",
-        borderRadius: "8px",
-        padding: "16px",
-        backgroundColor: "white"
+        border: inlineMode ? "none" : "1px solid #e5e7eb",
+        borderRadius: inlineMode ? "0" : "8px",
+        padding: inlineMode ? "0" : "16px",
+        backgroundColor: inlineMode ? "transparent" : "white",
+        display: inlineMode ? "inline-flex" : "block",
+        alignItems: "center",
+        gap: "12px"
       }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "8px", fontSize: "14px", color: "#6b7280" }, children: [
+        !inlineMode && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "8px", fontSize: "14px", color: "#6b7280" }, children: [
           "宏命令：",
           /* @__PURE__ */ jsxRuntimeExports.jsx("code", { style: { backgroundColor: "#f3f4f6", padding: "2px 6px", borderRadius: "4px" }, children: "{{renderer :milestone, style=" + selectedStyle + ", list=" + currentData.items.map((i) => i.label).join(";") + "}}" })
         ] }),
+        inlineMode && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#374151", fontWeight: 500 }, children: "当前进度：" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           Milestone,
           {
             data: currentData,
             config: {
-              style: selectedStyle,
-              showLabels,
+              displayStyle: selectedStyle,
+              showLabel: showLabels,
               showProgress,
+              inline: inlineMode,
               colorScheme: defaultColorScheme
             }
           }
@@ -22420,7 +27006,7 @@ ${where}
       setToasts((prev) => prev.filter((toast2) => toast2.id !== id));
     };
     reactExports.useEffect(() => {
-      const win = getWindow();
+      const win = getWindow$1();
       win.addToast = addToast;
       return () => {
         delete win.addToast;
@@ -23384,6 +27970,12 @@ ${where}
     }
     return null;
   };
+  const needsQuotes = (text) => {
+    if (text.includes("/")) {
+      return true;
+    }
+    return false;
+  };
   const wrapWithQuotesIfNeeded = (prefix, suffix, text) => {
     if (text.startsWith("[:") && text.endsWith("]")) {
       return prefix + text + suffix;
@@ -23393,7 +27985,10 @@ ${where}
     }
     const prefixHasQuote = prefix.endsWith('"') || prefix.endsWith("'");
     const suffixHasQuote = suffix.startsWith('"') || suffix.startsWith("'");
-    if (prefixHasQuote && suffixHasQuote) {
+    if (needsQuotes(text) && !prefixHasQuote && !suffixHasQuote) {
+      return prefix + `"${text}"` + suffix;
+    }
+    if (!needsQuotes(text) && prefixHasQuote && suffixHasQuote) {
       const cleanPrefix = prefix.slice(0, -1);
       const cleanSuffix = suffix.slice(1);
       return cleanPrefix + text + cleanSuffix;
@@ -23854,263 +28449,6 @@ ${where}
     return /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(CommentManager, {}) });
   }
 
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-  const mergeClasses = (...classes) => classes.filter((className, index, array) => {
-    return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
-  }).join(" ").trim();
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-  const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-  const toCamelCase = (string) => string.replace(
-    /^([A-Z])|[\s-_]+(\w)/g,
-    (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
-  );
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const toPascalCase = (string) => {
-    const camelCase = toCamelCase(string);
-    return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
-  };
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-  var defaultAttributes = {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: 24,
-    height: 24,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 2,
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  };
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-  const hasA11yProp = (props) => {
-    for (const prop in props) {
-      if (prop.startsWith("aria-") || prop === "role" || prop === "title") {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const LucideContext = reactExports.createContext({});
-  const useLucideContext = () => reactExports.useContext(LucideContext);
-
-  const Icon = reactExports.forwardRef(
-    ({ color, size, strokeWidth, absoluteStrokeWidth, className = "", children, iconNode, ...rest }, ref) => {
-      const {
-        size: contextSize = 24,
-        strokeWidth: contextStrokeWidth = 2,
-        absoluteStrokeWidth: contextAbsoluteStrokeWidth = false,
-        color: contextColor = "currentColor",
-        className: contextClass = ""
-      } = useLucideContext() ?? {};
-      const calculatedStrokeWidth = absoluteStrokeWidth ?? contextAbsoluteStrokeWidth ? Number(strokeWidth ?? contextStrokeWidth) * 24 / Number(size ?? contextSize) : strokeWidth ?? contextStrokeWidth;
-      return reactExports.createElement(
-        "svg",
-        {
-          ref,
-          ...defaultAttributes,
-          width: size ?? contextSize ?? defaultAttributes.width,
-          height: size ?? contextSize ?? defaultAttributes.height,
-          stroke: color ?? contextColor,
-          strokeWidth: calculatedStrokeWidth,
-          className: mergeClasses("lucide", contextClass, className),
-          ...!children && !hasA11yProp(rest) && { "aria-hidden": "true" },
-          ...rest
-        },
-        [
-          ...iconNode.map(([tag, attrs]) => reactExports.createElement(tag, attrs)),
-          ...Array.isArray(children) ? children : [children]
-        ]
-      );
-    }
-  );
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const createLucideIcon = (iconName, iconNode) => {
-    const Component = reactExports.forwardRef(
-      ({ className, ...props }, ref) => reactExports.createElement(Icon, {
-        ref,
-        iconNode,
-        className: mergeClasses(
-          `lucide-${toKebabCase(toPascalCase(iconName))}`,
-          `lucide-${iconName}`,
-          className
-        ),
-        ...props
-      })
-    );
-    Component.displayName = toPascalCase(iconName);
-    return Component;
-  };
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode$7 = [
-    [
-      "path",
-      { d: "M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8", key: "mg9rjx" }
-    ]
-  ];
-  const Bold = createLucideIcon("bold", __iconNode$7);
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode$6 = [
-    ["path", { d: "m9 11-6 6v3h9l3-3", key: "1a3l36" }],
-    ["path", { d: "m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4", key: "14a9rk" }]
-  ];
-  const Highlighter = createLucideIcon("highlighter", __iconNode$6);
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode$5 = [
-    ["line", { x1: "19", x2: "10", y1: "4", y2: "4", key: "15jd3p" }],
-    ["line", { x1: "14", x2: "5", y1: "20", y2: "20", key: "bu0au3" }],
-    ["line", { x1: "15", x2: "9", y1: "4", y2: "20", key: "uljnxc" }]
-  ];
-  const Italic = createLucideIcon("italic", __iconNode$5);
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode$4 = [
-    ["path", { d: "M4 5h16", key: "1tepv9" }],
-    ["path", { d: "M4 12h16", key: "1lakjw" }],
-    ["path", { d: "M4 19h16", key: "1djgab" }]
-  ];
-  const Menu = createLucideIcon("menu", __iconNode$4);
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode$3 = [
-    ["path", { d: "M16 4H9a3 3 0 0 0-2.83 4", key: "43sutm" }],
-    ["path", { d: "M14 12a4 4 0 0 1 0 8H6", key: "nlfj13" }],
-    ["line", { x1: "4", x2: "20", y1: "12", y2: "12", key: "1e0a9i" }]
-  ];
-  const Strikethrough = createLucideIcon("strikethrough", __iconNode$3);
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode$2 = [
-    ["path", { d: "M12 4v16", key: "1654pz" }],
-    ["path", { d: "M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2", key: "e0r10z" }],
-    ["path", { d: "M9 20h6", key: "s66wpe" }]
-  ];
-  const Type = createLucideIcon("type", __iconNode$2);
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode$1 = [
-    ["path", { d: "M6 4v6a6 6 0 0 0 12 0V4", key: "9kb039" }],
-    ["line", { x1: "4", x2: "20", y1: "20", y2: "20", key: "nun2al" }]
-  ];
-  const Underline = createLucideIcon("underline", __iconNode$1);
-
-  /**
-   * @license lucide-react v1.17.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   */
-
-
-  const __iconNode = [
-    ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
-    ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
-  ];
-  const X = createLucideIcon("x", __iconNode);
-
   const iconMap = {
     bold: Bold,
     italic: Italic,
@@ -24315,11 +28653,11 @@ ${where}
 
   const DOUBLE_CLICK_THRESHOLD = 300;
   const SELECTION_DELAY = 200;
-  function SelectToolbar({ targetElement, items: ToolbarItems }) {
+  function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false }) {
     const { settings } = useSettingsContext();
     const [selectedData, setSelectedData] = reactExports.useState({ text: "" });
     const [toolbarPosition, setToolbarPosition] = reactExports.useState({ x: 0, y: 0 });
-    const [showToolbar, setShowToolbar] = reactExports.useState(false);
+    const [showToolbar, setShowToolbar] = reactExports.useState(defaultShow);
     const containerRef = reactExports.useRef(null);
     const selectionStateRef = reactExports.useRef({
       lastSelectionTime: 0,
@@ -24431,7 +28769,7 @@ ${where}
           eventBus.emit("ltt-selectionChange", { selectedData: newSelectedData });
           let toolbarY = curPos.top + curPos.rect.y - 35;
           let toolbarX;
-          const viewportWidth = getWindow().innerWidth;
+          const viewportWidth = getWindow$1().innerWidth;
           if (containerRef.current) {
             const w = containerRef.current.offsetWidth;
             if (curPos.left + curPos.rect.x + w <= viewportWidth) {
@@ -24512,7 +28850,7 @@ ${where}
         eventBus.emit("ltt-selectionChange", { selectedData: newSelectedData });
         const toolbarHeight = 32;
         const padding = 3;
-        const viewportHeight = getWindow().innerHeight;
+        const viewportHeight = getWindow$1().innerHeight;
         let toolbarY;
         const spaceAbove = rect.top;
         viewportHeight - rect.bottom;
@@ -24522,7 +28860,7 @@ ${where}
           toolbarY = rect.bottom + padding;
         }
         let toolbarX = rect.left;
-        const viewportWidth = getWindow().innerWidth;
+        const viewportWidth = getWindow$1().innerWidth;
         if (containerRef.current) {
           const w = containerRef.current.offsetWidth;
           if (toolbarX < 0) toolbarX = 0;
@@ -24578,7 +28916,9 @@ ${where}
         currentElement = currentElement.parentElement;
       }
       const doc = getDocument();
-      doc.addEventListener("scroll", handleScroll, true);
+      if (doc && doc.addEventListener) {
+        doc.addEventListener("scroll", handleScroll, true);
+      }
       return () => {
         const state = selectionStateRef.current;
         if (state.pendingTimer) {
@@ -24593,8 +28933,10 @@ ${where}
           currentElement.removeEventListener("scroll", handleScroll, true);
           currentElement = currentElement.parentElement;
         }
-        const doc2 = getDocument();
-        doc2.removeEventListener("scroll", handleScroll, true);
+        const cleanupDoc = getDocument();
+        if (cleanupDoc && cleanupDoc.removeEventListener) {
+          cleanupDoc.removeEventListener("scroll", handleScroll, true);
+        }
       };
     }, [showToolbar, targetElement, handleDelayedSelection, updateToolbarPosition]);
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: containerRef, children: showToolbar && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -24638,9 +28980,14 @@ ${where}
         }
       };
       const doc = getDocument();
-      doc.addEventListener("mousedown", handleClickOutside);
+      if (doc && doc.addEventListener) {
+        doc.addEventListener("mousedown", handleClickOutside);
+      }
       return () => {
-        doc.removeEventListener("mousedown", handleClickOutside);
+        const cleanupDoc = getDocument();
+        if (cleanupDoc && cleanupDoc.removeEventListener) {
+          cleanupDoc.removeEventListener("mousedown", handleClickOutside);
+        }
       };
     }, []);
     reactExports.useEffect(() => {
@@ -26061,7 +30408,15 @@ ${where}
     { value: "badge", label: t("settings.milestone.styleBadge", "徽章") },
     { value: "track", label: t("settings.milestone.styleTrack", "轨道") },
     { value: "card", label: t("settings.milestone.styleCard", "卡片") },
-    { value: "compact", label: t("settings.milestone.styleCompact", "紧凑") }
+    { value: "compact", label: t("settings.milestone.styleCompact", "紧凑") },
+    { value: "arrow-capsule", label: t("settings.milestone.styleArrowCapsule", "箭头胶囊") },
+    { value: "timeline-track", label: t("settings.milestone.styleTimelineTrack", "时间线轨道") }
+  ];
+  const tooltipStyleOptions = [
+    { value: "minimal", label: t("settings.milestone.tooltipStyleMinimal", "Minimal") },
+    { value: "compact", label: t("settings.milestone.tooltipStyleCompact", "Compact") },
+    { value: "detailed", label: t("settings.milestone.tooltipStyleDetailed", "Detailed") },
+    { value: "elegant", label: t("settings.milestone.tooltipStyleElegant", "Elegant") }
   ];
   const colorInputs = [
     { key: "completed", label: "已完成", defaultValue: DEFAULT_COLOR_SCHEME.completed },
@@ -26105,6 +30460,7 @@ ${where}
       defaultStyle: "capsule",
       showLabels: true,
       showProgress: true,
+      inline: false,
       templates: []
     };
     const templates = milestone.templates || [];
@@ -26135,6 +30491,7 @@ ${where}
         displayStyle: "capsule",
         showProgress: true,
         showLabel: true,
+        inline: false,
         dateField: "scheduled"
       };
       let templateName = newTemplate.name;
@@ -26256,6 +30613,31 @@ ${where}
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
         ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.milestone.inline", "行内模式") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: milestone.inline ?? false,
+              onChange: (e) => handleSettingChange("milestone.inline", e.target.checked)
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.milestone.tooltipStyle", "Tooltip 样式") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: tooltipStyleOptions,
+            value: milestone.tooltipStyle ?? "compact",
+            onChange: (value) => handleSettingChange("milestone.tooltipStyle", value)
+          }
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-section", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: t("settings.milestone.defaultColors", "默认配色") }),
@@ -26451,6 +30833,20 @@ ${where}
                               type: "checkbox",
                               checked: template.showLabel ?? true,
                               onChange: (e) => updateTemplate(template.id, { showLabel: e.target.checked })
+                            }
+                          ),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+                        ] })
+                      ] }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-milestone-form-item", children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "ltt-milestone-form-label", children: t("settings.milestone.inline", "行内模式") }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "input",
+                            {
+                              type: "checkbox",
+                              checked: template.inline ?? false,
+                              onChange: (e) => updateTemplate(template.id, { inline: e.target.checked })
                             }
                           ),
                           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
@@ -28186,7 +32582,8 @@ ${where}
 
   const PLUGIN_ID = "milestone";
   registerRendererArgModel(":milestone", {
-    positional: ["displayStyle"]
+    positional: ["displayStyle"],
+    named: ["inline"]
   });
   let MilestoneComponent = null;
   function setMilestoneComponent(component) {
@@ -28274,8 +32671,12 @@ ${where}
       colorScheme: template.colorScheme
     } : {};
     let displayStyle = baseConfig.displayStyle || settings?.milestone?.defaultStyle || "capsule";
-    if (parsed.displayStyle && ["capsule", "badge", "track", "card", "compact"].includes(parsed.displayStyle)) {
+    if (parsed.displayStyle && ["capsule", "badge", "track", "card", "compact", "arrow-capsule", "timeline-track"].includes(parsed.displayStyle)) {
       displayStyle = parsed.displayStyle;
+    }
+    let inline = baseConfig.inline !== void 0 ? baseConfig.inline : settings?.milestone?.inline ?? false;
+    if (parsed.inline !== void 0) {
+      inline = parsed.inline !== "false";
     }
     let finalMilestoneList = baseConfig.milestoneList;
     if (parsed.milestoneList) {
@@ -28300,7 +32701,9 @@ ${where}
       dateField: parsed.dateField || baseConfig.dateField || "scheduled",
       showProgress: parsed.showProgress !== void 0 ? parsed.showProgress !== "false" : baseConfig.showProgress !== void 0 ? baseConfig.showProgress : settings?.milestone?.showProgress !== false,
       showLabel: parsed.showLabel !== void 0 ? parsed.showLabel !== "false" : baseConfig.showLabel !== void 0 ? baseConfig.showLabel : settings?.milestone?.showLabel !== false,
-      colorScheme: finalColorScheme
+      inline,
+      colorScheme: finalColorScheme,
+      tooltipStyle: settings?.milestone?.tooltipStyle || "compact"
     };
   }
 
@@ -28334,7 +32737,7 @@ ${where}
 
   var listViewCssRaw = ".ltt-list-root .block-title-wrap {\n    display: inline-flex !important;\n    align-items: center !important;\n    flex-wrap: wrap !important;\n    gap: 1px !important;\n}\n\n.ltt-list-root .lsp-hook-ui-slot {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    min-height: 0 !important;\n\n    margin: 0 !important;\n    padding: 0 !important;\n}\n\n.ltt-list-root .ltt-view-bar {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    flex: 0 0 auto !important;\n\n    margin: 0px !important;\n    padding: 0 !important;\n\n    vertical-align: middle !important;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n/* .ltt-list-root>.block-main-container {\n  margin-bottom: 12px;\n} */\n\n/* .ltt-list-root>.block-main-container .block-control-wrap {\n  display: none !important;\n} */\n\n.ltt-list-root>.block-main-container .block-content-inner .block-title-wrap {\n    margin-left: 0.4rem !important;\n}";
 
-  var milestoneCSSRaw = "/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-xl);\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  border-top: 2px dashed;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 180px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: space-between;\n  gap: var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin-top: var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin-top: var(--ltt-spacing-xs);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-lg);\n  border: 2px solid;\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 120px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-sm);\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 9999;\n  min-width: 160px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  flex-wrap: wrap;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n";
+  var milestoneCSSRaw = "/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  overflow-y: visible;\n  overflow-x: hidden;\n  position: relative;\n}\n\n.ltt-milestone-container-inline {\n  padding: 0;\n  border-radius: 0;\n  box-shadow: none;\n  border: none;\n  background: transparent;\n  display: inline-flex;\n  align-items: center;\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== 通用动画 ========== */\n@keyframes ltt-milestone-pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.8;\n    transform: scale(1.02);\n  }\n}\n\n@keyframes ltt-milestone-glow {\n  0%, 100% {\n    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);\n  }\n  50% {\n    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);\n  }\n}\n\n@keyframes ltt-milestone-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.ltt-milestone-pulse {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-glow {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n}\n\n.ltt-milestone-spin {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 8px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-lg);\n  min-width: max-content;\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-node.ltt-milestone-pulse-node .ltt-milestone-symbol {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  min-width: 40px;\n  border-top: 2px dashed;\n  border-bottom: 2px dashed transparent;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 180px;\n  max-width: 280px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: flex-start;\n  gap: var(--ltt-spacing-lg);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  width: 100%;\n  max-width: 100%;\n  box-sizing: border-box;\n  position: relative;\n  margin: 0 var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-badge-item.ltt-milestone-pulse-node .ltt-milestone-badge-number {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin: var(--ltt-spacing-lg) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n  width: auto;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin: var(--ltt-spacing-xs) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n  min-width: max-content;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-dot.ltt-milestone-pulse-dot {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n  min-width: max-content;\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: 12px;\n  background: var(--ltt-bg-primary);\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 140px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease, border-color var(--ltt-transition-fast);\n  position: relative;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-content-horizontal.ltt-milestone-pulse-card {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n/* 第一层：卡片头部 */\n.ltt-milestone-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-status-text {\n  font-size: 11px;\n  font-weight: 600;\n  white-space: nowrap;\n}\n\n.ltt-milestone-card-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 1.5px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n  position: relative;\n}\n\n.ltt-milestone-card-icon.ltt-milestone-spin-icon {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n.ltt-milestone-card-icon-corner {\n  position: absolute;\n  top: 4px;\n  right: 4px;\n  font-size: 12px;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第二层：描述 */\n.ltt-milestone-card-description {\n  font-size: 12px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.4;\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第三层：进度条 */\n.ltt-milestone-card-progress {\n  position: relative;\n  height: 4px;\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-card-progress-bg {\n  position: absolute;\n  inset: 0;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-card-progress-fill {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n/* 第四层：底部 */\n.ltt-milestone-card-footer {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-footer .ltt-milestone-card-date {\n  font-size: 10px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-percent {\n  font-size: 11px;\n  font-weight: 600;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n  min-height: 48px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact-item {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  cursor: pointer;\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-compact-icon {\n  flex-shrink: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-compact-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n}\n\n.ltt-milestone-compact-label {\n  font-size: 9px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n}\n\n.ltt-milestone-compact-status {\n  font-size: 8px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-compact-progress {\n  font-size: 8px;\n}\n\n.ltt-milestone-compact-connector {\n  width: 16px;\n  height: 2px;\n  flex-shrink: 0;\n  border-radius: 1px;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n\n/* ========== Arrow Capsule 样式 ========== */\n.ltt-milestone-arrow-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-track {\n  display: flex;\n  align-items: center;\n  position: relative;\n  padding: 0 var(--ltt-spacing-md);\n  min-width: max-content;\n}\n\n.ltt-milestone-arrow-node {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n  padding: 6px 10px;\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  background: var(--ltt-bg-primary);\n  transition: all var(--ltt-transition-fast);\n}\n\n.ltt-milestone-arrow-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-arrow-node.ltt-milestone-arrow-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-milestone-arrow-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-node-active .ltt-milestone-arrow-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-arrow-icon {\n  font-size: 12px;\n  font-weight: bold;\n}\n\n.ltt-milestone-arrow-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  min-width: 80px;\n}\n\n.ltt-milestone-arrow-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-status {\n  font-size: 10px;\n  font-weight: 500;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-connector {\n  width: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-connector::after {\n  content: '→';\n  font-size: 14px;\n  color: var(--ltt-border);\n}\n\n/* ========== Timeline Track 样式 ========== */\n.ltt-milestone-timeline-track {\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 12px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track-inner {\n  display: flex;\n  align-items: center;\n  min-width: max-content;\n  padding: 0 16px;\n  position: relative;\n}\n\n.ltt-milestone-timeline-node-wrapper {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-timeline-connector {\n  height: 4px;\n  flex: 1;\n  min-width: 40px;\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-connector-left {\n  margin-right: 4px;\n}\n\n.ltt-milestone-timeline-connector-right {\n  margin-left: 4px;\n}\n\n.ltt-milestone-timeline-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n  padding: 6px 6px;\n  border-radius: 10px;\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  transition: all var(--ltt-transition-fast);\n  flex-shrink: 0;\n  cursor: pointer;\n  min-width: 64px;\n}\n\n.ltt-milestone-timeline-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-timeline-node.ltt-milestone-timeline-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n.ltt-milestone-timeline-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  transition: all 0.3s ease;\n}\n\n.ltt-milestone-timeline-node-active .ltt-milestone-timeline-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-timeline-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-timeline-content {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1px;\n  text-align: center;\n}\n\n.ltt-milestone-timeline-label {\n  font-size: 8px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n  word-wrap: break-word;\n  word-break: break-word;\n  max-width: 60px;\n}\n\n.ltt-milestone-timeline-status {\n  font-size: 7px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-timeline-progress {\n  font-size: 7px;\n}\n\n/* ========== Dark Theme Support ========== */\n[data-theme='dark'] .ltt-milestone-container {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n[data-theme='dark'] .ltt-milestone-card-content-horizontal,\n[data-theme='dark'] .ltt-milestone-arrow-node,\n[data-theme='dark'] .ltt-milestone-timeline-node {\n  background: var(--ltt-bg-secondary);\n}\n\n[data-theme='dark'] .ltt-milestone-tooltip {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n/* ========== Compact Tooltip 内容样式（通用） ========== */\n.ltt-milestone-compact-tooltip-content {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-compact-tooltip-label {\n  font-size: 10px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-compact-tooltip-date {\n  font-size: 9px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-compact-tooltip-status {\n  font-size: 9px;\n  font-weight: 500;\n}\n\n.ltt-milestone-compact-tooltip-progress {\n  font-size: 9px;\n}\n\n/* ========== Tooltip 样式变体 ========== */\n\n/* 简约模式 */\n.ltt-milestone-tooltip-minimal {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 6px 10px;\n  min-width: 100px;\n}\n\n.ltt-milestone-tooltip-minimal-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-minimal-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n/* 紧凑模式 */\n.ltt-milestone-tooltip-compact {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  padding: 8px 12px;\n  min-width: 140px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-compact-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-compact-date {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-compact-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-compact-progress {\n  font-size: 10px;\n}\n\n/* 详细模式 */\n.ltt-milestone-tooltip-detailed {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 10px 14px;\n  min-width: 180px;\n  max-width: 240px;\n}\n\n.ltt-milestone-tooltip-detailed-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-tooltip-detailed-label {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-detailed-status {\n  font-size: 10px;\n  font-weight: 600;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-tooltip-detailed-date {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n  font-size: 10px;\n}\n\n.ltt-milestone-tooltip-detailed-date-label {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-date-value {\n  color: var(--ltt-text-primary);\n  font-weight: 400;\n}\n\n.ltt-milestone-tooltip-detailed-progress-section {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.ltt-milestone-tooltip-detailed-progress-label {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar-container {\n  height: 4px;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar {\n  height: 100%;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-tooltip-detailed-progress-value {\n  font-size: 10px;\n  color: var(--ltt-text-primary);\n  font-weight: 600;\n  text-align: right;\n}\n\n/* 优雅模式 */\n.ltt-milestone-tooltip-elegant {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 12px 16px;\n  min-width: 160px;\n  max-width: 260px;\n  background: linear-gradient(135deg, var(--ltt-bg-primary) 0%, var(--ltt-bg-secondary) 100%);\n  border: 1px solid var(--ltt-border);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n\n.ltt-milestone-tooltip-elegant-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 2px;\n}\n\n.ltt-milestone-tooltip-elegant-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  flex-shrink: 0;\n  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);\n}\n\n.ltt-milestone-tooltip-elegant-label {\n  font-size: 13px;\n  font-weight: 700;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-elegant-divider {\n  height: 1px;\n  background: linear-gradient(90deg, transparent, var(--ltt-border), transparent);\n  margin: 2px 0;\n}\n\n.ltt-milestone-tooltip-elegant-row {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 11px;\n}\n\n.ltt-milestone-tooltip-elegant-icon {\n  font-size: 12px;\n  flex-shrink: 0;\n  opacity: 0.7;\n}\n\n.ltt-milestone-tooltip-elegant-text {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n";
 
   var mainCSSRaw = "/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #1a1a1a;\n  --ltt-accent-muted: rgba(0, 0, 0, 0.1);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: #e5e5e5;\n  --ltt-accent-hover: #f5f5f5;\n  --ltt-accent-muted: rgba(255, 255, 255, 0.1);\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n";
 
