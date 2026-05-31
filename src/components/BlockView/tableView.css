@@ -31,12 +31,8 @@
   --ltt-header-height: 48px;
 
   /* 表格自适应配置 */
-  --ltt-table-min-width: 100%;
-  --ltt-table-max-width: 100%;
   --ltt-col-min-width: 150px;
   --ltt-col-max-width: 400px;
-  --ltt-col-optimal-width: 200px;
-  --ltt-col-fill: auto;
 }
 
 /* Dark Mode */
@@ -65,8 +61,6 @@ html.dark {
 .ltt-table-root {
   margin: 24px 32px !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  width: var(--ltt-table-min-width);
-  max-width: var(--ltt-table-max-width);
 }
 
 /* =========================================================
@@ -104,19 +98,20 @@ html.dark {
 }
 
 /* =========================================================
-   TABLE ROW - 自适应网格布局
-   使用 CSS Grid auto-fit 实现列数自适应
+   TABLE ROW - 使用 Flex 实现横向滚动
+   问题分析：使用 grid + auto-fill 会在空间不足时换行
+   解决方案：使用 flex 布局 + min-width 限制
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
+  display: flex !important;
+  flex-direction: row;
   align-items: stretch;
   position: relative;
   transition: background 0.15s ease;
   background: var(--ltt-row-bg);
-  width: 100%;
-  min-width: min-content;
+  width: max-content;
+  min-width: 100%;
   margin: 0 !important;
   border-bottom: 1px solid var(--ltt-border);
 }
@@ -134,12 +129,6 @@ html.dark {
    TABLE CELL - 自适应单元格
 ========================================================= */
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > * {
-  min-width: var(--ltt-col-min-width);
-  max-width: var(--ltt-col-max-width);
-  width: auto;
-}
-
 /* First cell (header) */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   display: block !important;
@@ -151,13 +140,12 @@ html.dark {
   box-shadow: var(--ltt-header-shadow);
   font-weight: 600;
   backdrop-filter: blur(18px);
-  position: sticky;
-  left: 0;
-  z-index: 20;
+  flex-shrink: 0;
+  min-width: 150px;
+  max-width: 350px;
   overflow: visible;
 }
 
-/* Cell content alignment */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
   min-height: 100%;
   display: flex;
@@ -197,13 +185,21 @@ html.dark {
   box-sizing: border-box;
   overflow: visible;
   transition: background 0.15s ease;
+  flex-shrink: 0;
   min-width: var(--ltt-col-min-width);
   max-width: var(--ltt-col-max-width);
-  width: auto;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
   background: var(--ltt-row-hover);
+}
+
+/* =========================================================
+   隐藏空节点
+========================================================= */
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > div[style*="padding-left"] {
+  display: none !important;
 }
 
 /* =========================================================
@@ -232,11 +228,17 @@ html.dark {
 }
 
 /* =========================================================
-   ROOT HEADER
+   ROOT HEADER - 表格标题靠左，去掉折叠功能
 ========================================================= */
 
 .ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {
   margin-left: 0.6rem !important;
+  justify-content: flex-start !important;
+}
+
+.ltt-table-root > .block-main-container .block-control-wrap,
+.ltt-table-root > .block-main-container .block-title-wrap .block-control-wrap {
+  display: none !important;
 }
 
 /* =========================================================
@@ -249,10 +251,6 @@ html.dark {
     --ltt-col-min-width: 120px;
     --ltt-col-max-width: 300px;
     --ltt-header-height: 40px;
-  }
-
-  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-    grid-template-columns: repeat(auto-fill, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   }
 }
 
