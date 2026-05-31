@@ -155,8 +155,8 @@ const MilestoneDemo: React.FC = () => {
         <Milestone
           data={currentData}
           config={{
-            style: selectedStyle,
-            showLabels,
+            displayStyle: selectedStyle,
+            showLabel: showLabels,
             showProgress,
             colorScheme: defaultColorScheme,
           }}
