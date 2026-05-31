@@ -91,8 +91,8 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
             <Tooltip
-              small={true}
-              position="top"
+              side="top"
+              sideOffset={4}
               content={
                 <div className="ltt-milestone-compact-tooltip-content">
                   <div className="ltt-milestone-compact-tooltip-label">{item.label}</div>

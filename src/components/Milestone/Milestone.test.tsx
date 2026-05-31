@@ -11,6 +11,7 @@ import TrackMilestone from './styles/TrackMilestone';
 import CardMilestone from './styles/CardMilestone';
 import CompactMilestone from './styles/CompactMilestone';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+import { TooltipProvider } from '../ui';
 
 // Mock logseq API
 vi.mock('../../logseq', () => ({
@@ -69,6 +70,11 @@ const mockItemsWithoutBlockUuid: MilestoneItem[] = [
   { id: '2', label: '设计', status: 'in_progress', progress: 60, date: '2026-05-15' },
 ];
 
+// Helper function to render components with TooltipProvider
+const renderWithTooltipProvider = (component: React.ReactElement) => {
+  return render(<TooltipProvider>{component}</TooltipProvider>);
+};
+
 describe('Milestone UI Components', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -83,7 +89,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render items', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelector('.ltt-milestone-capsule')).toBeTruthy();
@@ -91,7 +97,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render labels when showLabels is true', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme}
@@ -102,7 +108,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should hide labels when showLabels is false', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme}
@@ -112,18 +118,18 @@ describe('Milestone UI Components', () => {
       expect(container.querySelectorAll('.ltt-milestone-label')).toHaveLength(0);
     });
 
-    it('should show tooltip content', () => {
-      const { container } = render(
+    it('should render items with tooltip support', () => {
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
-      // Tooltip should always be present in DOM (CSS controls visibility)
-      expect(container.querySelector('.ltt-tooltip')).toBeTruthy();
+      // Check that content is rendered
       expect(container.textContent).toContain('需求');
+      expect(container.querySelectorAll('.ltt-milestone-node')).toHaveLength(3);
     });
 
     it('should call openInRightSidebar on node click when blockUuid exists', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
@@ -135,7 +141,7 @@ describe('Milestone UI Components', () => {
 
     it('should call custom onNodeClick callback when provided', () => {
       const onNodeClick = vi.fn();
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme} 
@@ -150,7 +156,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should not call openInRightSidebar when blockUuid does not exist', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone items={mockItemsWithoutBlockUuid} colorScheme={defaultColorScheme} />
       );
       
@@ -386,7 +392,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render items', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelector('.ltt-milestone-compact')).toBeTruthy();
@@ -394,24 +400,24 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render connectors between items', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelectorAll('.ltt-milestone-compact-connector')).toHaveLength(2);
     });
 
-    it('should show tooltip content', () => {
-      const { container } = render(
+    it('should render items with tooltip support', () => {
+      const { container } = renderWithTooltipProvider(
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
-      // Tooltip should always be present in DOM (CSS controls visibility)
-      expect(container.querySelector('.ltt-tooltip')).toBeTruthy();
+      // Check that content is rendered
       expect(container.textContent).toContain('需求');
+      expect(container.querySelectorAll('.ltt-milestone-compact-item')).toHaveLength(3);
     });
 
     it('should call openInRightSidebar on badge click', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
@@ -423,7 +429,7 @@ describe('Milestone UI Components', () => {
 
     it('should call custom onNodeClick callback', () => {
       const onNodeClick = vi.fn();
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CompactMilestone 
           items={mockItems} 
           colorScheme={defaultColorScheme} 
@@ -448,7 +454,7 @@ describe('Milestone UI Components', () => {
     ];
 
     it('should render all status types in CapsuleMilestone', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CapsuleMilestone items={allStatusItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelectorAll('.ltt-milestone-node')).toHaveLength(5);
@@ -476,7 +482,7 @@ describe('Milestone UI Components', () => {
     });
 
     it('should render all status types in CompactMilestone', () => {
-      const { container } = render(
+      const { container } = renderWithTooltipProvider(
         <CompactMilestone items={allStatusItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelectorAll('.ltt-milestone-compact-item')).toHaveLength(5);

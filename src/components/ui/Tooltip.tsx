@@ -2,49 +2,74 @@
  * Copyright (c) 2026 duiliuliu
  * License: MIT
  * 
- * 通用气泡提示组件 - 参考 TaskProgress 的纯 CSS hover 实现
- * 注意：在 Logseq 中使用静态 HTML 渲染，所以必须使用纯 CSS 实现 hover 效果
+ * Tooltip 组件 - 基于 radix-ui/react-tooltip，采用 shadcn 风格
  */
 
-import React from 'react'
+import * as React from "react"
+import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+
+interface TooltipProviderProps {
+  children: React.ReactNode
+  delayDuration?: number
+}
+
+export const TooltipProvider = TooltipPrimitive.Provider
 
 interface TooltipProps {
   children: React.ReactNode
   content: React.ReactNode
-  position?: 'top' | 'bottom' | 'left' | 'right'
-  theme?: 'light' | 'dark'
-  small?: boolean  // 更小、更扁平的样式
-  animationClass?: string
+  side?: "top" | "right" | "bottom" | "left"
+  sideOffset?: number
+  align?: "start" | "center" | "end"
+  alignOffset?: number
+  delayDuration?: number
+  defaultOpen?: boolean
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  disabled?: boolean
 }
 
-const Tooltip: React.FC<TooltipProps> = ({
+export const Tooltip = ({
   children,
   content,
-  position = 'bottom',
-  theme = 'light',
-  small = true,
-  animationClass = '',
-}) => {
-  const positionClasses = {
-    top: 'ltt-tooltip-top',
-    bottom: 'ltt-tooltip-bottom',
-    left: 'ltt-tooltip-left',
-    right: 'ltt-tooltip-right',
+  side = "bottom",
+  sideOffset = 4,
+  align = "center",
+  alignOffset = 0,
+  delayDuration = 200,
+  defaultOpen,
+  open,
+  onOpenChange,
+  disabled = false,
+}: TooltipProps) => {
+  if (disabled) {
+    return <>{children}</>
   }
 
-  const sizeClass = small ? 'ltt-tooltip-small' : ''
-  const themeClass = `ltt-tooltip-${theme}`
-
   return (
-    <div className={`ltt-tooltip-wrapper ${animationClass}`}>
-      {children}
-      {/* 始终渲染 tooltip，使用 CSS :hover 控制显示 */}
-      <div className={`ltt-tooltip ${positionClasses[position]} ${themeClass} ${sizeClass}`}>
-        <div className="ltt-tooltip-content">
+    <TooltipPrimitive.Root
+      defaultOpen={defaultOpen}
+      open={open}
+      onOpenChange={onOpenChange}
+      delayDuration={delayDuration}
+    >
+      <TooltipPrimitive.Trigger asChild>
+        {children}
+      </TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Portal>
+        <TooltipPrimitive.Content
+          side={side}
+          sideOffset={sideOffset}
+          align={align}
+          alignOffset={alignOffset}
+          className="ltt-tooltip"
+          collisionPadding={8}
+        >
           {content}
-        </div>
-      </div>
-    </div>
+          <TooltipPrimitive.Arrow className="ltt-tooltip-arrow" />
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Portal>
+    </TooltipPrimitive.Root>
   )
 }
 

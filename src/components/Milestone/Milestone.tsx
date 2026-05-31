@@ -12,6 +12,7 @@ import CompactMilestone from './styles/CompactMilestone';
 import ArrowCapsuleMilestone from './styles/ArrowCapsuleMilestone';
 import TimelineTrackMilestone from './styles/TimelineTrackMilestone';
 import { DEFAULT_COLOR_SCHEME } from '../../lib/milestone/types';
+import { TooltipProvider } from '../ui';
 import './milestone.css';
 
 interface MilestoneProps {
@@ -65,16 +66,18 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
   const isInline = config.inline;
 
   return (
-    <div 
-      className={`ltt-milestone-container ${isInline ? 'ltt-milestone-container-inline' : ''}`} 
-      data-style={config.displayStyle}
-      style={{ 
-        backgroundColor: isInline ? 'transparent' : colorScheme.background,
-        color: colorScheme.text,
-      }}
-    >
-      {renderStyle()}
-    </div>
+    <TooltipProvider>
+      <div 
+        className={`ltt-milestone-container ${isInline ? 'ltt-milestone-container-inline' : ''}`} 
+        data-style={config.displayStyle}
+        style={{ 
+          backgroundColor: isInline ? 'transparent' : colorScheme.background,
+          color: colorScheme.text,
+        }}
+      >
+        {renderStyle()}
+      </div>
+    </TooltipProvider>
   );
 };
 
