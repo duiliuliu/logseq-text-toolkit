@@ -2,10 +2,11 @@
  * Milestone Compact 样式
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckCircle2, Clock, XCircle, SkipForward, Loader2 } from 'lucide-react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
+import { Tooltip } from '../../ui';
 
 interface CompactMilestoneProps {
   items: MilestoneItem[];
@@ -32,8 +33,6 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
   showProgress = true,
   onNodeClick,
 }) => {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -90,47 +89,48 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
     <div className="ltt-milestone-compact">
       {items.map((item, index) => (
         <React.Fragment key={item.id}>
-          <div 
-            className="ltt-milestone-compact-item"
-            style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
-            onMouseEnter={() => setHoveredItem(item.id)}
-            onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => handleNodeClick(item)}
-          >
-            <div className="ltt-milestone-compact-icon" style={{ color: getStatusColor(item.status) }}>
-              {getStatusIcon(item.status)}
-            </div>
-            {showLabels && (
-              <div className="ltt-milestone-compact-content">
-                <div className="ltt-milestone-compact-label">{item.label}</div>
-                <div 
-                  className="ltt-milestone-compact-status"
-                  style={{ color: getStatusColor(item.status) }}
-                >
-                  {getStatusText(item.status)}
-                  {showProgress && item.progress !== undefined && (
-                    <span className="ltt-milestone-compact-progress"> ({item.progress}%)</span>
-                  )}
-                </div>
-              </div>
-            )}
-            
-            {/* Hover Tooltip */}
-            {hoveredItem === item.id && (
-              <div className="ltt-milestone-tooltip-compact">
-                <div className="ltt-milestone-tooltip-label">{item.label}</div>
+          <Tooltip
+            small={true}
+            position="bottom"
+            content={
+              <div className="ltt-milestone-compact-tooltip-content">
+                <div className="ltt-milestone-compact-tooltip-label">{item.label}</div>
                 {item.date && (
-                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
+                  <div className="ltt-milestone-compact-tooltip-date">时间: {item.date}</div>
                 )}
-                <div className="ltt-milestone-tooltip-status" style={{ color: getStatusColor(item.status) }}>
+                <div className="ltt-milestone-compact-tooltip-status" style={{ color: getStatusColor(item.status) }}>
                   状态: {getStatusText(item.status)}
                 </div>
                 {item.progress !== undefined && (
-                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
+                  <div className="ltt-milestone-compact-tooltip-progress">进度: {item.progress}%</div>
                 )}
               </div>
-            )}
-          </div>
+            }
+          >
+            <div 
+              className="ltt-milestone-compact-item"
+              style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
+              onClick={() => handleNodeClick(item)}
+            >
+              <div className="ltt-milestone-compact-icon" style={{ color: getStatusColor(item.status) }}>
+                {getStatusIcon(item.status)}
+              </div>
+              {showLabels && (
+                <div className="ltt-milestone-compact-content">
+                  <div className="ltt-milestone-compact-label">{item.label}</div>
+                  <div 
+                    className="ltt-milestone-compact-status"
+                    style={{ color: getStatusColor(item.status) }}
+                  >
+                    {getStatusText(item.status)}
+                    {showProgress && item.progress !== undefined && (
+                      <span className="ltt-milestone-compact-progress"> ({item.progress}%)</span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </Tooltip>
           
           {/* 连接线 */}
           {index < items.length - 1 && (

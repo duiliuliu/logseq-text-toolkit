@@ -112,25 +112,14 @@ describe('Milestone UI Components', () => {
       expect(container.querySelectorAll('.ltt-milestone-label')).toHaveLength(0);
     });
 
-    it('should show tooltip on hover', () => {
+    it('should show tooltip content', () => {
       const { container } = render(
         <CapsuleMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
-      // Initially no tooltip should be visible
-      expect(container.querySelector('.ltt-milestone-tooltip')).toBeFalsy();
-      
-      // Hover over the first node
-      const nodes = container.querySelectorAll('.ltt-milestone-node');
-      fireEvent.mouseEnter(nodes[0]);
-      
-      // Tooltip should be visible
-      expect(container.querySelector('.ltt-milestone-tooltip')).toBeTruthy();
+      // Tooltip should always be present in DOM (CSS controls visibility)
+      expect(container.querySelector('.ltt-tooltip')).toBeTruthy();
       expect(container.textContent).toContain('需求');
-      
-      // Mouse leave
-      fireEvent.mouseLeave(nodes[0]);
-      expect(container.querySelector('.ltt-milestone-tooltip')).toBeFalsy();
     });
 
     it('should call openInRightSidebar on node click when blockUuid exists', () => {
@@ -411,15 +400,13 @@ describe('Milestone UI Components', () => {
       expect(container.querySelectorAll('.ltt-milestone-compact-connector')).toHaveLength(2);
     });
 
-    it('should show tooltip on hover', () => {
+    it('should show tooltip content', () => {
       const { container } = render(
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
-      const badges = container.querySelectorAll('.ltt-milestone-compact-item');
-      fireEvent.mouseEnter(badges[0]);
-      
-      expect(container.querySelector('.ltt-milestone-tooltip-compact')).toBeTruthy();
+      // Tooltip should always be present in DOM (CSS controls visibility)
+      expect(container.querySelector('.ltt-tooltip')).toBeTruthy();
       expect(container.textContent).toContain('需求');
     });
 

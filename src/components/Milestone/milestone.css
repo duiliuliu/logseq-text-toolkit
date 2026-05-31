@@ -1179,3 +1179,32 @@
   background: var(--ltt-bg-secondary);
   border-color: var(--ltt-border);
 }
+
+/* ========== Compact Tooltip 内容样式（通用） ========== */
+.ltt-milestone-compact-tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.3;
+}
+
+.ltt-milestone-compact-tooltip-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ltt-text-primary);
+  word-wrap: break-word;
+}
+
+.ltt-milestone-compact-tooltip-date {
+  font-size: 9px;
+  color: var(--ltt-text-secondary);
+}
+
+.ltt-milestone-compact-tooltip-status {
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.ltt-milestone-compact-tooltip-progress {
+  font-size: 9px;
+}

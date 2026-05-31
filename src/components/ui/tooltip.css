@@ -1,0 +1,100 @@
+/* 通用 Tooltip 样式 - 参考 TaskProgress 的纯 CSS hover 实现 */
+
+.ltt-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.ltt-tooltip {
+  position: absolute;
+  z-index: 99999;
+  background-color: var(--ls-secondary-background-color, #fff);
+  border: 1px solid var(--ls-border-color, #e5e7eb);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-size: 12px;
+  pointer-events: none;
+  /* 初始隐藏 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(4px);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  /* 默认定位在底部 */
+  top: calc(100% + 6px);
+  left: 50%;
+}
+
+/* 更小、更扁平的样式 */
+.ltt-tooltip.ltt-tooltip-small {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 标准尺寸（备用） */
+.ltt-tooltip:not(.ltt-tooltip-small) {
+  padding: 8px 12px;
+  min-width: 140px;
+}
+
+/* 位置变体 */
+.ltt-tooltip-bottom {
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.ltt-tooltip-top {
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  top: auto;
+}
+
+.ltt-tooltip-left {
+  right: calc(100% + 6px);
+  top: 50%;
+  left: auto;
+  transform: translateX(-4px) translateY(-50%);
+}
+
+.ltt-tooltip-right {
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateX(4px) translateY(-50%);
+}
+
+/* Hover 时显示 tooltip */
+.ltt-tooltip-wrapper:hover .ltt-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.ltt-tooltip-wrapper:hover .ltt-tooltip-top {
+  transform: translateX(-50%) translateY(0);
+}
+
+.ltt-tooltip-wrapper:hover .ltt-tooltip-left {
+  transform: translateX(0) translateY(-50%);
+}
+
+.ltt-tooltip-wrapper:hover .ltt-tooltip-right {
+  transform: translateX(0) translateY(-50%);
+}
+
+.ltt-tooltip-content {
+  color: var(--ls-primary-text-color, #374151);
+}
+
+/* 深色主题 */
+.ltt-tooltip-dark {
+  background-color: var(--ls-primary-text-color, #1f2937);
+  color: var(--ls-secondary-background-color, #f9fafb);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.ltt-tooltip-dark .ltt-tooltip-content {
+  color: var(--ls-secondary-background-color, #f9fafb);
+}
