@@ -104,12 +104,13 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
               
               {/* 节点 */}
               <div 
-                className={`ltt-milestone-timeline-node ${item.status === 'inProgress' ? 'ltt-milestone-timeline-node-active' : ''}`}
+                className={`ltt-milestone-timeline-node ${item.status === 'in_progress' ? 'ltt-milestone-timeline-node-active' : ''}`}
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => handleNodeClick(item)}
                 style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
               >
+                {/* 图标层 */}
                 <div 
                   className="ltt-milestone-timeline-icon-wrapper"
                   style={{ 
@@ -127,6 +128,7 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
                   </div>
                 </div>
                 
+                {/* 内容层（下面小字 */}
                 {showLabels && (
                   <div className="ltt-milestone-timeline-content">
                     <div className="ltt-milestone-timeline-label">{item.label}</div>
@@ -136,7 +138,7 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
                     >
                       {getStatusText(item.status)}
                       {showProgress && item.progress !== undefined && (
-                        <span> ({item.progress}%)</span>
+                        <span className="ltt-milestone-timeline-progress"> ({item.progress}%)</span>
                       )}
                     </div>
                   </div>

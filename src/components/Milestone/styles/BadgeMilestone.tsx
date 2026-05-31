@@ -90,7 +90,7 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
   return (
     <div className="ltt-milestone-badge">
       <div className="ltt-milestone-grid">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <div 
             key={item.id} 
             className={`ltt-milestone-badge-item ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
@@ -99,9 +99,6 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
             onClick={() => handleNodeClick(item)}
             style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
           >
-            <div className="ltt-milestone-badge-number">
-              {String(index + 1).padStart(2, '0')}
-            </div>
             <span 
               className="ltt-milestone-symbol"
               style={{ color: getNodeColor(item.status) }}

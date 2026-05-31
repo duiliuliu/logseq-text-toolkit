@@ -347,8 +347,26 @@
 
 .ltt-milestone-badge .ltt-milestone-grid {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: var(--ltt-spacing-lg);
+  overflow-x: auto;
+  padding: 4px 0;
+  -webkit-overflow-scrolling: touch;
+  min-width: 100%;
+}
+
+.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-track {
+  background: var(--ltt-bg-secondary);
+  border-radius: 2px;
+}
+
+.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-thumb {
+  background: var(--ltt-border);
+  border-radius: 2px;
 }
 
 .ltt-milestone-badge-item {
@@ -787,7 +805,7 @@
 .ltt-milestone-compact {
   display: flex;
   align-items: center;
-  gap: var(--ltt-spacing-xs);
+  gap: 16px;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 8px 0;
@@ -806,6 +824,46 @@
 .ltt-milestone-compact::-webkit-scrollbar-thumb {
   background: var(--ltt-border);
   border-radius: 2px;
+}
+
+.ltt-milestone-compact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.ltt-milestone-compact-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ltt-milestone-compact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ltt-milestone-compact-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ltt-text-primary);
+  line-height: 1.3;
+}
+
+.ltt-milestone-compact-status {
+  font-size: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-compact-progress {
+  font-size: 10px;
 }
 
 .ltt-milestone-compact .ltt-milestone-badge {
@@ -991,15 +1049,17 @@
 
 .ltt-milestone-timeline-node {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 8px 8px;
   border-radius: 12px;
   background: var(--ltt-bg-primary);
   border: 1px solid var(--ltt-border);
   transition: all var(--ltt-transition-fast);
   flex-shrink: 0;
   cursor: pointer;
+  min-width: 80px;
 }
 
 .ltt-milestone-timeline-node:hover {
@@ -1013,9 +1073,9 @@
 }
 
 .ltt-milestone-timeline-icon-wrapper {
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
   border: 2px solid;
   display: flex;
   align-items: center;
@@ -1037,25 +1097,31 @@
 .ltt-milestone-timeline-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 100px;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
 }
 
 .ltt-milestone-timeline-label {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 500;
   color: var(--ltt-text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.3;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 80px;
 }
 
 .ltt-milestone-timeline-status {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-timeline-progress {
+  font-size: 9px;
 }
 
 /* ========== Dark Theme Support ========== */
