@@ -72,6 +72,32 @@
 }
 
 /* =========================================================
+   VIEW BAR - 所有视图下统一内联显示
+========================================================= */
+
+.ltt-list-root .ltt-view-bar,
+.ltt-table-root .ltt-view-bar,
+.ltt-gallery-root .ltt-view-bar,
+.ltt-board-root .ltt-view-bar,
+.ltt-mindmap-root .ltt-view-bar {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+  margin: 0 0 0 8px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  gap: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: auto !important;
+  vertical-align: middle !important;
+}
+
+/* =========================================================
    LIST VIEW
 ========================================================= */
 
