@@ -22,10 +22,10 @@ const styleOptions = [
 ]
 
 const tooltipStyleOptions = [
-  { value: 'minimal', label: TOOLTIP_STYLE_LABELS['minimal'].zh },
-  { value: 'compact', label: TOOLTIP_STYLE_LABELS['compact'].zh },
-  { value: 'detailed', label: TOOLTIP_STYLE_LABELS['detailed'].zh },
-  { value: 'elegant', label: TOOLTIP_STYLE_LABELS['elegant'].zh },
+  { value: 'minimal', label: t('settings.milestone.tooltipStyleMinimal', 'Minimal') },
+  { value: 'compact', label: t('settings.milestone.tooltipStyleCompact', 'Compact') },
+  { value: 'detailed', label: t('settings.milestone.tooltipStyleDetailed', 'Detailed') },
+  { value: 'elegant', label: t('settings.milestone.tooltipStyleElegant', 'Elegant') },
 ]
 
 const colorInputs = [
