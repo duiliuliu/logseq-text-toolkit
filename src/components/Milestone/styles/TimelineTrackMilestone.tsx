@@ -2,7 +2,7 @@
  * Milestone Timeline Track 样式
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { CheckCircle2, Clock, XCircle, SkipForward, Loader2 } from 'lucide-react';
 import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
@@ -36,6 +36,8 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
   tooltipStyle = 'compact',
   onNodeClick,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -105,11 +107,13 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
               )}
               
               {/* 节点 */}
-              <Tooltip>
+              <Tooltip open={hoveredItem === item.id}>
                 <TooltipTrigger asChild>
                   <div 
                     className={`ltt-milestone-timeline-node ${item.status === 'inProgress' ? 'ltt-milestone-timeline-node-active' : ''}`}
                     onClick={() => handleNodeClick(item)}
+                    onMouseEnter={() => setHoveredItem(item.id)}
+                    onMouseLeave={() => setHoveredItem(null)}
                     style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
                   >
                     {/* 图标层 */}
@@ -147,7 +151,7 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
                     )}
                   </div>
                 </TooltipTrigger>
-                <TooltipContent side="top" sideOffset={4}>
+                <TooltipContent side="top">
                   <MilestoneTooltipContent 
                     item={item} 
                     colorScheme={colorScheme} 
