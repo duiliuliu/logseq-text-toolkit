@@ -117,6 +117,7 @@ export interface MilestoneTemplate {
   displayStyle?: MilestoneDisplayStyle;
   showProgress?: boolean;
   showLabel?: boolean;
+  inline?: boolean;
   dateField?: string;
   colorScheme?: ColorScheme;
 }

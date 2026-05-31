@@ -17,6 +17,8 @@ const styleOptions = [
   { value: 'track', label: t('settings.milestone.styleTrack', '轨道') },
   { value: 'card', label: t('settings.milestone.styleCard', '卡片') },
   { value: 'compact', label: t('settings.milestone.styleCompact', '紧凑') },
+  { value: 'arrow-capsule', label: t('settings.milestone.styleArrowCapsule', '箭头胶囊') },
+  { value: 'timeline-track', label: t('settings.milestone.styleTimelineTrack', '时间线轨道') },
 ]
 
 const colorInputs = [
@@ -67,6 +69,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
     defaultStyle: 'capsule',
     showLabels: true,
     showProgress: true,
+    inline: false,
     templates: [],
   }
 
@@ -102,6 +105,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       displayStyle: 'capsule',
       showProgress: true,
       showLabel: true,
+      inline: false,
       dateField: 'scheduled',
     }
 
@@ -229,6 +233,18 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
             type="checkbox"
             checked={milestone.showProgress ?? true}
             onChange={(e) => handleSettingChange('milestone.showProgress', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.milestone.inline', '行内模式')}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={milestone.inline ?? false}
+            onChange={(e) => handleSettingChange('milestone.inline', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>
@@ -443,6 +459,20 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                                 type="checkbox"
                                 checked={template.showLabel ?? true}
                                 onChange={(e) => updateTemplate(template.id, { showLabel: e.target.checked })}
+                              />
+                              <span className="ltt-switch-slider"></span>
+                            </label>
+                          </div>
+
+                          <div className="ltt-milestone-form-item">
+                            <label className="ltt-milestone-form-label">
+                              {t('settings.milestone.inline', '行内模式')}
+                            </label>
+                            <label className="ltt-switch">
+                              <input
+                                type="checkbox"
+                                checked={template.inline ?? false}
+                                onChange={(e) => updateTemplate(template.id, { inline: e.target.checked })}
                               />
                               <span className="ltt-switch-slider"></span>
                             </label>

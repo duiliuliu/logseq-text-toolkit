@@ -365,7 +365,9 @@
   overflow-y: visible;
   padding: 4px 0;
   -webkit-overflow-scrolling: touch;
-  min-width: 100%;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   position: relative;
 }
 
@@ -419,6 +421,9 @@
   border-radius: var(--ltt-radius-sm);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .ltt-milestone-progress-bar {
