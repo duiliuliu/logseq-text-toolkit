@@ -279,7 +279,12 @@ export const parseWrapperPattern = (invokeParams: string): { prefix: string; suf
  * @returns 是否需要引号
  */
 export const needsQuotes = (text: string): boolean => {
-  // 暂时直接返回 false，不包裹任何引号
+  // 如果文本中包含 '/' 字符，需要用引号包裹
+  if (text.includes('/')) {
+    return true;
+  }
+  
+  // 暂时只检查 '/' 字符，其他情况根据实际需求添加
   // 原有逻辑已注释，有问题可直接改回
   
   // 跳过已经是完整 hiccup 格式的文本
