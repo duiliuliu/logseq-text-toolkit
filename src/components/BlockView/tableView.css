@@ -242,6 +242,23 @@ html.dark {
 }
 
 /* =========================================================
+   表格内部头部单元格 - 隐藏折叠和小圆点
+========================================================= */
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: none !important;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-children-left-border {
+  display: none !important;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-content-inner .block-title-wrap {
+  justify-content: flex-start !important;
+  margin-left: 0 !important;
+}
+
+/* =========================================================
    RESPONSIVE
 ========================================================= */
 
