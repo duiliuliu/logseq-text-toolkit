@@ -228,7 +228,7 @@ html.dark {
 }
 
 /* =========================================================
-   ROOT HEADER - 表格标题靠左，去掉折叠和小圆点
+   ROOT HEADER - 表格标题靠左，去掉折叠功能
 ========================================================= */
 
 .ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {
@@ -236,20 +236,9 @@ html.dark {
   justify-content: flex-start !important;
 }
 
-/* 隐藏头部所有折叠和控制元素 */
 .ltt-table-root > .block-main-container .block-control-wrap,
-.ltt-table-root > .block-main-container .block-title-wrap .block-control-wrap,
-.ltt-table-root > .block-main-container .block-left-border,
-.ltt-table-root > .block-main-container .block-children-left-border,
-.ltt-table-root > .block-main-container .block-control-wrap::before,
-.ltt-table-root > .block-main-container .block-control-wrap::after {
+.ltt-table-root > .block-main-container .block-title-wrap .block-control-wrap {
   display: none !important;
-}
-
-/* 确保头部内容自然靠左 */
-.ltt-table-root > .block-main-container .block-content {
-  display: flex !important;
-  justify-content: flex-start !important;
 }
 
 /* =========================================================

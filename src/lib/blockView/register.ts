@@ -9,9 +9,6 @@ import logger from '../logger';
 const MACRO_PREFIX = ':blockview';
 const PLUGIN_ID = 'text-toolkit-blockview';
 
-// 存储每个block注入的style元素，用于卸载
-const INJECTED_STYLE_ELEMENTS = new Map<string, HTMLStyleElement>();
-
 registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] });
 
 const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
@@ -46,77 +43,6 @@ const CUSTOM_CSS_VARS = [
 
 function removeViewStyles(blockElement: HTMLElement): void {
   blockElement.classList.remove(...VIEW_CLASSES, ...THEME_CLASSES);
-  
-  // 卸载注入的样式
-  const blockId = blockElement.getAttribute('data-block-id') || blockElement.id?.replace('ls-block-', '');
-  if (blockId && INJECTED_STYLE_ELEMENTS.has(blockId)) {
-    const styleEl = INJECTED_STYLE_ELEMENTS.get(blockId);
-    if (styleEl) {
-      styleEl.remove();
-      INJECTED_STYLE_ELEMENTS.delete(blockId);
-      logger.debug('[BlockView] Injected styles removed', { blockId });
-    }
-  }
-}
-
-// 注入特定blockId的表格列对齐CSS
-function injectTableColumnAlignmentCSS(blockId: string, doc: Document): void {
-  const styleId = `ltt-table-align-${blockId}`;
-  
-  // 先移除已存在的
-  const existingStyle = doc.getElementById(styleId);
-  if (existingStyle) {
-    existingStyle.remove();
-  }
-  
-  // 创建新的style元素
-  const styleEl = doc.createElement('style');
-  styleEl.id = styleId;
-  styleEl.textContent = `
-    /* 针对特定block的列对齐样式 */
-    #ls-block-${blockId}.ltt-table-root > .block-main-container > .block-content-wrapper,
-    [data-block-id="${blockId}"].ltt-table-root > .block-main-container > .block-content-wrapper {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-    }
-    
-    /* 表格行使用flex布局，列同步宽度 */
-    #ls-block-${blockId}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
-    [data-block-id="${blockId}"].ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-      display: flex !important;
-      flex-direction: row !important;
-      align-items: stretch !important;
-      width: max-content !important;
-      min-width: 100% !important;
-    }
-    
-    /* 第一列（header）左对齐 */
-    #ls-block-${blockId}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
-    [data-block-id="${blockId}"].ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-      flex-shrink: 0 !important;
-      min-width: 150px !important;
-      max-width: 350px !important;
-    }
-    
-    /* 其他子节点列左对齐 */
-    #ls-block-${blockId}.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *,
-    [data-block-id="${blockId}"].ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-      flex-shrink: 0 !important;
-      min-width: 150px !important;
-      max-width: 400px !important;
-    }
-  `;
-  
-  doc.head.appendChild(styleEl);
-  INJECTED_STYLE_ELEMENTS.set(blockId, styleEl);
-  logger.debug('[BlockView] Table column alignment styles injected', { blockId });
 }
 
 function applyViewStyles(blockElement: HTMLElement, viewType: ViewType, themeType: ThemeType): void {
@@ -197,11 +123,6 @@ async function applyViewStyle(blockId: string, viewType: ViewType, themeType: Th
   } else {
     blockElement.setAttribute('data-custom-theme', 'false');
     CUSTOM_CSS_VARS.forEach(v => blockElement.style.removeProperty(v));
-  }
-
-  // 如果是tableView，注入列对齐CSS
-  if (viewType === 'table') {
-    injectTableColumnAlignmentCSS(blockId, doc);
   }
 
   logger.debug('[BlockView] View & theme applied', { blockId, viewType, themeType });
