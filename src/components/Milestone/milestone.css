@@ -369,6 +369,7 @@
   max-width: 100%;
   box-sizing: border-box;
   position: relative;
+  margin: 0 var(--ltt-spacing-lg);
 }
 
 .ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {
@@ -415,14 +416,13 @@
 }
 
 .ltt-milestone-overall-progress {
-  margin-top: var(--ltt-spacing-lg);
+  margin: var(--ltt-spacing-lg) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);
   height: 8px;
   background: var(--ltt-bg-secondary);
   border-radius: var(--ltt-radius-sm);
   position: relative;
   overflow: hidden;
-  width: 100%;
-  max-width: 100%;
+  width: auto;
   box-sizing: border-box;
 }
 
@@ -436,7 +436,7 @@
 .ltt-milestone-progress-label {
   display: block;
   text-align: center;
-  margin-top: var(--ltt-spacing-xs);
+  margin: var(--ltt-spacing-xs) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);
   font-size: var(--ltt-font-size-md);
 }
 
