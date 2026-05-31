@@ -69,12 +69,12 @@ const TimelineTrackMilestone: React.FC<TimelineTrackMilestoneProps> = ({
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return <CheckCircle2 size={20} strokeWidth={2.5} />;
-      case 'inProgress': return <Loader2 size={20} strokeWidth={2.5} className="ltt-milestone-spin-icon" />;
-      case 'failed': return <XCircle size={20} strokeWidth={2.5} />;
-      case 'skipped': return <SkipForward size={20} strokeWidth={2.5} />;
+      case 'completed': return <CheckCircle2 size={14} strokeWidth={2.5} />;
+      case 'inProgress': return <Loader2 size={14} strokeWidth={2.5} className="ltt-milestone-spin-icon" />;
+      case 'failed': return <XCircle size={14} strokeWidth={2.5} />;
+      case 'skipped': return <SkipForward size={14} strokeWidth={2.5} />;
       case 'pending':
-      default: return <Clock size={20} strokeWidth={2.5} />;
+      default: return <Clock size={14} strokeWidth={2.5} />;
     }
   };
 

@@ -9,7 +9,9 @@
   box-shadow: var(--ltt-shadow-sm);
   background: var(--ltt-bg-primary);
   border: 1px solid var(--ltt-border);
-  overflow: hidden;
+  overflow-y: visible;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .ltt-milestone-container-inline {
@@ -77,8 +79,10 @@
   flex-direction: column;
   gap: var(--ltt-spacing-sm);
   overflow-x: auto;
+  overflow-y: visible;
   padding: 8px 0;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 .ltt-milestone-capsule::-webkit-scrollbar {
@@ -159,9 +163,11 @@
   border-radius: var(--ltt-radius-lg);
   padding: var(--ltt-spacing-md);
   box-shadow: var(--ltt-shadow-md);
-  z-index: 9999;
+  z-index: 100000;
   min-width: 180px;
+  max-width: 280px;
   animation: tooltipFadeIn var(--ltt-transition-fast) ease;
+  pointer-events: none;
 }
 
 .ltt-milestone-tooltip::after {
@@ -209,9 +215,11 @@
   border-radius: var(--ltt-radius-lg);
   padding: var(--ltt-spacing-md);
   box-shadow: var(--ltt-shadow-md);
-  z-index: 9999;
+  z-index: 100000;
   min-width: 160px;
+  max-width: 280px;
   animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;
+  pointer-events: none;
 }
 
 .ltt-milestone-tooltip-badge::after {
@@ -257,9 +265,11 @@
   border-radius: var(--ltt-radius-lg);
   padding: var(--ltt-spacing-md);
   box-shadow: var(--ltt-shadow-md);
-  z-index: 9999;
+  z-index: 100000;
   min-width: 160px;
+  max-width: 280px;
   animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;
+  pointer-events: none;
 }
 
 .ltt-milestone-tooltip-track::after {
@@ -294,9 +304,11 @@
   border-radius: var(--ltt-radius-lg);
   padding: var(--ltt-spacing-md);
   box-shadow: var(--ltt-shadow-md);
-  z-index: 9999;
+  z-index: 100000;
   min-width: 160px;
+  max-width: 280px;
   animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;
+  pointer-events: none;
 }
 
 .ltt-milestone-tooltip-compact::after {
@@ -350,9 +362,11 @@
   justify-content: flex-start;
   gap: var(--ltt-spacing-lg);
   overflow-x: auto;
+  overflow-y: visible;
   padding: 4px 0;
   -webkit-overflow-scrolling: touch;
   min-width: 100%;
+  position: relative;
 }
 
 .ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {
@@ -426,6 +440,7 @@
   position: relative;
   padding: var(--ltt-spacing-lg) 0;
   overflow-x: auto;
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -520,6 +535,7 @@
   gap: 0;
   padding: 20px 10px;
   overflow-x: auto;
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -775,9 +791,11 @@
   border-radius: var(--ltt-radius-lg);
   padding: var(--ltt-spacing-md);
   box-shadow: var(--ltt-shadow-md);
-  z-index: 9999;
+  z-index: 100000;
   min-width: 160px;
+  max-width: 280px;
   animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;
+  pointer-events: none;
 }
 
 .ltt-milestone-tooltip-horizontal::after {
@@ -805,11 +823,14 @@
 .ltt-milestone-compact {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding: 8px 0;
+  overflow-y: visible;
+  padding: 4px 0;
   -webkit-overflow-scrolling: touch;
+  position: relative;
+  min-height: 48px;
 }
 
 .ltt-milestone-compact::-webkit-scrollbar {
@@ -829,9 +850,11 @@
 .ltt-milestone-compact-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
   cursor: pointer;
+  position: relative;
+  z-index: 1;
 }
 
 .ltt-milestone-compact-icon {
@@ -844,18 +867,18 @@
 .ltt-milestone-compact-content {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 
 .ltt-milestone-compact-label {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 500;
   color: var(--ltt-text-primary);
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .ltt-milestone-compact-status {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -863,7 +886,14 @@
 }
 
 .ltt-milestone-compact-progress {
-  font-size: 10px;
+  font-size: 8px;
+}
+
+.ltt-milestone-compact-connector {
+  width: 16px;
+  height: 2px;
+  flex-shrink: 0;
+  border-radius: 1px;
 }
 
 .ltt-milestone-compact .ltt-milestone-badge {
@@ -888,8 +918,10 @@
   flex-direction: column;
   gap: 4px;
   overflow-x: auto;
+  overflow-y: visible;
   padding: 4px 0;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 .ltt-milestone-arrow-capsule::-webkit-scrollbar {
@@ -1000,8 +1032,10 @@
 /* ========== Timeline Track 样式 ========== */
 .ltt-milestone-timeline-track {
   overflow-x: auto;
+  overflow-y: visible;
   padding: 12px 0;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 .ltt-milestone-timeline-track::-webkit-scrollbar {
@@ -1051,15 +1085,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 8px 8px;
-  border-radius: 12px;
+  gap: 4px;
+  padding: 6px 6px;
+  border-radius: 10px;
   background: var(--ltt-bg-primary);
   border: 1px solid var(--ltt-border);
   transition: all var(--ltt-transition-fast);
   flex-shrink: 0;
   cursor: pointer;
-  min-width: 80px;
+  min-width: 64px;
 }
 
 .ltt-milestone-timeline-node:hover {
@@ -1073,9 +1107,9 @@
 }
 
 .ltt-milestone-timeline-icon-wrapper {
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
   border: 2px solid;
   display: flex;
   align-items: center;
@@ -1098,22 +1132,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
   text-align: center;
 }
 
 .ltt-milestone-timeline-label {
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 500;
   color: var(--ltt-text-primary);
-  line-height: 1.3;
+  line-height: 1.2;
   word-wrap: break-word;
   word-break: break-word;
-  max-width: 80px;
+  max-width: 60px;
 }
 
 .ltt-milestone-timeline-status {
-  font-size: 9px;
+  font-size: 7px;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -1121,7 +1155,7 @@
 }
 
 .ltt-milestone-timeline-progress {
-  font-size: 9px;
+  font-size: 7px;
 }
 
 /* ========== Dark Theme Support ========== */

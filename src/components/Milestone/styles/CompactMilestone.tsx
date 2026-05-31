@@ -47,12 +47,12 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return <CheckCircle2 size={14} strokeWidth={2.5} />;
-      case 'inProgress': return <Loader2 size={14} strokeWidth={2.5} className="ltt-milestone-spin-icon" />;
-      case 'failed': return <XCircle size={14} strokeWidth={2.5} />;
-      case 'skipped': return <SkipForward size={14} strokeWidth={2.5} />;
+      case 'completed': return <CheckCircle2 size={12} strokeWidth={2.5} />;
+      case 'inProgress': return <Loader2 size={12} strokeWidth={2.5} className="ltt-milestone-spin-icon" />;
+      case 'failed': return <XCircle size={12} strokeWidth={2.5} />;
+      case 'skipped': return <SkipForward size={12} strokeWidth={2.5} />;
       case 'pending':
-      default: return <Clock size={14} strokeWidth={2.5} />;
+      default: return <Clock size={12} strokeWidth={2.5} />;
     }
   };
 
@@ -88,49 +88,58 @@ const CompactMilestone: React.FC<CompactMilestoneProps> = ({
 
   return (
     <div className="ltt-milestone-compact">
-      {items.map((item) => (
-        <div 
-          key={item.id}
-          className="ltt-milestone-compact-item"
-          style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
-          onMouseEnter={() => setHoveredItem(item.id)}
-          onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleNodeClick(item)}
-        >
-          <div className="ltt-milestone-compact-icon" style={{ color: getStatusColor(item.status) }}>
-            {getStatusIcon(item.status)}
-          </div>
-          {showLabels && (
-            <div className="ltt-milestone-compact-content">
-              <div className="ltt-milestone-compact-label">{item.label}</div>
-              <div 
-                className="ltt-milestone-compact-status"
-                style={{ color: getStatusColor(item.status) }}
-              >
-                {getStatusText(item.status)}
-                {showProgress && item.progress !== undefined && (
-                  <span className="ltt-milestone-compact-progress"> ({item.progress}%)</span>
+      {items.map((item, index) => (
+        <React.Fragment key={item.id}>
+          <div 
+            className="ltt-milestone-compact-item"
+            style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
+            onMouseEnter={() => setHoveredItem(item.id)}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => handleNodeClick(item)}
+          >
+            <div className="ltt-milestone-compact-icon" style={{ color: getStatusColor(item.status) }}>
+              {getStatusIcon(item.status)}
+            </div>
+            {showLabels && (
+              <div className="ltt-milestone-compact-content">
+                <div className="ltt-milestone-compact-label">{item.label}</div>
+                <div 
+                  className="ltt-milestone-compact-status"
+                  style={{ color: getStatusColor(item.status) }}
+                >
+                  {getStatusText(item.status)}
+                  {showProgress && item.progress !== undefined && (
+                    <span className="ltt-milestone-compact-progress"> ({item.progress}%)</span>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {/* Hover Tooltip */}
+            {hoveredItem === item.id && (
+              <div className="ltt-milestone-tooltip-compact">
+                <div className="ltt-milestone-tooltip-label">{item.label}</div>
+                {item.date && (
+                  <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
+                )}
+                <div className="ltt-milestone-tooltip-status" style={{ color: getStatusColor(item.status) }}>
+                  状态: {getStatusText(item.status)}
+                </div>
+                {item.progress !== undefined && (
+                  <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
                 )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
           
-          {/* Hover Tooltip */}
-          {hoveredItem === item.id && (
-            <div className="ltt-milestone-tooltip-compact">
-              <div className="ltt-milestone-tooltip-label">{item.label}</div>
-              {item.date && (
-                <div className="ltt-milestone-tooltip-date">时间: {item.date}</div>
-              )}
-              <div className="ltt-milestone-tooltip-status" style={{ color: getStatusColor(item.status) }}>
-                状态: {getStatusText(item.status)}
-              </div>
-              {item.progress !== undefined && (
-                <div className="ltt-milestone-tooltip-progress">进度: {item.progress}%</div>
-              )}
-            </div>
+          {/* 连接线 */}
+          {index < items.length - 1 && (
+            <div 
+              className="ltt-milestone-compact-connector"
+              style={{ backgroundColor: getStatusColor(item.status) }}
+            />
           )}
-        </div>
+        </React.Fragment>
       ))}
     </div>
   );
