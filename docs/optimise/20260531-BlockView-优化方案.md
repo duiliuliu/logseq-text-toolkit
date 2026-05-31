@@ -19,61 +19,73 @@
 
 **修改文件**：`/workspace/src/components/BlockView/blockView.css`
 
-**核心改动**：
+**核心设计理念**：参考 Milestone 组件的 inline 模式（`.ltt-milestone-container-inline`）
+
+**Milestone inline 模式的关键特点**：
+```css
+.ltt-milestone-container-inline {
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+}
+```
+
+**BlockView view bar 的实现**：
 
 ```css
-/* ViewBar 基础样式 - 使用 inline 布局 */
 .ltt-view-bar {
-  display: inline;
+  display: inline-flex;
+  align-items: center;
   padding: 0;
   margin: 0;
   background: transparent;
   border: none;
+  box-shadow: none;
+  border-radius: 0;
+  gap: 0;
   font-size: 0;
   line-height: 0;
-  vertical-align: baseline;
+}
+
+.ltt-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  margin: 0 1px;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ls-secondary-text-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
   white-space: nowrap;
-}
-
-/* ViewBar 子元素保持 inline-flex */
-.ltt-view-bar > * {
-  display: inline;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  height: auto;
+  min-height: auto;
+  max-height: auto;
   vertical-align: middle;
-  font-size: 0;
-  line-height: 0;
-}
-
-/* ViewBar 在 block-main-container 中的样式 */
-.block-main-container .ltt-view-bar,
-.ltt-list-root .ltt-view-bar,
-.ltt-table-root .ltt-view-bar,
-.ltt-gallery-root .ltt-view-bar,
-.ltt-board-root .ltt-view-bar,
-.ltt-mindmap-root .ltt-view-bar {
-  display: inline !important;
-  margin-left: 8px !important;
-  vertical-align: baseline !important;
-  font-size: 0 !important;
-  line-height: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  gap: 0 !important;
-  height: auto !important;
-  min-height: auto !important;
-  max-height: auto !important;
-  width: auto !important;
-  flex: none !important;
 }
 ```
 
 **优化效果**：
-- ViewBar 完全使用 `display: inline` 布局
-- 不占用任何垂直空间
-- 紧跟在 block 标题后面显示
-- 类似 milestone 的 inline 模式效果
+
+| 属性 | 优化前 | 优化后 |
+|------|-------|-------|
+| padding | 4px 8px | 0 |
+| margin | 8px | 0 |
+| background | 半透明背景色 | transparent |
+| border | 1px solid | none |
+| box-shadow | 有 | none |
+| border-radius | 6px | 0 |
+| height | 固定 28px | auto |
 
 ---
 
@@ -140,12 +152,15 @@
 
 ## 技术实现细节
 
-### ViewBar 内联原理
+### ViewBar 内联原理（参考 Milestone）
 
-1. **使用 `display: inline`**：完全内联显示，不创建块级格式化上下文
-2. **设置 `font-size: 0`**：消除 inline 元素之间的默认间隙
-3. **子元素使用 `display: inline-flex`**：保持按钮的 flex 布局功能
-4. **设置 `vertical-align: baseline`**：与文字基线对齐
+1. **`display: inline-flex`**：内联弹性盒布局
+2. **`padding: 0`**：无内边距
+3. **`margin: 0`**：无外边距
+4. **`background: transparent`**：完全透明背景
+5. **`border: none`**：无边框
+6. **`box-shadow: none`**：无阴影
+7. **`height: auto`**：高度自适应内容
 
 ### TableView 自适应原理
 
@@ -177,6 +192,7 @@
 - 在不同视图（list/table/gallery/board/mindmap）中验证 ViewBar 显示
 - 确认 ViewBar 不影响 block 的高度
 - 检查 ViewBar 与标题文本的对齐效果
+- 对比 Milestone inline 模式的显示效果
 
 ### 2. TableView 测试
 - 测试不同内容长度下的表格布局
@@ -192,7 +208,7 @@
 
 | 优化项 | 改进内容 |
 |--------|----------|
-| ViewBar 内联 | 完全使用 inline 布局，不占用额外空间 |
+| ViewBar 内联 | 参考 Milestone inline 模式，完全透明无装饰 |
 | TableView 自适应 | 使用 CSS Grid auto-fit 实现列数自适应 |
 | 列宽控制 | 添加最小/最大宽度限制 (150px-400px) |
 | 响应式设计 | 移动端自动调整配置 |
