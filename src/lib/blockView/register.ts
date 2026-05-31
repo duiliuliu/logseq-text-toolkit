@@ -59,7 +59,8 @@ function injectTableStyles(blockId: string, blockElement: HTMLElement): void {
 
   const doc = getDocument();
   const styleElement = doc.createElement('style');
-  const uniqueSelector = `[data-block-id="${blockId}"]`;
+  // 使用 blockid 属性或 id 选择器，优先级：id > blockid
+  const uniqueSelector = `#ls-block-${blockId}, [blockid="${blockId}"]`;
 
   styleElement.textContent = `
     /* 表格头部 - 隐藏折叠和小圆点 */
@@ -176,7 +177,7 @@ async function applyCustomTheme(blockElement: HTMLElement, viewType: ViewType): 
 async function applyViewStyle(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
   const doc = getDocument();
 
-  const blockElement = doc.querySelector(`[data-block-id="${blockId}"]`) || doc.querySelector(`#ls-block-${blockId}`);
+  const blockElement = doc.querySelector(`#ls-block-${blockId}`) || doc.querySelector(`[blockid="${blockId}"]`);
   if (!blockElement) {
     logger.warn('[BlockView] Block element not found', { blockId });
     return;
