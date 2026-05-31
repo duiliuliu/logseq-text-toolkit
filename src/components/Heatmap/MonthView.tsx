@@ -31,7 +31,7 @@ const getWeekNumber = (date: Date): number => {
   return weekNumber;
 };
 
-const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate, onCellClick, onWeekLabelClick, theme = 'light' }) => {
+const MonthView: React.FC<MonthViewProps> = ({ data, config, currentDate = new Date(), onCellClick, onWeekLabelClick, theme = 'light' }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   

@@ -320,18 +320,58 @@ Milestone 组件支持丰富的参数配置，可通过宏命令进行精细控�
 
 ### 4.2 文本格式化
 
-选中文本 → 自动弹出工具栏 → 点击相应按钮
+选中文本 → 自动弹出工具栏 → 点击相应按钮。工具栏支持以下功能：
 
-**颜色选项**：
-- 🔴 红色
-- 🟡 黄色  
-- 🔵 蓝色
-- 🟢 绿色
-- 🟣 紫色
+#### 4.2.1 格式化工具栏功能
 
-### 4.2 任务进度追踪
+工具栏由多个功能分组和单个按钮组成，完整功能列表如下：
 
-#### 4.2.1 宏命令参数说明
+| 分组/按钮 | 功能说明 | 快捷键 | 输出格式 |
+|---------|---------|-------|---------|
+| **Format（格式化组）** | - | - | - |
+| → Bold | 加粗文本 | - | `**${selectedText}**` |
+| → Italic | 斜体文本 | mod+shift+i | `*${selectedText}*` |
+| → Strike through | 删除线 | - | `~~${selectedText}~~` |
+| → Subscript | 下标 | - | `[:sub ${selectedText}]` |
+| → Superscript | 上标 | - | `[:sup ${selectedText}]` |
+| → Code | 行内代码 | - | `` `${selectedText}` `` |
+| **Highlight（高亮组）** | - | - | - |
+| → Yellow | 黄色高亮 | - | `==${selectedText}==` |
+| → Red | 红色高亮 | - | `[:mark.red ${selectedText}]` |
+| → Blue | 蓝色高亮 | - | `[:mark.blue ${selectedText}]` |
+| → Green | 绿色高亮 | - | `[:mark.green ${selectedText}]` |
+| → Purple | 紫色高亮 | - | `[:mark.purple ${selectedText}]` |
+| **Text Color（文本颜色组）** | - | - | - |
+| → Red text | 红色文字 | - | `[:span.red ${selectedText}]` |
+| → Blue text | 蓝色文字 | - | `[:span.blue ${selectedText}]` |
+| → Yellow text | 黄色文字 | - | `[:span.yellow ${selectedText}]` |
+| → Green text | 绿色文字 | - | `[:span.green ${selectedText}]` |
+| → Purple text | 紫色文字 | - | `[:span.purple ${selectedText}]` |
+| **Underline（下划线组）** | - | - | - |
+| → Red underline | 红色下划线 | - | `[:u.red ${selectedText}]` |
+| → Blue underline | 蓝色下划线 | - | `[:u.blue ${selectedText}]` |
+| → Yellow underline | 黄色下划线 | - | `[:u.yellow ${selectedText}]` |
+| → Green underline | 绿色下划线 | - | `[:u.green ${selectedText}]` |
+| → Purple underline | 紫色下划线 | - | `[:u.purple ${selectedText}]` |
+| **Cloze（挖空，默认隐藏）** | - | - | `[:span.cloze ${selectedText}]` |
+| **Remove formatting（清除格式）** | 移除所有文本格式 | mod+shift+x | - |
+| **Comment（添加评论）** | 行内评论 | - | - |
+
+#### 4.2.2 颜色选项汇总
+
+所有高亮和颜色选项使用以下配色：
+
+| 颜色 | 颜色代码 | 支持的格式 |
+|------|---------|----------|
+| 🔴 红色 | #ef4444 | 高亮、文字颜色、下划线 |
+| 🟡 黄色 | #f59e0b | 高亮、文字颜色、下划线 |
+| 🔵 蓝色 | #3b82f6 | 高亮、文字颜色、下划线 |
+| 🟢 绿色 | #22c55e | 高亮、文字颜色、下划线 |
+| 🟣 紫色 | #a855f7 | 高亮、文字颜色、下划线 |
+
+### 4.3 任务进度追踪
+
+#### 4.4.1 宏命令参数说明
 
 TaskProgress 组件支持多种参数配置：
 
@@ -358,7 +398,7 @@ TaskProgress 组件支持多种参数配置：
 }
 ```
 
-#### 4.2.2 支持的任务状态
+#### 4.3.2 支持的任务状态
 
 | 状态标识 | 中文名称 | 说明 | 典型使用场景 |
 |---------|---------|------|------------|
@@ -369,7 +409,7 @@ TaskProgress 组件支持多种参数配置：
 | waiting | 等待中 | 等待其他任务的任务 | 依赖其他工作 |
 | canceled | 已取消 | 被取消的任务 | 废弃或取消的计划 |
 
-#### 4.2.3 展示样式参数
+#### 4.3.3 展示样式参数
 
 | 样式参数值 | 中文名称 | 说明 | 适用场景 |
 |-----------|---------|------|---------|
@@ -379,7 +419,7 @@ TaskProgress 组件支持多种参数配置：
 | progress-capsule | 进度胶囊 | 胶囊形状显示进度 | 卡片、容器 |
 | step-progress | 阶梯进度 | 阶梯状显示各状态数量 | 统计分析 |
 
-#### 4.2.4 使用示例
+#### 4.3.4 使用示例
 
 **基础使用（微型圆环）：**
 ```markdown
@@ -421,9 +461,9 @@ TaskProgress 组件支持多种参数配置：
 {{renderer :taskprogress, type=progress-capsule, showLabel=true, labelFormat=percentage, nestingLevel=3}}
 ```
 
-### 4.3 Heatmap 热力图
+### 4.4 Heatmap 热力图
 
-#### 4.3.1 宏命令参数说明
+#### 4.4.1 宏命令参数说明
 
 Heatmap 组件支持多种参数配置：
 
@@ -442,7 +482,7 @@ Heatmap 组件支持多种参数配置：
 | enableWeekPageCreation | boolean | 否 | true | 启用点击周数创建页面 |
 | dateField | string | 否 | created-at | 日期字段：`created-at`、`updated-at`、`scheduled`、`deadline`、`custom` |
 
-#### 4.3.2 视图类型说明
+#### 4.6.2 视图类型说明
 
 | 视图参数 | 中文名称 | 说明 | 适用场景 |
 |---------|---------|------|---------|
@@ -497,9 +537,9 @@ Heatmap 组件支持多种参数配置：
 {{renderer :heatmap, month, containerWidth=100%}}
 ```
 
-### 4.4 块视图 (Block View)
+### 4.5 块视图 (Block View)
 
-#### 4.4.1 宏命令参数说明
+#### 4.6.1 宏命令参数说明
 
 BlockView 组件支持多种参数配置：
 
@@ -510,7 +550,7 @@ BlockView 组件支持多种参数配置：
 | hideBar | boolean | 否 | false | 是否隐藏视图切换栏 |
 | customTheme | object | 否 | - | 自定义主题配置对象 |
 
-#### 4.4.2 视图类型说明
+#### 4.6.2 视图类型说明
 
 | 视图参数值 | 中文名称 | 说明 | 适用场景 |
 |-----------|---------|------|---------|
@@ -520,7 +560,7 @@ BlockView 组件支持多种参数配置：
 | board | 看板视图 | 看板形式分组展示 | 项目管理 |
 | mind | 思维导图 | 思维导图形式展示 | 结构梳理 🧪（实验功能） |
 
-#### 4.4.3 主题风格说明
+#### 4.5.3 主题风格说明
 
 | 主题参数值 | 中文名称 | 特点 | 适用场景 |
 |-----------|---------|------|---------|
@@ -577,9 +617,9 @@ BlockView 组件支持多种参数配置：
 > - 深层嵌套（超过 6 层）
 > - 包含大量特殊字符或格式的块
 
-### 4.5 工具栏配置
+### 4.6 工具栏配置
 
-#### 4.5.1 配置概述
+#### 4.6.1 配置概述
 
 工具栏支持通过 JSON 配置自定义按钮，可在设置面板的 **Toolbar** 标签页进行配置。每个按钮可以包含以下属性：
 
@@ -594,7 +634,7 @@ BlockView 组件支持多种参数配置：
 | hidden | boolean | 否 | 是否隐藏按钮，默认 false |
 | subItems | array | 否 | 子菜单项数组（用于创建下拉菜单）|
 
-#### 4.5.2 调用类型详解
+#### 4.6.2 调用类型详解
 
 **1. replace（文本替换）**
 最常用的类型，用于包裹选中文本。
@@ -768,7 +808,7 @@ BlockView 组件支持多种参数配置：
 ]
 ```
 
-### 4.6 自定义语言和国际化
+### 4.7 自定义语言和国际化
 
 插件支持多语言扩展，您可以添加新的语言包或修改现有翻译。
 
@@ -881,7 +921,7 @@ vim dist/translations/en.json
 }
 ```
 
-### 4.7 自定义 CSS 样式
+### 4.8 自定义 CSS 样式
 
 插件的 CSS 文件位于 `dist/` 目录，您可以通过修改 CSS 文件来自定义样式。
 

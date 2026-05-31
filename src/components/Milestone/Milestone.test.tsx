@@ -401,14 +401,14 @@ describe('Milestone UI Components', () => {
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       expect(container.querySelector('.ltt-milestone-compact')).toBeTruthy();
-      expect(container.querySelectorAll('.ltt-milestone-badge')).toHaveLength(3);
+      expect(container.querySelectorAll('.ltt-milestone-compact-item')).toHaveLength(3);
     });
 
     it('should render connectors between items', () => {
       const { container } = render(
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
-      expect(container.querySelectorAll('.ltt-milestone-connector')).toHaveLength(2);
+      expect(container.querySelectorAll('.ltt-milestone-compact-connector')).toHaveLength(2);
     });
 
     it('should show tooltip on hover', () => {
@@ -416,7 +416,7 @@ describe('Milestone UI Components', () => {
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
-      const badges = container.querySelectorAll('.ltt-milestone-badge');
+      const badges = container.querySelectorAll('.ltt-milestone-compact-item');
       fireEvent.mouseEnter(badges[0]);
       
       expect(container.querySelector('.ltt-milestone-tooltip-compact')).toBeTruthy();
@@ -428,7 +428,7 @@ describe('Milestone UI Components', () => {
         <CompactMilestone items={mockItems} colorScheme={defaultColorScheme} />
       );
       
-      const badges = container.querySelectorAll('.ltt-milestone-badge');
+      const badges = container.querySelectorAll('.ltt-milestone-compact-item');
       fireEvent.click(badges[1]);
       
       expect(logseqAPI.Editor.openInRightSidebar).toHaveBeenCalledWith('uuid-2');
@@ -444,7 +444,7 @@ describe('Milestone UI Components', () => {
         />
       );
       
-      const badges = container.querySelectorAll('.ltt-milestone-badge');
+      const badges = container.querySelectorAll('.ltt-milestone-compact-item');
       fireEvent.click(badges[2]);
       
       expect(onNodeClick).toHaveBeenCalledWith(mockItems[2]);
@@ -492,7 +492,7 @@ describe('Milestone UI Components', () => {
       const { container } = render(
         <CompactMilestone items={allStatusItems} colorScheme={defaultColorScheme} />
       );
-      expect(container.querySelectorAll('.ltt-milestone-badge')).toHaveLength(5);
+      expect(container.querySelectorAll('.ltt-milestone-compact-item')).toHaveLength(5);
     });
   });
 });

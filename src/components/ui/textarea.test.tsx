@@ -5,7 +5,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
-import Textarea from './textarea';
+import { Textarea } from './textarea';
 
 describe('Textarea 组件测试', () => {
   describe('组件展示测试', () => {

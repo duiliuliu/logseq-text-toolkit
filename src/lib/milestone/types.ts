@@ -134,7 +134,7 @@ export const DEFAULT_COLOR_SCHEME: ColorScheme = {
 
 export const STYLE_LABELS: Record<MilestoneDisplayStyle, { zh: string; en: string }> = {
   capsule: { zh: '胶囊进度条', en: 'Capsule Progress' },
-  badge: { zh: '数字徽章', en: 'Number Badge' },
+  badge: { zh: '数字徽标', en: 'Number Badge' },
   track: { zh: '极简轨道', en: 'Minimal Track' },
   card: { zh: '卡片浮层', en: 'Card Overlay' },
   compact: { zh: '状态徽章', en: 'Compact Badge' },

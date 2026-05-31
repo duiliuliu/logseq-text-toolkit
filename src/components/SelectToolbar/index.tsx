@@ -48,13 +48,14 @@ interface SelectToolbarProps {
   height?: string;
   hoverDelay?: number;
   sponsorEnabled?: boolean;
+  defaultShow?: boolean;
 }
 
-function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false }: SelectToolbarProps) {
   const { settings } = useSettingsContext();
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' });
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 });
-  const [showToolbar, setShowToolbar] = useState(false);
+  const [showToolbar, setShowToolbar] = useState(defaultShow);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const selectionStateRef = useRef<DebouncedUpdateState>({
@@ -376,7 +377,9 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
 
     const doc = getDocument();
-    doc.addEventListener('scroll', handleScroll, true);
+    if (doc && doc.addEventListener) {
+      doc.addEventListener('scroll', handleScroll, true);
+    }
 
     return () => {
       const state = selectionStateRef.current;
@@ -395,8 +398,10 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         currentElement = currentElement.parentElement;
       }
 
-      const doc = getDocument();
-      doc.removeEventListener('scroll', handleScroll, true);
+      const cleanupDoc = getDocument();
+      if (cleanupDoc && cleanupDoc.removeEventListener) {
+        cleanupDoc.removeEventListener('scroll', handleScroll, true);
+      }
     };
   }, [showToolbar, targetElement, handleDelayedSelection, updateToolbarPosition]);
 

@@ -252,15 +252,20 @@ const Heatmap: React.FC<HeatmapProps> = ({ config, data, theme, onBlockId }) => 
     });
 
     ro.observe(el);
-    const blockEl = getDocument().getElementById(blockElementId);
-    if (blockEl) ro.observe(blockEl);
+    const doc = getDocument();
+    if (doc) {
+      const blockEl = doc.getElementById(blockElementId);
+      if (blockEl) ro.observe(blockEl);
 
-    const initialBlockEl = getDocument().getElementById(blockElementId);
-    const initialWidth = Math.min(
-      el.getBoundingClientRect().width,
-      initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
-    );
-    setContainerWidth(initialWidth);
+      const initialBlockEl = doc.getElementById(blockElementId);
+      const initialWidth = Math.min(
+        el.getBoundingClientRect().width,
+        initialBlockEl?.getBoundingClientRect().width || el.getBoundingClientRect().width
+      );
+      setContainerWidth(initialWidth);
+    } else {
+      setContainerWidth(el.getBoundingClientRect().width);
+    }
 
     return () => {
       ro.disconnect();

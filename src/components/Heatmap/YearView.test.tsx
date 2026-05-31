@@ -8,6 +8,19 @@ import React from 'react';
 import YearView from './YearView';
 import { HeatmapDataPoint } from '../../lib/heatmap/types';
 
+const defaultConfig = {
+  enabled: true,
+  defaultViewType: 'year',
+  defaultDisplayMode: 'full',
+  defaultColorFormula: 'simple',
+  colorScheme: {
+    minColor: '#eef2ff',
+    maxColor: '#3730a3',
+    gradientSteps: 5
+  },
+  displayMode: 'full'
+};
+
 describe('YearView 组件测试', () => {
   const defaultData: HeatmapDataPoint[] = [
     { date: '2026-01-01', count: 5, level: 4 },
@@ -18,15 +31,23 @@ describe('YearView 组件测试', () => {
   describe('组件展示测试', () => {
     it('应该正确渲染 YearView 组件', () => {
       const { container } = render(
-        <YearView data={defaultData} year={2026} theme="light" />
+        <YearView 
+          data={defaultData} 
+          config={defaultConfig}
+          theme="light"
+        />
       );
       
-      expect(container.querySelector('.year-view')).toBeTruthy();
+      expect(container.querySelector('.heatmap-year-view')).toBeTruthy();
     });
 
     it('应该渲染月份标签', () => {
       const { container } = render(
-        <YearView data={defaultData} year={2026} theme="light" />
+        <YearView 
+          data={defaultData} 
+          config={defaultConfig}
+          theme="light"
+        />
       );
       
       expect(container).toBeTruthy();
@@ -34,10 +55,14 @@ describe('YearView 组件测试', () => {
 
     it('应该处理空数据', () => {
       const { container } = render(
-        <YearView data={[]} year={2026} theme="light" />
+        <YearView 
+          data={[]} 
+          config={defaultConfig}
+          theme="light"
+        />
       );
       
-      expect(container.querySelector('.year-view')).toBeTruthy();
+      expect(container.querySelector('.heatmap-year-view')).toBeTruthy();
     });
   });
 });

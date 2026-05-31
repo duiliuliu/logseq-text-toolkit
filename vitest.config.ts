@@ -10,6 +10,9 @@ export default defineConfig({
     // 测试环境 - 支持 node 和 jsdom
     environment: 'jsdom',
     
+    // 测试设置文件
+    setupFiles: ['./src/test/setup.ts'],
+    
     // 测试文件匹配模式
     include: [
       'src/**/*.test.{ts,tsx}',

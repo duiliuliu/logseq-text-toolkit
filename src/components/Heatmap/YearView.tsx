@@ -12,7 +12,7 @@ interface YearViewProps {
   theme?: 'light' | 'dark';
 }
 
-const YearView: React.FC<YearViewProps> = ({ data, config, currentDate, onCellClick, onMonthLabelClick, theme = 'light' }) => {
+const YearView: React.FC<YearViewProps> = ({ data, config, currentDate = new Date(), onCellClick, onMonthLabelClick, theme = 'light' }) => {
   const year = currentDate.getFullYear();
   
   const dataMap = new Map<string, HeatmapDataPoint>();
