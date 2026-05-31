@@ -31,12 +31,10 @@
   --ltt-header-height: 48px;
 
   /* 表格自适应配置 */
-  --ltt-table-min-width: 100%;
+  --ltt-table-min-width: min-content;
   --ltt-table-max-width: 100%;
   --ltt-col-min-width: 150px;
   --ltt-col-max-width: 400px;
-  --ltt-col-optimal-width: 200px;
-  --ltt-col-fill: auto;
 }
 
 /* Dark Mode */
@@ -83,8 +81,6 @@ html.dark {
   box-shadow: var(--ltt-shadow);
   position: relative;
   padding: 0 !important;
-  display: flex;
-  flex-direction: column;
 }
 
 /* =========================================================
@@ -104,19 +100,19 @@ html.dark {
 }
 
 /* =========================================================
-   TABLE ROW - 自适应网格布局
-   使用 CSS Grid auto-fit 实现列数自适应
+   TABLE ROW - 使用横向滚动布局
+   关键：使用 1fr 让列平均分配，确保横向滚动而不是换行
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
+  grid-template-columns: repeat(auto-fit, minmax(var(--ltt-col-min-width), 1fr));
   align-items: stretch;
   position: relative;
   transition: background 0.15s ease;
   background: var(--ltt-row-bg);
-  width: 100%;
-  min-width: min-content;
+  width: max-content;
+  min-width: 100%;
   margin: 0 !important;
   border-bottom: 1px solid var(--ltt-border);
 }
@@ -137,10 +133,9 @@ html.dark {
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > * {
   min-width: var(--ltt-col-min-width);
   max-width: var(--ltt-col-max-width);
-  width: auto;
 }
 
-/* First cell (header) */
+/* First cell (header) - 靠左对齐 */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   display: block !important;
   min-height: var(--ltt-header-height);
@@ -151,22 +146,27 @@ html.dark {
   box-shadow: var(--ltt-header-shadow);
   font-weight: 600;
   backdrop-filter: blur(18px);
-  position: sticky;
-  left: 0;
-  z-index: 20;
   overflow: visible;
+  text-align: left;
 }
 
-/* Cell content alignment */
+/* 头部内容靠左 */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
   min-height: 100%;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper > .block-content {
   flex: 1;
   min-width: 0;
+  text-align: left;
+}
+
+/* 头部隐藏折叠功能 */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap {
+  display: none !important;
 }
 
 /* =========================================================
@@ -199,11 +199,15 @@ html.dark {
   transition: background 0.15s ease;
   min-width: var(--ltt-col-min-width);
   max-width: var(--ltt-col-max-width);
-  width: auto;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
   background: var(--ltt-row-hover);
+}
+
+/* 隐藏空节点 - padding-left 容器 */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > div[style*="padding-left"] {
+  display: none !important;
 }
 
 /* =========================================================
@@ -249,10 +253,6 @@ html.dark {
     --ltt-col-min-width: 120px;
     --ltt-col-max-width: 300px;
     --ltt-header-height: 40px;
-  }
-
-  .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-    grid-template-columns: repeat(auto-fill, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   }
 }
 
