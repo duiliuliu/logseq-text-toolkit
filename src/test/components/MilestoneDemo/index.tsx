@@ -46,7 +46,7 @@ const defaultColorScheme: ColorScheme = {
   text: '#374151',
 };
 
-const styles: MilestoneDisplayStyle[] = ['capsule', 'badge', 'track', 'card', 'compact', 'arrow-capsule'];
+const styles: MilestoneDisplayStyle[] = ['capsule', 'badge', 'track', 'card', 'compact', 'arrow-capsule', 'timeline-track'];
 
 const styleLabels: Record<MilestoneDisplayStyle, string> = {
   capsule: '胶囊',
@@ -55,6 +55,7 @@ const styleLabels: Record<MilestoneDisplayStyle, string> = {
   card: '卡片',
   compact: '紧凑',
   'arrow-capsule': '箭头胶囊',
+  'timeline-track': '时间线',
 };
 
 const MilestoneDemo: React.FC = () => {

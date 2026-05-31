@@ -10,6 +10,7 @@ import TrackMilestone from './styles/TrackMilestone';
 import CardMilestone from './styles/CardMilestone';
 import CompactMilestone from './styles/CompactMilestone';
 import ArrowCapsuleMilestone from './styles/ArrowCapsuleMilestone';
+import TimelineTrackMilestone from './styles/TimelineTrackMilestone';
 import { DEFAULT_COLOR_SCHEME } from '../../lib/milestone/types';
 import './milestone.css';
 
@@ -54,6 +55,8 @@ const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
         return <CompactMilestone {...commonProps} />;
       case 'arrow-capsule':
         return <ArrowCapsuleMilestone {...commonProps} />;
+      case 'timeline-track':
+        return <TimelineTrackMilestone {...commonProps} />;
       default:
         return <CapsuleMilestone {...commonProps} />;
     }

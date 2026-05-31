@@ -3,6 +3,7 @@
  */
 
 import React, { useState } from 'react';
+import { CheckCircle2, Clock, AlertCircle, XCircle, SkipForward, Loader2 } from 'lucide-react';
 import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
 
@@ -64,14 +65,14 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
     }
   };
 
-  const getStatusIcon = (status: string): string => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return '✓';
-      case 'in_progress': return '→';
-      case 'failed': return '✕';
-      case 'skipped': return '~';
+      case 'completed': return <CheckCircle2 size={16} strokeWidth={2.5} />;
+      case 'in_progress': return <Loader2 size={16} strokeWidth={2.5} className="ltt-milestone-spin-icon" />;
+      case 'failed': return <XCircle size={16} strokeWidth={2.5} />;
+      case 'skipped': return <SkipForward size={16} strokeWidth={2.5} />;
       case 'pending':
-      default: return '○';
+      default: return <Clock size={16} strokeWidth={2.5} />;
     }
   };
 
@@ -98,31 +99,55 @@ const CardMilestone: React.FC<CardMilestoneProps> = ({
               className={`ltt-milestone-card-content-horizontal ${item.status === 'in_progress' ? 'ltt-milestone-pulse-card' : ''}`}
               style={{ borderColor: getNodeColor(item.status) }}
             >
-              <div 
-                className={`ltt-milestone-card-icon ${item.status === 'in_progress' ? 'ltt-milestone-spin-icon' : ''}`}
-                style={{ color: getNodeColor(item.status) }}
-              >
-                {getStatusIcon(item.status)}
-              </div>
-              
-              {showLabels && (
-                <div className="ltt-milestone-card-info">
-                  <div className="ltt-milestone-card-title-horizontal">
-                    {item.label}
-                  </div>
-                  {item.date && (
-                    <div className="ltt-milestone-card-date-horizontal">
-                      {item.date}
-                    </div>
-                  )}
-                  <div 
-                    className="ltt-milestone-card-status-horizontal"
-                    style={{ color: getNodeColor(item.status) }}
-                  >
-                    {getStatusText(item.status)}
+              {/* 第一层：状态文字+图标 */}
+              <div className="ltt-milestone-card-header">
+                <span 
+                  className="ltt-milestone-card-status-text"
+                  style={{ color: getNodeColor(item.status) }}
+                >
+                  {getStatusText(item.status)}
+                </span>
+                <div 
+                  className="ltt-milestone-card-icon-wrapper"
+                  style={{ borderColor: getNodeColor(item.status), backgroundColor: getNodeColor(item.status) + '10' }}
+                >
+                  <div style={{ color: getNodeColor(item.status) }}>
+                    {getStatusIcon(item.status)}
                   </div>
                 </div>
+              </div>
+              
+              {/* 第二层：节点描述 */}
+              {showLabels && (
+                <div className="ltt-milestone-card-description">
+                  {item.label}
+                </div>
               )}
+              
+              {/* 第三层：进度条 */}
+              <div className="ltt-milestone-card-progress">
+                <div className="ltt-milestone-card-progress-bg" />
+                <div 
+                  className="ltt-milestone-card-progress-fill"
+                  style={{ 
+                    width: `${item.progress || 0}%`,
+                    backgroundColor: getNodeColor(item.status)
+                  }}
+                />
+              </div>
+              
+              {/* 第四层：时间和进度百分比 */}
+              <div className="ltt-milestone-card-footer">
+                <span className="ltt-milestone-card-date">
+                  {item.date || '-'}
+                </span>
+                <span 
+                  className="ltt-milestone-card-percent"
+                  style={{ color: getNodeColor(item.status) }}
+                >
+                  {item.progress || 0}%
+                </span>
+              </div>
             </div>
             
             {/* Hover Tooltip */}
