@@ -32,19 +32,23 @@
 
 :root,
 .light {
-  --ltt-border: var(--ls-border-color, #e2e8f0);
-  --ltt-border-strong: var(--ls-border-color, #cbd5e1);
+  --ltt-border: var(--ls-border-color, #e5e7eb);
+  --ltt-border-strong: var(--ls-border-color, #d1d5db);
   --ltt-hover: rgba(0, 0, 0, 0.04);
   --ltt-header-bg: var(--ls-tertiary-background-color, #f8fafc);
-  --ltt-header-text: var(--ls-primary-text-color, #374151);
-  --ltt-cell-text: var(--ls-secondary-text-color, #475569);
+  --ltt-header-text: var(--ls-primary-text-color, #1f2937);
+  --ltt-cell-text: var(--ls-secondary-text-color, #4b5563);
   --ltt-cell-bg: var(--ls-primary-background-color, rgba(255, 255, 255, 0.7));
   --ltt-row-bg: var(--ls-primary-background-color, #ffffff);
-  --ltt-row-hover: var(--ls-tertiary-background-color, #f1f5f9);
+  --ltt-row-hover: var(--ls-tertiary-background-color, #f3f4f6);
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
-  --ltt-col-1-width: 280px;
+  --ltt-col-1-width: auto;
+  --ltt-col-1-min-width: 180px;
+  --ltt-col-1-max-width: 350px;
+  --ltt-col-min-width: 150px;
+  --ltt-col-max-width: 400px;
   --ltt-cell-padding: 12px 4px;
   --ltt-header-height: 48px;
 }
@@ -64,7 +68,11 @@ html.dark {
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
   --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  --ltt-col-1-width: 280px;
+  --ltt-col-1-width: auto;
+  --ltt-col-1-min-width: 180px;
+  --ltt-col-1-max-width: 350px;
+  --ltt-col-min-width: 150px;
+  --ltt-col-max-width: 400px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -533,7 +541,7 @@ html.dark .theme-indigo {
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-  grid-template-columns: var(--ltt-col-1-width) repeat(20, minmax(220px, 1fr));
+  grid-template-columns: minmax(var(--ltt-col-1-min-width), var(--ltt-col-1-max-width)) repeat(20, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   align-items: stretch;
   min-width: fit-content;
   position: relative;
@@ -574,8 +582,9 @@ html.dark .theme-indigo {
   position: sticky;
   left: 0;
   z-index: 20;
-  width: var(--ltt-col-1-width);
-  min-width: var(--ltt-col-1-width);
+  width: auto;
+  min-width: var(--ltt-col-1-min-width);
+  max-width: var(--ltt-col-1-max-width);
   background: var(--ltt-header-bg);
   border-right: 1px solid var(--ltt-border);
   box-shadow: var(--ltt-header-shadow);
@@ -649,6 +658,9 @@ html.dark .theme-indigo {
   box-sizing: border-box;
   overflow: visible;
   transition: background 0.15s ease;
+  width: auto;
+  min-width: var(--ltt-col-min-width);
+  max-width: var(--ltt-col-max-width);
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {

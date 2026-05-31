@@ -109,7 +109,13 @@ html.dark .ltt-mindmap-root {
 }
 
 .ltt-mindmap-root > .block-main-container .block-control-wrap {
-  display: none !important;
+  display: flex !important;
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.ltt-mindmap-root > .block-main-container:hover .block-control-wrap {
+  opacity: 0.7;
 }
 
 /* =========================================================
