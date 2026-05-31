@@ -242,6 +242,29 @@ html.dark {
 }
 
 /* =========================================================
+   表格头部 - 隐藏折叠和小圆点，内容靠左
+========================================================= */
+
+/* 表格内部的每个行的表头单元格 - 隐藏折叠按钮、小圆点等 */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-control-wrap,
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container .block-children-left-border {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 确保表头内容靠左 */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
+  justify-content: flex-start !important;
+}
+
+/* 表头去掉左边距，内容完全靠左 */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper > .block-content {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* =========================================================
    RESPONSIVE
 ========================================================= */
 
