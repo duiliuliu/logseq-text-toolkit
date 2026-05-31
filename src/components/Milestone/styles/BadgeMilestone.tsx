@@ -2,7 +2,7 @@
  * Milestone Badge 样式
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
@@ -37,6 +37,8 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
   overallProgress = 0,
   onNodeClick,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -82,10 +84,12 @@ const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
     <div className="ltt-milestone-badge">
       <div className="ltt-milestone-grid">
         {items.map((item) => (
-          <Tooltip key={item.id}>
+          <Tooltip key={item.id} open={hoveredItem === item.id}>
             <TooltipTrigger asChild>
-              <div 
+              <div
                 className={`ltt-milestone-badge-item ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => handleNodeClick(item)}
                 style={{ position: 'relative', cursor: item.blockUuid ? 'pointer' : 'default' }}
               >

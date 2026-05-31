@@ -2,7 +2,7 @@
  * Milestone Capsule 样式
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { MilestoneItem, ColorScheme, MilestoneDisplayStyle, MilestoneTooltipStyle } from '../../lib/milestone/types';
 import { logseqAPI } from '../../../logseq';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/Tooltip';
@@ -36,6 +36,8 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
   tooltipStyle = 'compact',
   onNodeClick,
 }) => {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const handleNodeClick = (item: MilestoneItem) => {
     if (item.blockUuid) {
       try {
@@ -93,13 +95,15 @@ const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
       <div className="ltt-milestone-track">
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div 
-                  className={`ltt-milestone-node ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
-                  onClick={() => handleNodeClick(item)}
-                  style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
-                >
+            <Tooltip open={hoveredItem === item.id}>
+            <TooltipTrigger asChild>
+              <div
+                className={`ltt-milestone-node ${item.status === 'in_progress' ? 'ltt-milestone-pulse-node' : ''}`}
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
+                onClick={() => handleNodeClick(item)}
+                style={{ cursor: item.blockUuid ? 'pointer' : 'default' }}
+              >
                   <span 
                     className="ltt-milestone-symbol"
                     style={{ color: getNodeColor(item.status) }}
