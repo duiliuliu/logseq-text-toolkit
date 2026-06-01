@@ -228,17 +228,12 @@ html.dark {
 }
 
 /* =========================================================
-   ROOT HEADER - 表格标题靠左，去掉折叠功能
+   ROOT HEADER - 表格标题靠左，保持折叠功能
 ========================================================= */
 
 .ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {
-  margin-left: 0.6rem !important;
-  justify-content: flex-start !important;
-}
-
-.ltt-table-root > .block-main-container .block-control-wrap,
-.ltt-table-root > .block-main-container .block-title-wrap .block-control-wrap {
-  display: none !important;
+    margin-left: 0.6rem !important;
+    justify-content: flex-start !important;
 }
 
 /* =========================================================
