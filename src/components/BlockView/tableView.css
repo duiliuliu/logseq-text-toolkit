@@ -524,6 +524,19 @@ html.dark .theme-indigo {
   box-shadow: var(--ltt-shadow);
   position: relative;
   padding: 0 !important;
+  max-width: 100%;
+}
+
+.ltt-table-root > .block-children-container::after {
+  content: "";
+  position: sticky;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ltt-border);
+  pointer-events: none;
+  z-index: 100;
 }
 
 /* =========================================================
@@ -565,10 +578,10 @@ html.dark .theme-indigo {
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-  grid-template-columns: minmax(var(--ltt-col-1-min-width), var(--ltt-col-1-max-width)) repeat(20, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
+  grid-template-columns: minmax(var(--ltt-col-1-min-width), var(--ltt-col-1-max-width)) repeat(auto-fill, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   align-items: stretch;
   min-width: max-content;
-  width: max-content;
+  width: auto;
   position: relative;
   transition: background 0.15s ease;
   background: var(--ltt-row-bg);
