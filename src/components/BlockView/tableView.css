@@ -32,9 +32,9 @@
 
   /* 表格自适应配置 - 桌面端 */
   --ltt-col-min-width: 320px;
-  --ltt-col-max-width: 500px;
-  --ltt-first-col-min-width: 320px;
-  --ltt-first-col-max-width: 500px;
+  --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
 }
 
 /* Dark Mode */
@@ -279,10 +279,10 @@ html.dark {
 @media (max-width: 768px) {
   .ltt-table-root {
     margin: 12px 16px !important;
-    --ltt-col-min-width: 140px;
-    --ltt-col-max-width: 300px;
-    --ltt-first-col-min-width: 140px;
-    --ltt-first-col-max-width: 300px;
+    --ltt-col-min-width: 200px;
+    --ltt-col-max-width: 280px;
+    --ltt-first-col-min-width: 120px;
+    --ltt-first-col-max-width: 240px;
     --ltt-header-height: 40px;
     --ltt-cell-padding: 10px 12px;
   }
@@ -293,9 +293,9 @@ html.dark {
   .ltt-table-root {
     margin: 8px !important;
     --ltt-col-min-width: 140px;
-    --ltt-col-max-width: 260px;
-    --ltt-first-col-min-width: 140px;
-    --ltt-first-col-max-width: 260px;
+    --ltt-col-max-width: 200px;
+    --ltt-first-col-min-width: 100px;
+    --ltt-first-col-max-width: 200px;
     --ltt-header-height: 36px;
     --ltt-cell-padding: 8px 10px;
   }
