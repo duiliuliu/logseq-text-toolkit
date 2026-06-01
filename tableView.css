@@ -44,9 +44,13 @@
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
-  --ltt-col-1-width: 280px;
-  --ltt-cell-padding: 12px 4px;
+  --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
+  /* 表格自适应配置 - 桌面端 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
 }
 
 /* Default Dark Mode */
@@ -64,9 +68,13 @@ html.dark {
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
   --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  --ltt-col-1-width: 280px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
+  /* 表格自适应配置 - 桌面端 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
 }
 
 /* =========================================================
@@ -94,7 +102,11 @@ html.dark {
   --ltt-radius: 0px;
   --ltt-shadow: none;
   --ltt-header-shadow: none;
-  --ltt-col-1-width: 260px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
   --ltt-cell-padding: 8px 10px;
   --ltt-header-height: 32px;
 }
@@ -184,7 +196,11 @@ html.dark .theme-notion {
   --ltt-radius: 6px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -2px 0 #5e6ad2;
-  --ltt-col-1-width: 240px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 42px;
 }
@@ -254,7 +270,11 @@ html.dark .theme-linear {
   --ltt-radius: 8px;
   --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  --ltt-col-1-width: 280px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -284,7 +304,11 @@ html.dark .theme-linear {
   --ltt-radius: 10px;
   --ltt-shadow: 0 4px 24px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.06);
   --ltt-header-shadow: none;
-  --ltt-col-1-width: 280px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -354,7 +378,11 @@ html.dark .theme-gradient {
   --ltt-radius: 10px;
   --ltt-shadow: 0 2px 12px rgba(34, 139, 115, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);
   --ltt-header-shadow: inset 0 -2px 0 rgba(34, 139, 115, 0.15);
-  --ltt-col-1-width: 260px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 44px;
 }
@@ -424,7 +452,11 @@ html.dark .theme-tana {
   --ltt-radius: 10px;
   --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03);
   --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2);
-  --ltt-col-1-width: 260px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 450px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 260px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 44px;
 }
@@ -492,6 +524,7 @@ html.dark .theme-indigo {
   box-shadow: var(--ltt-shadow);
   position: relative;
   padding: 0 !important;
+  max-width: 100%;
 }
 
 /* =========================================================
@@ -528,38 +561,35 @@ html.dark .theme-indigo {
 }
 
 /* =========================================================
-   ROW
+   ROW - 使用 Grid 实现列宽自适应
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-  grid-template-columns: var(--ltt-col-1-width) repeat(20, minmax(220px, 1fr));
+  grid-template-columns: minmax(var(--ltt-first-col-min-width), var(--ltt-first-col-max-width)) repeat(20, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   align-items: stretch;
-  min-width: fit-content;
   position: relative;
   transition: background 0.15s ease;
   background: var(--ltt-row-bg);
+  width: max-content;
+  min-width: 100%;
+  margin: 0 !important;
+  border-bottom: 1px solid var(--ltt-border);
+  box-sizing: border-box;
 }
 
-/* row separator */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--ltt-border);
-  pointer-events: none;
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
+  border-bottom: none;
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child::after {
-  display: none;
-}
-
-/* hover */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
   background: var(--ltt-row-hover);
+}
+
+.ltt-table-root *,
+.ltt-table-root *::before,
+.ltt-table-root *::after {
+  box-sizing: border-box;
 }
 
 /* =========================================================
@@ -571,17 +601,28 @@ html.dark .theme-indigo {
   min-height: var(--ltt-header-height);
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
-  position: sticky;
-  left: 0;
-  z-index: 20;
-  width: var(--ltt-col-1-width);
-  min-width: var(--ltt-col-1-width);
   background: var(--ltt-header-bg);
-  border-right: 1px solid var(--ltt-border);
+  border-right: 1px solid var(--ltt-border) !important;
   box-shadow: var(--ltt-header-shadow);
   font-weight: 600;
   backdrop-filter: blur(18px);
   overflow: visible;
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  box-sizing: border-box;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper > .block-content {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
 }
 
 /* align */
@@ -626,46 +667,54 @@ html.dark .theme-indigo {
 }
 
 /* =========================================================
-   FLATTEN CHILDREN
+   CHILD CELLS (非第一列的单元格)
 ========================================================= */
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .blocks-list-wrap {
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
   display: contents !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* =========================================================
-   CELL
-========================================================= */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children {
+  display: contents;
+}
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+  display: contents;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
   display: block !important;
   min-height: var(--ltt-header-height);
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
-  border-right: 1px solid var(--ltt-border);
+  border-right: 1px solid var(--ltt-border) !important;
   background: var(--ltt-cell-bg);
   box-sizing: border-box;
   overflow: visible;
   transition: background 0.15s ease;
+  position: relative;
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
-  border-right: none;
-}
-
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background: var(--ltt-hover);
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
+  background: var(--ltt-row-hover);
 }
 
 /* =========================================================
-   CELL CONTENT
+   CELL CONTENT - 确保内容不换行，列宽自适应
 ========================================================= */
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-content-wrapper {
-  width: 100% !important;
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * .block-content-wrapper {
+  width: auto !important;
+  min-width: 100%;
   overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * .block-content {
+  white-space: nowrap !important;
+  width: auto !important;
 }
 
 /* =========================================================
@@ -699,10 +748,6 @@ html.dark .theme-indigo {
   display: flex !important;
   opacity: 0.6;
   transition: opacity 0.15s ease;
-}
-
-.ltt-table-root .block-control {
-  display: none !important;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
@@ -781,7 +826,28 @@ html.dark .theme-indigo {
    RESPONSIVE
 ========================================================= */
 
-@media (max-width: 900px) {
+/* 平板端 (768px - 1024px) */
+@media (max-width: 1024px) {
+  .ltt-table-root {
+    --ltt-col-min-width: 200px;
+    --ltt-col-max-width: 280px;
+    --ltt-first-col-min-width: 120px;
+    --ltt-first-col-max-width: 240px;
+  }
+}
+
+/* 手机端 (<= 767px) */
+@media (max-width: 767px) {
+  .ltt-table-root {
+    --ltt-col-min-width: 140px;
+    --ltt-col-max-width: 200px;
+    --ltt-first-col-min-width: 100px;
+    --ltt-first-col-max-width: 200px;
+  }
+}
+
+/* 超小屏手机端 (<= 700px) - 单列布局 */
+@media (max-width: 700px) {
   .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
     grid-template-columns: 1fr;
   }
@@ -790,6 +856,7 @@ html.dark .theme-indigo {
     position: relative;
     width: 100%;
     min-width: 100%;
+    max-width: none;
     border-right: none;
     border-bottom: 1px solid var(--ltt-border);
   }
