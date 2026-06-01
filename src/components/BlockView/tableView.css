@@ -79,8 +79,9 @@ html.dark {
   box-shadow: var(--ltt-shadow);
   position: relative;
   padding: 0 !important;
-  display: flex;
-  flex-direction: column;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* =========================================================
@@ -116,6 +117,7 @@ html.dark {
   min-width: 100%;
   margin: 0 !important;
   border-bottom: 1px solid var(--ltt-border);
+  box-sizing: border-box;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
@@ -125,6 +127,13 @@ html.dark {
 /* hover */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
   background: var(--ltt-row-hover);
+}
+
+/* 确保所有相关元素都使用正确的盒模型 */
+.ltt-table-root *,
+.ltt-table-root *::before,
+.ltt-table-root *::after {
+  box-sizing: border-box;
 }
 
 /* =========================================================
@@ -138,7 +147,7 @@ html.dark {
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
   background: var(--ltt-header-bg);
-  border-right: 1px solid var(--ltt-border);
+  border-right: 1px solid var(--ltt-border) !important;
   box-shadow: var(--ltt-header-shadow);
   font-weight: 600;
   backdrop-filter: blur(18px);
@@ -151,6 +160,7 @@ html.dark {
   position: sticky;
   left: 0;
   z-index: 20;
+  box-sizing: border-box;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
@@ -187,7 +197,7 @@ html.dark {
   min-height: var(--ltt-header-height);
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
-  border-right: 1px solid var(--ltt-border);
+  border-right: 1px solid var(--ltt-border) !important;
   background: var(--ltt-cell-bg);
   box-sizing: border-box;
   overflow: visible;
