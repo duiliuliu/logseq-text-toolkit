@@ -27,12 +27,14 @@
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
-  --ltt-cell-padding: 12px 4px;
+  --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 
   /* 表格自适应配置 */
-  --ltt-col-min-width: 150px;
-  --ltt-col-max-width: 400px;
+  --ltt-col-min-width: 120px;
+  --ltt-col-max-width: 300px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
 }
 
 /* Dark Mode */
@@ -141,9 +143,14 @@ html.dark {
   font-weight: 600;
   backdrop-filter: blur(18px);
   flex-shrink: 0;
-  min-width: 150px;
-  max-width: 350px;
+  flex-grow: 0;
+  min-width: var(--ltt-first-col-min-width);
+  max-width: var(--ltt-first-col-max-width);
+  width: var(--ltt-first-col-min-width);
   overflow: visible;
+  position: sticky;
+  left: 0;
+  z-index: 20;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
@@ -186,8 +193,10 @@ html.dark {
   overflow: visible;
   transition: background 0.15s ease;
   flex-shrink: 0;
+  flex-grow: 0;
   min-width: var(--ltt-col-min-width);
   max-width: var(--ltt-col-max-width);
+  width: var(--ltt-col-min-width);
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
@@ -260,9 +269,25 @@ html.dark {
 @media (max-width: 768px) {
   .ltt-table-root {
     margin: 12px 16px !important;
-    --ltt-col-min-width: 120px;
-    --ltt-col-max-width: 300px;
+    --ltt-col-min-width: 100px;
+    --ltt-col-max-width: 250px;
+    --ltt-first-col-min-width: 120px;
+    --ltt-first-col-max-width: 240px;
     --ltt-header-height: 40px;
+    --ltt-cell-padding: 10px 12px;
+  }
+}
+
+/* 超小屏幕 */
+@media (max-width: 480px) {
+  .ltt-table-root {
+    margin: 8px !important;
+    --ltt-col-min-width: 80px;
+    --ltt-col-max-width: 200px;
+    --ltt-first-col-min-width: 100px;
+    --ltt-first-col-max-width: 200px;
+    --ltt-header-height: 36px;
+    --ltt-cell-padding: 8px 10px;
   }
 }
 
