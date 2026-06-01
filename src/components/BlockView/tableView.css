@@ -1,11 +1,11 @@
 /* =========================================================
    BLOCK VIEW TABLE STYLES
-   Advanced Adaptive Table System using Flex Layout
+   Advanced Adaptive Table System
 
    核心特性：
-   1. 使用 Flex 布局实现列对齐
-   2. 第一列固定宽度作为对齐锚点
-   3. 其他列自适应宽度
+   1. 表格宽度自适应容器
+   2. 列数自适应生成
+   3. 最小/最大宽度限制
    4. 响应式设计
 ========================================================= */
 
@@ -31,9 +31,10 @@
   --ltt-header-height: 48px;
 
   /* 表格自适应配置 - 桌面端 */
-  --ltt-first-col-width: 180px;
-  --ltt-col-min-width: 200px;
-  --ltt-col-max-width: 500px;
+  --ltt-col-min-width: 320px;
+  --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
 }
 
 /* Dark Mode */
@@ -65,7 +66,7 @@ html.dark {
 }
 
 /* =========================================================
-   TABLE SHELL - Flex 容器
+   TABLE SHELL
 ========================================================= */
 
 .ltt-table-root > .block-children-container {
@@ -78,37 +79,52 @@ html.dark {
   box-shadow: var(--ltt-shadow);
   position: relative;
   padding: 0 !important;
-  display: flex;
-  flex-direction: column;
+  display: block;
   width: 100%;
   box-sizing: border-box;
 }
 
+/* 确保表格单元格的最后一个单元格保留右边框 */
+.ltt-table-root > .block-children-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ltt-border);
+  pointer-events: none;
+  z-index: 10;
+}
+
 /* =========================================================
-   TABLE CONTENT AREA - Flex 列方向排列行
+   表格内文字留白 - 避免和软件边框重叠
+========================================================= */
+
+.ltt-table-root .block-content {
+  padding-right: 4px !important;
+}
+
+/* =========================================================
+   TABLE CONTENT AREA
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: contents;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: contents;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .blocks-list {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: contents;
 }
 
 /* =========================================================
-   TABLE ROW - Flex 行方向排列列
-   使用 Flex 实现列对齐和自适应宽度
+   TABLE ROW - 使用 Flex 实现横向滚动
+   问题分析：使用 grid + auto-fill 会在空间不足时换行
+   解决方案：使用 flex 布局 + min-width 限制
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
@@ -118,8 +134,8 @@ html.dark {
   position: relative;
   transition: background 0.15s ease;
   background: var(--ltt-row-bg);
-  width: 100%;
-  min-width: max-content;
+  width: max-content;
+  min-width: 100%;
   margin: 0 !important;
   border-bottom: 1px solid var(--ltt-border);
   box-sizing: border-box;
@@ -142,13 +158,12 @@ html.dark {
 }
 
 /* =========================================================
-   TABLE CELL - 第一列（固定宽度，对齐锚点）
+   TABLE CELL - 自适应单元格
 ========================================================= */
 
+/* First cell (header) */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
+  display: block !important;
   min-height: var(--ltt-header-height);
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
@@ -159,9 +174,9 @@ html.dark {
   backdrop-filter: blur(18px);
   flex-shrink: 0;
   flex-grow: 0;
-  width: var(--ltt-first-col-width);
-  min-width: var(--ltt-first-col-width);
-  max-width: var(--ltt-first-col-width);
+  min-width: var(--ltt-first-col-min-width);
+  max-width: var(--ltt-first-col-max-width);
+  width: var(--ltt-first-col-min-width);
   overflow: visible;
   position: sticky;
   left: 0;
@@ -178,42 +193,28 @@ html.dark {
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper > .block-content {
   flex: 1;
   min-width: 0;
-  padding-right: 4px;
 }
 
 /* =========================================================
-   CHILD CELLS CONTAINER - 子列容器（自适应剩余空间）
+   CHILD CELLS (非第一列的单元格)
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
-  display: flex !important;
-  flex-direction: row;
+  display: contents !important;
   margin: 0 !important;
   padding: 0 !important;
-  flex: 1;
-  overflow: hidden;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
+  display: contents;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
+  display: contents;
 }
 
-/* =========================================================
-   CHILD CELLS (非第一列的单元格) - 自适应宽度
-========================================================= */
-
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
+  display: block !important;
   min-height: var(--ltt-header-height);
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
@@ -222,38 +223,15 @@ html.dark {
   box-sizing: border-box;
   overflow: visible;
   transition: background 0.15s ease;
-  flex-shrink: 1;
-  flex-grow: 1;
+  flex-shrink: 0;
+  flex-grow: 0;
   min-width: var(--ltt-col-min-width);
   max-width: var(--ltt-col-max-width);
+  width: var(--ltt-col-min-width);
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
   background: var(--ltt-row-hover);
-}
-
-/* =========================================================
-   确保表格最右侧边框始终可见
-========================================================= */
-
-.ltt-table-root > .block-children-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--ltt-border);
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* =========================================================
-   表格内文字留白 - 避免和软件边框重叠
-========================================================= */
-
-.ltt-table-root .block-content {
-  padding-right: 4px !important;
 }
 
 /* =========================================================
@@ -349,9 +327,10 @@ html.dark {
 @media (max-width: 768px) {
   .ltt-table-root {
     margin: 12px 16px !important;
-    --ltt-first-col-width: 120px;
-    --ltt-col-min-width: 150px;
-    --ltt-col-max-width: 300px;
+    --ltt-col-min-width: 200px;
+    --ltt-col-max-width: 280px;
+    --ltt-first-col-min-width: 120px;
+    --ltt-first-col-max-width: 240px;
     --ltt-header-height: 40px;
     --ltt-cell-padding: 10px 12px;
   }
@@ -361,9 +340,10 @@ html.dark {
 @media (max-width: 480px) {
   .ltt-table-root {
     margin: 8px !important;
-    --ltt-first-col-width: 100px;
-    --ltt-col-min-width: 120px;
+    --ltt-col-min-width: 140px;
     --ltt-col-max-width: 200px;
+    --ltt-first-col-min-width: 100px;
+    --ltt-first-col-max-width: 200px;
     --ltt-header-height: 36px;
     --ltt-cell-padding: 8px 10px;
   }
