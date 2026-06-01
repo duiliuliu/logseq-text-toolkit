@@ -195,13 +195,13 @@ export class MilestoneQuery {
         progress = StatusCalculator.calculateProgress(blocks, dateField);
         date = StatusCalculator.getScheduledDate(blocks, dateField);
       } else {
-        // 检查是否存在后续已完成的阶段
+        // 检查是否存在后续已完成或进行中的阶段
         for (let j = i + 1; j < stages.length; j++) {
           const laterStage = stages[j];
           const laterBlocks = stageMap.get(laterStage) || [];
           if (laterBlocks.length > 0) {
             const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-            if (laterStatus === 'completed') {
+            if (laterStatus === 'completed' || laterStatus === 'in_progress') {
               status = 'skipped';
               break;
             }
@@ -220,6 +220,8 @@ export class MilestoneQuery {
       });
     }
 
+    items.sort(this.compareMilestoneItems);
+
     return {
       items,
       totalCount: items.length,
@@ -229,6 +231,34 @@ export class MilestoneQuery {
       skippedCount: items.filter(i => i.status === 'skipped').length,
       overallProgress: this.calculateOverallProgress(items),
     };
+  }
+
+  /**
+   * 比较两个里程碑项的排序
+   * 优先级：skipped > completed > in_progress > pending
+   * 同状态下按日期升序排列（日期越早越靠前）
+   */
+  private static compareMilestoneItems(a: MilestoneItem, b: MilestoneItem): number {
+    const statusOrder: Record<MilestoneStatus, number> = {
+      skipped: 0,
+      completed: 1,
+      in_progress: 2,
+      pending: 3,
+      failed: 4,
+    };
+
+    const statusCompare = statusOrder[a.status] - statusOrder[b.status];
+    if (statusCompare !== 0) {
+      return statusCompare;
+    }
+
+    if (a.date && b.date) {
+      return a.date.localeCompare(b.date);
+    }
+
+    if (a.date) return -1;
+    if (b.date) return 1;
+    return 0;
   }
 
   /**
@@ -295,13 +325,13 @@ export class MilestoneQuery {
         progress = StatusCalculator.calculateProgress(blocks, dateField);
         date = StatusCalculator.getScheduledDate(blocks, dateField);
       } else {
-        // 检查是否存在后续已完成的阶段
+        // 检查是否存在后续已完成或进行中的阶段
         for (let j = i + 1; j < stages.length; j++) {
           const laterStage = stages[j];
           const laterBlocks = stageMap.get(laterStage) || [];
           if (laterBlocks.length > 0) {
             const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-            if (laterStatus === 'completed') {
+            if (laterStatus === 'completed' || laterStatus === 'in_progress') {
               status = 'skipped';
               break;
             }
@@ -319,6 +349,8 @@ export class MilestoneQuery {
         blockUuid: blocks[0]?.uuid,
       });
     }
+
+    items.sort(this.compareMilestoneItems);
 
     return {
       items,
@@ -396,13 +428,13 @@ export class MilestoneQuery {
         progress = StatusCalculator.calculateProgress(blocks, dateField);
         date = StatusCalculator.getScheduledDate(blocks, dateField);
       } else {
-        // 检查是否存在后续已完成的阶段
+        // 检查是否存在后续已完成或进行中的阶段
         for (let j = i + 1; j < stages.length; j++) {
           const laterStage = stages[j];
           const laterBlocks = stageMap.get(laterStage) || [];
           if (laterBlocks.length > 0) {
             const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-            if (laterStatus === 'completed') {
+            if (laterStatus === 'completed' || laterStatus === 'in_progress') {
               status = 'skipped';
               break;
             }
@@ -420,6 +452,8 @@ export class MilestoneQuery {
         blockUuid: blocks[0]?.uuid,
       });
     }
+
+    items.sort(this.compareMilestoneItems);
 
     return {
       items,
@@ -599,13 +633,13 @@ export class MilestoneQuery {
         progress = StatusCalculator.calculateProgress(blocks, dateField);
         date = StatusCalculator.getScheduledDate(blocks, dateField);
       } else {
-        // 检查是否存在后续已完成的阶段
+        // 检查是否存在后续已完成或进行中的阶段
         for (let j = i + 1; j < milestoneList.length; j++) {
           const laterStage = milestoneList[j];
           const laterBlocks = await this.getBlocksByStageAndParent(laterStage, targetBlocks);
           if (laterBlocks.length > 0) {
             const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-            if (laterStatus === 'completed') {
+            if (laterStatus === 'completed' || laterStatus === 'in_progress') {
               status = 'skipped';
               break;
             }
@@ -623,6 +657,8 @@ export class MilestoneQuery {
         blockUuid: blocks[0]?.uuid,
       });
     }
+
+    items.sort(this.compareMilestoneItems);
 
     return {
       items,
@@ -749,13 +785,13 @@ export class MilestoneQuery {
         progress = StatusCalculator.calculateProgress(blocks, dateField);
         date = StatusCalculator.getScheduledDate(blocks, dateField);
       } else {
-        // 检查是否存在后续已完成的阶段
+        // 检查是否存在后续已完成或进行中的阶段
         for (let j = i + 1; j < milestoneList.length; j++) {
           const laterStage = milestoneList[j];
           const laterBlocks = stageBlocksMap.get(laterStage) || [];
           if (laterBlocks.length > 0) {
             const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-            if (laterStatus === 'completed') {
+            if (laterStatus === 'completed' || laterStatus === 'in_progress') {
               status = 'skipped';
               break;
             }
@@ -773,6 +809,8 @@ export class MilestoneQuery {
         blockUuid: blocks[0]?.uuid,
       });
     }
+
+    items.sort(this.compareMilestoneItems);
 
     return {
       items,
@@ -881,6 +919,8 @@ export class MilestoneQuery {
       blockId: enumItem.blocks[0]?.id,
       blockUuid: enumItem.blocks[0]?.uuid,
     }));
+
+    items.sort(this.compareMilestoneItems);
 
     return {
       items,
@@ -992,6 +1032,8 @@ export class MilestoneQuery {
         });
       });
 
+      items.sort(this.compareMilestoneItems);
+
       return {
         items,
         totalCount: items.length,
@@ -1011,6 +1053,8 @@ export class MilestoneQuery {
       blockId: block.id,
       blockUuid: block.uuid,
     }));
+
+    items.sort(this.compareMilestoneItems);
 
     return {
       items,
