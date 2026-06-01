@@ -44,7 +44,11 @@
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
-  --ltt-col-1-width: 280px;
+  /* 桌面端列宽设置 */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 12px 4px;
   --ltt-header-height: 48px;
 }
@@ -64,7 +68,11 @@ html.dark {
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
   --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  --ltt-col-1-width: 280px;
+  /* 桌面端列宽设置 (与亮色模式一致) */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -94,7 +102,11 @@ html.dark {
   --ltt-radius: 0px;
   --ltt-shadow: none;
   --ltt-header-shadow: none;
-  --ltt-col-1-width: 260px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 8px 10px;
   --ltt-header-height: 32px;
 }
@@ -184,7 +196,11 @@ html.dark .theme-notion {
   --ltt-radius: 6px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -2px 0 #5e6ad2;
-  --ltt-col-1-width: 240px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 42px;
 }
@@ -254,7 +270,11 @@ html.dark .theme-linear {
   --ltt-radius: 8px;
   --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  --ltt-col-1-width: 280px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -284,7 +304,11 @@ html.dark .theme-linear {
   --ltt-radius: 10px;
   --ltt-shadow: 0 4px 24px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.06);
   --ltt-header-shadow: none;
-  --ltt-col-1-width: 280px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -354,7 +378,11 @@ html.dark .theme-gradient {
   --ltt-radius: 10px;
   --ltt-shadow: 0 2px 12px rgba(34, 139, 115, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);
   --ltt-header-shadow: inset 0 -2px 0 rgba(34, 139, 115, 0.15);
-  --ltt-col-1-width: 260px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 44px;
 }
@@ -424,7 +452,11 @@ html.dark .theme-tana {
   --ltt-radius: 10px;
   --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03);
   --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2);
-  --ltt-col-1-width: 260px;
+  /* 使用与默认主题相同的列宽变量 */
+  --ltt-col-1-min-width: 160px;
+  --ltt-col-1-max-width: 320px;
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 44px;
 }
@@ -533,7 +565,7 @@ html.dark .theme-indigo {
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-  grid-template-columns: var(--ltt-col-1-width) repeat(20, minmax(220px, 1fr));
+  grid-template-columns: minmax(var(--ltt-col-1-min-width), var(--ltt-col-1-max-width)) repeat(auto-fill, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   align-items: stretch;
   min-width: fit-content;
   position: relative;
@@ -574,8 +606,9 @@ html.dark .theme-indigo {
   position: sticky;
   left: 0;
   z-index: 20;
-  width: var(--ltt-col-1-width);
-  min-width: var(--ltt-col-1-width);
+  min-width: var(--ltt-col-1-min-width);
+  max-width: var(--ltt-col-1-max-width);
+  width: auto;
   background: var(--ltt-header-bg);
   border-right: 1px solid var(--ltt-border);
   box-shadow: var(--ltt-header-shadow);
@@ -777,7 +810,28 @@ html.dark .theme-indigo {
    RESPONSIVE
 ========================================================= */
 
-@media (max-width: 900px) {
+/* 平板端 (768px - 1024px) */
+@media (max-width: 1024px) {
+  .ltt-table-root {
+    --ltt-col-1-min-width: 120px;
+    --ltt-col-1-max-width: 240px;
+    --ltt-col-min-width: 200px;
+    --ltt-col-max-width: 280px;
+  }
+}
+
+/* 手机端 (<= 767px) */
+@media (max-width: 767px) {
+  .ltt-table-root {
+    --ltt-col-1-min-width: 100px;
+    --ltt-col-1-max-width: 200px;
+    --ltt-col-min-width: 140px;
+    --ltt-col-max-width: 200px;
+  }
+}
+
+/* 超小屏手机端 (<= 700px) - 单列布局 */
+@media (max-width: 700px) {
   .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
     grid-template-columns: 1fr;
   }
@@ -786,6 +840,7 @@ html.dark .theme-indigo {
     position: relative;
     width: 100%;
     min-width: 100%;
+    max-width: none;
     border-right: none;
     border-bottom: 1px solid var(--ltt-border);
   }
