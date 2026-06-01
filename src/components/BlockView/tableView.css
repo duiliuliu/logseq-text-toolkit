@@ -561,12 +561,12 @@ html.dark .theme-indigo {
 }
 
 /* =========================================================
-   ROW - 使用 Flex 实现横向滚动
+   ROW - 使用 Grid 实现列宽自适应
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  display: flex !important;
-  flex-direction: row;
+  display: grid !important;
+  grid-template-columns: minmax(var(--ltt-first-col-min-width), var(--ltt-first-col-max-width)) repeat(50, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   align-items: stretch;
   position: relative;
   transition: background 0.15s ease;
@@ -606,11 +606,6 @@ html.dark .theme-indigo {
   box-shadow: var(--ltt-header-shadow);
   font-weight: 600;
   backdrop-filter: blur(18px);
-  flex-shrink: 0;
-  flex-grow: 0;
-  min-width: var(--ltt-first-col-min-width);
-  max-width: var(--ltt-first-col-max-width);
-  width: auto;
   overflow: visible;
   position: sticky;
   left: 0;
@@ -627,6 +622,7 @@ html.dark .theme-indigo {
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper > .block-content {
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 /* align */
@@ -698,29 +694,27 @@ html.dark .theme-indigo {
   box-sizing: border-box;
   overflow: visible;
   transition: background 0.15s ease;
-  flex-shrink: 0;
-  flex-grow: 0;
-  min-width: var(--ltt-col-min-width);
-  max-width: var(--ltt-col-max-width);
-  width: auto;
+  position: relative;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
   background: var(--ltt-row-hover);
 }
 
-/* 确保最后一列也有右边框 */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
-  position: relative;
-}
-
 /* =========================================================
-   CELL CONTENT
+   CELL CONTENT - 确保内容不换行，列宽自适应
 ========================================================= */
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .block-content-wrapper {
-  width: 100% !important;
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * .block-content-wrapper {
+  width: auto !important;
+  min-width: 100%;
   overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * .block-content {
+  white-space: nowrap !important;
+  width: auto !important;
 }
 
 /* =========================================================
