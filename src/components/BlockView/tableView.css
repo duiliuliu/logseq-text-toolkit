@@ -701,10 +701,6 @@ html.dark .theme-indigo {
   transition: opacity 0.15s ease;
 }
 
-.ltt-table-root .block-control {
-  display: none !important;
-}
-
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .block-control-wrap {
   opacity: 1;
 }
