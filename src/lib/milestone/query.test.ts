@@ -4,7 +4,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { MilestoneQuery } from './query';
-import type { MilestoneItem, BlockWithProperty, MilestoneData } from './types';
+import type { MilestoneItem, BlockWithProperty, MilestoneData, MilestoneStatus } from './types';
 
 // Mock logseq API
 vi.mock('../../logseq', () => ({
@@ -26,6 +26,23 @@ vi.mock('../../lib/logger', () => ({
 }));
 
 import { logseqAPI } from '../../logseq';
+
+// Helper to create mock blocks with scheduled dates
+const createMockBlock = (id: string, phase: string, daysAgo: number): BlockWithProperty => {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  const timestamp = date.getTime();
+  
+  return {
+    id,
+    uuid: `uuid-${id}`,
+    content: `Block ${id} - ${phase}`,
+    properties: { ':user.property/phase': phase },
+    createdAt: timestamp.toString(),
+    updatedAt: timestamp.toString(),
+    scheduled: timestamp,
+  } as any;
+};
 
 describe('MilestoneQuery', () => {
   beforeEach(() => {
@@ -297,6 +314,117 @@ describe('MilestoneQuery', () => {
       expect(item).toHaveProperty('id');
       expect(item).toHaveProperty('label');
       expect(item).toHaveProperty('status');
+    });
+  });
+
+  describe('Skipped status logic', () => {
+    it('should mark previous stages as skipped when later stage is completed', async () => {
+      const completedBlock = createMockBlock('1', '二面', 2);
+      const inProgressBlock = createMockBlock('2', '笔试', 0);
+      
+      (logseqAPI.DB.datascriptQuery as any)
+        .mockResolvedValueOnce([[completedBlock], [inProgressBlock]])
+        .mockResolvedValueOnce([[null, '笔试'], [null, '一面'], [null, '二面']]);
+      
+      const result = await MilestoneQuery.query({ 
+        milestonePropKey: ':user.property/phase',
+        milestoneList: ['笔试', '一面', '二面']
+      });
+      
+      expect(result.items.length).toBe(3);
+      
+      const skippedItem = result.items.find(item => item.label === '一面');
+      expect(skippedItem).toBeDefined();
+      expect(skippedItem!.status).toBe('skipped');
+    });
+
+    it('should mark previous stages as skipped when later stage is in_progress', async () => {
+      const inProgressBlock = createMockBlock('1', '笔试', 0);
+      
+      (logseqAPI.DB.datascriptQuery as any)
+        .mockResolvedValueOnce([[inProgressBlock]])
+        .mockResolvedValueOnce([[null, '笔试'], [null, '一面'], [null, '二面']]);
+      
+      const result = await MilestoneQuery.query({ 
+        milestonePropKey: ':user.property/phase',
+        milestoneList: ['一面', '二面', '笔试']
+      });
+      
+      expect(result.items.length).toBe(3);
+      
+      const skippedItem1 = result.items.find(item => item.label === '一面');
+      expect(skippedItem1).toBeDefined();
+      expect(skippedItem1!.status).toBe('skipped');
+      
+      const skippedItem2 = result.items.find(item => item.label === '二面');
+      expect(skippedItem2).toBeDefined();
+      expect(skippedItem2!.status).toBe('skipped');
+    });
+  });
+
+  describe('Milestone sorting', () => {
+    it('should sort items by status priority: skipped > completed > in_progress > pending', async () => {
+      const completedBlock = createMockBlock('1', '二面', 2);
+      const inProgressBlock = createMockBlock('2', '笔试', 0);
+      
+      (logseqAPI.DB.datascriptQuery as any)
+        .mockResolvedValueOnce([[completedBlock], [inProgressBlock]])
+        .mockResolvedValueOnce([[null, '笔试'], [null, '一面'], [null, '二面']]);
+      
+      const result = await MilestoneQuery.query({ 
+        milestonePropKey: ':user.property/phase',
+        milestoneList: ['笔试', '一面', '二面']
+      });
+      
+      const statusOrder: MilestoneStatus[] = result.items.map(item => item.status);
+      
+      const skippedIndex = statusOrder.indexOf('skipped');
+      const completedIndex = statusOrder.indexOf('completed');
+      const inProgressIndex = statusOrder.indexOf('in_progress');
+      
+      expect(skippedIndex).toBeLessThan(completedIndex);
+      expect(completedIndex).toBeLessThan(inProgressIndex);
+    });
+
+    it('should sort items with same status by date ascending', async () => {
+      const olderBlock = createMockBlock('1', '笔试', 5);
+      const newerBlock = createMockBlock('2', '二面', 2);
+      
+      (logseqAPI.DB.datascriptQuery as any)
+        .mockResolvedValueOnce([[olderBlock], [newerBlock]])
+        .mockResolvedValueOnce([[null, '笔试'], [null, '一面'], [null, '二面']]);
+      
+      const result = await MilestoneQuery.query({ 
+        milestonePropKey: ':user.property/phase',
+        milestoneList: ['笔试', '一面', '二面']
+      });
+      
+      const completedItems = result.items.filter(item => item.status === 'completed');
+      const dates = completedItems.map(item => item.date).filter((d): d is string => d !== null);
+      
+      expect(dates.length).toBe(2);
+      expect(dates[0].localeCompare(dates[1])).toBeLessThanOrEqual(0);
+    });
+
+    it('should demonstrate user scenario: skipped first, then completed, then in_progress', async () => {
+      const completedBlock = createMockBlock('1', '二面', 2);
+      const inProgressBlock = createMockBlock('2', '笔试', 0);
+      
+      (logseqAPI.DB.datascriptQuery as any)
+        .mockResolvedValueOnce([[completedBlock], [inProgressBlock]])
+        .mockResolvedValueOnce([[null, '笔试'], [null, '一面'], [null, '二面']]);
+      
+      const result = await MilestoneQuery.query({ 
+        milestonePropKey: ':user.property/phase',
+        milestoneList: ['笔试', '一面', '二面']
+      });
+      
+      const labels = result.items.map(item => item.label);
+      
+      expect(labels).toEqual(['一面', '二面', '笔试']);
+      
+      const statuses = result.items.map(item => item.status);
+      expect(statuses).toEqual(['skipped', 'completed', 'in_progress']);
     });
   });
 });
