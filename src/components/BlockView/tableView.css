@@ -44,13 +44,13 @@
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
-  /* 桌面端列宽设置 */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
+  --ltt-cell-padding: 12px 16px;
+  --ltt-header-height: 48px;
+  /* 表格自适应配置 - 桌面端 */
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 460px;
-  --ltt-cell-padding: 12px 4px;
-  --ltt-header-height: 48px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
 }
 
 /* Default Dark Mode */
@@ -68,13 +68,13 @@ html.dark {
   --ltt-radius: 8px;
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
   --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  /* 桌面端列宽设置 (与亮色模式一致) */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
-  --ltt-col-min-width: 300px;
-  --ltt-col-max-width: 460px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
+  /* 表格自适应配置 - 桌面端 */
+  --ltt-col-min-width: 300px;
+  --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
 }
 
 /* =========================================================
@@ -103,10 +103,10 @@ html.dark {
   --ltt-shadow: none;
   --ltt-header-shadow: none;
   /* 使用与默认主题相同的列宽变量 */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
   --ltt-cell-padding: 8px 10px;
   --ltt-header-height: 32px;
 }
@@ -197,10 +197,10 @@ html.dark .theme-notion {
   --ltt-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   --ltt-header-shadow: inset 0 -2px 0 #5e6ad2;
   /* 使用与默认主题相同的列宽变量 */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 42px;
 }
@@ -271,10 +271,10 @@ html.dark .theme-linear {
   --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
   /* 使用与默认主题相同的列宽变量 */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -305,10 +305,10 @@ html.dark .theme-linear {
   --ltt-shadow: 0 4px 24px rgba(99, 102, 241, 0.15), 0 8px 32px rgba(0, 0, 0, 0.06);
   --ltt-header-shadow: none;
   /* 使用与默认主题相同的列宽变量 */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 }
@@ -379,10 +379,10 @@ html.dark .theme-gradient {
   --ltt-shadow: 0 2px 12px rgba(34, 139, 115, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);
   --ltt-header-shadow: inset 0 -2px 0 rgba(34, 139, 115, 0.15);
   /* 使用与默认主题相同的列宽变量 */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 44px;
 }
@@ -453,10 +453,10 @@ html.dark .theme-tana {
   --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03);
   --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2);
   /* 使用与默认主题相同的列宽变量 */
-  --ltt-col-1-min-width: 160px;
-  --ltt-col-1-max-width: 320px;
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 460px;
+  --ltt-first-col-min-width: 160px;
+  --ltt-first-col-max-width: 320px;
   --ltt-cell-padding: 10px 14px;
   --ltt-header-height: 44px;
 }
@@ -573,49 +573,35 @@ html.dark .theme-indigo {
 }
 
 /* =========================================================
-   ROW
+   ROW - 使用 Flex 实现横向滚动
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  display: grid !important;
-  grid-template-columns: minmax(var(--ltt-col-1-min-width), var(--ltt-col-1-max-width)) repeat(auto-fill, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
+  display: flex !important;
+  flex-direction: row;
   align-items: stretch;
-  min-width: max-content;
-  width: max-content;
   position: relative;
   transition: background 0.15s ease;
   background: var(--ltt-row-bg);
+  width: max-content;
+  min-width: 100%;
+  margin: 0 !important;
+  border-bottom: 1px solid var(--ltt-border);
+  box-sizing: border-box;
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  min-width: var(--ltt-col-min-width);
-  max-width: var(--ltt-col-max-width);
-  width: auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
+  border-bottom: none;
 }
 
-/* row separator */
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--ltt-border);
-  pointer-events: none;
-}
-
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child::after {
-  display: none;
-}
-
-/* hover */
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
   background: var(--ltt-row-hover);
+}
+
+.ltt-table-root *,
+.ltt-table-root *::before,
+.ltt-table-root *::after {
+  box-sizing: border-box;
 }
 
 /* =========================================================
@@ -627,18 +613,32 @@ html.dark .theme-indigo {
   min-height: var(--ltt-header-height);
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
-  position: sticky;
-  left: 0;
-  z-index: 20;
-  min-width: var(--ltt-col-1-min-width);
-  max-width: var(--ltt-col-1-max-width);
-  width: auto;
   background: var(--ltt-header-bg);
-  border-right: 1px solid var(--ltt-border);
+  border-right: 1px solid var(--ltt-border) !important;
   box-shadow: var(--ltt-header-shadow);
   font-weight: 600;
   backdrop-filter: blur(18px);
+  flex-shrink: 0;
+  flex-grow: 0;
+  min-width: var(--ltt-first-col-min-width);
+  max-width: var(--ltt-first-col-max-width);
+  width: var(--ltt-first-col-min-width);
   overflow: visible;
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  box-sizing: border-box;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container > .block-content-wrapper > .block-content {
+  flex: 1;
+  min-width: 0;
 }
 
 /* align */
@@ -683,40 +683,42 @@ html.dark .theme-indigo {
 }
 
 /* =========================================================
-   FLATTEN CHILDREN
+   CHILD CELLS (非第一列的单元格)
 ========================================================= */
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children,
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block .blocks-list-wrap {
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container {
   display: contents !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* =========================================================
-   CELL
-========================================================= */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children {
+  display: contents;
+}
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
+  display: contents;
+}
+
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
   display: block !important;
   min-height: var(--ltt-header-height);
   padding: var(--ltt-cell-padding) !important;
   margin: 0 !important;
-  border-right: 1px solid var(--ltt-border);
+  border-right: 1px solid var(--ltt-border) !important;
   background: var(--ltt-cell-bg);
   box-sizing: border-box;
   overflow: visible;
   transition: background 0.15s ease;
+  flex-shrink: 0;
+  flex-grow: 0;
   min-width: var(--ltt-col-min-width);
   max-width: var(--ltt-col-max-width);
-  width: auto;
+  width: var(--ltt-col-min-width);
 }
 
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
-  border-right: 1px solid var(--ltt-border);
-}
-
-.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
-  background: var(--ltt-hover);
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
+  background: var(--ltt-row-hover);
 }
 
 /* =========================================================
@@ -840,20 +842,20 @@ html.dark .theme-indigo {
 /* 平板端 (768px - 1024px) */
 @media (max-width: 1024px) {
   .ltt-table-root {
-    --ltt-col-1-min-width: 120px;
-    --ltt-col-1-max-width: 240px;
     --ltt-col-min-width: 200px;
     --ltt-col-max-width: 280px;
+    --ltt-first-col-min-width: 120px;
+    --ltt-first-col-max-width: 240px;
   }
 }
 
 /* 手机端 (<= 767px) */
 @media (max-width: 767px) {
   .ltt-table-root {
-    --ltt-col-1-min-width: 100px;
-    --ltt-col-1-max-width: 200px;
     --ltt-col-min-width: 140px;
     --ltt-col-max-width: 200px;
+    --ltt-first-col-min-width: 100px;
+    --ltt-first-col-max-width: 200px;
   }
 }
 
