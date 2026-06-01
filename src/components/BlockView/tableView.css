@@ -527,18 +527,6 @@ html.dark .theme-indigo {
   max-width: 100%;
 }
 
-.ltt-table-root > .block-children-container::after {
-  content: "";
-  position: sticky;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--ltt-border);
-  pointer-events: none;
-  z-index: 100;
-}
-
 /* =========================================================
    REMOVE TREE STYLE
 ========================================================= */
@@ -622,7 +610,7 @@ html.dark .theme-indigo {
   flex-grow: 0;
   min-width: var(--ltt-first-col-min-width);
   max-width: var(--ltt-first-col-max-width);
-  width: var(--ltt-first-col-min-width);
+  width: auto;
   overflow: visible;
   position: sticky;
   left: 0;
@@ -714,11 +702,16 @@ html.dark .theme-indigo {
   flex-grow: 0;
   min-width: var(--ltt-col-min-width);
   max-width: var(--ltt-col-max-width);
-  width: var(--ltt-col-min-width);
+  width: auto;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > *:hover {
   background: var(--ltt-row-hover);
+}
+
+/* 确保最后一列也有右边框 */
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
+  position: relative;
 }
 
 /* =========================================================
