@@ -8,9 +8,10 @@ import { BlockThemeType } from '../../../settings/types';
 function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const blockViewSettings = settings?.blockView || {
     enabled: true,
-    defaultView: 'list' as BlockViewType,
-    defaultTheme: 'default' as BlockThemeType,
+    defaultView: 'list' as const,
+    defaultTheme: 'default' as const,
     hideViewBar: false,
+    inlineViewBar: true,
     table: {
       showStriped: true,
       showBorder: true,
@@ -408,6 +409,22 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
 
       <div style={{ margin: '16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
         {t('settings.blockView.hideViewBarDescription', language)}
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.inlineViewBar', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={blockViewSettings.inlineViewBar}
+            onChange={(e) => handleSettingChange('inlineViewBar', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div style={{ margin: '16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
+        {t('settings.blockView.inlineViewBarDescription', language)}
       </div>
 
       {renderViewSection('table', 'table.title', tableCustomFields)}

@@ -3,18 +3,81 @@
    Advanced View System with Multiple Themes
 
    特性：
-   1. 优化的视图切换栏 - 完全内联显示
+   1. 优化的视图切换栏 - 支持内联和非内联模式
    2. 多主题支持
    3. 响应式设计
 ========================================================= */
 
 /* =========================================================
-   VIEW BAR - 完全内联显示（参考 Milestone inline 模式）
+   VIEW BAR - 默认样式（非内联模式）
 ========================================================= */
 
 .ltt-view-bar {
   display: inline-flex;
   align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  margin-top: 8px;
+  background: var(--ls-secondary-background-color);
+  border: 1px solid var(--ls-border-color);
+  border-radius: 6px;
+  font-size: 11px;
+  width: fit-content;
+  min-height: 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.ltt-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ls-secondary-text-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.ltt-view-btn:hover {
+  background: var(--ls-hover-color);
+  color: var(--ls-primary-text-color);
+  transform: translateY(-1px);
+}
+
+.ltt-view-btn.active {
+  background: var(--ls-primary-color);
+  color: var(--ls-primary-text-color);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ltt-view-btn.active:hover {
+  transform: translateY(0);
+}
+
+.ltt-view-btn svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.ltt-view-btn span {
+  font-size: 11px;
+}
+
+/* =========================================================
+   VIEW BAR - 内联模式（参考 Milestone inline 模式）
+========================================================= */
+
+.ltt-view-bar.ltt-inline {
   padding: 0;
   margin: 0;
   background: transparent;
@@ -26,22 +89,11 @@
   line-height: 0;
 }
 
-.ltt-view-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.ltt-view-bar.ltt-inline .ltt-view-btn {
   gap: 3px;
   padding: 0;
   margin: 0 1px;
-  border: none;
   border-radius: 3px;
-  background: transparent;
-  color: var(--ls-secondary-text-color);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  font-size: 11px;
-  font-weight: 500;
   line-height: 1;
   height: auto;
   min-height: auto;
@@ -49,41 +101,39 @@
   vertical-align: middle;
 }
 
-.ltt-view-btn:hover {
-  background: var(--ls-hover-color);
-  color: var(--ls-primary-text-color);
+.ltt-view-bar.ltt-inline .ltt-view-btn:hover {
+  transform: none;
 }
 
-.ltt-view-btn.active {
-  background: var(--ls-primary-color);
-  color: var(--ls-primary-text-color);
-  font-weight: 600;
-}
-
-.ltt-view-btn svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-}
-
-.ltt-view-btn span {
-  font-size: 11px;
-  font-weight: inherit;
+.ltt-view-bar.ltt-inline .ltt-view-btn.active {
+  box-shadow: none;
 }
 
 /* =========================================================
-   VIEW BAR - 所有视图下统一内联显示
+   VIEW BAR - 定位
 ========================================================= */
 
+.block-main-container .ltt-view-bar,
 .ltt-list-root .ltt-view-bar,
 .ltt-table-root .ltt-view-bar,
 .ltt-gallery-root .ltt-view-bar,
 .ltt-board-root .ltt-view-bar,
 .ltt-mindmap-root .ltt-view-bar {
   display: inline-flex !important;
-  align-items: center !important;
+  margin-left: 12px !important;
+  vertical-align: middle !important;
+  width: fit-content !important;
+}
+
+/* 内联模式下的定位 */
+.ltt-view-bar.ltt-inline,
+.ltt-list-root .ltt-view-bar.ltt-inline,
+.ltt-table-root .ltt-view-bar.ltt-inline,
+.ltt-gallery-root .ltt-view-bar.ltt-inline,
+.ltt-board-root .ltt-view-bar.ltt-inline,
+.ltt-mindmap-root .ltt-view-bar.ltt-inline {
+  margin-left: 8px !important;
   padding: 0 !important;
-  margin: 0 0 0 8px !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -183,7 +233,7 @@
 }
 
 /* =========================================================
-   ANIMATIONS - ViewBar 淡入动画
+   ANIMATIONS
 ========================================================= */
 
 @keyframes ltt-view-fade-in {
@@ -196,7 +246,7 @@
 }
 
 .ltt-view-bar {
-  animation: ltt-view-fade-in 0.15s ease-out;
+  animation: ltt-view-fade-in 0.2s ease-out;
 }
 
 /* =========================================================
@@ -204,8 +254,13 @@
 ========================================================= */
 
 @media (max-width: 768px) {
+  .ltt-view-bar:not(.ltt-inline) {
+    padding: 3px 6px;
+    gap: 3px;
+  }
+
   .ltt-view-btn {
-    padding: 0;
+    padding: 3px 6px;
     font-size: 10px;
   }
 

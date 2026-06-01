@@ -147,6 +147,8 @@
       "viewBoard": "Kanban",
       "hideViewBar": "Hide View Switcher Bar",
       "hideViewBarDescription": "When hidden, default view will be used. You can still switch views with view=xxx parameter",
+      "inlineViewBar": "Inline View Bar",
+      "inlineViewBarDescription": "When enabled, the view bar will be displayed inline without extra height",
       "defaultTheme": "Default Theme",
       "themeDefault": "Default",
       "themeNotion": "Notion",

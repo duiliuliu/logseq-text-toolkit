@@ -84,6 +84,27 @@ html.dark {
   box-sizing: border-box;
 }
 
+/* 确保表格单元格的最后一个单元格保留右边框 */
+.ltt-table-root > .block-children-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ltt-border);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* =========================================================
+   表格内文字留白 - 避免和软件边框重叠
+========================================================= */
+
+.ltt-table-root .block-content {
+  padding-right: 4px !important;
+}
+
 /* =========================================================
    TABLE CONTENT AREA
 ========================================================= */
@@ -253,6 +274,33 @@ html.dark {
 .ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {
     margin-left: 0.6rem !important;
     justify-content: flex-start !important;
+}
+
+/* =========================================================
+   确保 ltt-view-bar 在 table view 中正常显示
+========================================================= */
+
+.ltt-table-root > .block-main-container .ltt-view-bar {
+  display: inline-flex !important;
+  margin-left: 8px !important;
+  vertical-align: middle !important;
+}
+
+.ltt-table-root > .block-main-container .ltt-view-bar.ltt-inline {
+  margin-left: 8px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.ltt-table-root > .block-main-container .ltt-view-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* =========================================================

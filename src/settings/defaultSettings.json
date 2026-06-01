@@ -54,6 +54,7 @@
     "defaultView": "list",
     "defaultTheme": "default",
     "hideViewBar": false,
+    "inlineViewBar": true,
     "table": {
       "showStriped": true,
       "showBorder": true,
