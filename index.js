@@ -31883,7 +31883,7 @@ ${where}
             const laterBlocks = stageMap.get(laterStage) || [];
             if (laterBlocks.length > 0) {
               const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-              if (laterStatus === "completed") {
+              if (laterStatus === "completed" || laterStatus === "in_progress") {
                 status = "skipped";
                 break;
               }
@@ -31900,6 +31900,7 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
+      items.sort(this.compareMilestoneItems);
       return {
         items,
         totalCount: items.length,
@@ -31909,6 +31910,30 @@ ${where}
         skippedCount: items.filter((i) => i.status === "skipped").length,
         overallProgress: this.calculateOverallProgress(items)
       };
+    }
+    /**
+     * 比较两个里程碑项的排序
+     * 优先级：skipped > completed > in_progress > pending
+     * 同状态下按日期升序排列（日期越早越靠前）
+     */
+    static compareMilestoneItems(a, b) {
+      const statusOrder = {
+        skipped: 0,
+        completed: 1,
+        in_progress: 2,
+        pending: 3,
+        failed: 4
+      };
+      const statusCompare = statusOrder[a.status] - statusOrder[b.status];
+      if (statusCompare !== 0) {
+        return statusCompare;
+      }
+      if (a.date && b.date) {
+        return a.date.localeCompare(b.date);
+      }
+      if (a.date) return -1;
+      if (b.date) return 1;
+      return 0;
     }
     /**
      * 通过 milestonePropKey 读取里程碑节点，带标签过滤
@@ -31963,7 +31988,7 @@ ${where}
             const laterBlocks = stageMap.get(laterStage) || [];
             if (laterBlocks.length > 0) {
               const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-              if (laterStatus === "completed") {
+              if (laterStatus === "completed" || laterStatus === "in_progress") {
                 status = "skipped";
                 break;
               }
@@ -31980,6 +32005,7 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
+      items.sort(this.compareMilestoneItems);
       return {
         items,
         totalCount: items.length,
@@ -32043,7 +32069,7 @@ ${where}
             const laterBlocks = stageMap.get(laterStage) || [];
             if (laterBlocks.length > 0) {
               const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-              if (laterStatus === "completed") {
+              if (laterStatus === "completed" || laterStatus === "in_progress") {
                 status = "skipped";
                 break;
               }
@@ -32060,6 +32086,7 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
+      items.sort(this.compareMilestoneItems);
       return {
         items,
         totalCount: items.length,
@@ -32202,7 +32229,7 @@ ${where}
             const laterBlocks = await this.getBlocksByStageAndParent(laterStage, targetBlocks);
             if (laterBlocks.length > 0) {
               const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-              if (laterStatus === "completed") {
+              if (laterStatus === "completed" || laterStatus === "in_progress") {
                 status = "skipped";
                 break;
               }
@@ -32219,6 +32246,7 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
+      items.sort(this.compareMilestoneItems);
       return {
         items,
         totalCount: items.length,
@@ -32312,7 +32340,7 @@ ${where}
             const laterBlocks = stageBlocksMap.get(laterStage) || [];
             if (laterBlocks.length > 0) {
               const laterStatus = StatusCalculator.calculateFromBlocks(laterBlocks, dateField);
-              if (laterStatus === "completed") {
+              if (laterStatus === "completed" || laterStatus === "in_progress") {
                 status = "skipped";
                 break;
               }
@@ -32329,6 +32357,7 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
+      items.sort(this.compareMilestoneItems);
       return {
         items,
         totalCount: items.length,
@@ -32406,6 +32435,7 @@ ${where}
         blockId: enumItem.blocks[0]?.id,
         blockUuid: enumItem.blocks[0]?.uuid
       }));
+      items.sort(this.compareMilestoneItems);
       return {
         items,
         totalCount: items.length,
@@ -32488,6 +32518,7 @@ ${where}
             blockUuid: groupBlocks[0]?.uuid
           });
         });
+        items2.sort(this.compareMilestoneItems);
         return {
           items: items2,
           totalCount: items2.length,
@@ -32506,6 +32537,7 @@ ${where}
         blockId: block.id,
         blockUuid: block.uuid
       }));
+      items.sort(this.compareMilestoneItems);
       return {
         items,
         totalCount: items.length,
