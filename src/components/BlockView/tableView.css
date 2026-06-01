@@ -30,11 +30,11 @@
   --ltt-cell-padding: 12px 16px;
   --ltt-header-height: 48px;
 
-  /* 表格自适应配置 */
-  --ltt-col-min-width: 120px;
-  --ltt-col-max-width: 300px;
-  --ltt-first-col-min-width: 160px;
-  --ltt-first-col-max-width: 320px;
+  /* 表格自适应配置 - 桌面端 */
+  --ltt-col-min-width: 320px;
+  --ltt-col-max-width: 500px;
+  --ltt-first-col-min-width: 320px;
+  --ltt-first-col-max-width: 500px;
 }
 
 /* Dark Mode */
@@ -269,23 +269,23 @@ html.dark {
 @media (max-width: 768px) {
   .ltt-table-root {
     margin: 12px 16px !important;
-    --ltt-col-min-width: 100px;
-    --ltt-col-max-width: 250px;
-    --ltt-first-col-min-width: 120px;
-    --ltt-first-col-max-width: 240px;
+    --ltt-col-min-width: 140px;
+    --ltt-col-max-width: 300px;
+    --ltt-first-col-min-width: 140px;
+    --ltt-first-col-max-width: 300px;
     --ltt-header-height: 40px;
     --ltt-cell-padding: 10px 12px;
   }
 }
 
-/* 超小屏幕 */
+/* 手机端 */
 @media (max-width: 480px) {
   .ltt-table-root {
     margin: 8px !important;
-    --ltt-col-min-width: 80px;
-    --ltt-col-max-width: 200px;
-    --ltt-first-col-min-width: 100px;
-    --ltt-first-col-max-width: 200px;
+    --ltt-col-min-width: 140px;
+    --ltt-col-max-width: 260px;
+    --ltt-first-col-min-width: 140px;
+    --ltt-first-col-max-width: 260px;
     --ltt-header-height: 36px;
     --ltt-cell-padding: 8px 10px;
   }
