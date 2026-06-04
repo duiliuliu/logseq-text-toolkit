@@ -1,6 +1,6 @@
 /* =========================================================
    BLOCK VIEW TABLE STYLES
-   Advanced Theme System with Multiple Presets
+   Advanced Theme System with Multiple Themes
 
    主题设计系统说明：
    - 使用 CSS 变量驱动的设计系统
@@ -56,8 +56,8 @@
 /* Default Dark Mode */
 .dark,
 html.dark {
-  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1));
-  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15));
+  --ltt-border: var(--ls-border-color, rgba(255, 255, 255, 0.1);
+  --ltt-border-strong: var(--ls-border-color, rgba(255, 255, 255, 0.15);
   --ltt-hover: rgba(255, 255, 255, 0.04);
   --ltt-header-bg: var(--ls-tertiary-background-color, #1f2937);
   --ltt-header-text: var(--ls-primary-text-color, #e4e7ec);
@@ -269,7 +269,7 @@ html.dark .theme-linear {
   --ltt-row-hover: #1e2128;
   --ltt-radius: 8px;
   --ltt-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  --ltt-header-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06;
   /* 使用与默认主题相同的列宽变量 */
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 450px;
@@ -317,9 +317,9 @@ html.dark .theme-linear {
 .dark .theme-gradient,
 [data-theme="gradient"].dark,
 html.dark .theme-gradient {
-  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15));
-  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25));
-  --ltt-hover: rgba(165, 180, 252, 0.08);
+  --ltt-border: var(--ls-border-color, rgba(165, 180, 252, 0.15);
+  --ltt-border-strong: var(--ls-border-color, rgba(165, 180, 252, 0.25;
+  --ltt-hover: rgba(165, 180, 252, 0.08;
   --ltt-header-bg: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
   --ltt-header-text: var(--ltt-text-primary-dark);
   --ltt-cell-text: var(--ltt-text-secondary-dark);
@@ -337,20 +337,20 @@ html.dark .theme-gradient {
 
 .dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="gradient"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(165, 180, 252, 0.15);
+  border-bottom-color: rgba(165, 180, 252, 0.15;
   background: #1e1b4b;
 }
 
 .dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="gradient"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
-  border-right-color: rgba(165, 180, 252, 0.15);
+  border-right-color: rgba(165, 180, 252, 0.15;
 }
 
 .dark .theme-gradient .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="gradient"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right-color: rgba(165, 180, 252, 0.15);
-  background: rgba(30, 27, 75, 0.95);
+  border-right-color: rgba(165, 180, 252, 0.15;
+  background: rgba(30, 27, 75, 0.95;
 }
 
 /* =========================================================
@@ -368,16 +368,16 @@ html.dark .theme-gradient {
 [data-theme="tana"] {
   --ltt-border: #e2ebe6;
   --ltt-border-strong: #d1e2db;
-  --ltt-hover: rgba(34, 139, 115, 0.04);
+  --ltt-hover: rgba(34, 139, 115, 0.04;
   --ltt-header-bg: linear-gradient(135deg, #f0f9f6 0%, #e8f5f0 100%);
   --ltt-header-text: #2d5a4a;
   --ltt-cell-text: #3d6b5a;
-  --ltt-cell-bg: rgba(255, 255, 255, 0.95);
+  --ltt-cell-bg: rgba(255, 255, 255, 0.95;
   --ltt-row-bg: #ffffff;
   --ltt-row-hover: #f5faf7;
   --ltt-radius: 10px;
   --ltt-shadow: 0 2px 12px rgba(34, 139, 115, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);
-  --ltt-header-shadow: inset 0 -2px 0 rgba(34, 139, 115, 0.15);
+  --ltt-header-shadow: inset 0 -2px 0 rgba(34, 139, 115, 0.15;
   /* 使用与默认主题相同的列宽变量 */
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 450px;
@@ -391,40 +391,40 @@ html.dark .theme-gradient {
 .dark .theme-tana,
 [data-theme="tana"].dark,
 html.dark .theme-tana {
-  --ltt-border: var(--ls-border-color, rgba(16, 185, 129, 0.15));
-  --ltt-border-strong: var(--ls-border-color, rgba(16, 185, 129, 0.2));
-  --ltt-hover: rgba(16, 185, 129, 0.06);
-  --ltt-header-bg: var(--ls-tertiary-background-color, #0d3029);
+  --ltt-border: var(--ls-border-color, rgba(16, 185, 129, 0.15;
+  --ltt-border-strong: var(--ls-border-color, rgba(16, 185, 129, 0.2;
+  --ltt-hover: rgba(16, 185, 129, 0.06;
+  --ltt-header-bg: var(--ls-tertiary-background-color, #0d3029;
   --ltt-header-text: var(--ls-primary-text-color, var(--ltt-accent-green-dark));
   --ltt-cell-text: var(--ls-secondary-text-color, var(--ltt-text-secondary-dark));
-  --ltt-cell-bg: var(--ls-primary-background-color, rgba(13, 48, 41, 0.8));
-  --ltt-row-bg: var(--ls-primary-background-color, #0a2622);
-  --ltt-row-hover: var(--ls-tertiary-background-color, #122d28);
+  --ltt-cell-bg: var(--ls-primary-background-color, rgba(13, 48, 41, 0.8;
+  --ltt-row-bg: var(--ls-primary-background-color, #0a2622;
+  --ltt-row-hover: var(--ls-tertiary-background-color, #122d28;
   --ltt-shadow: var(--ltt-shadow-dark);
   --ltt-header-shadow: none;
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container {
-  border-color: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.15;
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-bottom-color: rgba(16, 185, 129, 0.15);
+  border-bottom-color: rgba(16, 185, 129, 0.15;
   background: #0a2622;
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container {
   background: #0d3029;
-  border-right-color: rgba(16, 185, 129, 0.15);
+  border-right-color: rgba(16, 185, 129, 0.15;
 }
 
 .dark .theme-tana .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
 [data-theme="tana"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  border-right-color: rgba(16, 185, 129, 0.15);
-  background: rgba(13, 48, 41, 0.8);
+  border-right-color: rgba(16, 185, 129, 0.15;
+  background: rgba(13, 48, 41, 0.8;
 }
 
 /* =========================================================
@@ -442,16 +442,16 @@ html.dark .theme-tana {
 [data-theme="indigo"] {
   --ltt-border: #c7d2fe;
   --ltt-border-strong: #a5b4fc;
-  --ltt-hover: rgba(99, 102, 241, 0.06);
+  --ltt-hover: rgba(99, 102, 241, 0.06;
   --ltt-header-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
   --ltt-header-text: #4338ca;
   --ltt-cell-text: #4f46e5;
-  --ltt-cell-bg: rgba(255, 255, 255, 0.95);
+  --ltt-cell-bg: rgba(255, 255, 255, 0.95;
   --ltt-row-bg: #ffffff;
   --ltt-row-hover: #f5f3ff;
   --ltt-radius: 10px;
-  --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03);
-  --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2);
+  --ltt-shadow: 0 2px 12px rgba(99, 102, 241, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03;
+  --ltt-header-shadow: inset 0 -2px 0 rgba(99, 102, 241, 0.2;
   /* 使用与默认主题相同的列宽变量 */
   --ltt-col-min-width: 300px;
   --ltt-col-max-width: 450px;
@@ -475,7 +475,7 @@ html.dark .theme-indigo {
   --ltt-row-bg: var(--ls-primary-background-color, var(--ltt-bg-deepest-dark));
   --ltt-row-hover: var(--ls-tertiary-background-color, var(--ltt-bg-secondary-dark));
   --ltt-shadow: var(--ltt-shadow-dark);
-  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark);
+  --ltt-header-shadow: inset 0 -2px 0 var(--ltt-accent-indigo-dark));
 }
 
 .dark .theme-indigo .ltt-table-root > .block-children-container,
@@ -496,7 +496,7 @@ html.dark .theme-indigo {
 }
 
 .dark .theme-indigo .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
-[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+[data-theme="indigo"].dark .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   border-right-color: var(--ltt-border-normal-dark);
   background: var(--ltt-bg-tertiary-dark);
 }
@@ -510,7 +510,7 @@ html.dark .theme-indigo {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-.ltt-table-root .ls-block > .ls-block > .ls-block-content-indent {
+.ltt-table-root > .block-children-container .ls-block-content-indent {
   display: none
 }
 
@@ -560,7 +560,7 @@ html.dark .theme-indigo {
    ROOT HEADER
 ========================================================= */
 
-.ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {
+.ltt-table-root > .block-main-container .block-title-wrap {
   margin-left: 0.6rem !important;
 }
 
@@ -654,12 +654,12 @@ html.dark .theme-indigo {
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover .ltt-resize-handle {
   opacity: 1;
-  background: linear-gradient(180deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.1));
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.1);
 }
 
 .ltt-table-root .ltt-resize-handle:hover {
   opacity: 1;
-  background: rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.3;
 }
 
 /* =========================================================
@@ -797,14 +797,14 @@ html.dark .theme-indigo {
 }
 
 .ltt-table-root > .block-children-container::-webkit-scrollbar-thumb {
-  background: rgba(120, 120, 120, 0.2);
+  background: rgba(120, 120, 120, 0.2;
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 .ltt-table-root > .block-children-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 120, 120, 0.35);
+  background: rgba(120, 120, 120, 0.35;
 }
 
 /* =========================================================
@@ -814,11 +814,11 @@ html.dark .theme-indigo {
 .ltt-table-root[data-custom-theme="true"] {
   --ltt-border: var(--custom-border-color, #e2e8f0);
   --ltt-border-strong: var(--custom-header-border, #cbd5e1);
-  --ltt-hover: var(--custom-row-hover, rgba(0, 0, 0, 0.04));
+  --ltt-hover: var(--custom-row-hover, rgba(0, 0, 0, 0.04);
   --ltt-header-bg: var(--custom-header-bg, #f8fafc);
   --ltt-header-text: var(--custom-header-text, #374151);
   --ltt-cell-text: var(--custom-cell-text, #475569);
-  --ltt-cell-bg: var(--custom-row-bg, rgba(255, 255, 255, 0.7));
+  --ltt-cell-bg: var(--custom-row-bg, rgba(255, 255, 255, 0.7);
   --ltt-row-bg: var(--custom-row-bg, #ffffff);
   --ltt-row-hover: var(--custom-row-hover, #f1f5f9);
   --ltt-radius: var(--custom-radius, 8px);
