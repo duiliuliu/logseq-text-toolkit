@@ -6395,15 +6395,15 @@ ${where}
     return data;
   }
 
-  const MACRO_PREFIX$2 = ":heatmap";
+  const MACRO_PREFIX$3 = ":heatmap";
   const MACRO_PREFIX_CN = ":热力图";
   const PLUGIN_ID$3 = "text-toolkit-heatmap";
-  const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX$2, MACRO_PREFIX_CN]);
+  const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX$3, MACRO_PREFIX_CN]);
   let HeatmapComponent = null;
   function setHeatmapComponent(component) {
     HeatmapComponent = component;
   }
-  registerRendererArgModel(MACRO_PREFIX$2, { positional: ["view"] });
+  registerRendererArgModel(MACRO_PREFIX$3, { positional: ["view"] });
   registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
   const DATE_FIELD_TYPE_MAP = {
     "created-at": "created-at",
@@ -6709,7 +6709,7 @@ ${where}
       const type = split?.type || "";
       const tokens = split?.tokens || [];
       const blockUuid = payload.uuid;
-      if (!type || !type.startsWith(MACRO_PREFIX$2) && !type.startsWith(MACRO_PREFIX_CN)) {
+      if (!type || !type.startsWith(MACRO_PREFIX$3) && !type.startsWith(MACRO_PREFIX_CN)) {
         return;
       }
       loggerProxy.debug("🌡️ Heatmap: Macro detected", { type, blockUuid });
@@ -6719,7 +6719,7 @@ ${where}
       "[Text Toolkit] Insert Heatmap",
       async () => {
         await logseqAPI$1.Editor.insertAtEditingCursor(
-          `{{renderer ${MACRO_PREFIX$2}, view=year, tag=Task}}`
+          `{{renderer ${MACRO_PREFIX$3}, view=year, tag=Task}}`
         );
       }
     );
@@ -30975,9 +30975,9 @@ ${where}
     ] }) });
   }
 
-  const MACRO_PREFIX$1 = ":taskprogress";
+  const MACRO_PREFIX$2 = ":taskprogress";
   const PLUGIN_ID$2 = "text-toolkit-taskprogress";
-  registerRendererArgModel(MACRO_PREFIX$1, { positional: ["display", "size"] });
+  registerRendererArgModel(MACRO_PREFIX$2, { positional: ["display", "size"] });
   const DISPLAY_TYPE_MAP = {
     "mini-circle": "mini-circle",
     "minicircle": "mini-circle",
@@ -31007,14 +31007,14 @@ ${where}
       const argMap = type ? parseRendererArgs(type, split?.tokens || []) : {};
       const displayTypeArg = argMap.display;
       const sizeArg = argMap.size;
-      if (!type || !type.startsWith(MACRO_PREFIX$1)) {
+      if (!type || !type.startsWith(MACRO_PREFIX$2)) {
         return;
       }
       let blockId = null;
-      if (type === MACRO_PREFIX$1) {
+      if (type === MACRO_PREFIX$2) {
         blockId = payload.uuid;
       } else {
-        blockId = type.substring(MACRO_PREFIX$1.length + 1);
+        blockId = type.substring(MACRO_PREFIX$2.length + 1);
       }
       if (blockId) {
         loggerProxy.debug("📊 TaskProgress: Rendering progress", { blockId, displayTypeArg });
@@ -31071,7 +31071,7 @@ ${where}
         const block = await logseqAPI$1.Editor.getCurrentBlock();
         if (block?.uuid) {
           await logseqAPI$1.Editor.insertAtEditingCursor(
-            `{{renderer ${MACRO_PREFIX$1}, display=mini-circle}}`
+            `{{renderer ${MACRO_PREFIX$2}, display=mini-circle}}`
           );
         }
       }
@@ -31079,10 +31079,10 @@ ${where}
     loggerProxy.info("✅ TaskProgress: Registered successfully");
   }
 
-  const MACRO_PREFIX = ":blockview";
+  const MACRO_PREFIX$1 = ":blockview";
   const PLUGIN_ID$1 = "text-toolkit-blockview";
-  registerRendererArgModel(MACRO_PREFIX, { positional: ["view"] });
-  const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
+  registerRendererArgModel(MACRO_PREFIX$1, { positional: ["view"] });
+  const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX$1]);
   const VIEW_CLASSES = [
     "ltt-list-root",
     "ltt-table-root",
@@ -31195,7 +31195,7 @@ ${where}
     loggerProxy.debug("[BlockView] View & theme applied", { blockId, viewType, themeType });
   }
   function getCurrentViewFromParams(tokens, defaultView) {
-    const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+    const argMap = parseRendererArgs(MACRO_PREFIX$1, tokens);
     if (argMap.view && VIEW_REGISTRY[argMap.view]) {
       return argMap.view;
     }
@@ -31208,7 +31208,7 @@ ${where}
     return defaultView;
   }
   function getCurrentThemeFromParams(tokens, defaultTheme) {
-    const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+    const argMap = parseRendererArgs(MACRO_PREFIX$1, tokens);
     if (argMap.theme && ["default", "notion", "linear", "dark", "gradient", "tana", "indigo", "custom"].includes(argMap.theme)) {
       return argMap.theme;
     }
@@ -31289,7 +31289,7 @@ ${where}
       const split = splitRendererArgs(payload.arguments);
       const type = split?.type || "";
       const tokens = split?.tokens || [];
-      if (!type.startsWith(MACRO_PREFIX)) return;
+      if (!type.startsWith(MACRO_PREFIX$1)) return;
       const blockId = payload.uuid;
       loggerProxy.debug("[BlockView] Macro triggered", { blockId, type, tokens });
       await renderViewBar(blockId, slot, tokens);
@@ -31298,7 +31298,7 @@ ${where}
       "[Text Toolkit] Insert Block View",
       async () => {
         await logseqAPI$1.Editor.insertAtEditingCursor(
-          `{{renderer ${MACRO_PREFIX}}}`
+          `{{renderer ${MACRO_PREFIX$1}}}`
         );
       }
     );
@@ -32614,7 +32614,8 @@ ${where}
   }
 
   const PLUGIN_ID = "milestone";
-  registerRendererArgModel(":milestone", {
+  const MACRO_PREFIX = ":milestone";
+  registerRendererArgModel(MACRO_PREFIX, {
     positional: ["displayStyle"],
     named: ["inline"]
   });
@@ -32667,7 +32668,11 @@ ${where}
           loggerProxy.warn("[Milestone] Invalid macro arguments");
           return;
         }
-        const config = parseMacroArguments(split.type, split.tokens);
+        const { type, tokens } = split;
+        if (!type || !type.startsWith(MACRO_PREFIX)) {
+          return;
+        }
+        const config = parseMacroArguments(type, tokens);
         await renderMilestone(slot, config, payload.uuid);
       } catch (error) {
         loggerProxy.error("[Milestone] Render failed:", error);
@@ -32677,7 +32682,7 @@ ${where}
       "[Text Toolkit] Insert Milestone",
       async () => {
         await logseqAPI$1.Editor.insertAtEditingCursor(
-          `{{renderer :milestone, displayStyle=capsule}}`
+          `{{renderer ${MACRO_PREFIX}, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure}}`
         );
       }
     );
