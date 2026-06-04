@@ -15,7 +15,7 @@ const PLUGIN_ID = 'milestone';
 
 const MACRO_PREFIX = ':milestone';
 
-registerRendererArgModel(':milestone', {
+registerRendererArgModel(MACRO_PREFIX, {
   positional: ['displayStyle'],
   named: ['inline']
 });
@@ -103,7 +103,7 @@ export function registerMilestone(): void {
     '[Text Toolkit] Insert Milestone',
     async () => {
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer :milestone, displayStyle=capsule}}`
+        `{{renderer ${MACRO_PREFIX}, displayStyle=capsule}}`
       );
     }
   );
