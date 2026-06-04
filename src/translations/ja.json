@@ -40,13 +40,6 @@
       "milestone": "🎯 マイルストーン",
       "advanced": "⚡ その他の設定"
     },
-    "features": "機能管理",
-    "toolbar": "ツールバー",
-    "taskProgressFeature": "タスク進捗",
-    "heatmapFeature": "ヒートマップ",
-    "blockViewFeature": "ブロックビュー",
-    "summaryFeature": "まとめ",
-    "milestoneFeature": "マイルストーン",
     "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
     "generalSettings": "一般設定",
     "theme": "テーマ",

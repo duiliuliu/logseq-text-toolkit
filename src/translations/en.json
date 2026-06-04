@@ -40,13 +40,6 @@
       "milestone": "🎯 Milestone",
       "advanced": "⚡ Other Settings"
     },
-    "features": "Features",
-    "toolbar": "Toolbar",
-    "taskProgressFeature": "Task Progress",
-    "heatmapFeature": "Heatmap",
-    "blockViewFeature": "Block View",
-    "summaryFeature": "Summary",
-    "milestoneFeature": "Milestone",
     "saveSuccessRestart": "Saved successfully, please restart the application to take effect",
     "generalSettings": "General Settings",
     "theme": "Theme",
