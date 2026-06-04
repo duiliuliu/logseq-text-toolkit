@@ -13,7 +13,9 @@ import React from 'react';
 
 const PLUGIN_ID = 'milestone';
 
-registerRendererArgModel(':milestone', {
+const MACRO_PREFIX = ':milestone';
+
+registerRendererArgModel(MACRO_PREFIX, {
   positional: ['displayStyle'],
   named: ['inline']
 });
@@ -84,7 +86,13 @@ export function registerMilestone(): void {
         return;
       }
 
-      const config = parseMacroArguments(split.type, split.tokens);
+      const { type, tokens } = split;
+
+      if (!type || !type.startsWith(MACRO_PREFIX)) {
+        return;
+      }
+
+      const config = parseMacroArguments(type, tokens);
       await renderMilestone(slot, config, payload.uuid);
     } catch (error) {
       logger.error('[Milestone] Render failed:', error);
@@ -95,7 +103,7 @@ export function registerMilestone(): void {
     '[Text Toolkit] Insert Milestone',
     async () => {
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer :milestone, displayStyle=capsule}}`
+        `{{renderer ${MACRO_PREFIX}, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure}}`
       );
     }
   );
