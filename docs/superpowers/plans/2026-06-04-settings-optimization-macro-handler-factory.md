@@ -71,6 +71,18 @@ rm /workspace/src/components/SettingsModal/tabs/AdvancedSettings.tsx
 </div>
 
 <div className="ltt-setting-item">
+  <label>{t('settings.toolbar', language)}</label>
+  <label className="ltt-switch">
+    <input
+      type="checkbox"
+      checked={settings.toolbar ?? true}
+      onChange={(e) => handleSettingChange('toolbar', e.target.checked)}
+    />
+    <span className="ltt-switch-slider"></span>
+  </label>
+</div>
+
+<div className="ltt-setting-item">
   <label>{t('settings.taskProgress', language)}</label>
   <label className="ltt-switch">
     <input
@@ -136,6 +148,7 @@ rm /workspace/src/components/SettingsModal/tabs/AdvancedSettings.tsx
 在翻译文件（zh-CN.json, en.json, ja.json）添加：
 ```json
 "settings.features": "功能管理",
+"settings.toolbar": "工具栏",
 "settings.taskProgress": "任务进度",
 "settings.heatmap": "热力图",
 "settings.blockView": "块视图",
@@ -157,6 +170,7 @@ rm /workspace/src/components/SettingsModal/tabs/AdvancedSettings.tsx
 ```tsx
 // 计算动态 tabs 列表
 const featureTabs: Tab[] = [
+  settings.toolbar !== false && { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '' },
   settings.taskProgress?.enabled !== false && { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '' },
   settings.heatmap?.enabled !== false && { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '' },
   settings.blockView?.enabled !== false && { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
@@ -166,7 +180,6 @@ const featureTabs: Tab[] = [
 
 const tabs: Tab[] = [
   { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language), icon: '' },
-  { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '' },
   ...featureTabs,
 ];
 ```
@@ -508,11 +521,12 @@ npx tsc --noEmit 2>&1 | head -50
 - [ ] **Step 3: 手动验证场景**
 
 1. 打开设置，确认 Advanced tab 消失
-2. 在 General Settings 中关闭 Task Progress，确认 Task Progress tab 消失
-3. 重新开启 Task Progress，确认 Task Progress tab 恢复
-4. 插入宏命令 `{{renderer :milestone}}`，确认能正常渲染
-5. 插入 `{{renderer :heatmap}}` 确认不受影响
-6. 确认斜杠命令在功能关闭时不再出现
+2. 在 General Settings 中关闭 Toolbar，确认 Toolbar tab 消失
+3. 在 General Settings 中关闭 Task Progress，确认 Task Progress tab 消失
+4. 重新开启功能，确认 tab 恢复显示
+5. 插入宏命令 `{{renderer :milestone}}`，确认能正常渲染
+6. 插入 `{{renderer :heatmap}}` 确认不受影响
+7. 确认斜杠命令在功能关闭时不再出现
 
 ---
 
@@ -520,7 +534,8 @@ npx tsc --noEmit 2>&1 | head -50
 
 - [ ] 所有 5 个功能模块都已使用 createMacroHandler
 - [ ] AdvancedSettings tab 已删除
-- [ ] 功能开关能正确控制 tab 显示/隐藏
+- [ ] Toolbar tab 已加入条件过滤
+- [ ] 所有功能开关（包括 Toolbar）能正确控制 tab 显示/隐藏
 - [ ] 斜杠命令在功能关闭时不注册
 - [ ] 默认模板从 settings 读取
 - [ ] 翻译文件已更新
