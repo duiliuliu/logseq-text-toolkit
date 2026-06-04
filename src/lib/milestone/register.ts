@@ -103,7 +103,7 @@ export function registerMilestone(): void {
     '[Text Toolkit] Insert Milestone',
     async () => {
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}, displayStyle=capsule}}`
+        `{{renderer ${MACRO_PREFIX}, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure}}`
       );
     }
   );

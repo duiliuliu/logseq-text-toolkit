@@ -24,3 +24,16 @@
 2. 斜杠命令生成的模板字符串也使用 `MACRO_PREFIX`
 3. 确保所有宏前缀统一管理，便于后续维护和修改
 
+---
+
+### 优化：改进默认 Milestone 斜杠命令
+
+**修改文件**：
+- `/workspace/src/lib/milestone/register.ts`
+
+**优化内容**：
+1. 更新斜杠命令默认模板，包含英文项目管理里程碑列表：`Initiation;Planning;Execution;Monitoring;Closure`
+2. 设置 `displayStyle=compact`（紧凑模式）
+3. 设置 `inline=true`（内联显示）
+4. 提供更完整、实用的默认配置
+
