@@ -40,6 +40,13 @@
       "milestone": "🎯 里程碑",
       "advanced": "⚡ 其他设置"
     },
+    "features": "功能管理",
+    "toolbar": "工具栏",
+    "taskProgress": "任务进度",
+    "heatmap": "热力图",
+    "blockView": "块视图",
+    "summary": "总结",
+    "milestone": "里程碑",
     "saveSuccessRestart": "保存成功，请重启应用生效",
     "generalSettings": "通用设置",
     "theme": "主题",

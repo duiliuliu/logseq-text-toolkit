@@ -20,3 +20,8 @@ export {
   createRendererArgUpdater,
   type RendererArgModel,
 } from './rendererArgs'
+
+export {
+  createMacroHandler,
+  type MacroHandlerOptions,
+} from './macroHandler'

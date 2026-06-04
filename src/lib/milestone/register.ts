@@ -4,7 +4,7 @@
 
 import type { MilestoneDisplayStyle, MilestoneConfig, MilestoneTemplate } from './types';
 import { MilestoneQuery } from './query';
-import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import { renderComponent, splitRendererArgs, parseRendererArgs, createMacroHandler, type MacroHandlerOptions } from '../render';
 import logger from '../logger/index';
 import { getSettings } from '../../settings/index.ts';
 import { logseqAPI } from '../../logseq';
@@ -15,17 +15,11 @@ const PLUGIN_ID = 'milestone';
 
 const MACRO_PREFIX = ':milestone';
 
-registerRendererArgModel(MACRO_PREFIX, {
-  positional: ['displayStyle'],
-  named: ['inline']
-});
-
 let MilestoneComponent: React.FC<any> | null = null;
 
 export function setMilestoneComponent(component: React.FC<any>) {
   MilestoneComponent = component;
 }
-
 
 
 /**
@@ -75,60 +69,18 @@ async function renderMilestone(slot: string, config: MilestoneConfig, currentBlo
 }
 
 /**
- * 注册 Milestone 宏渲染器
- */
-export function registerMilestone(): void {
-  logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-    try {
-      const split = splitRendererArgs(payload.arguments);
-      if (!split) {
-        logger.warn('[Milestone] Invalid macro arguments');
-        return;
-      }
-
-      const { type, tokens } = split;
-
-      if (!type || !type.startsWith(MACRO_PREFIX)) {
-        return;
-      }
-
-      const config = parseMacroArguments(type, tokens);
-      await renderMilestone(slot, config, payload.uuid);
-    } catch (error) {
-      logger.error('[Milestone] Render failed:', error);
-    }
-  });
-
-  logseqAPI.Editor.registerSlashCommand(
-    '[Text Toolkit] Insert Milestone',
-    async () => {
-      await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure}}`
-      );
-    }
-  );
-
-  logger.info('✅ Milestone: Registered successfully');
-}
-
-/**
  * 解析宏参数
  */
-function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
-  const parsed = parseRendererArgs(type, tokens);
-
-  // 检查是否使用了模板
-  let template: MilestoneTemplate | undefined;
+function mergeConfig(macroArgs: Record<string, string>, settingsConfig: Partial<MilestoneConfig>): MilestoneConfig {
   const settings = getSettings();
   const templates = settings?.milestone?.templates || [];
   const defaultColorScheme = settings?.milestone?.defaultColorScheme;
   
-  if (parsed.template) {
-    // 支持两种格式：id 或者 name
-    template = templates.find(t => t.id === parsed.template || t.name === parsed.template);
+  let template: MilestoneTemplate | undefined;
+  if (macroArgs.template) {
+    template = templates.find(t => t.id === macroArgs.template || t.name === macroArgs.template);
   }
 
-  // 合并配置：模板为基础，宏参数覆盖
   const baseConfig: Partial<MilestoneConfig> = template ? {
     filterTag: template.filterTag,
     filterPropKey: template.filterPropKey,
@@ -142,28 +94,24 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
     colorScheme: template.colorScheme,
   } : {};
 
-  // 解析 displayStyle，优先使用宏参数，否则使用模板或默认值
-  let displayStyle: MilestoneDisplayStyle = baseConfig.displayStyle || settings?.milestone?.defaultStyle || 'capsule';
-  if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact', 'arrow-capsule', 'timeline-track'].includes(parsed.displayStyle)) {
-    displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
+  let displayStyle: MilestoneDisplayStyle = baseConfig.displayStyle || settingsConfig?.displayStyle || settings?.milestone?.defaultStyle || 'capsule';
+  if (macroArgs.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact', 'arrow-capsule', 'timeline-track'].includes(macroArgs.displayStyle)) {
+    displayStyle = macroArgs.displayStyle as MilestoneDisplayStyle;
   }
 
-  // 解析 inline，优先使用宏参数，否则使用模板或默认值
-  let inline: boolean = baseConfig.inline !== undefined ? baseConfig.inline : (settings?.milestone?.inline ?? false);
-  if (parsed.inline !== undefined) {
-    inline = parsed.inline !== 'false';
+  let inline: boolean = baseConfig.inline !== undefined ? baseConfig.inline : (settingsConfig?.inline !== undefined ? settingsConfig.inline : (settings?.milestone?.inline ?? false));
+  if (macroArgs.inline !== undefined) {
+    inline = macroArgs.inline !== 'false';
   }
 
-  // 解析 milestoneList，优先使用宏参数
   let finalMilestoneList = baseConfig.milestoneList;
-  if (parsed.milestoneList) {
-    finalMilestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
+  if (macroArgs.milestoneList) {
+    finalMilestoneList = macroArgs.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
   }
 
-  // 确定最终的颜色方案：宏参数 > 模板 > 默认设置
   let finalColorScheme = undefined;
-  if (parsed.colorScheme) {
-    finalColorScheme = JSON.parse(parsed.colorScheme);
+  if (macroArgs.colorScheme) {
+    finalColorScheme = JSON.parse(macroArgs.colorScheme);
   } else if (baseConfig.colorScheme) {
     finalColorScheme = baseConfig.colorScheme;
   } else if (defaultColorScheme) {
@@ -171,18 +119,54 @@ function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
   }
 
   return {
-    template: parsed.template,
-    filterTag: parsed.filterTag || baseConfig.filterTag,
+    template: macroArgs.template,
+    filterTag: macroArgs.filterTag || baseConfig.filterTag || settingsConfig.filterTag,
     displayStyle: displayStyle,
-    property: parsed.property,
-    filterPropKey: parsed.filterPropKey || baseConfig.filterPropKey,
-    milestonePropKey: parsed.milestonePropKey || baseConfig.milestonePropKey,
+    property: macroArgs.property || baseConfig.property || settingsConfig.property,
+    filterPropKey: macroArgs.filterPropKey || baseConfig.filterPropKey || settingsConfig.filterPropKey,
+    milestonePropKey: macroArgs.milestonePropKey || baseConfig.milestonePropKey || settingsConfig.milestonePropKey,
     milestoneList: finalMilestoneList,
-    dateField: parsed.dateField || baseConfig.dateField || 'scheduled',
-    showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : (baseConfig.showProgress !== undefined ? baseConfig.showProgress : settings?.milestone?.showProgress !== false),
-    showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : (baseConfig.showLabel !== undefined ? baseConfig.showLabel : settings?.milestone?.showLabel !== false),
+    dateField: macroArgs.dateField || baseConfig.dateField || settingsConfig.dateField || 'scheduled',
+    showProgress: macroArgs.showProgress !== undefined ? macroArgs.showProgress !== 'false' : (baseConfig.showProgress !== undefined ? baseConfig.showProgress : (settingsConfig.showProgress !== undefined ? settingsConfig.showProgress : settings?.milestone?.showProgress !== false)),
+    showLabel: macroArgs.showLabel !== undefined ? macroArgs.showLabel !== 'false' : (baseConfig.showLabel !== undefined ? baseConfig.showLabel : (settingsConfig.showLabel !== undefined ? settingsConfig.showLabel : settings?.milestone?.showLabel !== false)),
     inline: inline,
     colorScheme: finalColorScheme,
     tooltipStyle: settings?.milestone?.tooltipStyle || 'compact',
   };
+}
+
+/**
+ * 注册 Milestone 宏渲染器
+ */
+export function registerMilestone(): void {
+  const handlerOptions: MacroHandlerOptions<MilestoneConfig> = {
+    macroPrefix: MACRO_PREFIX,
+    argModel: { positional: ['displayStyle'], named: ['inline'] },
+    getConfigFromSettings: () => {
+      const settings = getSettings();
+      return settings?.milestone || {};
+    },
+    mergeConfig: mergeConfig,
+    render: renderMilestone
+  };
+
+  const macroHandler = createMacroHandler(handlerOptions);
+  logseqAPI.App.onMacroRendererSlotted(macroHandler);
+
+  const settings = getSettings();
+  if (settings?.milestone?.enabled !== false) {
+    logseqAPI.Editor.registerSlashCommand(
+      '[Text Toolkit] Insert Milestone',
+      async () => {
+        const milestoneSettings = getSettings()?.milestone;
+        const defaultTemplate = milestoneSettings?.defaultSlashCommandTemplate
+          || `${MACRO_PREFIX}, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure`;
+        await logseqAPI.Editor.insertAtEditingCursor(
+          `{{renderer ${defaultTemplate}}}`
+        );
+      }
+    );
+  }
+
+  logger.info('✅ Milestone: Registered successfully');
 }
