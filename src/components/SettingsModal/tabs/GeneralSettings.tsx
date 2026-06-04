@@ -78,7 +78,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.taskProgress', language)}</label>
+        <label>{t('settings.taskProgressFeature', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -90,7 +90,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.heatmap', language)}</label>
+        <label>{t('settings.heatmapFeature', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -102,7 +102,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.blockView', language)}</label>
+        <label>{t('settings.blockViewFeature', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -114,7 +114,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.summary', language)}</label>
+        <label>{t('settings.summaryFeature', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -126,7 +126,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone', language)}</label>
+        <label>{t('settings.milestoneFeature', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
