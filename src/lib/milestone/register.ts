@@ -13,6 +13,8 @@ import React from 'react';
 
 const PLUGIN_ID = 'milestone';
 
+const MACRO_PREFIX = ':milestone';
+
 registerRendererArgModel(':milestone', {
   positional: ['displayStyle'],
   named: ['inline']
@@ -84,7 +86,13 @@ export function registerMilestone(): void {
         return;
       }
 
-      const config = parseMacroArguments(split.type, split.tokens);
+      const { type, tokens } = split;
+
+      if (!type || !type.startsWith(MACRO_PREFIX)) {
+        return;
+      }
+
+      const config = parseMacroArguments(type, tokens);
       await renderMilestone(slot, config, payload.uuid);
     } catch (error) {
       logger.error('[Milestone] Render failed:', error);
