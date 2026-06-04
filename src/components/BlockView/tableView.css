@@ -510,7 +510,7 @@ html.dark .theme-indigo {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-.ltt-table-root .ls-block-content-indent {
+.ltt-table-root .ls-block > .ls-block > .ls-block-content-indent {
   display: none
 }
 
