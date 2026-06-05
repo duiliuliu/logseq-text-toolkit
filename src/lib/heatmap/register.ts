@@ -407,8 +407,10 @@ export function registerHeatmap(): void {
   logseqAPI.Editor.registerSlashCommand(
     '[Text Toolkit] Insert Heatmap',
     async () => {
+      const settings = await getSettingsWithSystem();
+      const template = settings?.heatmap?.defaultSlashCommandTemplate || MACRO_PREFIX;
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}, view=year, tag=Task}}`
+        `{{renderer ${template}}}`
       );
     }
   );

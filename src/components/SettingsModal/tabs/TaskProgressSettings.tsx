@@ -152,6 +152,16 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
         </label>
       </div>
 
+      <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+        <label>{t('settings.taskProgress.defaultSlashCommandTemplate', language)}</label>
+        <input
+          type="text"
+          value={taskProgress.defaultSlashCommandTemplate || ''}
+          onChange={(e) => handleSettingChange('taskProgress.defaultSlashCommandTemplate', e.target.value)}
+          style={{ width: '100%' }}
+        />
+      </div>
+
       <div className="ltt-setting-item">
         <label>{t('settings.taskProgress.labelFormat', language)}</label>
         <CustomSelect

@@ -95,6 +95,7 @@
     "milestoneDescription": "Configure default behavior and display style for milestone components.",
     "taskProgress": {
       "enabled": "Enable Task Progress Feature",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "nestingSettings": "Nesting Settings",
       "nestingLevel": "Nesting Level",
       "nestingLevel1": "Current Level Only",
@@ -150,6 +151,7 @@
       "hideViewBar": "Hide View Switcher Bar",
       "hideViewBarDescription": "When hidden, default view will be used. You can still switch views with view=xxx parameter",
       "inline": "Inline Mode",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "defaultTheme": "Default Theme",
       "themeDefault": "Default",
       "themeNotion": "Notion",
@@ -215,6 +217,7 @@
     "heatmap": {
       "description": "Configure heatmap display functionality and appearance.",
       "enabled": "Enable Heatmap Feature",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "defaultViewType": "Default View",
       "viewTypeYear": "Year View",
       "viewTypeMonth": "Month View",
@@ -275,6 +278,7 @@
     "milestone": {
       "description": "Configure default behavior and display style for milestone components.",
       "enabled": "Enable Milestone Feature",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "defaultStyle": "Default Display Style",
       "styleCapsule": "Capsule",
       "styleBadge": "Badge",

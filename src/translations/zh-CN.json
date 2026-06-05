@@ -95,6 +95,7 @@
     "milestoneDescription": "配置里程碑组件的默认行为和显示样式。",
     "taskProgress": {
       "enabled": "启用任务进度功能",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "nestingSettings": "嵌套任务设置",
       "nestingLevel": "嵌套层级",
       "nestingLevel1": "仅当前层",
@@ -150,6 +151,7 @@
       "hideViewBar": "隐藏视图切换栏",
       "hideViewBarDescription": "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
       "inline": "行内模式",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "defaultTheme": "默认主题",
       "themeDefault": "默认",
       "themeNotion": "Notion",
@@ -215,6 +217,7 @@
     "heatmap": {
       "description": "配置热力图展示功能和显示效果。",
       "enabled": "启用热力图功能",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "defaultViewType": "默认视图",
       "viewTypeYear": "年度视图",
       "viewTypeMonth": "月度视图",
@@ -275,6 +278,7 @@
     "milestone": {
       "description": "配置里程碑组件的默认行为和显示样式。",
       "enabled": "启用里程碑功能",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "defaultStyle": "默认显示样式",
       "styleCapsule": "胶囊",
       "styleBadge": "徽章",

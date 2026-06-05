@@ -95,6 +95,7 @@
     "milestoneDescription": "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
     "taskProgress": {
       "enabled": "タスク進捗機能を有効化",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "nestingSettings": "ネスト設定",
       "nestingLevel": "ネストレベル",
       "nestingLevel1": "現在のレベルのみ",
@@ -148,8 +149,9 @@
       "viewGallery": "ギャラリー",
       "viewBoard": "カンバン",
       "hideViewBar": "ビュー切り替えバーを隠す",
-      "hideViewBarDescription": "隠した場合はデフォルトビューを使用します。view=xxxパラメータでビューを切り替え可能",
+      "hideViewBarDescription": "隠した場合はデフォルトビューが使用されます。view=xxx パラメータでビューを切り替えることも可能です",
       "inline": "インラインモード",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "defaultTheme": "デフォルトテーマ",
       "themeDefault": "デフォルト",
       "themeNotion": "Notion",
@@ -215,6 +217,7 @@
     "heatmap": {
       "description": "ヒートマップ表示機能と外観を設定します。",
       "enabled": "ヒートマップを有効化",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "defaultViewType": "デフォルトビュー",
       "viewTypeYear": "年ビュー",
       "viewTypeMonth": "月ビュー",
@@ -272,6 +275,7 @@
     "milestone": {
       "description": "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
       "enabled": "マイルストーン機能を有効化",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "defaultStyle": "デフォルト表示スタイル",
       "styleCapsule": "カプセル",
       "styleBadge": "バッジ",

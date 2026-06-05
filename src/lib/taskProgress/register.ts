@@ -189,8 +189,10 @@ export function registerTaskProgress(): void {
     async () => {
       const block = await logseqAPI.Editor.getCurrentBlock()
       if (block?.uuid) {
+        const settings = await getSettingsWithSystem()
+        const template = settings?.taskProgress?.defaultSlashCommandTemplate || `${MACRO_PREFIX}, display=mini-circle`
         await logseqAPI.Editor.insertAtEditingCursor(
-          `{{renderer ${MACRO_PREFIX}, display=mini-circle}}`
+          `{{renderer ${template}}}`
         )
       }
     }

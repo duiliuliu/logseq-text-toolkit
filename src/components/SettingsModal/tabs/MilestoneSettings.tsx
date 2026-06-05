@@ -257,6 +257,16 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
+      <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+        <label>{t('settings.milestone.defaultSlashCommandTemplate', '默认斜杠命令模板')}</label>
+        <input
+          type="text"
+          value={milestone.defaultSlashCommandTemplate || ''}
+          onChange={(e) => handleSettingChange('milestone.defaultSlashCommandTemplate', e.target.value)}
+          style={{ width: '100%' }}
+        />
+      </div>
+
       <div className="ltt-setting-item">
         <label>{t('settings.milestone.tooltipStyle', 'Tooltip 样式')}</label>
         <CustomSelect

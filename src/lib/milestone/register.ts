@@ -6,7 +6,7 @@ import type { MilestoneDisplayStyle, MilestoneConfig, MilestoneTemplate } from '
 import { MilestoneQuery } from './query';
 import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import logger from '../logger/index';
-import { getSettings } from '../../settings/index.ts';
+import { getSettingsWithSystem } from '../../settings/index.ts';
 import { logseqAPI } from '../../logseq';
 import { getDocument } from '../../logseq/utils';
 import React from 'react';
@@ -92,7 +92,7 @@ export function registerMilestone(): void {
         return;
       }
 
-      const config = parseMacroArguments(type, tokens);
+      const config = await parseMacroArguments(type, tokens);
       await renderMilestone(slot, config, payload.uuid);
     } catch (error) {
       logger.error('[Milestone] Render failed:', error);
@@ -102,8 +102,10 @@ export function registerMilestone(): void {
   logseqAPI.Editor.registerSlashCommand(
     '[Text Toolkit] Insert Milestone',
     async () => {
+      const settings = await getSettingsWithSystem();
+      const template = settings?.milestone?.defaultSlashCommandTemplate || MACRO_PREFIX;
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure}}`
+        `{{renderer ${template}}}`
       );
     }
   );
@@ -114,12 +116,12 @@ export function registerMilestone(): void {
 /**
  * 解析宏参数
  */
-function parseMacroArguments(type: string, tokens: any): MilestoneConfig {
+async function parseMacroArguments(type: string, tokens: any): Promise<MilestoneConfig> {
   const parsed = parseRendererArgs(type, tokens);
 
   // 检查是否使用了模板
   let template: MilestoneTemplate | undefined;
-  const settings = getSettings();
+  const settings = await getSettingsWithSystem();
   const templates = settings?.milestone?.templates || [];
   const defaultColorScheme = settings?.milestone?.defaultColorScheme;
   

@@ -419,6 +419,16 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
+      <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+        <label>{t('settings.blockView.defaultSlashCommandTemplate', language)}</label>
+        <input
+          type="text"
+          value={blockViewSettings.defaultSlashCommandTemplate || ''}
+          onChange={(e) => handleSettingChange('defaultSlashCommandTemplate', e.target.value)}
+          style={{ width: '100%' }}
+        />
+      </div>
+
       <div style={{ margin: '16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
         {t('settings.blockView.hideViewBarDescription', language)}
       </div>

@@ -270,8 +270,10 @@ export function registerBlockView(): void {
   logseqAPI.Editor.registerSlashCommand(
     '[Text Toolkit] Insert Block View',
     async () => {
+      const settings = await getSettingsWithSystem();
+      const template = settings?.blockView?.defaultSlashCommandTemplate || MACRO_PREFIX;
       await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${MACRO_PREFIX}}}`
+        `{{renderer ${template}}}`
       );
     }
   );
