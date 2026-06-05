@@ -15,6 +15,7 @@ interface MacroTemplateInputProps {
   language: string
   placeholder?: string
   debounceMs?: number
+  align?: 'left' | 'right'
 }
 
 /**
@@ -26,7 +27,8 @@ export const MacroTemplateInput: React.FC<MacroTemplateInputProps> = ({
   macroType,
   language,
   placeholder,
-  debounceMs = 500
+  debounceMs = 500,
+  align = 'right'
 }) => {
   const [localValue, setLocalValue] = useState(value)
   const [validation, setValidation] = useState<MacroValidationResult>({ valid: true })
@@ -116,12 +118,11 @@ export const MacroTemplateInput: React.FC<MacroTemplateInputProps> = ({
         className={`ltt-macro-template-input ${
           showValidation && !validation.valid ? 'ltt-macro-template-input-error' : ''
         } ${showValidation && validation.valid && validation.warnings ? 'ltt-macro-template-input-warning' : ''}`}
-        style={{ width: '100%' }}
       />
       
       {/* 错误信息 */}
       {showValidation && !validation.valid && validation.error && (
-        <div className="ltt-macro-template-error">
+        <div className={`ltt-macro-template-error ltt-macro-template-alert-${align}`}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="12" cy="12" r="10" />
             <line x1="12" y1="8" x2="12" y2="12" />
@@ -133,7 +134,7 @@ export const MacroTemplateInput: React.FC<MacroTemplateInputProps> = ({
       
       {/* 警告信息 */}
       {showValidation && validation.valid && validation.warnings && validation.warnings.length > 0 && (
-        <div className="ltt-macro-template-warning">
+        <div className={`ltt-macro-template-warning ltt-macro-template-alert-${align}`}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
             <line x1="12" y1="9" x2="12" y2="13" />
@@ -144,7 +145,7 @@ export const MacroTemplateInput: React.FC<MacroTemplateInputProps> = ({
       )}
       
       {/* 帮助提示 */}
-      <div className="ltt-macro-template-hint">
+      <div className={`ltt-macro-template-hint ltt-macro-template-alert-${align}`}>
         {t('settings.macroTemplate.hint', language)}
       </div>
     </div>

@@ -161,6 +161,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
           macroType="taskprogress"
           language={language}
           placeholder=":taskprogress mini-circle"
+          align="right"
         />
       </div>
 

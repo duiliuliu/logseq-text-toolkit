@@ -266,6 +266,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
           macroType="milestone"
           language={language}
           placeholder=":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure"
+          align="right"
         />
       </div>
 

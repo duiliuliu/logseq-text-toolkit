@@ -432,6 +432,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           macroType="blockview"
           language={language}
           placeholder=":blockview, view=list"
+          align="right"
         />
       </div>
 

@@ -135,6 +135,7 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           macroType="heatmap"
           language={language}
           placeholder=":heatmap, view=year, tag=Task"
+          align="right"
         />
       </div>
 

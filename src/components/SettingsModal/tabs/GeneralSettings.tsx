@@ -131,6 +131,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
           onClick={() => setIsFeatureSectionExpanded(!isFeatureSectionExpanded)}
         >
           <div className="ltt-feature-management-title">
+            <h4>{t('settings.featuresTitle', language)}</h4>
             <span className="ltt-feature-management-icon">
               <svg 
                 width="16" 
@@ -147,7 +148,6 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </span>
-            <h4>{t('settings.featuresTitle', language)}</h4>
             <span className="ltt-feature-management-count">
               {enabledFeatures.length}/{features.length}
             </span>
