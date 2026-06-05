@@ -29,6 +29,20 @@
     "placeholder": "内容を入力してください"
   },
   "settings": {
+    "featuresTitle": "機能管理",
+    "featuresHint": "機能を無効にすると、対応する設定タブが非表示になり、グローバルに機能が無効になります",
+    "features": {
+      "enabled": "有効",
+      "disabled": "無効",
+      "toolbarDescription": "ツールバー表示をカスタマイズ",
+      "taskProgressDescription": "プロジェクト進捗統計と表示",
+      "heatmapDescription": "アクティビティと行動分析",
+      "blockViewDescription": "複数のコンテンツ表示モード",
+      "milestoneDescription": "プロジェクトフェーズ追跡",
+      "summaryDescription": "自動要約と帰納機能"
+    },
+    "default": "デフォルト",
+    "toolbar": "ツールバー",
     "title": "設定",
     "tabs": {
       "general": "⚙️ 一般設定",
@@ -86,6 +100,12 @@
     "japanese": "日本語",
     "saveGeneralSettings": "一般設定を保存",
     "saveToolbarSettings": "ツールバー設定を保存",
+    "macroTemplate": {
+      "hint": "フォーマット: :macro, param1=value1, param2=value2。空欄の場合、デフォルト値を使用します。",
+      "prefixRequired": "マクロプレフィックスで始まる必要があります（例：:taskprogress）",
+      "invalidFormat": "無効なテンプレート形式",
+      "unknownParam": "不明なパラメータが含まれています"
+    },
     "saveSuccess": "保存しました！",
     "settingsNotConfigured": "この設定エリアはまだ設定されていません",
     "comingSoon": "近日追加予定...",
@@ -93,6 +113,7 @@
     "milestoneDescription": "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
     "taskProgress": {
       "enabled": "タスク進捗機能を有効化",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "nestingSettings": "ネスト設定",
       "nestingLevel": "ネストレベル",
       "nestingLevel1": "現在のレベルのみ",
@@ -146,7 +167,9 @@
       "viewGallery": "ギャラリー",
       "viewBoard": "カンバン",
       "hideViewBar": "ビュー切り替えバーを隠す",
-      "hideViewBarDescription": "隠した場合はデフォルトビューを使用します。view=xxxパラメータでビューを切り替え可能",
+      "hideViewBarDescription": "隠した場合はデフォルトビューが使用されます。view=xxx パラメータでビューを切り替えることも可能です",
+      "inline": "インラインモード",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "defaultTheme": "デフォルトテーマ",
       "themeDefault": "デフォルト",
       "themeNotion": "Notion",
@@ -212,13 +235,14 @@
     "heatmap": {
       "description": "ヒートマップ表示機能と外観を設定します。",
       "enabled": "ヒートマップを有効化",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "defaultViewType": "デフォルトビュー",
       "viewTypeYear": "年ビュー",
       "viewTypeMonth": "月ビュー",
       "viewTypeWeek": "週ビュー",
       "defaultDisplayMode": "デフォルト表示モード",
       "displayModeFull": "フルモード",
-      "displayModeBasic": " 베이シックモード",
+      "displayModeBasic": "ベーシックモード",
       "displayModeMinimal": "ミニマルモード",
       "defaultColorFormula": "色計算式",
       "colorFormulaSimple": "シンプル",
@@ -235,7 +259,9 @@
       "weekPageCreation": "週ページ作成",
       "enableWeekPageCreation": "週ページ作成を有効化",
       "weekTemplateType": "サマリーテンプレート",
-      "weekPageNameTemplate": "ページ名テンプレート"
+      "weekPageNameTemplate": "ページ名テンプレート",
+      "formulaNote": "シンプル：カウント = ブロック数。ウェイト付き：カウント = ブロック数 + Σmin(子ブロック数×0.3, 3) + 0.1×Σmin(コンテンツ長/100, 1)。",
+      "templateNote": "テンプレート変数: {year} - 年, {month} - 月 (01-12), {week} - 週 (01-53)。例: {year}-{month} または {year}-W{week}"
     },
     "summary": {
       "description": "サマリー生成機能のデフォルト動作とパラメータを設定します。",
@@ -243,7 +269,10 @@
       "defaultTemplate": "デフォルトテンプレート",
       "defaultType": "デフォルトサマリータイプ",
       "dateFormat": "日付形式",
-      "pageNameTemplate": "ページ名テンプレート",
+      "weeklyPageNameTemplate": "週次ページ名テンプレート",
+      "monthlyPageNameTemplate": "月次ページ名テンプレート",
+      "customPageNameTemplate": "カスタムページ名テンプレート",
+      "pageNameTemplateHelp": "使用可能なプレースホルダー: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
       "templateGtdWorkReview": "GTD 作業レビュー",
       "templateMinimalDashboard": "ミニマルダッシュボード",
       "templateBulletJournal": "バレットジャーナル",
@@ -269,6 +298,7 @@
     "milestone": {
       "description": "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
       "enabled": "マイルストーン機能を有効化",
+      "defaultSlashCommandTemplate": "デフォルトスラッシュコマンドテンプレート",
       "defaultStyle": "デフォルト表示スタイル",
       "styleCapsule": "カプセル",
       "styleBadge": "バッジ",
@@ -302,7 +332,18 @@
       "collapse": "折りたたむ",
       "delete": "削除",
       "nameRequired": "テンプレート名は空にできません",
-      "nameDuplicate": "テンプレート名は既に存在します"
+      "nameDuplicate": "テンプレート名は既に存在します",
+      "colorCompleted": "完了",
+      "colorInProgress": "進行中",
+      "colorPending": "未着手",
+      "colorFailed": "失敗",
+      "colorSkipped": "スキップ",
+      "colorBackground": "背景",
+      "colorText": "文字",
+      "templatePropKeyHint": "形式：:user.property/xxx または xxx（システムが自動的にプレフィックスを追加します）",
+      "templateMilestoneListPlaceholder": "要件;開発;テスト;リリース;検収",
+      "customColorsTitle": "カスタム配色",
+      "customColorsHint": "任意"
     },
     "saveMilestoneSettings": "マイルストーン設定を保存"
   }

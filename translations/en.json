@@ -29,6 +29,20 @@
     "placeholder": "Please enter content"
   },
   "settings": {
+    "featuresTitle": "Features",
+    "featuresHint": "Disabling a feature will hide its settings tab and disable the feature globally",
+    "features": {
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "toolbarDescription": "Customize toolbar display",
+      "taskProgressDescription": "Project progress statistics and display",
+      "heatmapDescription": "Activity and behavior analysis",
+      "blockViewDescription": "Multiple content display modes",
+      "milestoneDescription": "Project phase tracking",
+      "summaryDescription": "Automatic summarization and induction"
+    },
+    "default": "Default",
+    "toolbar": "Toolbar",
     "title": "Settings",
     "tabs": {
       "general": "⚙️ General Settings",
@@ -86,6 +100,12 @@
     "japanese": "日本語",
     "saveGeneralSettings": "Save General Settings",
     "saveToolbarSettings": "Save Toolbar Settings",
+    "macroTemplate": {
+      "hint": "Format: :macro, param1=value1, param2=value2. Leave empty to use default.",
+      "prefixRequired": "Must start with macro prefix (e.g., :taskprogress)",
+      "invalidFormat": "Invalid template format",
+      "unknownParam": "Contains unknown parameters"
+    },
     "saveSuccess": "Saved successfully!",
     "settingsNotConfigured": "This settings area is not configured yet",
     "comingSoon": "More features coming soon...",
@@ -93,6 +113,7 @@
     "milestoneDescription": "Configure default behavior and display style for milestone components.",
     "taskProgress": {
       "enabled": "Enable Task Progress Feature",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "nestingSettings": "Nesting Settings",
       "nestingLevel": "Nesting Level",
       "nestingLevel1": "Current Level Only",
@@ -147,6 +168,8 @@
       "viewBoard": "Kanban",
       "hideViewBar": "Hide View Switcher Bar",
       "hideViewBarDescription": "When hidden, default view will be used. You can still switch views with view=xxx parameter",
+      "inline": "Inline Mode",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "defaultTheme": "Default Theme",
       "themeDefault": "Default",
       "themeNotion": "Notion",
@@ -212,6 +235,7 @@
     "heatmap": {
       "description": "Configure heatmap display functionality and appearance.",
       "enabled": "Enable Heatmap Feature",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "defaultViewType": "Default View",
       "viewTypeYear": "Year View",
       "viewTypeMonth": "Month View",
@@ -235,7 +259,9 @@
       "weekPageCreation": "Week Page Creation",
       "enableWeekPageCreation": "Enable Week Page Creation",
       "weekTemplateType": "Summary Template",
-      "weekPageNameTemplate": "Page Name Template"
+      "weekPageNameTemplate": "Page Name Template",
+      "formulaNote": "Simple: count = blocks.length. Weighted: count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1).",
+      "templateNote": "Template variables: {year} - year, {month} - month (01-12), {week} - week number (01-53). Example: {year}-{month} or {year}-W{week}"
     },
     "summary": {
       "description": "Configure default behavior and parameters for the summary generation feature.",
@@ -272,6 +298,7 @@
     "milestone": {
       "description": "Configure default behavior and display style for milestone components.",
       "enabled": "Enable Milestone Feature",
+      "defaultSlashCommandTemplate": "Default Slash Command Template",
       "defaultStyle": "Default Display Style",
       "styleCapsule": "Capsule",
       "styleBadge": "Badge",
@@ -305,7 +332,18 @@
       "collapse": "Collapse",
       "delete": "Delete",
       "nameRequired": "Template name cannot be empty",
-      "nameDuplicate": "Template name already exists"
+      "nameDuplicate": "Template name already exists",
+      "colorCompleted": "Completed",
+      "colorInProgress": "In Progress",
+      "colorPending": "Pending",
+      "colorFailed": "Failed",
+      "colorSkipped": "Skipped",
+      "colorBackground": "Background",
+      "colorText": "Text",
+      "templatePropKeyHint": "Format: You can use :user.property/xxx or just xxx (system will add prefix automatically)",
+      "templateMilestoneListPlaceholder": "Requirement;Development;Testing;Release;Acceptance",
+      "customColorsTitle": "Custom Colors",
+      "customColorsHint": "Optional"
     },
     "saveMilestoneSettings": "Save Milestone Settings"
   }
