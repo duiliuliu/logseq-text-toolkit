@@ -267,12 +267,12 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
           className="ltt-default-template-input"
         />
         <div className="ltt-default-template-hint">
-          {t('settings.default', '默认')}: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
+          {t('settings.default', language)}: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
         </div>
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone.tooltipStyle', 'Tooltip 样式')}</label>
+        <label>{t('settings.milestone.tooltipStyle', language)}</label>
         <CustomSelect
           options={tooltipStyleOptions}
           value={milestone.tooltipStyle ?? 'compact'}

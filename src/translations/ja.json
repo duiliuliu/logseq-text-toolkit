@@ -250,7 +250,9 @@
       "weekPageCreation": "週ページ作成",
       "enableWeekPageCreation": "週ページ作成を有効化",
       "weekTemplateType": "サマリーテンプレート",
-      "weekPageNameTemplate": "ページ名テンプレート"
+      "weekPageNameTemplate": "ページ名テンプレート",
+      "formulaNote": "シンプル：カウント = ブロック数。ウェイト付き：カウント = ブロック数 + Σmin(子ブロック数×0.3, 3) + 0.1×Σmin(コンテンツ長/100, 1)。",
+      "templateNote": "テンプレート変数: {year} - 年, {month} - 月 (01-12), {week} - 週 (01-53)。例: {year}-{month} または {year}-W{week}"
     },
     "summary": {
       "description": "サマリー生成機能のデフォルト動作とパラメータを設定します。",

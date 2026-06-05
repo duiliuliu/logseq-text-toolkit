@@ -162,7 +162,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
           className="ltt-default-template-input"
         />
         <div className="ltt-default-template-hint">
-          {t('settings.default', '默认')}: :taskprogress mini-circle
+          {t('settings.default', language)}: :taskprogress mini-circle
         </div>
       </div>
 

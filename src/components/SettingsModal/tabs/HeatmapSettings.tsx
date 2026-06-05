@@ -84,14 +84,6 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
     { value: 'weighted', label: t('settings.heatmap.colorFormulaWeighted', language) }
   ]
 
-  const formulaNote = language?.startsWith('zh')
-    ? '简化：当天 blocks 数量（count = blocks.length）。加权：count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1)。'
-    : 'Simple: count = blocks.length. Weighted: count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1).'
-
-  const templateNote = language?.startsWith('zh')
-    ? '模板变量：{year} - 年份，{month} - 月份（01-12），{week} - 周数（01-53）。示例：{year}-{month} 或 {year}-W{week}'
-    : 'Template variables: {year} - year, {month} - month (01-12), {week} - week number (01-53). Example: {year}-{month} or {year}-W{week}'
-
   const gradientColors = generateIndigoGradient(
     heatmapSettings.colorScheme.minColor,
     heatmapSettings.colorScheme.maxColor,
@@ -144,7 +136,7 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           className="ltt-default-template-input"
         />
         <div className="ltt-default-template-hint">
-          {t('settings.default', '默认')}: :heatmap, view=year, tag=Task
+          {t('settings.default', language)}: :heatmap, view=year, tag=Task
         </div>
       </div>
 
@@ -157,8 +149,8 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      <div style={{ margin: '-8px 0 16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
-        {formulaNote}
+      <div className="ltt-settings-hint" style={{ margin: '-8px 0 16px 0' }}>
+        {t('settings.heatmap.formulaNote', language)}
       </div>
 
       <div className="ltt-setting-item">
@@ -240,8 +232,8 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           placeholder="{year}-{month}"
         />
       </div>
-      <div style={{ margin: '-8px 0 12px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
-        {templateNote}
+      <div className="ltt-settings-hint" style={{ margin: '-8px 0 12px 0' }}>
+        {t('settings.heatmap.templateNote', language)}
       </div>
 
       <div className="ltt-settings-section-title" style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 600, fontSize: '14px' }}>
@@ -278,8 +270,8 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           placeholder="{year}-W{week}"
         />
       </div>
-      <div style={{ margin: '-8px 0 12px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
-        {templateNote}
+      <div className="ltt-settings-hint" style={{ margin: '-8px 0 12px 0' }}>
+        {t('settings.heatmap.templateNote', language)}
       </div>
 
       <div className="ltt-settings-actions">

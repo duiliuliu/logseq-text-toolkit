@@ -250,7 +250,9 @@
       "weekPageCreation": "周度页面创建",
       "enableWeekPageCreation": "启用周度页面创建",
       "weekTemplateType": "总结模板",
-      "weekPageNameTemplate": "页面名称模板"
+      "weekPageNameTemplate": "页面名称模板",
+      "formulaNote": "简化：当天 blocks 数量（count = blocks.length）。加权：count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1)。",
+      "templateNote": "模板变量：{year} - 年份，{month} - 月份（01-12），{week} - 周数（01-53）。示例：{year}-{month} 或 {year}-W{week}"
     },
     "summary": {
       "description": "配置总结生成功能的默认行为和参数。",

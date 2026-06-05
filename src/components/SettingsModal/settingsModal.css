@@ -236,6 +236,14 @@
   gap: 8px !important;
 }
 
+/* Settings hint consistent style */
+.ltt-settings-hint {
+  font-size: 11px;
+  color: var(--ltt-text-muted, #9ca3af);
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
 /* Dark theme for macro template input */
 [data-theme="dark"] .ltt-macro-template-input {
   background: var(--ltt-bg-secondary, #1f2937) !important;

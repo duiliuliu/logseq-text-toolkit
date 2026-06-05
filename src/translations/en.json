@@ -250,7 +250,9 @@
       "weekPageCreation": "Week Page Creation",
       "enableWeekPageCreation": "Enable Week Page Creation",
       "weekTemplateType": "Summary Template",
-      "weekPageNameTemplate": "Page Name Template"
+      "weekPageNameTemplate": "Page Name Template",
+      "formulaNote": "Simple: count = blocks.length. Weighted: count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1).",
+      "templateNote": "Template variables: {year} - year, {month} - month (01-12), {week} - week number (01-53). Example: {year}-{month} or {year}-W{week}"
     },
     "summary": {
       "description": "Configure default behavior and parameters for the summary generation feature.",

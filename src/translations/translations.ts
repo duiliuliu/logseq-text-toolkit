@@ -178,6 +178,8 @@ export interface HeatmapTranslation {
   weekTemplateType: string;
   weekPageNameTemplate: string;
   defaultSlashCommandTemplate: string;
+  formulaNote: string;
+  templateNote: string;
 }
 
 export interface MilestoneTranslation {

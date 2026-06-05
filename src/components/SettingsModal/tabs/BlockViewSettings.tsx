@@ -407,6 +407,10 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
+      <div className="ltt-settings-hint" style={{ margin: '16px 0' }}>
+        {t('settings.blockView.hideViewBarDescription', language)}
+      </div>
+
       <div className="ltt-setting-item">
         <label>{t('settings.blockView.inline', language)}</label>
         <label className="ltt-switch">
@@ -429,12 +433,8 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           className="ltt-default-template-input"
         />
         <div className="ltt-default-template-hint">
-          {t('settings.default', '默认')}: :blockview, view=list
+          {t('settings.default', language)}: :blockview, view=list
         </div>
-      </div>
-
-      <div className="ltt-settings-hint-small" style={{ margin: '16px 0', lineHeight: 1.4 }}>
-        {t('settings.blockView.hideViewBarDescription', language)}
       </div>
 
       {renderViewSection('table', 'table.title', tableCustomFields)}
