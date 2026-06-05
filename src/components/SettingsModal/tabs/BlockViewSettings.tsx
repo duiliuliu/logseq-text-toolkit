@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { t } from '../../../translations/i18n';
 import CustomSelect from '../../CustomSelect';
+import MacroTemplateInput from '../../SettingsModal/components/MacroTemplateInput';
 import { TabComponentProps } from '../index';
 import { ViewType as BlockViewType } from '../../../lib/blockView/types';
 import { BlockThemeType } from '../../../settings/types';
@@ -11,6 +12,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
     defaultView: 'list' as BlockViewType,
     defaultTheme: 'default' as BlockThemeType,
     hideViewBar: false,
+    inline: false,
     table: {
       showStriped: true,
       showBorder: true,
@@ -364,6 +366,8 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
         {t('settings.blockView.description', language)}
       </p>
 
+      {/* 功能开关已移动到通用设置的功能管理，请勿重复设置 */}
+      {/* 
       <div className="ltt-setting-item">
         <label>{t('settings.blockView.enabled', language)}</label>
         <label className="ltt-switch">
@@ -375,6 +379,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
+      */}
 
       <div className="ltt-setting-item">
         <label>{t('settings.blockView.defaultView', language)}</label>
@@ -406,8 +411,32 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
-      <div style={{ margin: '16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
+      <div className="ltt-settings-hint" style={{ margin: '16px 0' }}>
         {t('settings.blockView.hideViewBarDescription', language)}
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.inline', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={blockViewSettings.inline ?? false}
+            onChange={(e) => handleSettingChange('inline', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.blockView.defaultSlashCommandTemplate', language)}</label>
+        <MacroTemplateInput
+          value={blockViewSettings.defaultSlashCommandTemplate || ''}
+          onChange={(value) => handleSettingChange('defaultSlashCommandTemplate', value)}
+          macroType="blockview"
+          language={language}
+          placeholder=":blockview, view=list"
+          align="right"
+        />
       </div>
 
       {renderViewSection('table', 'table.title', tableCustomFields)}

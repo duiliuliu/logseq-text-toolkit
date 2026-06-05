@@ -41,6 +41,7 @@ export interface TaskProgressSettings {
   onlyLeaves: boolean
   showNestingIndicator: boolean
   statusColors: StatusColors
+  defaultSlashCommandTemplate?: string
 }
 
 export type HeatmapViewType = 'year' | 'month' | 'week'
@@ -76,6 +77,7 @@ export interface HeatmapSettings {
     pageNameTemplate?: string
     logseqTemplate?: string
   }
+  defaultSlashCommandTemplate?: string
 }
 
 // Block View Settings
@@ -148,9 +150,11 @@ export interface BlockViewSettings {
   defaultView: 'list' | 'table' | 'gallery' | 'board';
   defaultTheme: BlockThemeType;
   hideViewBar: boolean;
+  inline: boolean;
   table: BlockViewTableSettings;
   gallery: BlockViewGallerySettings;
   board: BlockViewBoardSettings;
+  defaultSlashCommandTemplate?: string;
 }
 
 export interface AIConfig {
@@ -189,6 +193,7 @@ export interface MilestoneSettings {
     background?: string;
     text?: string;
   };
+  defaultSlashCommandTemplate?: string;
 }
 
 export interface Settings {

@@ -29,6 +29,20 @@
     "placeholder": "请输入内容"
   },
   "settings": {
+    "featuresTitle": "功能管理",
+    "featuresHint": "关闭某功能将隐藏对应的设置标签页，并在全局禁用该功能",
+    "features": {
+      "enabled": "已启用",
+      "disabled": "未启用",
+      "toolbarDescription": "自定义工具栏显示方式",
+      "taskProgressDescription": "项目进度统计与展示",
+      "heatmapDescription": "活跃度与行为分析",
+      "blockViewDescription": "多种内容展示模式",
+      "milestoneDescription": "项目阶段追踪",
+      "summaryDescription": "自动总结与归纳能力"
+    },
+    "default": "默认",
+    "toolbar": "工具栏",
     "title": "设置",
     "tabs": {
       "general": "⚙️ 通用设置",
@@ -86,6 +100,12 @@
     "japanese": "日本語",
     "saveGeneralSettings": "保存通用设置",
     "saveToolbarSettings": "保存工具栏设置",
+    "macroTemplate": {
+      "hint": "格式: :macro, param1=value1, param2=value2。留空使用默认值。",
+      "prefixRequired": "必须以宏命令前缀开头（如 :taskprogress）",
+      "invalidFormat": "模板格式无效",
+      "unknownParam": "包含未知参数"
+    },
     "saveSuccess": "保存成功！",
     "settingsNotConfigured": "此设置区域暂未配置",
     "comingSoon": "敬请期待更多功能...",
@@ -93,6 +113,7 @@
     "milestoneDescription": "配置里程碑组件的默认行为和显示样式。",
     "taskProgress": {
       "enabled": "启用任务进度功能",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "nestingSettings": "嵌套任务设置",
       "nestingLevel": "嵌套层级",
       "nestingLevel1": "仅当前层",
@@ -147,6 +168,8 @@
       "viewBoard": "看板",
       "hideViewBar": "隐藏视图切换栏",
       "hideViewBarDescription": "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
+      "inline": "行内模式",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "defaultTheme": "默认主题",
       "themeDefault": "默认",
       "themeNotion": "Notion",
@@ -212,6 +235,7 @@
     "heatmap": {
       "description": "配置热力图展示功能和显示效果。",
       "enabled": "启用热力图功能",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "defaultViewType": "默认视图",
       "viewTypeYear": "年度视图",
       "viewTypeMonth": "月度视图",
@@ -235,7 +259,9 @@
       "weekPageCreation": "周度页面创建",
       "enableWeekPageCreation": "启用周度页面创建",
       "weekTemplateType": "总结模板",
-      "weekPageNameTemplate": "页面名称模板"
+      "weekPageNameTemplate": "页面名称模板",
+      "formulaNote": "简化：当天 blocks 数量（count = blocks.length）。加权：count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1)。",
+      "templateNote": "模板变量：{year} - 年份，{month} - 月份（01-12），{week} - 周数（01-53）。示例：{year}-{month} 或 {year}-W{week}"
     },
     "summary": {
       "description": "配置总结生成功能的默认行为和参数。",
@@ -272,6 +298,7 @@
     "milestone": {
       "description": "配置里程碑组件的默认行为和显示样式。",
       "enabled": "启用里程碑功能",
+      "defaultSlashCommandTemplate": "默认斜杠命令模板",
       "defaultStyle": "默认显示样式",
       "styleCapsule": "胶囊",
       "styleBadge": "徽章",
@@ -302,10 +329,21 @@
       "templateMilestoneList": "里程碑列表（分号分隔）",
       "defaultColors": "默认配色",
       "edit": "编辑",
-      "collapse": "收起",
+      "collapse": "折叠",
       "delete": "删除",
       "nameRequired": "模板名称不能为空",
-      "nameDuplicate": "模板名称已存在"
+      "nameDuplicate": "模板名称已存在",
+      "colorCompleted": "已完成",
+      "colorInProgress": "进行中",
+      "colorPending": "待开始",
+      "colorFailed": "失败",
+      "colorSkipped": "跳过",
+      "colorBackground": "背景",
+      "colorText": "文字",
+      "templatePropKeyHint": "填写格式：可以填写 :user.property/xxx 或直接填写 xxx（系统会自动添加前缀）",
+      "templateMilestoneListPlaceholder": "需求;开发;测试;上线;验收",
+      "customColorsTitle": "自定义配色",
+      "customColorsHint": "可选"
     },
     "saveMilestoneSettings": "保存里程碑设置"
   }

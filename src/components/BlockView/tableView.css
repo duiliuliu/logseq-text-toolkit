@@ -560,10 +560,6 @@ html.dark .theme-indigo {
    ROOT HEADER
 ========================================================= */
 
-.ltt-table-root > .block-main-container .block-content-inner .block-title-wrap {
-  margin-left: 0.6rem !important;
-}
-
 /* =========================================================
    ROW - 使用 Grid 实现列宽自适应
 ========================================================= */

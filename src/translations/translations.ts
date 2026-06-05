@@ -45,6 +45,7 @@ export interface TaskProgressTranslation {
   statusColors: string;
   statusNames: TaskProgressStatusNames;
   tooltip: TaskProgressTooltip;
+  defaultSlashCommandTemplate: string;
 }
 
 export interface ToolbarTranslation {
@@ -146,6 +147,7 @@ export interface BlockViewTranslation {
   table: TableThemeTranslation;
   gallery: GalleryThemeTranslation;
   board: BoardThemeTranslation;
+  defaultSlashCommandTemplate: string;
 }
 
 export interface HeatmapTranslation {
@@ -175,6 +177,62 @@ export interface HeatmapTranslation {
   enableWeekPageCreation: string;
   weekTemplateType: string;
   weekPageNameTemplate: string;
+  defaultSlashCommandTemplate: string;
+  formulaNote: string;
+  templateNote: string;
+}
+
+export interface MilestoneTranslation {
+  description: string;
+  enabled: string;
+  defaultSlashCommandTemplate: string;
+  defaultStyle: string;
+  styleCapsule: string;
+  styleBadge: string;
+  styleTrack: string;
+  styleCard: string;
+  styleCompact: string;
+  styleArrowCapsule: string;
+  styleTimelineTrack: string;
+  tooltipStyle: string;
+  tooltipStyleMinimal: string;
+  tooltipStyleCompact: string;
+  tooltipStyleDetailed: string;
+  tooltipStyleElegant: string;
+  inline: string;
+  showLabel: string;
+  showLabels: string;
+  showProgress: string;
+  templates: string;
+  addTemplate: string;
+  noTemplates: string;
+  newTemplate: string;
+  templateName: string;
+  templateDescription: string;
+  templateFilterTag: string;
+  templateFilterPropKey: string;
+  templateFilterPropValue: string;
+  templateMilestonePropKey: string;
+  templateMilestoneList: string;
+  defaultColors: string;
+  edit: string;
+  collapse: string;
+  delete: string;
+  nameRequired: string;
+  nameDuplicate: string;
+  // Color labels
+  colorCompleted: string;
+  colorInProgress: string;
+  colorPending: string;
+  colorFailed: string;
+  colorSkipped: string;
+  colorBackground: string;
+  colorText: string;
+  // Form hints
+  templatePropKeyHint: string;
+  templateMilestoneListPlaceholder: string;
+  customColorsTitle: string;
+  customColorsHint: string;
 }
 
 export interface SummaryTranslation {
@@ -205,6 +263,17 @@ export interface SummaryTranslation {
   aiApiUrl: string;
   aiModel: string;
   aiPromptTemplate: string;
+}
+
+export interface FeaturesTranslation {
+  enabled: string;
+  disabled: string;
+  toolbarDescription: string;
+  taskProgressDescription: string;
+  heatmapDescription: string;
+  blockViewDescription: string;
+  milestoneDescription: string;
+  summaryDescription: string;
 }
 
 export interface SettingsTabsTranslation {
@@ -281,6 +350,10 @@ export interface TranslationKeys {
     saveSuccess: string;
     settingsNotConfigured: string;
     comingSoon: string;
+    featuresTitle: string;
+    featuresHint: string;
+    features?: FeaturesTranslation;
+    default: string;
     taskProgressDescription: string;
     taskProgress: TaskProgressTranslation;
     saveTaskProgressSettings: string;
@@ -290,6 +363,7 @@ export interface TranslationKeys {
     blockView: BlockViewTranslation;
     heatmap: HeatmapTranslation;
     summary: SummaryTranslation;
+    milestone?: MilestoneTranslation;
   };
 }
 

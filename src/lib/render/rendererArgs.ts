@@ -112,7 +112,13 @@ export function registerRendererArgModel(prefix: string, model: RendererArgModel
   models.set(prefix, model)
 }
 
-function findModel(type: string): { prefix: string; model: RendererArgModel } | null {
+/**
+ * 查找宏命令参数模型
+ * 
+ * @param type - 宏命令类型或前缀
+ * @returns 找到的模型信息或 null
+ */
+export function findModel(type: string): { prefix: string; model: RendererArgModel } | null {
   let best: { prefix: string; model: RendererArgModel } | null = null
   for (const [prefix, model] of models.entries()) {
     if (!type.startsWith(prefix)) continue
