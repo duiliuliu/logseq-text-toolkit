@@ -4,7 +4,6 @@ import Modal from '../Modal/index'
 import { useSettingsContext } from '../../settings/useSettings'
 import GeneralSettings from './tabs/GeneralSettings'
 import ToolbarSettings from './tabs/ToolbarSettings'
-import AdvancedSettings from './tabs/AdvancedSettings'
 import TaskProgressSettings from './tabs/TaskProgressSettings'
 import HeatmapSettings from './tabs/HeatmapSettings'
 import BlockViewSettings from './tabs/BlockViewSettings'
@@ -96,16 +95,28 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     icon: string
   }
 
+  // 计算动态 tabs 列表
+  const featureTabs: Tab[] = [
+    settings.toolbar !== false && { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '' },
+    settings.taskProgress?.enabled !== false && { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '' },
+    settings.heatmap?.enabled !== false && { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '' },
+    settings.blockView?.enabled !== false && { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
+    settings.summary?.enabled !== false && { id: 'summary', component: SummarySettings, label: t('settings.tabs.summary', language), icon: '' },
+    settings.milestone?.enabled !== false && { id: 'milestone', component: MilestoneSettings, label: t('settings.tabs.milestone', language), icon: '' },
+  ].filter(Boolean) as Tab[]
+
   const tabs: Tab[] = [
     { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language), icon: '' },
-    { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '' },
-    { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '' },
-    { id: 'milestone', component: MilestoneSettings, label: t('settings.tabs.milestone', language), icon: '' },
-    { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '' },
-    { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
-    { id: 'summary', component: SummarySettings, label: t('settings.tabs.summary', language), icon: '' },
-    // { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language), icon: '' }
+    ...featureTabs,
   ]
+
+  // 确保 activeTab 有效
+  useEffect(() => {
+    const tabIds = tabs.map(t => t.id)
+    if (!tabIds.includes(activeTab)) {
+      setActiveTab('general')
+    }
+  }, [tabs, activeTab])
 
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
 
