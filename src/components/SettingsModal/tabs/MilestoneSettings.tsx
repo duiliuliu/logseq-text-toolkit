@@ -7,6 +7,7 @@
 
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
+import MacroTemplateInput from '../../SettingsModal/components/MacroTemplateInput'
 import { TabComponentProps } from '../index.tsx'
 import { MilestoneTemplate, DEFAULT_COLOR_SCHEME, TOOLTIP_STYLE_LABELS } from '../../../lib/milestone/types.ts'
 import React, { useState } from 'react'
@@ -259,16 +260,13 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
       <div className="ltt-setting-item">
         <label>{t('settings.milestone.defaultSlashCommandTemplate', language)}</label>
-        <input
-          type="text"
+        <MacroTemplateInput
           value={milestone.defaultSlashCommandTemplate || ''}
-          onChange={(e) => handleSettingChange('milestone.defaultSlashCommandTemplate', e.target.value)}
+          onChange={(value) => handleSettingChange('milestone.defaultSlashCommandTemplate', value)}
+          macroType="milestone"
+          language={language}
           placeholder=":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure"
-          className="ltt-default-template-input"
         />
-      </div>
-      <div className="ltt-settings-hint">
-        {t('settings.default', language)}: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
       </div>
 
       <div className="ltt-setting-item">

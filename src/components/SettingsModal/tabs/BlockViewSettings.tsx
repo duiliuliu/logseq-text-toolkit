@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { t } from '../../../translations/i18n';
 import CustomSelect from '../../CustomSelect';
+import MacroTemplateInput from '../../SettingsModal/components/MacroTemplateInput';
 import { TabComponentProps } from '../index';
 import { ViewType as BlockViewType } from '../../../lib/blockView/types';
 import { BlockThemeType } from '../../../settings/types';
@@ -425,16 +426,13 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
 
       <div className="ltt-setting-item">
         <label>{t('settings.blockView.defaultSlashCommandTemplate', language)}</label>
-        <input
-          type="text"
+        <MacroTemplateInput
           value={blockViewSettings.defaultSlashCommandTemplate || ''}
-          onChange={(e) => handleSettingChange('defaultSlashCommandTemplate', e.target.value)}
+          onChange={(value) => handleSettingChange('defaultSlashCommandTemplate', value)}
+          macroType="blockview"
+          language={language}
           placeholder=":blockview, view=list"
-          className="ltt-default-template-input"
         />
-      </div>
-      <div className="ltt-settings-hint">
-        {t('settings.default', language)}: :blockview, view=list
       </div>
 
       {renderViewSection('table', 'table.title', tableCustomFields)}

@@ -7,6 +7,7 @@
 
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
+import MacroTemplateInput from '../../SettingsModal/components/MacroTemplateInput'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
 
@@ -154,16 +155,13 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
 
       <div className="ltt-setting-item">
         <label>{t('settings.taskProgress.defaultSlashCommandTemplate', language)}</label>
-        <input
-          type="text"
+        <MacroTemplateInput
           value={taskProgress.defaultSlashCommandTemplate || ''}
-          onChange={(e) => handleSettingChange('taskProgress.defaultSlashCommandTemplate', e.target.value)}
+          onChange={(value) => handleSettingChange('taskProgress.defaultSlashCommandTemplate', value)}
+          macroType="taskprogress"
+          language={language}
           placeholder=":taskprogress mini-circle"
-          className="ltt-default-template-input"
         />
-      </div>
-      <div className="ltt-settings-hint">
-        {t('settings.default', language)}: :taskprogress mini-circle
       </div>
 
       <div className="ltt-setting-item">

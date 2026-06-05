@@ -7,6 +7,7 @@
 
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
+import MacroTemplateInput from '../../SettingsModal/components/MacroTemplateInput'
 import { Settings, HeatmapSettings as HeatmapSettingsType } from '../../../settings/types'
 import { TabComponentProps } from '../index'
 import { generateIndigoGradient } from '../../../lib/heatmap/colorCalculator'
@@ -128,16 +129,13 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
 
       <div className="ltt-setting-item">
         <label>{t('settings.heatmap.defaultSlashCommandTemplate', language)}</label>
-        <input
-          type="text"
+        <MacroTemplateInput
           value={heatmapSettings.defaultSlashCommandTemplate || ''}
-          onChange={(e) => handleSettingChange('defaultSlashCommandTemplate', e.target.value)}
+          onChange={(value) => handleSettingChange('defaultSlashCommandTemplate', value)}
+          macroType="heatmap"
+          language={language}
           placeholder=":heatmap, view=year, tag=Task"
-          className="ltt-default-template-input"
         />
-      </div>
-      <div className="ltt-settings-hint">
-        {t('settings.default', language)}: :heatmap, view=year, tag=Task
       </div>
 
       <div className="ltt-setting-item">
