@@ -88,6 +88,13 @@
     "japanese": "日本語",
     "saveGeneralSettings": "一般設定を保存",
     "saveToolbarSettings": "ツールバー設定を保存",
+    "macroTemplate": {
+      "hint": "フォーマット: :macro, param1=value1, param2=value2。空欄の場合、デフォルト値を使用します。",
+      "prefixRequired": "マクロプレフィックスで始まる必要があります（例：:taskprogress）",
+      "invalidFormat": "無効なテンプレート形式",
+      "unknownParam": "不明なパラメータが含まれています"
+    },
+    "features": "機能管理",
     "saveSuccess": "保存しました！",
     "settingsNotConfigured": "この設定エリアはまだ設定されていません",
     "comingSoon": "近日追加予定...",

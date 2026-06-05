@@ -88,6 +88,13 @@
     "japanese": "日本語",
     "saveGeneralSettings": "Save General Settings",
     "saveToolbarSettings": "Save Toolbar Settings",
+    "macroTemplate": {
+      "hint": "Format: :macro, param1=value1, param2=value2. Leave empty to use default.",
+      "prefixRequired": "Must start with macro prefix (e.g., :taskprogress)",
+      "invalidFormat": "Invalid template format",
+      "unknownParam": "Contains unknown parameters"
+    },
+    "features": "Feature Management",
     "saveSuccess": "Saved successfully!",
     "settingsNotConfigured": "This settings area is not configured yet",
     "comingSoon": "More features coming soon...",

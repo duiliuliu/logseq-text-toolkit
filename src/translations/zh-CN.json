@@ -88,6 +88,13 @@
     "japanese": "日本語",
     "saveGeneralSettings": "保存通用设置",
     "saveToolbarSettings": "保存工具栏设置",
+    "macroTemplate": {
+      "hint": "格式: :macro, param1=value1, param2=value2。留空使用默认值。",
+      "prefixRequired": "必须以宏命令前缀开头（如 :taskprogress）",
+      "invalidFormat": "模板格式无效",
+      "unknownParam": "包含未知参数"
+    },
+    "features": "功能管理",
     "saveSuccess": "保存成功！",
     "settingsNotConfigured": "此设置区域暂未配置",
     "comingSoon": "敬请期待更多功能...",
