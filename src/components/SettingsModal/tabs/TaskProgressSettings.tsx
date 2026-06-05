@@ -99,6 +99,8 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
         {t('settings.taskProgressDescription', language)}
       </p>
       
+      {/* 功能开关已移动到通用设置的功能管理，请勿重复设置 */}
+      {/* 
       <div className="ltt-setting-item">
         <label>{t('settings.taskProgress.enabled', language)}</label>
         <label className="ltt-switch">
@@ -110,6 +112,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
+      */}
 
       <div className="ltt-setting-item">
         <label>{t('settings.taskProgress.defaultDisplayType', language)}</label>

@@ -366,6 +366,8 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
         {t('settings.blockView.description', language)}
       </p>
 
+      {/* 功能开关已移动到通用设置的功能管理，请勿重复设置 */}
+      {/* 
       <div className="ltt-setting-item">
         <label>{t('settings.blockView.enabled', language)}</label>
         <label className="ltt-switch">
@@ -377,6 +379,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
+      */}
 
       <div className="ltt-setting-item">
         <label>{t('settings.blockView.defaultView', language)}</label>

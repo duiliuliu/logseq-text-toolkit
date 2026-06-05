@@ -197,7 +197,8 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
         {t('settings.milestoneDescription', language) || '配置里程碑显示样式和模板'}
       </p>
 
-      {/* Basic Settings */}
+      {/* 功能开关已移动到通用设置的功能管理，请勿重复设置 */}
+      {/* 
       <div className="ltt-setting-item">
         <label>{t('settings.milestone.enabled', '启用里程碑功能')}</label>
         <label className="ltt-switch">
@@ -209,6 +210,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
+      */}
 
       <div className="ltt-setting-item">
         <label>{t('settings.milestone.defaultStyle', '默认样式')}</label>
