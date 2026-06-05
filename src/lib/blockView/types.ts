@@ -69,12 +69,12 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
     icon: VIEW_ICONS.board,
     cssClass: 'ltt-board-root',
   },
-  'mindmap': {
-    id: 'mindmap',
-    name: 'Mindmap',
-    icon: VIEW_ICONS.mindmap,
-    cssClass: 'ltt-mindmap-root',
-  },
+  // 'mindmap': {
+  //   id: 'mindmap',
+  //   name: 'Mindmap',
+  //   icon: VIEW_ICONS.mindmap,
+  //   cssClass: 'ltt-mindmap-root',
+  // },
 };
 
 export interface CustomTableTheme {

@@ -77,7 +77,7 @@ html.dark .ltt-mindmap-root {
 ========================================================= */
 
 .ltt-mindmap-root {
-  margin: 24px !important;
+  /* margin: 24px !important; */
   padding: 0 !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
@@ -90,7 +90,7 @@ html.dark .ltt-mindmap-root {
   background: var(--ltt-node-bg) !important;
   border: 1px solid var(--ltt-node-border) !important;
   border-radius: var(--ltt-node-radius) !important;
-  padding: 14px 20px !important;
+  /* padding: 14px 20px !important; */
   box-shadow: var(--ltt-node-shadow) !important;
   margin: 0 0 24px 0 !important;
   position: relative;
