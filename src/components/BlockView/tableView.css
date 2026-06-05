@@ -627,6 +627,9 @@ html.dark .theme-indigo {
   flex: 1;
   min-width: 0;
   width: 100%;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
 }
 
 /* align */
@@ -706,18 +709,22 @@ html.dark .theme-indigo {
 }
 
 /* =========================================================
-   CELL CONTENT - 确保内容不换行，列宽自适应
+   CELL CONTENT - 允许内容自动换行，保持列宽设计
 ========================================================= */
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * .block-content-wrapper {
   width: auto !important;
   min-width: 100%;
   overflow: visible !important;
-  white-space: nowrap !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
 }
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * .block-content {
-  white-space: nowrap !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
   width: auto !important;
 }
 
