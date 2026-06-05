@@ -1,9 +1,12 @@
+import React, { useState } from 'react'
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
 import { Settings } from '../../../settings/types.ts'
 import { TabComponentProps } from '../index.tsx'
 
 function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
+  const [isFeatureSectionExpanded, setIsFeatureSectionExpanded] = useState(false)
+
   const handleSettingChange = (path: string, value: any) => {
     setSettings(prev => {
       if (!prev) return prev
@@ -39,6 +42,54 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
     ])
   ]
 
+  const features = [
+    {
+      id: 'toolbar',
+      name: t('settings.tabs.toolbar', language),
+      description: t('settings.features.toolbarDescription', language),
+      enabled: settings.toolbar ?? true,
+      path: 'toolbar'
+    },
+    {
+      id: 'taskProgress',
+      name: t('settings.tabs.taskProgress', language),
+      description: t('settings.features.taskProgressDescription', language),
+      enabled: settings.taskProgress?.enabled ?? true,
+      path: 'taskProgress.enabled'
+    },
+    {
+      id: 'heatmap',
+      name: t('settings.tabs.heatmap', language),
+      description: t('settings.features.heatmapDescription', language),
+      enabled: settings.heatmap?.enabled ?? true,
+      path: 'heatmap.enabled'
+    },
+    {
+      id: 'blockView',
+      name: t('settings.tabs.blockView', language),
+      description: t('settings.features.blockViewDescription', language),
+      enabled: settings.blockView?.enabled ?? true,
+      path: 'blockView.enabled'
+    },
+    {
+      id: 'milestone',
+      name: t('settings.tabs.milestone', language),
+      description: t('settings.features.milestoneDescription', language),
+      enabled: settings.milestone?.enabled ?? true,
+      path: 'milestone.enabled'
+    },
+    {
+      id: 'summary',
+      name: t('settings.tabs.summary', language),
+      description: t('settings.features.summaryDescription', language),
+      enabled: settings.summary?.enabled ?? true,
+      path: 'summary.enabled'
+    }
+  ]
+
+  const enabledFeatures = features.filter(f => f.enabled)
+  const disabledFeatures = features.filter(f => !f.enabled)
+
   return (
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">{t('settings.generalSettingsDescription', language)}</p>
@@ -62,155 +113,108 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       {/* Feature Management Section */}
-      <div className="ltt-settings-section">
-        <h4>{t('settings.features', language)}</h4>
-        <div className="ltt-settings-hint" style={{ margin: '8px 0 16px 0' }}>
-          {t('settings.featuresHint', language)}
-        </div>
-        <div className="ltt-feature-grid">
-          {/* Toolbar */}
-          <div className={`ltt-feature-card ${settings.toolbar !== false ? 'ltt-feature-card-active' : ''}`}>
-            <div className="ltt-feature-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <line x1="3" y1="9" x2="21" y2="9" />
-                <line x1="9" y1="21" x2="9" y2="9" />
+      <div className="ltt-feature-management">
+        <div 
+          className="ltt-feature-management-header"
+          onClick={() => setIsFeatureSectionExpanded(!isFeatureSectionExpanded)}
+        >
+          <div className="ltt-feature-management-title">
+            <span className="ltt-feature-management-icon">
+              <svg 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2"
+                style={{
+                  transform: isFeatureSectionExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease'
+                }}
+              >
+                <polyline points="9 18 15 12 9 6" />
               </svg>
-            </div>
-            <div className="ltt-feature-info">
-              <div className="ltt-feature-name">{t('settings.tabs.toolbar', language)}</div>
-              <div className="ltt-feature-desc">{t('settings.toolbarSettingsDescription', language)}</div>
-            </div>
-            <label className="ltt-switch">
-              <input
-                type="checkbox"
-                checked={settings.toolbar ?? true}
-                onChange={(e) => handleSettingChange('toolbar', e.target.checked)}
-              />
-              <span className="ltt-switch-slider"></span>
-            </label>
-          </div>
-
-          {/* Task Progress */}
-          <div className={`ltt-feature-card ${settings.taskProgress?.enabled !== false ? 'ltt-feature-card-active' : ''}`}>
-            <div className="ltt-feature-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-            </div>
-            <div className="ltt-feature-info">
-              <div className="ltt-feature-name">{t('settings.tabs.taskProgress', language)}</div>
-              <div className="ltt-feature-desc">{t('settings.taskProgressDescription', language).substring(0, 30)}...</div>
-            </div>
-            <label className="ltt-switch">
-              <input
-                type="checkbox"
-                checked={settings.taskProgress?.enabled ?? true}
-                onChange={(e) => handleSettingChange('taskProgress.enabled', e.target.checked)}
-              />
-              <span className="ltt-switch-slider"></span>
-            </label>
-          </div>
-
-          {/* Heatmap */}
-          <div className={`ltt-feature-card ${settings.heatmap?.enabled !== false ? 'ltt-feature-card-active' : ''}`}>
-            <div className="ltt-feature-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="7" height="7" />
-                <rect x="14" y="3" width="7" height="7" />
-                <rect x="14" y="14" width="7" height="7" />
-                <rect x="3" y="14" width="7" height="7" />
-              </svg>
-            </div>
-            <div className="ltt-feature-info">
-              <div className="ltt-feature-name">{t('settings.tabs.heatmap', language)}</div>
-              <div className="ltt-feature-desc">{t('settings.heatmap.description', language).substring(0, 30)}...</div>
-            </div>
-            <label className="ltt-switch">
-              <input
-                type="checkbox"
-                checked={settings.heatmap?.enabled ?? true}
-                onChange={(e) => handleSettingChange('heatmap.enabled', e.target.checked)}
-              />
-              <span className="ltt-switch-slider"></span>
-            </label>
-          </div>
-
-          {/* Block View */}
-          <div className={`ltt-feature-card ${settings.blockView?.enabled !== false ? 'ltt-feature-card-active' : ''}`}>
-            <div className="ltt-feature-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="8" y1="6" x2="21" y2="6" />
-                <line x1="8" y1="12" x2="21" y2="12" />
-                <line x1="8" y1="18" x2="21" y2="18" />
-                <line x1="3" y1="6" x2="3.01" y2="6" />
-                <line x1="3" y1="12" x2="3.01" y2="12" />
-                <line x1="3" y1="18" x2="3.01" y2="18" />
-              </svg>
-            </div>
-            <div className="ltt-feature-info">
-              <div className="ltt-feature-name">{t('settings.tabs.blockView', language)}</div>
-              <div className="ltt-feature-desc">{t('settings.blockView.description', language).substring(0, 30)}...</div>
-            </div>
-            <label className="ltt-switch">
-              <input
-                type="checkbox"
-                checked={settings.blockView?.enabled ?? true}
-                onChange={(e) => handleSettingChange('blockView.enabled', e.target.checked)}
-              />
-              <span className="ltt-switch-slider"></span>
-            </label>
-          </div>
-
-          {/* Summary */}
-          <div className={`ltt-feature-card ${settings.summary?.enabled !== false ? 'ltt-feature-card-active' : ''}`}>
-            <div className="ltt-feature-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <polyline points="10 9 9 9 8 9" />
-              </svg>
-            </div>
-            <div className="ltt-feature-info">
-              <div className="ltt-feature-name">{t('settings.tabs.summary', language)}</div>
-              <div className="ltt-feature-desc">{t('settings.summary.description', language).substring(0, 30)}...</div>
-            </div>
-            <label className="ltt-switch">
-              <input
-                type="checkbox"
-                checked={settings.summary?.enabled ?? true}
-                onChange={(e) => handleSettingChange('summary.enabled', e.target.checked)}
-              />
-              <span className="ltt-switch-slider"></span>
-            </label>
-          </div>
-
-          {/* Milestone */}
-          <div className={`ltt-feature-card ${settings.milestone?.enabled !== false ? 'ltt-feature-card-active' : ''}`}>
-            <div className="ltt-feature-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                <line x1="12" y1="22.08" x2="12" y2="12" />
-              </svg>
-            </div>
-            <div className="ltt-feature-info">
-              <div className="ltt-feature-name">{t('settings.tabs.milestone', language)}</div>
-              <div className="ltt-feature-desc">{t('settings.milestoneDescription', language).substring(0, 30)}...</div>
-            </div>
-            <label className="ltt-switch">
-              <input
-                type="checkbox"
-                checked={settings.milestone?.enabled ?? true}
-                onChange={(e) => handleSettingChange('milestone.enabled', e.target.checked)}
-              />
-              <span className="ltt-switch-slider"></span>
-            </label>
+            </span>
+            <h4>{t('settings.features', language)}</h4>
+            <span className="ltt-feature-management-count">
+              {enabledFeatures.length}/{features.length}
+            </span>
           </div>
         </div>
+
+        {isFeatureSectionExpanded && (
+          <div className="ltt-feature-management-content">
+            <div className="ltt-settings-hint" style={{ marginBottom: '16px' }}>
+              {t('settings.featuresHint', language)}
+            </div>
+
+            {enabledFeatures.length > 0 && (
+              <div className="ltt-feature-group">
+                <div className="ltt-feature-group-title">
+                  {t('settings.features.enabled', language)} ({enabledFeatures.length})
+                </div>
+                <div className="ltt-feature-divider" />
+                {enabledFeatures.map((feature, index) => (
+                  <React.Fragment key={feature.id}>
+                    <div className="ltt-feature-item">
+                      <div className="ltt-feature-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                          <circle cx="12" cy="12" r="8" />
+                        </svg>
+                      </div>
+                      <div className="ltt-feature-item-content">
+                        <div className="ltt-feature-item-name">{feature.name}</div>
+                        <div className="ltt-feature-item-description">{feature.description}</div>
+                      </div>
+                      <label className="ltt-switch">
+                        <input
+                          type="checkbox"
+                          checked={feature.enabled}
+                          onChange={(e) => handleSettingChange(feature.path, e.target.checked)}
+                        />
+                        <span className="ltt-switch-slider"></span>
+                      </label>
+                    </div>
+                    {index < enabledFeatures.length - 1 && <div className="ltt-feature-divider" />}
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
+
+            {disabledFeatures.length > 0 && (
+              <div className="ltt-feature-group" style={{ marginTop: '24px' }}>
+                <div className="ltt-feature-group-title">
+                  {t('settings.features.disabled', language)} ({disabledFeatures.length})
+                </div>
+                <div className="ltt-feature-divider" />
+                {disabledFeatures.map((feature, index) => (
+                  <React.Fragment key={feature.id}>
+                    <div className="ltt-feature-item">
+                      <div className="ltt-feature-item-icon ltt-feature-item-icon-disabled">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="8" />
+                        </svg>
+                      </div>
+                      <div className="ltt-feature-item-content">
+                        <div className="ltt-feature-item-name">{feature.name}</div>
+                        <div className="ltt-feature-item-description">{feature.description}</div>
+                      </div>
+                      <label className="ltt-switch">
+                        <input
+                          type="checkbox"
+                          checked={feature.enabled}
+                          onChange={(e) => handleSettingChange(feature.path, e.target.checked)}
+                        />
+                        <span className="ltt-switch-slider"></span>
+                      </label>
+                    </div>
+                    {index < disabledFeatures.length - 1 && <div className="ltt-feature-divider" />}
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="ltt-setting-item">

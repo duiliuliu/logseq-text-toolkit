@@ -296,6 +296,148 @@
   }
 }
 
+/* ============================================================================
+ * Apple-style Feature Management
+ * ============================================================================ */
+
+.ltt-feature-management {
+  margin: 24px 0;
+}
+
+.ltt-feature-management-header {
+  cursor: pointer;
+  user-select: none;
+  padding: 12px 0;
+}
+
+.ltt-feature-management-header:hover {
+  opacity: 0.8;
+}
+
+.ltt-feature-management-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ltt-feature-management-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--ltt-text-muted, #9ca3af);
+}
+
+.ltt-feature-management-title h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ltt-text-primary, #1f2937);
+  margin: 0;
+  flex: 1;
+}
+
+.ltt-feature-management-count {
+  font-size: 13px;
+  color: var(--ltt-text-muted, #6b7280);
+  font-weight: 500;
+}
+
+.ltt-feature-management-content {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ltt-feature-group {
+  margin-bottom: 0;
+}
+
+.ltt-feature-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ltt-text-primary, #1f2937);
+  margin-bottom: 8px;
+  padding: 0 0;
+}
+
+.ltt-feature-divider {
+  height: 1px;
+  background: var(--ltt-border, #e5e7eb);
+  margin: 0 0;
+}
+
+.ltt-feature-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  gap: 12px;
+}
+
+.ltt-feature-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--ltt-accent, #667eea);
+  flex-shrink: 0;
+}
+
+.ltt-feature-item-icon-disabled {
+  color: var(--ltt-text-muted, #9ca3af);
+}
+
+.ltt-feature-item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ltt-feature-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ltt-text-primary, #1f2937);
+  line-height: 1.4;
+}
+
+.ltt-feature-item-description {
+  font-size: 12px;
+  color: var(--ltt-text-muted, #6b7280);
+  line-height: 1.4;
+}
+
+/* Dark theme for feature management */
+[data-theme="dark"] .ltt-feature-management-title h4 {
+  color: var(--ltt-text-primary, #f3f4f6);
+}
+
+[data-theme="dark"] .ltt-feature-group-title {
+  color: var(--ltt-text-primary, #f3f4f6);
+}
+
+[data-theme="dark"] .ltt-feature-divider {
+  background: var(--ltt-border, #374151);
+}
+
+[data-theme="dark"] .ltt-feature-item-name {
+  color: var(--ltt-text-primary, #f3f4f6);
+}
+
+[data-theme="dark"] .ltt-feature-item-description {
+  color: var(--ltt-text-muted, #9ca3af);
+}
+
 /* Custom scrollbar styles */
 .ltt-settings-container::-webkit-scrollbar {
   width: 6px;

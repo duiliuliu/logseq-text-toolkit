@@ -31,6 +31,16 @@
   "settings": {
     "features": "功能管理",
     "featuresHint": "关闭某功能将隐藏对应的设置标签页，并在全局禁用该功能",
+    "features": {
+      "enabled": "已启用",
+      "disabled": "未启用",
+      "toolbarDescription": "自定义工具栏显示方式",
+      "taskProgressDescription": "项目进度统计与展示",
+      "heatmapDescription": "活跃度与行为分析",
+      "blockViewDescription": "多种内容展示模式",
+      "milestoneDescription": "项目阶段追踪",
+      "summaryDescription": "自动总结与归纳能力"
+    },
     "default": "默认",
     "toolbar": "工具栏",
     "title": "设置",
@@ -96,7 +106,6 @@
       "invalidFormat": "模板格式无效",
       "unknownParam": "包含未知参数"
     },
-    "features": "功能管理",
     "saveSuccess": "保存成功！",
     "settingsNotConfigured": "此设置区域暂未配置",
     "comingSoon": "敬请期待更多功能...",

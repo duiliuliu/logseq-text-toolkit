@@ -252,6 +252,17 @@ export interface SummaryTranslation {
   aiPromptTemplate: string;
 }
 
+export interface FeaturesTranslation {
+  enabled: string;
+  disabled: string;
+  toolbarDescription: string;
+  taskProgressDescription: string;
+  heatmapDescription: string;
+  blockViewDescription: string;
+  milestoneDescription: string;
+  summaryDescription: string;
+}
+
 export interface SettingsTabsTranslation {
   general: string;
   toolbar: string;
@@ -328,6 +339,7 @@ export interface TranslationKeys {
     comingSoon: string;
     features: string;
     featuresHint: string;
+    features?: FeaturesTranslation;
     default: string;
     taskProgressDescription: string;
     taskProgress: TaskProgressTranslation;

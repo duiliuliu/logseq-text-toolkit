@@ -31,6 +31,16 @@
   "settings": {
     "features": "Features",
     "featuresHint": "Disabling a feature will hide its settings tab and disable the feature globally",
+    "features": {
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "toolbarDescription": "Customize toolbar display",
+      "taskProgressDescription": "Project progress statistics and display",
+      "heatmapDescription": "Activity and behavior analysis",
+      "blockViewDescription": "Multiple content display modes",
+      "milestoneDescription": "Project phase tracking",
+      "summaryDescription": "Automatic summarization and induction"
+    },
     "default": "Default",
     "toolbar": "Toolbar",
     "title": "Settings",
@@ -96,7 +106,6 @@
       "invalidFormat": "Invalid template format",
       "unknownParam": "Contains unknown parameters"
     },
-    "features": "Feature Management",
     "saveSuccess": "Saved successfully!",
     "settingsNotConfigured": "This settings area is not configured yet",
     "comingSoon": "More features coming soon...",

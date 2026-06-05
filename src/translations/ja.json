@@ -31,6 +31,16 @@
   "settings": {
     "features": "機能管理",
     "featuresHint": "機能を無効にすると、対応する設定タブが非表示になり、グローバルに機能が無効になります",
+    "features": {
+      "enabled": "有効",
+      "disabled": "無効",
+      "toolbarDescription": "ツールバー表示をカスタマイズ",
+      "taskProgressDescription": "プロジェクト進捗統計と表示",
+      "heatmapDescription": "アクティビティと行動分析",
+      "blockViewDescription": "複数のコンテンツ表示モード",
+      "milestoneDescription": "プロジェクトフェーズ追跡",
+      "summaryDescription": "自動要約と帰納機能"
+    },
     "default": "デフォルト",
     "toolbar": "ツールバー",
     "title": "設定",
@@ -96,7 +106,6 @@
       "invalidFormat": "無効なテンプレート形式",
       "unknownParam": "不明なパラメータが含まれています"
     },
-    "features": "機能管理",
     "saveSuccess": "保存しました！",
     "settingsNotConfigured": "この設定エリアはまだ設定されていません",
     "comingSoon": "近日追加予定...",
