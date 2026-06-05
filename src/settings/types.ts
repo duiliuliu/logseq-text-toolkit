@@ -148,6 +148,7 @@ export interface BlockViewSettings {
   defaultView: 'list' | 'table' | 'gallery' | 'board';
   defaultTheme: BlockThemeType;
   hideViewBar: boolean;
+  inlineViewBar: boolean;
   table: BlockViewTableSettings;
   gallery: BlockViewGallerySettings;
   board: BlockViewBoardSettings;

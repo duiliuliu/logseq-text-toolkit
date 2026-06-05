@@ -196,7 +196,8 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   const blockViewSettings = settings?.blockView || {
     defaultView: 'list' as ViewType,
     defaultTheme: 'default' as ThemeType,
-    hideViewBar: false
+    hideViewBar: false,
+    inlineViewBar: false
   };
 
   const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
@@ -207,8 +208,10 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
     return;
   }
 
+  const inlineClass = blockViewSettings.inlineViewBar ? 'ltt-view-bar-inline' : '';
+
   const viewBarHtml = `
-    <div class="ltt-view-bar" data-block-id="${blockId}">
+    <div class="ltt-view-bar ${inlineClass}" data-block-id="${blockId}">
       ${Object.values(VIEW_REGISTRY).map(view => `
         <button
           class="ltt-view-btn ${view.id === currentView ? 'active' : ''}"

@@ -6,6 +6,7 @@
    1. 优化的视图切换栏
    2. 多主题支持
    3. 响应式设计
+   4. Inline 模式支持
 ========================================================= */
 
 /* =========================================================
@@ -15,33 +16,46 @@
 .ltt-view-bar {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  margin-top: 8px;
+  gap: 2px;
+  padding: 3px 6px;
+  margin-top: 6px;
   background: var(--ls-secondary-background-color);
   border: 1px solid var(--ls-border-color);
-  border-radius: 6px;
-  font-size: 11px;
+  border-radius: 5px;
+  font-size: 10px;
   width: fit-content;
-  min-height: 28px;
+  min-height: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
+}
+
+/* Inline mode for view bar */
+.ltt-view-bar-inline {
+  display: inline-flex !important;
+  margin-top: 0 !important;
+  margin-left: 8px !important;
+  padding: 2px 4px !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  min-height: auto !important;
+  vertical-align: middle !important;
 }
 
 .ltt-view-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 4px 8px;
+  gap: 3px;
+  padding: 3px 6px;
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   background: transparent;
   color: var(--ls-secondary-text-color);
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   line-height: 1.4;
 }
@@ -50,27 +64,29 @@
   background: var(--ls-hover-color);
   color: var(--ls-primary-text-color);
   transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .ltt-view-btn.active {
   background: var(--ls-primary-color);
-  color: var(--ls-primary-text-color);
+  color: #fff;
   font-weight: 600;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 .ltt-view-btn.active:hover {
   transform: translateY(0);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
 }
 
 .ltt-view-btn svg {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   flex-shrink: 0;
 }
 
 .ltt-view-btn span {
-  font-size: 11px;
+  font-size: 10px;
 }
 
 /* =========================================================
@@ -210,21 +226,21 @@
 
 @media (max-width: 768px) {
   .ltt-view-bar {
-    padding: 3px 6px;
-    gap: 3px;
+    padding: 2px 4px;
+    gap: 2px;
   }
 
   .ltt-view-btn {
-    padding: 3px 6px;
-    font-size: 10px;
+    padding: 2px 4px;
+    font-size: 9px;
   }
 
   .ltt-view-btn svg {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
   }
 
   .ltt-view-btn span {
-    font-size: 10px;
+    font-size: 9px;
   }
 }

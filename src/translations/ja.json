@@ -149,6 +149,7 @@
       "viewBoard": "カンバン",
       "hideViewBar": "ビュー切り替えバーを隠す",
       "hideViewBarDescription": "隠した場合はデフォルトビューを使用します。view=xxxパラメータでビューを切り替え可能",
+      "inlineViewBar": "インラインモード",
       "defaultTheme": "デフォルトテーマ",
       "themeDefault": "デフォルト",
       "themeNotion": "Notion",
