@@ -2,7 +2,10 @@
  * 宏命令模板验证工具
  * 
  * 用于验证用户在设置中输入的默认斜杠命令模板是否有效
+ * 复用 rendererArgs.ts 中的参数模型注册和解析功能
  */
+
+import { findModel, parseRendererArgs, registerRendererArgModel } from './rendererArgs'
 
 export interface MacroValidationResult {
   valid: boolean
@@ -21,24 +24,51 @@ const MACRO_PREFIXES = {
 } as const
 
 /**
- * 已注册的参数模型（需要在运行时获取）
- */
-let registeredModels: Map<string, { positional?: string[] }> = new Map()
-
-/**
- * 注册参数模型
- */
-export function registerMacroModel(prefix: string, model: { positional?: string[] }): void {
-  registeredModels.set(prefix, model)
-}
-
-/**
  * 从已注册的宏命令中提取模板字符串（不包括 {{renderer }} 外壳）
  */
 export function extractMacroTemplate(template: string): string {
   // 移除 {{renderer }} 外壳
   const match = template.match(/\{\{renderer\s+(.+?)\}\}/)
   return match ? match[1].trim() : template.trim()
+}
+
+/**
+ * 分割宏内容为前缀和 tokens 数组
+ * 
+ * @param macroContent - 宏内容字符串，如 ":taskprogress mini-circle"
+ * @returns 包含前缀和 tokens 的对象
+ */
+function splitMacroContent(macroContent: string): { prefix: string; tokens: string[] } {
+  // 找到第一个非前缀字符的位置（空格或逗号）
+  const firstSpace = macroContent.indexOf(' ')
+  const firstComma = macroContent.indexOf(',')
+  let splitIndex = -1
+  
+  if (firstSpace !== -1 && firstComma !== -1) {
+    splitIndex = Math.min(firstSpace, firstComma)
+  } else if (firstSpace !== -1) {
+    splitIndex = firstSpace
+  } else if (firstComma !== -1) {
+    splitIndex = firstComma
+  }
+  
+  if (splitIndex === -1) {
+    return { prefix: macroContent.trim(), tokens: [] }
+  }
+  
+  const prefix = macroContent.slice(0, splitIndex).trim()
+  const rest = macroContent.slice(splitIndex).trim()
+  
+  // 分割 tokens（复用 rendererArgs 中的逻辑）
+  const tokens = rest
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean)
+    .flatMap(s => s.split(/\s+/))
+    .map(s => s.trim())
+    .filter(Boolean)
+  
+  return { prefix, tokens }
 }
 
 /**
@@ -57,7 +87,7 @@ export function validateMacroTemplate(
   // 空检查
   if (!template || template.trim() === '') {
     return {
-      valid: true, // 空模板是允许的，会使用默认值
+      valid: true,
       warnings: ['Empty template will use default values']
     }
   }
@@ -74,36 +104,21 @@ export function validateMacroTemplate(
     }
   }
 
-  // 分割参数
-  const parts = macroContent.split(',').map(p => p.trim())
-  const typePart = parts[0]
-  const argTokens = parts.slice(1)
+  // 分割为前缀和 tokens
+  const { prefix, tokens } = splitMacroContent(macroContent)
 
-  // 解析参数
-  const parsedArgs: Record<string, string> = {}
-  const positionalTokens: string[] = []
-  
-  for (const token of argTokens) {
-    const idx = token.indexOf('=')
-    if (idx > 0) {
-      const key = token.slice(0, idx).trim()
-      const value = token.slice(idx + 1).trim()
-      if (key) {
-        parsedArgs[key] = value
-      }
-    } else if (token.trim()) {
-      positionalTokens.push(token.trim())
-    }
-  }
+  // 使用 rendererArgs 中的 parseRendererArgs 来解析参数
+  const parsedArgs = parseRendererArgs(prefix, tokens)
 
-  // 获取注册的模型
-  const model = registeredModels.get(validPrefix)
-  
+  // 使用 rendererArgs 中的 findModel 来获取注册的模型
+  const modelInfo = findModel(prefix)
+  const model = modelInfo?.model
+
   // 检查位置参数
   if (model?.positional && model.positional.length > 0) {
     // 检查第一个位置参数（如果有）
     const firstPositional = model.positional[0]
-    if (firstPositional && positionalTokens.length > 0) {
+    if (firstPositional && tokens.length > 0) {
       // 检查第一个位置参数是否被正确映射
       const mappedValue = parsedArgs[firstPositional]
       if (!mappedValue) {
@@ -130,7 +145,7 @@ export function validateMacroTemplate(
   }
 
   // 2. 检查参数值中的特殊字符
-  for (const token of argTokens) {
+  for (const token of tokens) {
     if (token.includes('{{') || token.includes('}}')) {
       return {
         valid: false,
@@ -160,4 +175,12 @@ export function getMacroTypes(): Array<{ type: keyof typeof MACRO_PREFIXES; pref
     type: type as keyof typeof MACRO_PREFIXES,
     prefix
   }))
+}
+
+/**
+ * 兼容性别名：保持与旧版本的 registerMacroModel 兼容，
+ * 现在实际调用 rendererArgs 中的 registerRendererArgModel
+ */
+export function registerMacroModel(prefix: string, model: { positional?: string[] }): void {
+  registerRendererArgModel(prefix, model)
 }

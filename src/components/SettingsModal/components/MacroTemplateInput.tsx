@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { t } from '../../translations/i18n'
-import { validateMacroTemplate, MacroValidationResult } from '../../lib/settings/macroTemplateValidator'
+import { validateMacroTemplate, MacroValidationResult } from '../../lib/render/macroTemplateValidator'
 
 interface MacroTemplateInputProps {
   value: string
