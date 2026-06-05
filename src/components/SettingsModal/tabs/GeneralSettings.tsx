@@ -112,6 +112,18 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
+      <div className="ltt-setting-item">
+        <label>{t('settings.developerMode', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.developerMode || false}
+            onChange={(e) => handleSettingChange('developerMode', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
       {/* Feature Management Section */}
       <div className="ltt-feature-management">
         <div 
@@ -215,18 +227,6 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
             )}
           </div>
         )}
-      </div>
-
-      <div className="ltt-setting-item">
-        <label>{t('settings.developerMode', language)}</label>
-        <label className="ltt-switch">
-          <input
-            type="checkbox"
-            checked={settings.developerMode || false}
-            onChange={(e) => handleSettingChange('developerMode', e.target.checked)}
-          />
-          <span className="ltt-switch-slider"></span>
-        </label>
       </div>
 
       <div className="ltt-settings-actions">
