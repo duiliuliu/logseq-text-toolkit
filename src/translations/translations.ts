@@ -337,7 +337,7 @@ export interface TranslationKeys {
     saveSuccess: string;
     settingsNotConfigured: string;
     comingSoon: string;
-    features: string;
+    featuresTitle: string;
     featuresHint: string;
     features?: FeaturesTranslation;
     default: string;

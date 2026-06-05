@@ -29,7 +29,7 @@
     "placeholder": "Please enter content"
   },
   "settings": {
-    "features": "Features",
+    "featuresTitle": "Features",
     "featuresHint": "Disabling a feature will hide its settings tab and disable the feature globally",
     "features": {
       "enabled": "Enabled",

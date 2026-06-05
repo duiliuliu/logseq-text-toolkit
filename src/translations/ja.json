@@ -29,7 +29,7 @@
     "placeholder": "内容を入力してください"
   },
   "settings": {
-    "features": "機能管理",
+    "featuresTitle": "機能管理",
     "featuresHint": "機能を無効にすると、対応する設定タブが非表示になり、グローバルに機能が無効になります",
     "features": {
       "enabled": "有効",

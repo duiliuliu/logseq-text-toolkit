@@ -29,7 +29,7 @@
     "placeholder": "请输入内容"
   },
   "settings": {
-    "features": "功能管理",
+    "featuresTitle": "功能管理",
     "featuresHint": "关闭某功能将隐藏对应的设置标签页，并在全局禁用该功能",
     "features": {
       "enabled": "已启用",

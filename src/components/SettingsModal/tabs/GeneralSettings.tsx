@@ -135,7 +135,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </span>
-            <h4>{t('settings.features', language)}</h4>
+            <h4>{t('settings.featuresTitle', language)}</h4>
             <span className="ltt-feature-management-count">
               {enabledFeatures.length}/{features.length}
             </span>
