@@ -423,7 +423,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
-      <div className="ltt-setting-item ltt-template-setting">
+      <div className="ltt-setting-item">
         <label>{t('settings.blockView.defaultSlashCommandTemplate', language)}</label>
         <input
           type="text"
@@ -432,9 +432,9 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           placeholder=":blockview, view=list"
           className="ltt-default-template-input"
         />
-        <div className="ltt-default-template-hint">
-          {t('settings.default', language)}: :blockview, view=list
-        </div>
+      </div>
+      <div className="ltt-settings-hint">
+        {t('settings.default', language)}: :blockview, view=list
       </div>
 
       {renderViewSection('table', 'table.title', tableCustomFields)}

@@ -152,7 +152,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
         </label>
       </div>
 
-      <div className="ltt-setting-item ltt-template-setting">
+      <div className="ltt-setting-item">
         <label>{t('settings.taskProgress.defaultSlashCommandTemplate', language)}</label>
         <input
           type="text"
@@ -161,9 +161,9 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
           placeholder=":taskprogress mini-circle"
           className="ltt-default-template-input"
         />
-        <div className="ltt-default-template-hint">
-          {t('settings.default', language)}: :taskprogress mini-circle
-        </div>
+      </div>
+      <div className="ltt-settings-hint">
+        {t('settings.default', language)}: :taskprogress mini-circle
       </div>
 
       <div className="ltt-setting-item">

@@ -257,7 +257,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
-      <div className="ltt-setting-item ltt-template-setting">
+      <div className="ltt-setting-item">
         <label>{t('settings.milestone.defaultSlashCommandTemplate', language)}</label>
         <input
           type="text"
@@ -266,9 +266,9 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
           placeholder=":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure"
           className="ltt-default-template-input"
         />
-        <div className="ltt-default-template-hint">
-          {t('settings.default', language)}: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
-        </div>
+      </div>
+      <div className="ltt-settings-hint">
+        {t('settings.default', language)}: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
       </div>
 
       <div className="ltt-setting-item">

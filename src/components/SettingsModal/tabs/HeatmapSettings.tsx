@@ -126,7 +126,7 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
         />
       </div>
 
-      <div className="ltt-setting-item ltt-template-setting">
+      <div className="ltt-setting-item">
         <label>{t('settings.heatmap.defaultSlashCommandTemplate', language)}</label>
         <input
           type="text"
@@ -135,9 +135,9 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           placeholder=":heatmap, view=year, tag=Task"
           className="ltt-default-template-input"
         />
-        <div className="ltt-default-template-hint">
-          {t('settings.default', language)}: :heatmap, view=year, tag=Task
-        </div>
+      </div>
+      <div className="ltt-settings-hint">
+        {t('settings.default', language)}: :heatmap, view=year, tag=Task
       </div>
 
       <div className="ltt-setting-item">

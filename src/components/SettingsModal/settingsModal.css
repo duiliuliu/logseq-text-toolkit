@@ -296,6 +296,18 @@
   }
 }
 
+.ltt-setting-item > input[type="text"] {
+  flex: 0 0 auto !important;
+  min-width: 120px !important;
+  width: 40% !important;
+  padding: 2px 4px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  height: 30px;
+  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;
+  box-sizing: border-box !important;
+}
+
 /* ============================================================================
  * Apple-style Feature Management
  * ============================================================================ */
