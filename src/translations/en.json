@@ -341,7 +341,7 @@
       "colorBackground": "Background",
       "colorText": "Text",
       "templatePropKeyHint": "Format: You can use :user.property/xxx or just xxx (system will add prefix automatically)",
-      "templateMilestoneListPlaceholder": "Submit Resume;Technical Interview 1;Technical Interview 2;HR Interview;Offer",
+      "templateMilestoneListPlaceholder": "Requirement;Development;Testing;Release;Acceptance",
       "customColorsTitle": "Custom Colors",
       "customColorsHint": "Optional"
     },

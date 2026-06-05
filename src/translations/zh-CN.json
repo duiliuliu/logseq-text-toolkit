@@ -341,7 +341,7 @@
       "colorBackground": "背景",
       "colorText": "文字",
       "templatePropKeyHint": "填写格式：可以填写 :user.property/xxx 或直接填写 xxx（系统会自动添加前缀）",
-      "templateMilestoneListPlaceholder": "投递简历;技术一面;技术二面;HR面;Offer",
+      "templateMilestoneListPlaceholder": "需求;开发;测试;上线;验收",
       "customColorsTitle": "自定义配色",
       "customColorsHint": "可选"
     },

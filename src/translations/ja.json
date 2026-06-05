@@ -341,7 +341,7 @@
       "colorBackground": "背景",
       "colorText": "文字",
       "templatePropKeyHint": "形式：:user.property/xxx または xxx（システムが自動的にプレフィックスを追加します）",
-      "templateMilestoneListPlaceholder": "レジュメ提出;一次面接;二次面接;HR面接;オファー",
+      "templateMilestoneListPlaceholder": "要件;開発;テスト;リリース;検収",
       "customColorsTitle": "カスタム配色",
       "customColorsHint": "任意"
     },
