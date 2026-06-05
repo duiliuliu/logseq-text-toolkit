@@ -29,6 +29,8 @@
     "placeholder": "Please enter content"
   },
   "settings": {
+    "features": "Features",
+    "toolbar": "Toolbar",
     "title": "Settings",
     "tabs": {
       "general": "⚙️ General Settings",

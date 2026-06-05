@@ -29,6 +29,8 @@
     "placeholder": "请输入内容"
   },
   "settings": {
+    "features": "功能管理",
+    "toolbar": "工具栏",
     "title": "设置",
     "tabs": {
       "general": "⚙️ 通用设置",

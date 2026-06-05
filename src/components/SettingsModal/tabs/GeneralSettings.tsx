@@ -62,6 +62,82 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
+        <label>{t('settings.features', language)}</label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.tabs.toolbar', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.toolbar ?? true}
+            onChange={(e) => handleSettingChange('toolbar', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.tabs.taskProgress', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.taskProgress?.enabled ?? true}
+            onChange={(e) => handleSettingChange('taskProgress.enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.tabs.heatmap', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.heatmap?.enabled ?? true}
+            onChange={(e) => handleSettingChange('heatmap.enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.tabs.blockView', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.blockView?.enabled ?? true}
+            onChange={(e) => handleSettingChange('blockView.enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.tabs.summary', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.summary?.enabled ?? true}
+            onChange={(e) => handleSettingChange('summary.enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.tabs.milestone', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={settings.milestone?.enabled ?? true}
+            onChange={(e) => handleSettingChange('milestone.enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
         <label>{t('settings.developerMode', language)}</label>
         <label className="ltt-switch">
           <input

@@ -29,6 +29,8 @@
     "placeholder": "内容を入力してください"
   },
   "settings": {
+    "features": "機能管理",
+    "toolbar": "ツールバー",
     "title": "設定",
     "tabs": {
       "general": "⚙️ 一般設定",
