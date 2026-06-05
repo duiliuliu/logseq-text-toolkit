@@ -220,6 +220,19 @@ export interface MilestoneTranslation {
   delete: string;
   nameRequired: string;
   nameDuplicate: string;
+  // Color labels
+  colorCompleted: string;
+  colorInProgress: string;
+  colorPending: string;
+  colorFailed: string;
+  colorSkipped: string;
+  colorBackground: string;
+  colorText: string;
+  // Form hints
+  templatePropKeyHint: string;
+  templateMilestoneListPlaceholder: string;
+  customColorsTitle: string;
+  customColorsHint: string;
 }
 
 export interface SummaryTranslation {

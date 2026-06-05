@@ -332,7 +332,18 @@
       "collapse": "Collapse",
       "delete": "Delete",
       "nameRequired": "Template name cannot be empty",
-      "nameDuplicate": "Template name already exists"
+      "nameDuplicate": "Template name already exists",
+      "colorCompleted": "Completed",
+      "colorInProgress": "In Progress",
+      "colorPending": "Pending",
+      "colorFailed": "Failed",
+      "colorSkipped": "Skipped",
+      "colorBackground": "Background",
+      "colorText": "Text",
+      "templatePropKeyHint": "Format: You can use :user.property/xxx or just xxx (system will add prefix automatically)",
+      "templateMilestoneListPlaceholder": "Submit Resume;Technical Interview 1;Technical Interview 2;HR Interview;Offer",
+      "customColorsTitle": "Custom Colors",
+      "customColorsHint": "Optional"
     },
     "saveMilestoneSettings": "Save Milestone Settings"
   }

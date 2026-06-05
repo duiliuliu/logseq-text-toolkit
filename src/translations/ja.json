@@ -332,7 +332,18 @@
       "collapse": "折りたたむ",
       "delete": "削除",
       "nameRequired": "テンプレート名は空にできません",
-      "nameDuplicate": "テンプレート名は既に存在します"
+      "nameDuplicate": "テンプレート名は既に存在します",
+      "colorCompleted": "完了",
+      "colorInProgress": "進行中",
+      "colorPending": "未着手",
+      "colorFailed": "失敗",
+      "colorSkipped": "スキップ",
+      "colorBackground": "背景",
+      "colorText": "文字",
+      "templatePropKeyHint": "形式：:user.property/xxx または xxx（システムが自動的にプレフィックスを追加します）",
+      "templateMilestoneListPlaceholder": "レジュメ提出;一次面接;二次面接;HR面接;オファー",
+      "customColorsTitle": "カスタム配色",
+      "customColorsHint": "任意"
     },
     "saveMilestoneSettings": "マイルストーン設定を保存"
   }

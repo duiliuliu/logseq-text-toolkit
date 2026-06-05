@@ -12,31 +12,31 @@ import { TabComponentProps } from '../index.tsx'
 import { MilestoneTemplate, DEFAULT_COLOR_SCHEME, TOOLTIP_STYLE_LABELS } from '../../../lib/milestone/types.ts'
 import React, { useState } from 'react'
 
-const styleOptions = [
-  { value: 'capsule', label: t('settings.milestone.styleCapsule', '胶囊') },
-  { value: 'badge', label: t('settings.milestone.styleBadge', '徽章') },
-  { value: 'track', label: t('settings.milestone.styleTrack', '轨道') },
-  { value: 'card', label: t('settings.milestone.styleCard', '卡片') },
-  { value: 'compact', label: t('settings.milestone.styleCompact', '紧凑') },
-  { value: 'arrow-capsule', label: t('settings.milestone.styleArrowCapsule', '箭头胶囊') },
-  { value: 'timeline-track', label: t('settings.milestone.styleTimelineTrack', '时间线轨道') },
+const getStyleOptions = (language: string) => [
+  { value: 'capsule', label: t('settings.milestone.styleCapsule', language) },
+  { value: 'badge', label: t('settings.milestone.styleBadge', language) },
+  { value: 'track', label: t('settings.milestone.styleTrack', language) },
+  { value: 'card', label: t('settings.milestone.styleCard', language) },
+  { value: 'compact', label: t('settings.milestone.styleCompact', language) },
+  { value: 'arrow-capsule', label: t('settings.milestone.styleArrowCapsule', language) },
+  { value: 'timeline-track', label: t('settings.milestone.styleTimelineTrack', language) },
 ]
 
-const tooltipStyleOptions = [
-  { value: 'minimal', label: t('settings.milestone.tooltipStyleMinimal', 'Minimal') },
-  { value: 'compact', label: t('settings.milestone.tooltipStyleCompact', 'Compact') },
-  { value: 'detailed', label: t('settings.milestone.tooltipStyleDetailed', 'Detailed') },
-  { value: 'elegant', label: t('settings.milestone.tooltipStyleElegant', 'Elegant') },
+const getTooltipStyleOptions = (language: string) => [
+  { value: 'minimal', label: t('settings.milestone.tooltipStyleMinimal', language) },
+  { value: 'compact', label: t('settings.milestone.tooltipStyleCompact', language) },
+  { value: 'detailed', label: t('settings.milestone.tooltipStyleDetailed', language) },
+  { value: 'elegant', label: t('settings.milestone.tooltipStyleElegant', language) },
 ]
 
-const colorInputs = [
-  { key: 'completed', label: '已完成', defaultValue: DEFAULT_COLOR_SCHEME.completed },
-  { key: 'inProgress', label: '进行中', defaultValue: DEFAULT_COLOR_SCHEME.inProgress },
-  { key: 'pending', label: '待开始', defaultValue: DEFAULT_COLOR_SCHEME.pending },
-  { key: 'failed', label: '失败', defaultValue: DEFAULT_COLOR_SCHEME.failed },
-  { key: 'skipped', label: '跳过', defaultValue: DEFAULT_COLOR_SCHEME.skipped },
-  { key: 'background', label: '背景', defaultValue: DEFAULT_COLOR_SCHEME.background },
-  { key: 'text', label: '文字', defaultValue: DEFAULT_COLOR_SCHEME.text },
+const getColorInputs = (language: string) => [
+  { key: 'completed', label: t('settings.milestone.colorCompleted', language), defaultValue: DEFAULT_COLOR_SCHEME.completed },
+  { key: 'inProgress', label: t('settings.milestone.colorInProgress', language), defaultValue: DEFAULT_COLOR_SCHEME.inProgress },
+  { key: 'pending', label: t('settings.milestone.colorPending', language), defaultValue: DEFAULT_COLOR_SCHEME.pending },
+  { key: 'failed', label: t('settings.milestone.colorFailed', language), defaultValue: DEFAULT_COLOR_SCHEME.failed },
+  { key: 'skipped', label: t('settings.milestone.colorSkipped', language), defaultValue: DEFAULT_COLOR_SCHEME.skipped },
+  { key: 'background', label: t('settings.milestone.colorBackground', language), defaultValue: DEFAULT_COLOR_SCHEME.background },
+  { key: 'text', label: t('settings.milestone.colorText', language), defaultValue: DEFAULT_COLOR_SCHEME.text },
 ]
 
 function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
@@ -82,6 +82,9 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
   }
 
   const templates = milestone.templates || []
+  const styleOptions = getStyleOptions(language)
+  const tooltipStyleOptions = getTooltipStyleOptions(language)
+  const colorInputs = getColorInputs(language)
 
   const isIdUnique = (id: string, excludeId?: string): boolean => {
     return !templates.some(t => t.id === id && t.id !== excludeId)
@@ -104,7 +107,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
   const addTemplate = () => {
     const newTemplate: MilestoneTemplate = {
       id: generateUniqueId(),
-      name: t('settings.milestone.newTemplate', '新模板'),
+      name: t('settings.milestone.newTemplate', language),
       description: '',
       filterTag: '',
       filterPropKey: '',
@@ -120,7 +123,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
     let templateName = newTemplate.name
     let counter = 1
     while (!isNameUnique(templateName)) {
-      templateName = `${t('settings.milestone.newTemplate', '新模板')} ${counter}`
+      templateName = `${t('settings.milestone.newTemplate', language)} ${counter}`
       counter++
     }
     newTemplate.name = templateName
@@ -144,9 +147,9 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
     if (updates.name !== undefined) {
       if (!updates.name.trim()) {
-        newErrors[`name_${id}`] = t('settings.milestone.nameRequired', '模板名称不能为空')
+        newErrors[`name_${id}`] = t('settings.milestone.nameRequired', language)
       } else if (!isNameUnique(updates.name, id)) {
-        newErrors[`name_${id}`] = t('settings.milestone.nameDuplicate', '模板名称已存在')
+        newErrors[`name_${id}`] = t('settings.milestone.nameDuplicate', language)
       }
     }
 
@@ -200,7 +203,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       {/* 功能开关已移动到通用设置的功能管理，请勿重复设置 */}
       {/* 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone.enabled', '启用里程碑功能')}</label>
+        <label>{t('settings.milestone.enabled', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -213,7 +216,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       */}
 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone.defaultStyle', '默认样式')}</label>
+        <label>{t('settings.milestone.defaultStyle', language)}</label>
         <CustomSelect
           options={styleOptions}
           value={milestone.defaultStyle || 'capsule'}
@@ -222,7 +225,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone.showLabel', '显示标签')}</label>
+        <label>{t('settings.milestone.showLabel', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -237,7 +240,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone.showProgress', '显示进度')}</label>
+        <label>{t('settings.milestone.showProgress', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -249,7 +252,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.milestone.inline', '行内模式')}</label>
+        <label>{t('settings.milestone.inline', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
@@ -283,7 +286,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
       {/* Default Colors Section */}
       <div className="ltt-settings-section">
-        <h4>{t('settings.milestone.defaultColors', '默认配色')}</h4>
+        <h4>{t('settings.milestone.defaultColors', language)}</h4>
         <div className="ltt-milestone-color-grid-compact">
           {colorInputs.map(({ key, label, defaultValue }) => (
             <div key={key} className="ltt-milestone-color-item-compact">
@@ -304,7 +307,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       <div className="ltt-milestone-templates-section">
         <div className="ltt-milestone-templates-header">
           <h3 className="ltt-milestone-templates-title">
-            {t('settings.milestone.templates', '模板配置')}
+            {t('settings.milestone.templates', language)}
           </h3>
           <button
             className="ltt-milestone-add-template-btn"
@@ -314,7 +317,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
-            {t('settings.milestone.addTemplate', '添加')}
+            {t('settings.milestone.addTemplate', language)}
           </button>
         </div>
 
@@ -327,7 +330,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                 <line x1="9" y1="15" x2="15" y2="15"></line>
               </svg>
               <p className="ltt-milestone-no-templates-text">
-                {t('settings.milestone.noTemplates', '暂无模板，点击上方按钮添加。')}
+                {t('settings.milestone.noTemplates', language)}
               </p>
             </div>
           ) : (
@@ -345,7 +348,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                       </div>
                       <input
                         className={`ltt-milestone-template-name-input ${errors[`name_${template.id}`] ? 'ltt-milestone-input-error' : ''}`}
-                        placeholder={t('settings.milestone.templateName', '模板名称')}
+                        placeholder={t('settings.milestone.templateName', language)}
                         value={template.name}
                         onChange={(e) => updateTemplate(template.id, { name: e.target.value })}
                       />
@@ -362,7 +365,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                       <button
                         className="ltt-milestone-action-btn ltt-milestone-action-btn-collapse"
                         onClick={() => toggleTemplate(template.id)}
-                        title={isCollapsed ? t('settings.milestone.edit', '展开') : t('settings.milestone.collapse', '折叠')}
+                        title={isCollapsed ? t('settings.milestone.edit', language) : t('settings.milestone.collapse', language)}
                       >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <polyline
@@ -373,7 +376,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                       <button
                         className="ltt-milestone-action-btn ltt-milestone-action-btn-delete"
                         onClick={() => deleteTemplate(template.id)}
-                        title={t('settings.milestone.delete', '删除')}
+                        title={t('settings.milestone.delete', language)}
                       >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <polyline points="3 6 5 6 21 6"></polyline>
@@ -388,11 +391,11 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                       <div className="ltt-milestone-form-grid">
                         <div className="ltt-milestone-form-item">
                           <label className="ltt-milestone-form-label">
-                            {t('settings.milestone.templateDescription', '描述（可选）')}
+                            {t('settings.milestone.templateDescription', language)}
                           </label>
                           <input
                             className="ltt-milestone-form-input"
-                            placeholder={t('settings.milestone.templateDescription', '描述（可选）')}
+                            placeholder={t('settings.milestone.templateDescription', language)}
                             value={template.description || ''}
                             onChange={(e) => updateTemplate(template.id, { description: e.target.value })}
                           />
@@ -400,11 +403,11 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
                         <div className="ltt-milestone-form-item">
                           <label className="ltt-milestone-form-label">
-                            {t('settings.milestone.templateFilterTag', '筛选标签（可选）')}
+                            {t('settings.milestone.templateFilterTag', language)}
                           </label>
                           <input
                             className="ltt-milestone-form-input"
-                            placeholder={t('settings.milestone.templateFilterTag', '筛选标签（可选）')}
+                            placeholder={t('settings.milestone.templateFilterTag', language)}
                             value={template.filterTag || ''}
                             onChange={(e) => updateTemplate(template.id, { filterTag: e.target.value })}
                           />
@@ -412,41 +415,41 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
                         <div className="ltt-milestone-form-item">
                           <label className="ltt-milestone-form-label">
-                            {t('settings.milestone.templateFilterPropKey', '筛选属性键（可选）')}
+                            {t('settings.milestone.templateFilterPropKey', language)}
                           </label>
                           <input
                             className="ltt-milestone-form-input"
-                            placeholder={t('settings.milestone.templateFilterPropKey', '筛选属性键（可选）')}
+                            placeholder={t('settings.milestone.templateFilterPropKey', language)}
                             value={template.filterPropKey || ''}
                             onChange={(e) => updateTemplate(template.id, { filterPropKey: e.target.value })}
                           />
                           <div className="ltt-milestone-form-hint">
-                            填写格式：可以填写 :user.property/xxx 或直接填写 xxx（系统会自动添加前缀）
+                            {t('settings.milestone.templatePropKeyHint', language)}
                           </div>
                         </div>
 
                         <div className="ltt-milestone-form-item ltt-milestone-form-item-full">
                           <label className="ltt-milestone-form-label ltt-milestone-form-label-required">
-                            {t('settings.milestone.templateMilestonePropKey', '里程碑属性键（必填）')}
+                            {t('settings.milestone.templateMilestonePropKey', language)}
                           </label>
                           <input
                             className="ltt-milestone-form-input"
-                            placeholder={t('settings.milestone.templateMilestonePropKey', '里程碑属性键（必填）')}
+                            placeholder={t('settings.milestone.templateMilestonePropKey', language)}
                             value={template.milestonePropKey || ''}
                             onChange={(e) => updateTemplate(template.id, { milestonePropKey: e.target.value })}
                           />
                           <div className="ltt-milestone-form-hint">
-                            填写格式：可以填写 :user.property/xxx 或直接填写 xxx（系统会自动添加前缀）
+                            {t('settings.milestone.templatePropKeyHint', language)}
                           </div>
                         </div>
 
                         <div className="ltt-milestone-form-item ltt-milestone-form-item-full">
                           <label className="ltt-milestone-form-label">
-                            {t('settings.milestone.templateMilestoneList', '里程碑列表（分号分隔）')}
+                            {t('settings.milestone.templateMilestoneList', language)}
                           </label>
                           <input
                             className="ltt-milestone-form-input"
-                            placeholder="投递简历;技术一面;技术二面;HR面;Offer"
+                            placeholder={t('settings.milestone.templateMilestoneListPlaceholder', language)}
                             value={(template.milestoneList || []).join(';')}
                             onChange={(e) => updateTemplate(template.id, { milestoneList: e.target.value.split(';').map(s => s.trim()).filter(Boolean) })}
                           />
@@ -469,7 +472,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
                           <div className="ltt-milestone-form-item">
                             <label className="ltt-milestone-form-label">
-                              {t('settings.milestone.showProgress', '显示进度')}
+                              {t('settings.milestone.showProgress', language)}
                             </label>
                             <label className="ltt-switch">
                               <input
@@ -483,7 +486,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
                           <div className="ltt-milestone-form-item">
                             <label className="ltt-milestone-form-label">
-                              {t('settings.milestone.showLabel', '显示标签')}
+                              {t('settings.milestone.showLabel', language)}
                             </label>
                             <label className="ltt-switch">
                               <input
@@ -497,7 +500,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
 
                           <div className="ltt-milestone-form-item">
                             <label className="ltt-milestone-form-label">
-                              {t('settings.milestone.inline', '行内模式')}
+                              {t('settings.milestone.inline', language)}
                             </label>
                             <label className="ltt-switch">
                               <input
@@ -514,8 +517,8 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
                       {/* Template Custom Colors Section */}
                       <div className="ltt-milestone-template-color-section">
                         <div className="ltt-milestone-template-color-header">
-                          <span className="ltt-milestone-template-color-title">自定义配色</span>
-                          <span className="ltt-milestone-template-color-hint">可选</span>
+                          <span className="ltt-milestone-template-color-title">{t('settings.milestone.customColorsTitle', language)}</span>
+                          <span className="ltt-milestone-template-color-hint">{t('settings.milestone.customColorsHint', language)}</span>
                         </div>
                         <div className="ltt-milestone-color-grid-compact">
                           {colorInputs.map(({ key, label, defaultValue }) => (

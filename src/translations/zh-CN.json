@@ -329,10 +329,21 @@
       "templateMilestoneList": "里程碑列表（分号分隔）",
       "defaultColors": "默认配色",
       "edit": "编辑",
-      "collapse": "收起",
+      "collapse": "折叠",
       "delete": "删除",
       "nameRequired": "模板名称不能为空",
-      "nameDuplicate": "模板名称已存在"
+      "nameDuplicate": "模板名称已存在",
+      "colorCompleted": "已完成",
+      "colorInProgress": "进行中",
+      "colorPending": "待开始",
+      "colorFailed": "失败",
+      "colorSkipped": "跳过",
+      "colorBackground": "背景",
+      "colorText": "文字",
+      "templatePropKeyHint": "填写格式：可以填写 :user.property/xxx 或直接填写 xxx（系统会自动添加前缀）",
+      "templateMilestoneListPlaceholder": "投递简历;技术一面;技术二面;HR面;Offer",
+      "customColorsTitle": "自定义配色",
+      "customColorsHint": "可选"
     },
     "saveMilestoneSettings": "保存里程碑设置"
   }
