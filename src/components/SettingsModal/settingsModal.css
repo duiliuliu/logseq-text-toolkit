@@ -114,20 +114,22 @@
 .ltt-macro-template-input-container {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
 }
 
 .ltt-macro-template-input {
   width: 100% !important;
-  padding: 8px 12px !important;
+  max-width: 600px !important;
+  padding: 10px 14px !important;
   border: 1px solid var(--ltt-border, #d1d5db) !important;
-  border-radius: 6px !important;
+  border-radius: 8px !important;
   font-size: 13px !important;
   font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;
   background: var(--ltt-bg-primary, white) !important;
   color: var(--ltt-text-primary, #374151) !important;
   transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
 }
 
 .ltt-macro-template-input:focus {
@@ -180,6 +182,60 @@
   opacity: 0.8;
 }
 
+/* ============================================================================
+   Default Slash Command Template Input Styles
+   ============================================================================ */
+
+.ltt-default-template-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.ltt-default-template-input {
+  width: 100% !important;
+  max-width: 600px !important;
+  padding: 10px 14px !important;
+  border: 1px solid var(--ltt-border, #d1d5db) !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;
+  background: var(--ltt-bg-primary, white) !important;
+  color: var(--ltt-text-primary, #374151) !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+}
+
+.ltt-default-template-input:focus {
+  outline: none !important;
+  border-color: var(--ltt-accent, #667eea) !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+}
+
+.ltt-default-template-hint {
+  font-size: 11px;
+  color: var(--ltt-text-muted, #9ca3af);
+  line-height: 1.4;
+  opacity: 0.8;
+  word-break: break-all;
+}
+
+/* Settings hint consistent style */
+.ltt-settings-hint-small {
+  font-size: 11px;
+  color: var(--ltt-text-muted, #9ca3af);
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+/* Update ltt-setting-item for column layout for template inputs */
+.ltt-setting-item.ltt-template-setting {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+}
+
 /* Dark theme for macro template input */
 [data-theme="dark"] .ltt-macro-template-input {
   background: var(--ltt-bg-secondary, #1f2937) !important;
@@ -206,6 +262,30 @@
 
 [data-theme="dark"] .ltt-macro-template-hint {
   color: var(--ltt-text-muted, #9ca3af);
+}
+
+/* Dark theme for default template input */
+[data-theme="dark"] .ltt-default-template-input {
+  background: var(--ltt-bg-secondary, #1f2937) !important;
+  border-color: var(--ltt-border, #374151) !important;
+  color: var(--ltt-text-primary, #f3f4f6) !important;
+}
+
+[data-theme="dark"] .ltt-default-template-input:focus {
+  border-color: var(--ltt-accent, #667eea) !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+}
+
+[data-theme="dark"] .ltt-default-template-hint {
+  color: var(--ltt-text-muted, #9ca3af);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .ltt-macro-template-input,
+  .ltt-default-template-input {
+    max-width: 100% !important;
+  }
 }
 
 /* Custom scrollbar styles */

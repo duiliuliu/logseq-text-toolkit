@@ -257,17 +257,17 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
         </label>
       </div>
 
-      <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+      <div className="ltt-setting-item ltt-template-setting">
         <label>{t('settings.milestone.defaultSlashCommandTemplate', language)}</label>
         <input
           type="text"
           value={milestone.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('milestone.defaultSlashCommandTemplate', e.target.value)}
           placeholder=":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure"
-          style={{ width: '100%', maxWidth: '600px' }}
+          className="ltt-default-template-input"
         />
-        <div style={{ marginTop: '4px', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', wordBreak: 'break-all' }}>
-          默认: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
+        <div className="ltt-default-template-hint">
+          {t('settings.default', '默认')}: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
         </div>
       </div>
 

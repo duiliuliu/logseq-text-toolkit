@@ -31,6 +31,7 @@
   "settings": {
     "features": "Features",
     "featuresHint": "Disabling a feature will hide its settings tab and disable the feature globally",
+    "default": "Default",
     "toolbar": "Toolbar",
     "title": "Settings",
     "tabs": {
