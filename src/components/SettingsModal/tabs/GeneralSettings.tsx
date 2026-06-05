@@ -64,7 +64,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       {/* Feature Management Section */}
       <div className="ltt-settings-section">
         <h4>{t('settings.features', language)}</h4>
-        <div className="ltt-settings-section-hint">
+        <div style={{ margin: '8px 0 16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>
           {t('settings.featuresHint', language)}
         </div>
         <div className="ltt-feature-grid">
