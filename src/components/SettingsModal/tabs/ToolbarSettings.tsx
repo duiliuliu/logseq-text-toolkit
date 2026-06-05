@@ -52,7 +52,8 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
     <div className="ltt-settings-tab-content">
       <p className="ltt-tab-section-description-small">{t('settings.toolbarSettingsDescription', language)}</p>
       
-      {/* Switch 类型的设置项 */}
+      {/* 以下开关已移动到通用设置中的功能管理，请勿重复设置 */}
+      {/*
       <div className="ltt-setting-item">
         <label>{t('settings.enabled', language)}</label>
         <label className="ltt-switch">
@@ -88,6 +89,7 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
           <span className="ltt-switch-slider"></span>
         </label>
       </div>
+      */}
 
       {/* Input 类型的设置项 */}
       <div className="ltt-setting-item">
