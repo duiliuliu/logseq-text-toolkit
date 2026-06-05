@@ -64,6 +64,9 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       {/* Feature Management Section */}
       <div className="ltt-settings-section">
         <h4>{t('settings.features', language)}</h4>
+        <div className="ltt-settings-section-hint">
+          {t('settings.featuresHint', language)}
+        </div>
         <div className="ltt-feature-grid">
           {/* Toolbar */}
           <div className={`ltt-feature-card ${settings.toolbar !== false ? 'ltt-feature-card-active' : ''}`}>
@@ -76,7 +79,7 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
             </div>
             <div className="ltt-feature-info">
               <div className="ltt-feature-name">{t('settings.tabs.toolbar', language)}</div>
-              <div className="ltt-feature-desc">{t('settings.toolbarShortcut', language)}</div>
+              <div className="ltt-feature-desc">{t('settings.toolbarSettingsDescription', language)}</div>
             </div>
             <label className="ltt-switch">
               <input

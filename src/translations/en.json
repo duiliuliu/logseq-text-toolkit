@@ -30,6 +30,7 @@
   },
   "settings": {
     "features": "Features",
+    "featuresHint": "Disabling a feature will hide its settings tab and disable the feature globally",
     "toolbar": "Toolbar",
     "title": "Settings",
     "tabs": {

@@ -425,7 +425,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           type="text"
           value={blockViewSettings.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('defaultSlashCommandTemplate', e.target.value)}
-          style={{ width: '100%' }}
+          style={{ maxWidth: '300px' }}
         />
       </div>
 

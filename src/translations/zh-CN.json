@@ -30,6 +30,7 @@
   },
   "settings": {
     "features": "功能管理",
+    "featuresHint": "关闭某功能将隐藏对应的设置标签页，并在全局禁用该功能",
     "toolbar": "工具栏",
     "title": "设置",
     "tabs": {

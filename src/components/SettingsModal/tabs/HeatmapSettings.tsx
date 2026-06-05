@@ -135,21 +135,21 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.heatmap.defaultColorFormula', language)}</label>
-        <CustomSelect
-          options={colorFormulaOptions}
-          value={heatmapSettings.defaultColorFormula}
-          onChange={(value) => handleSettingChange('defaultColorFormula', value)}
-        />
-      </div>
-
-      <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
         <label>{t('settings.heatmap.defaultSlashCommandTemplate', language)}</label>
         <input
           type="text"
           value={heatmapSettings.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('defaultSlashCommandTemplate', e.target.value)}
-          style={{ width: '100%' }}
+          style={{ maxWidth: '300px' }}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.heatmap.defaultColorFormula', language)}</label>
+        <CustomSelect
+          options={colorFormulaOptions}
+          value={heatmapSettings.defaultColorFormula}
+          onChange={(value) => handleSettingChange('defaultColorFormula', value)}
         />
       </div>
 

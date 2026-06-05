@@ -158,7 +158,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
           type="text"
           value={taskProgress.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('taskProgress.defaultSlashCommandTemplate', e.target.value)}
-          style={{ width: '100%' }}
+          style={{ maxWidth: '300px' }}
         />
       </div>
 
