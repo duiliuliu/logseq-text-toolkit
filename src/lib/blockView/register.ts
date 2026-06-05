@@ -9,7 +9,7 @@ import logger from '../logger';
 const MACRO_PREFIX = ':blockview';
 const PLUGIN_ID = 'text-toolkit-blockview';
 
-registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] });
+registerRendererArgModel(MACRO_PREFIX, { positional: ['view'], named: ['theme', 'inline'] });
 
 const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
 
@@ -155,6 +155,16 @@ function getCurrentThemeFromParams(tokens: string[], defaultTheme: ThemeType): T
   return defaultTheme;
 }
 
+function getCurrentInlineFromParams(tokens: string[], defaultInline: boolean): boolean {
+  const argMap = parseRendererArgs(MACRO_PREFIX, tokens);
+
+  if (typeof argMap.inline !== 'undefined') {
+    return argMap.inline === true || argMap.inline === 'true';
+  }
+
+  return defaultInline;
+}
+
 async function switchView(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
   await applyViewStyle(blockId, viewType, themeType);
 
@@ -197,18 +207,19 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
     defaultView: 'list' as ViewType,
     defaultTheme: 'default' as ThemeType,
     hideViewBar: false,
-    inlineViewBar: false
+    inline: false
   };
 
   const currentView = getCurrentViewFromParams(tokens, blockViewSettings.defaultView);
   const currentTheme = getCurrentThemeFromParams(tokens, blockViewSettings.defaultTheme);
+  const currentInline = getCurrentInlineFromParams(tokens, blockViewSettings.inline);
 
   if (blockViewSettings.hideViewBar) {
     await applyViewStyle(blockId, currentView, currentTheme);
     return;
   }
 
-  const inlineClass = blockViewSettings.inlineViewBar ? 'ltt-view-bar-inline' : '';
+  const inlineClass = currentInline ? 'ltt-view-bar-inline' : '';
 
   const viewBarHtml = `
     <div class="ltt-view-bar ${inlineClass}" data-block-id="${blockId}">

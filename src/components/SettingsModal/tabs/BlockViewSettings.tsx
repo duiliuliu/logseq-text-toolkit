@@ -11,6 +11,7 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
     defaultView: 'list' as BlockViewType,
     defaultTheme: 'default' as BlockThemeType,
     hideViewBar: false,
+    inline: false,
     table: {
       showStriped: true,
       showBorder: true,
@@ -407,12 +408,12 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item">
-        <label>{t('settings.blockView.inlineViewBar', language)}</label>
+        <label>{t('settings.blockView.inline', language)}</label>
         <label className="ltt-switch">
           <input
             type="checkbox"
-            checked={blockViewSettings.inlineViewBar ?? false}
-            onChange={(e) => handleSettingChange('inlineViewBar', e.target.checked)}
+            checked={blockViewSettings.inline ?? false}
+            onChange={(e) => handleSettingChange('inline', e.target.checked)}
           />
           <span className="ltt-switch-slider"></span>
         </label>

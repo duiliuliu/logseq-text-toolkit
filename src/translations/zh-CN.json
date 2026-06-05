@@ -149,7 +149,7 @@
       "viewBoard": "看板",
       "hideViewBar": "隐藏视图切换栏",
       "hideViewBarDescription": "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
-      "inlineViewBar": "行内模式",
+      "inline": "行内模式",
       "defaultTheme": "默认主题",
       "themeDefault": "默认",
       "themeNotion": "Notion",
