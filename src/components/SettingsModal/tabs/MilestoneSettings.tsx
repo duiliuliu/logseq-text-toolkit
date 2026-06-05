@@ -258,7 +258,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
       </div>
 
       <div className="ltt-setting-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-        <label>{t('settings.milestone.defaultSlashCommandTemplate', '默认斜杠命令模板')}</label>
+        <label>{t('settings.milestone.defaultSlashCommandTemplate', language)}</label>
         <input
           type="text"
           value={milestone.defaultSlashCommandTemplate || ''}
