@@ -158,8 +158,12 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
           type="text"
           value={taskProgress.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('taskProgress.defaultSlashCommandTemplate', e.target.value)}
-          style={{ maxWidth: '300px' }}
+          placeholder=":taskprogress mini-circle"
+          style={{ width: '100%', maxWidth: '600px' }}
         />
+        <div style={{ marginTop: '4px', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)' }}>
+          默认: :taskprogress mini-circle
+        </div>
       </div>
 
       <div className="ltt-setting-item">

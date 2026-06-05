@@ -140,8 +140,12 @@ function HeatmapSettings({ settings, setSettings, onSave, isSaving, language }: 
           type="text"
           value={heatmapSettings.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('defaultSlashCommandTemplate', e.target.value)}
-          style={{ maxWidth: '300px' }}
+          placeholder=":heatmap, view=year, tag=Task"
+          style={{ width: '100%', maxWidth: '600px' }}
         />
+        <div style={{ marginTop: '4px', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)' }}>
+          默认: :heatmap, view=year, tag=Task
+        </div>
       </div>
 
       <div className="ltt-setting-item">

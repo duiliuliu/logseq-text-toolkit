@@ -425,8 +425,12 @@ function BlockViewSettings({ settings, setSettings, onSave, isSaving, language }
           type="text"
           value={blockViewSettings.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('defaultSlashCommandTemplate', e.target.value)}
-          style={{ maxWidth: '300px' }}
+          placeholder=":blockview, view=list"
+          style={{ width: '100%', maxWidth: '600px' }}
         />
+        <div style={{ marginTop: '4px', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)' }}>
+          默认: :blockview, view=list
+        </div>
       </div>
 
       <div style={{ margin: '16px 0', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', lineHeight: 1.4 }}>

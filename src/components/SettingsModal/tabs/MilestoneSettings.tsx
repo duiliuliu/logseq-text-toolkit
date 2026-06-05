@@ -263,8 +263,12 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
           type="text"
           value={milestone.defaultSlashCommandTemplate || ''}
           onChange={(e) => handleSettingChange('milestone.defaultSlashCommandTemplate', e.target.value)}
-          style={{ maxWidth: '300px' }}
+          placeholder=":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure"
+          style={{ width: '100%', maxWidth: '600px' }}
         />
+        <div style={{ marginTop: '4px', fontSize: '12px', color: 'var(--ls-secondary-text-color-plugin, #999)', wordBreak: 'break-all' }}>
+          默认: :milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure
+        </div>
       </div>
 
       <div className="ltt-setting-item">
