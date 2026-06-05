@@ -90,6 +90,15 @@
   width: fit-content !important;
 }
 
+.ltt-list-root .lsp-hook-ui-slot ,
+.ltt-table-root .lsp-hook-ui-slot,
+.ltt-gallery-root .lsp-hook-ui-slot,
+.ltt-board-root .lsp-hook-ui-slot,
+.ltt-mindmap-root .lsp-hook-ui-slot {
+    height:36px
+}
+
+
 /* =========================================================
    LIST VIEW
 ========================================================= */
