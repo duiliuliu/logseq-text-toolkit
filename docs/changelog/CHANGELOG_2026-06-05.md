@@ -1,5 +1,18 @@
 ## 2026年6月5日 更新日志
 
+### 新增：单元测试覆盖
+
+**新增测试文件**：
+- `/workspace/src/components/SettingsModal/components/MacroTemplateInput.test.tsx` - 28个测试用例
+- `/workspace/src/components/SettingsModal/tabs/GeneralSettings.test.tsx` - 12个测试用例（增强）
+
+**测试覆盖范围**：
+1. MacroTemplateInput组件：展示、输入验证、交互、样式测试
+2. GeneralSettings组件：主题/语言设置、开发者模式、功能管理折叠展开测试
+3. 所有测试通过：53个测试文件，505个测试用例
+
+---
+
 ### 优化：通用设置功能管理UI调整
 
 **修改文件**：
