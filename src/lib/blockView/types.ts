@@ -6,6 +6,7 @@ export interface ViewConfig {
   name: string;
   icon: string;
   cssClass: string;
+  viewPropertyValue?: string;
 }
 
 const VIEW_ICONS: Record<ViewType, string> = {
@@ -50,31 +51,36 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
     name: 'List',
     icon: VIEW_ICONS.list,
     cssClass: 'ltt-list-root',
+    viewPropertyValue: 'ltt-list',
   },
   'table': {
     id: 'table',
     name: 'Table',
     icon: VIEW_ICONS.table,
     cssClass: 'ltt-table-root',
+    viewPropertyValue: 'ltt-table',
   },
   'gallery': {
     id: 'gallery',
     name: 'Gallery',
     icon: VIEW_ICONS.gallery,
     cssClass: 'ltt-gallery-root',
+    viewPropertyValue: 'ltt-gallery',
   },
   'board': {
     id: 'board',
     name: 'Kanban',
     icon: VIEW_ICONS.board,
     cssClass: 'ltt-board-root',
+    viewPropertyValue: 'ltt-board',
   },
-  // 'mindmap': {
-  //   id: 'mindmap',
-  //   name: 'Mindmap',
-  //   icon: VIEW_ICONS.mindmap,
-  //   cssClass: 'ltt-mindmap-root',
-  // },
+  'mindmap': {
+    id: 'mindmap',
+    name: 'Mindmap',
+    icon: VIEW_ICONS.mindmap,
+    cssClass: 'ltt-mindmap-root',
+    viewPropertyValue: 'ltt-mindmap',
+  },
 };
 
 export interface CustomTableTheme {

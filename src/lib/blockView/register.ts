@@ -4,6 +4,8 @@ import { getSettingsWithSystem } from '../../settings';
 import { VIEW_REGISTRY, ViewType, ThemeType } from './types';
 import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import { createRendererArgUpdater } from '../render/rendererArgs';
+import { renderComponent } from '../render';
+import { MindMapView } from '../../components/BlockView/views/MindMapView';
 import logger from '../logger';
 
 const MACRO_PREFIX = ':blockview';
@@ -165,6 +167,22 @@ function getCurrentInlineFromParams(tokens: string[], defaultInline: boolean): b
   return defaultInline;
 }
 
+/**
+ * 视图切换时更新 block 属性
+ */
+async function updateBlockViewProperty(blockId: string, viewType: ViewType): Promise<void> {
+  try {
+    const viewPropertyValue = VIEW_REGISTRY[viewType]?.viewPropertyValue || viewType;
+    
+    // 更新 block 属性
+    await logseqAPI.Editor.upsertBlockProperty(blockId, 'view', viewPropertyValue);
+    
+    logger.debug('[BlockView] Block view property updated', { blockId, viewPropertyValue });
+  } catch (error) {
+    logger.error('[BlockView] Failed to update block view property', error);
+  }
+}
+
 async function switchView(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
   await applyViewStyle(blockId, viewType, themeType);
 
@@ -180,6 +198,9 @@ async function switchView(blockId: string, viewType: ViewType, themeType: ThemeT
   } catch (err) {
     logger.error('[BlockView] Failed to update macro parameter', err);
   }
+
+  // 更新 block 的 view 属性
+  await updateBlockViewProperty(blockId, viewType);
 }
 
 function bindViewEvents(container: HTMLElement, blockId: string, themeType: ThemeType): void {
@@ -253,6 +274,49 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   }, 1);
 }
 
+/**
+ * 注册 MindMap 块渲染器
+ * 使用 logseq.Experiments.registerBlockRenderer
+ */
+function registerMindMapRenderer(): void {
+  try {
+    const { React, registerBlockRenderer } = logseq.Experiments || {};
+    
+    if (!registerBlockRenderer) {
+      logger.warn('[MindMap] registerBlockRenderer not available, falling back to macro renderer');
+      return;
+    }
+
+    registerBlockRenderer('ltt-mindmap', {
+      when: ({ properties }) => properties.view === 'ltt-mindmap',
+      includeChildren: true,
+      priority: 20,
+      render: ({ content, children = [], uuid }) => {
+        // 创建容器元素
+        const container = document.createElement('div');
+        container.className = 'ltt-mindmap-container';
+        container.dataset.blockUuid = uuid;
+
+        // 渲染 React 组件
+        const reactContainer = document.createElement('div');
+        container.appendChild(reactContainer);
+        
+        renderComponent(reactContainer, MindMapView, {
+          rootUuid: uuid,
+          content,
+          children,
+        });
+
+        return container;
+      },
+    });
+
+    logger.info('[MindMap] Block renderer registered successfully');
+  } catch (error) {
+    logger.error('[MindMap] Failed to register block renderer:', error);
+  }
+}
+
 export function registerBlockView(): void {
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
     const split = splitRendererArgs(payload.arguments);
@@ -266,6 +330,9 @@ export function registerBlockView(): void {
 
     await renderViewBar(blockId, slot, tokens);
   });
+
+  // 注册 MindMap 块渲染器
+  registerMindMapRenderer();
 
   logseqAPI.Editor.registerSlashCommand(
     '[Text Toolkit] Insert Block View',

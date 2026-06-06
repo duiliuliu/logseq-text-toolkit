@@ -1,0 +1,151 @@
+/**
+ * MindMap 视图样式 - 幕布风格
+ */
+
+.ltt-mindmap-view {
+  width: 100%;
+  background-color: var(--mindmap-bg-color, transparent);
+}
+
+.ltt-mindmap-divider {
+  border: none;
+  border-top: 1px solid var(--mindmap-node-border-color, #e2e8f0);
+  margin: 16px 0;
+}
+
+.ltt-mindmap-canvas {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+}
+
+.ltt-mindmap-root-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  min-height: 300px;
+}
+
+.ltt-mindmap-node {
+  position: relative;
+}
+
+.ltt-mindmap-node-root {
+  font-size: calc(var(--mindmap-font-size, 14px) * 1.1);
+  font-weight: 600;
+}
+
+.ltt-mindmap-node-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--mindmap-node-border-radius, 6px);
+  background: var(--mindmap-node-bg-color, #ffffff);
+  border: var(--mindmap-node-border-width, 1px) solid var(--mindmap-node-border-color, #e2e8f0);
+  transition: all 0.15s ease;
+}
+
+.ltt-mindmap-node:hover .ltt-mindmap-node-content {
+  background: var(--mindmap-node-hover-bg-color, #f8fafc);
+}
+
+.ltt-mindmap-inline-editor {
+  flex: 1;
+  min-width: 100px;
+  outline: none;
+  word-break: break-word;
+  color: var(--mindmap-text-color, #374151);
+  font-size: var(--mindmap-font-size, 14px);
+  font-weight: var(--mindmap-font-weight, 400);
+}
+
+.ltt-mindmap-inline-editor:hover {
+  color: var(--mindmap-text-hover-color, #1f2937);
+}
+
+.ltt-mindmap-inline-editor:empty::before {
+  content: attr(data-placeholder);
+  color: var(--mindmap-button-color, #9ca3af);
+}
+
+.ltt-mindmap-node-children {
+  margin-left: 32px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 连接线样式 */
+.ltt-mindmap-connections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.ltt-mindmap-connection-line {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.ltt-mindmap-path {
+  stroke: var(--mindmap-line-color, #cbd5e1);
+  stroke-width: var(--mindmap-line-width, 2px);
+  stroke-dasharray: var(--mindmap-line-style, solid) === 'dashed' ? '4 4' : 
+                    var(--mindmap-line-style, solid) === 'dotted' ? '2 2' : 'none';
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 按钮样式 */
+.ltt-mindmap-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  color: var(--mindmap-button-color, #9ca3af);
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.ltt-mindmap-btn.visible {
+  opacity: 1;
+}
+
+.ltt-mindmap-node:hover .ltt-mindmap-btn {
+  opacity: 1;
+}
+
+.ltt-mindmap-btn:hover {
+  background: var(--mindmap-node-hover-bg-color, #f8fafc);
+  color: var(--mindmap-button-hover-color, #374151);
+}
+
+.ltt-mindmap-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Loading 状态 */
+.ltt-mindmap-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--mindmap-text-color, #374151);
+  font-size: var(--mindmap-font-size, 14px);
+}
