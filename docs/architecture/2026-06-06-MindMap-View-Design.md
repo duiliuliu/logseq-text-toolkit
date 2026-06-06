@@ -60,12 +60,12 @@ BlockView 系统
 │  │                    MindMap 区域                          │  │
 │  │                                                         │  │
 │  │              ┌─────────────────────┐                    │  │
-│  │              │  Root Node (拷贝)   │──────┬──────▶      │  │
+│  │              │  Root Node (拷贝)   │──────┬──────▶     │  │
 │  │              └─────────────────────┘      │            │  │
 │  │                                           │            │  │
-│  │                                           ├──────▶     │  │
+│  │                                           ├──────▶    │  │
 │  │                                           │            │  │
-│  │                                           └──────▶     │  │
+│  │                                           └──────▶    │  │
 │  │                                                         │  │
 │  └─────────────────────────────────────────────────────────┘  │
 │                                                                 │
@@ -1139,15 +1139,12 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
 
 **文件位置**：`src/lib/blockView/register.ts`
 
-参考 [logseq-plugin-advanced-markdown-table](https://github.com/VictorVow/logseq-plugin-advanced-markdown-table/blob/de1b2e1de318f3daa506fb91d5ef300ee79da575/src/index.js#L193) 的实现方式，使用 `logseqAPI.Experiments.registerBlockRenderer`。
+使用标准的 Logseq `registerBlockRenderer` API。
 
 ```typescript
 import { MindMapView } from '../../components/BlockView/views/MindMapView';
 import { renderComponent } from '../render';
-import { getDocument } from '../../logseq/utils';
 import logger from '../logger';
-
-const PLUGIN_ID = 'text-toolkit-blockview';
 
 /**
  * 注册 BlockView 渲染器 - 包括 MindMap 支持
@@ -1158,7 +1155,7 @@ export function registerBlockView(): void {
     // ... 现有代码 ...
   });
 
-  // 2. MindMap 块渲染器 - 使用 Experiments API
+  // 2. MindMap 块渲染器 - 使用 Experiments.registerBlockRenderer
   registerMindMapRenderer();
 
   // ... 现有代码 ...
@@ -1166,60 +1163,78 @@ export function registerBlockView(): void {
 
 /**
  * 注册 MindMap 块渲染器
- * 使用 logseqAPI.Experiments.registerBlockRenderer
+ * 使用 logseq.Experiments.registerBlockRenderer
  */
 function registerMindMapRenderer(): void {
   try {
-    const registerBlockRenderer = logseqAPI.Experiments?.registerBlockRenderer;
+    const { React, registerBlockRenderer } = logseq.Experiments || {};
     
     if (!registerBlockRenderer) {
       logger.warn('[MindMap] registerBlockRenderer not available, falling back to macro renderer');
       return;
     }
 
-    registerBlockRenderer(
-      'ltt-mindmap',
-      {
-        alwaysOn: true,
-        view: {
-          component: async ({ blockId, element }) => {
-            // 检查是否启用 MindMap 模式
-            const block = await logseqAPI.Editor.getBlock(blockId);
-            const viewProp = block?.properties?.view || block?.properties?.['view'];
-            
-            if (viewProp !== 'ltt-mindmap') {
-              return;
-            }
+    registerBlockRenderer('ltt-mindmap', {
+      when: ({ properties }) => properties.view === 'ltt-mindmap',
+      includeChildren: true,
+      priority: 20,
+      render: ({ content, children = [], uuid }) => {
+        // 创建容器元素
+        const container = document.createElement('div');
+        container.className = 'ltt-mindmap-container';
+        container.dataset.blockUuid = uuid;
 
-            // 渲染 MindMap 视图
-            renderMindMapComponent(element as HTMLElement, blockId);
-          },
-        },
-        actions: [],
-      }
-    );
+        // 渲染 React 组件
+        const reactContainer = document.createElement('div');
+        container.appendChild(reactContainer);
+        
+        renderComponent(reactContainer, MindMapView, {
+          rootUuid: uuid,
+          content,
+          children,
+        });
+
+        return container;
+      },
+    });
 
     logger.info('[MindMap] Block renderer registered successfully');
   } catch (error) {
     logger.error('[MindMap] Failed to register block renderer:', error);
   }
 }
+```
 
-/**
- * 渲染 MindMap 组件
- */
-async function renderMindMapComponent(container: HTMLElement, blockUuid: string): Promise<void> {
-  try {
-    const reactContainer = document.createElement('div');
-    container.appendChild(reactContainer);
+### 8.3 注册逻辑说明
 
-    renderComponent(reactContainer, MindMapView, {
-      rootUuid: blockUuid,
-    });
-  } catch (error) {
-    logger.error('[MindMap] Failed to render component:', error);
-  }
-}
+**API 参数说明**：
+
+```typescript
+registerBlockRenderer('ltt-mindmap', {
+  when: ({ properties }) => properties.view === 'ltt-mindmap',
+  // when: 条件函数，返回 true 时触发渲染
+  // 检查 block 的 view 属性是否为 'ltt-mindmap'
+  
+  includeChildren: true,
+  // includeChildren: 是否包含子节点
+  // 设置为 true 可以自动获取 children 数组
+  
+  priority: 20,
+  // priority: 渲染优先级
+  // 数字越大优先级越高
+  
+  render: ({ content, children = [], uuid }) => {
+    // render: 渲染函数
+    // content: 当前块的内容
+    // children: 子节点数组（当 includeChildren: true 时可用）
+    // uuid: 当前块的 UUID
+    
+    const container = document.createElement('div');
+    // 创建容器并渲染 React 组件
+    
+    return container;
+  },
+});
 ```
 
 ## 9. 设置面板更新
@@ -1434,19 +1449,17 @@ const settingsSchema = {
 ### 11.1 初始化流程
 
 ```
-1. Block 属性检测
+1. Block 属性检测 (通过 when 条件)
    ↓
 2. 检查 view 属性是否为 'ltt-mindmap'
    ↓
-3. 如果是，加载 MindMap 组件
+3. 如果是，触发 render 函数
    ↓
-4. 获取 Root 块及其子节点树
+4. 获取 content 和 children 参数
    ↓
-5. 构建节点数据结构
+5. 加载配色主题设置
    ↓
-6. 加载配色主题设置
-   ↓
-7. 渲染界面
+6. 渲染 MindMap React 组件
 ```
 
 ### 11.2 编辑流程
