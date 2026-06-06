@@ -18,6 +18,7 @@ MindMap 是 BlockView 系统新增的一个视图模式，用于以幕布风格�
 3. **交互友好**：Hover 显示折叠/展开和添加子节点按钮
 4. **数据一致性**：通过 Logseq Editor API 进行所有数据操作
 5. **防抖更新**：编辑内容 500ms 后自动保存，减少 API 调用
+6. **丰富配色**：支持边框、圆角、字体、背景、连接线等配色调整
 
 ### 1.3 与现有 BlockView 的关系
 
@@ -202,17 +203,196 @@ export interface MindMapState {
 }
 
 /**
+ * MindMap 配色方案
+ */
+export interface MindMapColorScheme {
+  // 节点样式
+  nodeBorderColor: string;
+  nodeBorderWidth: string;
+  nodeBorderRadius: string;
+  nodeBackgroundColor: string;
+  nodeHoverBackgroundColor: string;
+  
+  // 文字样式
+  textColor: string;
+  textHoverColor: string;
+  fontSize: string;
+  fontWeight: string;
+  
+  // 连接线样式
+  lineColor: string;
+  lineWidth: string;
+  lineStyle: 'solid' | 'dashed' | 'dotted';
+  
+  // 整体背景
+  backgroundColor: string;
+  
+  // 按钮样式
+  buttonColor: string;
+  buttonHoverColor: string;
+}
+
+/**
+ * MindMap 预设主题
+ */
+export type MindMapThemeName = 'pure' | 'outline' | 'plain' | 'ink' | 'parchment' | 'mist' | 'focus' | 'deep' | 'night';
+
+/**
+ * MindMap 预设主题配置
+ */
+export interface MindMapTheme {
+  name: MindMapThemeName;
+  label: string;
+  scheme: MindMapColorScheme;
+}
+
+/**
  * MindMap 配置
  */
 export interface MindMapConfig {
   debounceDelay: number; // 默认 500ms
   nodeSpacing: number;
-  lineWidth: number;
-  lineColor: string;
+  theme: MindMapThemeName;
+  customColors: Partial<MindMapColorScheme>;
 }
 ```
 
-### 4.2 状态管理
+### 4.2 预设主题配置
+
+**文件位置**：`src/lib/blockView/mindMap/themes.ts`
+
+```typescript
+import type { MindMapTheme, MindMapColorScheme } from './types';
+
+/**
+ * 默认配色方案
+ */
+const defaultScheme: MindMapColorScheme = {
+  nodeBorderColor: '#e2e8f0',
+  nodeBorderWidth: '1px',
+  nodeBorderRadius: '6px',
+  nodeBackgroundColor: '#ffffff',
+  nodeHoverBackgroundColor: '#f8fafc',
+  textColor: '#374151',
+  textHoverColor: '#1f2937',
+  fontSize: '14px',
+  fontWeight: '400',
+  lineColor: '#cbd5e1',
+  lineWidth: '2px',
+  lineStyle: 'solid',
+  backgroundColor: 'transparent',
+  buttonColor: '#9ca3af',
+  buttonHoverColor: '#374151',
+};
+
+/**
+ * 预设主题列表
+ */
+export const MIND_MAP_THEMES: Record<string, MindMapTheme> = {
+  pure: {
+    name: 'pure',
+    label: '纯境',
+    scheme: {
+      ...defaultScheme,
+      nodeBorderColor: 'transparent',
+      lineColor: '#e5e7eb',
+    },
+  },
+  outline: {
+    name: 'outline',
+    label: '明线',
+    scheme: {
+      ...defaultScheme,
+      nodeBorderRadius: '0px',
+      lineColor: '#d1d5db',
+    },
+  },
+  plain: {
+    name: 'plain',
+    label: '素页',
+    scheme: {
+      ...defaultScheme,
+      nodeBackgroundColor: '#1f2937',
+      nodeHoverBackgroundColor: '#374151',
+      textColor: '#f9fafb',
+      textHoverColor: '#ffffff',
+      lineColor: '#4b5563',
+    },
+  },
+  ink: {
+    name: 'ink',
+    label: '墨稿',
+    scheme: {
+      ...defaultScheme,
+      nodeBorderColor: '#d1d5db',
+      nodeBorderRadius: '4px',
+      lineColor: '#e5e7eb',
+    },
+  },
+  parchment: {
+    name: 'parchment',
+    label: '雁皮',
+    scheme: {
+      ...defaultScheme,
+      nodeBorderColor: '#d6d3d1',
+      nodeBackgroundColor: '#fafaf9',
+      nodeHoverBackgroundColor: '#f5f5f4',
+      textColor: '#44403c',
+      lineColor: '#d6d3d1',
+    },
+  },
+  mist: {
+    name: 'mist',
+    label: '薄雾',
+    scheme: {
+      ...defaultScheme,
+      nodeBorderColor: '#94a3b8',
+      nodeBackgroundColor: '#f8fafc',
+      nodeHoverBackgroundColor: '#f1f5f9',
+      textColor: '#1e293b',
+      lineColor: '#cbd5e1',
+    },
+  },
+  focus: {
+    name: 'focus',
+    label: '焦点',
+    scheme: {
+      ...defaultScheme,
+      nodeBackgroundColor: '#111827',
+      nodeHoverBackgroundColor: '#1f2937',
+      textColor: '#d1d5db',
+      textHoverColor: '#ffffff',
+      lineColor: '#374151',
+    },
+  },
+  deep: {
+    name: 'deep',
+    label: '深潜',
+    scheme: {
+      ...defaultScheme,
+      nodeBorderColor: '#6366f1',
+      nodeBackgroundColor: '#0f172a',
+      nodeHoverBackgroundColor: '#1e293b',
+      textColor: '#c7d2fe',
+      lineColor: '#4f46e5',
+    },
+  },
+  night: {
+    name: 'night',
+    label: '夜图',
+    scheme: {
+      ...defaultScheme,
+      nodeBorderColor: '#a855f7',
+      nodeBackgroundColor: '#18181b',
+      nodeHoverBackgroundColor: '#27272a',
+      textColor: '#ddd6fe',
+      lineColor: '#7c3aed',
+    },
+  },
+};
+```
+
+### 4.3 状态管理
 
 **文件位置**：`src/lib/blockView/mindMap/state.ts`
 
@@ -361,8 +541,8 @@ export class MindMapBlockAPI {
         parentUuid,
         content,
         {
-          before: false, // 追加到子节点末尾
-          sibling: false, // 作为子节点，而非同级
+          before: false,
+          sibling: false,
         }
       );
 
@@ -396,9 +576,6 @@ export class MindMapBlockAPI {
    */
   static async setCollapsed(uuid: string, collapsed: boolean): Promise<void> {
     try {
-      // 使用 upsertBlockProperty 或其他方式设置折叠状态
-      // 注意：Logseq 可能需要特殊的方式来设置折叠状态
-      // 如果 API 不支持，可以仅在本地状态管理
       logger.debug('[MindMap] Set collapsed:', uuid, collapsed);
     } catch (error) {
       logger.error('[MindMap] Failed to set collapsed:', error);
@@ -449,9 +626,12 @@ export function createDebounceFn<T extends (...args: any[]) => any>(
 **文件位置**：`src/components/BlockView/views/MindMapView/MindMapView.tsx`
 
 ```typescript
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MindMapStateManager } from '../../../../lib/blockView/mindMap/state';
 import { MindMapCanvas } from './MindMapCanvas';
+import { getSettingsWithSystem } from '../../../../settings';
+import type { MindMapColorScheme, MindMapThemeName } from '../../../../lib/blockView/mindMap/types';
+import { MIND_MAP_THEMES } from '../../../../lib/blockView/mindMap/themes';
 import './mindMapView.css';
 
 interface MindMapViewProps {
@@ -461,27 +641,49 @@ interface MindMapViewProps {
 export function MindMapView({ rootUuid }: MindMapViewProps) {
   const [stateManager] = useState(() => new MindMapStateManager(rootUuid));
   const [state, setState] = useState(stateManager.getState());
+  const [colorScheme, setColorScheme] = useState<MindMapColorScheme>(MIND_MAP_THEMES.pure.scheme);
 
   useEffect(() => {
-    // 订阅状态变化
     return stateManager.subscribe(newState => {
       setState(newState);
     });
   }, [stateManager]);
 
   useEffect(() => {
-    // 初始加载
     stateManager.loadTree();
   }, [stateManager]);
 
+  useEffect(() => {
+    async function loadSettings() {
+      const settings = await getSettingsWithSystem();
+      const themeName = settings?.blockView?.mindMap?.theme as MindMapThemeName || 'pure';
+      const customColors = settings?.blockView?.mindMap?.customColors as Partial<MindMapColorScheme> || {};
+      
+      const themeScheme = MIND_MAP_THEMES[themeName]?.scheme || MIND_MAP_THEMES.pure.scheme;
+      setColorScheme({ ...themeScheme, ...customColors });
+    }
+    loadSettings();
+  }, []);
+
   return (
-    <div className="ltt-mindmap-view">
-      {/* 原生 Root 节点保持原样 - 通过 onBlockRendererSlotted 保留 */}
-      
-      {/* 分隔线 */}
+    <div className="ltt-mindmap-view" style={{
+      '--mindmap-bg-color': colorScheme.backgroundColor,
+      '--mindmap-node-border-color': colorScheme.nodeBorderColor,
+      '--mindmap-node-border-width': colorScheme.nodeBorderWidth,
+      '--mindmap-node-border-radius': colorScheme.nodeBorderRadius,
+      '--mindmap-node-bg-color': colorScheme.nodeBackgroundColor,
+      '--mindmap-node-hover-bg-color': colorScheme.nodeHoverBackgroundColor,
+      '--mindmap-text-color': colorScheme.textColor,
+      '--mindmap-text-hover-color': colorScheme.textHoverColor,
+      '--mindmap-font-size': colorScheme.fontSize,
+      '--mindmap-font-weight': colorScheme.fontWeight,
+      '--mindmap-line-color': colorScheme.lineColor,
+      '--mindmap-line-width': colorScheme.lineWidth,
+      '--mindmap-line-style': colorScheme.lineStyle,
+      '--mindmap-button-color': colorScheme.buttonColor,
+      '--mindmap-button-hover-color': colorScheme.buttonHoverColor,
+    } as React.CSSProperties}>
       <hr className="ltt-mindmap-divider" />
-      
-      {/* MindMap 画布 */}
       <MindMapCanvas state={state} stateManager={stateManager} />
     </div>
   );
@@ -513,12 +715,9 @@ export function MindMapCanvas({ state, stateManager }: MindMapCanvasProps) {
 
   return (
     <div className="ltt-mindmap-canvas">
-      {/* 连接线层 */}
       <ConnectionLines nodes={nodes} rootUuid={rootBlockUuid} />
       
-      {/* 节点层 */}
       <div className="ltt-mindmap-nodes">
-        {/* Root 节点 - 垂直居中 */}
         <div className="ltt-mindmap-root-wrapper">
           <MindMapNode
             node={rootNode}
@@ -527,7 +726,6 @@ export function MindMapCanvas({ state, stateManager }: MindMapCanvasProps) {
             isRoot={true}
           />
           
-          {/* 子节点 */}
           <div className="ltt-mindmap-children">
             {rootNode.children.map(childUuid => {
               const childNode = nodes.get(childUuid);
@@ -554,7 +752,7 @@ export function MindMapCanvas({ state, stateManager }: MindMapCanvasProps) {
 **文件位置**：`src/components/BlockView/views/MindMapView/MindMapNode.tsx`
 
 ```typescript
-import React, { useCallback, useState, useRef, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import type { MindMapNode as MindMapNodeType, MindMapState, MindMapStateManager } from '../../../../lib/blockView/mindMap/types';
 import { MindMapBlockAPI } from '../../../../lib/blockView/mindMap/blockAPI';
 import { createDebounceFn } from '../../../../lib/blockView/mindMap/debounce';
@@ -571,9 +769,7 @@ interface MindMapNodeProps {
 
 export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodeProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const inputRef = useRef<HTMLDivElement>(null);
 
-  // 防抖更新
   const debouncedUpdate = useCallback(
     createDebounceFn(
       (uuid: string, content: string) => {
@@ -584,22 +780,18 @@ export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodePr
     []
   );
 
-  // 清理防抖
   useEffect(() => {
     return () => debouncedUpdate.cancel();
   }, [debouncedUpdate]);
 
   const handleContentChange = useCallback(
     (content: string) => {
-      // 更新本地状态
       stateManager.setState(prev => ({
         nodes: new Map(prev.nodes).set(node.uuid, {
           ...prev.nodes.get(node.uuid)!,
           content,
         }),
       }));
-
-      // 防抖更新到 Logseq
       debouncedUpdate(node.uuid, content);
     },
     [node.uuid, stateManager, debouncedUpdate]
@@ -609,10 +801,7 @@ export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodePr
     try {
       const newUuid = await MindMapBlockAPI.addChild(node.uuid, '');
       if (newUuid) {
-        // 重新加载树
         await stateManager.loadTree();
-        
-        // 聚焦到新节点
         setTimeout(() => {
           stateManager.setState({ editingNode: newUuid });
         }, 100);
@@ -635,7 +824,6 @@ export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodePr
 
   const hasChildren = node.children.length > 0;
   const isCollapsed = node.collapsed;
-  const isEditing = state.editingNode === node.uuid;
 
   return (
     <div
@@ -644,7 +832,6 @@ export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodePr
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="ltt-mindmap-node-content">
-        {/* 左侧：折叠按钮 */}
         {hasChildren && (
           <CollapseButton
             collapsed={isCollapsed}
@@ -653,9 +840,7 @@ export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodePr
           />
         )}
 
-        {/* 内容编辑区 */}
         <InlineEditor
-          ref={inputRef}
           content={node.content}
           onChange={handleContentChange}
           onFocus={() => stateManager.setState({ editingNode: node.uuid })}
@@ -663,14 +848,12 @@ export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodePr
           placeholder="请输入文字"
         />
 
-        {/* 右侧：添加子节点按钮 */}
         <AddChildButton
           onClick={handleAddChild}
           visible={isHovered}
         />
       </div>
 
-      {/* 子节点 */}
       {hasChildren && !isCollapsed && (
         <div className="ltt-mindmap-node-children">
           {node.children.map(childUuid => {
@@ -697,7 +880,7 @@ export function MindMapNode({ node, state, stateManager, isRoot }: MindMapNodePr
 **文件位置**：`src/components/BlockView/views/MindMapView/InlineEditor.tsx`
 
 ```typescript
-import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 
 interface InlineEditorProps {
   content: string;
@@ -709,28 +892,15 @@ interface InlineEditorProps {
 
 export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
   ({ content, onChange, onFocus, onBlur, placeholder }, ref) => {
-    const editorRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      // 同步 ref
-      if (ref) {
-        if (typeof ref === 'function') {
-          ref(editorRef.current);
-        } else {
-          ref.current = editorRef.current;
-        }
-      }
-    }, [ref]);
-
     const handleInput = useCallback(() => {
-      if (editorRef.current) {
-        onChange(editorRef.current.textContent || '');
+      if (ref && typeof ref !== 'function' && ref.current) {
+        onChange(ref.current.textContent || '');
       }
-    }, [onChange]);
+    }, [onChange, ref]);
 
     return (
       <div
-        ref={editorRef}
+        ref={ref}
         className="ltt-mindmap-inline-editor"
         contentEditable={true}
         suppressContentEditableWarning={true}
@@ -745,6 +915,59 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
 );
 ```
 
+### 6.5 ConnectionLines 连接线组件
+
+**文件位置**：`src/components/BlockView/views/MindMapView/ConnectionLines.tsx`
+
+```typescript
+import React from 'react';
+import type { MindMapNode } from '../../../../lib/blockView/mindMap/types';
+
+interface ConnectionLinesProps {
+  nodes: Map<string, MindMapNode>;
+  rootUuid: string;
+}
+
+export function ConnectionLines({ nodes, rootUuid }: ConnectionLinesProps) {
+  const lines: React.ReactNode[] = [];
+  
+  const rootNode = nodes.get(rootUuid);
+  if (!rootNode) return null;
+
+  const renderLines = (parentUuid: string, parentLevel: number) => {
+    const parentNode = nodes.get(parentUuid);
+    if (!parentNode) return;
+
+    parentNode.children.forEach((childUuid, index) => {
+      const childNode = nodes.get(childUuid);
+      if (!childNode) return;
+
+      const lineKey = `${parentUuid}-${childUuid}`;
+      lines.push(
+        <svg key={lineKey} className="ltt-mindmap-connection-line">
+          <path
+            d={`M 0 0 L 20 0 L 20 ${index * 80 + 40} L 40 ${index * 80 + 40}`}
+            className="ltt-mindmap-path"
+          />
+        </svg>
+      );
+
+      if (childNode.children.length > 0 && !childNode.collapsed) {
+        renderLines(childUuid, parentLevel + 1);
+      }
+    });
+  };
+
+  renderLines(rootUuid, 0);
+
+  return (
+    <div className="ltt-mindmap-connections">
+      {lines}
+    </div>
+  );
+}
+```
+
 ## 7. 样式设计
 
 **文件位置**：`src/components/BlockView/views/MindMapView/mindMapView.css`
@@ -756,11 +979,12 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
 
 .ltt-mindmap-view {
   width: 100%;
+  background-color: var(--mindmap-bg-color, transparent);
 }
 
 .ltt-mindmap-divider {
   border: none;
-  border-top: 1px solid var(--ls-secondary-border-color);
+  border-top: 1px solid var(--mindmap-node-border-color, #e2e8f0);
   margin: 16px 0;
 }
 
@@ -783,7 +1007,7 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
 }
 
 .ltt-mindmap-node-root {
-  font-size: 1.1em;
+  font-size: calc(var(--mindmap-font-size, 14px) * 1.1);
   font-weight: 600;
 }
 
@@ -792,15 +1016,14 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  border-radius: 6px;
-  background: var(--ls-primary-background-color);
-  border: 1px solid transparent;
+  border-radius: var(--mindmap-node-border-radius, 6px);
+  background: var(--mindmap-node-bg-color, #ffffff);
+  border: var(--mindmap-node-border-width, 1px) solid var(--mindmap-node-border-color, #e2e8f0);
   transition: all 0.15s ease;
 }
 
 .ltt-mindmap-node:hover .ltt-mindmap-node-content {
-  border-color: var(--ls-secondary-border-color);
-  background: var(--ls-tertiary-background-color);
+  background: var(--mindmap-node-hover-bg-color, #f8fafc);
 }
 
 .ltt-mindmap-inline-editor {
@@ -808,11 +1031,18 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
   min-width: 100px;
   outline: none;
   word-break: break-word;
+  color: var(--mindmap-text-color, #374151);
+  font-size: var(--mindmap-font-size, 14px);
+  font-weight: var(--mindmap-font-weight, 400);
+}
+
+.ltt-mindmap-inline-editor:hover {
+  color: var(--mindmap-text-hover-color, #1f2937);
 }
 
 .ltt-mindmap-inline-editor:empty::before {
   content: attr(data-placeholder);
-  color: var(--ls-quaternary-text-color);
+  color: var(--mindmap-button-color, #9ca3af);
 }
 
 .ltt-mindmap-node-children {
@@ -831,12 +1061,23 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
   width: 100%;
   height: 100%;
   pointer-events: none;
+  overflow: visible;
 }
 
 .ltt-mindmap-connection-line {
-  stroke: var(--ls-secondary-border-color);
-  stroke-width: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.ltt-mindmap-path {
+  stroke: var(--mindmap-line-color, #cbd5e1);
+  stroke-width: var(--mindmap-line-width, 2px);
+  stroke-dasharray: var(--mindmap-line-style, solid) === 'dashed' ? '4 4' : 
+                    var(--mindmap-line-style, solid) === 'dotted' ? '2 2' : 'none';
   fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* 按钮样式 */
@@ -850,7 +1091,10 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.15s ease;
-  color: var(--ls-quaternary-text-color);
+  color: var(--mindmap-button-color, #9ca3af);
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
 .ltt-mindmap-node:hover .ltt-mindmap-btn {
@@ -858,8 +1102,13 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
 }
 
 .ltt-mindmap-btn:hover {
-  background: var(--ls-secondary-background-color);
-  color: var(--ls-primary-text-color);
+  background: var(--mindmap-node-hover-bg-color, #f8fafc);
+  color: var(--mindmap-button-hover-color, #374151);
+}
+
+.ltt-mindmap-btn svg {
+  width: 14px;
+  height: 14px;
 }
 ```
 
@@ -870,10 +1119,8 @@ export const InlineEditor = forwardRef<HTMLDivElement, InlineEditorProps>(
 **文件位置**：`src/lib/blockView/types.ts`
 
 ```typescript
-// 在现有类型中添加 mindmap 支持
 export type ViewType = 'list' | 'table' | 'gallery' | 'board' | 'mindmap';
 
-// 更新 VIEW_REGISTRY
 export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
   'list': { /* ... */ },
   'table': { /* ... */ },
@@ -892,10 +1139,15 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
 
 **文件位置**：`src/lib/blockView/register.ts`
 
+参考 [logseq-plugin-advanced-markdown-table](https://github.com/VictorVow/logseq-plugin-advanced-markdown-table/blob/de1b2e1de318f3daa506fb91d5ef300ee79da575/src/index.js#L193) 的实现方式，使用 `logseqAPI.Experiments.registerBlockRenderer`。
+
 ```typescript
 import { MindMapView } from '../../components/BlockView/views/MindMapView';
+import { renderComponent } from '../render';
+import { getDocument } from '../../logseq/utils';
+import logger from '../logger';
 
-// ... 现有代码 ...
+const PLUGIN_ID = 'text-toolkit-blockview';
 
 /**
  * 注册 BlockView 渲染器 - 包括 MindMap 支持
@@ -906,42 +1158,67 @@ export function registerBlockView(): void {
     // ... 现有代码 ...
   });
 
-  // 2. Block 渲染器 - 用于 MindMap 模式
-  logseqAPI.App.onBlockRendererSlotted(async (condition, { slot, uuid }) => {
-    // 检查是否启用 MindMap 模式
-    const block = await logseqAPI.Editor.getBlock(uuid);
-    const viewProp = block?.properties?.view || block?.properties?.['view'];
-    
-    if (viewProp === 'ltt-mindmap') {
-      // 渲染 MindMap 视图
-      renderMindMap(slot, uuid);
-    }
-  });
+  // 2. MindMap 块渲染器 - 使用 Experiments API
+  registerMindMapRenderer();
 
   // ... 现有代码 ...
 }
 
 /**
- * 渲染 MindMap 视图
+ * 注册 MindMap 块渲染器
+ * 使用 logseqAPI.Experiments.registerBlockRenderer
  */
-async function renderMindMap(slot: string, blockUuid: string): Promise<void> {
-  const containerId = `${PLUGIN_ID}__mindmap__${slot}`;
-  
-  logseqAPI.provideUI({
-    key: containerId,
-    slot,
-    reset: true,
-    template: `<div id="${containerId}"></div>`,
-  });
-
-  setTimeout(() => {
-    const container = getDocument().getElementById(containerId);
-    if (container) {
-      renderComponent(container, MindMapView, {
-        rootUuid: blockUuid,
-      });
+function registerMindMapRenderer(): void {
+  try {
+    const registerBlockRenderer = logseqAPI.Experiments?.registerBlockRenderer;
+    
+    if (!registerBlockRenderer) {
+      logger.warn('[MindMap] registerBlockRenderer not available, falling back to macro renderer');
+      return;
     }
-  }, 1);
+
+    registerBlockRenderer(
+      'ltt-mindmap',
+      {
+        alwaysOn: true,
+        view: {
+          component: async ({ blockId, element }) => {
+            // 检查是否启用 MindMap 模式
+            const block = await logseqAPI.Editor.getBlock(blockId);
+            const viewProp = block?.properties?.view || block?.properties?.['view'];
+            
+            if (viewProp !== 'ltt-mindmap') {
+              return;
+            }
+
+            // 渲染 MindMap 视图
+            renderMindMapComponent(element as HTMLElement, blockId);
+          },
+        },
+        actions: [],
+      }
+    );
+
+    logger.info('[MindMap] Block renderer registered successfully');
+  } catch (error) {
+    logger.error('[MindMap] Failed to register block renderer:', error);
+  }
+}
+
+/**
+ * 渲染 MindMap 组件
+ */
+async function renderMindMapComponent(container: HTMLElement, blockUuid: string): Promise<void> {
+  try {
+    const reactContainer = document.createElement('div');
+    container.appendChild(reactContainer);
+
+    renderComponent(reactContainer, MindMapView, {
+      rootUuid: blockUuid,
+    });
+  } catch (error) {
+    logger.error('[MindMap] Failed to render component:', error);
+  }
 }
 ```
 
@@ -954,7 +1231,6 @@ async function renderMindMap(slot: string, blockUuid: string): Promise<void> {
 const settingsSchema = {
   // ... 现有设置 ...
   
-  // MindMap 配置
   mindMap: {
     type: 'group',
     title: 'MindMap View',
@@ -970,6 +1246,69 @@ const settingsSchema = {
         default: 500,
         title: 'Debounce Delay (ms)',
         description: 'Delay before auto-saving edits',
+      },
+      theme: {
+        type: 'enum',
+        default: 'pure',
+        title: 'Theme',
+        description: 'Select a preset color theme',
+        enumChoices: ['pure', 'outline', 'plain', 'ink', 'parchment', 'mist', 'focus', 'deep', 'night'],
+        enumPicker: 'select',
+      },
+      customNodeBorderColor: {
+        type: 'string',
+        default: '',
+        title: 'Node Border Color',
+        description: 'Custom border color for nodes',
+        inputAs: 'color',
+      },
+      customNodeBorderRadius: {
+        type: 'string',
+        default: '',
+        title: 'Node Border Radius',
+        description: 'Custom border radius (e.g., 6px, 50%)',
+      },
+      customNodeBackgroundColor: {
+        type: 'string',
+        default: '',
+        title: 'Node Background Color',
+        description: 'Custom background color for nodes',
+        inputAs: 'color',
+      },
+      customTextColor: {
+        type: 'string',
+        default: '',
+        title: 'Text Color',
+        description: 'Custom text color',
+        inputAs: 'color',
+      },
+      customLineColor: {
+        type: 'string',
+        default: '',
+        title: 'Connection Line Color',
+        description: 'Custom color for connection lines',
+        inputAs: 'color',
+      },
+      customLineWidth: {
+        type: 'string',
+        default: '',
+        title: 'Line Width',
+        description: 'Custom line width (e.g., 2px)',
+      },
+      customLineStyle: {
+        type: 'enum',
+        default: '',
+        title: 'Line Style',
+        description: 'Style for connection lines',
+        enumChoices: ['', 'solid', 'dashed', 'dotted'],
+        enumPicker: 'select',
+      },
+      customBackgroundColor: {
+        type: 'string',
+        default: '',
+        title: 'Background Color',
+        description: 'Custom background color for the mindmap area',
+        inputAs: 'color',
       },
     },
   },
@@ -991,7 +1330,25 @@ const settingsSchema = {
         "viewPropertyName": "视图属性名",
         "viewPropertyNameDesc": "用于检测 mindmap 视图模式的属性名",
         "debounceDelay": "防抖延迟(ms)",
-        "debounceDelayDesc": "自动保存编辑内容前的延迟时间"
+        "debounceDelayDesc": "自动保存编辑内容前的延迟时间",
+        "theme": "主题",
+        "themeDesc": "选择预设配色主题",
+        "customNodeBorderColor": "节点边框颜色",
+        "customNodeBorderColorDesc": "自定义节点边框颜色",
+        "customNodeBorderRadius": "节点圆角",
+        "customNodeBorderRadiusDesc": "自定义节点圆角（如 6px, 50%）",
+        "customNodeBackgroundColor": "节点背景色",
+        "customNodeBackgroundColorDesc": "自定义节点背景颜色",
+        "customTextColor": "文字颜色",
+        "customTextColorDesc": "自定义文字颜色",
+        "customLineColor": "连接线颜色",
+        "customLineColorDesc": "自定义连接线颜色",
+        "customLineWidth": "线条宽度",
+        "customLineWidthDesc": "自定义线条宽度（如 2px）",
+        "customLineStyle": "线条样式",
+        "customLineStyleDesc": "连接线样式",
+        "customBackgroundColor": "背景色",
+        "customBackgroundColorDesc": "思维导图区域的自定义背景颜色"
       }
     }
   },
@@ -1000,7 +1357,18 @@ const settingsSchema = {
     "placeholder": "请输入文字",
     "addChild": "添加子节点",
     "collapse": "折叠",
-    "expand": "展开"
+    "expand": "展开",
+    "themes": {
+      "pure": "纯境",
+      "outline": "明线",
+      "plain": "素页",
+      "ink": "墨稿",
+      "parchment": "雁皮",
+      "mist": "薄雾",
+      "focus": "焦点",
+      "deep": "深潜",
+      "night": "夜图"
+    }
   }
 }
 ```
@@ -1018,7 +1386,25 @@ const settingsSchema = {
         "viewPropertyName": "View Property Name",
         "viewPropertyNameDesc": "Property name used to detect mindmap view mode",
         "debounceDelay": "Debounce Delay (ms)",
-        "debounceDelayDesc": "Delay before auto-saving edits"
+        "debounceDelayDesc": "Delay before auto-saving edits",
+        "theme": "Theme",
+        "themeDesc": "Select a preset color theme",
+        "customNodeBorderColor": "Node Border Color",
+        "customNodeBorderColorDesc": "Custom border color for nodes",
+        "customNodeBorderRadius": "Node Border Radius",
+        "customNodeBorderRadiusDesc": "Custom border radius (e.g., 6px, 50%)",
+        "customNodeBackgroundColor": "Node Background Color",
+        "customNodeBackgroundColorDesc": "Custom background color for nodes",
+        "customTextColor": "Text Color",
+        "customTextColorDesc": "Custom text color",
+        "customLineColor": "Connection Line Color",
+        "customLineColorDesc": "Custom color for connection lines",
+        "customLineWidth": "Line Width",
+        "customLineWidthDesc": "Custom line width (e.g., 2px)",
+        "customLineStyle": "Line Style",
+        "customLineStyleDesc": "Style for connection lines",
+        "customBackgroundColor": "Background Color",
+        "customBackgroundColorDesc": "Custom background color for the mindmap area"
       }
     }
   },
@@ -1027,7 +1413,18 @@ const settingsSchema = {
     "placeholder": "Type something...",
     "addChild": "Add child",
     "collapse": "Collapse",
-    "expand": "Expand"
+    "expand": "Expand",
+    "themes": {
+      "pure": "Pure",
+      "outline": "Outline",
+      "plain": "Plain",
+      "ink": "Ink",
+      "parchment": "Parchment",
+      "mist": "Mist",
+      "focus": "Focus",
+      "deep": "Deep",
+      "night": "Night"
+    }
   }
 }
 ```
@@ -1047,7 +1444,9 @@ const settingsSchema = {
    ↓
 5. 构建节点数据结构
    ↓
-6. 渲染界面
+6. 加载配色主题设置
+   ↓
+7. 渲染界面
 ```
 
 ### 11.2 编辑流程
@@ -1106,6 +1505,7 @@ const settingsSchema = {
 | 性能问题（大量节点） | 中 | 虚拟滚动、懒加载子节点 |
 | 数据同步冲突 | 中 | 使用防抖、乐观更新 |
 | 跨平台兼容性 | 低 | 遵循 Logseq 样式变量 |
+| 配色方案兼容性 | 低 | 提供预设主题，支持自定义 |
 
 ### 12.2 注意事项
 
@@ -1114,6 +1514,7 @@ const settingsSchema = {
 3. **错误处理**：所有 API 调用都需要错误处理，避免崩溃
 4. **状态同步**：确保本地状态与 Logseq 数据保持一致
 5. **内存管理**：及时清理事件监听器和定时器
+6. **配色继承**：自定义颜色应覆盖预设主题，未设置的使用默认值
 
 ## 13. 测试计划
 
@@ -1122,6 +1523,7 @@ const settingsSchema = {
 - [ ] 状态管理测试
 - [ ] API 封装测试
 - [ ] 防抖函数测试
+- [ ] 主题配置测试
 
 ### 13.2 集成测试
 
@@ -1130,6 +1532,7 @@ const settingsSchema = {
 - [ ] 添加子节点测试
 - [ ] 折叠/展开测试
 - [ ] 视图切换测试
+- [ ] 配色方案测试
 
 ### 13.3 用户场景测试
 
@@ -1137,6 +1540,7 @@ const settingsSchema = {
 - [ ] 深层级嵌套测试
 - [ ] 大节点树性能测试
 - [ ] 中英文输入测试
+- [ ] 主题切换测试
 
 ## 14. 实施计划
 
@@ -1151,15 +1555,17 @@ const settingsSchema = {
 - [ ] 实现 MindMapNode 组件
 - [ ] 实现 InlineEditor 组件
 - [ ] 实现按钮组件
+- [ ] 实现连接线组件
 
-### 阶段 3：样式和交互 (1-2 天)
+### 阶段 3：样式和配色 (1-2 天)
 - [ ] 实现 CSS 样式
 - [ ] 实现连接线渲染
+- [ ] 实现配色主题系统
 - [ ] 实现折叠/展开逻辑
 - [ ] 实现添加子节点功能
 
 ### 阶段 4：集成和测试 (1-2 天)
-- [ ] 集成到 BlockView 系统
+- [ ] 更新注册逻辑（使用 registerBlockRenderer）
 - [ ] 更新设置面板
 - [ ] 添加国际化
 - [ ] 测试和调试
