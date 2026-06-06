@@ -1,11 +1,5 @@
 /**
- * MindMapView 模块导出
+ * MindMapView 模块导出 - Canvas 渲染版本
  */
 
 export { MindMapView } from './MindMapView';
-export { MindMapCanvas } from './MindMapCanvas';
-export { MindMapNode } from './MindMapNode';
-export { InlineEditor } from './InlineEditor';
-export { CollapseButton } from './CollapseButton';
-export { AddChildButton } from './AddChildButton';
-export { ConnectionLines } from './ConnectionLines';

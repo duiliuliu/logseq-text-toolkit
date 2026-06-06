@@ -1,5 +1,5 @@
 /**
- * MindMap 模块导出
+ * MindMap 模块导出 - Canvas 渲染版本
  */
 
 // 类型导出
@@ -16,3 +16,6 @@ export { MindMapBlockAPI } from './blockAPI';
 
 // 防抖工具导出
 export { createDebounceFn } from './debounce';
+
+// Canvas 渲染器导出
+export { MindMapCanvasRenderer } from './CanvasRenderer';
