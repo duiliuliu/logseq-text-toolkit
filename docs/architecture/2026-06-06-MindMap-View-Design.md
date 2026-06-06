@@ -38,8 +38,8 @@ BlockView 系统
 - 属性名可在设置中自定义（默认为 `view`）
 
 **切换方式**：
-- 通过 BlockView 工具栏按钮切换
-- 自动更新 block 的 `view` 属性值
+- 通过 BlockView 工具栏（lttviewbar）按钮切换
+- 点击按钮时自动更新 block 的 `view` 属性值
 
 ## 2. 整体布局设计
 
@@ -1131,6 +1131,7 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
     name: 'MindMap',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2"/><circle cx="3" cy="3" r="1.5"/><circle cx="11" cy="3" r="1.5"/><circle cx="3" cy="11" r="1.5"/><circle cx="11" cy="11" r="1.5"/><path d="M5.5 5.5L4 4M8.5 5.5L10 4M5.5 8.5L4 10M8.5 8.5L10 10"/></svg>`,
     cssClass: 'ltt-mindmap-root',
+    viewPropertyValue: 'ltt-mindmap', // 视图属性值
   },
 };
 ```
@@ -1205,7 +1206,98 @@ function registerMindMapRenderer(): void {
 }
 ```
 
-### 8.3 注册逻辑说明
+### 8.3 视图切换时更新 Block 属性
+
+**文件位置**：`src/lib/blockView/register.ts`
+
+当用户点击 lttviewbar 上的按钮时，需要更新 block 的 `view` 属性。
+
+```typescript
+/**
+ * 视图切换时更新 block 属性
+ */
+async function updateBlockViewProperty(blockId: string, viewType: ViewType): Promise<void> {
+  try {
+    const viewPropertyValue = VIEW_REGISTRY[viewType]?.viewPropertyValue || viewType;
+    
+    // 更新 block 属性
+    await logseqAPI.Editor.upsertBlockProperty(blockId, 'view', viewPropertyValue);
+    
+    logger.debug('[BlockView] Block view property updated', { blockId, viewPropertyValue });
+  } catch (error) {
+    logger.error('[BlockView] Failed to update block view property', error);
+  }
+}
+
+/**
+ * 绑定视图切换事件
+ */
+function bindViewEvents(container: HTMLElement, blockId: string, themeType: ThemeType): void {
+  const buttons = container.querySelectorAll('.ltt-view-btn');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const viewType = btn.getAttribute('data-view') as ViewType;
+      if (!viewType) return;
+
+      // 更新按钮样式
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // 更新视图样式
+      await applyViewStyle(blockId, viewType, themeType);
+
+      // 更新 block 的 view 属性
+      await updateBlockViewProperty(blockId, viewType);
+
+      // 更新宏参数
+      await updateMacroParameters(blockId, viewType);
+    });
+  });
+}
+
+/**
+ * 更新宏参数
+ */
+async function updateMacroParameters(blockId: string, viewType: ViewType): Promise<void> {
+  try {
+    const currentBlock = await logseqAPI.Editor.getBlock(blockId);
+    if (currentBlock?.content) {
+      const updatedContent = updateBlockViewArgs(currentBlock.content, { view: viewType });
+      if (updatedContent !== currentBlock.content) {
+        await logseqAPI.Editor.updateBlock(blockId, updatedContent);
+        logger.debug('[BlockView] Macro parameter updated', { blockId, viewType });
+      }
+    }
+  } catch (err) {
+    logger.error('[BlockView] Failed to update macro parameter', err);
+  }
+}
+```
+
+### 8.4 视图切换流程
+
+```
+用户点击 lttviewbar 按钮
+    ↓
+更新按钮样式（添加 active 类）
+    ↓
+应用视图样式到 block 元素
+    ↓
+更新 block 的 view 属性为视图对应的值
+    ↓
+  ├─ list      → view: "ltt-list"
+  ├─ table     → view: "ltt-table"
+  ├─ gallery   → view: "ltt-gallery"
+  ├─ board     → view: "ltt-board"
+  └─ mindmap   → view: "ltt-mindmap"
+    ↓
+更新宏参数内容
+    ↓
+重新渲染视图
+```
+
+### 8.5 注册逻辑说明
 
 **API 参数说明**：
 
@@ -1446,10 +1538,31 @@ const settingsSchema = {
 
 ## 11. 交互流程设计
 
-### 11.1 初始化流程
+### 11.1 视图切换流程（lttviewbar 点击）
 
 ```
-1. Block 属性检测 (通过 when 条件)
+1. 用户点击 lttviewbar 上的视图按钮
+   ↓
+2. 更新按钮样式（添加 active 类）
+   ↓
+3. 应用视图样式到 block 元素
+   ↓
+4. 更新 block 的 view 属性
+   ├─ list      → view: "ltt-list"
+   ├─ table     → view: "ltt-table"
+   ├─ gallery   → view: "ltt-gallery"
+   ├─ board     → view: "ltt-board"
+   └─ mindmap   → view: "ltt-mindmap"
+   ↓
+5. 更新宏参数内容
+   ↓
+6. 触发 registerBlockRenderer 重新渲染
+```
+
+### 11.2 MindMap 初始化流程
+
+```
+1. Block 属性检测 (通过 registerBlockRenderer 的 when 条件)
    ↓
 2. 检查 view 属性是否为 'ltt-mindmap'
    ↓
@@ -1462,7 +1575,7 @@ const settingsSchema = {
 6. 渲染 MindMap React 组件
 ```
 
-### 11.2 编辑流程
+### 11.3 编辑流程
 
 ```
 1. 用户点击节点
@@ -1478,7 +1591,7 @@ const settingsSchema = {
 6. 计时器结束后调用 logseq.Editor.updateBlock()
 ```
 
-### 11.3 添加子节点流程
+### 11.4 添加子节点流程
 
 ```
 1. 用户 Hover 节点显示 [+] 按钮
@@ -1494,7 +1607,7 @@ const settingsSchema = {
 6. 自动聚焦到新节点进行编辑
 ```
 
-### 11.4 折叠/展开流程
+### 11.5 折叠/展开流程
 
 ```
 1. 用户 Hover 节点显示 [◀] 按钮（仅在有子节点时）
@@ -1519,6 +1632,7 @@ const settingsSchema = {
 | 数据同步冲突 | 中 | 使用防抖、乐观更新 |
 | 跨平台兼容性 | 低 | 遵循 Logseq 样式变量 |
 | 配色方案兼容性 | 低 | 提供预设主题，支持自定义 |
+| 属性名冲突 | 低 | 使用 `ltt-` 前缀避免冲突 |
 
 ### 12.2 注意事项
 
@@ -1528,6 +1642,7 @@ const settingsSchema = {
 4. **状态同步**：确保本地状态与 Logseq 数据保持一致
 5. **内存管理**：及时清理事件监听器和定时器
 6. **配色继承**：自定义颜色应覆盖预设主题，未设置的使用默认值
+7. **视图属性命名**：使用 `ltt-` 前缀区分不同视图（ltt-list, ltt-table, ltt-mindmap 等）
 
 ## 13. 测试计划
 
@@ -1537,6 +1652,7 @@ const settingsSchema = {
 - [ ] API 封装测试
 - [ ] 防抖函数测试
 - [ ] 主题配置测试
+- [ ] 视图属性更新测试
 
 ### 13.2 集成测试
 
@@ -1544,7 +1660,7 @@ const settingsSchema = {
 - [ ] 内容编辑测试
 - [ ] 添加子节点测试
 - [ ] 折叠/展开测试
-- [ ] 视图切换测试
+- [ ] 视图切换测试（lttviewbar 点击）
 - [ ] 配色方案测试
 
 ### 13.3 用户场景测试
@@ -1554,6 +1670,7 @@ const settingsSchema = {
 - [ ] 大节点树性能测试
 - [ ] 中英文输入测试
 - [ ] 主题切换测试
+- [ ] 视图切换后数据持久化测试
 
 ## 14. 实施计划
 
@@ -1579,6 +1696,7 @@ const settingsSchema = {
 
 ### 阶段 4：集成和测试 (1-2 天)
 - [ ] 更新注册逻辑（使用 registerBlockRenderer）
+- [ ] 更新视图切换逻辑（lttviewbar 点击时更新 view 属性）
 - [ ] 更新设置面板
 - [ ] 添加国际化
 - [ ] 测试和调试
