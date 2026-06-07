@@ -270,7 +270,7 @@ function MilestoneSettings({ settings, setSettings, onSave, isSaving, language }
           onChange={(value) => handleSettingChange('milestone.defaultSlashCommandTemplate', value)}
           macroType="milestone"
           language={language}
-          placeholder=":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure"
+          placeholder={t('settings.milestone.defaultSlashPlaceholder', language)}
           align="right"
         />
       </div>
