@@ -5,19 +5,23 @@
 
 .ltt-mindmap-view {
   width: 100%;
-  margin-top: 8px;
+  margin-top: 12px;
   padding-left: 0;
 }
 
 .ltt-mindmap-canvas-container {
   position: relative;
   width: 100%;
-  min-height: 300px;
+  min-height: 400px;
+  border-top: 1px solid var(--ls-border-color);
+  padding-top: 12px;
+  overflow: visible;
 }
 
 .ltt-mindmap-canvas {
   display: block;
   width: 100%;
+  max-width: 100%;
   cursor: default;
 }
 
@@ -41,7 +45,7 @@
 
 /* 确保与其他视图保持一致的 Root Node 渲染 */
 .ltt-mindmap-root {
-  /* 保持与 ltt-list-root, ltt-table-root 等一致的样式 */
+  /* 保持与其他视图一致的样式 */
 }
 
 /* 移除可能的额外边框和间距 */

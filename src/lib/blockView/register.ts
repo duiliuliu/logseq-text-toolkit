@@ -282,7 +282,7 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
 function registerMindMapRenderer(): void {
   try {
     const Experiments = logseqAPI.Experiments || {};
-    const { React, ReactDOM, registerBlockRenderer } = Experiments as any;
+    const { React, registerBlockRenderer } = Experiments as any;
     
     if (!registerBlockRenderer) {
       logger.warn('[MindMap] registerBlockRenderer not available, falling back to macro renderer');
@@ -296,26 +296,20 @@ function registerMindMapRenderer(): void {
       includeChildren: true,
       priority: 20,
       render: ({ content, children = [], uuid }: BlockRendererProps) => {
-        // 使用 Experiments 中的 React 创建容器
-        const container = React.createElement('div', {
-          className: 'ltt-mindmap-container',
-          'data-block-uuid': uuid,
-        }, 
-          React.createElement('div', {
-            ref: (el: HTMLElement) => {
-              if (el) {
-                ReactDOM.render(
-                  React.createElement(MindMapView, {
-                    rootUuid: uuid,
-                    content,
-                    children,
-                  }),
-                  el
-                );
-              }
-            }
-          })
-        );
+        // 创建容器元素（使用原生 DOM）
+        const container = document.createElement('div');
+        container.className = 'ltt-mindmap-container';
+        container.dataset.blockUuid = uuid;
+
+        // 渲染 React 组件
+        const reactContainer = document.createElement('div');
+        container.appendChild(reactContainer);
+        
+        renderComponent(reactContainer, MindMapView, {
+          rootUuid: uuid,
+          content,
+          children,
+        });
 
         return container;
       },

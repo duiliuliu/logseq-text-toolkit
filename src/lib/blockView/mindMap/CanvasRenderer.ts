@@ -50,8 +50,9 @@ export class MindMapCanvasRenderer {
     this.rootUuid = rootUuid;
     this.colorScheme = MIND_MAP_THEMES[themeName as keyof typeof MIND_MAP_THEMES]?.scheme || MIND_MAP_THEMES.pure.scheme;
     
-    this.setupCanvas();
+    // 先计算布局，再设置画布尺寸
     this.calculateLayout();
+    this.setupCanvas();
     this.render();
   }
 
@@ -311,6 +312,7 @@ export class MindMapCanvasRenderer {
   public updateNodes(nodes: Map<string, MindMapNode>, rootUuid: string): void {
     this.nodes = nodes;
     this.rootUuid = rootUuid;
+    this.calculateLayout();
     this.setupCanvas();
     this.render();
   }
