@@ -24,6 +24,9 @@ export interface SelectionInfo {
     x: number;
     y: number;
   };
+  before?: string;
+  after?: string;
+  block?: any;
 }
 
 type SelectionHandler = (info: SelectionInfo) => void;
@@ -79,14 +82,14 @@ const Editor: any = {
       isMouseDown = true;
     };
     
-    const handleMouseUp = (e: MouseEvent) => {
+    const handleMouseUp = async (e: MouseEvent) => {
       if (!isMouseDown) return;
       
       if (mouseUpTimeout) {
         clearTimeout(mouseUpTimeout);
       }
       
-      mouseUpTimeout = setTimeout(() => {
+      mouseUpTimeout = setTimeout(async () => {
         isMouseDown = false;
         
         const selection = getSelection();
@@ -97,6 +100,55 @@ const Editor: any = {
         const text = selection.toString();
         const range = selection.getRangeAt(0);
         const rect = range.getBoundingClientRect();
+        
+        let before = '';
+        let after = '';
+        let block = null;
+        
+        try {
+          block = await Editor.getCurrentBlock();
+          
+          if (block && block.content && text) {
+            const content = block.content;
+            
+            let currentNode = range.startContainer;
+            
+            while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
+              currentNode = currentNode.parentNode;
+            }
+            
+            if (currentNode) {
+              let offset = 0;
+              let tempNode = block.content?.[0];
+              
+              while (tempNode && tempNode !== currentNode) {
+                offset += tempNode.textContent?.length || 0;
+                tempNode = tempNode?.nextSibling || null;
+              }
+              
+              offset += range.startOffset;
+              
+              if (offset >= 0 && offset + text.length <= content.length) {
+                before = content.substring(0, offset);
+                after = content.substring(offset + text.length);
+              } else {
+                const index = content.indexOf(text);
+                if (index !== -1) {
+                  before = content.substring(0, index);
+                  after = content.substring(index + text.length);
+                }
+              }
+            } else {
+              const index = content.indexOf(text);
+              if (index !== -1) {
+                before = content.substring(0, index);
+                after = content.substring(index + text.length);
+              }
+            }
+          }
+        } catch (error) {
+          logger.warn('[Mock Editor] Failed to get block or calculate before/after:', error);
+        }
         
         const start = 0;
         const end = text.length;
@@ -115,7 +167,10 @@ const Editor: any = {
           point: {
             x: e.clientX,
             y: e.clientY
-          }
+          },
+          before,
+          after,
+          block
         };
         
         try {
