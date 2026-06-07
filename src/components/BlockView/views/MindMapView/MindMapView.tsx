@@ -11,12 +11,13 @@ import { MindMapBlockAPI } from '../../../../lib/blockView/mindMap/blockAPI';
 import { createDebounceFn } from '../../../../lib/blockView/mindMap/debounce';
 import { MIND_MAP_THEMES } from '../../../../lib/blockView/mindMap/themes';
 import type { MindMapColorScheme, MindMapThemeName } from '../../../../lib/blockView/mindMap/types';
+import type { BlockRendererChild } from '@logseq/libs/dist/modules/LSPlugin.Experiments';
 import './mindMapView.css';
 
 interface MindMapViewProps {
   rootUuid: string;
   content?: string;
-  children?: any[];
+  children?: Array<BlockRendererChild>;
 }
 
 export function MindMapView({ rootUuid, content, children }: MindMapViewProps) {
