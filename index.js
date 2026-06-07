@@ -3135,6 +3135,11 @@
   	subtitle: "Manage various configurations of the application, each area can be saved independently",
   	generalSettingsDescription: "Configure the theme and language of the application",
   	toolbarSettingsDescription: "Configure the display and behavior of the toolbar",
+  	toolbarElementsConfig: "Elements Configuration",
+  	toolbarGroupFormat: "Group Format",
+  	toolbarSingleElement: "Single Element",
+  	toolbarHiddenElement: "Hidden Element",
+  	toolbarBindingShortcut: "Bind Shortcut",
   	advancedSettings: "Advanced Settings",
   	advancedSettingsDescription: "Advanced feature configurations to be added",
   	lightTheme: "Light",
@@ -3185,6 +3190,7 @@
   		labelPercentage: "Percentage (50%)",
   		labelBoth: "Both (10/20 50%)",
   		statusColors: "Status Colors",
+  		statusColorsHint: "Click color to change, more statuses can be configured in settings.json",
   		statusNames: {
   			todo: "To Do",
   			doing: "In Progress",
@@ -3314,8 +3320,11 @@
   		defaultType: "Default Summary Type",
   		dateFormat: "Date Format",
   		weeklyPageNameTemplate: "Weekly Page Name Template",
+  		weeklyPageNamePlaceholder: "Weekly Summary-{{year}}-W{{week}}",
   		monthlyPageNameTemplate: "Monthly Page Name Template",
+  		monthlyPageNamePlaceholder: "Monthly Summary-{{year}}-{{month}}",
   		customPageNameTemplate: "Custom Page Name Template",
+  		customPageNamePlaceholder: "Custom Summary-{{date}}",
   		pageNameTemplateHelp: "Available placeholders: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
   		templateGtdWorkReview: "GTD Work Review",
   		templateMinimalDashboard: "Minimal Dashboard",
@@ -3337,12 +3346,14 @@
   		aiApiKey: "API Key",
   		aiApiUrl: "API URL",
   		aiModel: "Model",
-  		aiPromptTemplate: "Prompt Template"
+  		aiPromptTemplate: "Prompt Template",
+  		aiPromptPlaceholder: "Please generate a summary based on the following content..."
   	},
   	milestone: {
   		description: "Configure default behavior and display style for milestone components.",
   		enabled: "Enable Milestone Feature",
   		defaultSlashCommandTemplate: "Default Slash Command Template",
+  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
   		defaultStyle: "Default Display Style",
   		styleCapsule: "Capsule",
   		styleBadge: "Badge",
@@ -3492,6 +3503,11 @@
   	subtitle: "アプリケーションの設定を管理します。各セクションは独立して保存できます。",
   	generalSettingsDescription: "アプリのテーマと言語を設定します",
   	toolbarSettingsDescription: "ツールバーの外観と動作を設定します",
+  	toolbarElementsConfig: "要素設定",
+  	toolbarGroupFormat: "グループフォーマット",
+  	toolbarSingleElement: "単一要素",
+  	toolbarHiddenElement: "非表示要素",
+  	toolbarBindingShortcut: "ショートカットをバインド",
   	advancedSettings: "詳細設定",
   	advancedSettingsDescription: "追加予定の高度な機能設定",
   	lightTheme: "ライト",
@@ -3542,6 +3558,7 @@
   		labelPercentage: "パーセント (50%)",
   		labelBoth: "両方 (10/20 50%)",
   		statusColors: "ステータス色",
+  		statusColorsHint: "色をクリックして変更、その他のステータスは settings.json で設定可能",
   		statusNames: {
   			todo: "未着手",
   			doing: "進行中",
@@ -3671,8 +3688,11 @@
   		defaultType: "デフォルトサマリータイプ",
   		dateFormat: "日付形式",
   		weeklyPageNameTemplate: "週次ページ名テンプレート",
+  		weeklyPageNamePlaceholder: "週次まとめ-{{year}}-W{{week}}",
   		monthlyPageNameTemplate: "月次ページ名テンプレート",
+  		monthlyPageNamePlaceholder: "月次まとめ-{{year}}-{{month}}",
   		customPageNameTemplate: "カスタムページ名テンプレート",
+  		customPageNamePlaceholder: "カスタムまとめ-{{date}}",
   		pageNameTemplateHelp: "使用可能なプレースホルダー: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
   		templateGtdWorkReview: "GTD 作業レビュー",
   		templateMinimalDashboard: "ミニマルダッシュボード",
@@ -3694,12 +3714,14 @@
   		aiApiKey: "APIキー",
   		aiApiUrl: "APIアドレス",
   		aiModel: "モデル",
-  		aiPromptTemplate: "プロンプトテンプレート"
+  		aiPromptTemplate: "プロンプトテンプレート",
+  		aiPromptPlaceholder: "以下の内容に基づいてまとめを作成してください..."
   	},
   	milestone: {
   		description: "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
   		enabled: "マイルストーン機能を有効化",
   		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
+  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
   		defaultStyle: "デフォルト表示スタイル",
   		styleCapsule: "カプセル",
   		styleBadge: "バッジ",
@@ -3849,6 +3871,11 @@
   	subtitle: "管理应用程序的各项配置，每个区域可独立保存",
   	generalSettingsDescription: "配置应用的主题和语言",
   	toolbarSettingsDescription: "配置工具栏的显示和行为",
+  	toolbarElementsConfig: "元素配置",
+  	toolbarGroupFormat: "分组格式",
+  	toolbarSingleElement: "单个元素",
+  	toolbarHiddenElement: "隐藏元素",
+  	toolbarBindingShortcut: "绑定快捷键",
   	advancedSettings: "高级设置",
   	advancedSettingsDescription: "待添加的高级功能配置",
   	lightTheme: "浅色",
@@ -3899,6 +3926,7 @@
   		labelPercentage: "百分比 (50%)",
   		labelBoth: "两者 (10/20 50%)",
   		statusColors: "状态颜色",
+  		statusColorsHint: "点击色块修改颜色，更多状态请在 settings.json 中配置",
   		statusNames: {
   			todo: "待办",
   			doing: "进行中",
@@ -4028,8 +4056,11 @@
   		defaultType: "默认总结类型",
   		dateFormat: "日期格式",
   		weeklyPageNameTemplate: "周度页面名称模板",
+  		weeklyPageNamePlaceholder: "周度总结-{{year}}-W{{week}}",
   		monthlyPageNameTemplate: "月度页面名称模板",
+  		monthlyPageNamePlaceholder: "月度总结-{{year}}-{{month}}",
   		customPageNameTemplate: "自定义页面名称模板",
+  		customPageNamePlaceholder: "自定义总结-{{date}}",
   		pageNameTemplateHelp: "可用占位符: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
   		templateGtdWorkReview: "GTD 工作回顾",
   		templateMinimalDashboard: "极简仪表盘",
@@ -4051,12 +4082,14 @@
   		aiApiKey: "API Key",
   		aiApiUrl: "API 地址",
   		aiModel: "模型",
-  		aiPromptTemplate: "提示词模板"
+  		aiPromptTemplate: "提示词模板",
+  		aiPromptPlaceholder: "请根据以下内容生成一个总结..."
   	},
   	milestone: {
   		description: "配置里程碑组件的默认行为和显示样式。",
   		enabled: "启用里程碑功能",
   		defaultSlashCommandTemplate: "默认斜杠命令模板",
+  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
   		defaultStyle: "默认显示样式",
   		styleCapsule: "胶囊",
   		styleBadge: "徽章",
@@ -9353,8 +9386,8 @@ ${where}
     };
   }
 
-  // packages/react/compose-refs/src/compose-refs.tsx
-  function setRef$1(ref, value) {
+  // src/compose-refs.tsx
+  function setRef$2(ref, value) {
     if (typeof ref === "function") {
       return ref(value);
     } else if (ref !== null && ref !== void 0) {
@@ -9365,7 +9398,7 @@ ${where}
     return (node) => {
       let hasCleanup = false;
       const cleanups = refs.map((ref) => {
-        const cleanup = setRef$1(ref, node);
+        const cleanup = setRef$2(ref, node);
         if (!hasCleanup && typeof cleanup == "function") {
           hasCleanup = true;
         }
@@ -9378,7 +9411,7 @@ ${where}
             if (typeof cleanup == "function") {
               cleanup();
             } else {
-              setRef$1(refs[i], null);
+              setRef$2(refs[i], null);
             }
           }
         };
@@ -9389,11 +9422,12 @@ ${where}
     return reactExports.useCallback(composeRefs$1(...refs), refs);
   }
 
-  // packages/react/context/src/create-context.tsx
+  // src/create-context.tsx
   function createContextScope(scopeName, createContextScopeDeps = []) {
     let defaultContexts = [];
     function createContext3(rootComponentName, defaultContext) {
       const BaseContext = reactExports.createContext(defaultContext);
+      BaseContext.displayName = rootComponentName + "Context";
       const index = defaultContexts.length;
       defaultContexts = [...defaultContexts, defaultContext];
       const Provider = (props) => {
@@ -9451,58 +9485,74 @@ ${where}
   // src/slot.tsx
   // @__NO_SIDE_EFFECTS__
   function createSlot(ownerName) {
-    const SlotClone = /* @__PURE__ */ createSlotClone(ownerName);
     const Slot2 = reactExports.forwardRef((props, forwardedRef) => {
-      const { children, ...slotProps } = props;
-      const childrenArray = reactExports.Children.toArray(children);
-      const slottable = childrenArray.find(isSlottable);
-      if (slottable) {
-        const newElement = slottable.props.children;
-        const newChildren = childrenArray.map((child) => {
-          if (child === slottable) {
-            if (reactExports.Children.count(newElement) > 1) return reactExports.Children.only(null);
-            return reactExports.isValidElement(newElement) ? newElement.props.children : null;
-          } else {
-            return child;
-          }
-        });
-        return /* @__PURE__ */ jsxRuntimeExports.jsx(SlotClone, { ...slotProps, ref: forwardedRef, children: reactExports.isValidElement(newElement) ? reactExports.cloneElement(newElement, void 0, newChildren) : null });
+      let { children, ...slotProps } = props;
+      let slottableElement = null;
+      let hasSlottable = false;
+      const newChildren = [];
+      if (isLazyComponent(children) && typeof use === "function") {
+        children = use(children._payload);
       }
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(SlotClone, { ...slotProps, ref: forwardedRef, children });
+      reactExports.Children.forEach(children, (maybeSlottable) => {
+        if (isSlottable(maybeSlottable)) {
+          hasSlottable = true;
+          const slottable = maybeSlottable;
+          let child = "child" in slottable.props ? slottable.props.child : slottable.props.children;
+          if (isLazyComponent(child) && typeof use === "function") {
+            child = use(child._payload);
+          }
+          slottableElement = getSlottableElementFromSlottable(slottable, child);
+          newChildren.push(slottableElement?.props?.children);
+        } else {
+          newChildren.push(maybeSlottable);
+        }
+      });
+      if (slottableElement) {
+        slottableElement = reactExports.cloneElement(slottableElement, void 0, newChildren);
+      } else if (
+        // A `Slottable` was found but it didn't resolve to a single element (e.g.
+        // it wrapped multiple elements, text, or a render-prop `child` that
+        // wasn't an element). Don't fall back to treating the `Slottable` wrapper
+        // itself as the slot target — throw a descriptive error below instead.
+        !hasSlottable && reactExports.Children.count(children) === 1 && reactExports.isValidElement(children)
+      ) {
+        slottableElement = children;
+      }
+      const slottableElementRef = slottableElement ? getElementRef$1(slottableElement) : void 0;
+      const composedRef = useComposedRefs$1(forwardedRef, slottableElementRef);
+      if (!slottableElement) {
+        if (children || children === 0) {
+          throw new Error(
+            hasSlottable ? createSlottableError(ownerName) : createSlotError(ownerName)
+          );
+        }
+        return children;
+      }
+      const mergedProps = mergeProps(slotProps, slottableElement.props ?? {});
+      if (slottableElement.type !== reactExports.Fragment) {
+        mergedProps.ref = forwardedRef ? composedRef : slottableElementRef;
+      }
+      return reactExports.cloneElement(slottableElement, mergedProps);
     });
     Slot2.displayName = `${ownerName}.Slot`;
     return Slot2;
   }
-  // @__NO_SIDE_EFFECTS__
-  function createSlotClone(ownerName) {
-    const SlotClone = reactExports.forwardRef((props, forwardedRef) => {
-      const { children, ...slotProps } = props;
-      if (reactExports.isValidElement(children)) {
-        const childrenRef = getElementRef$1(children);
-        const props2 = mergeProps(slotProps, children.props);
-        if (children.type !== reactExports.Fragment) {
-          props2.ref = forwardedRef ? composeRefs$1(forwardedRef, childrenRef) : childrenRef;
-        }
-        return reactExports.cloneElement(children, props2);
-      }
-      return reactExports.Children.count(children) > 1 ? reactExports.Children.only(null) : null;
-    });
-    SlotClone.displayName = `${ownerName}.SlotClone`;
-    return SlotClone;
-  }
-  var SLOTTABLE_IDENTIFIER = Symbol("radix.slottable");
+  var SLOTTABLE_IDENTIFIER = Symbol.for("radix.slottable");
   // @__NO_SIDE_EFFECTS__
   function createSlottable(ownerName) {
-    const Slottable2 = ({ children }) => {
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children });
-    };
+    const Slottable2 = (props) => "child" in props ? props.children(props.child) : props.children;
     Slottable2.displayName = `${ownerName}.Slottable`;
     Slottable2.__radixId = SLOTTABLE_IDENTIFIER;
     return Slottable2;
   }
-  function isSlottable(child) {
-    return reactExports.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER;
-  }
+  var getSlottableElementFromSlottable = (slottable, child) => {
+    if ("child" in slottable.props) {
+      const child2 = slottable.props.child;
+      if (!reactExports.isValidElement(child2)) return null;
+      return reactExports.cloneElement(child2, void 0, slottable.props.children(child2.props.children));
+    }
+    return reactExports.isValidElement(child) ? child : null;
+  };
   function mergeProps(slotProps, childProps) {
     const overrideProps = { ...childProps };
     for (const propName in childProps) {
@@ -9540,6 +9590,23 @@ ${where}
     }
     return element.props.ref || element.ref;
   }
+  function isSlottable(child) {
+    return reactExports.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER;
+  }
+  var REACT_LAZY_TYPE = Symbol.for("react.lazy");
+  function isLazyComponent(element) {
+    return element != null && typeof element === "object" && "$$typeof" in element && element.$$typeof === REACT_LAZY_TYPE && "_payload" in element && isPromiseLike(element._payload);
+  }
+  function isPromiseLike(value) {
+    return typeof value === "object" && value !== null && "then" in value;
+  }
+  var createSlotError = (ownerName) => {
+    return `${ownerName} failed to slot onto its children. Expected a single React element child or \`Slottable\`.`;
+  };
+  var createSlottableError = (ownerName) => {
+    return `${ownerName} failed to slot onto its \`Slottable\`. Expected \`Slottable\` to receive a single React element child.`;
+  };
+  var use = React$1[" use ".trim().toString()];
 
   // src/primitive.tsx
   var NODES = [
@@ -9578,16 +9645,16 @@ ${where}
     if (target) reactDomExports.flushSync(() => target.dispatchEvent(event));
   }
 
-  // packages/react/use-callback-ref/src/use-callback-ref.tsx
+  // src/use-callback-ref.tsx
   function useCallbackRef(callback) {
     const callbackRef = reactExports.useRef(callback);
     reactExports.useEffect(() => {
       callbackRef.current = callback;
     });
-    return reactExports.useMemo(() => (...args) => callbackRef.current?.(...args), []);
+    return reactExports.useMemo(() => ((...args) => callbackRef.current?.(...args)), []);
   }
 
-  // packages/react/use-escape-keydown/src/use-escape-keydown.tsx
+  // src/use-escape-keydown.tsx
   function useEscapeKeydown(onEscapeKeyDownProp, ownerDocument = globalThis?.document) {
     const onEscapeKeyDown = useCallbackRef(onEscapeKeyDownProp);
     reactExports.useEffect(() => {
@@ -9670,8 +9737,11 @@ ${where}
         context.layers.add(node);
         dispatchUpdate();
         return () => {
-          if (disableOutsidePointerEvents && context.layersWithOutsidePointerEventsDisabled.size === 1) {
-            ownerDocument.body.style.pointerEvents = originalBodyPointerEvents;
+          if (disableOutsidePointerEvents) {
+            context.layersWithOutsidePointerEventsDisabled.delete(node);
+            if (context.layersWithOutsidePointerEventsDisabled.size === 0) {
+              ownerDocument.body.style.pointerEvents = originalBodyPointerEvents;
+            }
           }
         };
       }, [node, ownerDocument, disableOutsidePointerEvents, context]);
@@ -9803,11 +9873,11 @@ ${where}
     }
   }
 
-  // packages/react/use-layout-effect/src/use-layout-effect.tsx
+  // src/use-layout-effect.tsx
   var useLayoutEffect2 = globalThis?.document ? reactExports.useLayoutEffect : () => {
   };
 
-  // packages/react/id/src/id.tsx
+  // src/id.tsx
   var useReactId = React$1[" useId ".trim().toString()] || (() => void 0);
   var count = 0;
   function useId(deterministicId) {
@@ -12075,7 +12145,7 @@ ${where}
   Arrow$1.displayName = NAME$1;
   var Root$1 = Arrow$1;
 
-  // packages/react/use-size/src/use-size.tsx
+  // src/use-size.tsx
   function useSize(element) {
     const [size, setSize] = reactExports.useState(void 0);
     useLayoutEffect2(() => {
@@ -12117,7 +12187,18 @@ ${where}
   var Popper = (props) => {
     const { __scopePopper, children } = props;
     const [anchor, setAnchor] = reactExports.useState(null);
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(PopperProvider, { scope: __scopePopper, anchor, onAnchorChange: setAnchor, children });
+    const [placementState, setPlacementState] = reactExports.useState(void 0);
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      PopperProvider,
+      {
+        scope: __scopePopper,
+        anchor,
+        onAnchorChange: setAnchor,
+        placementState,
+        setPlacementState,
+        children
+      }
+    );
   };
   Popper.displayName = POPPER_NAME;
   var ANCHOR_NAME = "PopperAnchor";
@@ -12126,16 +12207,40 @@ ${where}
       const { __scopePopper, virtualRef, ...anchorProps } = props;
       const context = usePopperContext(ANCHOR_NAME, __scopePopper);
       const ref = reactExports.useRef(null);
-      const composedRefs = useComposedRefs$1(forwardedRef, ref);
+      const onAnchorChange = context.onAnchorChange;
+      const callbackRef = reactExports.useCallback(
+        (node) => {
+          ref.current = node;
+          if (node) {
+            onAnchorChange(node);
+          }
+        },
+        [onAnchorChange]
+      );
+      const composedRefs = useComposedRefs$1(forwardedRef, callbackRef);
       const anchorRef = reactExports.useRef(null);
       reactExports.useEffect(() => {
+        if (!virtualRef) {
+          return;
+        }
         const previousAnchor = anchorRef.current;
-        anchorRef.current = virtualRef?.current || ref.current;
+        anchorRef.current = virtualRef.current;
         if (previousAnchor !== anchorRef.current) {
-          context.onAnchorChange(anchorRef.current);
+          onAnchorChange(anchorRef.current);
         }
       });
-      return virtualRef ? null : /* @__PURE__ */ jsxRuntimeExports.jsx(Primitive.div, { ...anchorProps, ref: composedRefs });
+      const sideAndAlign = context.placementState && getSideAndAlignFromPlacement(context.placementState);
+      const placedSide = sideAndAlign?.[0];
+      const placedAlign = sideAndAlign?.[1];
+      return virtualRef ? null : /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Primitive.div,
+        {
+          "data-radix-popper-side": placedSide,
+          "data-radix-popper-align": placedAlign,
+          ...anchorProps,
+          ref: composedRefs
+        }
+      );
     }
   );
   PopperAnchor.displayName = ANCHOR_NAME;
@@ -12151,7 +12256,7 @@ ${where}
         alignOffset = 0,
         arrowPadding = 0,
         avoidCollisions = true,
-        collisionBoundary = [],
+        collisionBoundary,
         collisionPadding: collisionPaddingProp = 0,
         sticky = "partial",
         hideWhenDetached = false,
@@ -12168,11 +12273,11 @@ ${where}
       const arrowHeight = arrowSize?.height ?? 0;
       const desiredPlacement = side + (align !== "center" ? "-" + align : "");
       const collisionPadding = typeof collisionPaddingProp === "number" ? collisionPaddingProp : { top: 0, right: 0, bottom: 0, left: 0, ...collisionPaddingProp };
-      const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
-      const hasExplicitBoundaries = boundary.length > 0;
+      const boundary = collisionBoundary ? Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary] : void 0;
+      const hasExplicitBoundaries = boundary !== void 0 && boundary.length > 0;
       const detectOverflowOptions = {
         padding: collisionPadding,
-        boundary: boundary.filter(isNotNull$1),
+        boundary: boundary?.filter(isNotNull$1),
         // with `strategy: 'fixed'`, this is the only way to get it to respect boundaries
         altBoundary: hasExplicitBoundaries
       };
@@ -12214,6 +12319,13 @@ ${where}
           hideWhenDetached && hide({ strategy: "referenceHidden", ...detectOverflowOptions })
         ]
       });
+      const setPlacementState = context.setPlacementState;
+      useLayoutEffect2(() => {
+        setPlacementState(placement);
+        return () => {
+          setPlacementState(void 0);
+        };
+      }, [placement, setPlacementState]);
       const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement);
       const handlePlaced = useCallbackRef(onPlaced);
       useLayoutEffect2(() => {
@@ -12239,7 +12351,7 @@ ${where}
             // keep off the page when measuring
             minWidth: "max-content",
             zIndex: contentZIndex,
-            ["--radix-popper-transform-origin"]: [
+            "--radix-popper-transform-origin": [
               middlewareData.transformOrigin?.x,
               middlewareData.transformOrigin?.y
             ].join(" "),
@@ -12257,6 +12369,7 @@ ${where}
             {
               scope: __scopePopper,
               placedSide,
+              placedAlign,
               onArrowChange: setArrow,
               arrowX,
               arrowY,
@@ -12393,7 +12506,7 @@ ${where}
     const { present, children } = props;
     const presence = usePresence$1(present);
     const child = typeof children === "function" ? children({ present: presence.isPresent }) : reactExports.Children.only(children);
-    const ref = useComposedRefs$1(presence.ref, getElementRef(child));
+    const ref = useStableComposedRefs(presence.ref, getElementRef(child));
     const forceMount = typeof children === "function";
     return forceMount || presence.isPresent ? reactExports.cloneElement(child, { ref }) : null;
   };
@@ -12488,6 +12601,40 @@ ${where}
         setNode(node2);
       }, [])
     };
+  }
+  function setRef$1(ref, value) {
+    if (typeof ref === "function") {
+      return ref(value);
+    } else if (ref !== null && ref !== void 0) {
+      ref.current = value;
+    }
+  }
+  function useStableComposedRefs(...refs) {
+    const refsRef = reactExports.useRef(refs);
+    refsRef.current = refs;
+    return reactExports.useCallback((node) => {
+      const currentRefs = refsRef.current;
+      let hasCleanup = false;
+      const cleanups = currentRefs.map((ref) => {
+        const cleanup = setRef$1(ref, node);
+        if (!hasCleanup && typeof cleanup === "function") {
+          hasCleanup = true;
+        }
+        return cleanup;
+      });
+      if (hasCleanup) {
+        return () => {
+          for (let i = 0; i < cleanups.length; i++) {
+            const cleanup = cleanups[i];
+            if (typeof cleanup === "function") {
+              cleanup();
+            } else {
+              setRef$1(currentRefs[i], null);
+            }
+          }
+        };
+      }
+    }, []);
   }
   function getAnimationName(styles) {
     return styles?.animationName || "none";
@@ -12632,10 +12779,12 @@ ${where}
         isOpenDelayedRef,
         delayDuration,
         onOpen: reactExports.useCallback(() => {
+          if (skipDelayDuration <= 0) return;
           window.clearTimeout(skipDelayTimerRef.current);
           isOpenDelayedRef.current = false;
-        }, []),
+        }, [skipDelayDuration]),
         onClose: reactExports.useCallback(() => {
+          if (skipDelayDuration <= 0) return;
           window.clearTimeout(skipDelayTimerRef.current);
           skipDelayTimerRef.current = window.setTimeout(
             () => isOpenDelayedRef.current = true,
@@ -12891,8 +13040,9 @@ ${where}
       reactExports.useEffect(() => {
         if (context.trigger) {
           const handleScroll = (event) => {
-            const target = event.target;
-            if (target?.contains(context.trigger)) onClose();
+            if (event.target instanceof Node && event.target.contains(context.trigger)) {
+              onClose();
+            }
           };
           window.addEventListener("scroll", handleScroll, { capture: true });
           return () => window.removeEventListener("scroll", handleScroll, { capture: true });
@@ -29490,23 +29640,23 @@ ${where}
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item ltt-setting-item-json", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "元素配置" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.toolbarElementsConfig", language) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-json-editor", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-json-hint", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "分组格式" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: t("settings.toolbarGroupFormat", language) }),
               "：包含 subItems 数组的对象"
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "单个元素" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: t("settings.toolbarSingleElement", language) }),
               "：直接定义元素，需要 id, label, icon, invoke, invokeParams"
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "隐藏元素" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: t("settings.toolbarHiddenElement", language) }),
               '：添加 "hidden": true 可隐藏按钮'
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "绑定快捷键" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: t("settings.toolbarBindingShortcut", language) }),
               '：添加 "binding" 字段设置快捷键（功能暂未实现）'
             ] })
           ] }) }),
@@ -29905,7 +30055,7 @@ ${where}
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-section", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: t("settings.taskProgress.statusColors", language) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-section-hint", style: { fontSize: "12px", color: "#666", margin: "4px 0 12px" }, children: "点击色块修改颜色，更多状态请在 settings.json 中配置" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-section-hint", style: { fontSize: "12px", color: "#666", margin: "4px 0 12px" }, children: t("settings.taskProgress.statusColorsHint", language) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-status-colors-grid", children: Object.entries(statusColors).map(([status, color]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-status-color-row", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
@@ -30698,7 +30848,7 @@ ${where}
             type: "text",
             value: summarySettings.weeklyPageNameTemplate,
             onChange: (e) => handleSettingChange("weeklyPageNameTemplate", e.target.value),
-            placeholder: "周度总结-{{year}}-W{{week}}"
+            placeholder: t("settings.summary.weeklyPageNamePlaceholder", language)
           }
         )
       ] }),
@@ -30710,7 +30860,7 @@ ${where}
             type: "text",
             value: summarySettings.monthlyPageNameTemplate,
             onChange: (e) => handleSettingChange("monthlyPageNameTemplate", e.target.value),
-            placeholder: "月度总结-{{year}}-{{month}}"
+            placeholder: t("settings.summary.monthlyPageNamePlaceholder", language)
           }
         )
       ] }),
@@ -30722,7 +30872,7 @@ ${where}
             type: "text",
             value: summarySettings.customPageNameTemplate,
             onChange: (e) => handleSettingChange("customPageNameTemplate", e.target.value),
-            placeholder: "自定义总结-{{date}}"
+            placeholder: t("settings.summary.customPageNamePlaceholder", language)
           }
         )
       ] }),
@@ -30797,7 +30947,7 @@ ${where}
             {
               value: summarySettings.ai.promptTemplate || "",
               onChange: (e) => handleAiSettingChange("promptTemplate", e.target.value),
-              placeholder: "请根据以下内容生成一个总结...",
+              placeholder: t("settings.summary.aiPromptPlaceholder", language),
               style: { width: "100%", minHeight: "80px" }
             }
           )
@@ -31037,7 +31187,7 @@ ${where}
             onChange: (value) => handleSettingChange("milestone.defaultSlashCommandTemplate", value),
             macroType: "milestone",
             language,
-            placeholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
+            placeholder: t("settings.milestone.defaultSlashPlaceholder", language),
             align: "right"
           }
         )
@@ -32185,6 +32335,12 @@ ${where}
 
   class MilestoneQuery {
     /**
+     * 公开的排序方法，供测试使用
+     */
+    static sortMilestoneItemsPublic(items) {
+      return this.sortMilestoneItems(items);
+    }
+    /**
      * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
      */
     static formatPropertyKey(key) {
@@ -32335,9 +32491,9 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
       return {
-        items,
+        items: sortedItems,
         totalCount: items.length,
         completedCount: items.filter((i) => i.status === "completed").length,
         inProgressCount: items.filter((i) => i.status === "in_progress").length,
@@ -32347,28 +32503,71 @@ ${where}
       };
     }
     /**
-     * 比较两个里程碑项的排序
-     * 优先级：skipped > completed > in_progress > pending
-     * 同状态下按日期升序排列（日期越早越靠前）
+     * 优化排序逻辑
+     * 核心规则：
+     * 1. 如果某个状态只有 1 个元素，完全保持其原始位置不变
+     * 2. 如果某个状态的多个元素都没有日期，也完全保持原样
+     * 3. 先检查同状态元素在原始顺序中的日期是否已经是正确的，如果正确就不处理
+     * 4. 只有日期顺序不对时，才处理：
+     *    - 找出它们在原始数组中的位置范围（从第一个到最后一个）
+     *    - 在范围内，先放其他状态的元素（保持它们的原始顺序）
+     *    - 再放按日期排序后的同状态元素（日期早的在前）
+     * 5. 范围外的其他元素完全保持不动
      */
-    static compareMilestoneItems(a, b) {
-      const statusOrder = {
-        skipped: 0,
-        completed: 1,
-        in_progress: 2,
-        pending: 3,
-        failed: 4
-      };
-      const statusCompare = statusOrder[a.status] - statusOrder[b.status];
-      if (statusCompare !== 0) {
-        return statusCompare;
+    static sortMilestoneItems(items) {
+      let result = [...items];
+      const allStates = /* @__PURE__ */ new Set();
+      items.forEach((item) => allStates.add(item.status));
+      for (const currentState of allStates) {
+        const stateEntries = [];
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].status === currentState) {
+            stateEntries.push({ item: items[i], index: i });
+          }
+        }
+        if (stateEntries.length <= 1) continue;
+        const hasDates = stateEntries.some((e) => !!e.item.date);
+        if (!hasDates) continue;
+        let originalDatesAreCorrect = true;
+        for (let i = 1; i < stateEntries.length; i++) {
+          const prevItem = stateEntries[i - 1].item;
+          const currItem = stateEntries[i].item;
+          if (prevItem.date && currItem.date) {
+            if (prevItem.date > currItem.date) {
+              originalDatesAreCorrect = false;
+              break;
+            }
+          } else if (currItem.date && !prevItem.date) {
+            originalDatesAreCorrect = false;
+            break;
+          }
+        }
+        if (originalDatesAreCorrect) continue;
+        const sortedStateItems = [...stateEntries].sort((a, b) => {
+          if (a.item.date && b.item.date) {
+            return a.item.date.localeCompare(b.item.date);
+          }
+          if (a.item.date) return -1;
+          if (b.item.date) return 1;
+          return a.index - b.index;
+        }).map((e) => e.item);
+        const stateIndices = stateEntries.map((e) => e.index);
+        const minIndex = Math.min(...stateIndices);
+        const maxIndex = Math.max(...stateIndices);
+        const otherItemsInRange = [];
+        for (let i = minIndex; i <= maxIndex; i++) {
+          if (items[i].status !== currentState) {
+            otherItemsInRange.push(items[i]);
+          }
+        }
+        const newRangeItems = [...otherItemsInRange, ...sortedStateItems];
+        result = [
+          ...items.slice(0, minIndex),
+          ...newRangeItems,
+          ...items.slice(maxIndex + 1)
+        ];
       }
-      if (a.date && b.date) {
-        return a.date.localeCompare(b.date);
-      }
-      if (a.date) return -1;
-      if (b.date) return 1;
-      return 0;
+      return result;
     }
     /**
      * 通过 milestonePropKey 读取里程碑节点，带标签过滤
@@ -32440,9 +32639,9 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
       return {
-        items,
+        items: sortedItems,
         totalCount: items.length,
         completedCount: items.filter((i) => i.status === "completed").length,
         inProgressCount: items.filter((i) => i.status === "in_progress").length,
@@ -32521,9 +32720,9 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
       return {
-        items,
+        items: sortedItems,
         totalCount: items.length,
         completedCount: items.filter((i) => i.status === "completed").length,
         inProgressCount: items.filter((i) => i.status === "in_progress").length,
@@ -32681,9 +32880,9 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
       return {
-        items,
+        items: sortedItems,
         totalCount: items.length,
         completedCount: items.filter((i) => i.status === "completed").length,
         inProgressCount: items.filter((i) => i.status === "in_progress").length,
@@ -32792,9 +32991,9 @@ ${where}
           blockUuid: blocks[0]?.uuid
         });
       }
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
       return {
-        items,
+        items: sortedItems,
         totalCount: items.length,
         completedCount: items.filter((i) => i.status === "completed").length,
         inProgressCount: items.filter((i) => i.status === "in_progress").length,
@@ -32870,9 +33069,9 @@ ${where}
         blockId: enumItem.blocks[0]?.id,
         blockUuid: enumItem.blocks[0]?.uuid
       }));
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
       return {
-        items,
+        items: sortedItems,
         totalCount: items.length,
         completedCount: items.filter((i) => i.status === "completed").length,
         inProgressCount: items.filter((i) => i.status === "in_progress").length,
@@ -32953,7 +33152,7 @@ ${where}
             blockUuid: groupBlocks[0]?.uuid
           });
         });
-        items2.sort(this.compareMilestoneItems);
+        this.sortMilestoneItems(items2);
         return {
           items: items2,
           totalCount: items2.length,
@@ -32972,9 +33171,9 @@ ${where}
         blockId: block.id,
         blockUuid: block.uuid
       }));
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
       return {
-        items,
+        items: sortedItems,
         totalCount: items.length,
         completedCount: items.filter((i) => i.status === "completed").length,
         inProgressCount: items.filter((i) => i.status === "in_progress").length,
