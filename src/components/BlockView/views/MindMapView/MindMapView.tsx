@@ -1,6 +1,6 @@
 /**
  * MindMapView - Canvas 渲染版本
- * 保持与其他视图的一致性，Root Node 保持原生渲染，Mindmap 区域在下方
+ * 保持与其他视图的一致性，Root Node 保持原生渲染
  */
 
 import React, { useRef, useEffect, useState } from 'react';
