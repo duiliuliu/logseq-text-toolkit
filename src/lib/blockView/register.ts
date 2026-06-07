@@ -280,7 +280,8 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
  */
 function registerMindMapRenderer(): void {
   try {
-    const { React, registerBlockRenderer } = logseq.Experiments || {};
+    const Experiments = logseqAPI.Experiments || {};
+    const { React, registerBlockRenderer } = Experiments as any;
     
     if (!registerBlockRenderer) {
       logger.warn('[MindMap] registerBlockRenderer not available, falling back to macro renderer');

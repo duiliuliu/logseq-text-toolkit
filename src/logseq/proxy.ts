@@ -7,7 +7,7 @@ export type Config = {
     apiToken: string
 }
 
-const LOGSEQ_MODULES = ['App', 'Editor', 'DB', 'Git', 'UI', 'Assets', 'FileStorage'] as const
+const LOGSEQ_MODULES = ['App', 'Editor', 'DB', 'Git', 'UI', 'Assets', 'FileStorage', 'Experiments'] as const
 type LogseqModule = (typeof LOGSEQ_MODULES)[number]
 
 /** 远程调用 logseq api server */
