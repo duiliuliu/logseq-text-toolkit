@@ -1,7 +1,13 @@
-// 全面测试所有12个场景
+// ============================================================
+// 测试文件名: test-milestone-sorting.js
+// 描述: 全面测试里程碑排序逻辑
+// ============================================================
+
+// 测试用例
 const testCases = [
   {
-    name: "场景1：用户原始例子 - 两个完成状态，中间夹着其他",
+    id: 1,
+    name: "用户原始例子 - 两个完成状态，中间夹着其他元素",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "测评环节", status: "pending", date: null },
@@ -14,7 +20,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景2：三个完成状态，分散排列",
+    id: 2,
+    name: "三个完成状态，分散排列",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "测评环节", status: "completed", date: "2026-06-05" },
@@ -26,7 +33,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景3：同状态且日期相同",
+    id: 3,
+    name: "同状态且日期相同",
     items: [
       { label: "A", status: "pending", date: null },
       { label: "B", status: "completed", date: "2026-06-07" },
@@ -36,7 +44,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景4：多个混合状态",
+    id: 4,
+    name: "多个混合状态",
     items: [
       { label: "1", status: "skipped", date: null },
       { label: "2", status: "completed", date: "2026-06-08" },
@@ -48,7 +57,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景5：有些完成状态没有日期",
+    id: 5,
+    name: "有些完成状态没有日期",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "笔试环节", status: "completed", date: null },
@@ -58,7 +68,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景6：只有一个完成状态",
+    id: 6,
+    name: "只有一个完成状态",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "测评环节", status: "pending", date: null },
@@ -68,7 +79,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景7：所有元素都是pending状态",
+    id: 7,
+    name: "所有元素都是pending状态（无日期）",
     items: [
       { label: "A", status: "pending", date: null },
       { label: "B", status: "pending", date: null },
@@ -77,7 +89,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景8：连续多个完成状态",
+    id: 8,
+    name: "连续多个完成状态",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "测评环节", status: "completed", date: "2026-06-08" },
@@ -88,7 +101,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景9：三个完成状态连续在一起",
+    id: 9,
+    name: "三个完成状态连续在一起",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "测评环节", status: "completed", date: "2026-06-05" },
@@ -98,17 +112,20 @@ const testCases = [
     ]
   },
   {
-    name: "场景10：空数组",
+    id: 10,
+    name: "空数组",
     items: []
   },
   {
-    name: "场景11：单个元素",
+    id: 11,
+    name: "单个元素",
     items: [
       { label: "简历投递", status: "pending", date: null }
     ]
   },
   {
-    name: "场景12：日期完全逆序的完成状态",
+    id: 12,
+    name: "日期完全逆序的完成状态",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "测评环节", status: "completed", date: "2026-06-09" },
@@ -119,7 +136,8 @@ const testCases = [
     ]
   },
   {
-    name: "场景13：用户第二个例子 - 前天和今天，日期顺序已经正确",
+    id: 13,
+    name: "用户第二个例子 - 日期顺序已经正确，保持原样",
     items: [
       { label: "简历投递", status: "pending", date: null },
       { label: "测评环节", status: "pending", date: null },
@@ -130,7 +148,7 @@ const testCases = [
   },
 ];
 
-// 排序实现
+// 排序逻辑实现（和源代码一致）
 function sortMilestoneItems(items) {
   let result = [...items];
 
@@ -202,6 +220,7 @@ function sortMilestoneItems(items) {
 
 // 打印函数
 function printItems(label, items) {
+  console.log(`\n--- ${label} ---`);
   if (items.length === 0) {
     console.log("  (空数组)");
     return;
@@ -214,24 +233,25 @@ function printItems(label, items) {
 
 // 运行所有测试
 console.log("=".repeat(70));
-console.log("全面测试所有场景");
+console.log("里程碑排序逻辑 - 全面测试");
+console.log("=".repeat(70));
+console.log(`测试用例总数: ${testCases.length}`);
+console.log(`测试日期: 2026-06-07`);
 console.log("=".repeat(70));
 
 testCases.forEach((testCase, index) => {
-  console.log(`\n${"=".repeat(70)}`);
-  console.log(`${index + 1}. ${testCase.name}`);
+  console.log(`\n\n${"=".repeat(70)}`);
+  console.log(`测试用例 ${testCase.id}: ${testCase.name}`);
   console.log("=".repeat(70));
 
-  console.log("\n【原始顺序】");
-  printItems("原始", testCase.items);
+  printItems("原始顺序", testCase.items);
 
-  console.log("\n【排序后】");
   const sorted = sortMilestoneItems(testCase.items);
-  printItems("结果", sorted);
+  printItems("排序后", sorted);
 
-  console.log("\n【变化说明】");
+  console.log("\n【变更分析】");
   if (testCase.items.length === 0) {
-    console.log("  空数组无变化");
+    console.log("  ✅ 空数组，无变化");
   } else {
     let changes = false;
     for (let i = 0; i < Math.min(testCase.items.length, sorted.length); i++) {
@@ -241,11 +261,11 @@ testCases.forEach((testCase, index) => {
       }
     }
     if (!changes) {
-      console.log("  ✅ 顺序完全保持原样");
+      console.log("  ✅ 顺序完全保持原样，无需调整");
     }
   }
 });
 
-console.log(`\n${"=".repeat(70)}`);
-console.log("✅ 所有测试完成！");
+console.log(`\n\n${"=".repeat(70)}`);
+console.log("✅ 所有测试用例完成！");
 console.log("=".repeat(70));
