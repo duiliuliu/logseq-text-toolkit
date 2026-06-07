@@ -1,17 +1,13 @@
 /**
- * MindMapView - Canvas 渲染版本
- * 保持与其他视图的一致性，Root Node 保持原生渲染
+ * MindMapView - 使用原生 DOM 操作，不依赖 React hooks
+ * 在 Logseq 插件环境中，React hooks 可能不可用
  */
 
-import React, { useRef, useEffect, useState } from 'react';
 import { MindMapStateManager } from '../../../../lib/blockView/mindMap/state';
 import { MindMapCanvasRenderer } from '../../../../lib/blockView/mindMap/CanvasRenderer';
-import { getSettingsWithSystem } from '../../../../settings';
 import { MindMapBlockAPI } from '../../../../lib/blockView/mindMap/blockAPI';
 import { createDebounceFn } from '../../../../lib/blockView/mindMap/debounce';
-import { MIND_MAP_THEMES } from '../../../../lib/blockView/mindMap/themes';
-import type { MindMapColorScheme, MindMapThemeName } from '../../../../lib/blockView/mindMap/types';
-import type { BlockRendererChild } from '@logseq/libs/dist/modules/LSPlugin.Experiments';
+import type { MindMapThemeName } from '../../../../lib/blockView/mindMap/types';
 import './mindMapView.css';
 
 // 添加日志
@@ -24,100 +20,109 @@ const logger = {
 interface MindMapViewProps {
   rootUuid: string;
   content?: string;
-  children?: Array<BlockRendererChild>;
+  children?: any[];
 }
 
-export function MindMapView({ rootUuid, content, children }: MindMapViewProps) {
-  logger.log('组件初始化', { rootUuid, content, childrenCount: children?.length });
+/**
+ * 创建 MindMap 视图的 DOM 结构
+ */
+export function createMindMapView(props: MindMapViewProps): HTMLElement {
+  const { rootUuid, content, children } = props;
   
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [stateManager] = useState(() => {
-    logger.log('创建 StateManager', rootUuid);
-    return new MindMapStateManager(rootUuid);
-  });
-  const [renderer, setRenderer] = useState<MindMapCanvasRenderer | null>(null);
-  const [editingNode, setEditingNode] = useState<string | null>(null);
-  const [editingValue, setEditingValue] = useState('');
-  const [isReady, setIsReady] = useState(false);
-
-  // 加载初始数据
-  useEffect(() => {
-    logger.log('加载数据开始');
-    stateManager.loadTree().then(() => {
-      logger.log('数据加载完成', stateManager.getState().nodes.size);
-      setIsReady(true);
-    }).catch((err) => {
-      logger.error('数据加载失败', err);
-    });
-  }, [stateManager]);
-
-  // 初始化 Canvas 渲染器
-  useEffect(() => {
-    if (!canvasRef.current) {
-      logger.warn('Canvas ref 还未准备好');
+  logger.log('创建 MindMapView DOM', { rootUuid, content });
+  
+  // 创建主容器
+  const container = document.createElement('div');
+  container.className = 'ltt-mindmap-view';
+  
+  // 创建调试信息
+  const debugInfo = document.createElement('div');
+  debugInfo.className = 'ltt-mindmap-debug';
+  debugInfo.style.cssText = 'font-size: 12px; color: #666; padding: 4px;';
+  debugInfo.textContent = `Root: ${rootUuid} | Loading...`;
+  container.appendChild(debugInfo);
+  
+  // 创建 Canvas 容器
+  const canvasContainer = document.createElement('div');
+  canvasContainer.className = 'ltt-mindmap-canvas-container';
+  container.appendChild(canvasContainer);
+  
+  // 创建 Canvas 元素
+  const canvas = document.createElement('canvas');
+  canvas.className = 'ltt-mindmap-canvas';
+  canvasContainer.appendChild(canvas);
+  
+  // 创建编辑输入框（初始隐藏）
+  const editInput = document.createElement('input');
+  editInput.type = 'text';
+  editInput.className = 'ltt-mindmap-edit-input';
+  editInput.style.display = 'none';
+  canvasContainer.appendChild(editInput);
+  
+  // 创建 StateManager
+  const stateManager = new MindMapStateManager(rootUuid);
+  let renderer: MindMapCanvasRenderer | null = null;
+  let editingNode: string | null = null;
+  
+  // 防抖更新函数
+  const debouncedUpdate = createDebounceFn(
+    async (uuid: string, value: string) => {
+      logger.log('防抖更新节点', { uuid, value });
+      await MindMapBlockAPI.updateBlock(uuid, value);
+      await stateManager.loadTree();
+      updateRenderer();
+    },
+    500
+  );
+  
+  // 更新渲染器
+  function updateRenderer() {
+    const nodes = stateManager.getState().nodes;
+    logger.log('更新渲染器', { nodesCount: nodes.size });
+    
+    // 更新调试信息
+    debugInfo.textContent = `Root: ${rootUuid} | Nodes: ${nodes.size}`;
+    
+    if (nodes.size === 0) {
+      logger.warn('没有节点数据');
       return;
     }
     
-    if (!isReady) {
-      logger.warn('数据还未加载完成，跳过渲染器初始化');
-      return;
+    if (!renderer) {
+      try {
+        const themeName = 'pure' as MindMapThemeName;
+        renderer = new MindMapCanvasRenderer(canvas, nodes, rootUuid, themeName);
+        logger.log('渲染器创建成功');
+      } catch (err) {
+        logger.error('渲染器创建失败', err);
+      }
+    } else {
+      renderer.updateNodes(nodes, rootUuid);
     }
+  }
+  
+  // 处理 Canvas 鼠标移动
+  canvas.addEventListener('mousemove', (e: MouseEvent) => {
+    if (!renderer) return;
     
-    logger.log('初始化 Canvas 渲染器', { 
-      nodesCount: stateManager.getState().nodes.size,
-      canvas: !!canvasRef.current 
-    });
-    
-    const themeName = 'pure' as MindMapThemeName;
-    try {
-      const newRenderer = new MindMapCanvasRenderer(
-        canvasRef.current,
-        stateManager.getState().nodes,
-        rootUuid,
-        themeName
-      );
-      
-      logger.log('渲染器创建成功');
-      setRenderer(newRenderer);
-      
-      return () => {
-        logger.log('清理渲染器');
-        setRenderer(null);
-      };
-    } catch (err) {
-      logger.error('渲染器创建失败', err);
-    }
-  }, [rootUuid, isReady]);
-
-  // 更新 Canvas 渲染
-  useEffect(() => {
-    if (renderer && isReady) {
-      logger.log('更新 Canvas 渲染', stateManager.getState().nodes.size);
-      renderer.updateNodes(stateManager.getState().nodes, rootUuid);
-    }
-  }, [stateManager.getState().nodes, renderer, rootUuid, isReady]);
-
-  // 处理鼠标移动
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current || !renderer) return;
-    
-    const rect = canvasRef.current.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
     renderer.handleMouseMove(x, y);
-  };
-
-  // 处理点击
-  const handleClick = async (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current || !renderer) return;
+  });
+  
+  // 处理 Canvas 点击
+  canvas.addEventListener('click', async (e: MouseEvent) => {
+    if (!renderer) return;
     
-    const rect = canvasRef.current.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
     const { action, nodeUuid } = renderer.handleClick(x, y);
+    
+    logger.log('Canvas 点击', { action, nodeUuid });
     
     if (action === 'toggle-collapse' && nodeUuid) {
       // 切换折叠状态
@@ -129,77 +134,71 @@ export function MindMapView({ rootUuid, content, children }: MindMapViewProps) {
         }
         return { ...prev, nodes };
       });
+      updateRenderer();
     } else if (action === 'add-child' && nodeUuid) {
       // 添加子节点
+      logger.log('添加子节点', { parentUuid: nodeUuid });
       const newUuid = await MindMapBlockAPI.addChild(nodeUuid, '');
       if (newUuid) {
         await stateManager.loadTree();
-        setEditingNode(newUuid);
-        setEditingValue('');
+        updateRenderer();
+        
+        // 显示编辑框
+        editingNode = newUuid;
+        editInput.style.display = 'block';
+        editInput.value = '';
+        editInput.focus();
+        editInput.style.position = 'absolute';
+        editInput.style.left = '200px';
+        editInput.style.top = '50px';
       }
     } else if (action === 'edit' && nodeUuid) {
       // 编辑节点
       const node = stateManager.getState().nodes.get(nodeUuid);
       if (node) {
-        setEditingNode(nodeUuid);
-        setEditingValue(node.content);
+        editingNode = nodeUuid;
+        editInput.style.display = 'block';
+        editInput.value = node.content;
+        editInput.focus();
+        editInput.style.position = 'absolute';
+        editInput.style.left = '200px';
+        editInput.style.top = '50px';
       }
     }
-  };
-
-  // 防抖更新节点内容
-  const debouncedUpdate = createDebounceFn(
-    async (uuid: string, value: string) => {
-      await MindMapBlockAPI.updateBlock(uuid, value);
-      await stateManager.loadTree();
-    },
-    500
-  );
-
-  logger.log('渲染 MindMapView', { 
-    isReady, 
-    hasRenderer: !!renderer, 
-    hasCanvas: !!canvasRef.current,
-    content 
   });
+  
+  // 处理编辑输入
+  editInput.addEventListener('input', () => {
+    if (editingNode) {
+      debouncedUpdate(editingNode, editInput.value);
+    }
+  });
+  
+  // 处理编辑框失焦
+  editInput.addEventListener('blur', () => {
+    if (editingNode && editInput.value) {
+      MindMapBlockAPI.updateBlock(editingNode, editInput.value).then(() => {
+        stateManager.loadTree().then(updateRenderer);
+      });
+    }
+    editingNode = null;
+    editInput.style.display = 'none';
+  });
+  
+  // 加载数据
+  logger.log('开始加载数据');
+  stateManager.loadTree().then(() => {
+    logger.log('数据加载完成');
+    updateRenderer();
+  }).catch((err) => {
+    logger.error('数据加载失败', err);
+    debugInfo.textContent = `Root: ${rootUuid} | Error loading data`;
+  });
+  
+  return container;
+}
 
-  return (
-    <div className="ltt-mindmap-view" ref={containerRef}>
-      {/* 调试信息 */}
-      <div className="ltt-mindmap-debug" style={{ fontSize: '12px', color: '#666', padding: '4px' }}>
-        Root: {rootUuid} | Nodes: {stateManager.getState().nodes.size} | Ready: {isReady ? 'Yes' : 'No'}
-      </div>
-      
-      {/* MindMap Canvas 区域 - 带缩进与 Root Node 对齐 */}
-      <div className="ltt-mindmap-canvas-container">
-        <canvas
-          ref={canvasRef}
-          className="ltt-mindmap-canvas"
-          onMouseMove={handleMouseMove}
-          onClick={handleClick}
-        />
-        
-        {/* 编辑输入框 - 仅在编辑时显示 */}
-        {editingNode && (
-          <input
-            type="text"
-            className="ltt-mindmap-edit-input"
-            value={editingValue}
-            onChange={(e) => {
-              setEditingValue(e.target.value);
-              debouncedUpdate(editingNode, e.target.value);
-            }}
-            onBlur={() => {
-              setEditingNode(null);
-              // 确保保存最终值
-              if (editingValue) {
-                MindMapBlockAPI.updateBlock(editingNode, editingValue);
-              }
-            }}
-            autoFocus
-          />
-        )}
-      </div>
-    </div>
-  );
+// 导出 createElement 兼容函数（用于 React.createElement）
+export function MindMapView(props: MindMapViewProps): HTMLElement {
+  return createMindMapView(props);
 }

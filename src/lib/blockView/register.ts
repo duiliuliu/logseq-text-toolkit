@@ -5,7 +5,7 @@ import { VIEW_REGISTRY, ViewType, ThemeType } from './types';
 import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
 import { createRendererArgUpdater } from '../render/rendererArgs';
 import { renderComponent } from '../render';
-import { MindMapView } from '../../components/BlockView/views/MindMapView';
+import { createMindMapView } from '../../components/BlockView/views/MindMapView';
 import logger from '../logger';
 import type { BlockRendererProps } from '@logseq/libs/dist/modules/LSPlugin.Experiments';
 
@@ -282,7 +282,7 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
 function registerMindMapRenderer(): void {
   try {
     const Experiments = logseqAPI.Experiments || {};
-    const { React, ReactDOM, registerBlockRenderer } = Experiments as any;
+    const { registerBlockRenderer } = Experiments as any;
     
     if (!registerBlockRenderer) {
       logger.warn('[MindMap] registerBlockRenderer not available, falling back to macro renderer');
@@ -296,26 +296,19 @@ function registerMindMapRenderer(): void {
       includeChildren: true,
       priority: 20,
       render: ({ content, children = [], uuid }: BlockRendererProps) => {
-        // 使用 Experiments 中的 React 创建容器
-        const container = React.createElement('div', {
-          className: 'ltt-mindmap-container',
-          'data-block-uuid': uuid,
-        }, 
-          React.createElement('div', {
-            ref: (el: HTMLElement) => {
-              if (el) {
-                ReactDOM.render(
-                  React.createElement(MindMapView, {
-                    rootUuid: uuid,
-                    content,
-                    children,
-                  }),
-                  el
-                );
-              }
-            }
-          })
-        );
+        // 使用原生 DOM 创建 MindMap 视图
+        const container = document.createElement('div');
+        container.className = 'ltt-mindmap-container';
+        container.dataset.blockUuid = uuid;
+
+        // 创建 MindMap 视图
+        const mindMapView = createMindMapView({
+          rootUuid: uuid,
+          content,
+          children,
+        });
+        
+        container.appendChild(mindMapView);
 
         return container;
       },
