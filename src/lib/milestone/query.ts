@@ -236,11 +236,14 @@ export class MilestoneQuery {
   /**
    * 优化排序逻辑
    * 核心规则：
-   * 1. 找出所有同状态的元素在原始序列中的位置范围（从第一个到最后一个出现的位置）
-   * 2. 在这个范围内：
-   *    - 先放其他状态的元素（保持它们的相对顺序）
-   *    - 再放按日期排序后的同状态元素
-   * 3. 范围外的元素位置完全保持不变
+   * 1. 如果某个状态只有 1 个元素，完全保持其原始位置不变
+   * 2. 如果某个状态的多个元素都没有日期，也完全保持原样
+   * 3. 先检查同状态元素在原始顺序中的日期是否已经是正确的，如果正确就不处理
+   * 4. 只有日期顺序不对时，才处理：
+   *    - 找出它们在原始数组中的位置范围（从第一个到最后一个）
+   *    - 在范围内，先放其他状态的元素（保持它们的原始顺序）
+   *    - 再放按日期排序后的同状态元素（日期早的在前）
+   * 5. 范围外的其他元素完全保持不动
    */
   private static sortMilestoneItems(items: MilestoneItem[]): MilestoneItem[] {
     let result = [...items];
@@ -257,6 +260,27 @@ export class MilestoneQuery {
       }
       
       if (stateEntries.length <= 1) continue;
+      
+      const hasDates = stateEntries.some(e => !!e.item.date);
+      if (!hasDates) continue;
+      
+      let originalDatesAreCorrect = true;
+      for (let i = 1; i < stateEntries.length; i++) {
+        const prevItem = stateEntries[i - 1].item;
+        const currItem = stateEntries[i].item;
+        
+        if (prevItem.date && currItem.date) {
+          if (prevItem.date > currItem.date) {
+            originalDatesAreCorrect = false;
+            break;
+          }
+        } else if (currItem.date && !prevItem.date) {
+          originalDatesAreCorrect = false;
+          break;
+        }
+      }
+      
+      if (originalDatesAreCorrect) continue;
       
       const sortedStateItems = [...stateEntries].sort((a, b) => {
         if (a.item.date && b.item.date) {
