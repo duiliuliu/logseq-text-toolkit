@@ -10,6 +10,12 @@ import { logseqAPI } from '../../logseq';
 
 export class MilestoneQuery {
   /**
+   * 公开的排序方法，供测试使用
+   */
+  static sortMilestoneItemsPublic(items: MilestoneItem[]): MilestoneItem[] {
+    return this.sortMilestoneItems(items);
+  }
+  /**
    * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
    */
   private static formatPropertyKey(key?: string): string | undefined {
@@ -220,10 +226,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -234,31 +240,84 @@ export class MilestoneQuery {
   }
 
   /**
-   * 比较两个里程碑项的排序
-   * 优先级：skipped > completed > in_progress > pending
-   * 同状态下按日期升序排列（日期越早越靠前）
+   * 优化排序逻辑
+   * 核心规则：
+   * 1. 如果某个状态只有 1 个元素，完全保持其原始位置不变
+   * 2. 如果某个状态的多个元素都没有日期，也完全保持原样
+   * 3. 先检查同状态元素在原始顺序中的日期是否已经是正确的，如果正确就不处理
+   * 4. 只有日期顺序不对时，才处理：
+   *    - 找出它们在原始数组中的位置范围（从第一个到最后一个）
+   *    - 在范围内，先放其他状态的元素（保持它们的原始顺序）
+   *    - 再放按日期排序后的同状态元素（日期早的在前）
+   * 5. 范围外的其他元素完全保持不动
    */
-  private static compareMilestoneItems(a: MilestoneItem, b: MilestoneItem): number {
-    const statusOrder: Record<MilestoneStatus, number> = {
-      skipped: 0,
-      completed: 1,
-      in_progress: 2,
-      pending: 3,
-      failed: 4,
-    };
-
-    const statusCompare = statusOrder[a.status] - statusOrder[b.status];
-    if (statusCompare !== 0) {
-      return statusCompare;
+  private static sortMilestoneItems(items: MilestoneItem[]): MilestoneItem[] {
+    let result = [...items];
+    
+    const allStates = new Set<MilestoneStatus>();
+    items.forEach(item => allStates.add(item.status));
+    
+    for (const currentState of allStates) {
+      const stateEntries: { item: MilestoneItem; index: number }[] = [];
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].status === currentState) {
+          stateEntries.push({ item: items[i], index: i });
+        }
+      }
+      
+      if (stateEntries.length <= 1) continue;
+      
+      const hasDates = stateEntries.some(e => !!e.item.date);
+      if (!hasDates) continue;
+      
+      let originalDatesAreCorrect = true;
+      for (let i = 1; i < stateEntries.length; i++) {
+        const prevItem = stateEntries[i - 1].item;
+        const currItem = stateEntries[i].item;
+        
+        if (prevItem.date && currItem.date) {
+          if (prevItem.date > currItem.date) {
+            originalDatesAreCorrect = false;
+            break;
+          }
+        } else if (currItem.date && !prevItem.date) {
+          originalDatesAreCorrect = false;
+          break;
+        }
+      }
+      
+      if (originalDatesAreCorrect) continue;
+      
+      const sortedStateItems = [...stateEntries].sort((a, b) => {
+        if (a.item.date && b.item.date) {
+          return a.item.date.localeCompare(b.item.date);
+        }
+        if (a.item.date) return -1;
+        if (b.item.date) return 1;
+        return a.index - b.index;
+      }).map(e => e.item);
+      
+      const stateIndices = stateEntries.map(e => e.index);
+      const minIndex = Math.min(...stateIndices);
+      const maxIndex = Math.max(...stateIndices);
+      
+      const otherItemsInRange: MilestoneItem[] = [];
+      for (let i = minIndex; i <= maxIndex; i++) {
+        if (items[i].status !== currentState) {
+          otherItemsInRange.push(items[i]);
+        }
+      }
+      
+      const newRangeItems = [...otherItemsInRange, ...sortedStateItems];
+      
+      result = [
+        ...items.slice(0, minIndex),
+        ...newRangeItems,
+        ...items.slice(maxIndex + 1)
+      ];
     }
-
-    if (a.date && b.date) {
-      return a.date.localeCompare(b.date);
-    }
-
-    if (a.date) return -1;
-    if (b.date) return 1;
-    return 0;
+    
+    return result;
   }
 
   /**
@@ -350,10 +409,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -453,10 +512,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -658,10 +717,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -810,10 +869,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -920,10 +979,10 @@ export class MilestoneQuery {
       blockUuid: enumItem.blocks[0]?.uuid,
     }));
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -1032,7 +1091,7 @@ export class MilestoneQuery {
         });
       });
 
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
 
       return {
         items,
@@ -1054,10 +1113,10 @@ export class MilestoneQuery {
       blockUuid: block.uuid,
     }));
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,

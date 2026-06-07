@@ -117,7 +117,7 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
           type="text"
           value={summarySettings.weeklyPageNameTemplate}
           onChange={(e) => handleSettingChange('weeklyPageNameTemplate', e.target.value)}
-          placeholder="周度总结-{{year}}-W{{week}}"
+          placeholder={t('settings.summary.weeklyPageNamePlaceholder', language)}
         />
       </div>
 
@@ -127,7 +127,7 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
           type="text"
           value={summarySettings.monthlyPageNameTemplate}
           onChange={(e) => handleSettingChange('monthlyPageNameTemplate', e.target.value)}
-          placeholder="月度总结-{{year}}-{{month}}"
+          placeholder={t('settings.summary.monthlyPageNamePlaceholder', language)}
         />
       </div>
 
@@ -137,7 +137,7 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
           type="text"
           value={summarySettings.customPageNameTemplate}
           onChange={(e) => handleSettingChange('customPageNameTemplate', e.target.value)}
-          placeholder="自定义总结-{{date}}"
+          placeholder={t('settings.summary.customPageNamePlaceholder', language)}
         />
       </div>
 
@@ -203,14 +203,14 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
           </div>
 
           <div className="ltt-setting-item">
-            <label>{t('settings.summary.aiPromptTemplate', language)}</label>
-            <textarea
-              value={summarySettings.ai.promptTemplate || ''}
-              onChange={(e) => handleAiSettingChange('promptTemplate', e.target.value)}
-              placeholder="请根据以下内容生成一个总结..."
-              style={{ width: '100%', minHeight: '80px' }}
-            />
-          </div>
+        <label>{t('settings.summary.aiPromptTemplate', language)}</label>
+        <textarea
+          value={summarySettings.ai.promptTemplate || ''}
+          onChange={(e) => handleAiSettingChange('promptTemplate', e.target.value)}
+          placeholder={t('settings.summary.aiPromptPlaceholder', language)}
+          style={{ width: '100%', minHeight: '80px' }}
+        />
+      </div>
         </>
       )}
 

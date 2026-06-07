@@ -125,14 +125,14 @@ function ToolbarSettings({ settings, setSettings, onSave, isSaving, language }: 
       </div>
 
       <div className="ltt-setting-item ltt-setting-item-json">
-        <label>元素配置</label>
+        <label>{t('settings.toolbarElementsConfig', language)}</label>
         <div className="ltt-json-editor">
           <div className="ltt-json-hint">
             <ul>
-              <li><strong>分组格式</strong>：包含 subItems 数组的对象</li>
-              <li><strong>单个元素</strong>：直接定义元素，需要 id, label, icon, invoke, invokeParams</li>
-              <li><strong>隐藏元素</strong>：添加 "hidden": true 可隐藏按钮</li>
-              <li><strong>绑定快捷键</strong>：添加 "binding" 字段设置快捷键（功能暂未实现）</li>
+              <li><strong>{t('settings.toolbarGroupFormat', language)}</strong>：包含 subItems 数组的对象</li>
+              <li><strong>{t('settings.toolbarSingleElement', language)}</strong>：直接定义元素，需要 id, label, icon, invoke, invokeParams</li>
+              <li><strong>{t('settings.toolbarHiddenElement', language)}</strong>：添加 "hidden": true 可隐藏按钮</li>
+              <li><strong>{t('settings.toolbarBindingShortcut', language)}</strong>：添加 "binding" 字段设置快捷键（功能暂未实现）</li>
             </ul>
           </div>
           <Textarea 

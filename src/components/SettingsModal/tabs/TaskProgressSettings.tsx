@@ -217,7 +217,7 @@ function TaskProgressSettings({ settings, setSettings, onSave, isSaving, languag
       <div className="ltt-settings-section">
         <h4>{t('settings.taskProgress.statusColors', language)}</h4>
         <p className="ltt-section-hint" style={{ fontSize: '12px', color: '#666', margin: '4px 0 12px' }}>
-          点击色块修改颜色，更多状态请在 settings.json 中配置
+          {t('settings.taskProgress.statusColorsHint', language)}
         </p>
         
         <div className="ltt-status-colors-grid">
