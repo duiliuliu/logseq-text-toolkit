@@ -10,6 +10,12 @@ import { logseqAPI } from '../../logseq';
 
 export class MilestoneQuery {
   /**
+   * 公开的排序方法，供测试使用
+   */
+  static sortMilestoneItemsPublic(items: MilestoneItem[]): MilestoneItem[] {
+    return this.sortMilestoneItems(items);
+  }
+  /**
    * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
    */
   private static formatPropertyKey(key?: string): string | undefined {
