@@ -220,10 +220,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -234,31 +234,51 @@ export class MilestoneQuery {
   }
 
   /**
-   * 比较两个里程碑项的排序
-   * 优先级：skipped > completed > in_progress > pending
-   * 同状态下按日期升序排列（日期越早越靠前）
+   * 优化排序逻辑
+   * 1. 保留原始列表的整体顺序结构
+   * 2. 找出所有同状态的节点，在它们的原始位置范围内，按日期重新排列
+   * 3. 不同状态的节点之间的相对顺序保持不变
    */
-  private static compareMilestoneItems(a: MilestoneItem, b: MilestoneItem): number {
-    const statusOrder: Record<MilestoneStatus, number> = {
-      skipped: 0,
-      completed: 1,
-      in_progress: 2,
-      pending: 3,
-      failed: 4,
-    };
+  private static sortMilestoneItems(items: MilestoneItem[]): MilestoneItem[] {
+    // 1. 先按状态分组，保存每个元素的原始位置
+    const statusGroups = new Map<MilestoneStatus, Array<{ item: MilestoneItem; originalIndex: number }>>();
+    items.forEach((item, index) => {
+      if (!statusGroups.has(item.status)) {
+        statusGroups.set(item.status, []);
+      }
+      statusGroups.get(item.status)!.push({ item, originalIndex: index });
+    });
 
-    const statusCompare = statusOrder[a.status] - statusOrder[b.status];
-    if (statusCompare !== 0) {
-      return statusCompare;
+    // 2. 对每个状态组内的元素按日期排序
+    const sortedGroups = new Map<MilestoneStatus, MilestoneItem[]>();
+    for (const [status, group] of statusGroups.entries()) {
+      const sorted = [...group].sort((a, b) => {
+        if (a.item.date && b.item.date) {
+          return a.item.date.localeCompare(b.item.date);
+        }
+        if (a.item.date) return -1;
+        if (b.item.date) return 1;
+        return a.originalIndex - b.originalIndex;
+      });
+      sortedGroups.set(status, sorted.map(e => e.item));
     }
 
-    if (a.date && b.date) {
-      return a.date.localeCompare(b.date);
+    // 3. 构建结果：遍历原始数组，遇到某个状态时，从该状态的排序组中依次取元素
+    const result: MilestoneItem[] = [];
+    const groupCursors = new Map<MilestoneStatus, number>();
+    for (const status of statusGroups.keys()) {
+      groupCursors.set(status, 0);
     }
 
-    if (a.date) return -1;
-    if (b.date) return 1;
-    return 0;
+    for (const item of items) {
+      const status = item.status;
+      const sortedGroup = sortedGroups.get(status)!;
+      const cursor = groupCursors.get(status)!;
+      result.push(sortedGroup[cursor]);
+      groupCursors.set(status, cursor + 1);
+    }
+
+    return result;
   }
 
   /**
@@ -350,10 +370,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -453,10 +473,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -658,10 +678,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -810,10 +830,10 @@ export class MilestoneQuery {
       });
     }
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -920,10 +940,10 @@ export class MilestoneQuery {
       blockUuid: enumItem.blocks[0]?.uuid,
     }));
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
@@ -1032,7 +1052,7 @@ export class MilestoneQuery {
         });
       });
 
-      items.sort(this.compareMilestoneItems);
+      const sortedItems = this.sortMilestoneItems(items);
 
       return {
         items,
@@ -1054,10 +1074,10 @@ export class MilestoneQuery {
       blockUuid: block.uuid,
     }));
 
-    items.sort(this.compareMilestoneItems);
+    const sortedItems = this.sortMilestoneItems(items);
 
     return {
-      items,
+      items: sortedItems,
       totalCount: items.length,
       completedCount: items.filter(i => i.status === 'completed').length,
       inProgressCount: items.filter(i => i.status === 'in_progress').length,
