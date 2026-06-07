@@ -15,6 +15,13 @@ const CORNER_RADIUS = 6;
 const BUTTON_SIZE = 24;
 const BUTTON_PADDING = 8;
 
+// 日志
+const logger = {
+  log: (...args: any[]) => console.log('[CanvasRenderer]', ...args),
+  error: (...args: any[]) => console.error('[CanvasRenderer ERROR]', ...args),
+  warn: (...args: any[]) => console.warn('[CanvasRenderer WARN]', ...args),
+};
+
 export interface CanvasNode {
   uuid: string;
   content: string;
@@ -44,6 +51,13 @@ export class MindMapCanvasRenderer {
     rootUuid: string,
     themeName: string = 'pure'
   ) {
+    logger.log('初始化 CanvasRenderer', { 
+      canvas: !!canvas, 
+      nodesCount: nodes.size, 
+      rootUuid,
+      themeName 
+    });
+    
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d')!;
     this.nodes = nodes;
@@ -53,12 +67,18 @@ export class MindMapCanvasRenderer {
     this.setupCanvas();
     this.calculateLayout();
     this.render();
+    
+    logger.log('CanvasRenderer 初始化完成', { 
+      canvasNodesCount: this.canvasNodes.length 
+    });
   }
 
   private setupCanvas(): void {
     const container = this.canvas.parentElement;
     const width = container?.clientWidth || 800;
     const height = Math.max(400, this.canvasNodes.length * (NODE_HEIGHT + VERTICAL_SPACING) + 100);
+    
+    logger.log('设置 Canvas 尺寸', { width, height, containerWidth: container?.clientWidth });
     
     this.canvas.width = width * this.dpr;
     this.canvas.height = height * this.dpr;
@@ -77,7 +97,12 @@ export class MindMapCanvasRenderer {
     this.canvasNodes = [];
     
     const root = this.nodes.get(this.rootUuid);
-    if (!root) return;
+    if (!root) {
+      logger.warn('未找到根节点', this.rootUuid, '可用节点:', Array.from(this.nodes.keys()));
+      return;
+    }
+
+    logger.log('开始计算布局', { rootUuid: this.rootUuid, rootContent: root.content });
 
     let currentY = 50;
     const levels: number[] = [0]; // 每个层级的起始 x 坐标
@@ -147,6 +172,11 @@ export class MindMapCanvasRenderer {
     };
     
     buildCanvasNode(root, 0);
+    
+    logger.log('布局计算完成', { 
+      canvasNodesCount: this.canvasNodes.length,
+      levels: levels 
+    });
   }
 
   private drawLine(fromX: number, fromY: number, toX: number, toY: number): void {
@@ -280,6 +310,8 @@ export class MindMapCanvasRenderer {
   }
 
   public render(): void {
+    logger.log('开始渲染 Canvas', { canvasNodesCount: this.canvasNodes.length });
+    
     // 清空画布
     const container = this.canvas.parentElement;
     const width = container?.clientWidth || 800;
@@ -306,9 +338,12 @@ export class MindMapCanvasRenderer {
     for (const node of this.canvasNodes) {
       this.drawNode(node, node.level === 0);
     }
+    
+    logger.log('Canvas 渲染完成');
   }
 
   public updateNodes(nodes: Map<string, MindMapNode>, rootUuid: string): void {
+    logger.log('更新节点', { nodesCount: nodes.size, rootUuid });
     this.nodes = nodes;
     this.rootUuid = rootUuid;
     this.setupCanvas();

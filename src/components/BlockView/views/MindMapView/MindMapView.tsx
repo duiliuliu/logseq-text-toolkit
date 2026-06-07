@@ -14,6 +14,13 @@ import type { MindMapColorScheme, MindMapThemeName } from '../../../../lib/block
 import type { BlockRendererChild } from '@logseq/libs/dist/modules/LSPlugin.Experiments';
 import './mindMapView.css';
 
+// 添加日志
+const logger = {
+  log: (...args: any[]) => console.log('[MindMapView]', ...args),
+  error: (...args: any[]) => console.error('[MindMapView ERROR]', ...args),
+  warn: (...args: any[]) => console.warn('[MindMapView WARN]', ...args),
+};
+
 interface MindMapViewProps {
   rootUuid: string;
   content?: string;
@@ -21,43 +28,75 @@ interface MindMapViewProps {
 }
 
 export function MindMapView({ rootUuid, content, children }: MindMapViewProps) {
+  logger.log('组件初始化', { rootUuid, content, childrenCount: children?.length });
+  
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [stateManager] = useState(() => new MindMapStateManager(rootUuid));
+  const [stateManager] = useState(() => {
+    logger.log('创建 StateManager', rootUuid);
+    return new MindMapStateManager(rootUuid);
+  });
   const [renderer, setRenderer] = useState<MindMapCanvasRenderer | null>(null);
   const [editingNode, setEditingNode] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState('');
+  const [isReady, setIsReady] = useState(false);
 
   // 加载初始数据
   useEffect(() => {
-    stateManager.loadTree();
+    logger.log('加载数据开始');
+    stateManager.loadTree().then(() => {
+      logger.log('数据加载完成', stateManager.getState().nodes.size);
+      setIsReady(true);
+    }).catch((err) => {
+      logger.error('数据加载失败', err);
+    });
   }, [stateManager]);
 
   // 初始化 Canvas 渲染器
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current) {
+      logger.warn('Canvas ref 还未准备好');
+      return;
+    }
+    
+    if (!isReady) {
+      logger.warn('数据还未加载完成，跳过渲染器初始化');
+      return;
+    }
+    
+    logger.log('初始化 Canvas 渲染器', { 
+      nodesCount: stateManager.getState().nodes.size,
+      canvas: !!canvasRef.current 
+    });
     
     const themeName = 'pure' as MindMapThemeName;
-    const newRenderer = new MindMapCanvasRenderer(
-      canvasRef.current,
-      stateManager.getState().nodes,
-      rootUuid,
-      themeName
-    );
-    
-    setRenderer(newRenderer);
-    
-    return () => {
-      setRenderer(null);
-    };
-  }, [rootUuid]);
+    try {
+      const newRenderer = new MindMapCanvasRenderer(
+        canvasRef.current,
+        stateManager.getState().nodes,
+        rootUuid,
+        themeName
+      );
+      
+      logger.log('渲染器创建成功');
+      setRenderer(newRenderer);
+      
+      return () => {
+        logger.log('清理渲染器');
+        setRenderer(null);
+      };
+    } catch (err) {
+      logger.error('渲染器创建失败', err);
+    }
+  }, [rootUuid, isReady]);
 
   // 更新 Canvas 渲染
   useEffect(() => {
-    if (renderer) {
+    if (renderer && isReady) {
+      logger.log('更新 Canvas 渲染', stateManager.getState().nodes.size);
       renderer.updateNodes(stateManager.getState().nodes, rootUuid);
     }
-  }, [stateManager.getState().nodes, renderer, rootUuid]);
+  }, [stateManager.getState().nodes, renderer, rootUuid, isReady]);
 
   // 处理鼠标移动
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -117,8 +156,20 @@ export function MindMapView({ rootUuid, content, children }: MindMapViewProps) {
     500
   );
 
+  logger.log('渲染 MindMapView', { 
+    isReady, 
+    hasRenderer: !!renderer, 
+    hasCanvas: !!canvasRef.current,
+    content 
+  });
+
   return (
     <div className="ltt-mindmap-view" ref={containerRef}>
+      {/* 调试信息 */}
+      <div className="ltt-mindmap-debug" style={{ fontSize: '12px', color: '#666', padding: '4px' }}>
+        Root: {rootUuid} | Nodes: {stateManager.getState().nodes.size} | Ready: {isReady ? 'Yes' : 'No'}
+      </div>
+      
       {/* MindMap Canvas 区域 - 带缩进与 Root Node 对齐 */}
       <div className="ltt-mindmap-canvas-container">
         <canvas
