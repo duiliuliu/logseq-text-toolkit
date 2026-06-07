@@ -235,49 +235,79 @@ export class MilestoneQuery {
 
   /**
    * 优化排序逻辑
-   * 1. 保留原始列表的整体顺序结构
-   * 2. 找出所有同状态的节点，在它们的原始位置范围内，按日期重新排列
-   * 3. 不同状态的节点之间的相对顺序保持不变
+   * 实现用户例子中描述的效果：
+   * - 原始：简历投递 → 测评环节 → 笔试环节(完成,今天) → 第一轮技术面试 → 第二轮技术面试(完成,昨天) 
+   * - 期望：简历投递 → 测评环节 → 第一轮技术面试 → 第二轮技术面试(完成,昨天) → 笔试环节(完成,今天)
+   * 
+   * 规则：
+   * 1. 首先，找出所有相同状态的节点
+   * 2. 按日期升序排序这些同状态节点（日期早的在前）
+   * 3. 找出这些同状态节点在原始序列中占据的从左到右的整个范围
+   * 4. 在这个范围内：
+   *    a. 先放所有其他状态的节点（保持它们的原始相对顺序）
+   *    b. 再放排序后的同状态节点
+   * 5. 范围外的节点顺序完全保持不变
    */
   private static sortMilestoneItems(items: MilestoneItem[]): MilestoneItem[] {
-    // 1. 先按状态分组，保存每个元素的原始位置
-    const statusGroups = new Map<MilestoneStatus, Array<{ item: MilestoneItem; originalIndex: number }>>();
-    items.forEach((item, index) => {
-      if (!statusGroups.has(item.status)) {
-        statusGroups.set(item.status, []);
+    // 创建结果数组的副本，我们将逐步修改它
+    let result = [...items];
+    
+    // 获取所有出现的状态
+    const allStates = new Set<MilestoneStatus>();
+    items.forEach(item => allStates.add(item.status));
+    
+    // 对每个状态进行处理
+    for (const currentState of allStates) {
+      // 收集该状态的所有元素和它们在原始数组中的位置
+      const stateEntries: { item: MilestoneItem; index: number }[] = [];
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].status === currentState) {
+          stateEntries.push({ item: items[i], index: i });
+        }
       }
-      statusGroups.get(item.status)!.push({ item, originalIndex: index });
-    });
-
-    // 2. 对每个状态组内的元素按日期排序
-    const sortedGroups = new Map<MilestoneStatus, MilestoneItem[]>();
-    for (const [status, group] of statusGroups.entries()) {
-      const sorted = [...group].sort((a, b) => {
+      
+      // 如果该状态只有0或1个元素，不需要处理
+      if (stateEntries.length <= 1) {
+        continue;
+      }
+      
+      // 按日期排序该状态的元素
+      const sortedStateItems = [...stateEntries].sort((a, b) => {
         if (a.item.date && b.item.date) {
           return a.item.date.localeCompare(b.item.date);
         }
         if (a.item.date) return -1;
         if (b.item.date) return 1;
-        return a.originalIndex - b.originalIndex;
-      });
-      sortedGroups.set(status, sorted.map(e => e.item));
+        // 如果没有日期或日期相同，保持原始顺序
+        return a.index - b.index;
+      }).map(e => e.item);
+      
+      // 找出该状态元素在原始数组中占据的位置范围（从最左到最右）
+      const stateIndices = stateEntries.map(e => e.index);
+      const minIndex = Math.min(...stateIndices);
+      const maxIndex = Math.max(...stateIndices);
+      
+      // 收集在这个范围内的其他状态元素，保持它们的原始顺序
+      const otherItemsInRange: MilestoneItem[] = [];
+      for (let i = minIndex; i <= maxIndex; i++) {
+        if (items[i].status !== currentState) {
+          otherItemsInRange.push(items[i]);
+        }
+      }
+      
+      // 现在构建新的范围内的元素顺序：其他元素在前，排序后的同状态元素在后
+      const newRangeItems = [...otherItemsInRange, ...sortedStateItems];
+      
+      // 最后，构建完整的结果数组
+      const newResult: MilestoneItem[] = [
+        ...items.slice(0, minIndex), // 范围左边的保持原样
+        ...newRangeItems,           // 新的范围内顺序
+        ...items.slice(maxIndex + 1) // 范围右边的保持原样
+      ];
+      
+      result = newResult;
     }
-
-    // 3. 构建结果：遍历原始数组，遇到某个状态时，从该状态的排序组中依次取元素
-    const result: MilestoneItem[] = [];
-    const groupCursors = new Map<MilestoneStatus, number>();
-    for (const status of statusGroups.keys()) {
-      groupCursors.set(status, 0);
-    }
-
-    for (const item of items) {
-      const status = item.status;
-      const sortedGroup = sortedGroups.get(status)!;
-      const cursor = groupCursors.get(status)!;
-      result.push(sortedGroup[cursor]);
-      groupCursors.set(status, cursor + 1);
-    }
-
+    
     return result;
   }
 
