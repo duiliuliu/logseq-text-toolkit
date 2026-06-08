@@ -7,7 +7,7 @@ import { createRendererArgUpdater } from '../render/rendererArgs';
 import { renderComponent } from '../render';
 import { createMindMapView } from '../../components/BlockView/views/MindMapView';
 import logger from '../logger';
-import type { BlockRendererProps } from '@logseq/libs/dist/modules/LSPlugin.Experiments';
+import type { BlockRendererProps, BlockRendererChild } from '@logseq/libs/dist/modules/LSPlugin.Experiments';
 
 const MACRO_PREFIX = ':blockview';
 const PLUGIN_ID = 'text-toolkit-blockview';
@@ -278,39 +278,46 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
 /**
  * 注册 MindMap 块渲染器
  * 使用 logseq.Experiments.registerBlockRenderer
+ * 参考: https://github.com/VictorVow/logseq-plugin-advanced-markdown-table
  */
 function registerMindMapRenderer(): void {
   try {
     const Experiments = logseqAPI.Experiments || {};
-    const { registerBlockRenderer } = Experiments as any;
+    const { React, registerBlockRenderer } = Experiments as any;
     
-    if (!registerBlockRenderer) {
-      logger.warn('[MindMap] registerBlockRenderer not available, falling back to macro renderer');
+    if (!registerBlockRenderer || !React) {
+      logger.warn('[MindMap] registerBlockRenderer or React not available, falling back to macro renderer');
       return;
     }
 
     registerBlockRenderer('ltt-mindmap', {
-      when: ({ properties }: BlockRendererProps) => 
-        properties.view?.title === 'ltt-mindmap' || 
-        properties['plugin.property.logseq-text-toolkitdev/view']?.title === 'ltt-mindmap',
+      when: ({ properties }: BlockRendererProps) => {
+        // 兼容不同的属性格式
+        const viewValue = properties.view?.title || properties.view;
+        const customViewValue = properties['plugin.property.logseq-text-toolkitdev/view']?.title || properties['plugin.property.logseq-text-toolkitdev/view'];
+        return viewValue === 'ltt-mindmap' || customViewValue === 'ltt-mindmap';
+      },
       includeChildren: true,
       priority: 20,
       render: ({ content, children = [], uuid }: BlockRendererProps) => {
-        // 使用原生 DOM 创建 MindMap 视图
-        const container = document.createElement('div');
-        container.className = 'ltt-mindmap-container';
-        container.dataset.blockUuid = uuid;
+        logger.log('[MindMap] Rendering block', { uuid });
 
-        // 创建 MindMap 视图
-        const mindMapView = createMindMapView({
-          rootUuid: uuid,
-          content,
-          children,
+        // 创建容器并使用 ref 来挂载 DOM
+        return React.createElement('div', {
+          className: 'ltt-mindmap-container',
+          'data-block-uuid': uuid,
+          ref: (el: HTMLElement) => {
+            if (el && !el.querySelector('.ltt-mindmap-view')) {
+              // 只在第一次加载时创建 DOM
+              const mindMapView = createMindMapView({
+                rootUuid: uuid,
+                content,
+                children: children as BlockRendererChild[],
+              });
+              el.appendChild(mindMapView);
+            }
+          },
         });
-        
-        container.appendChild(mindMapView);
-
-        return container;
       },
     });
 
