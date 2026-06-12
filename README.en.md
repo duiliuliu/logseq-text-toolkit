@@ -415,6 +415,13 @@ Configure toolbar elements via JSON in Settings:
 
 The plugin supports multi-language extension. You can add new language packs or modify existing translations.
 
+
+#### File Operation Instructions
+ 
+| dist File Operation Example	 | settings File Operation Example |
+| :---------------: | :-------------------: |
+| Action: open package<br><img width="300"   alt="image" src="https://github.com/user-attachments/assets/8e2447f3-2f39-4111-a187-499c3c0498d8" /> | Action: open settings<br><img width="300"   alt="image" src="https://github.com/user-attachments/assets/8e2447f3-2f39-4111-a187-499c3c0498d8" /> |
+
 #### Current Supported Languages
 
 | Language Code | Language Name | File Path |
