@@ -812,6 +812,13 @@ BlockView 组件支持多种参数配置：
 
 插件支持多语言扩展，您可以添加新的语言包或修改现有翻译。
 
+#### 操作文件说明
+| dist 文件操作示例 | settings 文件操作示例 |
+| :---------------: | :-------------------: |
+| 操作：open package<br><img width="300"   alt="image" src="https://github.com/user-attachments/assets/8e2447f3-2f39-4111-a187-499c3c0498d8" /> | 操作：open settings<br><img width="300"   alt="image" src="https://github.com/user-attachments/assets/8e2447f3-2f39-4111-a187-499c3c0498d8" /> |
+ 
+
+
 #### 当前支持的语言
 
 | 语言代码 | 语言名称 | 文件路径 |
