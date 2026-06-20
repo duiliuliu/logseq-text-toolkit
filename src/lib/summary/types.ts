@@ -50,7 +50,15 @@ export interface SummaryData {
   blocks: BlockStats;
   tasks: TaskStats;
   pages: PageStats;
+  /** 废弃：原单一 string 数组建议 */
   aiSuggestions?: string[];
+  /** 🤖 AI 生成的结构化摘要（新版） */
+  aiInsights?: {
+    overview: string;
+    highlights: string[];
+    improvements: string[];
+    nextActions: string[];
+  };
 }
 
 export interface TemplateConfig {

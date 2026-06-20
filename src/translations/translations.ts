@@ -1,4 +1,15 @@
-// 翻译类型定义
+/**
+ * 翻译类型定义
+ * =====================================================================
+ * 1. 各模块的翻译接口
+ * 2. TranslationKeys（完整的翻译对象类型）
+ * 3. TranslationKey（点分路径，用于 t() 函数的类型安全
+ * =====================================================================
+ */
+
+// =====================================================================
+// 1. 各模块翻译接口
+// =====================================================================
 
 export interface TaskProgressStatusNames {
   todo: string;
@@ -220,7 +231,6 @@ export interface MilestoneTranslation {
   delete: string;
   nameRequired: string;
   nameDuplicate: string;
-  // Color labels
   colorCompleted: string;
   colorInProgress: string;
   colorPending: string;
@@ -228,7 +238,6 @@ export interface MilestoneTranslation {
   colorSkipped: string;
   colorBackground: string;
   colorText: string;
-  // Form hints
   templatePropKeyHint: string;
   templateMilestoneListPlaceholder: string;
   customColorsTitle: string;
@@ -285,6 +294,10 @@ export interface SettingsTabsTranslation {
   summary: string;
   advanced: string;
 }
+
+// =====================================================================
+// 2. TranslationKeys - 完整翻译对象
+// =====================================================================
 
 export interface TranslationKeys {
   taskProgress?: {
@@ -367,8 +380,22 @@ export interface TranslationKeys {
   };
 }
 
-// 支持的语言类型
+// =====================================================================
+// 3. TranslationKey - 点分路径类型 (P2.3 - 类型安全的翻译键)
+// =====================================================================
+
+type NestedKeyOf<ObjectType extends object> = {
+  [Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object
+    ? `${Key}` | `${Key}.${NestedKeyOf<ObjectType[Key] & object>}`
+    : `${Key}`;
+}[keyof ObjectType & (string | number)];
+
+export type TranslationKey = NestedKeyOf<TranslationKeys>;
+
+// =====================================================================
+// 4. 语言类型
+// =====================================================================
+
 export type SupportedLanguage = 'en' | 'ja' | 'zh-CN' | 'system';
 
-// 翻译对象类型
 export type Translations = Record<SupportedLanguage, TranslationKeys>;

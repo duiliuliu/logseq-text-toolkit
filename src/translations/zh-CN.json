@@ -287,7 +287,7 @@
       "aiSettings": "🤖 AI 设置",
       "aiEnabled": "启用 AI 增强",
       "aiProvider": "AI 提供商",
-      "aiProviderOpenai": "OpenAI",
+      "aiProviderOpenAI": "OpenAI",
       "aiProviderClaude": "Claude",
       "aiProviderCustom": "自定义",
       "aiApiKey": "API Key",

@@ -66,6 +66,8 @@ export interface MilestoneConfig {
   dateField?: string;
   // 当前渲染的block UUID，用于获取属性值
   currentBlockUuid?: string;
+  // 🔹 里程碑权重配置（增强）：{"设计": 0.2, "开发": 0.5, "测试": 0.3}
+  weights?: Record<string, number>;
 }
 
 export type MilestoneDisplayStyle = 
@@ -100,6 +102,8 @@ export interface MilestoneConfig {
   // 当前渲染的block UUID，用于获取属性值
   currentBlockUuid?: string;
   tooltipStyle?: MilestoneTooltipStyle;
+  // 🔹 里程碑权重配置（增强）：{"设计": 0.2, "开发": 0.5, "测试": 0.3}
+  weights?: Record<string, number>;
 }
 
 export interface ColorScheme {
@@ -145,6 +149,8 @@ export interface MilestoneTemplate {
   inline?: boolean;
   dateField?: string;
   colorScheme?: ColorScheme;
+  // 🔹 模板层面的权重配置
+  weights?: Record<string, number>;
 }
 
 export const DEFAULT_COLOR_SCHEME: ColorScheme = {

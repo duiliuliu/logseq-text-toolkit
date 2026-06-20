@@ -1,10 +1,25 @@
 /**
  * Milestone 宏命令注册
+ *
+ * 🔸 解析逻辑已迁移至 MacroSchema 框架 (P1.1)
+ *    - schema.ts:  参数 Schema 声明
+ *    - register.ts: 注册宏 & 调用 Schema 解析
+ *
+ * 三层覆盖原则：
+ *   1. 宏参数（如 {{renderer :milestone, displayStyle=badge}}）
+ *   2. 模板配置（Settings 中预定义的模板）
+ *   3. 默认设置（Settings 中的全局默认值）
  */
 
-import type { MilestoneDisplayStyle, MilestoneConfig, MilestoneTemplate } from './types';
+import type { MilestoneConfig } from './types';
 import { MilestoneQuery } from './query';
-import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import {
+  renderComponent,
+  parseRendererArgs,
+  resolveConfigFromTokens,
+  type MacroArguments,
+} from '../render';
+import { MILESTONE_SCHEMAS, templateToPartialConfig } from './schema';
 import logger from '../logger/index';
 import { getSettingsWithSystem } from '../../settings/index.ts';
 import { logseqAPI } from '../../logseq';
@@ -15,23 +30,20 @@ const PLUGIN_ID = 'milestone';
 
 const MACRO_PREFIX = ':milestone';
 
-registerRendererArgModel(MACRO_PREFIX, {
-  positional: ['displayStyle'],
-  named: ['inline']
-});
-
 let MilestoneComponent: React.FC<any> | null = null;
 
 export function setMilestoneComponent(component: React.FC<any>) {
   MilestoneComponent = component;
 }
 
-
-
 /**
  * 渲染 Milestone 组件
  */
-async function renderMilestone(slot: string, config: MilestoneConfig, currentBlockUuid?: string): Promise<boolean> {
+async function renderMilestone(
+  slot: string,
+  config: MilestoneConfig,
+  currentBlockUuid?: string,
+): Promise<boolean> {
   try {
     const data = await MilestoneQuery.query({
       filterTag: config.filterTag,
@@ -40,7 +52,7 @@ async function renderMilestone(slot: string, config: MilestoneConfig, currentBlo
       milestonePropKey: config.milestonePropKey,
       milestoneList: config.milestoneList,
       dateField: config.dateField,
-      currentBlockUuid: currentBlockUuid
+      currentBlockUuid,
     });
 
     if (!MilestoneComponent) {
@@ -48,7 +60,7 @@ async function renderMilestone(slot: string, config: MilestoneConfig, currentBlo
       return false;
     }
 
-    const containerId = PLUGIN_ID + '__' + slot;
+    const containerId = `${PLUGIN_ID}__${slot}`;
 
     logseqAPI.provideUI({
       key: containerId,
@@ -75,24 +87,84 @@ async function renderMilestone(slot: string, config: MilestoneConfig, currentBlo
 }
 
 /**
+ * 解析宏参数（使用 MacroSchema 框架）
+ *
+ * 原逻辑：~100 行手写解析 + 覆盖判断
+ * 新逻辑：一次 resolveConfigFromTokens 调用
+ */
+async function parseMacroArguments(
+  macroArgs: MacroArguments,
+): Promise<MilestoneConfig> {
+  // 1) 特殊处理 template 参数：模板引用，不在 Schema 里
+  const rawValues = parseRendererArgs(macroArgs.type, macroArgs.tokens) as Record<
+    string,
+    string
+  >;
+  const templateIdOrName = rawValues.template;
+
+  // 2) 从 settings 读取模板列表和默认设置
+  const settings = await getSettingsWithSystem();
+  const templates = settings?.milestone?.templates || [];
+
+  const matchedTemplate = templateIdOrName
+    ? templates.find(t => t.id === templateIdOrName || t.name === templateIdOrName)
+    : undefined;
+
+  const templateValues = templateToPartialConfig(matchedTemplate);
+
+  // 3) 组装默认设置层
+  const defaultValues: Partial<MilestoneConfig> = {
+    displayStyle: settings?.milestone?.defaultStyle,
+    tooltipStyle: settings?.milestone?.tooltipStyle,
+    inline: settings?.milestone?.inline,
+    showProgress:
+      settings?.milestone?.showProgress !== undefined
+        ? settings.milestone.showProgress
+        : true,
+    showLabel:
+      settings?.milestone?.showLabel !== undefined
+        ? settings.milestone.showLabel
+        : true,
+    colorScheme: settings?.milestone?.defaultColorScheme,
+  };
+
+  // 4) 使用统一的 MacroSchema 框架做三层合并
+  const resolved = resolveConfigFromTokens<MilestoneConfig>(
+    MILESTONE_SCHEMAS,
+    macroArgs,
+    templateValues,
+    defaultValues,
+    {
+      macroType: macroArgs.type,
+      macroName: 'milestone',
+    },
+  );
+
+  return {
+    ...resolved,
+    template: templateIdOrName,
+  } as MilestoneConfig;
+}
+
+/**
  * 注册 Milestone 宏渲染器
  */
 export function registerMilestone(): void {
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
     try {
-      const split = splitRendererArgs(payload.arguments);
-      if (!split) {
-        logger.warn('[Milestone] Invalid macro arguments');
-        return;
-      }
+      const tokens = (payload.arguments || [])
+        .map(v => String(v))
+        .flatMap(s => s.split(',').map(x => x.trim()))
+        .filter(Boolean);
 
-      const { type, tokens } = split;
+      if (tokens.length === 0) return;
+      const type = tokens[0];
+      if (!type || !type.startsWith(MACRO_PREFIX)) return;
 
-      if (!type || !type.startsWith(MACRO_PREFIX)) {
-        return;
-      }
+      const restTokens = tokens.slice(1);
+      const macroArgs: MacroArguments = { type, tokens: restTokens };
 
-      const config = await parseMacroArguments(type, tokens);
+      const config = await parseMacroArguments(macroArgs);
       await renderMilestone(slot, config, payload.uuid);
     } catch (error) {
       logger.error('[Milestone] Render failed:', error);
@@ -104,87 +176,9 @@ export function registerMilestone(): void {
     async () => {
       const settings = await getSettingsWithSystem();
       const template = settings?.milestone?.defaultSlashCommandTemplate || MACRO_PREFIX;
-      await logseqAPI.Editor.insertAtEditingCursor(
-        `{{renderer ${template}}}`
-      );
-    }
+      await logseqAPI.Editor.insertAtEditingCursor(`{{renderer ${template}}}`);
+    },
   );
 
-  logger.info('✅ Milestone: Registered successfully');
-}
-
-/**
- * 解析宏参数
- */
-async function parseMacroArguments(type: string, tokens: any): Promise<MilestoneConfig> {
-  const parsed = parseRendererArgs(type, tokens);
-
-  // 检查是否使用了模板
-  let template: MilestoneTemplate | undefined;
-  const settings = await getSettingsWithSystem();
-  const templates = settings?.milestone?.templates || [];
-  const defaultColorScheme = settings?.milestone?.defaultColorScheme;
-  
-  if (parsed.template) {
-    // 支持两种格式：id 或者 name
-    template = templates.find(t => t.id === parsed.template || t.name === parsed.template);
-  }
-
-  // 合并配置：模板为基础，宏参数覆盖
-  const baseConfig: Partial<MilestoneConfig> = template ? {
-    filterTag: template.filterTag,
-    filterPropKey: template.filterPropKey,
-    milestonePropKey: template.milestonePropKey,
-    milestoneList: template.milestoneList,
-    displayStyle: template.displayStyle,
-    showProgress: template.showProgress,
-    showLabel: template.showLabel,
-    inline: template.inline,
-    dateField: template.dateField,
-    colorScheme: template.colorScheme,
-  } : {};
-
-  // 解析 displayStyle，优先使用宏参数，否则使用模板或默认值
-  let displayStyle: MilestoneDisplayStyle = baseConfig.displayStyle || settings?.milestone?.defaultStyle || 'capsule';
-  if (parsed.displayStyle && ['capsule', 'badge', 'track', 'card', 'compact', 'arrow-capsule', 'timeline-track'].includes(parsed.displayStyle)) {
-    displayStyle = parsed.displayStyle as MilestoneDisplayStyle;
-  }
-
-  // 解析 inline，优先使用宏参数，否则使用模板或默认值
-  let inline: boolean = baseConfig.inline !== undefined ? baseConfig.inline : (settings?.milestone?.inline ?? false);
-  if (parsed.inline !== undefined) {
-    inline = parsed.inline !== 'false';
-  }
-
-  // 解析 milestoneList，优先使用宏参数
-  let finalMilestoneList = baseConfig.milestoneList;
-  if (parsed.milestoneList) {
-    finalMilestoneList = parsed.milestoneList.split(';').map(s => s.trim()).filter(Boolean);
-  }
-
-  // 确定最终的颜色方案：宏参数 > 模板 > 默认设置
-  let finalColorScheme = undefined;
-  if (parsed.colorScheme) {
-    finalColorScheme = JSON.parse(parsed.colorScheme);
-  } else if (baseConfig.colorScheme) {
-    finalColorScheme = baseConfig.colorScheme;
-  } else if (defaultColorScheme) {
-    finalColorScheme = defaultColorScheme;
-  }
-
-  return {
-    template: parsed.template,
-    filterTag: parsed.filterTag || baseConfig.filterTag,
-    displayStyle: displayStyle,
-    property: parsed.property,
-    filterPropKey: parsed.filterPropKey || baseConfig.filterPropKey,
-    milestonePropKey: parsed.milestonePropKey || baseConfig.milestonePropKey,
-    milestoneList: finalMilestoneList,
-    dateField: parsed.dateField || baseConfig.dateField || 'scheduled',
-    showProgress: parsed.showProgress !== undefined ? parsed.showProgress !== 'false' : (baseConfig.showProgress !== undefined ? baseConfig.showProgress : settings?.milestone?.showProgress !== false),
-    showLabel: parsed.showLabel !== undefined ? parsed.showLabel !== 'false' : (baseConfig.showLabel !== undefined ? baseConfig.showLabel : settings?.milestone?.showLabel !== false),
-    inline: inline,
-    colorScheme: finalColorScheme,
-    tooltipStyle: settings?.milestone?.tooltipStyle || 'compact',
-  };
+  logger.info('✅ Milestone: Registered successfully (MacroSchema v2)');
 }
