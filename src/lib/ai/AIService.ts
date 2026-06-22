@@ -93,7 +93,7 @@ export class AIService {
     logger.info(`[AIService] 调用 provider=${this.providerType}`);
 
     try {
-      const result = await this.generate({
+      const result = await this.generate({ input: textData });
       const parsed = parseStructuredOutput(result.content);
       CACHE.set(cacheKey, parsed);
       trimCache();
@@ -140,14 +140,14 @@ function parseStructuredOutput(content: string): AISummaryInsights {
 
     if (current) {
       // 去掉行首的 bullet 标记
-      const clean = line.replace(/^[-•●*\s+/, '').trim();
+      const clean = line.replace(/^[-•●*\s]+/, '').trim();
       sections[current].push(clean);
     }
   }
 
   const overview = sections['概览'] || [];
   return {
-    overview: overview[0] || '（AI 未生成摘要',
+    overview: overview[0] || '',
     highlights: sections['亮点成就'] || sections['亮点'] || [],
     improvements: sections['改进建议'] || sections['改进'] || [],
     nextActions: sections['下期行动'] || sections['行动'] || [],
