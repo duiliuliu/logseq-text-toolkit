@@ -3,9 +3,11 @@
  * 
  * 用于验证用户在设置中输入的默认斜杠命令模板是否有效
  * 复用 rendererArgs.ts 中的参数模型注册和解析功能
+ * 动态从已注册的 Schema 中获取宏命令前缀
  */
 
 import { findModel, parseRendererArgs, registerRendererArgModel } from './rendererArgs'
+import { getAllRegisteredPrefixes, getRegisteredSchema } from './configResolver'
 
 export interface MacroValidationResult {
   valid: boolean
@@ -14,14 +16,25 @@ export interface MacroValidationResult {
 }
 
 /**
- * 预定义的宏命令前缀列表
+ * 获取预定义的宏命令前缀列表
+ * 优先使用 ConfigSchema 中已注册的宏前缀，其次使用 rendererArgs 中注册的
  */
-const MACRO_PREFIXES = {
-  taskprogress: ':taskprogress',
-  heatmap: ':heatmap',
-  blockview: ':blockview',
-  milestone: ':milestone'
-} as const
+function getMacroPrefixes(): Record<string, string> {
+  const prefixes: Record<string, string> = {};
+  
+  // 从 ConfigSchema 中获取已注册的前缀
+  const registeredPrefixes = getAllRegisteredPrefixes();
+  for (const prefix of registeredPrefixes) {
+    // 去掉冒号前缀作为类型名
+    const typeName = prefix.replace(/^:/, '');
+    prefixes[typeName] = prefix;
+  }
+  
+  // 从 rendererArgs 中获取已注册的模型
+  // rendererArgs 的 models 是私有的，但 findModel 可以通过前缀匹配
+  // 我们通过已知的模式来推断
+  return prefixes;
+}
 
 /**
  * 从已注册的宏命令中提取模板字符串（不包括 {{renderer }} 外壳）
@@ -80,7 +93,7 @@ function splitMacroContent(macroContent: string): { prefix: string; tokens: stri
  */
 export function validateMacroTemplate(
   template: string,
-  macroType: 'taskprogress' | 'heatmap' | 'blockview' | 'milestone'
+  macroType: string
 ): MacroValidationResult {
   const warnings: string[] = []
   
@@ -95,12 +108,26 @@ export function validateMacroTemplate(
   // 提取宏模板内容
   const macroContent = extractMacroTemplate(template)
   
-  // 检查是否以有效前缀开头
-  const validPrefix = MACRO_PREFIXES[macroType]
-  if (!macroContent.startsWith(validPrefix)) {
-    return {
-      valid: false,
-      error: `Template must start with "${validPrefix}"`
+  // 获取该宏类型的有效前缀
+  const validPrefix = getMacroPrefix(macroType)
+  
+  // 检查是否以有效前缀开头（支持多种格式匹配）
+  const prefixMatches = 
+    macroContent === validPrefix || 
+    macroContent.startsWith(validPrefix + ' ') ||
+    macroContent.startsWith(validPrefix + ',');
+    
+  if (!prefixMatches) {
+    // 尝试从已注册的前缀中找到匹配的
+    const registeredPrefixes = getMacroPrefixes();
+    const contentPrefix = macroContent.split(/[\s,]/)[0];
+    const isAnyRegisteredPrefix = Object.values(registeredPrefixes).includes(contentPrefix);
+    
+    if (!isAnyRegisteredPrefix) {
+      return {
+        valid: false,
+        error: `Template must start with "${validPrefix}"`
+      }
     }
   }
 
@@ -162,19 +189,36 @@ export function validateMacroTemplate(
 
 /**
  * 获取指定宏类型的有效前缀
+ * 动态从已注册的前缀中查找
  */
-export function getMacroPrefix(macroType: keyof typeof MACRO_PREFIXES): string {
-  return MACRO_PREFIXES[macroType]
+export function getMacroPrefix(macroType: string): string {
+  const prefixes = getMacroPrefixes();
+  // 尝试多种可能的格式
+  const formats = [
+    macroType,
+    `:${macroType}`,
+    macroType.replace(/([A-Z])/g, '-$1').toLowerCase(),
+    `:${macroType.replace(/([A-Z])/g, '-$1').toLowerCase()}`
+  ];
+  
+  for (const format of formats) {
+    if (prefixes[format]) return prefixes[format];
+  }
+  
+  // 如果没有找到，返回原始类型作为前缀
+  return macroType.startsWith(':') ? macroType : `:${macroType}`;
 }
 
 /**
  * 获取所有宏类型的列表
+ * 动态从已注册的前缀中获取
  */
-export function getMacroTypes(): Array<{ type: keyof typeof MACRO_PREFIXES; prefix: string }> {
-  return Object.entries(MACRO_PREFIXES).map(([type, prefix]) => ({
-    type: type as keyof typeof MACRO_PREFIXES,
+export function getMacroTypes(): Array<{ type: string; prefix: string }> {
+  const prefixes = getMacroPrefixes();
+  return Object.entries(prefixes).map(([type, prefix]) => ({
+    type,
     prefix
-  }))
+  }));
 }
 
 /**

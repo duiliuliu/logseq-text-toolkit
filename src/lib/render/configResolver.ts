@@ -54,6 +54,20 @@ export function getRegisteredSchema(prefix: string): ConfigSchema[] | undefined 
   return registeredSchemas.get(prefix);
 }
 
+/**
+ * 获取所有已注册的宏命令前缀
+ */
+export function getAllRegisteredPrefixes(): string[] {
+  return Array.from(registeredSchemas.keys());
+}
+
+/**
+ * 检查前缀是否已注册
+ */
+export function isPrefixRegistered(prefix: string): boolean {
+  return registeredSchemas.has(prefix);
+}
+
 function parseValue(raw: string, type: ConfigSchemaType, enumValues?: string[]): any {
   switch (type) {
     case 'boolean':

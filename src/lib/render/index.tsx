@@ -24,11 +24,15 @@ export {
 export {
   registerConfigSchema,
   getRegisteredSchema,
+  getAllRegisteredPrefixes,
+  isPrefixRegistered,
   resolveConfigFromTokens,
+  resolveConfigFromTokensArray,
   validateConfigSchema,
   inferSchemaFromArgs,
   type ConfigSchema,
   type ConfigSchemaType,
+  type ConfigSchemaWithPositional,
   type ResolveOptions,
   type ValidationResult,
 } from './configResolver'

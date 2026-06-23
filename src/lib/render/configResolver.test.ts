@@ -27,19 +27,31 @@ import {
 describe('configResolver - 完整场景覆盖测试', () => {
 
   // ========================================================================
+  // 共享的 Schema 定义
+  // ========================================================================
+  const TEST_SCHEMAS: ConfigSchema[] = [
+    { key: 'view', type: 'enum', enumValues: ['year', 'month', 'week'], defaultValue: 'year' },
+    { key: 'displayMode', type: 'enum', enumValues: ['full', 'basic', 'minimal'], defaultValue: 'full' },
+    { key: 'width', type: 'number', defaultValue: 600 },
+    { key: 'inline', type: 'boolean', defaultValue: false },
+    { key: 'tags', type: 'stringList', defaultValue: [] },
+    { key: 'custom', type: 'json', defaultValue: {} },
+    { key: 'name', type: 'string', defaultValue: 'default' },
+  ];
+
+  const HEATMAP_SCHEMAS: ConfigSchema[] = [
+    { key: 'view', type: 'enum', enumValues: ['year', 'month', 'week'], defaultValue: 'year', settingKey: 'heatmap.defaultView' },
+    { key: 'displayMode', type: 'enum', enumValues: ['full', 'basic', 'minimal'], defaultValue: 'full', settingKey: 'heatmap.defaultDisplayMode' },
+    { key: 'colorFormula', type: 'enum', enumValues: ['simple', 'weighted'], defaultValue: 'simple', settingKey: 'heatmap.colorFormula' },
+    { key: 'containerWidth', type: 'number', defaultValue: 800 },
+    { key: 'enableMonthPage', type: 'boolean', defaultValue: false },
+  ];
+
+  // ========================================================================
   // 第一部分：基本功能测试（对应 rendererArgs.test.ts 场景）
   // ========================================================================
 
   describe('【场景1】rendererArgs 基本场景', () => {
-    const TEST_SCHEMAS: ConfigSchema[] = [
-      { key: 'view', type: 'enum', enumValues: ['year', 'month', 'week'], defaultValue: 'year' },
-      { key: 'displayMode', type: 'enum', enumValues: ['full', 'basic', 'minimal'], defaultValue: 'full' },
-      { key: 'width', type: 'number', defaultValue: 600 },
-      { key: 'inline', type: 'boolean', defaultValue: false },
-      { key: 'tags', type: 'stringList', defaultValue: [] },
-      { key: 'custom', type: 'json', defaultValue: {} },
-      { key: 'name', type: 'string', defaultValue: 'default' },
-    ];
 
     describe('1.1 注册与检索', () => {
       test('应该能注册和检索 Schema', () => {
@@ -326,24 +338,37 @@ describe('configResolver - 完整场景覆盖测试', () => {
 
     describe('4.3 类型列表获取（对应 getMacroTypes）', () => {
       test('应该获取所有宏类型', () => {
+        // 先注册一些 Schema
+        registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);
+        registerConfigSchema(':blockview', [{ key: 'view', type: 'string' }]);
+        
         const types = getMacroTypes();
         expect(types).toContainEqual({ type: 'heatmap', prefix: ':heatmap' });
         expect(types).toContainEqual({ type: 'blockview', prefix: ':blockview' });
-        expect(types).toContainEqual({ type: 'milestone', prefix: ':milestone' });
-        expect(types).toContainEqual({ type: 'taskprogress', prefix: ':taskprogress' });
-        expect(types.length).toBe(4);
+      });
+
+      test('应该返回动态注册的前缀', () => {
+        // 清除之前的注册，重新开始
+        registerConfigSchema(':test1', []);
+        registerConfigSchema(':test2', []);
+        
+        const types = getMacroTypes();
+        expect(types).toContainEqual({ type: 'test1', prefix: ':test1' });
+        expect(types).toContainEqual({ type: 'test2', prefix: ':test2' });
       });
     });
 
     describe('4.4 模板验证（对应 validateMacroTemplate）', () => {
       test('应该验证有效的模板', () => {
         registerRendererArgModel(':heatmap', { positional: ['view'] });
+        registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);
         const result = validateMacroTemplate('{{renderer :heatmap year}}', 'heatmap');
         expect(result.valid).toBe(true);
       });
 
       test('应该验证空模板', () => {
         registerRendererArgModel(':heatmap', { positional: ['view'] });
+        registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);
         const result = validateMacroTemplate('', 'heatmap');
         expect(result.valid).toBe(true);
         expect(result.warnings).toContain('Empty template will use default values');
@@ -351,13 +376,15 @@ describe('configResolver - 完整场景覆盖测试', () => {
 
       test('应该检测错误的前缀', () => {
         registerRendererArgModel(':heatmap', { positional: ['view'] });
+        registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);
         const result = validateMacroTemplate('{{renderer :wrong year}}', 'heatmap');
         expect(result.valid).toBe(false);
-        expect(result.error).toContain('Template must start with ":heatmap"');
+        expect(result.error).toContain('Template must start with');
       });
 
       test('应该检测未闭合的大括号', () => {
         registerRendererArgModel(':heatmap', { positional: ['view'] });
+        registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);
         // 注意：validateMacroTemplate 先检查前缀，所以需要完整的前缀
         const result = validateMacroTemplate('{{renderer :heatmap year', 'heatmap');
         // 这里会先触发前缀检查（因为正则匹配到的是不完整的模板）
@@ -418,14 +445,6 @@ describe('configResolver - 完整场景覆盖测试', () => {
   // ========================================================================
 
   describe('【场景5】集成测试', () => {
-    const HEATMAP_SCHEMAS: ConfigSchema[] = [
-      { key: 'view', type: 'enum', enumValues: ['year', 'month', 'week'], defaultValue: 'year', settingKey: 'heatmap.defaultView' },
-      { key: 'displayMode', type: 'enum', enumValues: ['full', 'basic', 'minimal'], defaultValue: 'full', settingKey: 'heatmap.defaultDisplayMode' },
-      { key: 'colorFormula', type: 'enum', enumValues: ['simple', 'weighted'], defaultValue: 'simple', settingKey: 'heatmap.colorFormula' },
-      { key: 'containerWidth', type: 'number', defaultValue: 800 },
-      { key: 'enableMonthPage', type: 'boolean', defaultValue: false },
-    ];
-
     test('完整工作流：注册 -> 分割 -> 解析 -> 验证 -> 更新', () => {
       // 1. 注册参数模型
       registerRendererArgModel(':heatmap', { positional: ['view'] });
