@@ -95,6 +95,73 @@ export interface ResolveOptions {
   enableWarnings?: boolean;
 }
 
+/**
+ * 从 tokens 数组解析参数
+ * 
+ * 支持位置参数和命名参数的混合解析
+ * 位置参数会根据 schemas 中的 positionalIndex 映射
+ * 
+ * @param schemas - 参数 Schema 数组
+ * @param tokens - tokens 数组，如 ['year', 'dark', 'custom=value']
+ * @param settings - Settings 配置对象
+ * @param options - 解析选项
+ * @returns 解析后的配置对象
+ * 
+ * @example
+ * const schemas = [
+ *   { key: 'view', type: 'enum', enumValues: ['year', 'month'], positionalIndex: 0 },
+ *   { key: 'theme', type: 'string', positionalIndex: 1 },
+ *   { key: 'width', type: 'number' },
+ * ];
+ * const result = resolveConfigFromTokensArray(schemas, ['year', 'dark', 'width=600'], {});
+ * // result = { view: 'year', theme: 'dark', width: 600 }
+ */
+export function resolveConfigFromTokensArray<T extends Record<string, any>>(
+  schemas: ConfigSchema[],
+  tokens: string[],
+  settings: Record<string, any>,
+  options: ResolveOptions = {}
+): T {
+  // 先将 tokens 分为位置参数和命名参数
+  const positional: string[] = [];
+  const namedArgs: Record<string, string> = {};
+
+  for (const token of tokens) {
+    const idx = token.indexOf('=');
+    if (idx > 0) {
+      const k = token.slice(0, idx).trim();
+      const v = token.slice(idx + 1).trim();
+      if (k) namedArgs[k] = v;
+    } else {
+      positional.push(token);
+    }
+  }
+
+  // 根据 schemas 中的 positionalIndex 映射位置参数
+  const positionalArgs: Record<string, string> = {};
+  for (const schema of schemas) {
+    if ((schema as any).positionalIndex !== undefined) {
+      const posIdx = (schema as any).positionalIndex as number;
+      if (positional[posIdx] !== undefined) {
+        positionalArgs[schema.key] = positional[posIdx];
+      }
+    }
+  }
+
+  // 合并参数（命名参数优先）
+  const mergedArgs = { ...positionalArgs, ...namedArgs };
+
+  // 使用 resolveConfigFromTokens 进行类型转换和默认值处理
+  return resolveConfigFromTokens(schemas, mergedArgs, settings, options);
+}
+
+/**
+ * 扩展的 ConfigSchema，支持位置参数索引
+ */
+export interface ConfigSchemaWithPositional<T = any> extends ConfigSchema<T> {
+  positionalIndex?: number;
+}
+
 export function resolveConfigFromTokens<T extends Record<string, any>>(
   schemas: ConfigSchema[],
   macroArgs: Record<string, string>,
