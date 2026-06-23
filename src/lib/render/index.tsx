@@ -26,6 +26,7 @@ export {
   getRegisteredSchema,
   getAllRegisteredPrefixes,
   isPrefixRegistered,
+  registerRendererWithConfigSchema,
   resolveConfigFromTokens,
   resolveConfigFromTokensArray,
   validateConfigSchema,

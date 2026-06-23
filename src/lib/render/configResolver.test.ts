@@ -1,8 +1,10 @@
 import { describe, test, expect, beforeEach } from 'vitest';
 import {
   resolveConfigFromTokens,
+  resolveConfigFromTokensArray,
   validateConfigSchema,
   registerConfigSchema,
+  registerRendererWithConfigSchema,
   getRegisteredSchema,
   inferSchemaFromArgs,
   type ConfigSchema
@@ -525,7 +527,65 @@ describe('configResolver - 完整场景覆盖测试', () => {
   // 第六部分：Schema 自动推断（configResolver 特有）
   // ========================================================================
 
-  describe('【场景6】Schema 自动推断', () => {
+  describe('【场景6】registerRendererWithConfigSchema 统一注册', () => {
+    test('应该支持混合参数解析（位置参数 + 命名参数）', () => {
+      // 使用新的统一注册函数
+      const BLOCKVIEW_SCHEMAS: ConfigSchema[] = [
+        { key: 'view', type: 'enum', enumValues: ['year', 'month', 'week'], positionalIndex: 0 },
+        { key: 'theme', type: 'string', positionalIndex: 1 },
+        { key: 'custom', type: 'string' },
+        { key: 'enabled', type: 'boolean', defaultValue: true },
+      ];
+      
+      registerRendererWithConfigSchema(':blockview', BLOCKVIEW_SCHEMAS);
+      
+      // 解析混合参数：['year', 'dark', 'custom=value']
+      const tokens = ['year', 'dark', 'custom=value'];
+      const config = resolveConfigFromTokensArray(BLOCKVIEW_SCHEMAS, tokens, {});
+      
+      expect(config.view).toBe('year');      // 位置参数 0
+      expect(config.theme).toBe('dark');     // 位置参数 1
+      expect(config.custom).toBe('value');   // 命名参数
+      expect(config.enabled).toBe(true);     // 默认值
+    });
+
+    test('应该支持命名参数覆盖位置参数', () => {
+      const SCHEMAS: ConfigSchema[] = [
+        { key: 'view', type: 'enum', enumValues: ['year', 'month'], positionalIndex: 0 },
+      ];
+      
+      registerRendererWithConfigSchema(':test', SCHEMAS);
+      
+      // 位置参数 'year' 被命名参数 'view=month' 覆盖
+      const tokens = ['year', 'view=month'];
+      const config = resolveConfigFromTokensArray(SCHEMAS, tokens, {});
+      
+      expect(config.view).toBe('month');  // 命名参数覆盖位置参数
+    });
+
+    test('应该支持解析字符串 ":blockview ,year,dark,custom=value"', () => {
+      const SCHEMAS: ConfigSchema[] = [
+        { key: 'view', type: 'enum', enumValues: ['year', 'month'], positionalIndex: 0 },
+        { key: 'theme', type: 'string', positionalIndex: 1 },
+        { key: 'custom', type: 'string' },
+      ];
+      
+      // 解析类似 ":blockview ,year,dark,custom=value" 的字符串
+      const input = ':blockview ,year,dark,custom=value';
+      
+      // 提取 tokens（模拟 parseRendererArgs 的行为）
+      const parts = input.split(',').map(s => s.trim()).filter(Boolean);
+      const tokens = parts.slice(1); // 去掉第一个 ':blockview'
+      
+      const config = resolveConfigFromTokensArray(SCHEMAS, tokens, {});
+      
+      expect(config.view).toBe('year');
+      expect(config.theme).toBe('dark');
+      expect(config.custom).toBe('value');
+    });
+  });
+
+  describe('【场景7】Schema 自动推断', () => {
     test('应该从参数推断 Schema', () => {
       const args = {
         view: 'year',

@@ -176,6 +176,57 @@ export interface ConfigSchemaWithPositional<T = any> extends ConfigSchema<T> {
   positionalIndex?: number;
 }
 
+/**
+ * 注册渲染器并配置 ConfigSchema
+ * 
+ * 这个函数统一注册到 rendererArgs 和 configResolver，支持：
+ * - 位置参数映射（通过 positionalIndex）
+ * - 类型安全的参数定义
+ * - 三层覆盖原则（宏参数 > Settings > 默认值）
+ * 
+ * @param prefix - 宏命令前缀，如 ':blockview'
+ * @param schemas - 参数 Schema 数组
+ * 
+ * @example
+ * registerRendererWithConfigSchema(':blockview', [
+ *   { key: 'view', type: 'enum', enumValues: ['year', 'month'], positionalIndex: 0 },
+ *   { key: 'theme', type: 'string', positionalIndex: 1 },
+ *   { key: 'custom', type: 'string' },
+ * ]);
+ * 
+ * // 解析混合参数
+ * const config = resolveConfigFromTokensArray(schemas, ['year', 'dark', 'custom=value'], settings);
+ * // → { view: 'year', theme: 'dark', custom: 'value' }
+ */
+export function registerRendererWithConfigSchema(prefix: string, schemas: ConfigSchema[]): void {
+  // 注册到 configResolver
+  registerConfigSchema(prefix, schemas);
+  
+  // 提取位置参数映射（用于 rendererArgs 的兼容）
+  const positional = schemas
+    .filter(s => (s as any).positionalIndex !== undefined)
+    .sort((a, b) => ((a as any).positionalIndex || 0) - ((b as any).positionalIndex || 0))
+    .map(s => s.key);
+  
+  // 如果有位置参数，注册到 rendererArgs
+  if (positional.length > 0) {
+    // 检查全局是否存在 registerRendererArgModel
+    // 避免循环依赖的问题
+    if (typeof (globalThis as any).__rendererArgModelRegistry === 'function') {
+      (globalThis as any).__rendererArgModelRegistry(prefix, { positional });
+    } else {
+      // 在测试环境或特定场景下，尝试直接注册
+      try {
+        // @ts-ignore
+        const { registerRendererArgModel } = require('./rendererArgs');
+        registerRendererArgModel(prefix, { positional });
+      } catch {
+        // 忽略导入失败，不会影响核心功能
+      }
+    }
+  }
+}
+
 export function resolveConfigFromTokens<T extends Record<string, any>>(
   schemas: ConfigSchema[],
   macroArgs: Record<string, string>,
