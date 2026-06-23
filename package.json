@@ -48,7 +48,7 @@
     "test:coverage": "vitest --coverage",
     "test:css": "vitest run src/__tests__/css*.test.ts src/__tests__/components/*.test.ts",
     "test:css:watch": "vitest watch src/__tests__/css*.test.ts src/__tests__/components/*.test.ts",
-    "validate:translations": "node scripts/validate-translations.js",
+    "validate:translations": "node scripts/check-i18n.cjs --strict",
     "build": "npm run validate:translations && vite build --mode test && npm run copy-assets",
     "build:devplugin": "npm run validate:translations && vite build --config vite.devplugin.config.js --mode dev && npm run copy-assets",
     "build:devplugin:watch": "npm run validate:translations && vite build --config vite.devplugin.config.js --watch && npm run copy-assets",
