@@ -393,6 +393,46 @@
   margin-top: 20px;
 }
 
+/* 模式指示器 */
+.mode-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.mode-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.mode-badge.mock {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.mode-badge.proxy {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #3b82f6;
+}
+
+.dark-mode .mode-badge.mock {
+  background: #78350f;
+  color: #fbbf24;
+  border-color: #f59e0b;
+}
+
+.dark-mode .mode-badge.proxy {
+  background: #1e3a8a;
+  color: #60a5fa;
+  border-color: #3b82f6;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .center-content {

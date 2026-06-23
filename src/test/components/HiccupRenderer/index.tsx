@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
-import { logger } from '../../../lib/logger/logger.ts';
+import logger from '../../../lib/logger/index';
 
 // HTML 转义，防止 xss & 特殊字符
 function escapeHtml(str: string): string {
@@ -173,6 +173,7 @@ function parseHiccupArray(str: string): any {
   
   skipWhitespace();
   if (str[pos] !== '[') {
+    logger.error('Hiccup must start with [');
     throw new Error('Hiccup must start with [');
   }
   
@@ -186,6 +187,7 @@ function parseHiccupString(str: string): string {
   
   // 检查是否是数组形式
   if (!str.startsWith('[') || !str.endsWith(']')) {
+    logger.error('Hiccup must be an array starting with [ and ending with ]');
     throw new Error('Hiccup must be an array starting with [ and ending with ]');
   }
   
@@ -239,11 +241,11 @@ function HiccupRenderer({ initialContent = '[:p "Hello, Hiccup!"]' }: HiccupRend
   // 解析和渲染 hiccup 内容
   const renderHiccup = (content: string) => {
     try {
-      logger.debug('解析 hiccup 内容:', content);
+      logger.info('解析 hiccup 内容:', content);
       
       // 处理混合文本
       const html = processMixedContent(content);
-      logger.debug('序列化结果:', html);
+      logger.info('序列化结果:', html);
       setRenderedContent(<div dangerouslySetInnerHTML={{ __html: html }} />);
     } catch (error) {
       logger.error('Hiccup 解析错误:', error);

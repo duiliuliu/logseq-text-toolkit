@@ -1,0 +1,10 @@
+{
+  "title": "Text Toolkit",
+  "description": "A toolkit for text formatting and manipulation",
+  "author": "duiliuliu",
+  "repo": "duiliuliu/logseq-text-toolkit",
+  "icon": "./icon.png",
+  "unsupportedGraphType": "file",
+  "supportsDB": true,
+  "supportsDBOnly": true
+}

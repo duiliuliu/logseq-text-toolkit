@@ -1,147 +1,356 @@
 /* src/main.css */
 
-/* Light theme variables - 参考 shadcn 和苹果设计 */
-:root {
-  --background-color-light: #ffffff;
-  --text-color-light: #000000;
-  --primary-text-color-light: #1e293b;
-  --secondary-text-color-light: #64748b;
-  --secondary-background-color-light: #f8fafc;
-  --border-color-light: #e2e8f0;
-  --accent-color-light: #3b82f6;
-  --hover-color-light: #f1f5f9;
-  --focus-color-light: #dbeafe;
-  
-  /* Dark theme variables - 参考 shadcn 和苹果设计 */
-  --background-color-dark: #0f172a;
-  --text-color-dark: #ffffff;
-  --primary-text-color-dark: #f1f5f9;
-  --secondary-text-color-dark: #94a3b8;
-  --secondary-background-color-dark: #1e293b;
-  --border-color-dark: #334155;
-  --accent-color-dark: #60a5fa;
-  --hover-color-dark: #334155;
-  --focus-color-dark: #1e3a8a;
-  
-  /* Default theme variables - 优先使用Logseq系统变量，保留默认值作为回退 */
-  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));
-  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));
-  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));
-  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));
-  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));
-  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));
-  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));
-  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));
-}
+/* ============================================
+   LTT (Logseq Text Toolkit) Design Tokens
+   ============================================ */
 
-/* Media query for dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));
-    --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));
-    --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));
-    --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));
-    --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));
-    --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
-    --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
-    --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
-  }
-}
-
-/* Theme classes */
+:root,
 .light-mode {
-  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-light, #ffffff));
-  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-light, #f8fafc));
-  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-light, #1e293b));
-  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-light, #64748b));
-  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-light, #e2e8f0));
-  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-light, #3b82f6));
-  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-light, #f1f5f9));
-  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-light, #dbeafe));
+  /* ---- 颜色 - 背景 ---- */
+  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);
+  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);
+  --ltt-bg-tertiary: #f1f5f9;
+  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);
+  --ltt-bg-inverse: #0f172a;
+
+  /* ---- 颜色 - 文本 ---- */
+  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);
+  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);
+  --ltt-text-muted: #94a3b8;
+  --ltt-text-inverse: #f8fafc;
+
+  /* ---- 颜色 - 边框 ---- */
+  --ltt-border: var(--ls-border-color, #e2e8f0);
+  --ltt-border-strong: #cbd5e1;
+
+  /* ---- 颜色 - 强调 ---- */
+  --ltt-accent: #000000;
+  --ltt-accent-hover: #1a1a1a;
+  --ltt-accent-muted: rgba(0, 0, 0, 0.1);
+
+  /* ---- 颜色 - 状态 ---- */
+  --ltt-success: #10b981;
+  --ltt-warning: #f59e0b;
+  --ltt-error: #ef4444;
+  --ltt-info: #3b82f6;
+
+  /* ---- 间距 ---- */
+  --ltt-spacing-xs: 4px;
+  --ltt-spacing-sm: 8px;
+  --ltt-spacing-md: 12px;
+  --ltt-spacing-lg: 16px;
+  --ltt-spacing-xl: 24px;
+
+  /* ---- 圆角 ---- */
+  --ltt-radius-sm: 4px;
+  --ltt-radius-md: 6px;
+  --ltt-radius-lg: 8px;
+  --ltt-radius-xl: 12px;
+  --ltt-radius-full: 9999px;
+
+  /* ---- 阴影 ---- */
+  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* ---- 过渡 ---- */
+  --ltt-transition-fast: 150ms ease;
+  --ltt-transition-normal: 200ms ease;
+  --ltt-transition-slow: 300ms ease;
+
+  /* ---- 字体 ---- */
+  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ltt-font-size-xs: 10px;
+  --ltt-font-size-sm: 12px;
+  --ltt-font-size-md: 14px;
+  --ltt-font-size-lg: 16px;
+  --ltt-font-size-xl: 18px;
+
+  /* ---- 向后兼容别名 ---- */
+  --ls-primary-background-color-plugin: var(--ltt-bg-primary);
+  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);
+  --ls-primary-text-color-plugin: var(--ltt-text-primary);
+  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);
+  --ls-border-color-plugin: var(--ltt-border);
+  --ls-accent-color-plugin: var(--ltt-accent);
+  --ls-hover-color-plugin: var(--ltt-bg-hover);
+  --ls-focus-color-plugin: var(--ltt-accent-muted);
 }
 
-.dark-mode {
-  --ls-primary-background-color-plugin: var(--ls-primary-background-color, var(--background-color-dark, #0f172a));
-  --ls-secondary-background-color-plugin: var(--ls-secondary-background-color, var(--secondary-background-color-dark, #1e293b));
-  --ls-primary-text-color-plugin: var(--ls-primary-text-color, var(--primary-text-color-dark, #f1f5f9));
-  --ls-secondary-text-color-plugin: var(--ls-secondary-text-color, var(--secondary-text-color-dark, #94a3b8));
-  --ls-border-color-plugin: var(--ls-border-color, var(--border-color-dark, #334155));
-  --ls-accent-color-plugin: var(--ls-active-primary-color, var(--accent-color-dark, #60a5fa));
-  --ls-hover-color-plugin: var(--ls-menu-hover-color, var(--hover-color-dark, #334155));
-  --ls-focus-color-plugin: var(--ls-focus-ring-color, var(--focus-color-dark, #1e3a8a));
+/* ---- 深色主题 ---- */
+.dark-mode,
+[data-theme="dark"] {
+  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);
+  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);
+  --ltt-bg-tertiary: #334155;
+  --ltt-bg-hover: #475569;
+  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);
+  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);
+  --ltt-text-muted: #64748b;
+  --ltt-border: var(--ls-border-color, #334155);
+  --ltt-border-strong: #475569;
+  --ltt-accent: #e5e5e5;
+  --ltt-accent-hover: #f5f5f5;
+  --ltt-accent-muted: rgba(255, 255, 255, 0.1);
 }
 
-:root {
-  font-family: 'Roboto', 'Noto Sans JP', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-  color-scheme: light;
-  color: #213547;
-  background-color: #ffffff;
+/* =========================================================
+   LTT Theme: Notion Style (Optional)
+   简洁白、灰度、柔和圆角
+========================================================= */
+
+.ltt-theme-notion {
+  /* 背景 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #f7f6f3;
+  --ltt-bg-tertiary: #efefef;
+  --ltt-bg-hover: #e8e7e4;
+  
+  /* 文本 */
+  --ltt-text-primary: #37352f;
+  --ltt-text-secondary: #9b9a97;
+  --ltt-text-muted: #787774;
+  
+  /* 边框 */
+  --ltt-border: #e9e9e7;
+  --ltt-border-strong: #d9d9d7;
+  
+  /* 强调色 */
+  --ltt-accent: #2383e2;
+  --ltt-accent-hover: #1b6fc4;
+  --ltt-accent-muted: #e8f2fc;
+  
+  /* 状态色 */
+  --ltt-success: #23894c;
+  --ltt-warning: #d5a500;
+  --ltt-error: #eb5757;
+  
+  /* 圆角 */
+  --ltt-radius-sm: 3px;
+  --ltt-radius-md: 4px;
+  --ltt-radius-lg: 6px;
+  --ltt-radius-xl: 8px;
+  
+  /* 阴影 - Notion 阴影较轻 */
+  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);
+  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --ltt-shadow-lg: none;
 }
 
-/* 链接样式 */
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-/* 按钮样式 */
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #f9f9f9;
-  color: #213547;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.ltt-theme-notion.dark-mode,
+.ltt-theme-notion[data-theme="dark"] {
+  --ltt-bg-primary: #191919;
+  --ltt-bg-secondary: #242424;
+  --ltt-bg-tertiary: #2d2d2d;
+  --ltt-text-primary: #ffffff;
+  --ltt-text-secondary: #9b9b9b;
+  --ltt-border: #373737;
+  --ltt-accent: #2383e2;
 }
 
-/* 允许内容区域的文本被选择 */
-.content-section {
-  user-select: text;
+/* =========================================================
+   LTT Theme: Tana Style (Optional)
+   绿色强调、卡片式布局
+========================================================= */
+
+.ltt-theme-tana {
+  /* 背景 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #f8faf9;
+  --ltt-bg-tertiary: #f0f4f2;
+  --ltt-bg-hover: #e8f0ec;
+  
+  /* 文本 */
+  --ltt-text-primary: #1a2e22;
+  --ltt-text-secondary: #5a7265;
+  --ltt-text-muted: #8fa99a;
+  
+  /* 边框 */
+  --ltt-border: #d4e0d9;
+  --ltt-border-strong: #b8cec3;
+  
+  /* 强调色 - Tana 绿色 */
+  --ltt-accent: #10b981;
+  --ltt-accent-hover: #059669;
+  --ltt-accent-muted: #d1fae5;
+  
+  /* 状态色 */
+  --ltt-success: #10b981;
+  --ltt-warning: #f59e0b;
+  --ltt-error: #ef4444;
+  
+  /* 圆角 - Tana 圆角较大 */
+  --ltt-radius-sm: 6px;
+  --ltt-radius-md: 8px;
+  --ltt-radius-lg: 12px;
+  --ltt-radius-xl: 16px;
+  
+  /* 阴影 - Tana 卡片阴影 */
+  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);
+  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);
+  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);
 }
 
-body {
-  width: auto;
-  height: 90%;
-  margin: 0;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  overflow: auto;
-  background-color: transparent;
+.ltt-theme-tana.dark-mode,
+.ltt-theme-tana[data-theme="dark"] {
+  --ltt-bg-primary: #13151a;
+  --ltt-bg-secondary: #1c1f26;
+  --ltt-bg-tertiary: #252830;
+  --ltt-bg-hover: #2d323c;
+  --ltt-text-primary: #e8eaed;
+  --ltt-text-secondary: #9ca3af;
+  --ltt-text-muted: #6b7280;
+  --ltt-border: #2d323c;
+  --ltt-border-strong: #3d424c;
+  --ltt-accent: #10b981;
+  --ltt-accent-hover: #059669;
+  --ltt-accent-muted: #064e3b;
 }
 
-/* Dark mode button and link styles */
-.dark-mode button {
-  background-color: #1a1a1a !important;
-  color: rgba(255, 255, 255, 0.87) !important;
+/* =========================================================
+   LTT Theme: Linear Style (Optional)
+   深色优先、紫色强调、紧凑
+========================================================= */
+
+.ltt-theme-linear {
+  /* 背景 - Linear 偏好深色背景 */
+  --ltt-bg-primary: #13151a;
+  --ltt-bg-secondary: #1c1f26;
+  --ltt-bg-tertiary: #252830;
+  --ltt-bg-hover: #2d323c;
+  
+  /* 文本 - 高对比度 */
+  --ltt-text-primary: #e8eaed;
+  --ltt-text-secondary: #9ca3af;
+  --ltt-text-muted: #6b7280;
+  
+  /* 边框 - Linear 边框较细 */
+  --ltt-border: #2d323c;
+  --ltt-border-strong: #3d424c;
+  
+  /* 强调色 - Linear 紫色 */
+  --ltt-accent: #5e6ad2;
+  --ltt-accent-hover: #4f5abd;
+  --ltt-accent-muted: #2a2d42;
+  
+  /* 状态色 */
+  --ltt-success: #26c940;
+  --ltt-warning: #f59e0b;
+  --ltt-error: #eb5757;
+  
+  /* 圆角 - Linear 圆角较小 */
+  --ltt-radius-sm: 3px;
+  --ltt-radius-md: 4px;
+  --ltt-radius-lg: 6px;
+  --ltt-radius-xl: 8px;
+  
+  /* 阴影 - Linear 深色阴影 */
+  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
-.dark-mode a {
-  color: #646cff !important;
+.ltt-theme-linear.light-mode {
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #f8f9fa;
+  --ltt-text-primary: #1e293b;
+  --ltt-accent: #5e6ad2;
 }
 
-.dark-mode a:hover {
-  color: #535bf2 !important;
+/* =========================================================
+   LTT Theme: Indigo Style (Optional)
+   Indigo 渐变、科技感
+========================================================= */
+
+.ltt-theme-indigo {
+  /* 背景 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #eef2ff;
+  --ltt-bg-tertiary: #e0e7ff;
+  --ltt-bg-hover: #c7d2fe;
+  
+  /* 文本 */
+  --ltt-text-primary: #1e1b4b;
+  --ltt-text-secondary: #4338ca;
+  --ltt-text-muted: #6366f1;
+  
+  /* 边框 */
+  --ltt-border: #c7d2fe;
+  --ltt-border-strong: #a5b4fc;
+  
+  /* 强调色 - Indigo 渐变 */
+  --ltt-accent: #6366f1;
+  --ltt-accent-hover: #4f46e5;
+  --ltt-accent-muted: #e0e7ff;
+  
+  /* 状态色 */
+  --ltt-success: #059669;
+  --ltt-warning: #d97706;
+  --ltt-error: #dc2626;
+  
+  /* 圆角 */
+  --ltt-radius-sm: 4px;
+  --ltt-radius-md: 6px;
+  --ltt-radius-lg: 8px;
+  --ltt-radius-xl: 12px;
+  
+  /* 阴影 - Indigo 阴影带色相 */
+  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);
+  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);
+  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);
 }
+
+.ltt-theme-indigo.dark-mode,
+.ltt-theme-indigo[data-theme="dark"] {
+  --ltt-bg-primary: #12151a;
+  --ltt-bg-secondary: #1e293b;
+  --ltt-bg-tertiary: #334155;
+  --ltt-bg-hover: #374151;
+  --ltt-text-primary: #e5e7eb;
+  --ltt-text-secondary: #9ca3af;
+  --ltt-text-muted: #6b7280;
+  --ltt-border: #374151;
+  --ltt-border-strong: #475569;
+  --ltt-accent: #6366f1;
+  --ltt-accent-hover: #4f46e5;
+  --ltt-accent-muted: #1e293b;
+}
+
+/* =========================================================
+   LTT Theme: Minimal Style (Optional)
+   极致简洁、无边框
+========================================================= */
+
+.ltt-theme-minimal {
+  /* 背景 - 纯白 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #fafafa;
+  --ltt-bg-tertiary: #f5f5f5;
+  --ltt-bg-hover: #f0f0f0;
+  
+  /* 文本 */
+  --ltt-text-primary: #000000;
+  --ltt-text-secondary: #666666;
+  --ltt-text-muted: #999999;
+  
+  /* 边框 - Minimal 几乎无边框 */
+  --ltt-border: #f0f0f0;
+  --ltt-border-strong: #e0e0e0;
+  
+  /* 强调色 - Minimal 黑色强调 */
+  --ltt-accent: #000000;
+  --ltt-accent-hover: #333333;
+  --ltt-accent-muted: #f5f5f5;
+  
+  /* 圆角 - Minimal 极小圆角 */
+  --ltt-radius-sm: 0px;
+  --ltt-radius-md: 0px;
+  --ltt-radius-lg: 2px;
+  --ltt-radius-xl: 4px;
+  
+  /* 阴影 - Minimal 无阴影 */
+  --ltt-shadow-sm: none;
+  --ltt-shadow-md: none;
+  --ltt-shadow-lg: none;
+}
+

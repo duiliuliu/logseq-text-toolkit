@@ -3,14 +3,145 @@
   "theme": "light",
   "language": "zh-CN",
   "toolbar": true,
-  "useSystemTheme": false,
-  "useSystemLanguage": false,
+  "dateFormat": "yyyy-MM-dd EEE",
+  "useSystemTheme": true,
+  "useSystemLanguage": true,
   "showBorder": false,
   "width": "110px",
   "height": "28px",
   "hoverDelay": 500,
   "sponsorEnabled": true,
   "developerMode": true,
+  "taskProgress": {
+    "enabled": true,
+    "defaultDisplayType": "mini-circle",
+    "showLabel": true,
+    "labelFormat": "fraction",
+    "displayOptions": {
+      "mini-circle": {
+        "size": "small"
+      },
+      "dot-matrix": {
+        "maxDots": 10,
+        "size": "small"
+      }
+    },
+    "nestingLevel": 3,
+    "onlyLeaves": false,
+    "showNestingIndicator": false,
+    "statusColors": {
+      "todo": "#f59e0b",
+      "doing": "#3b82f6",
+      "done": "#10b981",
+      "waiting": "#8b5cf6",
+      "canceled": "#6b7280",
+      "in-review": "#f97316"
+    },
+    "defaultSlashCommandTemplate": ":taskprogress mini-circle"
+  },
+  "heatmap": {
+    "enabled": true,
+    "defaultViewType": "year",
+    "defaultDisplayMode": "full",
+    "defaultColorFormula": "simple",
+    "colorScheme": {
+      "minColor": "#eef2ff",
+      "maxColor": "#3730a3",
+      "gradientSteps": 5
+    },
+    "defaultSlashCommandTemplate": ":heatmap, view=year, tag=Task"
+  },
+  "blockView": {
+    "enabled": true,
+    "defaultView": "list",
+    "defaultTheme": "default",
+    "hideViewBar": false,
+    "inline": false,
+    "table": {
+      "showStriped": true,
+      "showBorder": true,
+      "customTheme": {
+        "borderColor": "#e2e8f0",
+        "headerBgColor": "#f8fafc",
+        "headerTextColor": "#374151",
+        "cellTextColor": "#475569",
+        "headerBorderColor": "#cbd5e1",
+        "headerHeight": "40px",
+        "rowBgColor": "#ffffff",
+        "rowHoverBgColor": "#f1f5f9",
+        "rowBorderColor": "#e2e8f0",
+        "cellPadding": "8px 12px",
+        "tableBorderRadius": "8px"
+      }
+    },
+    "gallery": {
+      "showCardBorders": true,
+      "cardsPerRow": 3,
+      "customTheme": {
+        "borderColor": "#e2e8f0",
+        "cardBgColor": "#ffffff",
+        "cardHoverBgColor": "#f8fafc",
+        "headerBorderColor": "#e2e8f0",
+        "headerBgColor": "transparent",
+        "headerTextColor": "#374151",
+        "cardTextColor": "#475569",
+        "cardBorderRadius": "12px",
+        "cardShadow": "0 2px 8px rgba(0, 0, 0, 0.06)"
+      }
+    },
+    "board": {
+      "showColumnBorders": true,
+      "cardSpacing": "12px",
+      "customTheme": {
+        "borderColor": "#e2e8f0",
+        "columnBgColor": "#ffffff",
+        "columnHoverBgColor": "#f8fafc",
+        "headerBgColor": "transparent",
+        "headerTextColor": "#374151",
+        "cardBgColor": "#ffffff",
+        "cardTextColor": "#475569",
+        "cardBorderColor": "#e2e8f0",
+        "cardBorderRadius": "8px"
+      }
+    },
+    "defaultSlashCommandTemplate": ":blockview, view=list"
+  },
+  "summary": {
+    "enabled": true,
+    "defaultTemplate": "gtd-work-review",
+    "defaultType": "weekly",
+    "dateFormat": "yyyy-MM-dd EEE",
+    "weeklyPageNameTemplate": "周度总结-{{year}}-W{{week}}",
+    "monthlyPageNameTemplate": "月度总结-{{year}}-{{month}}",
+    "customPageNameTemplate": "自定义总结-{{date}}",
+    "ai": {
+      "enabled": false,
+      "provider": "openai",
+      "apiKey": "",
+      "apiUrl": "",
+      "model": "gpt-3.5-turbo",
+      "promptTemplate": ""
+    }
+  },
+  "milestone": {
+    "enabled": true,
+    "defaultStyle": "capsule",
+    "showLabel": true,
+    "showLabels": true,
+    "showProgress": true,
+    "tooltipStyle": "compact",
+    "templates": [],
+    "defaultColorScheme": {
+      "completed": "#10b981",
+      "inProgress": "#f59e0b",
+      "pending": "#d1d5db",
+      "failed": "#ef4444",
+      "skipped": "#9ca3af",
+      "background": "#ffffff",
+      "text": "#374151"
+    },
+    "defaultSlashCommandTemplate": ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure"
+  },
   "meta": {
     "language": {
       "languages": [
@@ -255,7 +386,7 @@
       "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 5L5 19M5 5l14 14\"/><path d=\"M9 3h6v2H9zM9 19h6v2H9z\"/></svg>",
       "invoke": "regexReplace",
       "invokeParams": {
-        "regex": "\\[:span\\.inline-comment\\s*\\{[^}]*\\}\\s*\"([^\"]*)\"\\]|\\[:(?:mark|span|u)\\.(?:red|blue|yellow|green|purple)\\s+([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`",
+        "regex": "\\[:span\\.inline-comment\\s*\\{[^}]*\\}\\s*([^\\]]*)\\]|\\[:(?:mark|span|u|sub|sup|b|i|s|code|cloze|div)(?:\\.(?:red|blue|yellow|green|purple))?\\s*([^\\]]*)\\]|==([^=]*)==|~~([^~]*)~~|\\*\\*([^\\*]*)\\*\\*|\\*([^\\*]*)\\*|`([^`]*)`",
         "replacement": "$1$2$3$4$5$6$7"
       },
       "hidden": true

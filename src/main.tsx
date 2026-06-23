@@ -2,200 +2,156 @@
  * Copyright (c) 2026 duiliuliu
  * License: MIT
  * 
- * 插件入口文件
+ * 插件入口 - 主初始化流程编排
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import TestApp from './test/testAPP.tsx'
-import SettingsModal from './components/SettingsModal'
-import SelectToolbar from './components/SelectToolbar'
-import CommentApp from './components/Comment/CommentApp.tsx'
-import { SettingsProvider } from './settings/useSettings.tsx'
-import { logseqAPI } from './logseq/index.ts'
-import { getSettings } from './settings/index.ts'
-import { getDocument } from './logseq/utils.ts'
-import { logger } from './lib/logger/logger.ts'
-import { initI18n } from './translations/i18n.ts'
-import { settingsModalCSS, modalCSS, toolbarCSS, inlineCommentCSS, cssConfigCSS } from './styles/index.ts'
+import { logseqAPI } from './logseq'
+import { getDocument } from './logseq/utils'
+import { renderComponent, clearAllRoots } from './lib/render'
+import TestApp from './test/testAPP'
+import logger from './lib/logger'
+import { initI18n } from './translations/i18n'
+import { loadAllCSS } from './lib/cssRegistry'
+import {
+  configureLogger,
+  initCommentApp,
+  initSelectToolbar,
+  initSettingsModal,
+  initTaskProgress,
+  initHeatmap,
+  initSummary,
+  initBlockView,
+  initMilestone,
+  registerLogseqButton,
+  settingToggle,
+  registerAllCSS,
+} from './initializer';
 
-const loadCSS = async () => {
-  try {
-    const cssFiles = [
-      { name: 'settingsModal.css', content: settingsModalCSS },
-      { name: 'modal.css', content: modalCSS },
-      { name: 'toolbar.css', content: toolbarCSS },
-      { name: 'inlineComment.css', content: inlineCommentCSS },
-      { name: 'customsToolbarItems.css', content: cssConfigCSS }
-    ];
+const cleanupFunctions: Array<() => void> = []
 
-    for (const cssFile of cssFiles) {
-      try {
-        const response = await fetch(`./${cssFile.name}`);
-        if (response.ok) {
-          const contentType = response.headers.get('content-type');
-          if (contentType && contentType.includes('text/css')) {
-            const cssContent = await response.text();
-            if (cssContent.trim()) {
-              logseqAPI.provideStyle(cssContent);
-              logger.info(`Loaded CSS file from root: ${cssFile.name}`);
-            } else {
-              logger.info(`CSS file is empty in root, using built-in CSS: ${cssFile.name}`);
-              if (cssFile.content) {
-                logseqAPI.provideStyle(cssFile.content);
-                logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-              }
-            }
-          } else {
-            logger.info(`Response is not CSS, using built-in CSS: ${cssFile.name}`);
-            if (cssFile.content) {
-              logseqAPI.provideStyle(cssFile.content);
-              logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-            }
-          }
-        } else {
-          logger.info(`CSS file not found in root, using built-in CSS: ${cssFile.name}`);
-          if (cssFile.content) {
-            logseqAPI.provideStyle(cssFile.content);
-            logger.info(`Loaded built-in CSS for ${cssFile.name}`);
-          }
-        }
-      } catch (error) {
-        logger.warn(`Error loading CSS file from root ${cssFile.name}:`, error);
-        if (cssFile.content) {
-          logseqAPI.provideStyle(cssFile.content);
-          logger.info(`Loaded built-in CSS for ${cssFile.name} (fallback)`);
-        }
-      }
+/* ============================================================================
+   清理函数
+   ============================================================================ */
+
+/**
+ * 清理插件资源
+ * 卸载所有 React 根节点并执行注册的清理函数
+ */
+export function cleanup(): void {
+  clearAllRoots()
+  cleanupFunctions.forEach(fn => {
+    try {
+      fn()
+    } catch (error) {
+      logger.error('🧹 Main: Cleanup error', error)
     }
-  } catch (error) {
-    logger.error('Error in loadCSS:', error);
-  }
-};
-
-const TOOLBAR_ID = 'text-toolkit-toolbar'
-const SETTINGS_ID = 'text-toolkit-settings'
-const COMMENT_APP_ID = 'text-toolkit-comment-app'
-
-interface RenderComponentProps {
-  [key: string]: any
-}
-
-const renderComponent = (container: HTMLElement | null, Component: React.ComponentType<any>, props: RenderComponentProps = {}) => {
-  if (container) {
-    ReactDOM.createRoot(container).render(
-      <React.StrictMode>
-        <SettingsProvider>
-          <Component {...props} />
-        </SettingsProvider>
-      </React.StrictMode>
-    )
-  }
-}
-
-let settingsModalOpen = false;
-
-const showSettingUI = async () => {
-  logseqAPI.provideUI({
-    key: SETTINGS_ID,
-    path: '#app-container',
-    template: `<div id="${SETTINGS_ID}"></div>`,
   })
-
-  setTimeout(() => {
-    const container = getDocument().getElementById(SETTINGS_ID)
-    if (container) {
-      const currentSettings = getSettings()
-      renderComponent(container, SettingsModal, {
-        isOpen: settingsModalOpen,
-        onClose: () => {
-          settingsModalOpen = false;
-          showSettingUI();
-        },
-        theme: currentSettings.theme,
-      })
-    }
-  }, 1)
+  cleanupFunctions.length = 0
 }
 
-const settingToggle = async () => {
-  settingsModalOpen = !settingsModalOpen;
-  showSettingUI();
-}
+/* ============================================================================
+   基础资源初始化
+   ============================================================================ */
 
-const showCommentApp = async () => {
-  logseqAPI.provideUI({
-    key: COMMENT_APP_ID,
-    path: '#app-container',
-    template: `<div id="${COMMENT_APP_ID}"></div>`,
-  })
-
-  setTimeout(() => {
-    const commentContainer = getDocument().getElementById(COMMENT_APP_ID)
-    if (commentContainer) {
-      renderComponent(commentContainer, CommentApp)
-    }
-  }, 1)
-}
-
-const showSelectToolbar = async () => {
-  const currentSettings = getSettings()
-  if (currentSettings.toolbar) {
-    logseqAPI.provideUI({
-      key: TOOLBAR_ID,
-      path: '#app-container',
-      template: `<div id="${TOOLBAR_ID}"></div>`,
-    })
-
-    setTimeout(() => {
-      const toolbarContainer = getDocument().getElementById(TOOLBAR_ID)
-      const mainContentContainer = getDocument().getElementById('main-content-container')
-      if (toolbarContainer && mainContentContainer) {
-        const currentSettings = getSettings()
-        const toolbarItems = currentSettings.ToolbarItems || []
-        
-        renderComponent(toolbarContainer, SelectToolbar, {
-          targetElement: mainContentContainer,
-          items: toolbarItems,
-        })
-      }
-    }, 1)
-  }
-}
-
-const main = async () => {
+/**
+ * 初始化插件基础资源
+ * - 注册 CSS 样式
+ * - 初始化国际化
+ * - 配置日志系统
+ */
+export async function initializePlugin(): Promise<void> {
   try {
-    await loadCSS()
+    logger.info('🚀 Plugin: Starting initialization...')
+
+    registerAllCSS()
+    await loadAllCSS()
+    logger.info('🎨 Plugin: CSS registered')
 
     await initI18n()
-    logger.info('I18n initialized successfully')
+    logger.info('🌐 Plugin: I18n initialized')
 
-    logseqAPI.provideModel({ settingToggle })
+    configureLogger()
+    logger.info('⚙️ Plugin: Logger configured')
 
-    await showSettingUI()
-
-    logseqAPI.App.registerUIItem('toolbar', {
-      key: 'text-toolkit-settings-btn',
-      template: `
-        <a class="button" id="ltt-settings-button"
-        data-on-click="settingToggle"
-        data-rect>
-         <i class="ti ti-text-wrap"></i>
-        </a>
-      `,
-    })
-
-    await showSelectToolbar()
-    await showCommentApp()
+    logger.info('✅ Plugin: Initialized successfully')
   } catch (error) {
-    logger.error('Failed to initialize Text Toolkit Plugin:', error)
+    logger.error('❌ Plugin: Initialization failed', error)
+    throw error
   }
 }
 
+/* ============================================================================
+   组件初始化
+   ============================================================================ */
+
+/**
+ * 初始化所有 UI 组件
+ * - 注册日志模型
+ * - TaskProgress 宏
+ * - SettingsModal 设置弹窗
+ * - SelectToolbar 工具栏
+ * - CommentApp 评论功能
+ */
+export async function initializeComponent(): Promise<void> {
+  logseqAPI.provideModel({ settingToggle })
+
+  await initTaskProgress()
+  logger.info('📊 Plugin: TaskProgress ready')
+
+  await initHeatmap()
+  logger.info('🌡️ Plugin: Heatmap ready')
+
+  await initSettingsModal()
+  registerLogseqButton()
+  logger.info('⚙️ Plugin: SettingsModal ready')
+
+  await initSelectToolbar()
+  logger.info('🛠️ Plugin: SelectToolbar ready')
+
+  await initCommentApp()
+  logger.info('💬 Plugin: CommentApp ready')
+
+  await initSummary()
+  logger.info('📋 Plugin: Summary ready')
+
+  await initBlockView()
+  logger.info('📊 Plugin: BlockView ready')
+
+  await initMilestone()
+  logger.info('🏷️ Plugin: Milestone ready')
+
+  cleanupFunctions.push(() => logger.info('🧹 Plugin: Cleaning up...'))
+  logger.info('✅ Plugin: Components initialized')
+}
+
+/* ============================================================================
+   主入口
+   ============================================================================ */
+
+/**
+ * 插件主入口函数
+ * 依次执行基础资源初始化和组件初始化
+ */
+export async function main(): Promise<void> {
+  await initializePlugin()
+  await initializeComponent()
+}
+
+/* ============================================================================
+   启动入口
+   ============================================================================ */
+
+/** 测试模式渲染 TestApp */
 if (import.meta.env.MODE === 'test') {
   const rootElement = getDocument().getElementById('root')
   renderComponent(rootElement, TestApp)
-  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
-} else { 
-  logseqAPI.ready(main).catch((err) => logger.error('Plugin ready error:', err))
 }
+
+/** Logseq 插件就绪后执行主流程 */
+logseqAPI.ready(async () => {
+  try {
+    await main()
+  } catch (error) {
+    logger.error('💥 Plugin: Fatal error', error)
+  }
+})

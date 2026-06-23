@@ -1,23 +1,72 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
+ * Mock Logseq App API
+ * 支持 HTTP API 调用模式
+ */
+
 import { getDocument } from '../utils.ts';
+import { httpClient, HTTPAPIConfig } from './httpClient';
 
 const eventListeners: Map<string, Array<(...args: any[]) => void>> = new Map();
 
+const logger = {
+  info: (message: string, ...args: any[]) => console.log(`[INFO] ${message}`, ...args),
+  warn: (message: string, ...args: any[]) => console.warn(`[WARN] ${message}`, ...args),
+  error: (message: string, ...args: any[]) => console.error(`[ERROR] ${message}`, ...args),
+};
+
 const App: any = {
-  // 注册命令
+  httpClient: httpClient,
+
+  setHTTPAPIConfig: (config: HTTPAPIConfig | null) => {
+    if (config) {
+      httpClient.setConfig(config.baseUrl, config.token);
+      logger.info('[Mock App] HTTP API configured:', config.baseUrl);
+    } else {
+      httpClient.disable();
+      logger.info('[Mock App] HTTP API disabled');
+    }
+  },
+
+  useHTTPAPI: function (this: any, baseUrl: string, token: string): any {
+    httpClient.setConfig(baseUrl, token);
+
+    const wrappedApp: any = {};
+    const self = this;
+
+    for (const key of Object.keys(App)) {
+      if (key === 'useHTTPAPI' || key === 'httpClient' || key === 'setHTTPAPIConfig') continue;
+
+      wrappedApp[key] = async function (...args: any[]) {
+        if (httpClient.isEnabled()) {
+          const methodName = `logseq.App.${key}`;
+          try {
+            return await httpClient.callMethod(methodName, args);
+          } catch (err) {
+            logger.warn(`[Mock App] HTTP call failed for ${key}, falling back to mock:`, err);
+          }
+        }
+        return App[key].call(self, ...args);
+      };
+    }
+
+    return wrappedApp;
+  },
+
   registerCommand: (command: any) => {
     console.log('Registered command:', command);
   },
-  
-  // 注册事件监听器
+
   on: (event: string, callback: (...args: any[]) => void) => {
     console.log('Registered event listener:', event);
-    
+
     if (!eventListeners.has(event)) {
       eventListeners.set(event, []);
     }
     eventListeners.get(event)?.push(callback);
-    
-    // 特殊处理 selectionChange 事件
+
     if (event === 'selectionChange') {
       const doc = getDocument();
       doc.addEventListener('mouseup', () => {
@@ -42,11 +91,10 @@ const App: any = {
       App.off(event, callback);
     };
   },
-  
-  // 移除事件监听器
+
   off: (event: string, callback?: (...args: any[]) => void) => {
     console.log('Unregistered event listener:', event);
-    
+
     if (callback && eventListeners.has(event)) {
       const listeners = eventListeners.get(event);
       if (listeners) {
@@ -59,10 +107,15 @@ const App: any = {
       eventListeners.delete(event);
     }
   },
-  
-  // 获取用户配置
-  getUserConfigs: () => {
-    console.log('Get user configs');
+
+  getUserConfigs: async function (this: any) {
+    if (httpClient.isEnabled()) {
+      try {
+        return await httpClient.getUserConfigs();
+      } catch (err) {
+        logger.warn('[Mock App] HTTP getUserConfigs failed, using mock:', err);
+      }
+    }
     return Promise.resolve({
       preferredThemeMode: 'light',
       preferredFormat: 'markdown',
@@ -76,31 +129,38 @@ const App: any = {
       enabledJournals: true
     });
   },
-  
-  // 注册UI项
+
+  getAppInfo: () => {
+    console.log('Get app info');
+    return Promise.resolve({
+      preferredLanguage: 'zh-CN',
+      version: '0.10.0'
+    });
+  },
+
+  onThemeModeChanged: (callback: (event: { mode: string }) => void) => {
+    console.log('[Mock App] onThemeModeChanged registered');
+    return () => console.log('[Mock App] onThemeModeChanged unregistered');
+  },
+
   registerUIItem: (slot: string, config: any) => {
     console.log('Registered UI item:', slot, config);
-    
-    // 尝试添加UI项，带有重试机制
+
     const tryAddUIItem = () => {
-      // 查找id=toolbar的元素
       const doc = getDocument();
       const toolbarElement = doc.getElementById('toolbar');
       if (toolbarElement) {
-        // 检查是否已存在该key的元素
         const existingElement = doc.getElementById(config.key);
         if (existingElement) {
           existingElement.remove();
         }
-        
-        // 创建新元素并添加到toolbar
+
         const element = doc.createElement('div');
         element.id = config.key;
         element.innerHTML = config.template;
         toolbarElement.appendChild(element);
         console.log('Added UI item to toolbar:', config.key);
-        
-        // 为带有 data-on-click 属性的元素添加事件监听器
+
         const clickableElements = element.querySelectorAll('[data-on-click]');
         clickableElements.forEach(clickable => {
           clickable.addEventListener('click', (e) => {
@@ -115,40 +175,55 @@ const App: any = {
             }
           });
         });
-        
+
         return true;
       }
       return false;
     };
-    
-    // 立即尝试一次
+
     if (!tryAddUIItem()) {
-      // 如果失败，使用MutationObserver等待toolbar元素出现
       const observer = new MutationObserver((_, obs) => {
         if (tryAddUIItem()) {
           obs.disconnect();
         }
       });
-      
+
       const doc = getDocument();
       observer.observe(doc.body, {
         childList: true,
         subtree: true
       });
-      
-      // 设置超时，防止无限等待
+
       setTimeout(() => {
         observer.disconnect();
         console.warn('Timeout waiting for toolbar element, UI item not added:', config.key);
       }, 5000);
     }
   },
-  
-  // 触发事件
+
+  onMacroRendererSlotted: (callback: Function) => {
+    console.log('Mock App.onMacroRendererSlotted registered');
+    globalThis.logseqMacroRendererCallback = callback;
+  },
+
   trigger: (event: string, ...args: any[]) => {
     console.log('Trigger event:', event, args);
     const listeners = eventListeners.get(event);
     listeners?.forEach(callback => callback(...args));
+  },
+
+  pushState: (page: string, params: any) => {
+    logger.info(`[Mock] App.pushState: ${page}`, params);
+    const message = params.date
+      ? `跳转到日期页面: ${params.date}`
+      : params.name
+        ? `跳转到页面: ${params.name}`
+        : `跳转到页面: ${page}`;
+    if ((window as any).addToast) {
+      (window as any).addToast(message, 'info', 3000);
+    } else {
+      alert(message);
+    }
   }
 };
 

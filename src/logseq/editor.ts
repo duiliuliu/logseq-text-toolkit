@@ -7,47 +7,36 @@
  */
 
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
+import logger from './logger';
 
- 
-// 从 @logseq/libs 导入 BlockUUID 类型
 type BlockUUID = string;
 
-/**
- * 获取当前选中的块
- * @returns {Promise<BlockEntity|null>} 当前块对象或null
- */
 export const getCurrentBlock = async (): Promise<BlockEntity | null> => {
   try {
     if (typeof logseq === 'undefined') {
-      console.error('Logseq API is not available');
+      logger.error('Logseq API is not available');
       return null;
     }
     
     const block = await logseq.Editor.getCurrentBlock();
     return block;
   } catch (error) {
-    console.error('Error getting current block:', error);
+    logger.error('Error getting current block:', error);
     return null;
   }
 };
 
-/**
- * 更新块内容
- * @param {BlockUUID} blockId - 块的UUID
- * @param {string} content - 新的内容
- * @returns {Promise<boolean>} 更新是否成功
- */
 export const updateBlock = async (blockId: BlockUUID, content: string): Promise<boolean> => {
   try {
     if (typeof logseq === 'undefined') {
-      console.error('Logseq API is not available');
+      logger.error('Logseq API is not available');
       return false;
     }
     
     const success = await logseq.Editor.updateBlock(blockId, content);
     return success;
   } catch (error) {
-    console.error('Error updating block:', error);
+    logger.error('Error updating block:', error);
     return false;
   }
 };

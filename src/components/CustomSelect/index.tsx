@@ -17,6 +17,8 @@ interface CustomSelectProps {
 function CustomSelect({ options, value, onChange, placeholder = '' }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0, width: 0 })
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -26,11 +28,30 @@ function CustomSelect({ options, value, onChange, placeholder = '' }: CustomSele
     }
 
     const doc = getDocument()
-    doc.addEventListener('mousedown', handleClickOutside)
+    if (doc && doc.addEventListener) {
+      doc.addEventListener('mousedown', handleClickOutside)
+    }
     return () => {
-      doc.removeEventListener('mousedown', handleClickOutside)
+      const cleanupDoc = getDocument()
+      if (cleanupDoc && cleanupDoc.removeEventListener) {
+        cleanupDoc.removeEventListener('mousedown', handleClickOutside)
+      }
     }
   }, [])
+
+  useEffect(() => {
+    if (isOpen && selectRef.current) {
+      const rect = selectRef.current.getBoundingClientRect()
+      const scrollTop = window.scrollY || document.documentElement.scrollTop
+      const scrollLeft = window.scrollX || document.documentElement.scrollLeft
+      
+      setMenuPosition({
+        top: rect.bottom + scrollTop + 2,
+        left: rect.left + scrollLeft,
+        width: rect.width
+      })
+    }
+  }, [isOpen])
 
   const handleOptionClick = (option: Option) => {
     onChange(option.value)
@@ -49,7 +70,16 @@ function CustomSelect({ options, value, onChange, placeholder = '' }: CustomSele
         <span className="custom-select__arrow">▼</span>
       </div>
       {isOpen && (
-        <div className="custom-select__menu">
+        <div 
+          ref={menuRef}
+          className="custom-select__menu"
+          style={{
+            position: 'fixed',
+            top: menuPosition.top,
+            left: menuPosition.left,
+            width: menuPosition.width
+          }}
+        >
           {options.map(option => (
             <div
               key={option.value}

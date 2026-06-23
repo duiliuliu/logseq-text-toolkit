@@ -15,7 +15,7 @@ import {
   eventBus
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
-import { logger } from '../../lib/logger/logger.ts';
+import logger from '../../lib/logger/index';
 
 interface ToolbarPosition {
   x: number;
@@ -48,13 +48,14 @@ interface SelectToolbarProps {
   height?: string;
   hoverDelay?: number;
   sponsorEnabled?: boolean;
+  defaultShow?: boolean;
 }
 
-function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProps) {
+function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false }: SelectToolbarProps) {
   const { settings } = useSettingsContext();
   const [selectedData, setSelectedData] = useState<SelectedData>({ text: '' });
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 });
-  const [showToolbar, setShowToolbar] = useState(false);
+  const [showToolbar, setShowToolbar] = useState(defaultShow);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const selectionStateRef = useRef<DebouncedUpdateState>({
@@ -76,7 +77,7 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         if (!toolbarManager.isReady()) {
           toolbarManager.initialize(settings);
         }
-        toolbarManager.setLanguage(settings.language || 'zh-CN');
+        toolbarManager.setLanguage(settings?.language || 'zh-CN');
       } catch (error) {
         logger.error('Error initializing toolbar manager:', error);
       }
@@ -376,7 +377,9 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
     }
 
     const doc = getDocument();
-    doc.addEventListener('scroll', handleScroll, true);
+    if (doc && doc.addEventListener) {
+      doc.addEventListener('scroll', handleScroll, true);
+    }
 
     return () => {
       const state = selectionStateRef.current;
@@ -395,8 +398,10 @@ function SelectToolbar({ targetElement, items: ToolbarItems }: SelectToolbarProp
         currentElement = currentElement.parentElement;
       }
 
-      const doc = getDocument();
-      doc.removeEventListener('scroll', handleScroll, true);
+      const cleanupDoc = getDocument();
+      if (cleanupDoc && cleanupDoc.removeEventListener) {
+        cleanupDoc.removeEventListener('scroll', handleScroll, true);
+      }
     };
   }, [showToolbar, targetElement, handleDelayedSelection, updateToolbarPosition]);
 

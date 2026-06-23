@@ -1,0 +1,3068 @@
+# Milestone 时间线组件设计方案
+
+## 1. 概述
+
+### 1.1 模块定位
+
+Milestone 是一个用于展示项目进度、面试流程等阶段性进展的 UI 组件。它能够：
+
+- 根据用户定义的属性枚举值展示不同的里程碑阶段
+- 支持通过宏命令过滤数据（tag + property）
+- 提供 5 种预设的展示样式
+- 与现有的 Heatmap、TaskProgress 组件形成互补
+
+### 1.2 核心特性
+
+1. **属性枚举获取**：通过 Logseq DB API 获取用户自定义属性的所有枚举值
+2. **宏命令过滤**：支持使用 Datascript 查询语法过滤数据
+3. **多样式展示**：支持 5 种不同的 UI 展示风格
+4. **动态配置**：支持通过宏参数自定义展示样式和行为
+
+### 1.3 数据模型
+
+Milestone 组件支持**两种数据模型**，以适应不同的使用场景：
+
+#### 模型 A：属性枚举模式（Property Enum）
+
+**适用场景**：按不同实体分组查看进度，如"每个公司的面试进度"
+
+```
+笔记结构：
+# 安克公司
+  - 投递简历 DONE 2026-01-15
+  - HR筛选 DONE 2026-01-18
+  - 技术一面 DONE 2026-01-25
+
+# 大疆公司
+  - 投递简历 DONE 2026-01-20
+  - HR筛选 DONE 2026-01-22
+
+使用宏命令：
+{{renderer :milestone, tag=面试, property=company}}
+
+生成效果：
+[● 安克公司] ─── [◐ 大疆公司]
+```
+
+**特点**：
+- 每个属性枚举值（如"安克"）作为一个里程碑节点
+- 自动统计每个节点下的块数量和状态
+- 适合多实体对比场景
+
+#### 模型 B：固定阶段列表模式（Stage List）
+
+**适用场景**：固定流程 + 标签过滤，如"安克公司的项目阶段进度"
+
+```
+笔记结构：
+# 安克项目
+  - 需求分析 created:2026-01-01 scheduled:2026-01-10
+  - 系统设计 created:2026-01-10 scheduled:2026-01-20
+  - 开发完成 created:2026-01-20 scheduled:2026-02-01
+
+使用宏命令：
+{{renderer :milestone, tag=安克项目, list=需求;设计;开发;测试;上线}}
+
+生成效果：
+[● 需求 100%] [● 设计 100%] [● 开发 100%] [○ 测试 0%] [○ 上线 0%]
+```
+
+**特点**：
+- 固定阶段列表（如"需求;设计;开发;测试;上线"）作为里程碑节点
+- 查询每个阶段是否有对应的块
+- 无块 → pending（待开始）
+- 有块 → 根据日期计算状态和进度
+
+**状态计算规则**：
+
+| 条件 | 状态 |
+|------|------|
+| 无块 | `pending` |
+| 有块 + scheduled 已过（早于今天） | `completed` |
+| 有块 + scheduled 在今天或未来 | `in_progress` |
+
+**进度计算公式**：
+
+```
+进度 = (scheduled - today) / (scheduled - created) × 100%
+```
+
+| 时间点 | 进度 |
+|--------|------|
+| today = created | 0% |
+| today = 中间 | 按比例计算 |
+| today = scheduled | 100% |
+| today > scheduled | 100% |
+| today < created | 0% |
+
+### 1.4 使用场景
+
+```
+面试流程管理（模型 A - 属性枚举）：
+  {{renderer :milestone, tag=面试, style=capsule, property=company}}
+
+项目进度追踪（模型 B - 固定阶段 + 标签过滤）：
+  {{renderer :milestone, tag=安克项目, style=badge, list=需求;设计;开发;测试;上线}}
+
+项目进度追踪（模型 B - 固定阶段 + 属性过滤）：
+  {{renderer :milestone, tag=面试, propertyK=:user.property/ae_Y5gsx, propertyV=安克, list=需求;设计;开发;测试;上线}}
+
+直接指定里程碑节点（模型 B - 无过滤）：
+  {{renderer :milestone, style=track, list=计划;开发;测试;上线}}
+```
+
+**宏命令参数说明**：
+
+| 参数 | 说明 | 示例 |
+|------|------|------|
+| `tag` | 过滤标签 | `tag=面试` |
+| `property` | 属性名（自动获取枚举值） | `property=company` |
+| `propertyK` | 属性键名（Logseq 格式） | `propertyK=:user.property/ae_Y5gsx` |
+| `propertyV` | 属性值（与 propertyK 配合使用） | `propertyV=安克` |
+| `list` | 固定阶段列表（分号分隔） | `list=需求;设计;开发;测试;上线` |
+| `style` | 展示样式 | `style=capsule` |
+
+## 2. 数据模型设计
+
+### 2.1 核心数据结构
+
+**文件位置**：`src/lib/milestone/types.ts`
+
+```typescript
+/**
+ * Milestone 里程碑数据结构
+ */
+
+export interface MilestoneItem {
+  id: string;
+  label: string;           // 阶段名称
+  status: MilestoneStatus; // 状态
+  date?: string;           // 完成日期
+  progress?: number;       // 进度百分比 (0-100)
+  color?: string;          // 自定义颜色
+}
+
+export type MilestoneStatus = 
+  | 'completed'   // 已完成
+  | 'in_progress' // 进行中
+  | 'pending'     // 待开始
+  | 'failed';     // 失败
+
+export interface MilestoneData {
+  items: MilestoneItem[];
+  totalCount: number;
+  completedCount: number;
+  inProgressCount?: number;    // 进行中数量（list 模式专用）
+  pendingCount?: number;       // 待开始数量（list 模式专用）
+  overallProgress: number;
+}
+
+export interface MilestoneConfig {
+  // 属性过滤（与 list 二选一）
+  property?: string;              // 属性名 (如 "company") - 自动获取枚举值作为节点
+  propertyK?: string;            // 属性键名 (如 ":user.property/ae_Y5gsx") - Logseq 格式
+  propertyV?: string;            // 属性值 (如 "安克") - 与 propertyK 配合使用
+  
+  // 固定阶段列表（与 property 二选一）
+  list?: string[];               // 固定阶段列表 - 使用分号分隔
+  
+  // 标签过滤
+  tag?: string;                  // 过滤标签
+  
+  // 展示配置
+  style: MilestoneDisplayStyle;   // 展示样式
+  showProgress?: boolean;         // 是否显示进度
+  showLabels?: boolean;           // 是否显示标签
+  colorScheme?: ColorScheme;      // 颜色配置
+  language?: string;              // 语言
+  dateField?: string;             // 日期字段名，默认 "scheduled"
+}
+
+export type MilestoneDisplayStyle = 
+  | 'capsule'      // Style 1: 胶囊进度条
+  | 'badge'        // Style 2: 数字徽标 + 进度
+  | 'track'        // Style 3: 极简轨道
+  | 'card'         // Style 4: 卡片浮层
+  | 'compact';     // Style 5: 状态徽章
+
+export interface ColorScheme {
+  completed: string;    // 已完成颜色
+  inProgress: string;   // 进行中颜色
+  pending: string;      // 待开始颜色
+  background: string;   // 背景色
+  text: string;         // 文字色
+}
+```
+
+### 2.2 查询结果结构
+
+```typescript
+/**
+ * Logseq DB 查询结果映射
+ */
+
+export interface BlockWithProperty {
+  id: string;
+  uuid: string;
+  content: string;
+  properties: {
+    [key: string]: any;
+    // 用户自定义属性
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PropertyEnumValue {
+  value: string;        // 枚举值
+  count: number;        // 使用次数
+  blocks: BlockWithProperty[];  // 关联的块
+}
+```
+
+## 3. 架构设计
+
+### 3.1 整体架构
+
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                     Milestone 模块架构图                            │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  ┌──────────────────────────────────────────────────────────────┐ │
+│  │                      应用层 (Application)                     │ │
+│  │  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────┐  │ │
+│  │  │ CapsuleView│ │ BadgeView  │ │ TrackView  │ │CardView│  │ │
+│  │  └────────────┘ └────────────┘ └────────────┘ └────────┘  │ │
+│  │  ┌────────────┐ ┌────────────────────────────────────┐   │ │
+│  │  │CompactView │ │      Milestone Container             │   │ │
+│  │  └────────────┘ └────────────────────────────────────┘   │ │
+│  └──────────────────────────────────────────────────────────┘ │
+│                                                                    │
+│  ┌──────────────────────────────────────────────────────────────┐ │
+│  │                    业务逻辑层 (Business Logic)                │ │
+│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────────┐   │ │
+│  │  │MilestoneQuery│ │PropertyEnum  │ │ StatusCalculator  │   │ │
+│  │  │   数据查询     │ │  枚举值获取    │ │    状态计算       │   │ │
+│  │  └──────────────┘ └──────────────┘ └──────────────────────┘   │ │
+│  └──────────────────────────────────────────────────────────────┘ │
+│                                                                    │
+│  ┌──────────────────────────────────────────────────────────────┐ │
+│  │                      接口层 (Interface)                       │ │
+│  │  ┌──────────────────────────────────────────────────────┐   │ │
+│  │  │              Logseq DB API Wrapper                    │   │ │
+│  │  │   - datascriptQuery                                    │   │ │
+│  │  │   - getPropertyEnums                                   │   │ │
+│  │  │   - getBlocksWithProperty                              │   │ │
+│  │  └──────────────────────────────────────────────────────┘   │ │
+│  └──────────────────────────────────────────────────────────────┘ │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+```
+
+### 3.2 模块文件结构
+
+```
+src/
+├── components/
+│   └── Milestone/
+│       ├── index.ts
+│       ├── Milestone.tsx                    # 主容器组件
+│       ├── MilestoneContainer.tsx           # 容器组件
+│       ├── styles/
+│       │   ├── CapsuleMilestone.tsx         # Style 1: 胶囊进度条
+│       │   ├── BadgeMilestone.tsx           # Style 2: 数字徽标
+│       │   ├── TrackMilestone.tsx           # Style 3: 极简轨道
+│       │   ├── CardMilestone.tsx             # Style 4: 卡片浮层
+│       │   └── CompactMilestone.tsx         # Style 5: 状态徽章
+│       ├── components/
+│       │   ├── MilestoneNode.tsx            # 里程碑节点
+│       │   ├── MilestoneLine.tsx            # 连接线
+│       │   ├── MilestoneTooltip.tsx         # 提示框
+│       │   └── MilestoneProgress.tsx       # 进度条
+│       └── milestone.css
+│
+├── lib/
+│   └── milestone/
+│       ├── index.ts
+│       ├── register.ts                      # 宏注册
+│       ├── query.ts                         # 数据查询
+│       ├── propertyEnum.ts                  # 属性枚举获取
+│       ├── statusCalculator.ts              # 状态计算
+│       ├── types.ts                         # 类型定义
+│       └── constants.ts                     # 常量定义
+│
+├── settings/
+│   └── tabs/
+│       └── MilestoneSettings.tsx            # 设置面板
+│
+└── translations/
+    ├── zh-CN.json
+    ├── en.json
+    └── milestone.json                       # milestone 专用翻译
+```
+
+## 4. 核心功能实现
+
+### 4.1 属性枚举获取
+
+**需求**：根据用户指定的属性名获取该属性的所有枚举值作为里程碑节点，或直接使用用户指定的节点列表。
+
+**实现代码**：
+
+**文件位置**：`src/lib/milestone/propertyEnum.ts`
+
+```typescript
+/**
+ * 属性枚举值获取模块
+ */
+
+import { logseqAPI } from '../../logseq/index.ts';
+import type { PropertyEnumValue, BlockWithProperty } from './types.ts';
+import logger from '../logger/index';
+
+export class PropertyEnumService {
+  /**
+   * 获取属性的所有枚举值
+   * @param propertyKey 属性键名 (如 "ae_Y5gsx" 或 "company")
+   */
+  static async getPropertyEnums(propertyKey: string): Promise<PropertyEnumValue[]> {
+    try {
+      // 构建 Datascript 查询
+      // 注意：Logseq 中用户属性的格式为 :user.property/<key>
+      const query = this.buildEnumQuery(propertyKey);
+      
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      
+      if (!result || !Array.isArray(result)) {
+        logger.warn('[PropertyEnum] No results found');
+        return [];
+      }
+
+      return this.parseQueryResult(result, propertyKey);
+    } catch (error) {
+      logger.error('[PropertyEnum] Query failed:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 构建枚举查询语句
+   */
+  private static buildEnumQuery(propertyKey: string): string {
+    // 转换属性名为 Datascript 格式
+    // user.property/xxx -> user.property/xxx
+    const formattedKey = propertyKey.startsWith('user.property/') 
+      ? propertyKey 
+      : `user.property/${propertyKey}`;
+
+    return `[:find (pull ?val [* {:block/refs [:block/title]}]) 
+                    :where 
+                    [_ :${formattedKey} ?val]]`;
+  }
+
+  /**
+   * 解析查询结果
+   */
+  private static parseQueryResult(
+    result: any[], 
+    propertyKey: string
+  ): PropertyEnumValue[] {
+    const enumMap = new Map<string, PropertyEnumValue>();
+
+    for (const row of result) {
+      if (!row || !Array.isArray(row)) continue;
+
+      for (const item of row) {
+        if (!item || !item['block/title']) continue;
+
+        const value = item['block/title'];
+        const refBlocks = item['block/refs'] || [];
+
+        if (!enumMap.has(value)) {
+          enumMap.set(value, {
+            value,
+            count: 0,
+            blocks: [],
+          });
+        }
+
+        const enumValue = enumMap.get(value)!;
+        enumValue.count++;
+
+        // 收集关联的块信息
+        refBlocks.forEach((ref: any) => {
+          if (ref && ref['block/title']) {
+            enumValue.blocks.push({
+              id: ref.id?.toString() || '',
+              uuid: ref.uuid || '',
+              content: ref['block/title'],
+              properties: {},
+              createdAt: '',
+              updatedAt: '',
+            });
+          }
+        });
+      }
+    }
+
+    return Array.from(enumMap.values()).sort((a, b) => b.count - a.count);
+  }
+
+  /**
+   * 获取带标签过滤的属性枚举值
+   */
+  static async getPropertyEnumsWithTag(
+    propertyKey: string,
+    tag: string
+  ): Promise<PropertyEnumValue[]> {
+    try {
+      const query = this.buildFilteredEnumQuery(propertyKey, tag);
+      const result = await logseqAPI.DB.datascriptQuery(query);
+
+      if (!result || !Array.isArray(result)) {
+        return [];
+      }
+
+      return this.parseQueryResult(result, propertyKey);
+    } catch (error) {
+      logger.error('[PropertyEnum] Filtered query failed:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 构建带标签过滤的查询语句
+   */
+  private static buildFilteredEnumQuery(
+    propertyKey: string,
+    tag: string
+  ): string {
+    const formattedKey = propertyKey.startsWith('user.property/') 
+      ? propertyKey 
+      : `user.property/${propertyKey}`;
+
+    return `[:find (pull ?b [*])
+                    :where
+                    [?b :${formattedKey} ?val]
+                    [?val :block/title ?title]
+                    [?b :block/tags ?t]
+                    [?t :block/title "${tag}"]]`;
+  }
+}
+```
+
+**使用示例**：
+
+```typescript
+// 获取 company 属性的所有枚举值
+const companies = await PropertyEnumService.getPropertyEnums('company');
+// 结果: [{ value: "安克", count: 5, blocks: [...] }, ...]
+
+// 获取带"面试"标签的 company 属性枚举值
+const interviewCompanies = await PropertyEnumService.getPropertyEnumsWithTag('company', '面试');
+```
+
+### 4.2 宏命令过滤
+
+**需求**：支持通过宏命令设置 tag + property 过滤数据
+
+**宏命令格式**：
+
+```
+{{renderer :milestone <tag> <style> <property=key>}}
+```
+
+**过滤示例**：
+
+```markdown
+// 面试流程 - 按公司过滤
+{{renderer :milestone :interview :style=capsule :company}}
+
+// 仅显示"安克"公司的面试
+{{renderer :milestone :interview :style=badge :company=安克 :tag=面试}}
+
+// 多重过滤
+{{renderer :milestone :project :style=track :phase :tag=重要}}
+```
+
+**Datascript 查询模板**：
+
+**文件位置**：`src/lib/milestone/query.ts`
+
+```typescript
+/**
+ * 数据查询模块
+ */
+
+import { logseqAPI } from '../../logseq/index.ts';
+import type { BlockWithProperty, MilestoneItem, MilestoneData } from './types.ts';
+import { PropertyEnumService } from './propertyEnum.ts';
+import { StatusCalculator } from './statusCalculator.ts';
+import logger from '../logger/index';
+
+export class MilestoneQuery {
+  /**
+   * 执行带过滤条件的查询
+   */
+  static async query(
+    config: {
+      tag?: string;
+      property?: string;
+      propertyK?: string;       // 属性键名 (如 ":user.property/ae_Y5gsx")
+      propertyV?: string;        // 属性值 (如 "安克")
+      list?: string[];
+      dateField?: string;
+    }
+  ): Promise<MilestoneData> {
+    const { tag, property, propertyK, propertyV, list, dateField = 'scheduled' } = config;
+
+    try {
+      // 1. 如果指定了 list（固定阶段列表模式）
+      if (list && list.length > 0) {
+        // 优先使用 propertyK + propertyV 精确定位
+        if (propertyK && propertyV) {
+          return await this.queryByStageListWithProperty(list, tag, propertyK, propertyV, dateField);
+        }
+        return await this.queryByStageList(list, tag, dateField);
+      }
+
+      // 2. 如果指定了 property（属性枚举模式）
+      if (property) {
+        return await this.queryByPropertyEnum(property, tag, dateField);
+      }
+
+      // 3. 如果只指定了标签，获取标签关联的所有块
+      if (tag) {
+        return await this.queryByTag(tag, dateField);
+      }
+
+      // 4. 默认查询
+      return await this.queryDefault(dateField);
+    } catch (error) {
+      logger.error('[MilestoneQuery] Query failed:', error);
+      return this.createEmptyData();
+    }
+  }
+
+  /**
+   * 根据阶段列表 + 标签 + 属性过滤查询
+   * 
+   * 使用 propertyK + propertyV 精确定位块，然后在该块下查找阶段
+   * 
+   * 示例：
+   * {{renderer :milestone, tag=面试, propertyK=:user.property/ae_Y5gsx, propertyV=安克, list=需求;设计;开发;测试;上线}}
+   */
+  private static async queryByStageListWithProperty(
+    list: string[],
+    tag: string | undefined,
+    propertyK: string,
+    propertyV: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const items: MilestoneItem[] = [];
+
+    // 1. 先根据 propertyK + propertyV 找到对应的块
+    const targetBlocks = await this.getBlocksByProperty(propertyK, propertyV, tag);
+    
+    if (targetBlocks.length === 0) {
+      // 没有找到匹配的块，所有阶段都是 pending
+      return {
+        items: list.map(stage => ({
+          id: `milestone-${stage}`,
+          label: stage,
+          status: 'pending' as const,
+          progress: 0,
+          date: null,
+        })),
+        totalCount: list.length,
+        completedCount: 0,
+        pendingCount: list.length,
+        overallProgress: 0,
+      };
+    }
+
+    // 2. 在目标块下查找每个阶段
+    for (const stage of list) {
+      const blocks = await this.getBlocksByStageAndParent(stage, targetBlocks);
+      
+      let status: MilestoneStatus = 'pending';
+      let progress = 0;
+      let date: string | null = null;
+
+      if (blocks.length > 0) {
+        status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+        progress = StatusCalculator.calculateProgress(blocks, dateField);
+        date = StatusCalculator.getScheduledDate(blocks, dateField);
+      }
+
+      items.push({
+        id: `milestone-${stage}`,
+        label: stage,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 根据属性键名和属性值获取块
+   */
+  private static async getBlocksByProperty(
+    propertyK: string,
+    propertyV: string,
+    tag?: string
+  ): Promise<BlockWithProperty[]> {
+    // 格式化属性键名
+    const formattedKey = propertyK.startsWith(':') ? propertyK : `:${propertyK}`;
+
+    let query = `[:find (pull ?b [*])
+                    :where
+                    [?b :${formattedKey} ?val]
+                    [?val :block/title "${propertyV}"]]`;
+
+    if (tag) {
+      query = `[:find (pull ?b [*])
+                :where
+                [?b :${formattedKey} ?val]
+                [?val :block/title "${propertyV}"]
+                [?b :block/tags ?t]
+                [?t :block/title "${tag}"]]`;
+    }
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksByProperty failed:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 在父块列表中查找包含特定阶段关键词的子块
+   */
+  private static async getBlocksByStageAndParent(
+    stage: string,
+    parentBlocks: BlockWithProperty[]
+  ): Promise<BlockWithProperty[]> {
+    // 获取所有父块的 UUID
+    const parentUuids = parentBlocks.map(b => b.uuid).filter(Boolean);
+    
+    if (parentUuids.length === 0) {
+      return [];
+    }
+
+    // 查询这些父块的子块
+    const parentIdPattern = parentUuids.map(uuid => `["${uuid}"]`).join(' | ');
+    const query = `[:find (pull ?child [*])
+                    :where
+                    [?child :block/parent ?parent]
+                    [?parent :block/uuid ${parentIdPattern}]
+                    [?child :block/content ?c]
+                    [(clojure.string/includes? ?c "${stage}")]]`;
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksByStageAndParent failed:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 根据直接指定的节点列表查询
+   * 
+   * 使用场景：固定阶段列表 + 标签过滤
+   * 
+   * 示例：
+   * - list = ["需求", "设计", "开发", "测试", "上线"]
+   * - tag = "安克项目"
+   * 
+   * 对于每个阶段，查询是否有对应的块：
+   * - 有块 → 根据日期计算状态（completed/in_progress/pending）
+   * - 无块 → pending
+   */
+  private static async queryByList(
+    list: string[],
+    tag?: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const items: MilestoneItem[] = [];
+
+    for (const label of list) {
+      const blocks = await this.getBlocksByLabel(label, tag);
+      const status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+      const progress = StatusCalculator.calculateProgress(blocks, dateField);
+      const date = StatusCalculator.getScheduledDate(blocks, dateField);
+
+      items.push({
+        id: `milestone-${label}`,
+        label,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 根据阶段列表 + 标签查询（支持 content 关键词匹配）
+   * 
+   * 固定阶段列表模式：
+   * 1. 指定固定的阶段列表：["需求", "设计", "开发", "测试", "上线"]
+   * 2. 指定标签过滤：tag="安克项目"
+   * 3. 查询每个阶段是否有对应的块（通过内容匹配）
+   * 
+   * 状态计算：
+   * - 无块 → pending
+   * - 有块 + scheduled 已过 → completed
+   * - 有块 + scheduled 未来 → in_progress
+   * 
+   * 进度计算：使用线性进度公式
+   * (scheduled - today) / (scheduled - created)
+   * 
+   * 使用场景：
+   * {{renderer :milestone, tag=安克项目, list=需求;设计;开发;测试;上线}}
+   * 
+   * 会生成：
+   * [● 需求 100%] [● 设计 100%] [● 开发 100%] [◐ 测试 60%] [○ 上线 0%]
+   */
+  private static async queryByStageList(
+    list: string[],
+    tag?: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const items: MilestoneItem[] = [];
+
+    for (const stage of list) {
+      // 查询该阶段在指定标签下是否有对应的块
+      const blocks = await this.getBlocksByStage(stage, tag);
+      
+      // 根据块的数量和日期计算状态和进度
+      let status: MilestoneStatus = 'pending';
+      let progress = 0;
+      let date: string | null = null;
+
+      if (blocks.length > 0) {
+        status = StatusCalculator.calculateFromBlocks(blocks, dateField);
+        progress = StatusCalculator.calculateProgress(blocks, dateField);
+        date = StatusCalculator.getScheduledDate(blocks, dateField);
+      }
+
+      items.push({
+        id: `milestone-${stage}`,
+        label: stage,
+        status,
+        progress,
+        date,
+      });
+    }
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 根据阶段关键词 + 标签获取对应块
+   * 支持通过内容匹配查找块
+   */
+  private static async getBlocksByStage(
+    stage: string,
+    tag?: string
+  ): Promise<BlockWithProperty[]> {
+    let query = `[:find (pull ?b [*]) :where
+                  [?b :block/content ?c]
+                  [(clojure.string/includes? ?c "${stage}")]]`;
+    
+    if (tag) {
+      query = `[:find (pull ?b [*]) :where
+                [?b :block/content ?c]
+                [(clojure.string/includes? ?c "${stage}")]
+                [?b :block/tags ?t]
+                [?t :block/title "${tag}"]]`;
+    }
+
+    try {
+      const result = await logseqAPI.DB.datascriptQuery(query);
+      return this.parseBlocksResult(result);
+    } catch (error) {
+      logger.error('[MilestoneQuery] getBlocksByStage failed:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 根据标签获取对应块
+   */
+  private static async getBlocksByLabel(
+    label: string,
+    tag?: string
+  ): Promise<BlockWithProperty[]> {
+    let query = `[:find (pull ?b [*]) :where`;
+    query += ` [?b :block/content ?c]`;
+    query += ` [(contains? ?c "${label}")]`;
+    
+    if (tag) {
+      query += ` [?b :block/tags ?t]`;
+      query += ` [?t :block/title "${tag}"]`;
+    }
+    
+    query += `]`;
+
+    const result = await logseqAPI.DB.datascriptQuery(query);
+    const blocks: BlockWithProperty[] = [];
+
+    for (const row of result) {
+      if (!row || !Array.isArray(row)) continue;
+      for (const item of row) {
+        if (!item) continue;
+        blocks.push({
+          id: item.id?.toString() || '',
+          uuid: item.uuid || '',
+          content: item.content || item['block/title'] || '',
+          properties: item.properties || {},
+          createdAt: item['created-at'] || '',
+          updatedAt: item['updated-at'] || '',
+        });
+      }
+    }
+
+    return blocks;
+  }
+
+  /**
+   * 根据属性枚举查询
+   */
+  private static async queryByPropertyEnum(
+    property: string,
+    tag?: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    // 获取属性的所有枚举值
+    const enums = tag 
+      ? await PropertyEnumService.getPropertyEnumsWithTag(property, tag)
+      : await PropertyEnumService.getPropertyEnums(property);
+
+    // 为每个枚举值创建里程碑项
+    const items: MilestoneItem[] = enums.map((enumItem, index) => ({
+      id: `milestone-${index}`,
+      label: enumItem.value,
+      status: StatusCalculator.calculateFromBlocks(enumItem.blocks, dateField),
+      progress: StatusCalculator.calculateProgress(enumItem.blocks, dateField),
+      date: StatusCalculator.getScheduledDate(enumItem.blocks, dateField),
+      color: undefined,
+    }));
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 根据标签查询
+   */
+  private static async queryByTag(
+    tag: string,
+    dateField: string = 'scheduled'
+  ): Promise<MilestoneData> {
+    const query = `
+      [:find (pull ?b [*])
+       :where
+       [?b :block/tags ?t]
+       [?t :block/title "${tag}"]]
+    `;
+
+    const result = await logseqAPI.DB.datascriptQuery(query);
+    return this.parseBlocksToMilestone(result, undefined, dateField);
+  }
+
+  /**
+   * 构建属性值查询
+   */
+  private static buildPropertyValueQuery(
+    property: string,
+    value: string,
+    tag?: string
+  ): string {
+    const formattedProperty = property.startsWith('user.property/') 
+      ? property 
+      : `user.property/${property}`;
+
+    let query = `[:find (pull ?b [*])
+                    :where
+                    [?b :${formattedProperty} ?val]
+                    [?val :block/title "${value}"]`;
+
+    if (tag) {
+      query += `\n[?b :block/tags ?t]
+                 [?t :block/title "${tag}"]`;
+    }
+
+    query += ']';
+    return query;
+  }
+
+  /**
+   * 解析块数据为里程碑数据
+   */
+  private static parseBlocksToMilestone(
+    result: any[],
+    property?: string,
+    dateField: string = 'scheduled'
+  ): MilestoneData {
+    const blocks: BlockWithProperty[] = [];
+
+    for (const row of result) {
+      if (!row || !Array.isArray(row)) continue;
+
+      for (const item of row) {
+        if (!item) continue;
+
+        blocks.push({
+          id: item.id?.toString() || '',
+          uuid: item.uuid || '',
+          content: item.content || item['block/title'] || '',
+          properties: item.properties || {},
+          createdAt: item['created-at'] || '',
+          updatedAt: item['updated-at'] || '',
+        });
+      }
+    }
+
+    const groupByProperty = (blocks: BlockWithProperty[], prop: string) => {
+      const groups = new Map<string, BlockWithProperty[]>();
+
+      blocks.forEach(block => {
+        const value = block.properties?.[prop]?.toString() || 'Unknown';
+        if (!groups.has(value)) {
+          groups.set(value, []);
+        }
+        groups.get(value)!.push(block);
+      });
+
+      return groups;
+    };
+
+    if (property) {
+      const groups = groupByProperty(blocks, property);
+      const items: MilestoneItem[] = [];
+
+      let index = 0;
+      groups.forEach((groupBlocks, value) => {
+        items.push({
+          id: `milestone-${index++}`,
+          label: value,
+          status: StatusCalculator.calculateFromBlocks(groupBlocks, dateField),
+          progress: StatusCalculator.calculateProgress(groupBlocks, dateField),
+          date: StatusCalculator.getScheduledDate(groupBlocks, dateField),
+        });
+      });
+
+      return {
+        items,
+        totalCount: items.length,
+        completedCount: items.filter(i => i.status === 'completed').length,
+        inProgressCount: items.filter(i => i.status === 'in_progress').length,
+        pendingCount: items.filter(i => i.status === 'pending').length,
+        overallProgress: this.calculateOverallProgress(items),
+      };
+    }
+
+    const items: MilestoneItem[] = blocks.map((block, index) => ({
+      id: `milestone-${index}`,
+      label: block.content.substring(0, 50),
+      status: StatusCalculator.calculateFromBlocks([block], dateField),
+      progress: StatusCalculator.calculateProgress([block], dateField),
+      date: StatusCalculator.getScheduledDate([block], dateField),
+    }));
+
+    return {
+      items,
+      totalCount: items.length,
+      completedCount: items.filter(i => i.status === 'completed').length,
+      inProgressCount: items.filter(i => i.status === 'in_progress').length,
+      pendingCount: items.filter(i => i.status === 'pending').length,
+      overallProgress: this.calculateOverallProgress(items),
+    };
+  }
+
+  /**
+   * 计算总体进度
+   */
+  private static calculateOverallProgress(items: MilestoneItem[]): number {
+    if (items.length === 0) return 0;
+    
+    const totalProgress = items.reduce((sum, item) => {
+      return sum + (item.progress || 0);
+    }, 0);
+
+    return Math.round(totalProgress / items.length);
+  }
+
+  /**
+   * 默认查询
+   */
+  private static async queryDefault(dateField: string = 'scheduled'): Promise<MilestoneData> {
+    return {
+      items: [],
+      totalCount: 0,
+      completedCount: 0,
+      overallProgress: 0,
+    };
+  }
+
+  /**
+   * 创建空数据
+   */
+  private static createEmptyData(): MilestoneData {
+    return {
+      items: [],
+      totalCount: 0,
+      completedCount: 0,
+      overallProgress: 0,
+    };
+  }
+}
+```
+
+**状态计算器**：
+
+**文件位置**：`src/lib/milestone/statusCalculator.ts`
+
+```typescript
+/**
+ * 状态计算器
+ */
+
+import type { BlockWithProperty, MilestoneStatus } from './types.ts';
+
+const parseTimestamp = (value: any): number | null => {
+  if (!value) return null;
+  const n = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(n) ? n : null;
+};
+
+const parseCustomProperty = (value: any): number | null => {
+  if (!value) return null;
+  
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+  
+  if (typeof value === 'string') {
+    const asNumber = Number(value);
+    if (Number.isFinite(asNumber)) {
+      return asNumber;
+    }
+    
+    const asDate = new Date(value);
+    if (!isNaN(asDate.getTime())) {
+      return asDate.getTime();
+    }
+    
+    const logseqDateMatch = value.match(/^(\\d{4})[-/](\\d{1,2})[-/](\\d{1,2})/);
+    if (logseqDateMatch) {
+      const [, year, month, day] = logseqDateMatch;
+      const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+      if (!isNaN(parsedDate.getTime())) {
+        return parsedDate.getTime();
+      }
+    }
+  }
+  
+  return null;
+};
+
+const getTimestampByField = (block: any, dateField: string = 'scheduled'): number | null => {
+  switch (dateField) {
+    case 'scheduled':
+      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
+    case 'deadline':
+      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
+    case 'created-at':
+      return parseTimestamp(block?.['created-at'] ?? block?.['block/created-at']);
+    case 'updated-at':
+      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
+    default:
+      // 自定义属性
+      const customValue = block?.['block/properties']?.[dateField];
+      return parseCustomProperty(customValue);
+  }
+};
+
+export class StatusCalculator {
+  /**
+   * 从块列表计算状态（固定阶段列表模式）
+   *
+   * 规则：
+   * - 无块 → pending
+   * - 有块 + scheduled 已过（早于今天）→ completed
+   * - 有块 + scheduled 在今天或未来 → in_progress
+   */
+  static calculateFromBlocks(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): MilestoneStatus {
+    if (blocks.length === 0) {
+      return 'pending';
+    }
+
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+    // 收集所有块的 scheduled 时间戳
+    const timestamps = blocks
+      .map(b => getTimestampByField(b, dateField))
+      .filter(Boolean) as number[];
+
+    if (timestamps.length === 0) {
+      // 没有日期信息，检查 status 作为备选
+      const statuses = blocks
+        .map(b => {
+          const status = b.properties?.[':logseq.property/status'] ?? b.properties?.status;
+          return status?.toString().toLowerCase();
+        })
+        .filter(Boolean);
+
+      if (statuses.some(s => s === 'done')) {
+        return 'completed';
+      }
+      if (statuses.some(s => s === 'doing' || s === 'in-progress' || s === 'wip')) {
+        return 'in_progress';
+      }
+      return 'in_progress'; // 有数据但无日期，默认进行中
+    }
+
+    // 使用最早的 scheduled 日期来判断状态
+    const minTimestamp = Math.min(...timestamps);
+
+    if (minTimestamp < today) {
+      return 'completed';
+    }
+
+    return 'in_progress';
+  }
+
+  /**
+   * 计算单个阶段的进度百分比（线性进度）
+   *
+   * 公式：(scheduled - today) / (scheduled - created)
+   *
+   * 场景：假设任务从 created 开始，计划在 scheduled 完成
+   * - 今天 = created → 进度 0%
+   * - 今天 = scheduled → 进度 100%
+   * - 今天 = 中间 → 按比例计算
+   *
+   * @param blocks - 该阶段关联的块列表
+   * @param dateField - 日期字段名，默认 scheduled
+   * @returns 进度百分比 (0-100)，无块时返回 0
+   */
+  static calculateProgress(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): number {
+    if (blocks.length === 0) {
+      return 0;
+    }
+
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+    // 收集所有块的 scheduled 和 created 时间戳
+    const scheduledTimestamps = blocks
+      .map(b => getTimestampByField(b, dateField))
+      .filter(Boolean) as number[];
+
+    const createdTimestamps = blocks
+      .map(b => parseTimestamp(b.createdAt))
+      .filter(Boolean) as number[];
+
+    if (scheduledTimestamps.length === 0) {
+      // 无 scheduled，检查 status
+      const completedCount = blocks.filter(b => {
+        const status = b.properties?.[':logseq.property/status'] ?? b.properties?.status;
+        return status?.toString().toLowerCase() === 'done';
+      }).length;
+      return Math.round((completedCount / blocks.length) * 100);
+    }
+
+    // 使用最早的开始时间和最早的截止时间
+    const startTimestamp = createdTimestamps.length > 0
+      ? Math.min(...createdTimestamps)
+      : today; // 如果没有 created，使用今天作为起点
+
+    const endTimestamp = Math.min(...scheduledTimestamps);
+
+    // 计算总时长和已过时长
+    const totalDuration = endTimestamp - startTimestamp;
+    const elapsedDuration = today - startTimestamp;
+
+    // 边界处理
+    if (totalDuration <= 0) {
+      return 100; // 已过期或无效时间范围
+    }
+
+    if (elapsedDuration <= 0) {
+      return 0; // 还未开始
+    }
+
+    if (elapsedDuration >= totalDuration) {
+      return 100; // 已完成
+    }
+
+    // 计算进度百分比
+    const progress = (elapsedDuration / totalDuration) * 100;
+    return Math.min(100, Math.max(0, Math.round(progress)));
+  }
+
+  /**
+   * 获取该阶段的 scheduled 日期（用于显示）
+   */
+  static getScheduledDate(
+    blocks: BlockWithProperty[],
+    dateField: string = 'scheduled'
+  ): string | null {
+    const timestamps = blocks
+      .map(b => getTimestampByField(b, dateField))
+      .filter(Boolean) as number[];
+
+    if (timestamps.length === 0) return null;
+
+    // 使用最早的 scheduled 日期
+    const minTimestamp = Math.min(...timestamps);
+    const date = new Date(minTimestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * 获取该阶段的创建日期
+   */
+  static getCreatedDate(blocks: BlockWithProperty[]): string | null {
+    const timestamps = blocks
+      .map(b => parseTimestamp(b.createdAt))
+      .filter(Boolean) as number[];
+
+    if (timestamps.length === 0) return null;
+
+    const minTimestamp = Math.min(...timestamps);
+    const date = new Date(minTimestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+}
+```
+
+### 4.3 宏命令注册
+
+**文件位置**：`src/lib/milestone/register.ts`
+
+参考 [Heatmap](file:///workspace/src/lib/heatmap/register.ts) 和 [TaskProgress](file:///workspace/src/lib/taskProgress/register.ts) 的实现，使用 `renderComponent` 工具渲染 React 组件。
+
+```typescript
+/**
+ * Milestone 宏注册
+ */
+
+import { logseqAPI } from '../../logseq/index.ts';
+import { getDocument } from '../../logseq/utils.ts';
+import { MilestoneQuery } from './query.ts';
+import { PropertyEnumService } from './propertyEnum.ts';
+import { Milestone } from '../../components/Milestone/index.ts';
+import type { MilestoneDisplayStyle, MilestoneConfig } from './types.ts';
+import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import logger from '../logger/index';
+
+const PLUGIN_ID = 'milestone';
+
+registerRendererArgModel(':milestone', {
+  positional: ['style']
+});
+
+interface MacroPayload {
+  arguments: string[];
+  uuid: string;
+}
+
+interface MacroSlot {
+  slot: string;
+}
+
+/**
+ * 渲染 Milestone 组件
+ */
+async function renderMilestoneComponent(
+  slot: string,
+  config: MilestoneConfig
+): Promise<boolean> {
+  try {
+    const milestoneData = await MilestoneQuery.query({
+      tag: config.tag,
+      property: config.property,
+      propertyK: config.propertyK,
+      propertyV: config.propertyV,
+      list: config.list,
+      dateField: config.dateField
+    });
+
+    const containerId = PLUGIN_ID + '__' + slot;
+
+    logseqAPI.provideUI({
+      key: containerId,
+      slot,
+      reset: true,
+      template: `<div id="${containerId}"></div>`,
+    });
+
+    setTimeout(() => {
+      const container = getDocument().getElementById(containerId);
+      if (container) {
+        logger.debug('🎯 Milestone: Rendering component', { containerId });
+        renderComponent(container, Milestone, {
+          data: milestoneData,
+          config,
+        });
+      } else {
+        logger.warn('🎯 Milestone: Container not found', { containerId });
+      }
+    }, 1);
+
+    return true;
+  } catch (err) {
+    logger.error('❌ Milestone: Render error', err);
+    return false;
+  }
+}
+
+/**
+ * 注册 Milestone 宏渲染器
+ */
+export function registerMilestone(): void {
+  logseqAPI.App.onMacroRendererSlotted(async ({ 
+    payload, 
+    slot 
+  }: MacroPayload & MacroSlot) => {
+    try {
+      const split = splitRendererArgs(payload.arguments);
+      if (!split) {
+        logger.warn('[Milestone] Invalid macro arguments');
+        return;
+      }
+
+      const config = parseMacroArguments(split.type, split.tokens);
+      await renderMilestoneComponent(slot, config);
+    } catch (error) {
+      logger.error('[Milestone] Render failed:', error);
+    }
+  });
+}
+
+/**
+ * 解析宏参数
+ * 使用 rendererArgs 工具，支持 key=value 格式
+ */
+function parseMacroArguments(type: string, tokens: string[]): MilestoneConfig {
+  const parsed = parseRendererArgs(type, tokens);
+
+  let style: MilestoneDisplayStyle = 'capsule';
+  if (parsed.style && ['capsule', 'badge', 'track', 'card', 'compact'].includes(parsed.style)) {
+    style = parsed.style as MilestoneDisplayStyle;
+  }
+
+  let list: string[] | undefined;
+  if (parsed.list) {
+    list = parsed.list.split(';').map(s => s.trim()).filter(Boolean);
+  }
+
+  return {
+    tag: parsed.tag,
+    style,
+    property: parsed.property,
+    propertyK: parsed.propertyK,
+    propertyV: parsed.propertyV,
+    list,
+    dateField: parsed.dateField || 'scheduled',
+    showLabels: parsed.showLabels !== 'false',
+    showProgress: parsed.showProgress !== 'false',
+    colorScheme: parsed.colorScheme ? JSON.parse(parsed.colorScheme) : undefined,
+  };
+}
+```
+
+## 5. UI 组件设计
+
+### 5.0 UI 设计总览
+
+**整体布局结构**：
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         Milestone 组件整体布局                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  Header 区域（可选）                                              │   │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │   │
+│  │  │ 总进度: 60% │  │ 已完成: 3/5  │  │ 当前阶段: 3 │              │   │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘              │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  样式选择器（可选）                                               │   │
+│  │  [胶囊] [徽标] [轨道] [卡片] [紧凑]                               │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  内容区域 - 根据 style 渲染不同样式                                 │   │
+│  │                                                                 │   │
+│  │  Style 1 - Capsule（胶囊进度条）:                                 │   │
+│  │  ┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐    ┌──────┐    │   │
+│  │  │  ●━━━│────│  ●━━━│────│  ●━━━│────│  ◐━━━│────│  ○   │    │   │
+│  │  │ 阶段1 │    │ 阶段2 │    │ 阶段3 │    │ 阶段4 │    │阶段5 │    │   │
+│  │  │ ✅    │    │ ✅    │    │ ✅    │    │ 进行中│    │ 待开始│    │   │
+│  │  └──────┘    └──────┘    └──────┘    └──────┘    └──────┘    │   │
+│  │                                                                 │   │
+│  │  Style 2 - Badge（数字徽标）:                                    │   │
+│  │  ┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌────┐                       │   │
+│  │  │ 01 │  │ 02 │  │ 03 │  │ 04 │  │ 05 │                       │   │
+│  │  │  ● │  │  ● │  │  ◐ │  │  ○ │  │  ○ │                       │   │
+│  │  │标签1│  │标签2│  │标签3│  │标签4│  │标签5│                       │   │
+│  │  └────┘  └────┘  └────┘  └────┘  └────┘                       │   │
+│  │  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░  60%           │   │
+│  │                                                                 │   │
+│  │  Style 3 - Track（极简轨道）:                                    │   │
+│  │  ●━━━━━━━━━━●━━━━━━━━━━◌━━━━━━━━━━○━━━━━━━━━━○              │   │
+│  │  标签1        标签2        标签3         标签4        标签5     │   │
+│  │                                                                 │   │
+│  │  Style 4 - Card（卡片浮层）:                                     │   │
+│  │       [卡片1]              [卡片2]              [卡片3]         │   │
+│  │           ▲                   ▲                   ▲           │   │
+│  │  ●━━━━━━━━━━━━●━━━━━━━━━━━━━●━━━━━━━━━━━━━━━━━━━━●━━━━━━━━   │   │
+│  │                         ▼                   ▼                  │   │
+│  │                    [卡片4]              [卡片5]               │   │
+│  │                                                                 │   │
+│  │  Style 5 - Compact（状态徽章）:                                  │   │
+│  │  [✓ 已完成] ─── [✓ 已完成] ─── [→ 进行中] ─── [· 待开始] ─── [· 待开始] │
+│  │                                                                 │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  Legend 图例（可选）                                             │   │
+│  │  ● 已完成  ◐ 进行中  ○ 待开始  ✕ 失败                            │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**响应式断点**：
+
+| 断点 | 宽度 | 行为 |
+|------|------|------|
+| Mobile | < 640px | 强制 Compact 样式，垂直排列 |
+| Tablet | 640px - 1024px | 优先 Track 样式，水平滚动 |
+| Desktop | > 1024px | 支持所有样式，自适应宽度 |
+
+**交互设计**：
+
+| 交互 | 效果 |
+|------|------|
+| 悬停节点 | 显示 Tooltip（日期、状态、关联块数） |
+| 点击节点 | 可配置：复制内容 / 跳转页面 / 展开详情 |
+| 拖拽调整宽度 | 实时更新容器宽度 |
+| 切换样式 | 平滑过渡动画 (300ms ease) |
+
+**Settings 设置面板**：
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           Milestone 设置面板                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─ 标签页导航 ─────────────────────────────────────────────────────────┐  │
+│  │ [⚙️ 通用] [🛠️ 工具栏] [📊 任务进度] [📈 热力图] [🎯 里程碑] [⚡ 其他]   │  │
+│  └─────────────────────────────────────────────────────────────────────┘  │
+│                                                                             │
+│  ┌─ Milestone 设置内容 ─────────────────────────────────────────────────┐  │
+│  │                                                                         │  │
+│  │  里程碑设置                                                               │  │
+│  │  配置里程碑组件的展示方式和行为。                                         │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  🎯 启用里程碑功能                                    [ ✓ ]    │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  📐 默认样式                                    [胶囊进度条    ▼] │  │  │
+│  │  │                                                                    │  │  │
+│  │  │  预览:  [胶囊] [徽标] [轨道] [卡片] [紧凑]                        │  │  │
+│  │  │          ●━━━●━━━●━━━◐━━○                                     │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  📅 日期字段                                    [scheduled    ▼] │  │  │
+│  │  │  用于判断里程碑状态的日期来源                                     │  │  │
+│  │  │                                                                    │  │  │
+│  │  │  选项:  scheduled | deadline | created-at | updated-at           │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  🏷️ 显示阶段标签                                    [ ✓ ]      │  │  │
+│  │  │  在里程碑节点下方显示标签文字                                     │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  📊 显示进度百分比                                  [ ✓ ]      │  │  │
+│  │  │  显示每个里程碑的完成进度                                         │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  🎨 颜色方案                                                ▼] │  │  │
+│  │  │                                                                    │  │  │
+│  │  │  已完成:  ● 绿色 #10b981   进行中:  ● 黄色 #f59e0b             │  │  │
+│  │  │  待开始:  ● 灰色 #d1d5db   失败:    ● 红色 #ef4444             │  │  │
+│  │  │                                                                    │  │  │
+│  │  │  预设: [默认] [柔和] [高对比] [单色] [自定义]                    │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  📐 容器宽度                          [━━━━━━━━○━━━━━━━] 600px   │  │  │
+│  │  │  拖拽调整或在下方输入具体数值                                    │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐  │  │
+│  │  │  📋 JSON 设置                                                  │  │  │
+│  │  │  ┌────────────────────────────────────────────────────────┐    │  │  │
+│  │  │  │  {                                                       │    │  │  │
+│  │  │  │    "defaultStyle": "capsule",                           │    │  │  │
+│  │  │  │    "showLabels": true,                                  │    │  │  │
+│  │  │  │    "showProgress": true                                 │    │  │  │
+│  │  │  │  }                                                       │    │  │  │
+│  │  │  └────────────────────────────────────────────────────────┘    │  │  │
+│  │  │  [应用 JSON]  [重置为默认值]                                   │  │  │
+│  │  └────────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                         │  │
+│  │                              [💾 保存设置]                             │  │
+│  │                                                                         │  │
+│  └─────────────────────────────────────────────────────────────────────────┘  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**设置项说明**：
+
+| 设置项 | 类型 | 默认值 | 说明 |
+|--------|------|--------|------|
+| enabled | boolean | true | 是否启用里程碑功能 |
+| defaultStyle | enum | capsule | 组件默认展示样式 |
+| dateField | enum | scheduled | 判断状态的日期字段来源 |
+| showLabels | boolean | true | 是否显示阶段名称标签 |
+| showProgress | boolean | true | 是否显示进度百分比 |
+| colorScheme | object | 默认配色 | 自定义状态颜色 |
+| containerWidth | string | auto | 容器宽度 |
+
+### 5.1 五种展示样式
+
+#### Style 1: 胶囊进度条 (Capsule)
+
+**设计说明**：
+- 水平排列的胶囊形状进度条
+- 每个阶段显示名称和状态
+- 支持通过/进行中/待定状态
+
+**UI 草图**：
+
+```
+  投递简历    HR 筛选    技术一面    技术二面      终    面      Offer
+   ●━━━━━━━━━●━━━━━━━━━●━━━━━━━━━◐ ━━━━━━━━ ○ ━━━━━━━━ ○
+  2/01 通过  2/04 通过  2/10 通过   进行中       待定         待定
+```
+
+**代码实现**：`src/components/Milestone/styles/CapsuleMilestone.tsx`
+
+```tsx
+import React from 'react';
+import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+
+interface CapsuleMilestoneProps {
+  items: MilestoneItem[];
+  colorScheme?: ColorScheme;
+  showLabels?: boolean;
+}
+
+const CapsuleMilestone: React.FC<CapsuleMilestoneProps> = ({
+  items,
+  colorScheme = defaultColorScheme,
+  showLabels = true,
+}) => {
+  const getNodeColor = (status: string) => {
+    switch (status) {
+      case 'completed': return colorScheme.completed;
+      case 'in-progress': return colorScheme.inProgress;
+      case 'pending': return colorScheme.pending;
+      default: return colorScheme.pending;
+    }
+  };
+
+  const getNodeSymbol = (status: string) => {
+    switch (status) {
+      case 'completed': return '●';
+      case 'in-progress': return '◐';
+      case 'pending': return '○';
+      default: return '○';
+    }
+  };
+
+  return (
+    <div className="milestone-capsule">
+      <div className="milestone-track">
+        {items.map((item, index) => (
+          <React.Fragment key={item.id}>
+            {/* 阶段标签 */}
+            <div className="milestone-node">
+              <span 
+                className="milestone-symbol"
+                style={{ color: getNodeColor(item.status) }}
+              >
+                {getNodeSymbol(item.status)}
+              </span>
+              {index < items.length - 1 && (
+                <div 
+                  className="milestone-line"
+                  style={{ 
+                    backgroundColor: items[index + 1]?.status === 'completed' 
+                      ? colorScheme.completed 
+                      : colorScheme.pending 
+                  }}
+                />
+              )}
+            </div>
+            
+            {/* 阶段信息 */}
+            {showLabels && (
+              <div className="milestone-info">
+                <div className="milestone-label">{item.label}</div>
+                <div 
+                  className="milestone-status"
+                  style={{ color: getNodeColor(item.status) }}
+                >
+                  {item.date ? `${item.date} ` : ''}
+                  {item.status === 'completed' ? '通过' : 
+                   item.status === 'in-progress' ? '进行中' : '待定'}
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const defaultColorScheme: ColorScheme = {
+  completed: '#10b981',   // 绿色
+  inProgress: '#f59e0b',  // 黄色
+  pending: '#d1d5db',     // 灰色
+  failed: '#ef4444',      // 红色
+  background: '#ffffff',
+  text: '#374151',
+};
+
+export default CapsuleMilestone;
+```
+
+#### Style 2: 数字徽标 + 进度 (Badge)
+
+**设计说明**：
+- 每个阶段显示数字编号
+- 显示当前阶段进度百分比
+- 底部整体进度条
+
+**UI 草图**：
+
+```
+  01           02           03           04           05
+  ●            ●            ◐            ○            ○
+需求分析      系统设计      开发阶段      测试验收      上线发布
+ 已完成        已完成       进行中 65%    待开始        待开始
+──────────────────────────────────────────────────────────
+████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 40%
+```
+
+**代码实现**：`src/components/Milestone/styles/BadgeMilestone.tsx`
+
+```tsx
+import React from 'react';
+import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+
+interface BadgeMilestoneProps {
+  items: MilestoneItem[];
+  colorScheme?: ColorScheme;
+  showLabels?: boolean;
+  overallProgress?: number;
+}
+
+const BadgeMilestone: React.FC<BadgeMilestoneProps> = ({
+  items,
+  colorScheme = defaultColorScheme,
+  showLabels = true,
+  overallProgress = 0,
+}) => {
+  const getNodeColor = (status: string) => {
+    switch (status) {
+      case 'completed': return colorScheme.completed;
+      case 'in-progress': return colorScheme.inProgress;
+      case 'pending': return colorScheme.pending;
+      default: return colorScheme.pending;
+    }
+  };
+
+  const getNodeSymbol = (status: string) => {
+    switch (status) {
+      case 'completed': return '●';
+      case 'in-progress': return '◐';
+      case 'pending': return '○';
+      default: return '○';
+    }
+  };
+
+  return (
+    <div className="milestone-badge">
+      <div className="milestone-grid">
+        {items.map((item, index) => (
+          <div key={item.id} className="milestone-badge-item">
+            <div className="milestone-badge-number">
+              {String(index + 1).padStart(2, '0')}
+            </div>
+            <span 
+              className="milestone-symbol"
+              style={{ color: getNodeColor(item.status) }}
+            >
+              {getNodeSymbol(item.status)}
+            </span>
+            {showLabels && (
+              <>
+                <div className="milestone-label">{item.label}</div>
+                <div 
+                  className="milestone-sublabel"
+                  style={{ color: getNodeColor(item.status) }}
+                >
+                  {item.status === 'completed' ? '已完成' : 
+                   item.status === 'in-progress' ? `进行中 ${item.progress || 0}%` : '待开始'}
+                </div>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+      
+      {/* 整体进度条 */}
+      <div className="milestone-overall-progress">
+        <div 
+          className="milestone-progress-bar"
+          style={{ width: `${overallProgress}%` }}
+        />
+        <span className="milestone-progress-label">
+          {overallProgress}%
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default BadgeMilestone;
+```
+
+#### Style 3: 极简轨道 (Track)
+
+**设计说明**：
+- 最小化的圆点线条
+- 仅显示阶段名称
+- 时间线格式
+
+**UI 草图**：
+
+```
+━━━●━━━━━━━━━━━●━━━━━━━━━━━●━━━━━━━━━━━◌━━━━━━━━━━━◌━━━
+  Q1           Q2           Q3           Q4          Q1'26
+ 启动期        成长期        扩张期       巩固期       上市
+```
+
+**代码实现**：`src/components/Milestone/styles/TrackMilestone.tsx`
+
+```tsx
+import React from 'react';
+import type { MilestoneItem, ColorScheme } from '../../lib/milestone/types';
+
+const TrackMilestone: React.FC<{ items: MilestoneItem[] }> = ({ items }) => {
+  return (
+    <div className="milestone-track-minimal">
+      <div className="milestone-line-container">
+        <div className="milestone-line" />
+        {items.map((item, index) => (
+          <React.Fragment key={item.id}>
+            <div className="milestone-dot" data-status={item.status} />
+            {index < items.length - 1 && <div className="milestone-segment" />}
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="milestone-labels">
+        {items.map((item, index) => (
+          <div key={item.id} className="milestone-label-item">
+            <span className="milestone-time">{item.label}</span>
+            {item.date && <span className="milestone-desc">{item.date}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default TrackMilestone;
+```
+
+#### Style 4: 卡片浮层 (Card)
+
+**设计说明**：
+- 上下交替的卡片
+- 箭头指向连接线
+- 显示日期信息
+
+**UI 草图**：
+
+```
+   [需求评审]              [开发完成]              [正式上线]
+      ▲                      ▲                      ▲
+━━━━━●━━━━━━━━━━━━━━━━━━━━━●━━━━━━━━━━━━━━━━━━━━━●━━━━━
+                  ▼                      ▼
+             [设计完稿]              [测试通过]
+             2025.03.10            2025.05.01
+```
+
+**代码实现**：`src/components/Milestone/styles/CardMilestone.tsx`
+
+```tsx
+const CardMilestone: React.FC<{ items: MilestoneItem[] }> = ({ items }) => {
+  return (
+    <div className="milestone-card">
+      <div className="milestone-center-line" />
+      {items.map((item, index) => (
+        <div 
+          key={item.id} 
+          className={`milestone-card-item ${index % 2 === 0 ? 'top' : 'bottom'}`}
+        >
+          <div className="milestone-card-content">
+            <div className="milestone-card-title">{item.label}</div>
+            {item.date && (
+              <div className="milestone-card-date">{item.date}</div>
+            )}
+          </div>
+          <div className={`milestone-arrow ${index % 2 === 0 ? 'down' : 'up'}`}>
+            {index % 2 === 0 ? '▲' : '▼'}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+#### Style 5: 状态徽章 (Compact)
+
+**设计说明**：
+- 紧凑的横排徽章样式
+- 使用图标和文字组合
+- 横向连接线
+
+**UI 草图**：
+
+```
+[✓ 已完成] ──── [✓ 已完成] ──── [→ 进行中] ──── [· 待开始] ──── [· 待开始]
+  投递           筛选             面试              背调             录用
+```
+
+**代码实现**：`src/components/Milestone/styles/CompactMilestone.tsx`
+
+```tsx
+const CompactMilestone: React.FC<{ items: MilestoneItem[] }> = ({ items }) => {
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'completed': return '✓';
+      case 'in-progress': return '→';
+      case 'pending': return '·';
+      default: return '·';
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'completed': return '已完成';
+      case 'in-progress': return '进行中';
+      case 'pending': return '待开始';
+      default: return '待开始';
+    }
+  };
+
+  return (
+    <div className="milestone-compact">
+      {items.map((item, index) => (
+        <React.Fragment key={item.id}>
+          <div className="milestone-badge" data-status={item.status}>
+            [{getStatusIcon(item.status)} {getStatusText(item.status)}]
+          </div>
+          {index < items.length - 1 && (
+            <span className="milestone-connector">────</span>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+};
+```
+
+### 5.2 主容器组件
+
+**文件位置**：`src/components/Milestone/Milestone.tsx`
+
+```tsx
+import React from 'react';
+import type { MilestoneData, MilestoneConfig } from '../../lib/milestone/types';
+import CapsuleMilestone from './styles/CapsuleMilestone';
+import BadgeMilestone from './styles/BadgeMilestone';
+import TrackMilestone from './styles/TrackMilestone';
+import CardMilestone from './styles/CardMilestone';
+import CompactMilestone from './styles/CompactMilestone';
+
+interface MilestoneProps {
+  data: MilestoneData;
+  config: MilestoneConfig;
+}
+
+const Milestone: React.FC<MilestoneProps> = ({ data, config }) => {
+  const renderStyle = () => {
+    const commonProps = {
+      items: data.items,
+      colorScheme: config.colorScheme,
+      showLabels: config.showLabels,
+    };
+
+    switch (config.style) {
+      case 'capsule':
+        return <CapsuleMilestone {...commonProps} />;
+      case 'badge':
+        return (
+          <BadgeMilestone 
+            {...commonProps} 
+            overallProgress={data.overallProgress}
+          />
+        );
+      case 'track':
+        return <TrackMilestone {...commonProps} />;
+      case 'card':
+        return <CardMilestone {...commonProps} />;
+      case 'compact':
+        return <CompactMilestone {...commonProps} />;
+      default:
+        return <CapsuleMilestone {...commonProps} />;
+    }
+  };
+
+  return (
+    <div className="milestone-container" data-style={config.style}>
+      {renderStyle()}
+    </div>
+  );
+};
+
+export default Milestone;
+```
+
+### 5.3 样式文件
+
+**文件位置**：`src/components/Milestone/milestone.css`
+
+```css
+.milestone-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 16px;
+  background: var(--ls-primary-background-color, #ffffff);
+  border-radius: 8px;
+}
+
+/* Capsule Style */
+.milestone-capsule {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.milestone-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.milestone-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.milestone-symbol {
+  font-size: 20px;
+}
+
+.milestone-line {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: var(--ls-border-color, #e5e7eb);
+}
+
+/* Badge Style */
+.milestone-badge .milestone-grid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.milestone-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.milestone-badge-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ls-primary-color, #6366f1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.milestone-overall-progress {
+  margin-top: 16px;
+  height: 8px;
+  background: var(--ls-secondary-background-color, #f3f4f6);
+  border-radius: 4px;
+  position: relative;
+}
+
+.milestone-progress-bar {
+  height: 100%;
+  background: var(--ls-primary-color, #6366f1);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Track Style */
+.milestone-track-minimal {
+  display: flex;
+  flex-direction: column;
+}
+
+.milestone-line-container {
+  display: flex;
+  align-items: center;
+}
+
+.milestone-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ls-primary-color, #6366f1);
+}
+
+.milestone-dot[data-status="pending"] {
+  background: var(--ls-border-color, #e5e7eb);
+}
+
+.milestone-segment {
+  flex: 1;
+  height: 2px;
+  background: var(--ls-border-color, #e5e7eb);
+}
+
+/* Card Style */
+.milestone-card {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.milestone-center-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ls-border-color, #e5e7eb);
+}
+
+.milestone-card-item {
+  position: relative;
+  z-index: 1;
+}
+
+.milestone-card-item.top {
+  align-self: flex-start;
+}
+
+.milestone-card-item.bottom {
+  align-self: flex-end;
+}
+
+.milestone-card-content {
+  background: var(--ls-primary-background-color, #ffffff);
+  border: 1px solid var(--ls-border-color, #e5e7eb);
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Compact Style */
+.milestone-compact {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.milestone-connector {
+  color: var(--ls-border-color, #e5e7eb);
+  user-select: none;
+}
+```
+
+## 6. 配置设计
+
+### 6.1 默认配置
+
+**文件位置**：`src/settings/defaultSettings.json`
+
+```json
+{
+  "milestone": {
+    "enabled": true,
+    "defaultStyle": "capsule",
+    "colorScheme": {
+      "completed": "#10b981",
+      "inProgress": "#f59e0b",
+      "pending": "#d1d5db",
+      "failed": "#ef4444",
+      "background": "#ffffff",
+      "text": "#374151"
+    },
+    "showLabels": true,
+    "showProgress": true
+  }
+}
+```
+
+### 6.2 设置面板
+
+**文件位置**：`src/components/SettingsModal/tabs/MilestoneSettings.tsx`
+
+```tsx
+import { t } from '../../../translations/i18n.ts';
+import CustomSelect from '../../CustomSelect/index.tsx';
+import { Settings } from '../../../settings/types.ts';
+
+function MilestoneSettings({ settings, setSettings }: TabComponentProps) {
+  return (
+    <div className="settings-section">
+      <h3>{t('milestone.settings.title')}</h3>
+      
+      <div className="setting-item">
+        <label>{t('milestone.settings.defaultStyle')}</label>
+        <CustomSelect
+          value={settings.milestone?.defaultStyle || 'capsule'}
+          options={[
+            { value: 'capsule', label: t('milestone.styles.capsule') },
+            { value: 'badge', label: t('milestone.styles.badge') },
+            { value: 'track', label: t('milestone.styles.track') },
+            { value: 'card', label: t('milestone.styles.card') },
+            { value: 'compact', label: t('milestone.styles.compact') },
+          ]}
+          onChange={(value) => updateSetting('milestone.defaultStyle', value)}
+        />
+      </div>
+
+      <div className="setting-item">
+        <label>{t('milestone.settings.showLabels')}</label>
+        <input
+          type="checkbox"
+          checked={settings.milestone?.showLabels ?? true}
+          onChange={(e) => updateSetting('milestone.showLabels', e.target.checked)}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+## 7. 国际化
+
+**文件位置**：
+- `src/translations/zh-CN.json`
+- `src/translations/en.json`
+- `src/translations/ja.json`
+
+参考现有翻译文件结构，Milestone 国际化内容放在 `settings` 节点下：
+
+```json
+// zh-CN.json
+{
+  "settings": {
+    "tabs": {
+      "milestone": "🎯 里程碑"
+    },
+    "milestone": {
+      "title": "里程碑设置",
+      "description": "配置里程碑组件的展示方式和行为。",
+      "enabled": "启用里程碑功能",
+      "defaultStyle": "默认样式",
+      "defaultStyleOptions": {
+        "capsule": "胶囊进度条",
+        "badge": "数字徽标",
+        "track": "极简轨道",
+        "card": "卡片浮层",
+        "compact": "状态徽章"
+      },
+      "showLabels": "显示阶段标签",
+      "showProgress": "显示进度百分比",
+      "colorScheme": "颜色方案",
+      "dateField": "日期字段",
+      "dateFieldOptions": {
+        "scheduled": "计划日期 (scheduled)",
+        "deadline": "截止日期 (deadline)",
+        "created-at": "创建时间",
+        "updated-at": "更新时间"
+      }
+    }
+  },
+  "milestone": {
+    "styles": {
+      "capsule": "胶囊进度条",
+      "badge": "数字徽标",
+      "track": "极简轨道",
+      "card": "卡片浮层",
+      "compact": "状态徽章"
+    },
+    "status": {
+      "completed": "已完成",
+      "inProgress": "进行中",
+      "pending": "待开始",
+      "failed": "失败"
+    },
+    "legend": {
+      "completed": "已完成",
+      "inProgress": "进行中",
+      "pending": "待开始",
+      "failed": "失败"
+    },
+    "tooltip": {
+      "progress": "进度",
+      "blocks": "关联任务",
+      "date": "日期"
+    },
+    "empty": {
+      "title": "暂无里程碑数据",
+      "description": "请添加带有里程碑属性的块或使用 list 参数指定节点"
+    },
+    "error": {
+      "loadFailed": "加载里程碑数据失败",
+      "queryFailed": "查询失败"
+    }
+  }
+}
+```
+
+```json
+// en.json
+{
+  "settings": {
+    "tabs": {
+      "milestone": "🎯 Milestone"
+    },
+    "milestone": {
+      "title": "Milestone Settings",
+      "description": "Configure the display mode and behavior of milestone components.",
+      "enabled": "Enable Milestone Feature",
+      "defaultStyle": "Default Style",
+      "defaultStyleOptions": {
+        "capsule": "Capsule Progress",
+        "badge": "Number Badge",
+        "track": "Minimal Track",
+        "card": "Card Overlay",
+        "compact": "Compact Badge"
+      },
+      "showLabels": "Show Stage Labels",
+      "showProgress": "Show Progress Percentage",
+      "colorScheme": "Color Scheme",
+      "dateField": "Date Field",
+      "dateFieldOptions": {
+        "scheduled": "Scheduled Date",
+        "deadline": "Deadline",
+        "created-at": "Created At",
+        "updated-at": "Updated At"
+      }
+    }
+  },
+  "milestone": {
+    "styles": {
+      "capsule": "Capsule Progress",
+      "badge": "Number Badge",
+      "track": "Minimal Track",
+      "card": "Card Overlay",
+      "compact": "Compact Badge"
+    },
+    "status": {
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "legend": {
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "tooltip": {
+      "progress": "Progress",
+      "blocks": "Related Tasks",
+      "date": "Date"
+    },
+    "empty": {
+      "title": "No Milestone Data",
+      "description": "Add blocks with milestone properties or use the list parameter"
+    },
+    "error": {
+      "loadFailed": "Failed to load milestone data",
+      "queryFailed": "Query failed"
+    }
+  }
+}
+```
+
+**使用方式**：
+
+```typescript
+// 在组件中使用
+import { t } from '../../translations/i18n';
+
+const label = t('milestone.status.completed', lang);
+const styleLabel = t('milestone.styles.capsule', lang);
+```
+
+## 8. 实施计划
+
+| 阶段 | 任务 | 文件位置 | 预估时间 |
+|------|------|---------|---------|
+| 阶段一 | 类型定义和常量 | types.ts, constants.ts | 0.5 天 |
+| 阶段二 | 属性枚举获取 | propertyEnum.ts | 1 天 |
+| 阶段三 | 数据查询逻辑 | query.ts | 1.5 天 |
+| 阶段四 | 状态计算器 | statusCalculator.ts | 0.5 天 |
+| 阶段五 | UI 组件实现 (5种样式) | styles/*.tsx | 3 天 |
+| 阶段六 | 宏命令注册 | register.ts | 0.5 天 |
+| 阶段七 | 设置面板 | MilestoneSettings.tsx | 0.5 天 |
+| 阶段八 | 样式和国际化 | milestone.css, i18n | 0.5 天 |
+| 阶段九 | 集成测试 | main.tsx | 0.5 天 |
+
+**总预估时间**：约 8.5 天
+
+---
+
+## 附录：A. 使用示例
+
+### 示例 1：面试流程
+
+```markdown
+## 安克面试进展
+
+{{renderer :milestone :interview :style=capsule :property=stage}}
+
+### 面试进度详情
+
+- **简历投递** ✅ 2026-02-01
+- **HR 筛选** ✅ 2026-02-04
+- **技术一面** ✅ 2026-02-10
+- **技术二面** 🔄 2026-02-15
+- **终面** ○ 2026-02-20
+- **Offer** ○ 待定
+```
+
+### 示例 2：项目里程碑
+
+```markdown
+## 项目 Alpha 发布
+
+{{renderer :milestone :project :style=badge :property=phase :showProgress=true}}
+
+### 阶段概览
+
+1. 需求分析 - 已完成
+2. 系统设计 - 已完成  
+3. 开发阶段 - 进行中 65%
+4. 测试验收 - 待开始
+5. 上线发布 - 待开始
+```
+
+### 示例 3：季度追踪
+
+```markdown
+## 2026 Q1-Q4 规划
+
+{{renderer :milestone :quarterly :style=track :property=quarter}}
+
+| 季度 | 主题 | 状态 |
+|------|------|------|
+| Q1 | 启动期 | 已完成 |
+| Q2 | 成长期 | 进行中 |
+| Q3 | 扩张期 | 待开始 |
+| Q4 | 巩固期 | 待开始 |
+```
+
+## 附录：B. Datascript 查询参考
+
+### 获取属性枚举值
+
+```clojure
+;; 获取 company 属性的所有枚举值
+[:find (pull ?val [* {:block/refs [:block/title]}]) 
+ :where [_ :user.property/company ?val]]
+```
+
+### 带标签过滤
+
+```clojure
+;; 获取带有"面试"标签的 company 属性枚举值
+[:find (pull ?b [*])
+ :where
+ [?b :user.property/company ?val]
+ [?val :block/title "安克"]
+ [?b :block/tags ?t]
+ [?t :block/title "面试"]]
+```
+
+### 按属性值分组
+
+```clojure
+;; 按 company 分组并统计
+[:find ?company (count ?b)
+ :where
+ [?b :user.property/company ?val]
+ [?val :block/title ?company]]
+```
+
+**使用场景与意义**：
+
+按属性值分组是 Milestone 组件的核心功能之一，主要用于：
+
+| 场景 | 示例 | 分组结果 |
+|------|------|----------|
+| **面试流程** | 按 `company` 属性分组 | 安克、大疆、海康威视... |
+| **项目管理** | 按 `phase` 属性分组 | 需求、设计、开发、测试、上线 |
+| **学习计划** | 按 `subject` 属性分组 | 数学、英语、物理... |
+| **任务追踪** | 按 `priority` 属性分组 | 高、中、低 |
+
+**分组后的数据处理**：
+
+1. **每个分组作为一个里程碑节点**：如"安克公司"是一个节点，"大疆公司"是另一个节点
+
+2. **状态计算**：
+   - 检查该分组下所有块的状态
+   - 如果所有块都已完成 → `completed`
+   - 如果有块正在进行 → `in_progress`
+   - 如果没有块 → `pending`
+
+3. **进度计算**：
+   - 统计该分组下的总块数
+   - 计算已完成块数 / 总块数 = 进度百分比
+
+**实际应用示例**：
+
+假设有以下笔记结构：
+```markdown
+# 面试追踪
+
+## 安克公司
+- 投递简历 DONE 2026-01-15
+- HR筛选 DONE 2026-01-18
+- 技术一面 DONE 2026-01-25
+- 终面 SCHEDULED 2026-02-01
+
+## 大疆公司
+- 投递简历 DONE 2026-01-20
+- HR筛选 DONE 2026-01-22
+- 技术一面 SCHEDULED 2026-02-05
+```
+
+使用 `{{renderer :milestone, property=company}}` 将生成：
+```
+[● 安克 75%] ─── [◐ 大疆 40%]
+```
+
+---
+
+## 附录：C. CSS 样式规范（遵循 `ltt-` 前缀和 CSS 变量规范）
+
+### C.1 类名前缀规范
+
+根据 [CSS 变量统一化设计方案](2026-05-29-css-variables-refactor-plan.md)，所有 Milestone 组件必须使用 `ltt-` 前缀：
+
+| 组件 | 旧类名 | 新类名 | 状态 |
+|------|--------|--------|------|
+| 容器 | `.milestone-container` | `.ltt-milestone-container` | ✅ 已更新 |
+| 胶囊样式 | `.milestone-capsule` | `.ltt-milestone-capsule` | ✅ 已更新 |
+| 轨道 | `.milestone-track` | `.ltt-milestone-track` | ✅ 已更新 |
+| 节点 | `.milestone-node` | `.ltt-milestone-node` | ✅ 已更新 |
+| 符号 | `.milestone-symbol` | `.ltt-milestone-symbol` | ✅ 已更新 |
+| 连接线 | `.milestone-line` | `.ltt-milestone-line` | ✅ 已更新 |
+| 信息 | `.milestone-info` | `.ltt-milestone-info` | ✅ 已更新 |
+| 标签 | `.milestone-label` | `.ltt-milestone-label` | ✅ 已更新 |
+| 状态 | `.milestone-status` | `.ltt-milestone-status` | ✅ 已更新 |
+| 徽章样式 | `.milestone-badge` | `.ltt-milestone-badge` | ✅ 已更新 |
+| 进度条 | `.milestone-progress-bar` | `.ltt-milestone-progress-bar` | ✅ 已更新 |
+| 卡片样式 | `.milestone-card` | `.ltt-milestone-card` | ✅ 已更新 |
+
+### C.2 CSS 变量规范
+
+Milestone 组件使用统一的 CSS 变量系统：
+
+#### 全局变量
+
+```css
+:root,
+.light-mode {
+  /* 背景色 */
+  --ltt-bg-primary: #ffffff;
+  --ltt-bg-secondary: #f8fafc;
+  --ltt-bg-tertiary: #f1f5f9;
+  
+  /* 文本色 */
+  --ltt-text-primary: #1e293b;
+  --ltt-text-secondary: #64748b;
+  --ltt-text-muted: #94a3b8;
+  
+  /* 边框色 */
+  --ltt-border: #e2e8f0;
+  
+  /* 强调色 */
+  --ltt-accent: #3b82f6;
+  
+  /* 间距 */
+  --ltt-comp-spacing-xs: 4px;
+  --ltt-comp-spacing-sm: 8px;
+  --ltt-comp-spacing-md: 16px;
+  --ltt-comp-spacing-lg: 24px;
+  
+  /* 圆角 */
+  --ltt-comp-radius-sm: 4px;
+  --ltt-comp-radius-md: 8px;
+  --ltt-comp-radius-lg: 12px;
+  --ltt-comp-radius-full: 9999px;
+  
+  /* 过渡 */
+  --ltt-transition-fast: 150ms ease;
+  --ltt-transition-normal: 300ms ease;
+}
+
+.dark-mode,
+[data-theme="dark"] {
+  --ltt-bg-primary: #0f172a;
+  --ltt-bg-secondary: #1e293b;
+  --ltt-bg-tertiary: #334155;
+  
+  --ltt-text-primary: #f1f5f9;
+  --ltt-text-secondary: #94a3b8;
+  --ltt-text-muted: #64748b;
+  
+  --ltt-border: #334155;
+  --ltt-accent: #60a5fa;
+}
+```
+
+#### 组件私有变量
+
+```css
+/* Milestone 专用变量 */
+:root {
+  /* 里程碑状态颜色 */
+  --ltt-comp-milestone-completed: #10b981;   /* 绿色 - 已完成 */
+  --ltt-comp-milestone-in-progress: #f59e0b; /* 黄色 - 进行中 */
+  --ltt-comp-milestone-pending: #d1d5db;     /* 灰色 - 待开始 */
+  --ltt-comp-milestone-failed: #ef4444;      /* 红色 - 失败 */
+  
+  /* Milestone 组件变量 */
+  --ltt-comp-milestone-symbol-size: 20px;
+  --ltt-comp-milestone-line-height: 2px;
+  --ltt-comp-milestone-node-size: 32px;
+  --ltt-comp-milestone-gap: 8px;
+}
+```
+
+### C.3 完整样式文件
+
+```css
+/**
+ * Milestone 组件样式
+ * 遵循 CSS 变量统一化设计方案
+ * 使用 ltt- 前缀规范
+ */
+
+/* ========== 容器 ========== */
+.ltt-milestone-container {
+  font-family: var(--ltt-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  padding: var(--ltt-comp-spacing-md);
+  background: var(--ltt-bg-primary);
+  border-radius: var(--ltt-comp-radius-md);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* ========== 胶囊样式 ========== */
+.ltt-milestone-capsule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-comp-milestone-gap);
+}
+
+.ltt-milestone-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.ltt-milestone-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ltt-comp-milestone-gap) / 2);
+}
+
+.ltt-milestone-symbol {
+  font-size: var(--ltt-comp-milestone-symbol-size);
+  transition: color var(--ltt-transition-fast);
+}
+
+.ltt-milestone-line {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  right: 20px;
+  height: var(--ltt-comp-milestone-line-height);
+  background: var(--ltt-border);
+  transition: background-color var(--ltt-transition-normal);
+}
+
+.ltt-milestone-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-label {
+  font-size: var(--ltt-font-size-sm);
+  font-weight: 500;
+  color: var(--ltt-text-primary);
+}
+
+.ltt-milestone-status {
+  font-size: var(--ltt-font-size-xs);
+  color: var(--ltt-text-secondary);
+}
+
+/* ========== 徽章样式 ========== */
+.ltt-milestone-badge .ltt-milestone-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ltt-comp-spacing-md);
+}
+
+.ltt-milestone-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ltt-comp-milestone-gap) / 2);
+}
+
+.ltt-milestone-badge-number {
+  width: var(--ltt-comp-milestone-node-size);
+  height: var(--ltt-comp-milestone-node-size);
+  border-radius: var(--ltt-comp-radius-full);
+  background: var(--ltt-accent);
+  color: var(--ltt-bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--ltt-font-size-sm);
+}
+
+.ltt-milestone-overall-progress {
+  margin-top: var(--ltt-comp-spacing-md);
+  height: 8px;
+  background: var(--ltt-bg-tertiary);
+  border-radius: var(--ltt-comp-radius-sm);
+  overflow: hidden;
+}
+
+.ltt-milestone-progress-bar {
+  height: 100%;
+  background: var(--ltt-accent);
+  border-radius: var(--ltt-comp-radius-sm);
+  transition: width var(--ltt-transition-normal);
+}
+
+.ltt-milestone-progress-label {
+  display: block;
+  text-align: center;
+  margin-top: var(--ltt-comp-spacing-xs);
+  font-size: var(--ltt-font-size-sm);
+  color: var(--ltt-text-secondary);
+}
+
+/* ========== 轨道样式 ========== */
+.ltt-milestone-track-minimal {
+  position: relative;
+  padding: var(--ltt-comp-spacing-md) 0;
+}
+
+.ltt-milestone-line-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 4px;
+  background: var(--ltt-border);
+  border-radius: var(--ltt-comp-radius-full);
+}
+
+.ltt-milestone-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--ltt-comp-radius-full);
+  background: var(--ltt-comp-milestone-pending);
+  border: 2px solid var(--ltt-bg-primary);
+  z-index: 1;
+  transition: background-color var(--ltt-transition-fast);
+}
+
+.ltt-milestone-dot[data-status="completed"] {
+  background: var(--ltt-comp-milestone-completed);
+}
+
+.ltt-milestone-dot[data-status="in-progress"] {
+  background: var(--ltt-comp-milestone-in-progress);
+}
+
+.ltt-milestone-segment {
+  flex: 1;
+  height: 4px;
+  background: var(--ltt-comp-milestone-pending);
+}
+
+.ltt-milestone-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--ltt-comp-spacing-sm);
+}
+
+.ltt-milestone-label-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ltt-milestone-time {
+  font-size: var(--ltt-font-size-sm);
+  font-weight: 500;
+  color: var(--ltt-text-primary);
+}
+
+.ltt-milestone-desc {
+  font-size: var(--ltt-font-size-xs);
+  color: var(--ltt-text-muted);
+}
+
+/* ========== 卡片样式 ========== */
+.ltt-milestone-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ltt-comp-spacing-md);
+}
+
+.ltt-milestone-center-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--ltt-border);
+  transform: translateX(-50%);
+}
+
+.ltt-milestone-card-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.ltt-milestone-card-item.top {
+  justify-content: flex-start;
+  padding-right: calc(50% + var(--ltt-comp-spacing-md));
+}
+
+.ltt-milestone-card-item.bottom {
+  justify-content: flex-end;
+  padding-left: calc(50% + var(--ltt-comp-spacing-md));
+}
+
+.ltt-milestone-card-content {
+  padding: var(--ltt-comp-spacing-sm);
+  background: var(--ltt-bg-secondary);
+  border-radius: var(--ltt-comp-radius-md);
+  border: 1px solid var(--ltt-border);
+}
+
+.ltt-milestone-card-title {
+  font-weight: 500;
+  color: var(--ltt-text-primary);
+  font-size: var(--ltt-font-size-sm);
+}
+
+.ltt-milestone-card-date {
+  font-size: var(--ltt-font-size-xs);
+  color: var(--ltt-text-muted);
+  margin-top: 2px;
+}
+
+.ltt-milestone-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+.ltt-milestone-arrow.down {
+  top: 50%;
+  left: calc(50% - 6px);
+  border-top-color: var(--ltt-border);
+  transform: translateY(-50%);
+}
+
+.ltt-milestone-arrow.up {
+  bottom: 50%;
+  left: calc(50% - 6px);
+  border-bottom-color: var(--ltt-border);
+  transform: translateY(50%);
+}
+
+/* ========== 紧凑样式 ========== */
+.ltt-milestone-compact {
+  display: flex;
+  align-items: center;
+  gap: var(--ltt-comp-spacing-xs);
+  flex-wrap: wrap;
+}
+
+.ltt-milestone-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--ltt-comp-radius-full);
+  font-size: var(--ltt-font-size-xs);
+  font-weight: 500;
+  background: var(--ltt-bg-tertiary);
+  color: var(--ltt-text-secondary);
+}
+
+.ltt-milestone-badge[data-status="completed"] {
+  background: var(--ltt-comp-milestone-completed);
+  color: white;
+}
+
+.ltt-milestone-badge[data-status="in-progress"] {
+  background: var(--ltt-comp-milestone-in-progress);
+  color: white;
+}
+
+.ltt-milestone-badge[data-status="failed"] {
+  background: var(--ltt-comp-milestone-failed);
+  color: white;
+}
+
+.ltt-milestone-connector {
+  color: var(--ltt-text-muted);
+  font-size: var(--ltt-font-size-xs);
+}
+```
+
+### C.4 组件 TypeScript 类型（已更新）
+
+```typescript
+import './milestone.css';
+
+interface MilestoneStyles {
+  container: string;
+  capsule: string;
+  track: string;
+  node: string;
+  symbol: string;
+  line: string;
+  info: string;
+  label: string;
+  status: string;
+  badge: string;
+  badgeItem: string;
+  badgeNumber: string;
+  overallProgress: string;
+  progressBar: string;
+  progressLabel: string;
+  trackMinimal: string;
+  lineContainer: string;
+  dot: string;
+  segment: string;
+  labels: string;
+  labelItem: string;
+  time: string;
+  desc: string;
+  card: string;
+  centerLine: string;
+  cardItem: string;
+  cardContent: string;
+  cardTitle: string;
+  cardDate: string;
+  arrow: string;
+  compact: string;
+  connector: string;
+}
+
+export const milestoneStyles: MilestoneStyles = {
+  container: 'ltt-milestone-container',
+  capsule: 'ltt-milestone-capsule',
+  track: 'ltt-milestone-track',
+  node: 'ltt-milestone-node',
+  symbol: 'ltt-milestone-symbol',
+  line: 'ltt-milestone-line',
+  info: 'ltt-milestone-info',
+  label: 'ltt-milestone-label',
+  status: 'ltt-milestone-status',
+  badge: 'ltt-milestone-badge',
+  badgeItem: 'ltt-milestone-badge-item',
+  badgeNumber: 'ltt-milestone-badge-number',
+  overallProgress: 'ltt-milestone-overall-progress',
+  progressBar: 'ltt-milestone-progress-bar',
+  progressLabel: 'ltt-milestone-progress-label',
+  trackMinimal: 'ltt-milestone-track-minimal',
+  lineContainer: 'ltt-milestone-line-container',
+  dot: 'ltt-milestone-dot',
+  segment: 'ltt-milestone-segment',
+  labels: 'ltt-milestone-labels',
+  labelItem: 'ltt-milestone-label-item',
+  time: 'ltt-milestone-time',
+  desc: 'ltt-milestone-desc',
+  card: 'ltt-milestone-card',
+  centerLine: 'ltt-milestone-center-line',
+  cardItem: 'ltt-milestone-card-item',
+  cardContent: 'ltt-milestone-card-content',
+  cardTitle: 'ltt-milestone-card-title',
+  cardDate: 'ltt-milestone-card-date',
+  arrow: 'ltt-milestone-arrow',
+  compact: 'ltt-milestone-compact',
+  connector: 'ltt-milestone-connector',
+};
+```
+
+### C.5 深色模式兼容性
+
+Milestone 组件完全兼容深色模式，无需额外的 `.dark` 或 `[data-theme="dark"]` 选择器。所有颜色通过 CSS 变量自动响应。
+
+### C.6 迁移指南
+
+**从旧类名迁移到新类名**：
+
+1. **React 组件**：
+   ```tsx
+   // 旧代码
+   <div className="milestone-container">
+     <div className="milestone-capsule">...</div>
+   </div>
+
+   // 新代码
+   <div className="ltt-milestone-container">
+     <div className="ltt-milestone-capsule">...</div>
+   </div>
+   ```
+
+2. **CSS 变量**：
+   ```css
+   /* 旧代码 */
+   background: var(--ls-primary-background-color, #ffffff);
+
+   /* 新代码 */
+   background: var(--ltt-bg-primary);
+   ```
+
+3. **向后兼容**（临时）：
+   ```css
+   /* 过渡阶段可以同时保留新旧类名 */
+   .ltt-milestone-container,
+   .milestone-container {
+     background: var(--ltt-bg-primary);
+   }
+   ```
+
+---
+
+**相关文档**：
+- [CSS 变量统一化设计方案](2026-05-29-css-variables-refactor-plan.md)
+- [SelectToolbar SDK 优化方案](2026-05-29-SelectToolbar-SDK-Optimization.md)

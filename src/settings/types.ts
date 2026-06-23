@@ -1,83 +1,219 @@
-/**
- * Copyright (c) 2026 duiliuliu
- * License: MIT
- */
+import { logseqAPI } from '../logseq'
+import { SummaryType, TemplateType } from '../lib/summary/types'
+import type { MilestoneTemplate, MilestoneDisplayStyle, MilestoneTooltipStyle } from '../lib/milestone/types'
 
-// 主题类型
-export type ThemeType = 'light' | 'dark' | 'system';
+export type ThemeType = 'light' | 'dark' | 'system'
 
-// 语言类型
-export type LanguageType = 'zh-CN' | 'en' | 'ja' | 'system';
+export type ViewType = 'mini-circle' | 'dot-matrix' | 'progress-bar' | 'fraction'
 
-// 语言配置类型
-export interface LanguageConfig {
-  code: string;       // 语言代码，如 zh-CN, en, ja
-  name: string;       // 语言名称，如 "中文", "English", "日本語"
-  path: string;       // 语言文件路径，相对于插件根目录
-  isDefault?: boolean; // 是否为默认语言
+export type LabelFormat = 'fraction' | 'percentage' | 'progress'
+
+export interface StatusColors {
+  todo: string
+  doing: string
+  done: string
+  waiting: string
+  canceled: string
+  'in-review': string
 }
 
-export interface LanguageMeta {
-  languages: LanguageConfig[];  // 语言列表
-  fallbackLanguage: string;     // 降级语言代码
+export interface DisplayOptions {
+  'mini-circle': {
+    size?: 'small' | 'medium' | 'large'
+  }
+  'dot-matrix': {
+    maxDots?: number
+    size?: 'small' | 'medium' | 'large'
+  }
+  'progress-bar': {
+    showLabel?: boolean
+    height?: string
+  }
 }
 
-// Toolbar item type
-export interface ToolbarItem {
-  id: string;
-  label: string;
-  icon: string;
-  binding?: string;
-  invoke: string;
-  invokeParams: string;
-  hidden?: boolean;
-  // 兼容旧版本
-  funcmode?: string;
-  clickfunc?: string;
+export interface TaskProgressSettings {
+  enabled: boolean
+  defaultDisplayType: ViewType
+  showLabel: boolean
+  labelFormat: LabelFormat
+  displayOptions: DisplayOptions
+  nestingLevel: number
+  onlyLeaves: boolean
+  showNestingIndicator: boolean
+  statusColors: StatusColors
+  defaultSlashCommandTemplate?: string
 }
 
-// Toolbar group type
-export interface ToolbarGroup extends ToolbarItem {
-  subItems: ToolbarItem[];
+export type HeatmapViewType = 'year' | 'month' | 'week'
+export type HeatmapDisplayMode = 'minimal' | 'basic' | 'full'
+export type HeatmapColorFormula = 'simple' | 'weighted'
+
+export interface ColorScheme {
+  minColor: string
+  maxColor: string
+  gradientSteps: number
 }
 
-// 全局设置类型
-export interface Settings {
-  // 主题和语言设置
-  theme: ThemeType;
-  language: LanguageType;
-  useSystemTheme: boolean;
-  useSystemLanguage: boolean;
-  
-  // 工具栏设置
-  toolbar: boolean;
-  disabled: boolean;
-  toolbarShortcut?: string;  // 可选字段，暂时未使用
+// 热力图设置
+export interface HeatmapSettings {
+  enabled: boolean
+  defaultViewType: 'year' | 'month' | 'week'
+  defaultDisplayMode: 'minimal' | 'basic' | 'full'
+  defaultColorFormula: 'simple' | 'weighted'
+  colorScheme: {
+    minColor: string
+    maxColor: string
+    gradientSteps: number
+  }
+  // Month page creation settings
+  monthPageCreation?: {
+    enabled: boolean
+    pageNameTemplate?: string
+    logseqTemplate?: string
+  }
+  // Week page creation settings
+  weekPageCreation?: {
+    enabled: boolean
+    pageNameTemplate?: string
+    logseqTemplate?: string
+  }
+  defaultSlashCommandTemplate?: string
+}
+
+// Block View Settings
+export type BlockThemeType = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'tana' | 'custom';
+
+export interface CustomTableTheme {
+  borderColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cellTextColor?: string;
+  headerBorderColor?: string;
+  headerHeight?: string;
+  rowBgColor?: string;
+  rowHoverBgColor?: string;
+  rowBorderColor?: string;
+  cellPadding?: string;
+  tableBorderRadius?: string;
+}
+
+export interface CustomGalleryTheme {
+  borderColor?: string;
+  cardBgColor?: string;
+  cardHoverBgColor?: string;
+  headerBorderColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cardTextColor?: string;
+  cardBorderRadius?: string;
+  cardShadow?: string;
+}
+
+export interface CustomBoardTheme {
+  borderColor?: string;
+  columnBgColor?: string;
+  columnHoverBgColor?: string;
+  headerBgColor?: string;
+  headerTextColor?: string;
+  cardBgColor?: string;
+  cardTextColor?: string;
+  cardBorderColor?: string;
+  cardBorderRadius?: string;
+}
+
+export interface BlockViewTableSettings {
+  showStriped: boolean;
   showBorder: boolean;
-  width: string;
-  height: string;
-  hoverDelay: number;
-  sponsorEnabled: boolean;
-  developerMode: boolean;
-  
-  // 工具栏元素配置
-  ToolbarItems: Array<ToolbarItem | ToolbarGroup>;
-  
-  // 元数据设置
-  meta?: {
-    language?: LanguageMeta;
-  };
-  
-  [key: string]: any;
+  customTheme?: CustomTableTheme;
 }
 
-// Settings Context 类型
-export interface SettingsContextType {
-  settings: Settings | null;
-  isLoading: boolean;
-  isSaving: boolean;
-  error: Error | null;
-  loadSettings: () => Promise<Settings | null>;
-  saveSettings: (settings: Settings) => Promise<boolean>;
-  resetSettings: () => Promise<boolean>;
+export interface BlockViewGallerySettings {
+  showCardBorders: boolean;
+  cardsPerRow: number;
+  customTheme?: CustomGalleryTheme;
+}
+
+export interface BlockViewBoardSettings {
+  showColumnBorders: boolean;
+  cardSpacing: string;
+  customTheme?: CustomBoardTheme;
+}
+
+export interface ViewCustomThemeConfig {
+  table?: CustomTableTheme;
+  gallery?: CustomGalleryTheme;
+  board?: CustomBoardTheme;
+}
+
+export interface BlockViewSettings {
+  enabled: boolean;
+  defaultView: 'list' | 'table' | 'gallery' | 'board';
+  defaultTheme: BlockThemeType;
+  hideViewBar: boolean;
+  inline: boolean;
+  table: BlockViewTableSettings;
+  gallery: BlockViewGallerySettings;
+  board: BlockViewBoardSettings;
+  defaultSlashCommandTemplate?: string;
+}
+
+export interface AIConfig {
+  enabled: boolean;
+  provider: 'openai' | 'claude' | 'custom';
+  apiKey: string;
+  apiUrl?: string;
+  model?: string;
+  promptTemplate?: string;
+}
+
+export interface SummarySettings {
+  enabled: boolean;
+  defaultTemplate: TemplateType;
+  defaultType: SummaryType;
+  dateFormat: string;
+  ai: AIConfig;
+  weeklyPageNameTemplate: string;
+  monthlyPageNameTemplate: string;
+  customPageNameTemplate: string;
+}
+
+export interface MilestoneSettings {
+  enabled: boolean;
+  defaultStyle: MilestoneDisplayStyle;
+  showLabels: boolean;
+  showProgress: boolean;
+  tooltipStyle: MilestoneTooltipStyle;
+  templates: MilestoneTemplate[];
+  defaultColorScheme?: {
+    completed?: string;
+    inProgress?: string;
+    pending?: string;
+    failed?: string;
+    skipped?: string;
+    background?: string;
+    text?: string;
+  };
+  defaultSlashCommandTemplate?: string;
+}
+
+export interface Settings {
+  disabled?: boolean
+  theme?: ThemeType
+  language?: string
+  toolbar?: boolean
+  dateFormat?: string
+  useSystemTheme?: boolean
+  useSystemLanguage?: boolean
+  showBorder?: boolean
+  width?: string
+  height?: string
+  hoverDelay?: number
+  sponsorEnabled?: boolean
+  developerMode?: boolean
+  taskProgress?: TaskProgressSettings
+  heatmap?: HeatmapSettings
+  blockView?: BlockViewSettings
+  summary?: SummarySettings
+  milestone?: MilestoneSettings
+  ToolbarItems?: any[]
 }

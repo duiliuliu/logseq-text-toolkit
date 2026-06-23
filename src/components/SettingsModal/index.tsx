@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Modal from '../Modal/index.tsx'
-import { useSettingsContext } from '../../settings/useSettings.tsx'
-import GeneralSettings from './tabs/GeneralSettings.tsx'
-import ToolbarSettings from './tabs/ToolbarSettings.tsx'
-import AdvancedSettings from './tabs/AdvancedSettings.tsx'
-import { t } from '../../translations/i18n.ts'
-import { ThemeType, Settings } from '../../settings/types.ts'
+import Modal from '../Modal/index'
+import { useSettingsContext } from '../../settings/useSettings'
+import GeneralSettings from './tabs/GeneralSettings'
+import ToolbarSettings from './tabs/ToolbarSettings'
+import AdvancedSettings from './tabs/AdvancedSettings'
+import TaskProgressSettings from './tabs/TaskProgressSettings'
+import HeatmapSettings from './tabs/HeatmapSettings'
+import BlockViewSettings from './tabs/BlockViewSettings'
+import SummarySettings from './tabs/SummarySettings'
+import MilestoneSettings from './tabs/MilestoneSettings'
+import { t, getCurrentLanguage } from '../../translations/i18n'
+import { ThemeType, Settings } from '../../settings/types'
 import { logseqAPI } from '../../logseq/index.ts'
 import './settingsModal.css'
 
@@ -65,6 +70,40 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     }
   }
 
+  // 先计算语言和主题，这样 t() 可以正常工作
+  const language = settings?.language || 'zh-CN'
+  const modalTheme = settings?.theme === 'dark' ? 'dark' : 'light'
+
+  interface Tab {
+    id: string
+    component: React.ComponentType<TabComponentProps>
+    label: string
+    icon: string
+  }
+
+  // 计算动态 tabs 列表 (即使 settings 是 null, 我们也先定义这个数组)
+  const featureTabs: Tab[] = settings ? [
+    settings.toolbar !== false && { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language), icon: '' },
+    settings.taskProgress?.enabled !== false && { id: 'task-progress', component: TaskProgressSettings, label: t('settings.tabs.taskProgress', language), icon: '' },
+    settings.heatmap?.enabled !== false && { id: 'heatmap', component: HeatmapSettings, label: t('settings.tabs.heatmap', language), icon: '' },
+    settings.blockView?.enabled !== false && { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
+    settings.summary?.enabled !== false && { id: 'summary', component: SummarySettings, label: t('settings.tabs.summary', language), icon: '' },
+    settings.milestone?.enabled !== false && { id: 'milestone', component: MilestoneSettings, label: t('settings.tabs.milestone', language), icon: '' },
+  ].filter(Boolean) as Tab[] : []
+
+  const tabs: Tab[] = [
+    { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language), icon: '' },
+    ...featureTabs,
+  ]
+
+  // 如果当前 activeTab 不再存在于 tabs 中，切换到 'general'
+  useEffect(() => {
+    const tabIds = tabs.map(t => t.id)
+    if (!tabIds.includes(activeTab)) {
+      setActiveTab('general')
+    }
+  }, [tabs, activeTab])
+
   if (isLoading) {
     return (
       <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
@@ -81,37 +120,24 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     )
   }
 
-  const language = settings.language || 'zh-CN'
-
-  interface Tab {
-    id: string
-    component: React.ComponentType<TabComponentProps>
-    label: string
-  }
-
-  const tabs: Tab[] = [
-    { id: 'general', component: GeneralSettings, label: t('settings.tabs.general', language) },
-    { id: 'toolbar', component: ToolbarSettings, label: t('settings.tabs.toolbar', language) },
-    { id: 'advanced', component: AdvancedSettings, label: t('settings.tabs.advanced', language) }
-  ]
-
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={theme}>
-      <div className="ltt-settings-container" data-theme={theme}>
+    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={modalTheme}>
+      <div className="ltt-settings-container" data-theme={modalTheme}>
         <div className="ltt-settings-header">
           <div className="ltt-settings-tabs">
-            {tabs.map(tab => (
-              <button 
-                key={tab.id}
-                className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          {tabs.map(tab => (
+            <button 
+              key={tab.id}
+              className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              <span style={{ marginRight: '4px' }}>{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </div>
         </div>
 
         <div className="ltt-settings-content">

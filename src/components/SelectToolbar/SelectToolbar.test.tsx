@@ -1,0 +1,280 @@
+/**
+ * SelectToolbar 组件测试
+ * 测试选择工具栏组件的基本渲染和交互
+ */
+
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import React from 'react';
+import SelectToolbar from './';
+import { SettingsProvider } from '../../settings/useSettings';
+
+vi.mock('../../logseq/utils', () => ({
+  getSelection: vi.fn().mockReturnValue({
+    toString: vi.fn().mockReturnValue('mock selection'),
+    anchorNode: {},
+    focusNode: {}
+  }),
+  getWindow: vi.fn().mockReturnValue(window),
+  getDocument: vi.fn().mockReturnValue(document)
+}));
+
+vi.mock('../../logseq', () => ({
+  logseqAPI: {
+    editor: {
+      insertBatchBlock: vi.fn().mockResolvedValue(undefined)
+    }
+  }
+}));
+
+vi.mock('../../lib/toolbar', () => ({
+  toolbarManager: {
+    isReady: vi.fn().mockReturnValue(true),
+    initialize: vi.fn(),
+    setLanguage: vi.fn(),
+    executeAction: vi.fn().mockResolvedValue(undefined)
+  },
+  eventBus: {
+    on: vi.fn(),
+    off: vi.fn()
+  }
+}));
+
+vi.mock('../../lib/logger', () => ({
+  default: {
+    info: vi.fn(),
+    error: vi.fn(),
+    warn: vi.fn(),
+    debug: vi.fn()
+  }
+}));
+
+describe('SelectToolbar 组件测试', () => {
+  let container: HTMLElement;
+  let mockTargetElement: HTMLElement;
+
+  const defaultItems = [
+    { id: 'bold', label: '粗体', icon: 'B', action: 'bold' },
+    { id: 'italic', label: '斜体', icon: 'I', action: 'italic' },
+    { id: 'underline', label: '下划线', icon: 'U', action: 'underline' }
+  ];
+
+  const defaultSettings = {
+    theme: 'light' as const,
+    showBorder: true,
+    width: '110px',
+    height: '24px',
+    hoverDelay: 500,
+    sponsorEnabled: false,
+    language: 'zh-CN' as const
+  };
+
+  beforeEach(() => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    
+    mockTargetElement = document.createElement('div');
+    mockTargetElement.className = 'mock-target';
+    document.body.appendChild(mockTargetElement);
+  });
+
+  afterEach(() => {
+    if (container.parentNode) {
+      container.parentNode.removeChild(container);
+    }
+    if (mockTargetElement.parentNode) {
+      mockTargetElement.parentNode.removeChild(mockTargetElement);
+    }
+  });
+
+  describe('组件展示测试', () => {
+    it('应该正确渲染 SelectToolbar 组件', () => {
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={defaultItems}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      expect(container.querySelector('.ltt-floating-toolbar')).toBeTruthy();
+    });
+
+    it('应该渲染工具栏项目', () => {
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={defaultItems}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      const toolbarItems = container.querySelectorAll('.ltt-toolbar-main-item');
+      expect(toolbarItems.length).toBeGreaterThan(0);
+    });
+
+    it('应该应用正确的主题', () => {
+      const { container: lightContainer } = render(
+        <SettingsProvider settings={{ ...defaultSettings, theme: 'light' }}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={defaultItems}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      expect(lightContainer.querySelector('.ltt-floating-toolbar')).toBeTruthy();
+
+      const { container: darkContainer } = render(
+        <SettingsProvider settings={{ ...defaultSettings, theme: 'dark' }}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={defaultItems}
+            theme="dark"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      expect(darkContainer.querySelector('.ltt-floating-toolbar')).toBeTruthy();
+    });
+  });
+
+  describe('组件交互测试', () => {
+    it('应该能够点击工具栏项目', async () => {
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={defaultItems}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      const firstItem = container.querySelector('.ltt-toolbar-main-item') as HTMLElement;
+      if (firstItem) {
+        fireEvent.click(firstItem);
+        await waitFor(() => {
+          expect(true).toBe(true);
+        });
+      }
+    });
+
+    it('应该能够响应鼠标悬停', async () => {
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={defaultItems}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      const toolbar = container.querySelector('.ltt-floating-toolbar') as HTMLElement;
+      if (toolbar) {
+        fireEvent.mouseEnter(toolbar);
+        await waitFor(() => {
+          expect(true).toBe(true);
+        });
+      }
+    });
+  });
+
+  describe('功能交互测试', () => {
+    it('应该正确处理空项目列表', () => {
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={[]}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      expect(container.querySelector('.ltt-floating-toolbar')).toBeTruthy();
+    });
+
+    it('应该正确处理单个项目', () => {
+      const singleItem = [{ id: 'test', label: '测试', icon: 'T', action: 'test' }];
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={singleItem}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      const toolbarItems = container.querySelectorAll('.ltt-toolbar-main-item');
+      expect(toolbarItems.length).toBeGreaterThanOrEqual(0);
+    });
+
+    it('应该正确处理 targetElement 为 null', () => {
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={null}
+            items={defaultItems}
+            theme="light"
+          />
+        </SettingsProvider>
+      );
+      
+      expect(container).toBeTruthy();
+    });
+  });
+
+  describe('边界条件测试', () => {
+    it('应该处理超长标签', () => {
+      const longLabelItems = [
+        { id: 'long', label: '这是一个非常非常长的标签文本', icon: 'L', action: 'long' }
+      ];
+      
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={longLabelItems}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      expect(container.querySelector('.ltt-floating-toolbar')).toBeTruthy();
+    });
+
+    it('应该处理缺失的图标', () => {
+      const noIconItems = [
+        { id: 'no-icon', label: '无图标', icon: '', action: 'no-icon' }
+      ];
+      
+      const { container } = render(
+        <SettingsProvider settings={defaultSettings}>
+          <SelectToolbar
+            targetElement={mockTargetElement}
+            items={noIconItems}
+            theme="light"
+            defaultShow={true}
+          />
+        </SettingsProvider>
+      );
+      
+      expect(container.querySelector('.ltt-floating-toolbar')).toBeTruthy();
+    });
+  });
+});

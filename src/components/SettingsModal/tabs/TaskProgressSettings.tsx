@@ -1,0 +1,251 @@
+/**
+ * Copyright (c) 2026 duiliuliu
+ * License: MIT
+ * 
+ * 任务进度设置 Tab
+ */
+
+import { t } from '../../../translations/i18n.ts'
+import CustomSelect from '../../CustomSelect/index.tsx'
+import MacroTemplateInput from '../../SettingsModal/components/MacroTemplateInput'
+import { Settings } from '../../../settings/types.ts'
+import { TabComponentProps } from '../index.tsx'
+
+const defaultStatusColors: Record<string, string> = {
+  'todo': '#f59e0b',
+  'doing': '#3b82f6',
+  'in-review': '#06b6d4',
+  'done': '#10b981',
+  'waiting': '#8b5cf6',
+  'canceled': '#ef4444',
+}
+
+function TaskProgressSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
+  const handleSettingChange = (path: string, value: any) => {
+    setSettings(prev => {
+      if (!prev) return prev
+      const newSettings = JSON.parse(JSON.stringify(prev))
+      const keys = path.split('.')
+      let current = newSettings
+      
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (!current[keys[i]]) {
+          current[keys[i]] = {}
+        }
+        current = current[keys[i]]
+      }
+      
+      current[keys[keys.length - 1]] = value
+      return newSettings
+    })
+  }
+
+  const handleStatusColorChange = (status: string, color: string) => {
+    setSettings(prev => {
+      if (!prev) return prev
+      const newSettings = JSON.parse(JSON.stringify(prev))
+      if (!newSettings.meta) newSettings.meta = {}
+      if (!newSettings.meta.taskProgress) newSettings.meta.taskProgress = { statusColors: {} }
+      if (!newSettings.meta.taskProgress.statusColors) newSettings.meta.taskProgress.statusColors = {}
+      newSettings.meta.taskProgress.statusColors[status] = color
+      return newSettings
+    })
+  }
+
+  const displayTypeOptions = [
+    { value: 'mini-circle', label: t('settings.taskProgress.miniCircle', language) },
+    { value: 'dot-matrix', label: t('settings.taskProgress.dotMatrix', language) },
+    { value: 'status-cursor', label: t('settings.taskProgress.statusCursor', language) },
+    { value: 'progress-capsule', label: t('settings.taskProgress.progressCapsule', language) },
+    { value: 'step-progress', label: t('settings.taskProgress.stepProgress', language) }
+  ]
+
+  const sizeOptions = [
+    { value: 'small', label: t('settings.taskProgress.sizeSmall', language) },
+    { value: 'medium', label: t('settings.taskProgress.sizeMedium', language) },
+    { value: 'large', label: t('settings.taskProgress.sizeLarge', language) }
+  ]
+
+  const labelFormatOptions = [
+    { value: 'fraction', label: t('settings.taskProgress.labelFraction', language) },
+    { value: 'percentage', label: t('settings.taskProgress.labelPercentage', language) }
+  ]
+
+  const nestingLevelOptions = [
+    { value: 1, label: t('settings.taskProgress.nestingLevel1', language) },
+    { value: 2, label: t('settings.taskProgress.nestingLevel2', language) },
+    { value: 3, label: t('settings.taskProgress.nestingLevel3', language) },
+    { value: 'all', label: t('settings.taskProgress.nestingLevelAll', language) }
+  ]
+
+  const taskProgress = settings.taskProgress || {
+    enabled: true,
+    defaultDisplayType: 'mini-circle',
+    displayOptions: {},
+    nestingLevel: 1,
+    onlyLeaves: false,
+    showNestingIndicator: false,
+    fireworksOnComplete: true,
+  }
+
+  const statusColors = {
+    ...defaultStatusColors,
+    ...settings.taskProgress?.statusColors
+  }
+
+  return (
+    <div className="ltt-settings-tab-content">
+      <p className="ltt-tab-section-description-small">
+        {t('settings.taskProgressDescription', language)}
+      </p>
+      
+      {/* 功能开关已移动到通用设置的功能管理，请勿重复设置 */}
+      {/* 
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.enabled', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={taskProgress.enabled || false}
+            onChange={(e) => handleSettingChange('taskProgress.enabled', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+      */}
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.defaultDisplayType', language)}</label>
+        <CustomSelect
+          options={displayTypeOptions}
+          value={taskProgress.defaultDisplayType || 'mini-circle'}
+          onChange={(value) => handleSettingChange('taskProgress.defaultDisplayType', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.size', language)}</label>
+        <CustomSelect
+          options={sizeOptions}
+          value={taskProgress.displayOptions?.['mini-circle']?.size || 'small'}
+          onChange={(value) => handleSettingChange('taskProgress.displayOptions.mini-circle.size', value)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.showLabel', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={taskProgress.showLabel ?? true}
+            onChange={(e) => handleSettingChange('taskProgress.showLabel', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.fireworksOnComplete', language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={taskProgress.fireworksOnComplete ?? true}
+            onChange={(e) => handleSettingChange('taskProgress.fireworksOnComplete', e.target.checked)}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.defaultSlashCommandTemplate', language)}</label>
+        <MacroTemplateInput
+          value={taskProgress.defaultSlashCommandTemplate || ''}
+          onChange={(value) => handleSettingChange('taskProgress.defaultSlashCommandTemplate', value)}
+          macroType="taskprogress"
+          language={language}
+          placeholder=":taskprogress mini-circle"
+          align="right"
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.taskProgress.labelFormat', language)}</label>
+        <CustomSelect
+          options={labelFormatOptions}
+          value={taskProgress.labelFormat || 'fraction'}
+          onChange={(value) => handleSettingChange('taskProgress.labelFormat', value)}
+        />
+      </div>
+
+      <div className="ltt-settings-section">
+        <h4>{t('settings.taskProgress.nestingSettings', language)}</h4>
+        
+        <div className="ltt-setting-item">
+          <label>{t('settings.taskProgress.nestingLevel', language)}</label>
+          <CustomSelect
+            options={nestingLevelOptions}
+            value={taskProgress.nestingLevel ?? 1}
+            onChange={(value) => handleSettingChange('taskProgress.nestingLevel', value)}
+          />
+        </div>
+
+        <div className="ltt-setting-item">
+          <label>{t('settings.taskProgress.onlyLeaves', language)}</label>
+          <label className="ltt-switch">
+            <input
+              type="checkbox"
+              checked={taskProgress.onlyLeaves ?? false}
+              onChange={(e) => handleSettingChange('taskProgress.onlyLeaves', e.target.checked)}
+            />
+            <span className="ltt-switch-slider"></span>
+          </label>
+        </div>
+
+        <div className="ltt-setting-item">
+          <label>{t('settings.taskProgress.showNestingIndicator', language)}</label>
+          <label className="ltt-switch">
+            <input
+              type="checkbox"
+              checked={taskProgress.showNestingIndicator ?? false}
+              onChange={(e) => handleSettingChange('taskProgress.showNestingIndicator', e.target.checked)}
+            />
+            <span className="ltt-switch-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div className="ltt-settings-section">
+        <h4>{t('settings.taskProgress.statusColors', language)}</h4>
+        <p className="ltt-section-hint" style={{ fontSize: '12px', color: '#666', margin: '4px 0 12px' }}>
+          {t('settings.taskProgress.statusColorsHint', language)}
+        </p>
+        
+        <div className="ltt-status-colors-grid">
+          {Object.entries(statusColors).map(([status, color]) => (
+            <div key={status} className="ltt-status-color-row">
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => handleStatusColorChange(status, e.target.value)}
+                className="ltt-color-input"
+              />
+              <span className="ltt-status-label">{t(`settings.taskProgress.statusNames.${status}`, language)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="ltt-settings-actions">
+        <button 
+          className="ltt-settings-btn ltt-settings-btn-save"
+          onClick={onSave}
+          disabled={isSaving}
+        >
+          {isSaving ? t('settings.saving', language) : t('settings.saveTaskProgressSettings', language)}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default TaskProgressSettings
