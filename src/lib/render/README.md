@@ -272,27 +272,132 @@ interface ConfigSchema<T = any> {
 
 ### 8.2 核心函数
 
-| 函数 | 说明 |
-|------|------|
-| `registerRendererWithConfigSchema(prefix, schemas)` | 统一注册渲染器和参数 Schema |
-| `resolveConfigFromTokens(schemas, macroArgs, settings)` | 从 key-value 参数解析 |
-| `resolveConfigFromTokensArray(schemas, tokens, settings)` | 从 tokens 数组解析 |
-| `validateConfigSchema(schemas, args)` | 验证参数有效性 |
-| `getAllRegisteredPrefixes()` | 获取所有已注册的前缀 |
-| `isPrefixRegistered(prefix)` | 检查前缀是否已注册 |
+| 函数 | 说明 | 推荐度 | 生命周期 |
+|------|------|--------|----------|
+| `registerRendererWithConfigSchema(prefix, schemas)` | 统一注册渲染器和参数 Schema（推荐入口） | ⭐⭐⭐ | **推荐使用** |
+| `resolveConfigFromTokensArray(schemas, tokens, settings)` | 从 tokens 数组直接解析（支持位置+命名参数） | ⭐⭐⭐ | **推荐使用** |
+| `resolveConfigFromTokens(schemas, macroArgs, settings)` | 从 key-value 参数解析（渐进迁移用） | ⭐⭐ | 过渡使用 |
+| `validateConfigSchema(schemas, args)` | 验证参数类型和枚举值 | ⭐⭐⭐ | **推荐使用** |
+| `registerConfigSchema(prefix, schemas)` | 仅注册 Schema（纯配置场景） | ⭐ | 特殊场景 |
+| `inferSchemaFromArgs(args)` | 从参数自动推断 Schema（辅助工具） | ⭐⭐ | 辅助工具 |
+| `getAllRegisteredPrefixes()` | 获取所有已注册的前缀 | ⭐⭐ | 工具函数 |
+| `isPrefixRegistered(prefix)` | 检查前缀是否已注册 | ⭐⭐ | 工具函数 |
+
+### 8.3 渐进迁移 vs 最终方案
+
+#### 渐进迁移阶段（混合模式）
+
+```typescript
+// 渐进迁移阶段使用的方法组合
+import { registerRendererArgModel, parseRendererArgs } from './rendererArgs';
+import { resolveConfigFromTokens } from './configResolver';
+
+// 1. 使用旧 API 注册（保持兼容）
+registerRendererArgModel(':heatmap', { positional: ['view', 'mode'] });
+
+// 2. 使用旧 API 解析，新 API 处理类型和默认值
+const rawArgs = parseRendererArgs(':heatmap', tokens);
+const config = resolveConfigFromTokens(SCHEMAS, rawArgs, settings);
+```
+
+#### 最终方案（推荐）
+
+```typescript
+// 最终阶段使用的方法组合
+import { registerRendererWithConfigSchema, resolveConfigFromTokensArray } from './configResolver';
+
+// 1. 使用统一注册入口
+registerRendererWithConfigSchema(':heatmap', SCHEMAS);
+
+// 2. 直接从 tokens 解析（一步到位）
+const config = resolveConfigFromTokensArray(SCHEMAS, tokens, settings);
+```
+
+#### 可下线的旧方法
+
+| 旧方法 | 替代方案 | 下线时机 |
+|--------|----------|----------|
+| `registerRendererArgModel` | `registerRendererWithConfigSchema` | 所有模块迁移完成后 |
+| `parseRendererArgs` | `resolveConfigFromTokensArray` | 所有模块迁移完成后 |
+| `splitRendererArgs` | `resolveConfigFromTokensArray`（内置处理） | 所有模块迁移完成后 |
+
+> **注意**：`createRendererArgUpdater` 继续保留使用，用于更新宏命令字符串。
 
 ---
 
-## 九、兼容性说明
+## 九、`inferSchemaFromArgs` 使用场景
+
+`inferSchemaFromArgs` 是一个**辅助工具函数**，用于从已有的参数自动推断 Schema 结构。
+
+### 适用场景
+
+| 场景 | 说明 |
+|------|------|
+| **迁移辅助** | 从现有代码的参数对象自动生成 Schema 模板，减少手动编写工作量 |
+| **动态配置** | 根据用户输入的参数动态生成验证规则 |
+| **调试工具** | 快速了解参数的类型分布，辅助编写 Schema |
+| **测试生成** | 根据实际参数自动生成测试用例的 Schema |
+
+### 使用示例
+
+```typescript
+import { inferSchemaFromArgs, resolveConfigFromTokens } from './configResolver';
+
+// 假设有一组现有参数
+const existingArgs = {
+  view: 'year',
+  displayMode: 'full',
+  width: '600',
+  inline: 'true',
+  tags: 'a;b;c',
+  options: '{"theme":"dark"}'
+};
+
+// 自动推断 Schema
+const inferredSchemas = inferSchemaFromArgs(existingArgs);
+// → [
+//     { key: 'view', type: 'string' },
+//     { key: 'displayMode', type: 'string' },
+//     { key: 'width', type: 'number' },
+//     { key: 'inline', type: 'boolean' },
+//     { key: 'tags', type: 'stringList' },
+//     { key: 'options', type: 'json' }
+//   ]
+
+// 可以在此基础上手动完善（添加默认值、枚举值等）
+const schemas = inferredSchemas.map(s => {
+  if (s.key === 'view') {
+    return { ...s, type: 'enum' as const, enumValues: ['year', 'month', 'week'], defaultValue: 'year' };
+  }
+  return s;
+});
+
+// 使用完善后的 Schema
+const config = resolveConfigFromTokens(schemas, existingArgs, {});
+```
+
+### 推断规则
+
+| 类型 | 推断条件 | 示例 |
+|------|----------|------|
+| `boolean` | 值为 `true`, `false`, `1`, `0`, `yes`, `no`（忽略大小写） | `"true"`, `"1"` |
+| `number` | 值能被解析为有效数字 | `"600"`, `"3.14"` |
+| `stringList` | 值包含分号 `;` | `"a;b;c"` |
+| `json` | 值是有效的 JSON 字符串 | `'{"a":1}'` |
+| `string` | 其他所有情况 | `"hello"`, `"year"` |
+
+---
+
+## 十、兼容性说明
 
 | 特性 | 旧 API | 新 API | 状态 |
 |------|--------|--------|------|
-| 位置参数注册 | `registerRendererArgModel` | `registerRendererWithConfigSchema` | 兼容 |
-| 参数解析 | `parseRendererArgs` | `resolveConfigFromTokensArray` | 兼容 |
-| 参数更新 | `createRendererArgUpdater` | 继续使用 | 兼容 |
+| 位置参数注册 | `registerRendererArgModel` | `registerRendererWithConfigSchema` | 兼容（可下线） |
+| 参数解析 | `parseRendererArgs` | `resolveConfigFromTokensArray` | 兼容（可下线） |
+| 参数更新 | `createRendererArgUpdater` | 继续使用 | **保留** |
 | 模板验证 | `validateMacroTemplate` | 动态加载 | 增强 |
 
 **渐进式演变策略**：
-1. 新模块直接使用 `registerRendererWithConfigSchema`
-2. 旧模块逐步迁移，保留原有 `registerRendererArgModel` 调用
-3. 模板验证自动从 ConfigSchema 动态加载，无需手动维护前缀列表
+1. **新模块**：直接使用 `registerRendererWithConfigSchema` + `resolveConfigFromTokensArray`
+2. **旧模块**：先使用混合模式（`parseRendererArgs` + `resolveConfigFromTokens`），逐步迁移
+3. **迁移完成**：移除对 `registerRendererArgModel` 和 `parseRendererArgs` 的调用
