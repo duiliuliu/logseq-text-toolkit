@@ -1,5 +1,21 @@
 // 翻译类型定义
 
+// 递归获取嵌套对象的所有点分路径键
+type NestedKeyOf<T, Prefix extends string = ''> = T extends object
+  ? {
+      [K in keyof T & string]: T[K] extends string
+        ? Prefix extends ''
+          ? K
+          : `${Prefix}.${K}`
+        : T[K] extends object
+        ? NestedKeyOf<T[K], Prefix extends '' ? K : `${Prefix}.${K}`>
+        : never;
+    }[keyof T & string]
+  : never;
+
+// 翻译键类型 - 所有合法的点分路径
+export type TranslationKey = NestedKeyOf<TranslationKeys>;
+
 export interface TaskProgressStatusNames {
   todo: string;
   doing: string;
@@ -241,7 +257,13 @@ export interface SummaryTranslation {
   defaultTemplate: string;
   defaultType: string;
   dateFormat: string;
-  pageNameTemplate: string;
+  weeklyPageNameTemplate: string;
+  weeklyPageNamePlaceholder: string;
+  monthlyPageNameTemplate: string;
+  monthlyPageNamePlaceholder: string;
+  customPageNameTemplate: string;
+  customPageNamePlaceholder: string;
+  pageNameTemplateHelp: string;
   templateGtdWorkReview: string;
   templateMinimalDashboard: string;
   templateBulletJournal: string;

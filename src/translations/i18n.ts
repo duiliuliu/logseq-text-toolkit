@@ -6,14 +6,14 @@
 import en from './en.json'
 import ja from './ja.json'
 import zhCN from './zh-CN.json'
-import { TranslationKeys, SupportedLanguage } from './translations.ts'
+import { TranslationKeys, SupportedLanguage, TranslationKey } from './translations.ts'
 import { getSettings } from '../settings/index.ts'
 import logger from '../lib/logger/index'
 
-const builtInTranslations: Record<SupportedLanguage, TranslationKeys> = {
-  'en': en as TranslationKeys,
-  'ja': ja as TranslationKeys,
-  'zh-CN': zhCN as TranslationKeys
+const builtInTranslations: Record<Exclude<SupportedLanguage, 'system'>, TranslationKeys> = {
+  'en': en as unknown as TranslationKeys,
+  'ja': ja as unknown as TranslationKeys,
+  'zh-CN': zhCN as unknown as TranslationKeys
 }
 
 type DynamicTranslations = Partial<Record<SupportedLanguage, TranslationKeys>>
@@ -63,7 +63,7 @@ export const initI18n = async (): Promise<void> => {
   }
 }
 
-export const t = (key: string, lang?: SupportedLanguage): string => {
+export const t = (key: TranslationKey, lang?: SupportedLanguage): string => {
   let language = lang || getSettings()?.language || 'zh-CN'
   
   if (language === 'system') {
