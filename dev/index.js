@@ -974,7 +974,7 @@
   		canceled: "#6b7280",
   		"in-review": "#f97316"
   	},
-  	defaultSlashCommandTemplate: ":taskprogress mini-circle"
+  	defaultSlashCommandTemplate: ":taskprogress , mini-circle"
   };
   const heatmap = {
   	enabled: true,
