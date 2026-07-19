@@ -29068,19 +29068,12 @@ ${where}
     );
   }
 
-  const DOUBLE_CLICK_THRESHOLD = 300;
-  const SELECTION_DELAY = 200;
   function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false }) {
     const { settings } = useSettingsContext();
     const [selectedData, setSelectedData] = reactExports.useState({ text: "" });
     const [toolbarPosition, setToolbarPosition] = reactExports.useState({ x: 0, y: 0 });
     const [showToolbar, setShowToolbar] = reactExports.useState(defaultShow);
     const containerRef = reactExports.useRef(null);
-    const selectionStateRef = reactExports.useRef({
-      lastSelectionTime: 0,
-      lastSelectedText: "",
-      pendingTimer: null
-    });
     const theme = settings?.theme || "light";
     const showBorder = settings?.showBorder !== void 0 ? settings.showBorder : true;
     const width = settings?.width || "110px";
@@ -29099,14 +29092,6 @@ ${where}
         }
       }
     }, [settings]);
-    reactExports.useEffect(() => {
-      const handleTextProcessedEvent = (_data) => {
-      };
-      eventBus.on("ltt-textProcessed", handleTextProcessedEvent);
-      return () => {
-        eventBus.off("ltt-textProcessed", handleTextProcessedEvent);
-      };
-    }, []);
     const handleItemClick = async (item, selectedData2) => {
       try {
         await toolbarManager.executeAction(item, selectedData2);
@@ -29115,247 +29100,72 @@ ${where}
         loggerProxy.error("Error executing action:", error);
       }
     };
-    const updateToolbarPosition = async () => {
-      if (!targetElement) {
-        setShowToolbar(false);
+    reactExports.useEffect(() => {
+      if (!logseqAPI$1.Editor?.onInputSelectionEnd) {
+        loggerProxy.warn("Editor.onInputSelectionEnd is not available");
         return;
       }
-      const selection = getSelection();
-      if (!selection || selection.toString().length === 0) {
-        setShowToolbar(false);
-        return;
-      }
-      const anchorNode = selection.anchorNode;
-      const focusNode = selection.focusNode;
-      const shouldShowToolbar = targetElement.contains(anchorNode) || targetElement.contains(focusNode);
-      if (!shouldShowToolbar) {
-        setShowToolbar(false);
-        return;
-      }
-      try {
-        const curPos = await logseqAPI$1.Editor.getEditingCursorPosition();
-        if (curPos != null) {
+      const unsubscribe = logseqAPI$1.Editor.onInputSelectionEnd(
+        async (info) => {
+          const { text, start, end, point } = info;
+          if (!text || text.length === 0 || start === end) {
+            setShowToolbar(false);
+            return;
+          }
+          const block = await logseqAPI$1.Editor.getCurrentBlock();
+          const content = block?.content || "";
           let before = "";
           let after = "";
-          const selectedText = selection.toString();
-          const block = await logseqAPI$1.Editor.getCurrentBlock();
-          if (block && block.content && selectedText) {
-            const content = block.content;
-            if (selection.rangeCount > 0) {
-              const range = selection.getRangeAt(0);
-              let currentNode = range.startContainer;
-              while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
-                currentNode = currentNode.parentNode;
-              }
-              if (currentNode) {
-                let offset = 0;
-                let tempNode = block.content?.[0];
-                while (tempNode && tempNode !== currentNode) {
-                  offset += tempNode.textContent?.length || 0;
-                  tempNode = tempNode?.nextSibling || null;
-                }
-                offset += range.startOffset;
-                if (offset >= 0 && offset + selectedText.length <= content.length) {
-                  before = content.substring(0, offset);
-                  after = content.substring(offset + selectedText.length);
-                } else {
-                  const index = content.indexOf(selectedText);
-                  if (index !== -1) {
-                    before = content.substring(0, index);
-                    after = content.substring(index + selectedText.length);
-                  }
-                }
-              }
-            } else {
-              const index = content.indexOf(selectedText);
-              if (index !== -1) {
-                before = content.substring(0, index);
-                after = content.substring(index + selectedText.length);
-              }
-            }
+          if (content && start >= 0 && end <= content.length) {
+            before = content.substring(0, start);
+            after = content.substring(end);
           }
+          const rect = {
+            top: point.y,
+            left: point.x,
+            bottom: point.y,
+            right: point.x,
+            width: 0,
+            height: 0,
+            x: point.x,
+            y: point.y,
+            toJSON: () => ({})
+          };
           const newSelectedData = {
-            text: selectedText,
+            text,
             timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-            rect: curPos.rect,
+            rect,
             before,
             after,
             block
           };
           setSelectedData(newSelectedData);
           eventBus.emit("ltt-selectionChange", { selectedData: newSelectedData });
-          let toolbarY = curPos.top + curPos.rect.y - 35;
-          let toolbarX;
+          const toolbarHeight = 32;
+          const padding = 3;
+          const viewportHeight = getWindow$1().innerHeight;
           const viewportWidth = getWindow$1().innerWidth;
+          let toolbarY;
+          const spaceAbove = point.y;
+          viewportHeight - point.y;
+          if (spaceAbove > toolbarHeight + 10) {
+            toolbarY = point.y - toolbarHeight - padding;
+          } else {
+            toolbarY = point.y + padding;
+          }
+          let toolbarX = point.x;
           if (containerRef.current) {
             const w = containerRef.current.offsetWidth;
-            if (curPos.left + curPos.rect.x + w <= viewportWidth) {
-              toolbarX = curPos.left + curPos.rect.x;
-            } else {
-              toolbarX = -w + viewportWidth;
-            }
+            toolbarX = point.x - w / 2;
             if (toolbarX < 0) toolbarX = 0;
-          } else {
-            toolbarX = curPos.left + curPos.rect.x;
+            if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w;
           }
           setToolbarPosition({ x: toolbarX, y: toolbarY });
           setShowToolbar(true);
         }
-      } catch (error) {
-        let rect;
-        try {
-          if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            rect = range.getBoundingClientRect();
-            if (rect.width === 0 && focusNode?.parentElement) {
-              rect = focusNode.parentElement.getBoundingClientRect();
-            }
-          } else {
-            rect = targetElement.getBoundingClientRect();
-          }
-        } catch (e) {
-          rect = targetElement.getBoundingClientRect();
-        }
-        let before = "";
-        let after = "";
-        const selectedText = selection.toString();
-        const block = await logseqAPI$1.Editor.getCurrentBlock();
-        if (block && block.content && selectedText) {
-          const content = block.content;
-          if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            let currentNode = range.startContainer;
-            while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
-              currentNode = currentNode.parentNode;
-            }
-            if (currentNode) {
-              let offset = 0;
-              let tempNode = block.content?.[0];
-              while (tempNode && tempNode !== currentNode) {
-                offset += tempNode.textContent?.length || 0;
-                tempNode = tempNode?.nextSibling || null;
-              }
-              offset += range.startOffset;
-              if (offset >= 0 && offset + selectedText.length <= content.length) {
-                before = content.substring(0, offset);
-                after = content.substring(offset + selectedText.length);
-              } else {
-                const index = content.indexOf(selectedText);
-                if (index !== -1) {
-                  before = content.substring(0, index);
-                  after = content.substring(index + selectedText.length);
-                }
-              }
-            }
-          } else {
-            const index = content.indexOf(selectedText);
-            if (index !== -1) {
-              before = content.substring(0, index);
-              after = content.substring(index + selectedText.length);
-            }
-          }
-        }
-        const newSelectedData = {
-          text: selectedText,
-          timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-          rect,
-          before,
-          after,
-          block
-        };
-        setSelectedData(newSelectedData);
-        eventBus.emit("ltt-selectionChange", { selectedData: newSelectedData });
-        const toolbarHeight = 32;
-        const padding = 3;
-        const viewportHeight = getWindow$1().innerHeight;
-        let toolbarY;
-        const spaceAbove = rect.top;
-        viewportHeight - rect.bottom;
-        if (spaceAbove > toolbarHeight + 10) {
-          toolbarY = rect.top - toolbarHeight - padding;
-        } else {
-          toolbarY = rect.bottom + padding;
-        }
-        let toolbarX = rect.left;
-        const viewportWidth = getWindow$1().innerWidth;
-        if (containerRef.current) {
-          const w = containerRef.current.offsetWidth;
-          if (toolbarX < 0) toolbarX = 0;
-          if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w;
-        }
-        setToolbarPosition({ x: toolbarX, y: toolbarY });
-        setShowToolbar(true);
-      }
-    };
-    const handleDelayedSelection = reactExports.useCallback(() => {
-      const state = selectionStateRef.current;
-      const now = Date.now();
-      const timeSinceLastSelection = now - state.lastSelectionTime;
-      if (timeSinceLastSelection < DOUBLE_CLICK_THRESHOLD) {
-        state.lastSelectionTime = now;
-        return;
-      }
-      state.lastSelectionTime = now;
-      updateToolbarPosition();
-    }, [updateToolbarPosition]);
-    reactExports.useEffect(() => {
-      if (!targetElement) return;
-      const handleSelection = async (e) => {
-        if (e.target && (e.target.closest(".ltt-floating-toolbar") || e.target.closest(".ltt-toolbar-container") || e.target.closest(".ltt-toolbar-group-dropdown"))) {
-          return;
-        }
-        const state = selectionStateRef.current;
-        if (state.pendingTimer) {
-          clearTimeout(state.pendingTimer);
-          state.pendingTimer = null;
-        }
-        state.pendingTimer = setTimeout(() => {
-          handleDelayedSelection();
-          state.pendingTimer = null;
-        }, SELECTION_DELAY);
-      };
-      const handleMouseMove = (e) => {
-        if (showToolbar && e.target && (e.target.closest(".ltt-floating-toolbar") || e.target.closest(".ltt-toolbar-container") || e.target.closest(".ltt-toolbar-group-dropdown"))) {
-          return;
-        }
-      };
-      const handleScroll = () => {
-        if (showToolbar) {
-          updateToolbarPosition();
-        }
-      };
-      targetElement.addEventListener("mouseup", handleSelection);
-      targetElement.addEventListener("mousemove", handleMouseMove);
-      targetElement.addEventListener("scroll", handleScroll, true);
-      let currentElement = targetElement.parentElement;
-      while (currentElement) {
-        currentElement.addEventListener("scroll", handleScroll, true);
-        currentElement = currentElement.parentElement;
-      }
-      const doc = getDocument();
-      if (doc && doc.addEventListener) {
-        doc.addEventListener("scroll", handleScroll, true);
-      }
-      return () => {
-        const state = selectionStateRef.current;
-        if (state.pendingTimer) {
-          clearTimeout(state.pendingTimer);
-          state.pendingTimer = null;
-        }
-        targetElement.removeEventListener("mouseup", handleSelection);
-        targetElement.removeEventListener("mousemove", handleMouseMove);
-        targetElement.removeEventListener("scroll", handleScroll, true);
-        currentElement = targetElement.parentElement;
-        while (currentElement) {
-          currentElement.removeEventListener("scroll", handleScroll, true);
-          currentElement = currentElement.parentElement;
-        }
-        const cleanupDoc = getDocument();
-        if (cleanupDoc && cleanupDoc.removeEventListener) {
-          cleanupDoc.removeEventListener("scroll", handleScroll, true);
-        }
-      };
-    }, [showToolbar, targetElement, handleDelayedSelection, updateToolbarPosition]);
+      );
+      return () => unsubscribe();
+    }, []);
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: containerRef, children: showToolbar && /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
       {
@@ -29364,7 +29174,6 @@ ${where}
           position: "fixed",
           left: toolbarPosition.x,
           top: toolbarPosition.y,
-          transform: "translateX(-50%)",
           zIndex: 1e4
         },
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
