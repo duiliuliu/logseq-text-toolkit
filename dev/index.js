@@ -13904,7 +13904,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -13915,7 +13915,7 @@ ${where}
   }).join(" ").trim();
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -13924,7 +13924,7 @@ ${where}
   const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -13936,7 +13936,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -13949,7 +13949,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -13968,7 +13968,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14018,7 +14018,7 @@ ${where}
   );
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14043,7 +14043,7 @@ ${where}
   };
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14059,7 +14059,7 @@ ${where}
   const Bold = createLucideIcon("bold", __iconNode$c);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14073,7 +14073,7 @@ ${where}
   const CircleCheck = createLucideIcon("circle-check", __iconNode$b);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14088,7 +14088,7 @@ ${where}
   const CircleX = createLucideIcon("circle-x", __iconNode$a);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14102,7 +14102,7 @@ ${where}
   const Clock = createLucideIcon("clock", __iconNode$9);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14116,7 +14116,7 @@ ${where}
   const Highlighter = createLucideIcon("highlighter", __iconNode$8);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14131,7 +14131,7 @@ ${where}
   const Italic = createLucideIcon("italic", __iconNode$7);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14142,7 +14142,7 @@ ${where}
   const LoaderCircle = createLucideIcon("loader-circle", __iconNode$6);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14157,7 +14157,7 @@ ${where}
   const Menu = createLucideIcon("menu", __iconNode$5);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14177,7 +14177,7 @@ ${where}
   const SkipForward = createLucideIcon("skip-forward", __iconNode$4);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14192,7 +14192,7 @@ ${where}
   const Strikethrough = createLucideIcon("strikethrough", __iconNode$3);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14207,7 +14207,7 @@ ${where}
   const Type = createLucideIcon("type", __iconNode$2);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
@@ -14221,7 +14221,7 @@ ${where}
   const Underline = createLucideIcon("underline", __iconNode$1);
 
   /**
-   * @license lucide-react v1.24.0 - ISC
+   * @license lucide-react v1.25.0 - ISC
    *
    * This source code is licensed under the ISC license.
    * See the LICENSE file in the root directory of this source tree.
