@@ -1,17 +1,17 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * 选择工具栏组件
  */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Toolbar from '../Toolbar';
 import { SelectedData } from '../Toolbar/types.ts';
-import { getSelection, getWindow, getDocument } from '../../logseq/utils.ts';
+import { getWindow } from '../../logseq/utils.ts';
 import { useSettingsContext } from '../../settings/useSettings.tsx';
-import { 
-  toolbarManager, 
+import {
+  toolbarManager,
   eventBus
 } from '../../lib/toolbar/index.ts';
 import { logseqAPI } from '../../logseq/index.ts';
@@ -21,23 +21,6 @@ interface ToolbarPosition {
   x: number;
   y: number;
 }
-
-const debounce = <T extends (...args: Parameters<T>) => ReturnType<T>>(fn: T, delay: number) => {
-  let timer: ReturnType<typeof setTimeout> | null = null;
-  return (...args: Parameters<T>) => {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), delay);
-  };
-};
-
-interface DebouncedUpdateState {
-  lastSelectionTime: number;
-  lastSelectedText: string;
-  pendingTimer: ReturnType<typeof setTimeout> | null;
-}
-
-const DOUBLE_CLICK_THRESHOLD = 300;
-const SELECTION_DELAY = 200;
 
 interface SelectToolbarProps {
   targetElement: HTMLElement | null;
@@ -57,12 +40,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>({ x: 0, y: 0 });
   const [showToolbar, setShowToolbar] = useState(defaultShow);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  const selectionStateRef = useRef<DebouncedUpdateState>({
-    lastSelectionTime: 0,
-    lastSelectedText: '',
-    pendingTimer: null
-  });
 
   const theme = settings?.theme || 'light';
   const showBorder = settings?.showBorder !== undefined ? settings.showBorder : true;
@@ -84,18 +61,6 @@ function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false
     }
   }, [settings]);
 
-  useEffect(() => {
-    const handleTextProcessedEvent = (_data: any) => {
-      // 文本处理完成事件处理
-    };
-
-    eventBus.on('ltt-textProcessed', handleTextProcessedEvent);
-
-    return () => {
-      eventBus.off('ltt-textProcessed', handleTextProcessedEvent);
-    };
-  }, []);
-
   const handleItemClick = async (item: any, selectedData: SelectedData) => {
     try {
       await toolbarManager.executeAction(item, selectedData);
@@ -105,322 +70,99 @@ function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false
     }
   };
 
-  const updateToolbarPosition = async () => {
-    if (!targetElement) {
-      setShowToolbar(false);
+  useEffect(() => {
+    if (!logseqAPI.Editor?.onInputSelectionEnd) {
+      logger.warn('Editor.onInputSelectionEnd is not available');
       return;
     }
 
-    const selection = getSelection();
-    if (!selection || selection.toString().length === 0) {
-      setShowToolbar(false);
-      return;
-    }
+    const unsubscribe = logseqAPI.Editor.onInputSelectionEnd(
+      async (info: { text: string; start: number; end: number; point: { x: number; y: number } }) => {
+        const { text, start, end, point } = info;
 
-    const anchorNode = selection.anchorNode;
-    const focusNode = selection.focusNode;
-    const shouldShowToolbar = targetElement.contains(anchorNode) || targetElement.contains(focusNode);
+        if (!text || text.length === 0 || start === end) {
+          setShowToolbar(false);
+          return;
+        }
 
-    if (!shouldShowToolbar) {
-      setShowToolbar(false);
-      return;
-    }
+        const block = await logseqAPI.Editor.getCurrentBlock();
+        const content = block?.content || '';
 
-    try {
-      const curPos = await logseqAPI.Editor.getEditingCursorPosition();
-      
-      if (curPos != null) {
         let before = '';
         let after = '';
-        const selectedText = selection.toString();
-        
-        const block = await logseqAPI.Editor.getCurrentBlock();
-        
-        if (block && block.content && selectedText) {
-          const content = block.content;
-          
-          if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            let currentNode = range.startContainer;
-            
-            while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
-              currentNode = currentNode.parentNode;
-            }
-            
-            if (currentNode) {
-              let offset = 0;
-              let tempNode = block.content?.[0];
-              
-              while (tempNode && tempNode !== currentNode) {
-                offset += tempNode.textContent?.length || 0;
-                tempNode = tempNode?.nextSibling || null;
-              }
-              
-              offset += range.startOffset;
-              
-              if (offset >= 0 && offset + selectedText.length <= content.length) {
-                before = content.substring(0, offset);
-                after = content.substring(offset + selectedText.length);
-              } else {
-                const index = content.indexOf(selectedText);
-                if (index !== -1) {
-                  before = content.substring(0, index);
-                  after = content.substring(index + selectedText.length);
-                }
-              }
-            }
-          } else {
-            const index = content.indexOf(selectedText);
-            if (index !== -1) {
-              before = content.substring(0, index);
-              after = content.substring(index + selectedText.length);
-            }
-          }
+        if (content && start >= 0 && end <= content.length) {
+          before = content.substring(0, start);
+          after = content.substring(end);
         }
-        
+
+        const rect = {
+          top: point.y,
+          left: point.x,
+          bottom: point.y,
+          right: point.x,
+          width: 0,
+          height: 0,
+          x: point.x,
+          y: point.y,
+          toJSON: () => ({})
+        } as DOMRect;
+
         const newSelectedData: SelectedData = {
-          text: selectedText,
+          text,
           timestamp: new Date().toISOString(),
-          rect: curPos.rect,
+          rect,
           before,
           after,
           block
         };
         setSelectedData(newSelectedData);
-
         eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
 
-        let toolbarY = curPos.top + curPos.rect.y - 35;
-        let toolbarX: number;
-
+        const toolbarHeight = 32;
+        const padding = 3;
+        const viewportHeight = getWindow().innerHeight;
         const viewportWidth = getWindow().innerWidth;
-        
+
+        let toolbarY: number;
+        const spaceAbove = point.y;
+        const spaceBelow = viewportHeight - point.y;
+        if (spaceAbove > toolbarHeight + 10) {
+          toolbarY = point.y - toolbarHeight - padding;
+        } else {
+          toolbarY = point.y + padding;
+        }
+
+        let toolbarX = point.x;
         if (containerRef.current) {
           const w = containerRef.current.offsetWidth;
-          if (curPos.left + curPos.rect.x + w <= viewportWidth) {
-            toolbarX = curPos.left + curPos.rect.x;
-          } else {
-            toolbarX = -w + viewportWidth;
-          }
+          toolbarX = point.x - w / 2;
           if (toolbarX < 0) toolbarX = 0;
-        } else {
-          toolbarX = curPos.left + curPos.rect.x;
+          if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w;
         }
 
         setToolbarPosition({ x: toolbarX, y: toolbarY });
         setShowToolbar(true);
-
       }
-    } catch (error) {
-      let rect: DOMRect;
-      try {
-        if (selection.rangeCount > 0) {
-          const range = selection.getRangeAt(0);
-          rect = range.getBoundingClientRect();
+    );
 
-          if (rect.width === 0 && focusNode?.parentElement) {
-            rect = (focusNode.parentElement as HTMLElement).getBoundingClientRect();
-          }
-        } else {
-          rect = targetElement.getBoundingClientRect();
-        }
-      } catch (e) {
-        rect = targetElement.getBoundingClientRect();
-      }
-
-      let before = '';
-      let after = '';
-      const selectedText = selection.toString();
-      
-      const block = await logseqAPI.Editor.getCurrentBlock();
-      
-      if (block && block.content && selectedText) {
-        const content = block.content;
-        
-        if (selection.rangeCount > 0) {
-          const range = selection.getRangeAt(0);
-          let currentNode = range.startContainer;
-          
-          while (currentNode && currentNode.nodeType !== Node.ELEMENT_NODE) {
-            currentNode = currentNode.parentNode;
-          }
-          
-          if (currentNode) {
-            let offset = 0;
-            let tempNode = block.content?.[0];
-            
-            while (tempNode && tempNode !== currentNode) {
-              offset += tempNode.textContent?.length || 0;
-              tempNode = tempNode?.nextSibling || null;
-            }
-            
-            offset += range.startOffset;
-            
-            if (offset >= 0 && offset + selectedText.length <= content.length) {
-              before = content.substring(0, offset);
-              after = content.substring(offset + selectedText.length);
-            } else {
-              const index = content.indexOf(selectedText);
-              if (index !== -1) {
-                before = content.substring(0, index);
-                after = content.substring(index + selectedText.length);
-              }
-            }
-          }
-        } else {
-          const index = content.indexOf(selectedText);
-          if (index !== -1) {
-            before = content.substring(0, index);
-            after = content.substring(index + selectedText.length);
-          }
-        }
-      }
-      
-      const newSelectedData: SelectedData = {
-        text: selectedText,
-        timestamp: new Date().toISOString(),
-        rect,
-        before,
-        after,
-        block
-      };
-      setSelectedData(newSelectedData);
-
-      eventBus.emit('ltt-selectionChange', { selectedData: newSelectedData });
-
-      const toolbarHeight = 32;
-      const padding = 3;
-      const viewportHeight = getWindow().innerHeight;
-      let toolbarY: number;
-
-      const spaceAbove = rect.top;
-      const spaceBelow = viewportHeight - rect.bottom;
-
-      if (spaceAbove > toolbarHeight + 10) {
-        toolbarY = rect.top - toolbarHeight - padding;
-      } else {
-        toolbarY = rect.bottom + padding;
-      }
-
-      let toolbarX = rect.left;
-
-      const viewportWidth = getWindow().innerWidth;
-      
-      if (containerRef.current) {
-        const w = containerRef.current.offsetWidth;
-        if (toolbarX < 0) toolbarX = 0;
-        if (toolbarX + w > viewportWidth) toolbarX = viewportWidth - w;
-      }
-
-      setToolbarPosition({ x: toolbarX, y: toolbarY });
-      setShowToolbar(true);
-    }
-  };
-
-  const handleDelayedSelection = useCallback(() => {
-    const state = selectionStateRef.current;
-    
-    const now = Date.now();
-    const timeSinceLastSelection = now - state.lastSelectionTime;
-    
-    if (timeSinceLastSelection < DOUBLE_CLICK_THRESHOLD) {
-      state.lastSelectionTime = now;
-      return;
-    }
-    
-    state.lastSelectionTime = now;
-    
-    updateToolbarPosition();
-  }, [updateToolbarPosition]);
-
-  useEffect(() => {
-    if (!targetElement) return;
-
-    const handleSelection = async (e: MouseEvent) => {
-      if (e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
-        return;
-      }
-
-      const state = selectionStateRef.current;
-      
-      if (state.pendingTimer) {
-        clearTimeout(state.pendingTimer);
-        state.pendingTimer = null;
-      }
-      
-      state.pendingTimer = setTimeout(() => {
-        handleDelayedSelection();
-        state.pendingTimer = null;
-      }, SELECTION_DELAY);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (showToolbar && e.target && ((e.target as HTMLElement).closest('.ltt-floating-toolbar') || (e.target as HTMLElement).closest('.ltt-toolbar-container') || (e.target as HTMLElement).closest('.ltt-toolbar-group-dropdown'))) {
-        return;
-      }
-    };
-
-    const handleScroll = () => {
-      if (showToolbar) {
-        updateToolbarPosition();
-      }
-    };
-
-    targetElement.addEventListener('mouseup', handleSelection);
-    targetElement.addEventListener('mousemove', handleMouseMove);
-    targetElement.addEventListener('scroll', handleScroll, true);
-
-    let currentElement: HTMLElement | null = targetElement.parentElement;
-    while (currentElement) {
-      currentElement.addEventListener('scroll', handleScroll, true);
-      currentElement = currentElement.parentElement;
-    }
-
-    const doc = getDocument();
-    if (doc && doc.addEventListener) {
-      doc.addEventListener('scroll', handleScroll, true);
-    }
-
-    return () => {
-      const state = selectionStateRef.current;
-      if (state.pendingTimer) {
-        clearTimeout(state.pendingTimer);
-        state.pendingTimer = null;
-      }
-      
-      targetElement.removeEventListener('mouseup', handleSelection);
-      targetElement.removeEventListener('mousemove', handleMouseMove);
-      targetElement.removeEventListener('scroll', handleScroll, true);
-
-      currentElement = targetElement.parentElement;
-      while (currentElement) {
-        currentElement.removeEventListener('scroll', handleScroll, true);
-        currentElement = currentElement.parentElement;
-      }
-
-      const cleanupDoc = getDocument();
-      if (cleanupDoc && cleanupDoc.removeEventListener) {
-        cleanupDoc.removeEventListener('scroll', handleScroll, true);
-      }
-    };
-  }, [showToolbar, targetElement, handleDelayedSelection, updateToolbarPosition]);
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div ref={containerRef}>
       {showToolbar && (
-        <div 
+        <div
           className="ltt-floating-toolbar"
           style={{
             position: 'fixed',
             left: toolbarPosition.x,
             top: toolbarPosition.y,
-            transform: 'translateX(-50%)',
             zIndex: 10000
           }}
         >
-          <Toolbar 
-            items={ToolbarItems} 
-            theme={theme} 
+          <Toolbar
+            items={ToolbarItems}
+            theme={theme}
             showBorder={showBorder}
             width={width}
             height={height}
