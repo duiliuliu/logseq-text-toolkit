@@ -33,6 +33,8 @@
  * 3. 默认值（最低优先级）- Schema中定义的defaultValue
  */
 
+import { registerRendererArgModel } from './rendererArgs';
+
 export type ConfigSchemaType = 'string' | 'boolean' | 'number' | 'stringList' | 'enum' | 'json';
 
 export interface ConfigSchema<T = any> {
@@ -41,6 +43,7 @@ export interface ConfigSchema<T = any> {
   enumValues?: string[];
   defaultValue?: T;
   settingKey?: string;
+  positionalIndex?: number;
   parse?: (raw: string) => T;
 }
 
@@ -68,36 +71,73 @@ export function isPrefixRegistered(prefix: string): boolean {
   return registeredSchemas.has(prefix);
 }
 
-function parseValue(raw: string, type: ConfigSchemaType, enumValues?: string[]): any {
-  switch (type) {
+type ParseResult =
+  | { ok: true; value: any }
+  | { ok: false; reason: string };
+
+function parseValue(raw: unknown, schema: ConfigSchema): ParseResult {
+  if (typeof raw === 'string' && schema.parse) {
+    try {
+      return { ok: true, value: schema.parse(raw) };
+    } catch (e) {
+      return { ok: false, reason: e instanceof Error ? e.message : 'custom parse failed' };
+    }
+  }
+
+  switch (schema.type) {
     case 'boolean':
-      const lower = raw.toLowerCase().trim();
-      return lower === 'true' || lower === '1' || lower === 'yes';
+      if (typeof raw === 'boolean') return { ok: true, value: raw };
+      if (typeof raw === 'string') {
+        const lower = raw.toLowerCase().trim();
+        if (['true', '1', 'yes'].includes(lower)) return { ok: true, value: true };
+        if (['false', '0', 'no'].includes(lower)) return { ok: true, value: false };
+      }
+      return { ok: false, reason: `invalid boolean value "${String(raw)}"` };
     
     case 'number': {
-      const num = parseFloat(raw);
-      return Number.isFinite(num) ? num : undefined;
+      if (typeof raw === 'number' && Number.isFinite(raw)) return { ok: true, value: raw };
+      if (typeof raw === 'string') {
+        const num = parseFloat(raw);
+        if (Number.isFinite(num)) return { ok: true, value: num };
+      }
+      return { ok: false, reason: `invalid number value "${String(raw)}"` };
     }
     
     case 'stringList':
-      return raw.split(';').map(s => s.trim()).filter(Boolean);
+      if (Array.isArray(raw)) {
+        return { ok: true, value: raw.map(String).map(s => s.trim()).filter(Boolean) };
+      }
+      if (typeof raw === 'string') {
+        return { ok: true, value: raw.split(';').map(s => s.trim()).filter(Boolean) };
+      }
+      return { ok: false, reason: `invalid stringList value "${String(raw)}"` };
     
     case 'enum':
-      if (enumValues && enumValues.includes(raw.trim())) {
-        return raw.trim();
+      if (typeof raw === 'string') {
+        const value = raw.trim();
+        if (schema.enumValues?.includes(value)) {
+          return { ok: true, value };
+        }
       }
-      return undefined;
+      return { ok: false, reason: `invalid enum value "${String(raw)}"` };
     
     case 'json':
-      try {
-        return JSON.parse(raw);
-      } catch {
-        return undefined;
+      if (typeof raw === 'string') {
+        try {
+          return { ok: true, value: JSON.parse(raw) };
+        } catch {
+          return { ok: false, reason: `invalid JSON value for ${schema.key}` };
+        }
       }
+      if (raw !== null && typeof raw === 'object') return { ok: true, value: raw };
+      return { ok: false, reason: `invalid JSON value for ${schema.key}` };
     
     case 'string':
     default:
-      return raw.trim();
+      if (raw === undefined || raw === null) {
+        return { ok: false, reason: `missing string value for ${schema.key}` };
+      }
+      return { ok: true, value: String(raw).trim() };
   }
 }
 
@@ -154,8 +194,8 @@ export function resolveConfigFromTokensArray<T extends Record<string, any>>(
   // 根据 schemas 中的 positionalIndex 映射位置参数
   const positionalArgs: Record<string, string> = {};
   for (const schema of schemas) {
-    if ((schema as any).positionalIndex !== undefined) {
-      const posIdx = (schema as any).positionalIndex as number;
+    if (schema.positionalIndex !== undefined) {
+      const posIdx = schema.positionalIndex;
       if (positional[posIdx] !== undefined) {
         positionalArgs[schema.key] = positional[posIdx];
       }
@@ -204,26 +244,13 @@ export function registerRendererWithConfigSchema(prefix: string, schemas: Config
   
   // 提取位置参数映射（用于 rendererArgs 的兼容）
   const positional = schemas
-    .filter(s => (s as any).positionalIndex !== undefined)
-    .sort((a, b) => ((a as any).positionalIndex || 0) - ((b as any).positionalIndex || 0))
+    .filter(s => s.positionalIndex !== undefined)
+    .sort((a, b) => (a.positionalIndex ?? 0) - (b.positionalIndex ?? 0))
     .map(s => s.key);
   
   // 如果有位置参数，注册到 rendererArgs
   if (positional.length > 0) {
-    // 检查全局是否存在 registerRendererArgModel
-    // 避免循环依赖的问题
-    if (typeof (globalThis as any).__rendererArgModelRegistry === 'function') {
-      (globalThis as any).__rendererArgModelRegistry(prefix, { positional });
-    } else {
-      // 在测试环境或特定场景下，尝试直接注册
-      try {
-        // @ts-ignore
-        const { registerRendererArgModel } = require('./rendererArgs');
-        registerRendererArgModel(prefix, { positional });
-      } catch {
-        // 忽略导入失败，不会影响核心功能
-      }
-    }
+    registerRendererArgModel(prefix, { positional });
   }
 }
 
@@ -237,41 +264,41 @@ export function resolveConfigFromTokens<T extends Record<string, any>>(
   const { enableWarnings = false } = options;
 
   for (const schema of schemas) {
-    let value: any;
-    let source: string;
+    let resolved: { value: any; source: string } | undefined;
 
     if (macroArgs[schema.key] !== undefined) {
-      value = parseValue(macroArgs[schema.key], schema.type, schema.enumValues);
-      source = 'macro';
-    } else if (schema.settingKey && getNestedValue(settings, schema.settingKey) !== undefined) {
-      value = getNestedValue(settings, schema.settingKey);
-      source = 'settings';
-    } else if (schema.defaultValue !== undefined) {
-      value = schema.defaultValue;
-      source = 'default';
+      const parsed = parseValue(macroArgs[schema.key], schema);
+      if (parsed.ok) {
+        resolved = { value: parsed.value, source: 'macro' };
+      } else if (enableWarnings) {
+        console.warn(`[ConfigResolver] Ignoring macro value for ${schema.key}: ${parsed.reason}`);
+      }
     }
 
-    if (schema.parse && value !== undefined) {
-      try {
-        value = schema.parse(String(value));
-      } catch (e) {
-        if (enableWarnings) {
-          console.warn(`[ConfigResolver] Custom parse failed for ${schema.key}:`, e);
+    if (!resolved && schema.settingKey) {
+      const settingValue = getNestedValue(settings, schema.settingKey);
+      if (settingValue !== undefined) {
+        const parsed = parseValue(settingValue, schema);
+        if (parsed.ok) {
+          resolved = { value: parsed.value, source: 'settings' };
+        } else if (enableWarnings) {
+          console.warn(`[ConfigResolver] Ignoring setting value for ${schema.key}: ${parsed.reason}`);
         }
       }
     }
 
-    if (schema.type === 'enum' && schema.enumValues && !schema.enumValues.includes(value as string)) {
-      if (enableWarnings) {
-        console.warn(`[ConfigResolver] Invalid enum value "${value}" for ${schema.key}`);
-      }
-      value = schema.defaultValue;
+    if (!resolved && schema.defaultValue !== undefined) {
+      resolved = { value: schema.defaultValue, source: 'default' };
     }
 
-    result[schema.key] = value;
+    result[schema.key] = resolved?.value;
 
     if (enableWarnings) {
-      console.debug(`[ConfigResolver] ${schema.key} = ${JSON.stringify(value)} (source: ${source})`);
+      if (resolved) {
+        console.debug(`[ConfigResolver] ${schema.key} = ${JSON.stringify(resolved.value)} (source: ${resolved.source})`);
+      } else {
+        console.debug(`[ConfigResolver] ${schema.key} is unresolved`);
+      }
     }
   }
 
@@ -292,37 +319,27 @@ export function validateConfigSchema(schemas: ConfigSchema[], args: Record<strin
     const argValue = args[schema.key];
     if (argValue === undefined) continue;
 
-    switch (schema.type) {
-      case 'boolean': {
-        const validValues = ['true', 'false', '1', '0', 'yes', 'no'];
-        if (!validValues.includes(argValue.toLowerCase().trim())) {
+    const parsed = parseValue(argValue, schema);
+    if (!parsed.ok) {
+      switch (schema.type) {
+        case 'boolean':
           errors.push(`Invalid boolean value "${argValue}" for ${schema.key}`);
-        }
-        break;
-      }
+          break;
 
-      case 'number': {
-        const num = parseFloat(argValue);
-        if (!Number.isFinite(num)) {
+        case 'number':
           errors.push(`Invalid number value "${argValue}" for ${schema.key}`);
-        }
-        break;
-      }
+          break;
 
-      case 'enum': {
-        if (!schema.enumValues || !schema.enumValues.includes(argValue.trim())) {
+        case 'enum':
           errors.push(`Invalid enum value "${argValue}" for ${schema.key}. Valid values: ${schema.enumValues?.join(', ')}`);
-        }
-        break;
-      }
+          break;
 
-      case 'json': {
-        try {
-          JSON.parse(argValue);
-        } catch {
+        case 'json':
           errors.push(`Invalid JSON value for ${schema.key}`);
-        }
-        break;
+          break;
+
+        default:
+          errors.push(`Invalid value "${argValue}" for ${schema.key}`);
       }
     }
   }

@@ -65,7 +65,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
     const success = await saveSettings(settings)
     if (success) {
-      logseqAPI.UI.showMsg(t('settings.saveSuccessRestart', language), { type: 'success' })
+      logseqAPI.UI.showMsg(t('settings.saveSuccessRestart', language), 'success')
       onClose()
     }
   }

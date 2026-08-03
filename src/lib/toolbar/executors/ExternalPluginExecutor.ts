@@ -15,31 +15,36 @@ import logger from '../../logger/index';
 export const externalPluginExecutor: ActionExecutorFn = async (item: ToolbarItem, selectedData: SelectedData): Promise<string> => {
   try {
     const pluginCommand = item.invokeParams;
-    if (!pluginCommand) {
-      logseqAPI.UI.showMsg(t('toolbar.noPluginCommand', 'zh-CN'), { type: 'error' });
+    if (typeof pluginCommand !== 'string' || !pluginCommand.trim()) {
+      logseqAPI.UI.showMsg(t('toolbar.noPluginCommand', 'zh-CN'), 'error');
       return selectedData.text;
     }
     
     const pluginId = pluginCommand.split(".")[0];
-    const pluginInfo = await logseq.App.getExternalPlugin(pluginId);
+    const pluginInfo = await logseqAPI.App.getExternalPlugin(pluginId) as {
+      settings?: {
+        disabled?: boolean;
+      };
+    } | null;
     
     if (pluginInfo != null && !pluginInfo.settings?.disabled) {
-      const commandRet = await logseq.App.invokeExternalPlugin(pluginCommand);
+      const commandRet = await logseqAPI.App.invokeExternalPlugin(pluginCommand);
       // 这里可以根据需要处理返回结果
-      logseqAPI.UI.showMsg(t('toolbar.pluginCommandSuccess', 'zh-CN'), { type: 'success' });
+      logseqAPI.UI.showMsg(t('toolbar.pluginCommandSuccess', 'zh-CN'), 'success');
       return commandRet == null ? selectedData.text : String(commandRet);
     } else {
       logseqAPI.UI.showMsg(
         t('toolbar.pluginNotInstalled', 'zh-CN', {
           pluginId,
         }),
-        { type: 'warning', timeout: 10000 },
+        'warning',
+        { timeout: 10000 },
       );
       return selectedData.text;
     }
   } catch (error) {
     try {
-      logseqAPI.UI.showMsg(`${t('toolbar.pluginCommandFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
+      logseqAPI.UI.showMsg(`${t('toolbar.pluginCommandFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, 'error');
     } catch (uiError) {
       logger.error('Error showing message:', uiError);
     }

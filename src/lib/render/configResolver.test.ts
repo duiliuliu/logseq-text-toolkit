@@ -244,6 +244,36 @@ describe('configResolver - 完整场景覆盖测试', () => {
       expect(result.view).toBe('week');  // 宏参数胜出
       expect(result.displayMode).toBe('full');  // 使用默认值
     });
+
+    test('宏参数非法时应该回退到 Settings', () => {
+      const result = resolveConfigFromTokens(
+        OVERRIDE_SCHEMAS,
+        { view: 'invalid', displayMode: 'invalid', inline: 'maybe' },
+        { defaultView: 'month', displayMode: 'basic' }
+      );
+
+      expect(result.view).toBe('month');
+      expect(result.displayMode).toBe('basic');
+      expect(result.inline).toBe(false);
+    });
+
+    test('Settings 非法时应该继续回退到默认值', () => {
+      const schemas: ConfigSchema[] = [
+        { key: 'view', type: 'enum', enumValues: ['year', 'month'], defaultValue: 'year', settingKey: 'view' },
+        { key: 'width', type: 'number', defaultValue: 600, settingKey: 'width' },
+        { key: 'inline', type: 'boolean', defaultValue: true, settingKey: 'inline' },
+      ];
+
+      const result = resolveConfigFromTokens(schemas, {}, {
+        view: 'bad-view',
+        width: 'wide',
+        inline: 'maybe',
+      });
+
+      expect(result.view).toBe('year');
+      expect(result.width).toBe(600);
+      expect(result.inline).toBe(true);
+    });
   });
 
   // ========================================================================
@@ -501,6 +531,18 @@ describe('configResolver - 完整场景覆盖测试', () => {
       expect(config.view).toBe('year');
     });
 
+    test('错误处理：无效宏枚举值优先回退到 Settings', () => {
+      registerRendererArgModel(':heatmap', { positional: ['view'] });
+      registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);
+
+      const rawArgs = parseRendererArgs(':heatmap', ['invalid_view']);
+      const config = resolveConfigFromTokens(HEATMAP_SCHEMAS, rawArgs, {
+        heatmap: { defaultView: 'month' }
+      });
+
+      expect(config.view).toBe('month');
+    });
+
     test('嵌套设置路径支持', () => {
       const schemas: ConfigSchema[] = [
         { key: 'theme', type: 'string', defaultValue: 'light', settingKey: 'settings.theme' },
@@ -538,6 +580,10 @@ describe('configResolver - 完整场景覆盖测试', () => {
       ];
       
       registerRendererWithConfigSchema(':blockview', BLOCKVIEW_SCHEMAS);
+      expect(parseRendererArgs(':blockview', ['year', 'dark'])).toEqual({
+        view: 'year',
+        theme: 'dark'
+      });
       
       // 解析混合参数：['year', 'dark', 'custom=value']
       const tokens = ['year', 'dark', 'custom=value'];

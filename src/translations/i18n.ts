@@ -6,17 +6,21 @@
 import en from './en.json'
 import ja from './ja.json'
 import zhCN from './zh-CN.json'
-import { TranslationKeys, SupportedLanguage, TranslationKey } from './translations.ts'
+import type { SupportedLanguage, TranslationKey, TranslationResource } from './translations.ts'
 import { getSettings } from '../settings/index.ts'
 import logger from '../lib/logger/index'
 
-const builtInTranslations: Record<Exclude<SupportedLanguage, 'system'>, TranslationKeys> = {
-  'en': en as unknown as TranslationKeys,
-  'ja': ja as unknown as TranslationKeys,
-  'zh-CN': zhCN as unknown as TranslationKeys
+type ConcreteLanguage = Exclude<SupportedLanguage, 'system'>
+type LanguageInput = SupportedLanguage | string
+type InterpolationParams = Record<string, string | number | boolean>
+
+const builtInTranslations: Record<ConcreteLanguage, TranslationResource> = {
+  'en': en,
+  'ja': ja,
+  'zh-CN': zhCN
 }
 
-type DynamicTranslations = Partial<Record<SupportedLanguage, TranslationKeys>>
+type DynamicTranslations = Partial<Record<ConcreteLanguage, TranslationResource>>
 let dynamicTranslations: DynamicTranslations = {}
 
 const getNestedValue = (obj: any, key: string): string => {
@@ -35,12 +39,29 @@ const getNestedValue = (obj: any, key: string): string => {
   return result as string
 }
 
-const loadLanguageFile = async (langCode: string, filePath: string): Promise<TranslationKeys | null> => {
+const interpolate = (message: string, params?: InterpolationParams): string => {
+  if (!params) return message
+
+  return message.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, name) => {
+    const value = params[name]
+    return value === undefined ? match : String(value)
+  })
+}
+
+const normalizeLanguage = (language?: LanguageInput): ConcreteLanguage => {
+  if (language === 'en' || language === 'ja' || language === 'zh-CN') {
+    return language
+  }
+
+  return 'zh-CN'
+}
+
+const loadLanguageFile = async (langCode: string, filePath: string): Promise<TranslationResource | null> => {
   try {
     const response = await fetch(`./${filePath}`)
     if (response.ok) {
       const translation = await response.json()
-      return translation as TranslationKeys
+      return translation as TranslationResource
     }
     return null
   } catch (error) {
@@ -51,32 +72,47 @@ const loadLanguageFile = async (langCode: string, filePath: string): Promise<Tra
 
 export const initI18n = async (): Promise<void> => {
   const settings = getSettings()
-  const languageMeta = settings.meta?.language
+  const languageMeta = (settings as any).meta?.language
   
   if (languageMeta?.languages) {
     for (const lang of languageMeta.languages) {
       const translation = await loadLanguageFile(lang.code, lang.path)
       if (translation) {
-        dynamicTranslations[lang.code as SupportedLanguage] = translation
+        dynamicTranslations[lang.code as ConcreteLanguage] = translation
       }
     }
   }
 }
 
-export const t = (key: TranslationKey, lang?: SupportedLanguage): string => {
-  let language = lang || getSettings()?.language || 'zh-CN'
+export function t(key: TranslationKey, language?: LanguageInput): string
+export function t(key: TranslationKey, params?: InterpolationParams): string
+export function t(key: TranslationKey, language: LanguageInput, params: InterpolationParams): string
+export function t(key: TranslationKey, params: InterpolationParams, language: LanguageInput): string
+export function t(
+  key: TranslationKey,
+  langOrParams?: LanguageInput | InterpolationParams,
+  paramsOrLanguage?: InterpolationParams | LanguageInput
+): string {
+  const hasExplicitLanguage = typeof langOrParams === 'string'
+  const hasLegacyLanguage = typeof paramsOrLanguage === 'string'
+  const interpolationParams = hasExplicitLanguage
+    ? paramsOrLanguage as InterpolationParams | undefined
+    : langOrParams as InterpolationParams | undefined
+  const concreteLanguage = normalizeLanguage(
+    hasExplicitLanguage
+      ? langOrParams
+      : hasLegacyLanguage
+        ? paramsOrLanguage
+        : getSettings()?.language
+  )
   
-  if (language === 'system') {
-    language = 'zh-CN'
+  if (dynamicTranslations[concreteLanguage]) {
+    const translation = getNestedValue(dynamicTranslations[concreteLanguage], key)
+    if (translation !== key) return interpolate(translation, interpolationParams)
   }
   
-  if (dynamicTranslations[language]) {
-    const translation = getNestedValue(dynamicTranslations[language], key)
-    if (translation !== key) return translation
-  }
-  
-  const builtInTranslation = builtInTranslations[language as SupportedLanguage] || builtInTranslations['zh-CN']
-  return getNestedValue(builtInTranslation, key)
+  const builtInTranslation = builtInTranslations[concreteLanguage] || builtInTranslations['zh-CN']
+  return interpolate(getNestedValue(builtInTranslation, key), interpolationParams)
 }
 
 export default {

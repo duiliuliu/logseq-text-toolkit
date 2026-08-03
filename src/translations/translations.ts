@@ -1,20 +1,24 @@
+import zhCN from './zh-CN.json'
+
 // 翻译类型定义
 
 // 递归获取嵌套对象的所有点分路径键
 type NestedKeyOf<T, Prefix extends string = ''> = T extends object
   ? {
-      [K in keyof T & string]: T[K] extends string
+      [K in keyof T & string]: NonNullable<T[K]> extends string
         ? Prefix extends ''
           ? K
           : `${Prefix}.${K}`
-        : T[K] extends object
-        ? NestedKeyOf<T[K], Prefix extends '' ? K : `${Prefix}.${K}`>
+        : NonNullable<T[K]> extends object
+        ? NestedKeyOf<NonNullable<T[K]>, Prefix extends '' ? K : `${Prefix}.${K}`>
         : never;
     }[keyof T & string]
   : never;
 
+export type TranslationResource = typeof zhCN;
+
 // 翻译键类型 - 所有合法的点分路径
-export type TranslationKey = NestedKeyOf<TranslationKeys>;
+export type TranslationKey = NestedKeyOf<TranslationResource>;
 
 export interface TaskProgressStatusNames {
   todo: string;
@@ -393,4 +397,4 @@ export interface TranslationKeys {
 export type SupportedLanguage = 'en' | 'ja' | 'zh-CN' | 'system';
 
 // 翻译对象类型
-export type Translations = Record<SupportedLanguage, TranslationKeys>;
+export type Translations = Record<Exclude<SupportedLanguage, 'system'>, TranslationResource>;
