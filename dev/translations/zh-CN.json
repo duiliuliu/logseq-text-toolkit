@@ -10,6 +10,10 @@
     "noSelection": "请选择要处理的文本",
     "replaceFailed": "文本替换失败",
     "noBlockContent": "无法获取块内容",
+    "noPluginCommand": "未配置外部插件命令",
+    "pluginCommandSuccess": "外部插件命令执行成功",
+    "pluginCommandFailed": "外部插件命令执行失败",
+    "pluginNotInstalled": "外部插件 {{pluginId}} 未安装或已禁用",
     "buttonTooltip": "✨ Text Toolkit Plugin - 让你的笔记更有趣！"
   },
   "inlineComment": {
