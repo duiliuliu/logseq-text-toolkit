@@ -8,8 +8,12 @@ import logger from '../logger';
 
 const MACRO_PREFIX = ':blockview';
 const PLUGIN_ID = 'text-toolkit-blockview';
+const DEFAULT_SLASH_COMMAND_TEMPLATE = ':blockview, view=list';
 
-registerRendererArgModel(MACRO_PREFIX, { positional: ['view'], named: ['theme', 'inline'] });
+registerRendererArgModel(MACRO_PREFIX, {
+  positional: ['view'],
+  named: ['view', 'theme', 'inline'],
+});
 
 const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX]);
 
@@ -271,7 +275,7 @@ export function registerBlockView(): void {
     '[Text Toolkit] Insert Block View',
     async () => {
       const settings = await getSettingsWithSystem();
-      const template = settings?.blockView?.defaultSlashCommandTemplate || MACRO_PREFIX;
+      const template = settings?.blockView?.defaultSlashCommandTemplate || DEFAULT_SLASH_COMMAND_TEMPLATE;
       await logseqAPI.Editor.insertAtEditingCursor(
         `{{renderer ${template}}}`
       );

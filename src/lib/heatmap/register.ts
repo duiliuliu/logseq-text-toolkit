@@ -21,6 +21,7 @@ import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRend
 const MACRO_PREFIX = ':heatmap';
 const MACRO_PREFIX_CN = ':热力图';
 const PLUGIN_ID = 'text-toolkit-heatmap';
+const DEFAULT_SLASH_COMMAND_TEMPLATE = ':heatmap, view=year, tag=Task';
 
 // Create updater instance
 const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX, MACRO_PREFIX_CN]);
@@ -33,8 +34,16 @@ export function setHeatmapComponent(component: React.FC<any>) {
   HeatmapComponent = component;
 }
 
-registerRendererArgModel(MACRO_PREFIX, { positional: ['view'] })
-registerRendererArgModel(MACRO_PREFIX_CN, { positional: ['view'] })
+const HEATMAP_NAMED_ARGS = [
+  'view', 'viewType', 'display', 'displayMode', 'formula', 'colorFormula',
+  'tag', 'page', 'property', 'year', 'month', 'week', 'width', 'containerWidth',
+  'enableMonthPage', 'monthPageTemplate', 'monthPageLogseqTemplate',
+  'enableWeekPage', 'weekPageTemplate', 'weekPageLogseqTemplate',
+  'dateField', 'date', 'time', 'dateFieldKey', 'customKey',
+]
+
+registerRendererArgModel(MACRO_PREFIX, { positional: ['view'], named: HEATMAP_NAMED_ARGS })
+registerRendererArgModel(MACRO_PREFIX_CN, { positional: ['view'], named: HEATMAP_NAMED_ARGS })
 
 const DATE_FIELD_TYPE_MAP: Record<string, DateFieldType> = {
   'created-at': 'created-at',
@@ -408,7 +417,7 @@ export function registerHeatmap(): void {
     '[Text Toolkit] Insert Heatmap',
     async () => {
       const settings = await getSettingsWithSystem();
-      const template = settings?.heatmap?.defaultSlashCommandTemplate || MACRO_PREFIX;
+      const template = settings?.heatmap?.defaultSlashCommandTemplate || DEFAULT_SLASH_COMMAND_TEMPLATE;
       await logseqAPI.Editor.insertAtEditingCursor(
         `{{renderer ${template}}}`
       );

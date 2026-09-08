@@ -17,7 +17,7 @@ export const replaceExecutor: ActionExecutorFn = async (item: ToolbarItem, selec
   try {
     const selectedText = selectedData.text;
     if (!selectedText) {
-      logseqAPI.UI.showMsg(t('toolbar.noSelection', 'zh-CN'), { type: 'error' });
+      logseqAPI.UI.showMsg(t('toolbar.noSelection', 'zh-CN'), 'error');
       return selectedText;
     }
     
@@ -25,13 +25,13 @@ export const replaceExecutor: ActionExecutorFn = async (item: ToolbarItem, selec
     const success = await updateBlockContent(selectedData, processedText, 'zh-CN');
     
     if (!success) {
-      logseqAPI.UI.showMsg(t('toolbar.replaceFailed', 'zh-CN'), { type: 'error' });
+      logseqAPI.UI.showMsg(t('toolbar.replaceFailed', 'zh-CN'), 'error');
     }
     
     return processedText;
   } catch (error) {
     try {
-      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
+      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, 'error');
     } catch (uiError) {
       logger.error('Error showing message:', uiError);
     }
@@ -46,7 +46,7 @@ export const regexReplaceExecutor: ActionExecutorFn = async (item: ToolbarItem, 
   try {
     const selectedText = selectedData.text;
     if (!selectedText) {
-      logseqAPI.UI.showMsg(t('toolbar.noSelection', 'zh-CN'), { type: 'error' });
+      logseqAPI.UI.showMsg(t('toolbar.noSelection', 'zh-CN'), 'error');
       return selectedText;
     }
     
@@ -54,13 +54,13 @@ export const regexReplaceExecutor: ActionExecutorFn = async (item: ToolbarItem, 
     const success = await updateBlockContent(selectedData, processedText, 'zh-CN');
     
     if (!success) {
-      logseqAPI.UI.showMsg(t('toolbar.replaceFailed', 'zh-CN'), { type: 'error' });
+      logseqAPI.UI.showMsg(t('toolbar.replaceFailed', 'zh-CN'), 'error');
     }
     
     return processedText;
   } catch (error) {
     try {
-      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
+      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', 'zh-CN')}: ${error instanceof Error ? error.message : String(error)}`, 'error');
     } catch (uiError) {
       logger.error('Error showing message:', uiError);
     }

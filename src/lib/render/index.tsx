@@ -20,3 +20,20 @@ export {
   createRendererArgUpdater,
   type RendererArgModel,
 } from './rendererArgs'
+
+export {
+  registerConfigSchema,
+  getRegisteredSchema,
+  getAllRegisteredPrefixes,
+  isPrefixRegistered,
+  registerRendererWithConfigSchema,
+  resolveConfigFromTokens,
+  resolveConfigFromTokensArray,
+  validateConfigSchema,
+  inferSchemaFromArgs,
+  type ConfigSchema,
+  type ConfigSchemaType,
+  type ConfigSchemaWithPositional,
+  type ResolveOptions,
+  type ValidationResult,
+} from './configResolver'

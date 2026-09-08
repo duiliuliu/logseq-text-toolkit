@@ -1,6 +1,6 @@
 {
   "name": "logseq-text-toolkit",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "description": "A toolkit for text formatting and manipulation in Logseq",
   "author": "duiliuliu",
   "license": "MIT",
@@ -48,10 +48,14 @@
     "test:coverage": "vitest --coverage",
     "test:css": "vitest run src/__tests__/css*.test.ts src/__tests__/components/*.test.ts",
     "test:css:watch": "vitest watch src/__tests__/css*.test.ts src/__tests__/components/*.test.ts",
-    "build": "vite build --mode test && npm run copy-assets",
-    "build:devplugin": "vite build --config vite.devplugin.config.js --mode dev && npm run copy-assets",
-    "build:devplugin:watch": "vite build --config vite.devplugin.config.js --watch && npm run copy-assets",
-    "build:plugin": "vite build && npm run copy-assets",
+    "validate:translations": "node scripts/check-i18n.cjs --strict",
+    "typecheck": "tsc --noEmit",
+    "typecheck:render": "tsc --ignoreConfig --noEmit --pretty false --skipLibCheck --target ES2020 --module ESNext --moduleResolution bundler --isolatedModules --jsx react-jsx --types vitest/globals --lib ES2020,DOM,DOM.Iterable src/lib/render/configResolver.ts src/lib/render/configResolver.test.ts",
+    "check": "npm run validate:translations && npm run typecheck:render && npm test && npm run build:plugin",
+    "build": "npm run validate:translations && vite build --mode test && npm run copy-assets",
+    "build:devplugin": "npm run validate:translations && vite build --config vite.devplugin.config.js --mode dev && npm run copy-assets",
+    "build:devplugin:watch": "npm run validate:translations && vite build --config vite.devplugin.config.js --watch && npm run copy-assets",
+    "build:plugin": "npm run validate:translations && vite build && npm run copy-assets",
     "preview": "vite preview",
     "copy-assets": "mkdir -p dist/translations && cp -f src/translations/*.json dist/translations/ && npm run copy-css",
     "copy-css": "node scripts/copy-css.js"
@@ -69,6 +73,7 @@
     "react-hut": "^1.0.1"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",

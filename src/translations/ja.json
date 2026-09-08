@@ -10,6 +10,10 @@
     "noSelection": "処理するテキストを選択してください",
     "replaceFailed": "テキストの置換に失敗しました",
     "noBlockContent": "ブロックの内容を取得できません",
+    "noPluginCommand": "外部プラグインコマンドが設定されていません",
+    "pluginCommandSuccess": "外部プラグインコマンドを実行しました",
+    "pluginCommandFailed": "外部プラグインコマンドの実行に失敗しました",
+    "pluginNotInstalled": "外部プラグイン {{pluginId}} がインストールされていないか無効です",
     "buttonTooltip": "✨ Text Toolkit Plugin - ノートをより楽しく！"
   },
   "inlineComment": {

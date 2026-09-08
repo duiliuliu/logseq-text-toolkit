@@ -436,7 +436,7 @@ export const updateBlockContent = async (
   try {
     const block = selectedData.block;
     if (!block || !block.content) {
-      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), { type: 'error' });
+      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), 'error');
       return false;
     }
     

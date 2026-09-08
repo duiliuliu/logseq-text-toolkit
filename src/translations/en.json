@@ -10,6 +10,10 @@
     "noSelection": "Please select the text to process",
     "replaceFailed": "Text replacement failed",
     "noBlockContent": "Cannot get block content",
+    "noPluginCommand": "External plugin command is not configured",
+    "pluginCommandSuccess": "External plugin command executed successfully",
+    "pluginCommandFailed": "External plugin command failed",
+    "pluginNotInstalled": "External plugin {{pluginId}} is not installed or is disabled",
     "buttonTooltip": "✨ Text Toolkit Plugin - Make your notes more interesting!"
   },
   "inlineComment": {

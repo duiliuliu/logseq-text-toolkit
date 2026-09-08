@@ -37,7 +37,7 @@
       "canceled": "#6b7280",
       "in-review": "#f97316"
     },
-    "defaultSlashCommandTemplate": ":taskprogress mini-circle"
+    "defaultSlashCommandTemplate": ":taskprogress, display=mini-circle"
   },
   "heatmap": {
     "enabled": true,

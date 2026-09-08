@@ -2,15 +2,28 @@ import { getDocument } from '../utils.ts';
 
 const UI: any = {
   // 显示消息
-  showMsg: (msg: string, opts?: {
-    type?: 'info' | 'success' | 'error' | 'warning';
-    timeout?: number;
-  }) => {
-    console.log('Show message:', msg, opts);
+  showMsg: (
+    msg: string,
+    statusOrOpts?: 'info' | 'success' | 'error' | 'warning' | {
+      type?: 'info' | 'success' | 'error' | 'warning';
+      timeout?: number;
+    },
+    opts?: {
+      timeout?: number;
+    },
+  ) => {
+    const normalizedOpts = typeof statusOrOpts === 'object'
+      ? statusOrOpts
+      : {
+          type: statusOrOpts,
+          timeout: opts?.timeout,
+        };
+
+    console.log('Show message:', msg, normalizedOpts);
 
     // 使用 Toast 组件显示消息
-    const type = opts?.type || 'info';
-    const timeout = opts?.timeout || 3000;
+    const type = normalizedOpts.type || 'info';
+    const timeout = normalizedOpts.timeout || 3000;
 
     // 尝试使用全局的 addToast 函数
     if ((window as any).addToast) {

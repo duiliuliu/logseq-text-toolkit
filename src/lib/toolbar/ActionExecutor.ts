@@ -71,7 +71,7 @@ export class ActionExecutor implements IActionExecutor {
     try {
       const selectedText = selectedData.text;
       if (!selectedText) {
-        logseqAPI.UI.showMsg(t('toolbar.noSelection', this.language), { type: 'error' });
+        logseqAPI.UI.showMsg(t('toolbar.noSelection', this.language), 'error');
         return selectedText;
       }
       
@@ -85,13 +85,13 @@ export class ActionExecutor implements IActionExecutor {
       const success = await updateBlockContent(selectedData, processedText, this.language);
       
       if (!success) {
-        logseqAPI.UI.showMsg(t('toolbar.replaceFailed', this.language), { type: 'error' });
+        logseqAPI.UI.showMsg(t('toolbar.replaceFailed', this.language), 'error');
       }
       
       return processedText;
     } catch (error) {
     try {
-      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', this.language)}: ${error instanceof Error ? error.message : String(error)}`, { type: 'error' });
+      logseqAPI.UI.showMsg(`${t('toolbar.replaceFailed', this.language)}: ${error instanceof Error ? error.message : String(error)}`, 'error');
     } catch (uiError) {
       logger.error('Error showing message:', uiError);
     }
