@@ -155,7 +155,7 @@ export function validateMacroTemplate(
   }
 
   // 检查未知参数（警告而非错误）
-  const knownKeys = model?.positional || []
+  const knownKeys = [...(model?.positional || []), ...(model?.named || [])]
   for (const key of Object.keys(parsedArgs)) {
     if (!knownKeys.includes(key)) {
       warnings.push(`Unknown parameter "${key}" - it may be ignored`)

@@ -398,6 +398,14 @@ describe('configResolver - 完整场景覆盖测试', () => {
         expect(result.valid).toBe(true);
       });
 
+      test('应将已声明的命名参数视为有效参数', () => {
+        registerRendererArgModel(':heatmap', { positional: ['view'], named: ['tag'] });
+        registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);
+        const result = validateMacroTemplate(':heatmap, view=year, tag=Task', 'heatmap');
+        expect(result.valid).toBe(true);
+        expect(result.warnings ?? []).not.toContain('Unknown parameter "tag" - it may be ignored');
+      });
+
       test('应该验证空模板', () => {
         registerRendererArgModel(':heatmap', { positional: ['view'] });
         registerConfigSchema(':heatmap', HEATMAP_SCHEMAS);

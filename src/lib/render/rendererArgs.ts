@@ -94,6 +94,7 @@
 
 export type RendererArgModel = {
   positional?: string[]
+  named?: string[]
 }
 
 const models = new Map<string, RendererArgModel>()
@@ -145,9 +146,28 @@ export function splitRendererArgs(payloadArgs: any[] | undefined): { type: strin
   const args = (payloadArgs || []).map(v => String(v))
   if (args.length === 0) return null
 
-  const type = args[0].trim()
-  const restParts = args.slice(1).map(s => s.trim()).filter(Boolean)
-  const tokens = restParts
+  const normalized = args.map(s => s.trim()).filter(Boolean)
+  if (normalized.length === 0) return null
+
+  if (normalized.length === 1) {
+    const merged = normalized[0]
+    const firstSeparator = merged.search(/[\s,]/)
+    if (firstSeparator === -1) {
+      return { type: merged, tokens: [] }
+    }
+
+    const type = merged.slice(0, firstSeparator).trim()
+    const rest = merged.slice(firstSeparator).trim()
+    const tokens = rest
+      .split(/[,\s]+/)
+      .map(s => s.trim())
+      .filter(Boolean)
+
+    return { type, tokens }
+  }
+
+  const type = normalized[0]
+  const tokens = normalized.slice(1)
     .flatMap(s => s.split(','))
     .map(s => s.trim())
     .filter(Boolean)

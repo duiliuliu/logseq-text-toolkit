@@ -62,6 +62,14 @@ describe('render/rendererArgs.ts', () => {
       expect(result?.type).toBe(':heatmap');
     });
 
+    it('应该处理首段内联空格参数', () => {
+      const result = splitRendererArgs([':taskprogress minicircle']);
+      expect(result).toEqual({
+        type: ':taskprogress',
+        tokens: ['minicircle'],
+      });
+    });
+
     it('应该处理多逗号分隔', () => {
       const result = splitRendererArgs([':heatmap', 'year', ',', 'displayMode=full', ',', 'theme=dark']);
       expect(result?.tokens).toEqual(['year', 'displayMode=full', 'theme=dark']);

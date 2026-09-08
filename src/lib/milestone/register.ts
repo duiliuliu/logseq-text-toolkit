@@ -14,10 +14,15 @@ import React from 'react';
 const PLUGIN_ID = 'milestone';
 
 const MACRO_PREFIX = ':milestone';
+const DEFAULT_SLASH_COMMAND_TEMPLATE = ':milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure';
 
 registerRendererArgModel(MACRO_PREFIX, {
   positional: ['displayStyle'],
-  named: ['inline']
+  named: [
+    'template', 'displayStyle', 'inline', 'milestoneList', 'filterTag', 'property',
+    'filterPropKey', 'milestonePropKey', 'showProgress', 'showLabel',
+    'dateField', 'colorScheme',
+  ]
 });
 
 let MilestoneComponent: React.FC<any> | null = null;
@@ -103,7 +108,7 @@ export function registerMilestone(): void {
     '[Text Toolkit] Insert Milestone',
     async () => {
       const settings = await getSettingsWithSystem();
-      const template = settings?.milestone?.defaultSlashCommandTemplate || MACRO_PREFIX;
+      const template = settings?.milestone?.defaultSlashCommandTemplate || DEFAULT_SLASH_COMMAND_TEMPLATE;
       await logseqAPI.Editor.insertAtEditingCursor(
         `{{renderer ${template}}}`
       );

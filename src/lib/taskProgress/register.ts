@@ -17,7 +17,10 @@ import logger from '../logger'
 const MACRO_PREFIX = ':taskprogress'
 const PLUGIN_ID = 'text-toolkit-taskprogress'
 
-registerRendererArgModel(MACRO_PREFIX, { positional: ['display', 'size'] })
+registerRendererArgModel(MACRO_PREFIX, {
+  positional: ['display', 'size'],
+  named: ['display', 'size'],
+})
 
 const DISPLAY_TYPE_MAP: Record<string, ProgressDisplayType> = {
   'mini-circle': 'mini-circle',
