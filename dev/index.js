@@ -978,7 +978,7 @@
   		canceled: "#6b7280",
   		"in-review": "#f97316"
   	},
-  	defaultSlashCommandTemplate: ":taskprogress , mini-circle"
+  	defaultSlashCommandTemplate: ":taskprogress, display=mini-circle"
   };
   const heatmap = {
   	enabled: true,
@@ -2554,9 +2554,21 @@
   function splitRendererArgs(payloadArgs) {
     const args = (payloadArgs || []).map((v) => String(v));
     if (args.length === 0) return null;
-    const type = args[0].trim();
-    const restParts = args.slice(1).map((s) => s.trim()).filter(Boolean);
-    const tokens = restParts.flatMap((s) => s.split(",")).map((s) => s.trim()).filter(Boolean);
+    const normalized = args.map((s) => s.trim()).filter(Boolean);
+    if (normalized.length === 0) return null;
+    if (normalized.length === 1) {
+      const merged = normalized[0];
+      const firstSeparator = merged.search(/[\s,]/);
+      if (firstSeparator === -1) {
+        return { type: merged, tokens: [] };
+      }
+      const type2 = merged.slice(0, firstSeparator).trim();
+      const rest = merged.slice(firstSeparator).trim();
+      const tokens2 = rest.split(/[,\s]+/).map((s) => s.trim()).filter(Boolean);
+      return { type: type2, tokens: tokens2 };
+    }
+    const type = normalized[0];
+    const tokens = normalized.slice(1).flatMap((s) => s.split(",")).map((s) => s.trim()).filter(Boolean);
     return { type, tokens };
   }
   function parseRendererArgs(type, tokens) {
@@ -6589,13 +6601,41 @@ ${where}
   const MACRO_PREFIX$3 = ":heatmap";
   const MACRO_PREFIX_CN = ":热力图";
   const PLUGIN_ID$3 = "text-toolkit-heatmap";
+  const DEFAULT_SLASH_COMMAND_TEMPLATE$2 = ":heatmap, view=year, tag=Task";
   const { updateRendererArgs: updateHeatmapRendererArgs } = createRendererArgUpdater([MACRO_PREFIX$3, MACRO_PREFIX_CN]);
   let HeatmapComponent = null;
   function setHeatmapComponent(component) {
     HeatmapComponent = component;
   }
-  registerRendererArgModel(MACRO_PREFIX$3, { positional: ["view"] });
-  registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"] });
+  const HEATMAP_NAMED_ARGS = [
+    "view",
+    "viewType",
+    "display",
+    "displayMode",
+    "formula",
+    "colorFormula",
+    "tag",
+    "page",
+    "property",
+    "year",
+    "month",
+    "week",
+    "width",
+    "containerWidth",
+    "enableMonthPage",
+    "monthPageTemplate",
+    "monthPageLogseqTemplate",
+    "enableWeekPage",
+    "weekPageTemplate",
+    "weekPageLogseqTemplate",
+    "dateField",
+    "date",
+    "time",
+    "dateFieldKey",
+    "customKey"
+  ];
+  registerRendererArgModel(MACRO_PREFIX$3, { positional: ["view"], named: HEATMAP_NAMED_ARGS });
+  registerRendererArgModel(MACRO_PREFIX_CN, { positional: ["view"], named: HEATMAP_NAMED_ARGS });
   const DATE_FIELD_TYPE_MAP = {
     "created-at": "created-at",
     "createdat": "created-at",
@@ -6910,7 +6950,7 @@ ${where}
       "[Text Toolkit] Insert Heatmap",
       async () => {
         const settings = await getSettingsWithSystem();
-        const template = settings?.heatmap?.defaultSlashCommandTemplate || MACRO_PREFIX$3;
+        const template = settings?.heatmap?.defaultSlashCommandTemplate || DEFAULT_SLASH_COMMAND_TEMPLATE$2;
         await logseqAPI$1.Editor.insertAtEditingCursor(
           `{{renderer ${template}}}`
         );
@@ -30045,7 +30085,7 @@ ${where}
         }
       }
     }
-    const knownKeys = model?.positional || [];
+    const knownKeys = [...model?.positional || [], ...model?.named || []];
     for (const key of Object.keys(parsedArgs)) {
       if (!knownKeys.includes(key)) {
         warnings.push(`Unknown parameter "${key}" - it may be ignored`);
@@ -30311,7 +30351,7 @@ ${where}
             onChange: (value) => handleSettingChange("taskProgress.defaultSlashCommandTemplate", value),
             macroType: "taskprogress",
             language,
-            placeholder: ":taskprogress mini-circle",
+            placeholder: ":taskprogress, display=mini-circle",
             align: "right"
           }
         )
@@ -31864,7 +31904,10 @@ ${where}
 
   const MACRO_PREFIX$2 = ":taskprogress";
   const PLUGIN_ID$2 = "text-toolkit-taskprogress";
-  registerRendererArgModel(MACRO_PREFIX$2, { positional: ["display", "size"] });
+  registerRendererArgModel(MACRO_PREFIX$2, {
+    positional: ["display", "size"],
+    named: ["display", "size"]
+  });
   const DISPLAY_TYPE_MAP = {
     "mini-circle": "mini-circle",
     "minicircle": "mini-circle",
@@ -31970,7 +32013,11 @@ ${where}
 
   const MACRO_PREFIX$1 = ":blockview";
   const PLUGIN_ID$1 = "text-toolkit-blockview";
-  registerRendererArgModel(MACRO_PREFIX$1, { positional: ["view"], named: ["theme", "inline"] });
+  const DEFAULT_SLASH_COMMAND_TEMPLATE$1 = ":blockview, view=list";
+  registerRendererArgModel(MACRO_PREFIX$1, {
+    positional: ["view"],
+    named: ["view", "theme", "inline"]
+  });
   const { updateRendererArgs: updateBlockViewArgs } = createRendererArgUpdater([MACRO_PREFIX$1]);
   const VIEW_CLASSES = [
     "ltt-list-root",
@@ -32197,7 +32244,7 @@ ${where}
       "[Text Toolkit] Insert Block View",
       async () => {
         const settings = await getSettingsWithSystem();
-        const template = settings?.blockView?.defaultSlashCommandTemplate || MACRO_PREFIX$1;
+        const template = settings?.blockView?.defaultSlashCommandTemplate || DEFAULT_SLASH_COMMAND_TEMPLATE$1;
         await logseqAPI$1.Editor.insertAtEditingCursor(
           `{{renderer ${template}}}`
         );
@@ -33565,9 +33612,23 @@ ${where}
 
   const PLUGIN_ID = "milestone";
   const MACRO_PREFIX = ":milestone";
+  const DEFAULT_SLASH_COMMAND_TEMPLATE = ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure";
   registerRendererArgModel(MACRO_PREFIX, {
     positional: ["displayStyle"],
-    named: ["inline"]
+    named: [
+      "template",
+      "displayStyle",
+      "inline",
+      "milestoneList",
+      "filterTag",
+      "property",
+      "filterPropKey",
+      "milestonePropKey",
+      "showProgress",
+      "showLabel",
+      "dateField",
+      "colorScheme"
+    ]
   });
   let MilestoneComponent = null;
   function setMilestoneComponent(component) {
@@ -33632,7 +33693,7 @@ ${where}
       "[Text Toolkit] Insert Milestone",
       async () => {
         const settings = await getSettingsWithSystem();
-        const template = settings?.milestone?.defaultSlashCommandTemplate || MACRO_PREFIX;
+        const template = settings?.milestone?.defaultSlashCommandTemplate || DEFAULT_SLASH_COMMAND_TEMPLATE;
         await logseqAPI$1.Editor.insertAtEditingCursor(
           `{{renderer ${template}}}`
         );
