@@ -240,7 +240,8 @@
           "cardBorderColor": "Card Border Color",
           "cardBorderRadius": "Card Border Radius"
         }
-      }
+      },
+      "emptyHint": "Add child blocks to use this view"
     },
     "heatmap": {
       "description": "Configure heatmap display functionality and appearance.",
@@ -283,9 +284,11 @@
       "weeklyPageNamePlaceholder": "Weekly Summary-{{year}}-W{{week}}",
       "monthlyPageNameTemplate": "Monthly Page Name Template",
       "monthlyPageNamePlaceholder": "Monthly Summary-{{year}}-{{month}}",
+      "yearlyPageNameTemplate": "Yearly page name template",
+      "yearlyPageNamePlaceholder": "Yearly Summary-{{year}}",
       "customPageNameTemplate": "Custom Page Name Template",
       "customPageNamePlaceholder": "Custom Summary-{{date}}",
-      "pageNameTemplateHelp": "Available placeholders: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
+      "pageNameTemplateHelp": "Available placeholders: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
       "templateGtdWorkReview": "GTD Work Review",
       "templateMinimalDashboard": "Minimal Dashboard",
       "templateBulletJournal": "Bullet Journal",
@@ -297,6 +300,12 @@
       "typeCustom": "Custom",
       "startDate": "Start Date",
       "endDate": "End Date",
+      "generate": "Generate summary",
+      "generating": "Generating...",
+      "generateFailed": "Generation failed. Check logs and try again.",
+      "customDateError": "Choose a valid start and end date (start cannot be after end)",
+      "noTemplates": "No templates available for this summary type",
+      "aiFallback": "If the AI request fails, local insights are used instead; summary generation is not blocked.",
       "aiSettings": "🤖 AI Settings",
       "aiEnabled": "Enable AI Enhancement",
       "aiProvider": "AI Provider",

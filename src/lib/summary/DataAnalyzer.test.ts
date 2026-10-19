@@ -42,12 +42,35 @@ describe('DataAnalyzer (纯函数测试)', () => {
       expect(range.end.getMonth()).toBe(11); // 12月
     });
 
-    it('应该处理自定义日期范围', () => {
-      const customStart = new Date('2026-01-01');
-      const customEnd = new Date('2026-12-31');
+    it('weekly 显式日期应该覆盖当前周', () => {
+      const start = new Date(2026, 0, 5);
+      const end = new Date(2026, 0, 11);
+      const range = analyzer.calculateDateRange('weekly', start, end);
+      expect(range.start.getDate()).toBe(5);
+      expect(range.end.getDate()).toBe(11);
+      expect(range.end.getHours()).toBe(23);
+    });
+
+    it('monthly 只传开始日期时应该覆盖整月', () => {
+      const range = analyzer.calculateDateRange('monthly', new Date(2026, 1, 10));
+      expect(range.start.getMonth()).toBe(1);
+      expect(range.start.getDate()).toBe(1);
+      expect(range.end.getMonth()).toBe(1);
+      expect(range.end.getDate()).toBe(28);
+      expect(range.end.getHours()).toBe(23);
+    });
+
+    it('应该处理自定义日期范围并补齐当天边界', () => {
+      const customStart = new Date(2026, 0, 1);
+      const customEnd = new Date(2026, 11, 31);
       const range = analyzer.calculateDateRange('custom', customStart, customEnd);
-      expect(range.start).toEqual(customStart);
-      expect(range.end).toEqual(customEnd);
+      expect(range.start.getFullYear()).toBe(2026);
+      expect(range.start.getMonth()).toBe(0);
+      expect(range.start.getDate()).toBe(1);
+      expect(range.start.getHours()).toBe(0);
+      expect(range.end.getMonth()).toBe(11);
+      expect(range.end.getDate()).toBe(31);
+      expect(range.end.getHours()).toBe(23);
     });
   });
 
@@ -113,10 +136,6 @@ describe('DataAnalyzer (纯函数测试)', () => {
       const top2 = analyzer.getTopProperties(properties, 2);
       expect(top2).toHaveLength(2);
       // 应该按总和降序排列
-      const totalPriority = 5 + 10 + 3;  // 18
-      const totalStatus = 8 + 15;        // 23
-      const totalCategory = 7 + 4;       // 11
-      
       // 第一个应该是 status (总和23)，第二个是 priority (总和18)
       expect(['priority', 'status'].includes(top2[0][0])).toBe(true);
       expect(['priority', 'status'].includes(top2[1][0])).toBe(true);

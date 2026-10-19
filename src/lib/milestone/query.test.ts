@@ -495,4 +495,31 @@ describe('MilestoneQuery', () => {
       expect(labels).toEqual(['1', '3', '5', '4', '6', '2', '7']);
     });
   });
+  describe('DB schema adaptation', () => {
+    it('tag 查询应该使用 :block/title 而不是 :block/content', async () => {
+      (logseqAPI.DB.datascriptQuery as any).mockResolvedValue([]);
+
+      await MilestoneQuery.query({ filterTag: 'Task' });
+
+      const calls = (logseqAPI.DB.datascriptQuery as any).mock.calls;
+      const query = calls[calls.length - 1][0] as string;
+      expect(query).toContain(':block/title');
+      expect(query).not.toContain(':block/content');
+    });
+
+    it('阶段查询应该使用 :block/title', async () => {
+      (logseqAPI.DB.datascriptQuery as any).mockResolvedValue([]);
+
+      await MilestoneQuery.query({
+        milestoneList: ['Initiation', 'Execution'],
+        filterTag: 'Task',
+      });
+
+      const calls = (logseqAPI.DB.datascriptQuery as any).mock.calls;
+      const query = calls[calls.length - 1][0] as string;
+      expect(query).toContain(':block/title');
+      expect(query).not.toContain(':block/content');
+    });
+  });
+
 });

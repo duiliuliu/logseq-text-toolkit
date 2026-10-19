@@ -12,6 +12,26 @@
   z-index: 10000;
 }
 
+/*
+ * Logseq slot wrappers are fixed-position stacking contexts. If the wrapper has
+ * z-index:auto, the modal-overlay's z-index cannot escape it and later main
+ * content (heatmap/block content) can sit above the modal for hit testing.
+ */
+#text-toolkit-settings,
+#text-toolkit-comment-app,
+#text-toolkit-summary-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+#text-toolkit-settings .modal-overlay,
+#text-toolkit-comment-app .modal-overlay,
+#text-toolkit-summary-modal .modal-overlay {
+  pointer-events: auto;
+}
+
 .modal-container {
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);

@@ -1,0 +1,5 @@
+{
+  "name": "logseq-text-toolkit-e2e",
+  "private": true,
+  "main": "electron-main.cjs"
+}

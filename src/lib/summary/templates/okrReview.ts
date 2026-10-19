@@ -15,11 +15,11 @@ export class OKRReviewTemplate implements SummaryTemplate {
 
   render(data: SummaryData, params: Record<string, any>): BlockNode[] {
     const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
-    const objectives = params.objectives || [
-      { name: '目标一', progress: 80, keyResults: ['KR1', 'KR2'] },
-      { name: '目标二', progress: 60, keyResults: ['KR3'] },
-      { name: '目标三', progress: 100, keyResults: ['KR4', 'KR5', 'KR6'] },
-    ];
+    const objectives = Array.isArray(params.objectives) ? params.objectives : [];
+    const insights = data.aiSuggestions?.length ? data.aiSuggestions : (data.insights || []);
+    const averageProgress = objectives.length > 0
+      ? Math.round(objectives.reduce((sum: number, objective: any) => sum + Number(objective.progress || 0), 0) / objectives.length)
+      : 0;
 
     return [
       {
@@ -30,20 +30,22 @@ export class OKRReviewTemplate implements SummaryTemplate {
             children: [
               { content: `时间段: ${dateRangeStr}` },
               { content: `总目标数: ${objectives.length}` },
-              { content: `平均完成率: ${Math.round(objectives.reduce((sum, o) => sum + o.progress, 0) / objectives.length)}%` },
+              { content: `平均完成率: ${averageProgress}%` },
             ],
           },
           {
             content: '## 🎯 目标详情',
-            children: objectives.map((obj, index) => ({
-              content: `### ${index + 1}. ${obj.name}`,
-              children: [
-                { content: `**进度**: ${obj.progress}%` },
-                { content: '**关键结果**:', children: obj.keyResults.map((kr, i) => ({ content: `${i + 1}. ${kr}` })) },
-                { content: `**状态**: ${this.getStatusText(obj.progress)}` },
-                { content: '**反思**: ' },
-              ],
-            })),
+            children: objectives.length > 0
+              ? objectives.map((obj: any, index: number) => ({
+                  content: `### ${index + 1}. ${obj.name || `目标 ${index + 1}`}`,
+                  children: [
+                    { content: `**进度**: ${Number(obj.progress || 0)}%` },
+                    { content: '**关键结果**:', children: (Array.isArray(obj.keyResults) ? obj.keyResults : []).map((kr: any, i: number) => ({ content: `${i + 1}. ${kr}` })) },
+                    { content: `**状态**: ${this.getStatusText(Number(obj.progress || 0))}` },
+                    { content: '**反思**: ' },
+                  ],
+                }))
+              : [{ content: '暂无 OKR 目标数据。请在生成参数中提供 objectives，或生成后手动填写。' }],
           },
           {
             content: '## ✅ 任务完成情况',
@@ -65,6 +67,12 @@ export class OKRReviewTemplate implements SummaryTemplate {
               { content: '[ ] ' },
               { content: '[ ] ' },
             ],
+          },
+          {
+            content: '## 💡 自动洞察',
+            children: insights.length > 0
+              ? insights.map((item) => ({ content: `- ${item}` }))
+              : [{ content: '- 暂无额外洞察' }],
           },
           {
             content: '## 📈 数据指标',

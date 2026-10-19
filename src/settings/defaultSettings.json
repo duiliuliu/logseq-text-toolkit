@@ -113,6 +113,7 @@
     "dateFormat": "yyyy-MM-dd EEE",
     "weeklyPageNameTemplate": "周度总结-{{year}}-W{{week}}",
     "monthlyPageNameTemplate": "月度总结-{{year}}-{{month}}",
+    "yearlyPageNameTemplate": "年度总结-{{year}}",
     "customPageNameTemplate": "自定义总结-{{date}}",
     "ai": {
       "enabled": false,

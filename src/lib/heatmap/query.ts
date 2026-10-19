@@ -4,7 +4,11 @@ import { logseqAPI } from '../../logseq';
 import logger from '../logger';
 
 const getCreatedAt = (block: any): number | null => {
-  const v = block?.['created-at'] ?? block?.['block/created-at'] ?? block?.createdAt ?? block?.created_at;
+  const v = block?.['created-at']
+    ?? block?.['block/created-at']
+    ?? block?.[':block/created-at']
+    ?? block?.createdAt
+    ?? block?.created_at;
   const n = typeof v === 'number' ? v : Number(v);
   return Number.isFinite(n) ? n : null;
 };
@@ -48,21 +52,45 @@ const parseCustomProperty = (value: any): number | null => {
 
 const getTimestampByField = (block: any, dateField?: DateFieldConfig): number | null => {
   if (!dateField || dateField.type === 'created-at') {
-    const v = block?.['created-at'] ?? block?.['block/created-at'] ?? block?.createdAt ?? block?.created_at;
+    const v = block?.['created-at']
+      ?? block?.['block/created-at']
+      ?? block?.[':block/created-at']
+      ?? block?.createdAt
+      ?? block?.created_at;
     const n = typeof v === 'number' ? v : Number(v);
     return Number.isFinite(n) ? n : null;
   }
   
   switch (dateField.type) {
     case 'updated-at':
-      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
+      return parseTimestamp(
+        block?.['updated-at']
+        ?? block?.['block/updated-at']
+        ?? block?.[':block/updated-at']
+      );
     case 'scheduled':
-      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
+      return parseTimestamp(
+        block?.['scheduled']
+        ?? block?.['block/scheduled']
+        ?? block?.[':logseq.property/scheduled']
+        ?? block?.['logseq.property/scheduled']
+      );
     case 'deadline':
-      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
+      return parseTimestamp(
+        block?.['deadline']
+        ?? block?.['block/deadline']
+        ?? block?.[':logseq.property/deadline']
+        ?? block?.['logseq.property/deadline']
+      );
     case 'custom':
       if (dateField.customKey) {
-        const customValue = block?.['block/properties']?.[dateField.customKey];
+        const key = dateField.customKey;
+        const cleanKey = key.startsWith(':') ? key.slice(1) : key;
+        const customValue = block?.['block/properties']?.[key]
+          ?? block?.['block/properties']?.[cleanKey]
+          ?? block?.[key]
+          ?? block?.[`:${cleanKey}`]
+          ?? block?.[cleanKey];
         return parseCustomProperty(customValue);
       }
       return null;
@@ -73,12 +101,23 @@ const getTimestampByField = (block: any, dateField?: DateFieldConfig): number | 
 
 const formatDate = (d: Date) => d.toISOString().split('T')[0];
 
+const escapeQueryString = (value: string): string =>
+  value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+
+const normalizePropertyRef = (key: string): string => {
+  if (key.startsWith(':')) {
+    return key;
+  }
+  return key.includes('/') ? `:${key}` : `:logseq.property/${key}`;
+};
+
 const buildWhereClause = (params: HeatmapQueryParams): string => {
-  const value = params.value || '';
+  const value = escapeQueryString(params.value || '');
   const key = params.propertyKey || '';
 
   if (params.type === 'all') {
-    return `[?b :block/content ?content]`;
+    // DB 图没有 :block/content 属性，日期条件已经在 buildQuery 中。
+    return '';
   }
 
   if (params.type === 'tag') {
@@ -89,36 +128,54 @@ const buildWhereClause = (params: HeatmapQueryParams): string => {
 
   if (params.type === 'page') {
     return `
-[?p :block/name "${value}"]
+[?p :block/name "${value.toLowerCase()}"]
 [?b :block/page ?p]`;
   }
 
   if (params.type === 'property') {
     if (!key) {
-      return `
-[?b :block/properties ?props]
-[(some? ?props)]`;
+      return '';
     }
+    const propertyRef = normalizePropertyRef(key);
     if (value) {
       return `
-[?b :logseq.property/${key} ?val]
+[?b ${propertyRef} ?val]
 [?val :block/title "${value}"]`;
     }
     return `
-[?b :logseq.property/${key} ?val]
+[?b ${propertyRef} ?val]
 [(some? ?val)]`;
   }
 
   return '';
 };
 
+const getDateAttribute = (dateField?: DateFieldConfig): string => {
+  switch (dateField?.type) {
+    case 'updated-at':
+      return ':block/updated-at';
+    case 'scheduled':
+      return ':logseq.property/scheduled';
+    case 'deadline':
+      return ':logseq.property/deadline';
+    case 'custom': {
+      const key = dateField.customKey?.trim();
+      return key ? normalizePropertyRef(key) : ':block/created-at';
+    }
+    case 'created-at':
+    default:
+      return ':block/created-at';
+  }
+};
+
 const buildQuery = (params: HeatmapQueryParams, startMs: number, endMs: number) => {
   const where = buildWhereClause(params);
+  const dateAttribute = getDateAttribute(params.dateField);
   return `
 [:find (pull ?b [*])
  :where
 ${where}
-[?b :block/created-at ?date]
+[?b ${dateAttribute} ?date]
 [(>= ?date ${startMs})]
 [(<= ?date ${endMs})]]`;
 };

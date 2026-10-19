@@ -65,18 +65,16 @@ export interface HeatmapSettings {
     maxColor: string
     gradientSteps: number
   }
-  // Month page creation settings
-  monthPageCreation?: {
-    enabled: boolean
-    pageNameTemplate?: string
-    logseqTemplate?: string
-  }
+  // Month page creation settings（与设置页/宏参数保持扁平结构）
+  enableMonthPageCreation?: boolean
+  monthPageTemplate?: string
+  monthPageTemplateType?: string
+  monthPageLogseqTemplate?: string
   // Week page creation settings
-  weekPageCreation?: {
-    enabled: boolean
-    pageNameTemplate?: string
-    logseqTemplate?: string
-  }
+  enableWeekPageCreation?: boolean
+  weekPageTemplate?: string
+  weekPageTemplateType?: string
+  weekPageLogseqTemplate?: string
   defaultSlashCommandTemplate?: string
 }
 
@@ -174,6 +172,7 @@ export interface SummarySettings {
   ai: AIConfig;
   weeklyPageNameTemplate: string;
   monthlyPageNameTemplate: string;
+  yearlyPageNameTemplate: string;
   customPageNameTemplate: string;
 }
 

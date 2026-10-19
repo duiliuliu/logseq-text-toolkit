@@ -1,50 +1,59 @@
 /**
  * Copyright (c) 2026 duiliuliu
  * License: MIT
- * 
+ *
  * SelectToolbar SDK 集成示例
  * 展示如何使用 logseqAPI.Editor.onInputSelectionEnd 实现文本选择检测
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { logseqAPI } from '../../logseq/index.ts';
-import { SelectionEventAdapter, calculateToolbarPosition, type AdaptedSelection } from '../../lib/toolbar/SelectionManager.ts';
+import type { SelectedData } from '../Toolbar/types.ts';
+import {
+  calculateToolbarPositionFromPoint,
+  createSelectionFromSDKEvent,
+  type SDKSelectionEvent,
+} from '../../lib/toolbar/selection.ts';
 
 interface SelectToolbarWithSDKProps {
   targetElement: HTMLElement | null;
-  onSelection?: (selection: AdaptedSelection) => void;
+  onSelection?: (selection: SelectedData) => void;
 }
 
 export function SelectToolbarWithSDK({
-  targetElement,
   onSelection
 }: SelectToolbarWithSDKProps) {
-  const [selection, setSelection] = useState<AdaptedSelection | null>(null);
+  const [selection, setSelection] = useState<SelectedData | null>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!targetElement) return;
+    if (!logseqAPI.Editor?.onInputSelectionEnd) {
+      return;
+    }
 
-    const handleSDKSelection = async (event: any) => {
+    const handleSDKSelection = async (event: SDKSelectionEvent) => {
       try {
-        const adaptedSelection = SelectionEventAdapter.fromSDKEvent(event);
-        
         const block = await logseqAPI.Editor.getCurrentBlock();
-        const enrichedSelection = block
-          ? SelectionEventAdapter.enrichWithContext(adaptedSelection, block)
-          : adaptedSelection;
+        const adaptedSelection = createSelectionFromSDKEvent(event, block);
 
-        setSelection(enrichedSelection);
-        
+        if (!adaptedSelection.text) {
+          setVisible(false);
+          return;
+        }
+
+        setSelection(adaptedSelection);
+
         const containerWidth = containerRef.current?.offsetWidth || 200;
-        const pos = calculateToolbarPosition(enrichedSelection, containerWidth);
-        setPosition(pos);
-        
+        const anchor = adaptedSelection.point ?? {
+          x: adaptedSelection.rect?.left ?? 0,
+          y: adaptedSelection.rect?.top ?? 0,
+        };
+        setPosition(calculateToolbarPositionFromPoint(anchor, containerWidth));
         setVisible(true);
-        
-        onSelection?.(enrichedSelection);
+
+        onSelection?.(adaptedSelection);
       } catch (error) {
         console.error('[SelectToolbarWithSDK] Selection handler error:', error);
       }
@@ -55,7 +64,7 @@ export function SelectToolbarWithSDK({
     return () => {
       unregister();
     };
-  }, [targetElement, onSelection]);
+  }, [onSelection]);
 
   if (!visible || !selection) {
     return null;

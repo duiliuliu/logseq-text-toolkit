@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text Toolkit 功能测试报告 · 2026-10-19</title>
+<style>
+  :root { --bg:#f6f7fb; --card:#fff; --text:#172033; --muted:#667085; --line:#e4e7ec; --accent:#2563eb; --ok:#087443; --okbg:#ecfdf3; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB",sans-serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:40px 24px 64px; }
+  header { padding:28px 30px; border-radius:18px; color:#fff; background:linear-gradient(135deg,#0f172a,#1d4ed8); box-shadow:0 16px 40px rgba(15,23,42,.18); }
+  header h1 { margin:0 0 8px; font-size:30px; letter-spacing:-.02em; }
+  header p { margin:0; color:#dbeafe; }
+  .badges { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+  .badge { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); padding:5px 11px; border-radius:999px; font-size:13px; }
+  .notice { margin:18px 0 0; padding:14px 16px; border-left:4px solid #f59e0b; background:#fffbeb; border-radius:8px; color:#78350f; }
+  h2 { margin:34px 0 14px; font-size:21px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:0 4px 14px rgba(16,24,40,.04); }
+  .stat { display:flex; gap:16px; flex-wrap:wrap; }
+  .stat .card { flex:1 1 200px; }
+  .stat strong { display:block; font-size:26px; margin-top:4px; }
+  .stat span { color:var(--muted); font-size:13px; }
+  table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  th,td { padding:11px 13px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  th { background:#f8fafc; font-size:13px; color:#475467; }
+  tr:last-child td { border-bottom:none; }
+  td.num { white-space:nowrap; font-variant-numeric:tabular-nums; font-weight:700; }
+  td.pass { color:var(--ok); }
+  .shots { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .shot { margin:0; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(16,24,40,.04); }
+  .shot img { display:block; width:100%; height:auto; background:#fff; }
+  .shot figcaption { padding:12px 14px 14px; display:flex; flex-direction:column; gap:3px; }
+  .shot figcaption span { color:var(--muted); font-size:13px; }
+  code,pre { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  pre { background:#0f172a; color:#e2e8f0; padding:15px 18px; border-radius:12px; overflow:auto; }
+  .ok { color:var(--ok); background:var(--okbg); border:1px solid #abefc6; padding:2px 8px; border-radius:999px; font-size:13px; }
+  footer { margin-top:36px; color:var(--muted); font-size:13px; }
+  @media (max-width: 800px) { .grid,.shots { grid-template-columns:1fr; } header { padding:22px; } .wrap { padding:22px 14px 44px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Text Toolkit 功能测试报告</h1>
+  <p>2026-10-19 · Electron + Host mock · 真实构建产物</p>
+  <div class="badges">
+    <span class="badge">E2E 20/20 PASS</span>
+    <span class="badge">Vitest 695/695 PASS</span>
+    <span class="badge">plugin 1.1.18</span>
+    <span class="badge">min SDK 0.3.1+</span>
+  </div>
+</header>
+<p class="notice">截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 <a href="../../architecture/Real-Logseq-Smoke-Test.md">Real-Logseq-Smoke-Test.md</a> 做发版前人工确认。</p>
+
+<h2>结果总览</h2>
+<div class="stat">
+  <div class="card"><span>Electron 主功能</span><strong>13/13</strong><span>PASS</span></div>
+  <div class="card"><span>Summary 专项</span><strong>3/3</strong><span>PASS</span></div>
+  <div class="card"><span>旧 Host fallback</span><strong>2/2</strong><span>PASS</span></div>
+  <div class="card"><span>SDK 静默 fallback</span><strong>2/2</strong><span>PASS</span></div>
+</div>
+<p style="margin-top:14px"><span class="ok">Vitest 74 files / 695 tests passed</span></p>
+<p><a href="assets/e2e-output.txt">Electron E2E 原始输出</a> · <a href="assets/unit-test-summary.txt">Vitest 摘要</a></p>
+
+<h2>环境</h2>
+<table><tbody><tr><td>OS</td><td>macOS 26.3.2 (Build 25D2150)</td></tr><tr><td>Electron</td><td>42.11.15</td></tr><tr><td>Chromium</td><td>148.0.7778.280</td></tr><tr><td>Node.js</td><td>24.17.0</td></tr><tr><td>Plugin</td><td>logseq-text-toolkit 1.1.18</td></tr><tr><td>SDK floor</td><td>@logseq/libs 0.3.1+ / host 2.0.2</td></tr><tr><td>Runner</td><td>scripts/e2e (Electron + Host mock)</td></tr></tbody></table>
+
+<h2>套件结果</h2>
+<table><thead><tr><th>套件</th><th>通过</th><th>覆盖</th></tr></thead><tbody><tr><td>主功能套件</td><td class="num pass">13/13</td><td>插件注册、设置、选区工具栏、评论、BlockView、TaskProgress、Heatmap、Milestone、Summary、slash commands</td></tr><tr><td>Summary 专项</td><td class="num pass">3/3</td><td>自定义日期范围、年度模板/页面名、同名总结安全替换</td></tr><tr><td>旧 Host fallback</td><td class="num pass">2/2</td><td>无 onInputSelectionEnd；原生 textarea 选区</td></tr><tr><td>SDK 静默 fallback</td><td class="num pass">2/2</td><td>暴露 SDK hook 但从不发事件；原生选区仍可用</td></tr></tbody></table>
+
+<h2>功能覆盖</h2>
+<table><thead><tr><th>功能</th><th>验证点</th></tr></thead><tbody><tr><td>设置弹窗</td><td>7 个 Tab；BlockView Tab 可切换；保存成功；hit-test 在弹窗内</td></tr><tr><td>选区工具栏</td><td>SDK onInputSelectionEnd → 工具栏 → 加粗 → updateBlock</td></tr><tr><td>评论</td><td>工具栏评论项 → 弹窗 → 保存 → inline-comment</td></tr><tr><td>BlockView</td><td>list/table/gallery/board；Table 3 个 grid track；表格行 control 不再占用 grid 列；设置实时刷新</td></tr><tr><td>TaskProgress</td><td>1/2；tag-only 无 status 任务计入 todo</td></tr><tr><td>Heatmap</td><td>年度/月度/周度切换；42 个 week cell；scheduled 日期属性</td></tr><tr><td>Milestone</td><td>Initiation / Planning 两个阶段渲染</td></tr><tr><td>Summary</td><td>GTD 生成、活跃块数、自动洞察、view=week 热力图宏、自定义范围、年度页面</td></tr><tr><td>Slash commands</td><td>TaskProgress / Heatmap / BlockView / Milestone 四条宏插入</td></tr></tbody></table>
+
+<h2>截图</h2>
+<div class="shots"><figure class="shot">
+  <a href="assets/01-settings-modal.png" target="_blank"><img src="assets/01-settings-modal.png" alt="设置弹窗"></a>
+  <figcaption><strong>设置弹窗</strong><span>7 个设置 Tab，BlockView 设置页可进入。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/02-selection-toolbar.png" target="_blank"><img src="assets/02-selection-toolbar.png" alt="选区工具栏"></a>
+  <figcaption><strong>选区工具栏</strong><span>SDK 选区事件后在块附近显示 B / C 工具栏。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/03-comment-modal.png" target="_blank"><img src="assets/03-comment-modal.png" alt="评论弹窗"></a>
+  <figcaption><strong>评论弹窗</strong><span>评论项打开 inline comment 弹窗，选中文本为 “world”。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/04-blockview-table.png" target="_blank"><img src="assets/04-blockview-table.png" alt="BlockView：Table"></a>
+  <figcaption><strong>BlockView：Table</strong><span>修复行 control 占用 grid 后，首列为 Row one/Row two，后续为 Cell 11/12、21/22。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/05-taskprogress.png" target="_blank"><img src="assets/05-taskprogress.png" alt="TaskProgress（放大）"></a>
+  <figcaption><strong>TaskProgress（放大）</strong><span>tag-only 任务无 status 时仍计入；显示 1/2。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/06-heatmap.png" target="_blank"><img src="assets/06-heatmap.png" alt="Heatmap"></a>
+  <figcaption><strong>Heatmap</strong><span>月度视图、Task 标签、年度/月度/周度切换。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/07-milestone.png" target="_blank"><img src="assets/07-milestone.png" alt="Milestone"></a>
+  <figcaption><strong>Milestone</strong><span>Initiation → Planning，两个阶段均渲染。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/08-summary-modal.png" target="_blank"><img src="assets/08-summary-modal.png" alt="Summary 弹窗"></a>
+  <figcaption><strong>Summary 弹窗</strong><span>默认类型、默认模板、取消/生成按钮；弹窗层级可点击。</span></figcaption>
+</figure></div>
+
+<h2>报告生成过程中发现并修复的问题</h2>
+<table><thead><tr><th>问题</th><th>影响</th><th>修复</th></tr></thead><tbody>
+<tr><td>Table 行 <code>.block-control-wrap</code> 直接参与 grid</td><td>首列被 control 占用，单元格错位/换行</td><td>隐藏 table row 的 control wrap；E2E 新增 grid/control 断言</td></tr>
+<tr><td>Summary/Settings/Comment fixed 容器无 z-index</td><td>后续主内容可能盖住弹窗点击区域</td><td>容器 <code>z-index:10000</code> + overlay <code>pointer-events:auto</code>；E2E 新增 elementFromPoint 校验</td></tr>
+</tbody></table>
+
+<h2>复现</h2>
+<pre>npm ci
+npm i -D electron   # 或设置 ELECTRON_BIN
+npm run e2e:no-build</pre>
+<p>无 Electron 时只跑单元/集成：</p>
+<pre>npm test</pre>
+
+<h2>限制</h2>
+<ul>
+  <li>Host mock 覆盖插件自身 UI/API 契约，不覆盖真实 Logseq 编辑器、真实 DB、插件 reload 和跨 graph 行为。</li>
+  <li>真实 DB Datalog 另用 <code>logseq query</code> 验证；真实应用最终确认见 smoke checklist。</li>
+  <li>AI 设置只验证了禁用/fallback 与请求解析单测；真实网络/PROXY/CORS 应在真实 Logseq 手工验证。</li>
+  <li>截图环境为 1400×1000 CSS 像素、Retina 2x；真实 Logseq 的窗口布局可能不同。</li>
+</ul>
+<footer>Generated from repository test artifacts · 2026-10-19</footer>
+</div>
+</body>
+</html>

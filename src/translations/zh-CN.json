@@ -240,7 +240,8 @@
           "cardBorderColor": "卡片边框色",
           "cardBorderRadius": "卡片圆角"
         }
-      }
+      },
+      "emptyHint": "添加子块后可切换视图"
     },
     "heatmap": {
       "description": "配置热力图展示功能和显示效果。",
@@ -283,9 +284,11 @@
       "weeklyPageNamePlaceholder": "周度总结-{{year}}-W{{week}}",
       "monthlyPageNameTemplate": "月度页面名称模板",
       "monthlyPageNamePlaceholder": "月度总结-{{year}}-{{month}}",
+      "yearlyPageNameTemplate": "年度页面名称模板",
+      "yearlyPageNamePlaceholder": "年度总结-{{year}}",
       "customPageNameTemplate": "自定义页面名称模板",
       "customPageNamePlaceholder": "自定义总结-{{date}}",
-      "pageNameTemplateHelp": "可用占位符: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
+      "pageNameTemplateHelp": "可用占位符: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
       "templateGtdWorkReview": "GTD 工作回顾",
       "templateMinimalDashboard": "极简仪表盘",
       "templateBulletJournal": "子弹日记",
@@ -297,6 +300,12 @@
       "typeCustom": "自定义",
       "startDate": "开始日期",
       "endDate": "结束日期",
+      "generate": "生成总结",
+      "generating": "生成中...",
+      "generateFailed": "生成失败，请查看日志后重试",
+      "customDateError": "请选择有效的开始和结束日期（开始不能晚于结束）",
+      "noTemplates": "当前总结类型没有可用模板",
+      "aiFallback": "AI 调用失败时会自动使用本地洞察，不会阻断总结生成。",
       "aiSettings": "🤖 AI 设置",
       "aiEnabled": "启用 AI 增强",
       "aiProvider": "AI 提供商",

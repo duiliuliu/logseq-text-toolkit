@@ -3,8 +3,7 @@
  */
 
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import React from 'react';
+import { render } from '@testing-library/react';
 import SummarySettings from './SummarySettings';
 import defaultSettings from '../../../settings/defaultSettings';
 

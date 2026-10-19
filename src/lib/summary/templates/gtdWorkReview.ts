@@ -1,7 +1,6 @@
 import { TemplateType, SummaryTemplate, SummaryData, BlockNode, SummaryType } from '../types';
 import { DataAnalyzer } from '../DataAnalyzer';
-import { logger } from '../../../logseq/logger';
-import { s } from 'framer-motion/client';
+import { getISOWeekInfo } from '../dateUtils';
 
 export class GTDWorkReviewTemplate implements SummaryTemplate {
   id: TemplateType = 'gtd-work-review';
@@ -19,6 +18,8 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
     const topTags = this.analyzer.getTopTags(data.blocks.tags);
     const summaryType = params.summaryType || 'weekly';
     const title = this.getTitle(data, summaryType);
+    const insights = data.insights || [];
+    const aiSuggestions = data.aiSuggestions || [];
 
     return [
       {
@@ -30,7 +31,9 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
               {
                 content: '### 核心指标',
                 children: [
-                  { content: `创建块数: ${data.blocks.created}` },
+                  { content: `活跃块数: ${data.blocks.total}` },
+                  { content: `新建块: ${data.blocks.created}` },
+                  { content: `修改块: ${data.blocks.modified}` },
                   { content: `完成任务: ${data.tasks.completed} / ${data.tasks.total}` },
                   { content: `任务完成率: ${data.tasks.completionRate}%` },
                   { content: `新增页面: ${data.pages.newPages}` },
@@ -44,11 +47,11 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
               {
                 content: ((): string => {
                   if (summaryType === 'weekly') {
-                    return '{{renderer :heatmap week, tag=Task}}'
+                    return '{{renderer :heatmap, view=week, tag=Task}}'
                   } else if (summaryType === 'monthly') {
-                    return '{{renderer :heatmap month, tag=Task}}'
+                    return '{{renderer :heatmap, view=month, tag=Task}}'
                   } else {
-                    return '{{renderer :heatmap year, tag=Task}}'
+                    return '{{renderer :heatmap, view=year, tag=Task}}'
                   }
                 })()
               },
@@ -98,11 +101,10 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
             ],
           },
           {
-            content: '## 🤖 AI 分析建议',
-            children: [
-              { content: 'AI 分析建议:' },
-              { content: `${data.aiSuggestions?.join("\n") || "暂无 AI 分析建议"}` },
-            ],
+            content: aiSuggestions.length > 0 ? '## 🤖 AI 分析建议' : '## 💡 自动洞察',
+            children: (aiSuggestions.length > 0 ? aiSuggestions : insights).length > 0
+              ? (aiSuggestions.length > 0 ? aiSuggestions : insights).map((item) => ({ content: `- ${item}` }))
+              : [{ content: '- 暂无额外洞察' }],
           },
         ],
       },
@@ -110,8 +112,9 @@ export class GTDWorkReviewTemplate implements SummaryTemplate {
   }
 
   private getTitle(data: SummaryData, summaryType: SummaryType): string {
-    const year = data.dateRange.start.getFullYear();
-    const weekNum = this.analyzer.getWeekNumber(data.dateRange.start);
+    const weekInfo = getISOWeekInfo(data.dateRange.start);
+    const year = summaryType === 'weekly' ? weekInfo.year : data.dateRange.start.getFullYear();
+    const weekNum = weekInfo.week;
     const monthName = data.dateRange.start.toLocaleDateString('zh-CN', { month: 'long' });
 
     if (summaryType === 'weekly') {

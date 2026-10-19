@@ -6,5 +6,6 @@
   "icon": "./icon.png",
   "unsupportedGraphType": "file",
   "supportsDB": true,
-  "supportsDBOnly": true
+  "supportsDBOnly": true,
+  "minSDKVersion": "0.3.1"
 }

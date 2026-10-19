@@ -42,6 +42,16 @@ const Editor: any = {
     const selection = getSelection();
     const doc = getDocument();
 
+    // DB 版编辑器的内容在 textarea.value 里，不在 textContent 里。
+    const activeElement = doc.activeElement as HTMLTextAreaElement | null;
+    if (activeElement?.tagName === 'TEXTAREA') {
+      return Promise.resolve({
+        uuid: activeElement.id || 'default-block',
+        content: activeElement.value,
+        properties: {},
+      });
+    }
+
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
       let currentElement: Node | null = range.commonAncestorContainer;
@@ -71,37 +81,27 @@ const Editor: any = {
 
   onInputSelectionEnd(handler: SelectionHandler): () => void {
     logger.info('[Mock Editor] onInputSelectionEnd registered');
-    
+
     let isMouseDown = false;
     let mouseUpTimeout: ReturnType<typeof setTimeout> | null = null;
-    
-    const handleMouseDown = () => {
-      isMouseDown = true;
-    };
-    
-    const handleMouseUp = (e: MouseEvent) => {
-      if (!isMouseDown) return;
-      
-      if (mouseUpTimeout) {
-        clearTimeout(mouseUpTimeout);
-      }
-      
-      mouseUpTimeout = setTimeout(() => {
-        isMouseDown = false;
-        
-        const selection = getSelection();
-        if (!selection || selection.toString().length === 0) {
-          return;
+    let lastMousePoint = { x: 0, y: 0 };
+
+    const buildSelectionInfo = (): SelectionInfo | null => {
+      const doc = getDocument();
+      const activeElement = doc.activeElement as HTMLTextAreaElement | null;
+
+      // 优先模拟 DB 版 textarea 编辑器：start/end 来自 selectionStart/End。
+      if (activeElement?.tagName === 'TEXTAREA') {
+        const start = activeElement.selectionStart ?? 0;
+        const end = activeElement.selectionEnd ?? start;
+        if (start === end) {
+          return null;
         }
-        
-        const text = selection.toString();
-        const range = selection.getRangeAt(0);
-        const rect = range.getBoundingClientRect();
-        
-        const start = 0;
-        const end = text.length;
-        
-        const info: SelectionInfo = {
+
+        const text = activeElement.value.substring(start, end);
+        const rect = activeElement.getBoundingClientRect();
+
+        return {
           text,
           start,
           end,
@@ -109,15 +109,57 @@ const Editor: any = {
             left: rect.left,
             top: rect.top,
             height: rect.height,
-            pos: 0,
-            rect: rect
+            pos: start,
+            rect,
           },
-          point: {
-            x: e.clientX,
-            y: e.clientY
-          }
+          point: lastMousePoint,
         };
-        
+      }
+
+      const selection = getSelection();
+      if (!selection || selection.toString().length === 0 || selection.rangeCount === 0) {
+        return null;
+      }
+
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const text = selection.toString();
+
+      return {
+        text,
+        start: 0,
+        end: text.length,
+        caret: {
+          left: rect.left,
+          top: rect.top,
+          height: rect.height,
+          pos: 0,
+          rect,
+        },
+        point: lastMousePoint,
+      };
+    };
+
+    const handleMouseDown = () => {
+      isMouseDown = true;
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      lastMousePoint = { x: e.clientX, y: e.clientY };
+      if (!isMouseDown) return;
+
+      if (mouseUpTimeout) {
+        clearTimeout(mouseUpTimeout);
+      }
+
+      mouseUpTimeout = setTimeout(() => {
+        isMouseDown = false;
+
+        const info = buildSelectionInfo();
+        if (!info) {
+          return;
+        }
+
         try {
           handler(info);
         } catch (error) {
@@ -125,11 +167,11 @@ const Editor: any = {
         }
       }, 10);
     };
-    
+
     const doc = getDocument();
     doc.addEventListener('mousedown', handleMouseDown);
     doc.addEventListener('mouseup', handleMouseUp);
-    
+
     return () => {
       if (mouseUpTimeout) {
         clearTimeout(mouseUpTimeout);
@@ -219,7 +261,12 @@ const Editor: any = {
 
     if (element) {
       if (content !== undefined) {
-        element.textContent = content;
+        // DB 版编辑器的内容在 textarea.value 里，textContent 不会更新可见文本。
+        if (element instanceof HTMLTextAreaElement) {
+          element.value = content;
+        } else {
+          element.textContent = content;
+        }
       }
       return Promise.resolve(true);
     }

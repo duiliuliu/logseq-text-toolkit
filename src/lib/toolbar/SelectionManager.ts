@@ -7,7 +7,7 @@
  */
 
 import { getSelection, getDocument, getWindow } from '../../logseq/utils.ts';
-import type { BlockEntity } from '../../logseq/types';
+import type { BlockEntity } from '@logseq/libs/dist/LSPlugin.user';
 
 export interface SelectionInfo {
   text: string;
@@ -78,7 +78,6 @@ export class SelectionEventAdapter {
     getBlock: () => Promise<BlockEntity | null>
   ): Promise<AdaptedSelection | null> {
     const selection = getSelection();
-    const doc = getDocument();
 
     if (!selection || selection.toString().length === 0) {
       return null;
@@ -271,12 +270,10 @@ export function calculateToolbarPosition(
   toolbarHeight: number = 32,
   padding: number = 3
 ): { x: number; y: number } {
-  const viewportHeight = getWindow().innerHeight;
   const viewportWidth = getWindow().innerWidth;
   
   const rect = selection.rect;
   const spaceAbove = rect.top;
-  const spaceBelow = viewportHeight - rect.bottom;
 
   let toolbarY: number;
   if (spaceAbove > toolbarHeight + 10) {

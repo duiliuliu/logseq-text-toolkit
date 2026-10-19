@@ -13,9 +13,17 @@ export interface SelectedData {
   timestamp?: string;
   range?: Range;
   rect?: DOMRect;
+  /** 选区在 block.content 中的起始字符偏移（DB 图由 SDK 事件提供） */
+  start?: number;
+  /** 选区在 block.content 中的结束字符偏移（DB 图由 SDK 事件提供） */
+  end?: number;
+  /** 浮动工具栏锚点（通常是 mouseup 的 clientX/clientY） */
+  point?: { x: number; y: number };
   before?: string;
   after?: string;
   block?: BlockEntity;
+  /** 选区来源：SDK 事件或原生 DOM Selection */
+  source?: 'sdk' | 'native';
 }
 
 /**

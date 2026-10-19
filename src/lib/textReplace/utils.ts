@@ -6,6 +6,7 @@
  */
 
 import { getSelection, getDocument } from '../../logseq/utils.ts';
+import { getBlockContent, replaceSelectionInContent } from '../toolbar/selection.ts';
 import { logseqAPI } from '../../logseq/index.ts';
 import { t } from '../../translations/i18n.ts';
 import { SelectedData, ToolbarItem, InvokeParams, RegexReplaceParams } from '../../components/Toolbar/types.ts';
@@ -435,26 +436,68 @@ export const updateBlockContent = async (
 ): Promise<boolean> => {
   try {
     const block = selectedData.block;
-    if (!block || !block.content) {
+    if (!block) {
       logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), 'error');
       return false;
     }
-    
-    const originalContent = block.content;
-    const selectedText = selectedData.text;
-    
+
+    let originalContent = getBlockContent(block);
+
+    // 编辑中的 textarea 可能还没保存到 block.content，优先使用 SDK 的实时内容。
+    // 只有确认当前编辑块就是选区所在块，且实时内容包含选区时才采用。
+    try {
+      let sameEditingBlock = true;
+      const getCurrentBlock = logseqAPI.Editor?.getCurrentBlock;
+      if (typeof getCurrentBlock === 'function') {
+        const currentBlock = await getCurrentBlock();
+        sameEditingBlock = !currentBlock || currentBlock.uuid === block.uuid;
+      }
+
+      if (sameEditingBlock) {
+        const editingContent = await logseqAPI.Editor?.getEditingBlockContent?.();
+        if (editingContent && editingContent !== originalContent) {
+          const hasOffsetMatch = typeof selectedData.start === 'number'
+            && typeof selectedData.end === 'number'
+            && editingContent.slice(selectedData.start, selectedData.end) === selectedData.text;
+          if (hasOffsetMatch || editingContent.includes(selectedData.text)) {
+            originalContent = editingContent;
+          }
+        }
+      }
+    } catch {
+      // 非编辑态/API 不可用时继续使用 block.content
+    }
+
+    if (!originalContent) {
+      logseqAPI.UI.showMsg(t('toolbar.noBlockContent', language), 'error');
+      return false;
+    }
+
+    // DB 图优先使用 SDK 下发的 start/end 做精确替换。
+    // file 图的原生选区也会先在这里通过 resolveSelectionRange 解析出偏移。
+    const newContent = replaceSelectionInContent(originalContent, selectedData, processedText);
+    if (newContent !== null) {
+      if (newContent === originalContent) {
+        return true;
+      }
+      await logseqAPI.Editor.updateBlock(block.uuid, newContent);
+      return true;
+    }
+
+    // 偏移不可用（内容尚未同步、跨节点选区等）时再尝试直接改 DOM，
+    // 最后才回退到“替换第一处匹配”的旧逻辑。
     const success = await replaceInSelectedElement(selectedData, processedText);
     if (success) {
       return true;
     }
-    
-    const newContent = findAndReplaceText(originalContent, selectedText, processedText);
-    
-    if (newContent !== originalContent) {
-      return await logseqAPI.Editor.updateBlock(block.uuid, newContent);
-    } else {
-      return false;
+
+    const legacyContent = findAndReplaceText(originalContent, selectedData.text, processedText);
+    if (legacyContent !== originalContent) {
+      await logseqAPI.Editor.updateBlock(block.uuid, legacyContent);
+      return true;
     }
+
+    return false;
   } catch (error) {
     logger.error('Error updating block content:', error);
     return false;

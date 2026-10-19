@@ -240,7 +240,8 @@
           "cardBorderColor": "カード境界線色",
           "cardBorderRadius": "カード角丸"
         }
-      }
+      },
+      "emptyHint": "子ブロックを追加するとビューを切り替えられます"
     },
     "heatmap": {
       "description": "ヒートマップ表示機能と外観を設定します。",
@@ -283,9 +284,11 @@
       "weeklyPageNamePlaceholder": "週次まとめ-{{year}}-W{{week}}",
       "monthlyPageNameTemplate": "月次ページ名テンプレート",
       "monthlyPageNamePlaceholder": "月次まとめ-{{year}}-{{month}}",
+      "yearlyPageNameTemplate": "年間ページ名テンプレート",
+      "yearlyPageNamePlaceholder": "年間まとめ-{{year}}",
       "customPageNameTemplate": "カスタムページ名テンプレート",
       "customPageNamePlaceholder": "カスタムまとめ-{{date}}",
-      "pageNameTemplateHelp": "使用可能なプレースホルダー: {{year}}, {{month}}, {{week}}, {{date}}, {{type}}",
+      "pageNameTemplateHelp": "使用可能なプレースホルダー: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
       "templateGtdWorkReview": "GTD 作業レビュー",
       "templateMinimalDashboard": "ミニマルダッシュボード",
       "templateBulletJournal": "バレットジャーナル",
@@ -297,6 +300,12 @@
       "typeCustom": "カスタム",
       "startDate": "開始日",
       "endDate": "終了日",
+      "generate": "サマリーを生成",
+      "generating": "生成中...",
+      "generateFailed": "生成に失敗しました。ログを確認して再試行してください",
+      "customDateError": "有効な開始日と終了日を選択してください（開始日は終了日より後にできません）",
+      "noTemplates": "このサマリータイプで利用できるテンプレートがありません",
+      "aiFallback": "AI リクエストに失敗した場合はローカル洞察を使用し、サマリー生成は継続します。",
       "aiSettings": "🤖 AI設定",
       "aiEnabled": "AI拡張を有効化",
       "aiProvider": "AIプロバイダー",
