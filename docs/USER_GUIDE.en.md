@@ -1,6 +1,6 @@
 # Logseq Text Toolkit User Guide
 
-[English Version](USER_GUIDE.en.md) | [返回 README](../README.en.md)
+[中文版本](USER_GUIDE.md) | [Back to README](../README.en.md)
 
 ---
 
@@ -13,7 +13,8 @@
 5. [Summary Generator](#5-summary-generator)
 6. [Toolbar Configuration](#6-toolbar-configuration)
 7. [Themes & Multi-language](#7-themes--multi-language)
-8. [FAQ](#8-faq)
+8. [HTML Viewer & Dashboard](#8-html-viewer--dashboard)
+9. [FAQ](#9-faq)
 
 ---
 
@@ -306,13 +307,11 @@ Configure custom themes in Settings → Block View:
 
 ## 5. Summary Generator
 
-> ⚠️ **Feature under development, currently unavailable**
-
 ### 5.1 Introduction
 
 The Summary Generator feature helps you automatically generate weekly, monthly, yearly, and other summary documents.
 
-### 5.2 Planned Features
+### 5.2 Supported Features
 
 #### Summary Types
 | Type | Description |
@@ -336,13 +335,13 @@ The Summary Generator feature helps you automatically generate weekly, monthly, 
 - Claude API support
 - Custom prompt templates
 
-### 5.3 Usage (After Development Complete)
+### 5.3 Usage
 
 ```markdown
 {{renderer :summary}}
 ```
 
-Or configure default template and summary type in settings.
+You can also select the default type/template in Settings, or run `[Text Toolkit] Generate Summary`.
 
 ---
 
@@ -436,7 +435,74 @@ You can override plugin default styles via Logseq CSS:
 
 ---
 
-## 8. FAQ
+## 8. HTML Viewer & Dashboard
+
+### 8.1 Open an HTML attachment
+
+- Command: `[Text Toolkit] Open HTML Viewer`
+- Toolbar: HTML Viewer button
+- HTML asset block: launcher card (experimental block renderer)
+- A single attachment opens automatically; multiple attachments show the picker
+
+The panel supports left/right docking, resize, fullscreen, close, attachment
+picker and annotation-list toggle.
+
+### 8.2 Annotations
+
+1. Select text in the HTML.
+2. Click **Annotate**.
+3. Add an optional note and save.
+4. The annotation appears in the side list and jumps back to the quote.
+5. Annotations are written as child blocks of the HTML asset block; fallback is
+   an `HTML 标注 - <filename>` page.
+6. Precise text selectors are stored in plugin FileStorage for highlight
+   restoration after reopening.
+
+### 8.3 Dashboard
+
+1. Put a periodically generated HTML file under the graph `assets/` directory.
+2. Open Settings → HTML Viewer → Dashboard.
+3. Choose the dashboard HTML attachment.
+4. Optionally enable **Open dashboard fullscreen**.
+5. Click the toolbar Dashboard button or run `[Text Toolkit] Open Dashboard`.
+
+Regenerating the same file updates the dashboard without changing plugin
+settings or the database.
+
+### 8.4 Link dashboard HTML to Logseq
+
+Scripts are disabled by default, but safe links are supported:
+
+```html
+<a href="logseq://page/2026-W42">This week's report</a>
+<a href="logseq://block/6a1f3c2e-...">Open task</a>
+```
+
+Declarative navigation:
+
+```html
+<button data-ls-call="App.pushState"
+        data-ls-args='{"k":"page","params":{"name":"2026-W42"}}'>
+  Open page
+</button>
+```
+
+Only navigation methods such as `App.pushState`, `App.openExternalLink` and
+`Editor.openInRightSidebar` are allowed. Write operations are blocked.
+
+### 8.5 Security defaults
+
+- HTML scripts are disabled
+- Remote resources are stripped
+- Enable scripts/remote resources only for trusted HTML
+- Do not open untrusted HTML with scripts enabled
+
+> The dashboard does not modify Logseq's `:default-home`. Making it the startup
+> page requires a real page macro plus `:default-home`.
+
+---
+
+## 9. FAQ
 
 ### Q1: Toolbar not popping up?
 **A**: Please make sure you've selected text content; the toolbar only auto-pops up when text is selected.
@@ -451,7 +517,13 @@ You can override plugin default styles via Logseq CSS:
 **A**: Each Tab in the settings panel has a "Reset to Default" button to independently reset settings for each functional area.
 
 ### Q5: Which Logseq versions are supported?
-**A**: It is recommended to use the latest version of Logseq for best compatibility and latest features.
+**A**: This version targets Logseq DB graphs with `minSDKVersion` 0.3.1. File graphs are not supported.
+
+### Q6: HTML attachment is blank?
+**A**: Confirm the file is under `assets/` and is a self-contained HTML file. If the host cannot fetch the asset URL, the error panel offers an "Open in system browser" fallback.
+
+### Q7: Dashboard toolbar button did not change?
+**A**: Save settings and click the toolbar button again; it reads the latest dashboard configuration when clicked. Reload the plugin if it still looks stale.
 
 ---
 
@@ -463,4 +535,4 @@ You can override plugin default styles via Logseq CSS:
 
 ---
 
-*Last updated: 2026-04-25*
+*Last updated: 2026-10-20*

@@ -1,7 +1,7 @@
 {
   "name": "logseq-text-toolkit",
   "version": "1.2.0",
-  "description": "A toolkit for text formatting and manipulation in Logseq",
+  "description": "A DB-first Logseq toolkit for text formatting, tasks, heatmaps, block views, summaries, HTML reading/annotations and AI-generated dashboards",
   "author": "duiliuliu",
   "license": "MIT",
   "keywords": [
@@ -28,13 +28,19 @@
     "总结",
     "块视图",
     "里程碑",
-    "评论"
+    "评论",
+    "html",
+    "html-viewer",
+    "dashboard",
+    "annotation",
+    "pdf",
+    "reader"
   ],
   "main": "dist/index.html",
   "logseq": {
     "id": "logseq-text-toolkit",
     "title": "Text Toolkit",
-    "description": "A toolkit for text formatting and manipulation",
+    "description": "Text Toolkit with HTML viewer, annotations and dashboards",
     "main": "dist/index.html",
     "icon": "./icon.png",
     "minSDKVersion": "0.3.1",

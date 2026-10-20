@@ -43,7 +43,7 @@ disposable profile/graph and run this checklist before a release.
 
 - [ ] Plugin loads without a red error in the developer console.
 - [ ] Settings toolbar button exists.
-- [ ] Slash commands are present: Task Progress, Heatmap, Summary, Block View, Milestone.
+- [ ] Slash commands are present: Task Progress, Heatmap, Summary, Block View, Milestone, Open HTML Viewer, Open Dashboard.
 - [ ] No uncaught exception after 30 seconds idle.
 
 ### Selection toolbar
@@ -105,6 +105,27 @@ disposable profile/graph and run this checklist before a release.
 - [ ] Save BlockView settings; existing blocks refresh.
 - [ ] Save Summary page-name templates; next generation uses them.
 - [ ] Toggle toolbar / sponsor / language; reload plugin and verify persistence.
+
+### HTML Viewer
+
+- [ ] Real `assets/*.html` attachment can be fetched via `Assets.makeUrl`.
+- [ ] HTML renders in the sandboxed iframe with scripts disabled.
+- [ ] Selecting text shows the Annotate action; saving creates an annotation.
+- [ ] Annotation block appears under the HTML asset block (or fallback page).
+- [ ] Reopen the attachment: annotations and highlights restore.
+- [ ] Delete an annotation: graph block is removed when UUID is available.
+- [ ] Left/right, resize, fullscreen and close work at real viewport size.
+- [ ] Error fallback appears if asset fetch is blocked.
+
+### HTML Dashboard
+
+- [ ] Settings → HTML Viewer lists real HTML assets.
+- [ ] Save a dashboard asset; toolbar button opens it without plugin reload.
+- [ ] Dashboard opens fullscreen and annotation sidebar is hidden by default.
+- [ ] `logseq://page/...` link navigates to the target page.
+- [ ] `logseq://block/...` link opens the page and scrolls to the block.
+- [ ] `data-ls-call` navigation whitelist works; non-whitelisted calls show a warning.
+- [ ] Regenerating the same HTML file refreshes the dashboard after reopen.
 
 ### Compatibility
 

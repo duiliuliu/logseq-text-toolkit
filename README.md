@@ -102,6 +102,8 @@
 
 **使用方式**：选中文本 → 工具栏自动弹出 → 点击相应按钮
 
+**总结生成**：打开 Summary 弹窗选择类型/模板，或执行 `[Text Toolkit] Generate Summary`。
+
 ---
 
 ### 📊 任务进度追踪
@@ -181,15 +183,14 @@
 
 ---
 
-### 📝 总结生成 (Summary) ⚠️
+### 📝 总结生成 (Summary)
 
 | 功能 | 说明 |
 |------|------|
 | 总结类型 | 周度、月度、年度、自定义时间范围 |
 | 模板支持 | GTD 工作回顾、极简仪表盘、子弹日记、OKR 回顾、学习总结 |
 | AI 增强 | 支持 OpenAI/Claude 接入 |
-
-> ⚠️ 总结功能正在开发中，暂时不可用。
+| 输出 | 写入当前页面或生成总结页面；支持 GTD/极简仪表盘等模板 |
 
 ---
 
@@ -201,8 +202,33 @@
 | 文字标注 | 选中 HTML 文字 → 标注 → 可选备注 |
 | 跳回原文 | 使用 quote + prefix/suffix + offset 还原高亮 |
 | 图谱联动 | 标注优先挂到 HTML asset 块下，生成普通子块；无法解析 asset 时回退标注页面 |
-| 安全默认 | 默认禁用脚本和远程资源；单附件显式开启 |
 | Dashboard | 设置定期生成的 HTML 为 Dashboard，工具栏一键全屏打开；支持跳 Logseq 页面/块 |
+| 安全默认 | 脚本、远程资源默认关闭；单附件显式开启 |
+
+**打开方式**：
+
+```text
+[Text Toolkit] Open HTML Viewer
+[Text Toolkit] Open Dashboard
+```
+
+也可以在 HTML asset 块上点击启动卡片，或使用顶部工具栏按钮。
+
+**Dashboard 设置**：
+
+1. 把定期生成的 HTML 放到 `assets/` 下。
+2. 设置 → 🌐 HTML 阅读器 → Dashboard，选择该文件。
+3. 勾选“以全屏方式打开 Dashboard”。
+4. 点击顶部 Dashboard 按钮，或执行 `[Text Toolkit] Open Dashboard`。
+
+**Dashboard 跳转链接**：
+
+```html
+<a href="logseq://page/2026-W42">本周周报</a>
+<a href="logseq://block/6a1f3c2e-...">打开任务</a>
+```
+
+脚本默认关闭，链接由父页面安全接管；只允许页面/块/右栏等导航动作。
 
 详见 [HTML-Viewer.md](docs/architecture/HTML-Viewer.md)。
 
@@ -259,6 +285,8 @@
 1. Logseq → 右上角菜单 → **插件**
 2. 点击 **从 URL 加载插件**
 3. 输入：`https://github.com/duiliuliu/logseq-text-toolkit/`
+
+> 当前版本 **1.2.0**，面向 Logseq DB 图，`minSDKVersion` 为 `0.3.1`；文件图不支持。
 
 ---
 
@@ -1059,6 +1087,72 @@ vim dist/tableView.css
 
 ---
 
+### 4.9 HTML 阅读器
+
+#### 4.9.1 打开附件
+
+- 命令：`[Text Toolkit] Open HTML Viewer`
+- 工具栏：HTML 阅读器按钮
+- HTML asset 块：实验性块渲染器提供启动卡片
+- 单附件时会自动打开；多附件显示列表
+
+#### 4.9.2 阅读与标注
+
+1. 选择文字后点击浮动的“标注”。
+2. 输入备注（可选），保存。
+3. 标注会显示在右侧列表，可点击跳回原文。
+4. 标注优先写入 HTML asset 块的子块；无法解析 asset 时回退到 `HTML 标注 - <文件名>` 页面。
+5. 精确 selector 存在插件 FileStorage，用于重开后的高亮恢复。
+
+#### 4.9.3 面板操作
+
+- 左侧/右侧停靠
+- 拖动分隔条调宽
+- 全屏/退出全屏
+- HTML 附件列表
+- 标注列表开关
+- Esc 关闭
+
+#### 4.9.4 安全默认
+
+- iframe 默认 `allow-same-origin`，不启用脚本
+- 移除脚本、远程资源、事件属性、iframe/object/embed/form、meta refresh
+- 需要运行脚本或 CDN 时，在设置中显式开启；只用于可信 HTML
+
+### 4.10 HTML Dashboard
+
+#### 4.10.1 设置
+
+| 设置项 | 说明 |
+|---|---|
+| Dashboard HTML 附件 | 从当前图谱 HTML 附件中选择 |
+| 以全屏方式打开 | 默认开启 |
+| 顶部工具栏显示按钮 | 默认开启 |
+
+Dashboard 为空时，工具栏按钮回到普通附件选择器。
+
+#### 4.10.2 链接协议
+
+```html
+<a href="logseq://page/页面名">页面</a>
+<a href="logseq://block/块UUID">块</a>
+```
+
+也支持受限的声明式导航：
+
+```html
+<button data-ls-call="App.pushState"
+        data-ls-args='{"k":"page","params":{"name":"页面名"}}'>
+  打开
+</button>
+```
+
+仅允许 `App.pushState`、`App.openExternalLink`、`Editor.openInRightSidebar`。
+
+> Dashboard 不会修改 Logseq 的 `:default-home`；当前通过工具栏/命令打开。若要启动即显示，需要真实页面宏 + `:default-home`。
+
+---
+
 ## 五、全局设置参数汇总
 
 ### 5.1 Milestone 全局设置
@@ -1155,6 +1249,21 @@ BlockView 组件的全局设置项：
 
 ---
 
+### 5.5 HTML 阅读器全局设置
+
+| 设置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| enabled | boolean | true | 是否启用 HTML 阅读器 |
+| defaultSide | string | right | 默认停靠右侧 |
+| defaultWidth | number | 56 | 默认宽度百分比 |
+| showToolbarButton | boolean | true | 显示顶部工具栏按钮 |
+| dashboardAsset | string | - | Dashboard HTML 附件路径 |
+| dashboardFullscreen | boolean | true | Dashboard 全屏打开 |
+| writeAnnotationsToGraph | boolean | true | 标注写入图谱 |
+| annotationPagePrefix | string | HTML 标注 -  | 回退页面前缀 |
+| allowScripts | boolean | false | 允许 HTML 脚本（危险） |
+| allowRemote | boolean | false | 允许远程资源 |
+
 ## 六、开发说明
 
 ### 开发环境
@@ -1163,7 +1272,10 @@ BlockView 组件的全局设置项：
 npm install          # 安装依赖
 npm run dev          # 开发服务器 (http://localhost:3000)
 npm run build        # 构建生产版本
-npm run test         # 测试模式
+npm test             # Vitest 单元/集成测试
+npm run check        # 类型检查 + 测试 + 构建
+npm run e2e          # Electron E2E
+npm run validate:translations # 翻译完整性
 ```
 
 ### 项目结构
@@ -1176,10 +1288,12 @@ src/
 │   ├── Heatmap/     # 热力图组件
 │   ├── BlockView/   # 块视图组件
 │   ├── Summary/     # 总结生成组件
+│   ├── HtmlViewer/  # HTML 阅读器 / Dashboard
 │   └── SettingsModal/# 设置面板
 ├── lib/            # 业务逻辑
 │   ├── blockView/  # 块视图逻辑
 │   ├── summary/    # 总结生成逻辑
+│   ├── htmlViewer/ # HTML 标注 / Dashboard
 │   └── render/     # 渲染器相关
 ├── settings/       # 设置管理
 ├── translations/    # 国际化文件

@@ -1,6 +1,6 @@
 # Logseq Text Toolkit 用户手册
 
-[English Version](USER_GUIDE.en.md) | [返回 README](README.md)
+[English Version](USER_GUIDE.en.md) | [返回 README](../README.md)
 
 ---
 
@@ -13,7 +13,8 @@
 5. [总结生成 (Summary)](#5-总结生成-summary)
 6. [工具栏配置](#6-工具栏配置)
 7. [主题与多语言](#7-主题与多语言)
-8. [常见问题](#8-常见问题)
+8. [HTML 阅读器与 Dashboard](#8-html-阅读器与-dashboard)
+9. [常见问题](#9-常见问题)
 
 ---
 
@@ -306,13 +307,11 @@ Block View 支持多种预设主题：
 
 ## 5. 总结生成 (Summary)
 
-> ⚠️ **功能开发中，暂时不可用**
-
 ### 5.1 简介
 
 总结生成功能可以帮助你自动生成周报、月报、年报等总结文档。
 
-### 5.2 计划支持的功能
+### 5.2 支持的功能
 
 #### 总结类型
 | 类型 | 说明 |
@@ -336,13 +335,13 @@ Block View 支持多种预设主题：
 - 支持 Claude API
 - 自定义提示词模板
 
-### 5.3 使用方式（开发完成后）
+### 5.3 使用方式
 
 ```markdown
 {{renderer :summary}}
 ```
 
-或在设置中配置默认模板和总结类型。
+也可以在设置中选择默认类型/模板，或执行 `[Text Toolkit] Generate Summary`。
 
 ---
 
@@ -436,7 +435,68 @@ Block View 支持多种预设主题：
 
 ---
 
-## 8. 常见问题
+## 8. HTML 阅读器与 Dashboard
+
+### 8.1 打开 HTML 附件
+
+- 命令：`[Text Toolkit] Open HTML Viewer`
+- 顶部工具栏：HTML 阅读器按钮
+- HTML asset 块：点击启动卡片（实验性块渲染器）
+- 只有一个 HTML 附件时自动打开；多个附件时显示列表
+
+面板支持左侧/右侧、拖动宽度、全屏、关闭、HTML 附件列表和标注列表开关。
+
+### 8.2 标注
+
+1. 在 HTML 中选中文字。
+2. 点击浮动的“标注”。
+3. 填写备注（可选），保存。
+4. 标注显示在右侧；点击可跳回原文。
+5. 标注优先写入 HTML asset 块的子块；无法解析 asset 时回退到 `HTML 标注 - <文件名>` 页面。
+6. 精确的文字 selector 保存在插件 FileStorage 中，用于重新打开后的高亮恢复。
+
+### 8.3 Dashboard
+
+1. 把定期生成的 HTML 放到当前图谱 `assets/` 下。
+2. 打开设置 → HTML 阅读器 → Dashboard。
+3. 选择 Dashboard HTML 附件。
+4. 可勾选“以全屏方式打开 Dashboard”。
+5. 点击顶部 Dashboard 按钮，或执行 `[Text Toolkit] Open Dashboard`。
+
+重新生成同名 HTML 即可更新 Dashboard，不需要修改插件设置或数据库。
+
+### 8.4 Dashboard 跳转 Logseq
+
+脚本默认禁用，但 HTML 可以写安全链接：
+
+```html
+<a href="logseq://page/2026-W42">本周周报</a>
+<a href="logseq://block/6a1f3c2e-...">打开任务</a>
+```
+
+也支持声明式导航：
+
+```html
+<button data-ls-call="App.pushState"
+        data-ls-args='{"k":"page","params":{"name":"2026-W42"}}'>
+  打开页面
+</button>
+```
+
+只允许 `App.pushState`、`App.openExternalLink`、`Editor.openInRightSidebar` 等导航方法；写操作被禁止。
+
+### 8.5 安全默认
+
+- HTML 脚本默认关闭
+- 远程资源默认移除
+- 仅在可信 HTML 上开启“允许 HTML 运行脚本”/“允许远程资源”
+- 脚本 + 同源 iframe 具有较高权限，不要打开来源不明的 HTML
+
+> Dashboard 不会修改 Logseq 的 `:default-home`。需要启动即显示时，必须使用真实页面宏并配置 `:default-home`。
+
+---
+
+## 9. 常见问题
 
 ### Q1: 工具栏没有弹出？
 **A**: 请确保选中了文本内容，工具栏只会在选中文本时自动弹出。
@@ -451,7 +511,13 @@ Block View 支持多种预设主题：
 **A**: 在设置面板的各个 Tab 中都有"重置为默认值"按钮，可以单独重置某个功能板块的设置。
 
 ### Q5: 支持哪些 Logseq 版本？
-**A**: 建议使用最新版本的 Logseq 以获得最佳兼容性和最新功能。
+**A**: 当前版本面向 Logseq DB 图，`minSDKVersion` 为 `0.3.1`；文件图不支持。
+
+### Q6: HTML 附件打不开或空白？
+**A**: 确认文件在 `assets/` 下且是自包含 HTML。若宿主无法 `fetch` asset URL，错误页会提供“在系统浏览器打开”的兜底。
+
+### Q7: Dashboard 设置后工具栏没变化？
+**A**: 保存设置后重新点击工具栏按钮即可；按钮在点击时读取最新 Dashboard 配置。若仍异常，重载插件。
 
 ---
 
@@ -463,4 +529,4 @@ Block View 支持多种预设主题：
 
 ---
 
-*最后更新：2026-04-25*
+*最后更新：2026-10-20*

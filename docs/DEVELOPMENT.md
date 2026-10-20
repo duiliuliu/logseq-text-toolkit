@@ -7,13 +7,14 @@ Logseq Text Toolkit 是一个为 Logseq 提供强大文本格式化功能的插�
 ### 技术栈
 - **框架**: React + JavaScript
 - **构建工具**: Vite
-- **Logseq API**: 0.2.12+
+- **Logseq API**: `@logseq/libs` 0.3.4（`minSDKVersion` 0.3.1）
+- **目标图类型**: Logseq DB 图；文件图不支持
 - **官方文档**: https://logseq.github.io/plugins/
 
 ## 2. 开发环境设置
 
 ### 2.1 环境要求
-- Node.js 16.x 或更高版本
+- Node.js 20.x 或更高版本
 - npm 或 yarn
 - Git
 
@@ -25,31 +26,22 @@ npm install
 ```
 
 ### 2.3 项目结构
-```
+
+```text
 logseq-text-toolkit/
-├── src/                  # 源码目录
-│   ├── index.html         # 插件HTML模板
-│   ├── main.jsx           # 插件主入口文件
-│   ├── App.jsx            # 应用主组件
-│   ├── index.css          # 全局样式
-│   ├── App.css            # 应用样式
-│   └── components/        # React 组件（待实现）
-├── test/                  # 测试目录
-│   ├── test.html          # 测试模式页面
-│   ├── css/               # 测试样式
-│   │   └── style.css
-│   └── mock/              # Mock 数据和 API
-│       └── mock.js
-├── docs/                  # 文档目录
-│   ├── DEVELOPMENT.md     # 开发指南（本文档）
-│   ├── USER_GUIDE.md      # 用户指南
-│   ├── CHANGELOG_YYYY-MM-DD.md  # 更新日志（带日期）
-│   └── branch-YYYY-MM-DD-changelog.md  # 分支更新日志
-├── dist/                  # 构建输出目录
-├── icon.png               # 插件图标
-├── package.json           # 项目配置
-├── vite.config.js         # Vite配置
-└── .gitignore             # Git忽略文件
+├── src/
+│   ├── components/       # React UI（Toolbar / TaskProgress / Heatmap / BlockView / Summary / HtmlViewer / SettingsModal）
+│   ├── lib/              # 业务逻辑（blockView / summary / htmlViewer / render / ...）
+│   ├── settings/         # 设置 schema 与默认值
+│   ├── translations/     # zh-CN / en / ja
+│   └── utils/
+├── scripts/
+│   ├── e2e/              # Electron E2E host / runners / assets
+│   └── css-files.js      # CSS 清单
+├── docs/                 # 用户/架构/测试文档
+├── dist/                 # 构建输出
+├── manifest.json         # Logseq 插件清单
+└── package.json
 ```
 
 ## 3. 开发流程
@@ -365,7 +357,7 @@ A: 测试模式支持一键配置，无需任何特殊配置。直接运行 `npm
 A: 运行 `npm run build` 命令，确保没有错误输出。
 
 ### Q: Logseq API 版本要求？
-A: 插件要求 Logseq API 版本 0.2.12+。
+A: 插件使用 `@logseq/libs` 0.3.4，`minSDKVersion` 为 0.3.1，面向 Logseq DB 图。
 
 ## 10. 参考资源
 
@@ -375,7 +367,7 @@ A: 插件要求 Logseq API 版本 0.2.12+。
 - **Logseq 插件 SDK**: https://github.com/logseq/logseq/tree/master/libs/guides
 - **Logseq Files Manager 插件**: https://github.com/duiliuliu/logseq-plugin-files-manager/blob/main/src/main.tsx
 - **项目仓库**: https://github.com/duiliuliu/logseq-text-toolkit
-- **用户指南**: [USER_GUIDE.md](file:///workspace/docs/USER_GUIDE.md)
+- **用户指南**: [USER_GUIDE.md](USER_GUIDE.md)
 
 ## 11. AI 开发指引
 

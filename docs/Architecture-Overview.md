@@ -16,7 +16,8 @@ Text Toolkit 是一个功能丰富的 Logseq 插件，提供以下核心功能�
 | Heatmap | 数据热力图 | ✅ 已实现 |
 | Summary | 总结报告生成 | ✅ 已实现 |
 | BlockView | Block 视图渲染器 | ✅ 已实现 |
-| Milestone | 时间线/里程碑组件 | 🚧 设计中 |
+| Milestone | 时间线/里程碑组件 | ✅ 已实现 |
+| HTML Viewer | HTML 附件阅读、标注、Dashboard | ✅ 已实现 |
 | SelectToolbar | 选择文本工具栏 | ✅ 已实现 |
 
 ---
@@ -36,6 +37,7 @@ Text Toolkit Plugin (项目根目录)
 │   │   │   ├── boardView.css
 │   │   │   ├── tableView.css
 │   │   │   └── listView.css
+│   │   ├── HtmlViewer/                (已实现 - HTML 阅读器 / Dashboard)
 │   │   ├── Comment/                   (已实现 - 评论功能)
 │   │   ├── CustomSelect/              (已实现)
 │   │   ├── Heatmap/                   (已实现 - 热力图组件)
@@ -56,7 +58,9 @@ Text Toolkit Plugin (项目根目录)
 │   │   │       ├── TaskProgressSettings.tsx
 │   │   │       ├── HeatmapSettings.tsx
 │   │   │       ├── BlockViewSettings.tsx
-│   │   │       └── SummarySettings.tsx
+│   │   │       ├── SummarySettings.tsx
+│   │   │       ├── MilestoneSettings.tsx
+│   │   │       └── HtmlViewerSettings.tsx
 │   │   ├── Summary/                   (已实现 - 总结报告组件)
 │   │   ├── TaskProgress/              (已实现 - 任务进度组件)
 │   │   │   ├── TaskProgress.tsx
@@ -71,7 +75,7 @@ Text Toolkit Plugin (项目根目录)
 │   │   ├── Toast/                     (已实现)
 │   │   ├── Toolbar/                   (已实现 - 工具栏)
 │   │   ├── ToolbarItem/               (已实现)
-│   │   ├── Milestone/                 (设计中 - 时间线组件)
+│   │   ├── Milestone/                 (已实现 - 时间线组件)
 │   │   │   ├── index.ts
 │   │   │   ├── Milestone.tsx
 │   │   │   ├── MilestoneContainer.tsx
@@ -108,7 +112,7 @@ Text Toolkit Plugin (项目根目录)
 │   │   │       ├── CommentExecutor.ts
 │   │   │       └── ExternalPluginExecutor.ts
 │   │   ├── taskProgress/              (已实现 - 任务进度逻辑)
-│   │   ├── milestone/                 (设计中 - 里程碑逻辑)
+│   │   ├── milestone/                 (已实现 - 里程碑逻辑)
 │   │   │   ├── index.ts
 │   │   │   ├── register.ts
 │   │   │   ├── query.ts
@@ -139,6 +143,15 @@ Text Toolkit Plugin (项目根目录)
 │   │   │       ├── okrReview.ts
 │   │   │       ├── bulletJournal.ts
 │   │   │       └── studySummary.ts
+│   │   ├── htmlViewer/                (已实现 - HTML 标注 / Dashboard)
+│   │   │   ├── anchors.ts
+│   │   │   ├── assetBlock.ts
+│   │   │   ├── graph.ts
+│   │   │   ├── links.ts
+│   │   │   ├── register.ts
+│   │   │   ├── sanitize.ts
+│   │   │   ├── storage.ts
+│   │   │   └── types.ts
 │   │   ├── render/                    (已实现 - 渲染器工具)
 │   │   │   ├── rendererArgs.ts
 │   │   │   ├── utils.tsx
@@ -254,7 +267,7 @@ Text Toolkit Plugin (项目根目录)
 │  └─────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                 │
 │  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                    Milestone Module (🚧 设计中)                                 │   │
+│  │                    Milestone Module (✅ 已实现)                                 │   │
 │  │  ┌────────────────────┐ ┌────────────────────┐                         │   │
 │  │  │ MilestoneQuery     │ │ StatusCalculator   │                         │   │
 │  │  │ 里程碑查询          │ │ 状态计算            │                         │   │
@@ -362,14 +375,14 @@ npm run test:coverage  # 覆盖率报告
 
 | 模块 | 测试文件 | 状态 |
 |------|---------|------|
-| textReplace | [utils.test.ts](file:///workspace/src/lib/textReplace/utils.test.ts) | ✅ 完整 |
-| render | [rendererArgs.test.ts](file:///workspace/src/lib/render/rendererArgs.test.ts) | ✅ 完整 |
-| dateUtils | [dateUtils.test.ts](file:///workspace/src/lib/dateUtils/dateUtils.test.ts) | ✅ 完整 |
-| logger | [logger.test.ts](file:///workspace/src/lib/logger/logger.test.ts) | ✅ 完整 |
-| toolbar | [EventBus.test.ts](file:///workspace/src/lib/toolbar/EventBus.test.ts) | ✅ 完整 |
-| toolbar | [ConfigParser.test.ts](file:///workspace/src/lib/toolbar/ConfigParser.test.ts) | ✅ 完整 |
-| heatmap | [colorCalculator.test.ts](file:///workspace/src/lib/heatmap/colorCalculator.test.ts) | ✅ 完整 |
-| cssRegistry | [cssRegistry.test.ts](file:///workspace/src/lib/cssRegistry/cssRegistry.test.ts) | ✅ 完整 |
+| textReplace | [utils.test.ts](../src/lib/textReplace/utils.test.ts) | ✅ 完整 |
+| render | [rendererArgs.test.ts](../src/lib/render/rendererArgs.test.ts) | ✅ 完整 |
+| dateUtils | [dateUtils.test.ts](../src/lib/dateUtils/dateUtils.test.ts) | ✅ 完整 |
+| logger | [logger.test.ts](../src/lib/logger/logger.test.ts) | ✅ 完整 |
+| toolbar | [EventBus.test.ts](../src/lib/toolbar/EventBus.test.ts) | ✅ 完整 |
+| toolbar | [ConfigParser.test.ts](../src/lib/toolbar/ConfigParser.test.ts) | ✅ 完整 |
+| heatmap | [colorCalculator.test.ts](../src/lib/heatmap/colorCalculator.test.ts) | ✅ 完整 |
+| cssRegistry | [cssRegistry.test.ts](../src/lib/cssRegistry/cssRegistry.test.ts) | ✅ 完整 |
 
 ---
 
@@ -623,7 +636,7 @@ npm run test:coverage  # 覆盖率报告
 
 ### 6.1 Logseq API Wrapper
 
-**文件位置**: [src/logseq/index.ts](file:///workspace/src/logseq/index.ts)
+**文件位置**: [src/logseq/index.ts](../src/logseq/index.ts)
 
 ### 6.2 模块注册接口
 
@@ -675,15 +688,15 @@ export function registerBlockView(): void;
 
 | 文档 | 说明 |
 | :--- | :--- |
-| [Task-Progress-Tracking-Design.md](file:///workspace/docs/Task-Progress-Tracking-Design.md) | 任务进度追踪模块详细设计 |
-| [Heatmap-Design.md](file:///workspace/docs/Heatmap-Design.md) | 热力图组件详细设计 |
-| [Toolbar-Configuration-Design.md](file:///workspace/docs/Toolbar-Configuration-Design.md) | 工具栏配置设计 |
-| [优化方案总结.md](file:///workspace/docs/optimise/优化方案总结.md) | 优化方案和已完成改进 |
-| [代码分析报告.md](file:///workspace/docs/optimise/代码分析报告.md) | 代码质量和性能分析 |
-| [Milestone-Design.md](file:///workspace/docs/architecture/2026-05-29-Milestone-Design.md) | 里程碑组件详细设计（遵循 ltt- 前缀规范） |
-| [SelectToolbar-SDK-Integration.md](file:///workspace/docs/architecture/SelectToolbar-SDK-Integration.md) | SelectToolbar SDK 集成方案 |
-| [CSS-Variables-Refactor-Plan.md](file:///workspace/docs/architecture/2026-05-29-css-variables-refactor-plan.md) | CSS 变量统一化设计方案 |
-| [SelectToolbar-SDK-Optimization.md](file:///workspace/docs/architecture/2026-05-29-SelectToolbar-SDK-Optimization.md) | SelectToolbar 基于 onInputSelectionEnd 优化方案 |
+| [Task-Progress-Tracking-Design.md](architecture/Task-Progress-Tracking-Design.md) | 任务进度追踪模块详细设计 |
+| [Heatmap-Design.md](architecture/Heatmap-Design.md) | 热力图组件详细设计 |
+| [Toolbar-Configuration-Design.md](architecture/Toolbar-Configuration-Design.md) | 工具栏配置设计 |
+| [优化方案总结.md](optimise/优化方案总结.md) | 优化方案和已完成改进 |
+| [代码分析报告.md](optimise/代码分析报告.md) | 代码质量和性能分析 |
+| [Milestone-Design.md](architecture/2026-05-29-Milestone-Design.md) | 里程碑组件详细设计（遵循 ltt- 前缀规范） |
+| [SelectToolbar-SDK-Integration.md](architecture/SelectToolbar-SDK-Integration.md) | SelectToolbar SDK 集成方案 |
+| [CSS-Variables-Refactor-Plan.md](architecture/2026-05-29-css-variables-refactor-plan.md) | CSS 变量统一化设计方案 |
+| [SelectToolbar-SDK-Optimization.md](architecture/2026-05-29-SelectToolbar-SDK-Optimization.md) | SelectToolbar 基于 onInputSelectionEnd 优化方案 |
 
 ---
 
