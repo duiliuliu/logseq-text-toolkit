@@ -46,7 +46,10 @@ A periodically generated HTML report can be registered as the dashboard:
 - Leave the dashboard asset empty to keep the toolbar button as the attachment picker
 
 The dashboard is a viewer surface, not a second data store. Replacing the HTML
-file is enough to refresh it; no Logseq DB migration is needed.
+file is enough to refresh it; no Logseq DB migration is needed. Scripts and
+remote resources stay disabled by default; an AI-generated dashboard that
+needs JavaScript or CDNs requires the explicit HTML Viewer trust settings and
+should only be used with files you generated/trusted.
 
 ### Links from dashboard HTML to Logseq
 

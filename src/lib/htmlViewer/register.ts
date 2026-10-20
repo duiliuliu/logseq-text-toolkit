@@ -98,7 +98,7 @@ function registerHtmlViewerToolbarButton(): void {
   const title = hasDashboard
     ? t('settings.htmlViewer.dashboardSection' as any, language)
     : t('settings.htmlViewer.toolbarLabel' as any, language);
-  const action = hasDashboard ? 'openDashboard' : 'openHtmlViewer';
+  const action = 'openDashboard';
   const icon = hasDashboard ? 'ti-layout-dashboard' : 'ti-file-type-html';
 
   try {

@@ -58,7 +58,7 @@ The suite covers:
 | Heatmap | macro render, month/week switch, scheduled date attribute |
 | Milestone | macro render with stages |
 | Summary | generation, local insights, heatmap macro, custom range, yearly page, safe replacement |
-| HTML viewer | asset list, sandboxed preview, text annotation/highlight, panel controls, persistence |
+| HTML viewer | asset list, sandboxed preview, text annotation/highlight, panel controls, dashboard fullscreen/link, persistence |
 | Slash commands | all insert commands |
 | Old-host fallback | no SDK selection hook; and SDK hook present but silent |
 
