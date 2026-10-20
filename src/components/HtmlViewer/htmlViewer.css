@@ -34,11 +34,12 @@
   width: 8px;
   cursor: col-resize;
   z-index: 2;
-  background: transparent;
+  background: rgba(59, 130, 246, 0.22);
+  border-radius: 3px;
 }
 .ltt-html-viewer-panel.is-right .ltt-html-viewer-resizer { left: -4px; }
 .ltt-html-viewer-panel.is-left .ltt-html-viewer-resizer { right: -4px; }
-.ltt-html-viewer-resizer:hover { background: rgba(59, 130, 246, 0.25); }
+.ltt-html-viewer-resizer:hover { background: rgba(59, 130, 246, 0.55); }
 
 .ltt-html-viewer-header {
   display: flex;
@@ -49,6 +50,7 @@
   border-bottom: 1px solid var(--ls-border-color, #e5e7eb);
   background: var(--ls-secondary-background-color, #f8fafc);
   flex: 0 0 auto;
+  flex-wrap: wrap;
 }
 
 .ltt-html-viewer-heading {
@@ -73,9 +75,10 @@
   color: inherit;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
+  font-size: 12px;
+  line-height: 1.25;
   padding: 6px 8px;
+  white-space: nowrap;
 }
 .ltt-html-viewer-actions button:hover {
   background: var(--ls-tertiary-background-color, #eef2f7);

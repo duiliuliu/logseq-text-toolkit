@@ -132,6 +132,7 @@
     "allowRemote": false,
     "writeAnnotationsToGraph": true,
     "annotationPagePrefix": "HTML 标注 - ",
+    "showToolbarButton": true,
     "defaultSlashCommandTemplate": ":html-viewer"
   },
   "milestone": {

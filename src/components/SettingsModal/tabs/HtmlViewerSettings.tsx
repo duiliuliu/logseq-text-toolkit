@@ -12,6 +12,7 @@ const DEFAULT_SETTINGS: HtmlViewerSettingsType = {
   allowRemote: false,
   writeAnnotationsToGraph: true,
   annotationPagePrefix: 'HTML 标注 - ',
+  showToolbarButton: true,
   defaultSlashCommandTemplate: ':html-viewer',
 }
 
@@ -72,6 +73,18 @@ function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language 
           value={current.defaultWidth}
           onChange={(e) => update({ defaultWidth: Math.min(90, Math.max(30, Number(e.target.value) || 56)) })}
         />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.htmlViewer.showToolbarButton' as any, language)}</label>
+        <label className="ltt-switch">
+          <input
+            type="checkbox"
+            checked={current.showToolbarButton}
+            onChange={(e) => update({ showToolbarButton: e.target.checked })}
+          />
+          <span className="ltt-switch-slider"></span>
+        </label>
       </div>
 
       <div className="ltt-setting-item">

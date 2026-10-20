@@ -37,12 +37,15 @@
   try {
     await s.commands['[Text Toolkit] Open HTML Viewer']();
     const panel = await waitFor('.ltt-html-viewer-panel');
-    const assetButton = await waitFor('.ltt-html-viewer-assets button');
-    assetButton?.click();
-    const frame = await waitForFrame();
-    add('html-viewer-open', !!panel && !!assetButton && !!frame && !String(frame?.getAttribute('sandbox') || '').includes('allow-scripts'), {
+    let frame = await waitForFrame(2500);
+    if (!frame) {
+      const assetButton = await waitFor('.ltt-html-viewer-assets button');
+      assetButton?.click();
+      frame = await waitForFrame();
+    }
+    const assetButton = document.querySelector('.ltt-html-viewer-assets button');
+    add('html-viewer-open', !!panel && !!frame && !String(frame?.getAttribute('sandbox') || '').includes('allow-scripts'), {
       panel: !!panel,
-      assetButton: !!assetButton,
       frame: !!frame,
       sandbox: frame?.getAttribute('sandbox'),
       noScripts: !String(frame?.getAttribute('sandbox') || '').includes('allow-scripts'),
@@ -87,11 +90,11 @@
           highlightCount,
         });
 
-      const sideButton = document.querySelectorAll('.ltt-html-viewer-actions button')[1];
+      const sideButton = document.querySelector('[data-action="side"]');
       sideButton?.click();
       await wait(100);
       const switchedLeft = document.querySelector('.ltt-html-viewer-panel')?.classList.contains('is-left');
-      const fullButton = document.querySelectorAll('.ltt-html-viewer-actions button')[2];
+      const fullButton = document.querySelector('[data-action="fullscreen"]');
       fullButton?.click();
       await wait(100);
       const fullscreen = document.querySelector('.ltt-html-viewer-panel')?.classList.contains('is-fullscreen');
@@ -102,14 +105,18 @@
   }
 
   try {
-    document.querySelector('.ltt-html-viewer-actions button:last-child')?.click();
+    document.querySelector('[data-action="close"]')?.click();
     await wait(400);
     const closed = !document.querySelector('.ltt-html-viewer-panel');
     await s.commands['[Text Toolkit] Open HTML Viewer']();
     const reopened = await waitFor('.ltt-html-viewer-panel');
-    const assetButton = await waitFor('.ltt-html-viewer-assets button');
-    assetButton?.click();
-    await waitForFrame();
+    let frame = await waitForFrame(2500);
+    if (!frame) {
+      const assetButton = await waitFor('.ltt-html-viewer-assets button');
+      assetButton?.click();
+      await waitForFrame();
+    }
+    await wait(700);
     const sidebarText = document.querySelector('.ltt-html-viewer-sidebar')?.textContent || '';
     add('html-viewer-persistence', closed && !!reopened && sidebarText.includes('E2E HTML note'), {
       closed,

@@ -99,6 +99,15 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
   const onCloseRef = useRef(onClose)
   onCloseRef.current = onClose
 
+  const notify = (text: string, type: 'success' | 'warning' | 'error' = 'success') => {
+    setMessage(text)
+    try {
+      void logseqAPI.UI?.showMsg?.(text, type)
+    } catch {
+      // in-panel message is enough when the host has no toast
+    }
+  }
+
   useEffect(() => {
     annotationsRef.current = annotations
   }, [annotations])
@@ -112,21 +121,23 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
     setFullscreen(false)
     setError('')
     setMessage('')
-    void refreshAssets()
+    void refreshAssets(true)
     if (initialPath) {
       void openAsset(initialPath)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, initialPath])
 
-  const refreshAssets = async () => {
+  const refreshAssets = async (autoOpen = false) => {
     setAssetsLoading(true)
     try {
       const files = await logseqAPI.Assets?.listFilesOfCurrentGraph?.(['html', 'htm'])
       const list = Array.isArray(files) ? files : []
-      setAssets(
-        [...list].sort((a, b) => (b.modifiedTime || 0) - (a.modifiedTime || 0))
-      )
+      const sorted = [...list].sort((a, b) => (b.modifiedTime || 0) - (a.modifiedTime || 0))
+      setAssets(sorted)
+      if (autoOpen && !selectedPath && sorted.length === 1) {
+        void openAsset(sorted[0].path)
+      }
     } catch {
       setAssets([])
     } finally {
@@ -282,7 +293,7 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
     const range = anchorToRange(doc, annotation.anchor)
     setActiveId(annotation.id)
     if (!range) {
-      setMessage(t('settings.htmlViewer.anchorLost' as any, language))
+      notify(t('settings.htmlViewer.anchorLost' as any, language), 'warning')
       return
     }
     scrollToRange(doc, range)
@@ -318,15 +329,17 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
       setComposerOpen(false)
       setComment('')
       setSelection(null)
-      setMessage(t('settings.htmlViewer.annotationSaved' as any, language))
+      notify(t('settings.htmlViewer.annotationSaved' as any, language))
     } catch {
-      setMessage(t('settings.htmlViewer.annotationFailed' as any, language))
+      notify(t('settings.htmlViewer.annotationFailed' as any, language), 'error')
     } finally {
       setSaving(false)
     }
   }
 
   const deleteAnnotation = async (annotation: HtmlAnnotation) => {
+    const confirmed = window.confirm(t('settings.htmlViewer.deleteConfirm' as any, language))
+    if (!confirmed) return
     await removeAnnotationBlock(annotation.blockUuid)
     const next = annotationsRef.current.filter((item) => item.id !== annotation.id)
     await saveAnnotations(selectedPath, next)
@@ -334,6 +347,7 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
     annotationsRef.current = next
     refreshHighlights()
     if (activeId === annotation.id) setActiveId('')
+    notify(t('settings.htmlViewer.annotationDeleted' as any, language))
   }
 
   const startResize = (event: React.PointerEvent) => {
@@ -385,32 +399,44 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
         />
         <header className="ltt-html-viewer-header">
           <div className="ltt-html-viewer-heading">
-            <strong>HTML</strong>
+            <strong>{t('settings.htmlViewer.openButton' as any, language)}</strong>
             <span className="ltt-html-viewer-file" title={selectedPath}>
               {selectedPath ? basename(selectedPath) : t('settings.htmlViewer.assets' as any, language)}
             </span>
           </div>
           <div className="ltt-html-viewer-actions">
             {selectedPath && (
-              <button type="button" onClick={() => setSelectedPath('')} title={t('settings.htmlViewer.assets' as any, language)}>
-                ☰
+              <button type="button" data-action="assets" onClick={() => setSelectedPath('')} title={t('settings.htmlViewer.assets' as any, language)}>
+                {t('settings.htmlViewer.assets' as any, language)}
               </button>
             )}
             <button
               type="button"
-              onClick={() => setSide(side === 'right' ? 'left' : 'right')}
-              title={side === 'right' ? t('settings.htmlViewer.left' as any, language) : t('settings.htmlViewer.right' as any, language)}
+              data-action="annotations"
+              aria-pressed={showList}
+              onClick={() => setShowList((value) => !value)}
+              title={t('settings.htmlViewer.annotationList' as any, language)}
             >
-              {side === 'right' ? '⇤' : '⇥'}
+              {t('settings.htmlViewer.annotationList' as any, language)} ({annotations.length})
             </button>
             <button
               type="button"
+              data-action="side"
+              onClick={() => setSide(side === 'right' ? 'left' : 'right')}
+              title={side === 'right' ? t('settings.htmlViewer.left' as any, language) : t('settings.htmlViewer.right' as any, language)}
+            >
+              {side === 'right' ? '⇤ ' : '⇥ '}{side === 'right' ? t('settings.htmlViewer.left' as any, language) : t('settings.htmlViewer.right' as any, language)}
+            </button>
+            <button
+              type="button"
+              data-action="fullscreen"
+              aria-pressed={fullscreen}
               onClick={() => setFullscreen((value) => !value)}
               title={fullscreen ? t('settings.htmlViewer.exitFullscreen' as any, language) : t('settings.htmlViewer.fullscreen' as any, language)}
             >
-              {fullscreen ? '⤢' : '⛶'}
+              {fullscreen ? t('settings.htmlViewer.exitFullscreen' as any, language) : t('settings.htmlViewer.fullscreen' as any, language)}
             </button>
-            <button type="button" onClick={onClose} title={t('settings.htmlViewer.close' as any, language)} aria-label={t('settings.htmlViewer.close' as any, language)}>
+            <button type="button" data-action="close" onClick={onClose} title={t('settings.htmlViewer.close' as any, language)} aria-label={t('settings.htmlViewer.close' as any, language)}>
               ×
             </button>
           </div>
@@ -425,7 +451,7 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder={t('settings.htmlViewer.search' as any, language)}
               />
-              <button type="button" onClick={() => void refreshAssets()}>{t('settings.htmlViewer.refresh' as any, language)}</button>
+              <button type="button" onClick={() => void refreshAssets(false)}>{t('settings.htmlViewer.refresh' as any, language)}</button>
             </div>
             {assetsLoading ? <div className="ltt-html-viewer-muted">…</div> : null}
             {!assetsLoading && visibleAssets.length === 0 ? (
@@ -551,11 +577,7 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
                 )}
                 {message ? <p className="ltt-html-viewer-message">{message}</p> : null}
               </aside>
-            ) : (
-              <button type="button" className="ltt-html-viewer-list-toggle" onClick={() => setShowList(true)}>
-                {t('settings.htmlViewer.annotationList' as any, language)} ({annotations.length})
-              </button>
-            )}
+            ) : null}
           </div>
         )}
       </div>

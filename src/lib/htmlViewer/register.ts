@@ -4,6 +4,7 @@ import { getDocument } from '../../logseq/utils';
 import { renderComponent } from '../render';
 import { waitForElementById } from '../render/slot';
 import { getSettings } from '../../settings';
+import { t } from '../../translations/i18n';
 import { HtmlViewer } from '../../components/HtmlViewer/HtmlViewer';
 import { HtmlAssetLauncher } from '../../components/HtmlViewer/HtmlAssetLauncher';
 import { assetPathFor, isHtmlAssetBlock } from './assetBlock';
@@ -50,6 +51,7 @@ export async function initHtmlViewer(): Promise<void> {
   );
 
   registerHtmlAssetBlockRenderer();
+  registerHtmlViewerToolbarButton();
   logger.info('[HtmlViewer] Registered successfully');
 }
 
@@ -62,6 +64,22 @@ export function openHtmlViewer(path: string = ''): void {
 export function closeHtmlViewer(): void {
   viewerOpen = false;
   renderViewer();
+}
+
+function registerHtmlViewerToolbarButton(): void {
+  const settings = getSettings().htmlViewer;
+  if (settings?.showToolbarButton === false) return;
+  const language = getSettings().language || 'zh-CN';
+  const title = t('settings.htmlViewer.toolbarLabel' as any, language);
+
+  try {
+    logseqAPI.App.registerUIItem('toolbar', {
+      key: 'ltt-html-viewer-button',
+      template: `<a class="button" id="ltt-html-viewer-button" data-on-click="openHtmlViewer" title="${title}"><i class="ti ti-file-type-html"></i></a>`,
+    });
+  } catch (error) {
+    logger.warn('[HtmlViewer] Failed to register toolbar button', error);
+  }
 }
 
 function registerHtmlAssetBlockRenderer(): void {

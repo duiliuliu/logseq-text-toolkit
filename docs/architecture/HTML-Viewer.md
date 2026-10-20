@@ -22,10 +22,15 @@ particular sidebar implementation.
 ## Entry points
 
 1. Slash command: `[Text Toolkit] Open HTML Viewer`
-2. Experimental `registerBlockRenderer`: an HTML asset block (detected via
+2. Toolbar button: `HTML Viewer` (can be disabled in settings)
+3. Experimental `registerBlockRenderer`: an HTML asset block (detected via
    `:logseq.property.asset/type` = `html` / `htm` / `text/html`) is replaced with
    a launcher card. This is best-effort and is skipped if the Experiments API is
    unavailable.
+
+When the graph has exactly one HTML attachment, the viewer opens it directly;
+the **HTML 附件** header button returns to the picker. The annotation list has a
+dedicated header toggle so it can be reopened after closing.
 
 The asset picker lists `Assets.listFilesOfCurrentGraph(['html', 'htm'])`; if the
 host does not implement asset listing, a path can be entered manually

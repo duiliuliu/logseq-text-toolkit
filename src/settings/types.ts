@@ -184,6 +184,7 @@ export interface HtmlViewerSettings {
   allowRemote: boolean
   writeAnnotationsToGraph: boolean
   annotationPagePrefix: string
+  showToolbarButton: boolean
   defaultSlashCommandTemplate?: string
 }
 
