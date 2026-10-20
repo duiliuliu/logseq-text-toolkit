@@ -1,7 +1,7 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.2.15
+- **插件版本**：1.2.16
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
 - **结果**：**E2E 25/25 PASS；单元/集成 718/718 PASS**
 
@@ -15,7 +15,7 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.2.15 |
+| Plugin | logseq-text-toolkit 1.2.16 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
 
@@ -23,20 +23,12 @@
 
 2026-10-20 在真实 Logseq 2.0.2 test DB 图（`test`）完成一轮 smoke：
 
-- 设置按钮可以打开、切换 Tab、关闭，不再被不可见 modal overlay 阻挡
-- 8 个设置 Tab 保持单行，左右箭头滚动，HTML 阅读器可到达
-- 选中文本后选区工具栏出现（`Editor.onInputSelectionEnd`）
-- 评论弹窗可输入、可关闭，不再被低 z-index / pointer-events 阻挡
-- 工具栏子项 Tooltip 锚定到对应图标；Format 组图标统一 15px / currentColor
-- 工具栏 8 秒无 hover 自动收起；hover 时取消计时，移出后重新计时
-- 真实 `assets/*.html` 可以通过 `Assets.makeUrl()` 读取并渲染
-- HTML asset 块显示紧凑预览按钮（host React block renderer）
-- 选中 HTML 文本 → 标注 → 保存成功
-- 标注块写入 HTML asset 子块，来源路径正确
-- Dashboard 支持 `block:<uuid>`，真实 asset block 可解析并全屏打开
-- 真实图内复测后，未发现不可恢复错误
-
-> 真实测试会修改 test 图：新增 `HTML Test` 页面、一个 HTML asset、一条测试标注块和少量测试文本。
+- 设置打开/Tab 切换/关闭，8 Tab 单行 + 箭头滚动
+- 选中文本工具栏、评论弹窗输入/关闭
+- Tooltip 锚定到图标；Format 组图标统一 14px / stroke 1.6 / currentColor
+- 工具栏 8 秒无 hover 自动收起，hover 取消、移出重新计时
+- HTML asset 预览按钮、HTML 读取、标注写入 asset 子块
+- Dashboard `block:<uuid>` 解析并打开
 
 ## 结果总览
 
