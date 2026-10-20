@@ -31,24 +31,26 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 8px;
+  width: 6px;
   cursor: col-resize;
   z-index: 2;
-  background: rgba(59, 130, 246, 0.22);
-  border-radius: 3px;
+  background: linear-gradient(180deg, transparent, rgba(37, 99, 235, 0.28) 18%, rgba(37, 99, 235, 0.28) 82%, transparent);
+  border-radius: 999px;
+  opacity: .8;
+  transition: background-color .15s ease, opacity .15s ease;
 }
-.ltt-html-viewer-panel.is-right .ltt-html-viewer-resizer { left: -4px; }
-.ltt-html-viewer-panel.is-left .ltt-html-viewer-resizer { right: -4px; }
-.ltt-html-viewer-resizer:hover { background: rgba(59, 130, 246, 0.55); }
+.ltt-html-viewer-panel.is-right .ltt-html-viewer-resizer { left: -3px; }
+.ltt-html-viewer-panel.is-left .ltt-html-viewer-resizer { right: -3px; }
+.ltt-html-viewer-resizer:hover { background: rgba(37, 99, 235, 0.55); opacity: 1; }
 
 .ltt-html-viewer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 9px 12px;
   border-bottom: 1px solid var(--ls-border-color, #e5e7eb);
-  background: var(--ls-secondary-background-color, #f8fafc);
+  background: linear-gradient(180deg, var(--ls-primary-background-color, #fff), var(--ls-secondary-background-color, #f8fafc));
   flex: 0 0 auto;
   flex-wrap: wrap;
 }
@@ -59,7 +61,7 @@
   gap: 8px;
   min-width: 0;
 }
-.ltt-html-viewer-heading strong { font-size: 13px; letter-spacing: .04em; color: #2563eb; }
+.ltt-html-viewer-heading strong { font-size: 13px; font-weight: 700; letter-spacing: .02em; color: var(--ls-link-text-color, #2563eb); }
 .ltt-html-viewer-file {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -68,21 +70,29 @@
   color: var(--ls-secondary-text-color, #667085);
 }
 
-.ltt-html-viewer-actions { display: flex; gap: 4px; flex: 0 0 auto; }
+.ltt-html-viewer-actions { display: flex; align-items: center; gap: 2px; flex: 0 0 auto; padding: 2px; border-radius: 9px; background: var(--ls-tertiary-background-color, #eef2f7); }
 .ltt-html-viewer-actions button {
   border: 1px solid transparent;
   background: transparent;
   color: inherit;
-  border-radius: 6px;
+  border-radius: 7px;
   cursor: pointer;
   font-size: 12px;
   line-height: 1.25;
   padding: 6px 8px;
   white-space: nowrap;
+  transition: background-color .15s ease, color .15s ease, box-shadow .15s ease;
 }
 .ltt-html-viewer-actions button:hover {
-  background: var(--ls-tertiary-background-color, #eef2f7);
+  background: var(--ls-primary-background-color, #fff);
   border-color: var(--ls-border-color, #d8dee8);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .06);
+}
+.ltt-html-viewer-actions button[aria-pressed="true"] {
+  background: var(--ls-primary-background-color, #fff);
+  color: var(--ls-link-text-color, #2563eb);
+  border-color: var(--ls-border-color, #d8dee8);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .08);
 }
 
 .ltt-html-viewer-picker { padding: 14px; overflow: auto; flex: 1; }
@@ -130,7 +140,7 @@
   flex-direction: column;
   gap: 3px;
 }
-.ltt-html-viewer-assets button:hover { border-color: #93c5fd; background: #eff6ff; }
+.ltt-html-viewer-assets button:hover { border-color: var(--ls-link-text-color, #93c5fd); background: var(--ls-tertiary-background-color, #eff6ff); }
 .ltt-html-viewer-assets span { font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
 .ltt-html-viewer-assets small { font-size: 11px; opacity: .62; overflow-wrap: anywhere; }
 
@@ -152,11 +162,12 @@
   overflow: auto;
   padding: 12px;
 }
-.ltt-html-viewer-sidebar-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; }
+.ltt-html-viewer-sidebar-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600; letter-spacing: .01em; }
 .ltt-html-viewer-sidebar-title button { border: 0; background: transparent; cursor: pointer; font-size: 16px; }
 .ltt-html-viewer-sidebar ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.ltt-html-viewer-sidebar li { border: 1px solid var(--ls-border-color, #e5e7eb); background: var(--ls-primary-background-color, #fff); border-radius: 9px; padding: 9px; }
-.ltt-html-viewer-sidebar li.active { border-color: #60a5fa; box-shadow: 0 0 0 1px #bfdbfe inset; }
+.ltt-html-viewer-sidebar li { border: 1px solid var(--ls-border-color, #e5e7eb); background: var(--ls-primary-background-color, #fff); border-radius: 10px; padding: 10px; transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
+.ltt-html-viewer-sidebar li:hover { border-color: #bfdbfe; box-shadow: 0 3px 12px rgba(15, 23, 42, .06); }
+.ltt-html-viewer-sidebar li.active { border-color: var(--ls-link-text-color, #60a5fa); box-shadow: 0 0 0 1px rgba(96, 165, 250, .28) inset, 0 4px 14px rgba(37, 99, 235, .08); }
 .ltt-html-viewer-annotation-jump { display: flex; flex-direction: column; gap: 5px; text-align: left; width: 100%; border: 0; background: transparent; color: inherit; cursor: pointer; padding: 0; }
 .ltt-html-viewer-annotation-jump span { font-size: 12px; line-height: 1.45; }
 .ltt-html-viewer-annotation-jump small { font-size: 12px; color: var(--ls-secondary-text-color, #667085); line-height: 1.4; }
@@ -185,17 +196,17 @@
   bottom: 16px;
   z-index: 4;
   border: 1px solid var(--ls-border-color, #d0d5dd);
-  border-radius: 11px;
+  border-radius: 12px;
   background: var(--ls-primary-background-color, #fff);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, .22);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, .24);
   padding: 12px;
 }
 .ltt-html-viewer-composer blockquote {
   margin: 0 0 8px;
   padding: 7px 9px;
   border-left: 3px solid #93c5fd;
-  background: #eff6ff;
-  border-radius: 4px;
+  background: var(--ls-tertiary-background-color, #eff6ff);
+  border-radius: 6px;
   font-size: 12px;
   max-height: 90px;
   overflow: auto;
@@ -260,7 +271,7 @@
   cursor: pointer;
   text-align: left;
 }
-.ltt-html-asset-launcher:hover { border-color: #93c5fd; background: #eff6ff; }
+.ltt-html-asset-launcher:hover { border-color: var(--ls-link-text-color, #93c5fd); background: var(--ls-tertiary-background-color, #eff6ff); }
 .ltt-html-asset-launcher-icon {
   flex: 0 0 auto;
   border-radius: 5px;
