@@ -99,6 +99,14 @@
       if (state.currentBlock && (state.currentBlock.uuid === id || state.currentBlock.id === id)) {
         return { ...state.currentBlock, children: [] };
       }
+      if (id === 'sample') {
+        return {
+          uuid: 'sample',
+          content: 'sample.html',
+          'logseq.property.asset/type': 'html',
+          children: [],
+        };
+      }
       return { uuid: String(id), content: '{{renderer :blockview, view=list}}', children: [] };
     },
     updateBlock: async (id, content) => {

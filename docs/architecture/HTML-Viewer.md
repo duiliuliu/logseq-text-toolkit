@@ -11,8 +11,8 @@ PDF-like reading panel:
 - select text in the rendered HTML, add an annotation and an optional note
 - jump back to a saved annotation (text-quote + prefix/suffix anchor)
 - restore annotations when the same asset is opened again
-- optionally write each annotation as a block on a graph page named
-  `HTML 标注 - <filename>`
+- optionally write each annotation as a **child block of the HTML asset block**
+  (fallback: a page named `HTML 标注 - <filename>` if the asset block cannot be resolved)
 
 The panel is deliberately **not** a native Logseq right-sidebar renderer. It is
 a self-contained docked panel implemented with `provideUI` and the plugin's React
@@ -39,8 +39,11 @@ Two layers:
    plugin `FileStorage`, keyed by asset path. This is what makes jump-back
    reliable when an HTML file changes.
 2. **Graph block** (optional, default on): quote + note + source path is inserted
-   into a page named `<prefix><filename>`. Deleting an annotation removes that
-   block when its UUID is known.
+   as a child block of the HTML asset block. This mirrors the PDF model where
+   annotation blocks live under the asset block and are associated with it.
+   If the asset block cannot be resolved (manual path/external URL), fallback to
+   a page named `<prefix><filename>`. Deleting an annotation removes that block
+   when its UUID is known.
 
 The graph block is intentionally human-readable markdown, not an opaque JSON
 blob. The side effect is that if plugin file storage is cleared, the visible
@@ -80,8 +83,10 @@ Experiments API. The asset-block launcher is the only experimental part.
   Logseq versions. The error state offers "Open in system browser" fallback.
 - This is not the native PDF viewer: no PDF-style toolbar, zoom, outline, area
   highlights, or unified PDF annotation list.
-- Annotations are not associated with the asset block's native property model;
-  they are linked by the annotation page and source path.
+- Annotations are child blocks of the asset block (plus a best-effort
+  `:logseq.property/asset` property). They do not use the private
+  `Pdf-annotation` class, so they are not part of the core PDF annotation
+  unified view.
 - Mobile/web plugin runtimes may not expose the same asset APIs; the feature is
   desktop-first.
 - HTML with scripts is intentionally restricted; interactive dashboards that

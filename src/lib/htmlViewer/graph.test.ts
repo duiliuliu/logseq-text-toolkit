@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
+  getBlock: vi.fn(),
   getPage: vi.fn(),
   createPage: vi.fn(),
   insertBlock: vi.fn(),
@@ -11,6 +12,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock('../../logseq', () => ({
   logseqAPI: {
     Editor: {
+      getBlock: mocks.getBlock,
       getPage: mocks.getPage,
       createPage: mocks.createPage,
       insertBlock: mocks.insertBlock,
@@ -34,6 +36,7 @@ const annotation: HtmlAnnotation = {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mocks.getBlock.mockResolvedValue(null);
   mocks.getPage.mockResolvedValue(null);
   mocks.createPage.mockResolvedValue({ uuid: 'page-1' });
   mocks.insertBlock.mockResolvedValue({ uuid: 'block-1' });
@@ -49,6 +52,19 @@ describe('HTML annotation graph writer', () => {
     expect(content).toContain('> hello\n> world');
     expect(content).toContain('note');
     expect(content).toContain('assets/report.html');
+  });
+
+  it('应该优先挂到 HTML asset 块下面', async () => {
+    mocks.getBlock.mockResolvedValue({
+      uuid: 'asset-1',
+      'logseq.property.asset/type': 'html',
+    });
+
+    const result = await writeAnnotationToGraph(annotation, 'HTML 标注 - ');
+
+    expect(result).toEqual({ blockUuid: 'block-1', parentUuid: 'asset-1' });
+    expect(mocks.insertBlock.mock.calls[0][0]).toBe('asset-1');
+    expect(mocks.getPage).not.toHaveBeenCalled();
   });
 
   it('应该复用已存在的标注页面', async () => {

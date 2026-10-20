@@ -16,12 +16,62 @@ export async function openAnnotationPage(pageName: string): Promise<void> {
   }
 }
 
+async function findAssetBlock(assetPath: string): Promise<any | null> {
+  const editor = logseqAPI.Editor;
+  if (!editor?.getBlock) return null;
+  const file = assetPath.split('/').pop() || '';
+  const match = /^(.+)\.(html?|htm)$/i.exec(file);
+  if (!match) return null;
+  const uuid = match[1];
+  try {
+    const block = await editor.getBlock(uuid, { includeChildren: false });
+    const type = block?.['logseq.property.asset/type']
+      ?? block?.[':logseq.property.asset/type'];
+    if (!block || !['html', 'htm', 'text/html'].includes(String(type || '').toLowerCase())) {
+      return null;
+    }
+    return block;
+  } catch {
+    return null;
+  }
+}
+
 export async function writeAnnotationToGraph(
   annotation: HtmlAnnotation,
   pagePrefix: string
-): Promise<{ blockUuid?: string; pageName: string } | null> {
+): Promise<{ blockUuid?: string; pageName?: string; parentUuid?: string } | null> {
   const editor = logseqAPI.Editor;
-  if (!editor?.getPage || !editor?.createPage || !editor?.insertBlock) return null;
+  if (!editor?.insertBlock) return null;
+
+  const assetBlock = await findAssetBlock(annotation.assetPath);
+  if (assetBlock?.uuid) {
+    const quote = annotation.quote
+      .split(/\r?\n/)
+      .map((line) => `> ${line}`)
+      .join('\n');
+    const body = [
+      quote,
+      annotation.comment ? `\n${annotation.comment}` : '',
+      `\n来源: ${annotation.assetPath}`,
+    ].join('');
+    try {
+      const block = await editor.insertBlock(String(assetBlock.uuid), body, {});
+      // Mirror the PDF annotation association when the host supports writing
+      // this property on a normal child block.
+      if (block?.uuid && typeof editor.upsertBlockProperty === 'function') {
+        try {
+          await editor.upsertBlockProperty(block.uuid, 'logseq.property/asset', assetBlock.uuid);
+        } catch {
+          // Property may be scoped in some DB versions; parent linkage still works.
+        }
+      }
+      return { blockUuid: block?.uuid, parentUuid: String(assetBlock.uuid) };
+    } catch {
+      return null;
+    }
+  }
+
+  if (!editor.getPage || !editor.createPage) return null;
 
   const pageName = safePageName(pagePrefix, annotation.assetPath);
   try {

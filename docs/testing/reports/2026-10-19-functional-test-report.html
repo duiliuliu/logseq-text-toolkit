@@ -47,12 +47,12 @@
   <p>2026-10-19 · Electron + Host mock · 真实构建产物</p>
   <div class="badges">
     <span class="badge">E2E 24/24 PASS</span>
-    <span class="badge">Vitest 713/713 PASS</span>
+    <span class="badge">Vitest 714/714 PASS</span>
     <span class="badge">plugin 1.1.19</span>
     <span class="badge">min SDK 0.3.1+</span>
   </div>
 </header>
-<p class="notice">截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 <a href="../../architecture/Real-Logseq-Smoke-Test.md">Real-Logseq-Smoke-Test.md</a> 做发版前人工确认。</p>
+<p class="notice">截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 <a href="../../../architecture/Real-Logseq-Smoke-Test.md">Real-Logseq-Smoke-Test.md</a> 做发版前人工确认。</p>
 
 <h2>结果总览</h2>
 <div class="stat">
@@ -62,7 +62,7 @@
   <div class="card"><span>SDK 静默 fallback</span><strong>2/2</strong><span>PASS</span></div>
   <div class="card"><span>HTML 阅读器</span><strong>4/4</strong><span>PASS</span></div>
 </div>
-<p style="margin-top:14px"><span class="ok">Vitest 79 files / 713 tests passed</span></p>
+<p style="margin-top:14px"><span class="ok">Vitest 79 files / 714 tests passed</span></p>
 
 <h2>环境</h2>
 <table><tbody><tr><td>OS</td><td>macOS 26.3.2 (Build 25D2150)</td></tr><tr><td>Electron</td><td>42.11.15</td></tr><tr><td>Chromium</td><td>148.0.7778.280</td></tr><tr><td>Node.js</td><td>24.17.0</td></tr><tr><td>Plugin</td><td>logseq-text-toolkit 1.1.19</td></tr><tr><td>SDK floor</td><td>@logseq/libs 0.3.1+ / host 2.0.2</td></tr><tr><td>Runner</td><td>scripts/e2e (Electron + Host mock)</td></tr></tbody></table>
@@ -106,7 +106,7 @@
   <figcaption><strong>HTML 阅读器：预览</strong><span>自包含 HTML 在沙箱 iframe 中渲染；右侧为标注列表。</span></figcaption>
 </figure><figure class="shot">
   <a href="assets/11-html-viewer-annotation.png" target="_blank"><img src="assets/11-html-viewer-annotation.png" alt="HTML 阅读器：标注"></a>
-  <figcaption><strong>HTML 阅读器：标注</strong><span>选中文字生成高亮和标注卡片；可写回标注页面。</span></figcaption>
+  <figcaption><strong>HTML 阅读器：标注</strong><span>选中文字生成高亮和标注卡片；可写回 HTML asset 子块（失败回退标注页面）。</span></figcaption>
 </figure></div>
 
 <h2>报告生成过程中发现并修复的问题</h2>

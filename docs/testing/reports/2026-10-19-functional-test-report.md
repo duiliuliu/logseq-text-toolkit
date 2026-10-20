@@ -3,9 +3,9 @@
 - **日期**：2026-10-19
 - **插件版本**：1.1.19
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
-- **结果**：**E2E 24/24 PASS；单元/集成 713/713 PASS**
+- **结果**：**E2E 24/24 PASS；单元/集成 714/714 PASS**
 
-> 截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 [Real-Logseq-Smoke-Test.md](../../architecture/Real-Logseq-Smoke-Test.md) 做发版前人工确认。
+> 截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 [Real-Logseq-Smoke-Test.md](../../../architecture/Real-Logseq-Smoke-Test.md) 做发版前人工确认。
 
 ## 环境
 
@@ -31,7 +31,7 @@
 
 ```text
 Electron E2E: 24/24 passed
-Vitest:      79 files / 713 tests passed
+Vitest:      79 files / 714 tests passed
 ```
 
 ## 功能覆盖
@@ -115,7 +115,7 @@ Initiation → Planning，两个阶段均渲染。
 
 ![HTML 阅读器：标注](assets/11-html-viewer-annotation.png)
 
-选中文字生成高亮和标注卡片；可写回标注页面。
+选中文字生成高亮和标注卡片；可写回 HTML asset 子块（失败回退标注页面）。
 
 ## 报告生成过程中发现并修复的问题
 

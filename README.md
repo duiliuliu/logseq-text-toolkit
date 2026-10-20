@@ -200,7 +200,7 @@
 | 附件预览 | 在左侧/右侧面板打开 HTML 附件，可拖动宽度、全屏、关闭 |
 | 文字标注 | 选中 HTML 文字 → 标注 → 可选备注 |
 | 跳回原文 | 使用 quote + prefix/suffix + offset 还原高亮 |
-| 图谱联动 | 标注可写入独立标注页面，生成普通块 |
+| 图谱联动 | 标注优先挂到 HTML asset 块下，生成普通子块；无法解析 asset 时回退标注页面 |
 | 安全默认 | 默认禁用脚本和远程资源；单附件显式开启 |
 
 详见 [HTML-Viewer.md](docs/architecture/HTML-Viewer.md)。
