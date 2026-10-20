@@ -1,5 +1,5 @@
 (function () {
-  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = "/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #1a1a1a;\n  --ltt-accent-muted: rgba(0, 0, 0, 0.1);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: #e5e5e5;\n  --ltt-accent-hover: #f5f5f5;\n  --ltt-accent-muted: rgba(255, 255, 255, 0.1);\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  overflow-y: visible;\n  overflow-x: hidden;\n  position: relative;\n}\n\n.ltt-milestone-container-inline {\n  padding: 0;\n  border-radius: 0;\n  box-shadow: none;\n  border: none;\n  background: transparent;\n  display: inline-flex;\n  align-items: center;\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== 通用动画 ========== */\n@keyframes ltt-milestone-pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.8;\n    transform: scale(1.02);\n  }\n}\n\n@keyframes ltt-milestone-glow {\n  0%, 100% {\n    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);\n  }\n  50% {\n    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);\n  }\n}\n\n@keyframes ltt-milestone-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.ltt-milestone-pulse {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-glow {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n}\n\n.ltt-milestone-spin {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 8px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-lg);\n  min-width: max-content;\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-node.ltt-milestone-pulse-node .ltt-milestone-symbol {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  min-width: 40px;\n  border-top: 2px dashed;\n  border-bottom: 2px dashed transparent;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 180px;\n  max-width: 280px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: flex-start;\n  gap: var(--ltt-spacing-lg);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  width: 100%;\n  max-width: 100%;\n  box-sizing: border-box;\n  position: relative;\n  margin: 0 var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-badge-item.ltt-milestone-pulse-node .ltt-milestone-badge-number {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin: var(--ltt-spacing-lg) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n  width: auto;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin: var(--ltt-spacing-xs) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n  min-width: max-content;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-dot.ltt-milestone-pulse-dot {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n  min-width: max-content;\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: 12px;\n  background: var(--ltt-bg-primary);\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 140px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease, border-color var(--ltt-transition-fast);\n  position: relative;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-content-horizontal.ltt-milestone-pulse-card {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n/* 第一层：卡片头部 */\n.ltt-milestone-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-status-text {\n  font-size: 11px;\n  font-weight: 600;\n  white-space: nowrap;\n}\n\n.ltt-milestone-card-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 1.5px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n  position: relative;\n}\n\n.ltt-milestone-card-icon.ltt-milestone-spin-icon {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n.ltt-milestone-card-icon-corner {\n  position: absolute;\n  top: 4px;\n  right: 4px;\n  font-size: 12px;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第二层：描述 */\n.ltt-milestone-card-description {\n  font-size: 12px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.4;\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第三层：进度条 */\n.ltt-milestone-card-progress {\n  position: relative;\n  height: 4px;\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-card-progress-bg {\n  position: absolute;\n  inset: 0;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-card-progress-fill {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n/* 第四层：底部 */\n.ltt-milestone-card-footer {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-footer .ltt-milestone-card-date {\n  font-size: 10px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-percent {\n  font-size: 11px;\n  font-weight: 600;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n  min-height: 48px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact-item {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  cursor: pointer;\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-compact-icon {\n  flex-shrink: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-compact-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n}\n\n.ltt-milestone-compact-label {\n  font-size: 9px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n}\n\n.ltt-milestone-compact-status {\n  font-size: 8px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-compact-progress {\n  font-size: 8px;\n}\n\n.ltt-milestone-compact-connector {\n  width: 16px;\n  height: 2px;\n  flex-shrink: 0;\n  border-radius: 1px;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n\n/* ========== Arrow Capsule 样式 ========== */\n.ltt-milestone-arrow-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-track {\n  display: flex;\n  align-items: center;\n  position: relative;\n  padding: 0 var(--ltt-spacing-md);\n  min-width: max-content;\n}\n\n.ltt-milestone-arrow-node {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n  padding: 6px 10px;\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  background: var(--ltt-bg-primary);\n  transition: all var(--ltt-transition-fast);\n}\n\n.ltt-milestone-arrow-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-arrow-node.ltt-milestone-arrow-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-milestone-arrow-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-node-active .ltt-milestone-arrow-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-arrow-icon {\n  font-size: 12px;\n  font-weight: bold;\n}\n\n.ltt-milestone-arrow-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  min-width: 80px;\n}\n\n.ltt-milestone-arrow-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-status {\n  font-size: 10px;\n  font-weight: 500;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-connector {\n  width: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-connector::after {\n  content: '→';\n  font-size: 14px;\n  color: var(--ltt-border);\n}\n\n/* ========== Timeline Track 样式 ========== */\n.ltt-milestone-timeline-track {\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 12px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track-inner {\n  display: flex;\n  align-items: center;\n  min-width: max-content;\n  padding: 0 16px;\n  position: relative;\n}\n\n.ltt-milestone-timeline-node-wrapper {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-timeline-connector {\n  height: 4px;\n  flex: 1;\n  min-width: 40px;\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-connector-left {\n  margin-right: 4px;\n}\n\n.ltt-milestone-timeline-connector-right {\n  margin-left: 4px;\n}\n\n.ltt-milestone-timeline-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n  padding: 6px 6px;\n  border-radius: 10px;\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  transition: all var(--ltt-transition-fast);\n  flex-shrink: 0;\n  cursor: pointer;\n  min-width: 64px;\n}\n\n.ltt-milestone-timeline-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-timeline-node.ltt-milestone-timeline-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n.ltt-milestone-timeline-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  transition: all 0.3s ease;\n}\n\n.ltt-milestone-timeline-node-active .ltt-milestone-timeline-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-timeline-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-timeline-content {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1px;\n  text-align: center;\n}\n\n.ltt-milestone-timeline-label {\n  font-size: 8px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n  word-wrap: break-word;\n  word-break: break-word;\n  max-width: 60px;\n}\n\n.ltt-milestone-timeline-status {\n  font-size: 7px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-timeline-progress {\n  font-size: 7px;\n}\n\n/* ========== Dark Theme Support ========== */\n[data-theme='dark'] .ltt-milestone-container {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n[data-theme='dark'] .ltt-milestone-card-content-horizontal,\n[data-theme='dark'] .ltt-milestone-arrow-node,\n[data-theme='dark'] .ltt-milestone-timeline-node {\n  background: var(--ltt-bg-secondary);\n}\n\n[data-theme='dark'] .ltt-milestone-tooltip {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n/* ========== Compact Tooltip 内容样式（通用） ========== */\n.ltt-milestone-compact-tooltip-content {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-compact-tooltip-label {\n  font-size: 10px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-compact-tooltip-date {\n  font-size: 9px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-compact-tooltip-status {\n  font-size: 9px;\n  font-weight: 500;\n}\n\n.ltt-milestone-compact-tooltip-progress {\n  font-size: 9px;\n}\n\n/* ========== Tooltip 样式变体 ========== */\n\n/* 简约模式 */\n.ltt-milestone-tooltip-minimal {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 6px 10px;\n  min-width: 100px;\n}\n\n.ltt-milestone-tooltip-minimal-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-minimal-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n/* 紧凑模式 */\n.ltt-milestone-tooltip-compact {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  padding: 8px 12px;\n  min-width: 140px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-compact-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-compact-date {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-compact-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-compact-progress {\n  font-size: 10px;\n}\n\n/* 详细模式 */\n.ltt-milestone-tooltip-detailed {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 10px 14px;\n  min-width: 180px;\n  max-width: 240px;\n}\n\n.ltt-milestone-tooltip-detailed-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-tooltip-detailed-label {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-detailed-status {\n  font-size: 10px;\n  font-weight: 600;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-tooltip-detailed-date {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n  font-size: 10px;\n}\n\n.ltt-milestone-tooltip-detailed-date-label {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-date-value {\n  color: var(--ltt-text-primary);\n  font-weight: 400;\n}\n\n.ltt-milestone-tooltip-detailed-progress-section {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.ltt-milestone-tooltip-detailed-progress-label {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar-container {\n  height: 4px;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar {\n  height: 100%;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-tooltip-detailed-progress-value {\n  font-size: 10px;\n  color: var(--ltt-text-primary);\n  font-weight: 600;\n  text-align: right;\n}\n\n/* 优雅模式 */\n.ltt-milestone-tooltip-elegant {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 12px 16px;\n  min-width: 160px;\n  max-width: 260px;\n  background: linear-gradient(135deg, var(--ltt-bg-primary) 0%, var(--ltt-bg-secondary) 100%);\n  border: 1px solid var(--ltt-border);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n\n.ltt-milestone-tooltip-elegant-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 2px;\n}\n\n.ltt-milestone-tooltip-elegant-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  flex-shrink: 0;\n  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);\n}\n\n.ltt-milestone-tooltip-elegant-label {\n  font-size: 13px;\n  font-weight: 700;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-elegant-divider {\n  height: 1px;\n  background: linear-gradient(90deg, transparent, var(--ltt-border), transparent);\n  margin: 2px 0;\n}\n\n.ltt-milestone-tooltip-elegant-row {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 11px;\n}\n\n.ltt-milestone-tooltip-elegant-icon {\n  font-size: 12px;\n  flex-shrink: 0;\n  opacity: 0.7;\n}\n\n.ltt-milestone-tooltip-elegant-text {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n/*\n * Logseq slot wrappers are fixed-position stacking contexts. If the wrapper has\n * z-index:auto, the modal-overlay's z-index cannot escape it and later main\n * content (heatmap/block content) can sit above the modal for hit testing.\n */\n#text-toolkit-settings,\n#text-toolkit-comment-app,\n#text-toolkit-summary-modal {\n  position: fixed;\n  inset: 0;\n  z-index: 10000;\n  pointer-events: none;\n}\n\n#text-toolkit-settings .modal-overlay,\n#text-toolkit-comment-app .modal-overlay,\n#text-toolkit-summary-modal .modal-overlay {\n  pointer-events: auto;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n   4. Inline 模式支持\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 2px 4px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 4px;\n  font-size: 9px;\n  width: fit-content;\n  max-width: 100%;\n  flex-wrap: wrap;\n  min-height: 20px;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);\n  transition: all 0.2s ease;\n}\n\n/* Inline mode for view bar */\n.ltt-view-bar-inline {\n  display: inline-flex !important;\n  margin-top: 0 !important;\n  margin-left: 6px !important;\n  padding: 1px 3px !important;\n  border: none !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  min-height: auto !important;\n  vertical-align: middle !important;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 2px;\n  padding: 2px 5px;\n  border: none;\n  border-radius: 3px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 9px;\n  font-weight: 500;\n  line-height: 1.3;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-text-color, #333333);\n  color: var(--ls-primary-background-color, #ffffff);\n  font-weight: 600;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-view-btn:focus-visible {\n  outline: 2px solid var(--ls-link-text-color, #3b82f6);\n  outline-offset: 1px;\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);\n}\n\n.ltt-view-btn svg {\n  width: 11px;\n  height: 11px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 10px;\n}\n\n.ltt-view-bar[data-ltt-empty=\"false\"] .ltt-view-empty-hint {\n  display: none;\n}\n\n.ls-block[data-ltt-hide-view-bar=\"true\"] .ltt-view-bar,\n.ltt-view-bar[data-ltt-hidden=\"true\"] {\n  display: none !important;\n}\n\n.ltt-view-empty-hint {\n  margin-left: 4px;\n  padding-left: 6px;\n  border-left: 1px solid var(--ls-border-color);\n  color: var(--ls-secondary-text-color);\n  font-size: 10px;\n  white-space: nowrap;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar,\n.ltt-mindmap-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n.ltt-list-root .lsp-hook-ui-slot ,\n.ltt-table-root .lsp-hook-ui-slot,\n.ltt-gallery-root .lsp-hook-ui-slot,\n.ltt-board-root .lsp-hook-ui-slot,\n.ltt-mindmap-root .lsp-hook-ui-slot {\n    height:36px\n}\n\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   MINDMAP VIEW\n========================================================= */\n\n/* Mindmap 视图样式已移到 mindMapView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana,\n.ltt-mindmap-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* Indigo Theme */\n.ltt-table-root.ltt-theme-indigo,\n.ltt-gallery-root.ltt-theme-indigo,\n.ltt-board-root.ltt-theme-indigo,\n.ltt-mindmap-root.ltt-theme-indigo {\n  --ltt-primary-color: #6366f1;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 2px 3px;\n    gap: 1px;\n  }\n\n  .ltt-view-btn {\n    padding: 1px 3px;\n    font-size: 8px;\n  }\n\n  .ltt-view-btn svg {\n    width: 8px;\n    height: 8px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 8px;\n  }\n}.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 9999;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n/* ============================================================================\n   Feature Management Grid Styles\n   ============================================================================ */\n\n.ltt-feature-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-feature-card {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: 8px;\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.ltt-feature-card:hover {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);\n}\n\n.ltt-feature-card-active {\n  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(102, 126, 234, 0.02) 100%);\n  border-color: rgba(102, 126, 234, 0.3);\n}\n\n.ltt-feature-icon {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  color: var(--ltt-accent, #667eea);\n}\n\n.ltt-feature-card-active .ltt-feature-icon {\n  background: rgba(102, 126, 234, 0.1);\n  color: var(--ltt-accent, #667eea);\n}\n\n.ltt-feature-info {\n  flex: 1;\n  min-width: 0;\n}\n\n.ltt-feature-name {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  margin-bottom: 4px;\n}\n\n.ltt-feature-desc {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n/* Dark theme */\n[data-theme=\"dark\"] .ltt-feature-card {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card:hover {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card-active {\n  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(102, 126, 234, 0.05) 100%);\n  border-color: rgba(102, 126, 234, 0.4);\n}\n\n[data-theme=\"dark\"] .ltt-feature-icon {\n  background: var(--ltt-bg-tertiary, #111827);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card-active .ltt-feature-icon {\n  background: rgba(102, 126, 234, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-feature-name {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-desc {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* ============================================================================\n   Macro Template Input Styles\n   ============================================================================ */\n\n.ltt-macro-template-input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  width: 100%;\n}\n\n.ltt-macro-template-input {\n  width: 100% !important;\n  max-width: 600px !important;\n  padding: 10px 14px !important;\n  border: 1px solid var(--ltt-border, #d1d5db) !important;\n  border-radius: 8px !important;\n  font-size: 13px !important;\n  font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;\n  background: var(--ltt-bg-primary, white) !important;\n  color: var(--ltt-text-primary, #374151) !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-macro-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;\n}\n\n.ltt-macro-template-input-error {\n  border-color: #ef4444 !important;\n  background: rgba(239, 68, 68, 0.05) !important;\n}\n\n.ltt-macro-template-input-error:focus {\n  border-color: #ef4444 !important;\n  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;\n}\n\n.ltt-macro-template-input-warning {\n  border-color: #f59e0b !important;\n}\n\n.ltt-macro-template-error,\n.ltt-macro-template-warning {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 10px;\n  border-radius: 4px;\n  font-size: 12px;\n  line-height: 1.4;\n}\n\n.ltt-macro-template-error {\n  background: rgba(239, 68, 68, 0.1);\n  color: #dc2626;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n.ltt-macro-template-warning {\n  background: rgba(245, 158, 11, 0.1);\n  color: #d97706;\n  border: 1px solid rgba(245, 158, 11, 0.2);\n}\n\n.ltt-macro-template-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* ============================================================================\n   Default Slash Command Template Input Styles\n   ============================================================================ */\n\n.ltt-default-template-input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n}\n\n.ltt-default-template-input {\n  width: 100% !important;\n  max-width: 600px !important;\n  padding: 10px 14px !important;\n  border: 1px solid var(--ltt-border, #d1d5db) !important;\n  border-radius: 8px !important;\n  font-size: 13px !important;\n  font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;\n  background: var(--ltt-bg-primary, white) !important;\n  color: var(--ltt-text-primary, #374151) !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-default-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;\n}\n\n.ltt-default-template-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n  word-break: break-all;\n}\n\n/* Settings hint consistent style */\n.ltt-settings-hint-small {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* Update ltt-setting-item for column layout for template inputs */\n.ltt-setting-item.ltt-template-setting {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  gap: 8px !important;\n}\n\n/* Settings hint consistent style */\n.ltt-settings-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* Dark theme for macro template input */\n[data-theme=\"dark\"] .ltt-macro-template-input {\n  background: var(--ltt-bg-secondary, #1f2937) !important;\n  border-color: var(--ltt-border, #374151) !important;\n  color: var(--ltt-text-primary, #f3f4f6) !important;\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-input:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-error {\n  background: rgba(239, 68, 68, 0.15);\n  color: #f87171;\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-warning {\n  background: rgba(245, 158, 11, 0.15);\n  color: #fbbf24;\n  border-color: rgba(245, 158, 11, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-hint {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Dark theme for default template input */\n[data-theme=\"dark\"] .ltt-default-template-input {\n  background: var(--ltt-bg-secondary, #1f2937) !important;\n  border-color: var(--ltt-border, #374151) !important;\n  color: var(--ltt-text-primary, #f3f4f6) !important;\n}\n\n[data-theme=\"dark\"] .ltt-default-template-input:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;\n}\n\n[data-theme=\"dark\"] .ltt-default-template-hint {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Responsive styles */\n@media (max-width: 768px) {\n  .ltt-macro-template-input,\n  .ltt-default-template-input {\n    max-width: 100% !important;\n  }\n}\n\n.ltt-setting-item > input[type=\"text\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  width: 40% !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 30px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n/* Macro Template Input Container */\n.ltt-macro-template-input-container {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  width: 40% !important;\n  display: flex !important;\n  flex-direction: column !important;\n}\n\n.ltt-macro-template-input {\n  width: 100% !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 30px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n  border: 1px solid var(--ltt-border, #e5e7eb) !important;\n}\n\n.ltt-macro-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n}\n\n.ltt-macro-template-input-error {\n  border-color: #ef4444 !important;\n}\n\n.ltt-macro-template-input-warning {\n  border-color: #f59e0b !important;\n}\n\n.ltt-macro-template-alert-left {\n  text-align: left !important;\n}\n\n.ltt-macro-template-alert-right {\n  text-align: right !important;\n}\n\n.ltt-macro-template-error,\n.ltt-macro-template-warning,\n.ltt-macro-template-hint {\n  margin-top: 4px !important;\n  font-size: 11px !important;\n  display: flex !important;\n  align-items: center !important;\n  gap: 4px !important;\n}\n\n.ltt-macro-template-error {\n  color: #ef4444 !important;\n}\n\n.ltt-macro-template-warning {\n  color: #f59e0b !important;\n}\n\n.ltt-macro-template-hint {\n  color: var(--ltt-text-muted, #9ca3af) !important;\n}\n\n/* ============================================================================\n * Apple-style Feature Management\n * ============================================================================ */\n\n.ltt-feature-management {\n  margin: 24px 0;\n}\n\n.ltt-feature-management-header {\n  cursor: pointer;\n  user-select: none;\n  padding: 12px 0;\n}\n\n.ltt-feature-management-header:hover {\n  opacity: 0.8;\n}\n\n.ltt-feature-management-title {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-feature-management-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 16px;\n  height: 16px;\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n.ltt-feature-management-title h4 {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n  flex: 1;\n}\n\n.ltt-feature-management-count {\n  font-size: 13px;\n  color: var(--ltt-text-muted, #6b7280);\n  font-weight: 500;\n}\n\n.ltt-feature-management-content {\n  animation: slideDown 0.2s ease-out;\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-8px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-feature-group {\n  margin-bottom: 0;\n}\n\n.ltt-feature-group-title {\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin-bottom: 8px;\n  padding: 0 0;\n}\n\n.ltt-feature-divider {\n  height: 1px;\n  background: var(--ltt-border, #e5e7eb);\n  margin: 0 0;\n}\n\n.ltt-feature-item {\n  display: flex;\n  align-items: center;\n  padding: 12px 0;\n  gap: 12px;\n}\n\n.ltt-feature-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 16px;\n  height: 16px;\n  color: var(--ltt-accent, #667eea);\n  flex-shrink: 0;\n}\n\n.ltt-feature-item-icon-disabled {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n.ltt-feature-item-content {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-feature-item-name {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #1f2937);\n  line-height: 1.4;\n}\n\n.ltt-feature-item-description {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #6b7280);\n  line-height: 1.4;\n}\n\n/* Dark theme for feature management */\n[data-theme=\"dark\"] .ltt-feature-management-title h4 {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-group-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-divider {\n  background: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-feature-item-name {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-item-description {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Custom scrollbar styles */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ltt-text-secondary, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ltt-border, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ltt-border, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ltt-bg-secondary, #f5f5f5);\n  color: var(--ltt-text-secondary, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ltt-bg-hover, #e0e0e0);\n  color: var(--ltt-text-primary, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ltt-bg-primary, #fff);\n  color: var(--ltt-text-primary, #333);\n  border-color: var(--ltt-border, #e0e0e0);\n  border-bottom: 1px solid var(--ltt-bg-primary, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ltt-text-muted, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ltt-text-primary, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch styles */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: var(--ltt-border, #ccc);\n  transition: 0.4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: var(--ltt-bg-primary, white);\n  transition: 0.4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: var(--ltt-accent, #000);\n  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 6px 10px !important;\n  border: 1px solid var(--ltt-border, #ccc) !important;\n  border-radius: 6px !important;\n  font-size: 13px !important;\n  box-sizing: border-box !important;\n  background: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #333) !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #000) !important;\n  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;\n}\n\n.ltt-settings-section {\n  margin: 24px 0;\n  padding: 0;\n}\n\n.ltt-settings-section h4 {\n  margin: 0 0 12px 0;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #333);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n.ltt-section-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #999);\n  margin: 4px 0 12px 0;\n  line-height: 1.4;\n}\n\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));\n  gap: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.ltt-status-color-row input[type=\"color\"] {\n  width: 30px;\n  height: 30px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 6px;\n}\n\n.ltt-status-label {\n  font-size: 13px;\n  color: var(--ltt-text-primary, #333);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 24px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ltt-border, #e0e0e0);\n  display: flex;\n  justify-content: flex-end;\n}\n\n.ltt-settings-btn {\n  padding: 8px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.ltt-settings-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.ltt-settings-btn-save {\n  background-color: var(--ltt-accent, #000);\n  color: var(--ltt-bg-primary, #fff);\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  opacity: 0.9;\n  transform: translateY(-1px);\n}\n\n/* Milestone Base Section Styles */\n.ltt-milestone-base-section {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n  margin-bottom: 24px;\n  padding: 0;\n}\n\n.ltt-milestone-color-grid-compact {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));\n  gap: 12px;\n}\n\n.ltt-milestone-color-item-compact {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 6px 10px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n}\n\n.ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact {\n  background: var(--ltt-bg-primary, #1e1e1e);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"] {\n  width: 24px;\n  height: 24px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 4px;\n}\n\n.ltt-milestone-color-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-dot {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.ltt-milestone-color-label {\n  font-size: 12px;\n  color: var(--ltt-text-secondary, #6b7280);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-label {\n  color: var(--ltt-text-secondary, #a0aec0);\n}\n\n/* Template Color Section */\n.ltt-milestone-template-color-section {\n  margin-top: 24px;\n  padding-top: 20px;\n  border-top: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-section {\n  border-top-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-template-color-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.ltt-milestone-template-color-title {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-template-color-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  background: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 2px 8px;\n  border-radius: 10px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-hint {\n  background: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n/* Milestone Templates Section Styles */\n.ltt-milestone-templates-section {\n  margin-bottom: 24px;\n}\n\n.ltt-milestone-templates-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n  padding-bottom: 12px;\n  border-bottom: 2px solid var(--ltt-border, #e5e7eb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-header {\n  border-bottom-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-templates-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-add-template-btn {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 14px;\n  background: var(--ltt-accent, #667eea);\n  color: var(--ltt-bg-primary, white);\n  border: none;\n  border-radius: var(--ltt-radius-md, 8px);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(102, 126, 234, 0.3));\n}\n\n.ltt-milestone-add-template-btn:hover {\n  transform: translateY(-1px);\n  box-shadow: var(--ltt-shadow-md, 0 4px 12px rgba(102, 126, 234, 0.4));\n}\n\n.ltt-milestone-add-icon {\n  width: 14px;\n  height: 14px;\n}\n\n/* Template Card Styles */\n.ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-xl, 12px);\n  margin-bottom: 12px;\n  transition: all 0.2s ease;\n  overflow: hidden;\n}\n\n.ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, #1a1a1a);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-template-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  background: var(--ltt-bg-secondary, #fafafa);\n  border-bottom: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-header {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-bottom-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-template-info {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex: 1;\n}\n\n.ltt-milestone-template-number {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 28px;\n  height: 28px;\n  background: linear-gradient(135deg, var(--ltt-accent, #111827) 0%, var(--ltt-accent-hover, #374151) 100%);\n  color: var(--ltt-bg-primary, white);\n  font-size: 13px;\n  font-weight: 600;\n  border-radius: var(--ltt-radius-md, 6px);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-name-input {\n  flex: 1;\n  padding: 6px 10px;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #111827);\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n  min-width: 0;\n}\n\n.ltt-milestone-template-name-input:hover {\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-border, #e5e7eb);\n}\n\n.ltt-milestone-template-name-input:focus {\n  outline: none;\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.05);\n}\n\n.ltt-milestone-template-id {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  font-family: ui-monospace, Monaco, 'SF Mono', monospace;\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 4px 8px;\n  border-radius: var(--ltt-radius-sm, 4px);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-id {\n  background-color: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n.ltt-milestone-template-actions {\n  display: flex;\n  gap: 8px;\n}\n\n.ltt-milestone-action-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  background-color: transparent;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 8px);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  border-color: var(--ltt-border-strong, #d1d5db);\n  color: var(--ltt-text-primary, #111827);\n}\n\n.ltt-milestone-action-btn:active {\n  transform: scale(0.95);\n}\n\n.ltt-milestone-action-btn-delete:hover {\n  background-color: var(--ltt-error, #fef2f2);\n  border-color: var(--ltt-error, #fecaca);\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-action-btn-collapse:hover {\n  background-color: var(--ltt-bg-hover, #e0e7ff);\n  border-color: var(--ltt-accent, #667eea);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn {\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border-strong, #4b5568);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-delete:hover {\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.3);\n  color: var(--ltt-error, #fca5a5);\n}\n\n.ltt-milestone-template-card-expanded {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-md, 0 8px 24px rgba(0, 0, 0, 0.12));\n}\n\n.ltt-milestone-template-card-body {\n  padding: 24px 20px;\n  background: var(--ltt-bg-primary, white);\n  animation: slideDown 0.2s ease-out;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-body {\n  background: var(--ltt-bg-primary, #111827);\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-milestone-form-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 20px;\n}\n\n.ltt-milestone-form-item {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.ltt-milestone-form-item-full {\n  grid-column: 1 / -1;\n}\n\n.ltt-milestone-form-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #374151);\n  letter-spacing: 0.1px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-label {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-form-label-required:after {\n  content: \" *\";\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-form-input {\n  width: 100%;\n  padding: 10px 14px;\n  font-size: 14px;\n  color: var(--ltt-text-primary, #111827);\n  background-color: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #d1d5db);\n  border-radius: var(--ltt-radius-md, 8px);\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #9ca3af);\n}\n\n.ltt-milestone-form-input:focus {\n  outline: none;\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);\n}\n\n.ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input {\n  background-color: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #4b5568);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:focus {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #6b7280);\n}\n\n/* Template Display Row - 3 items in a row on wide screens */\n.ltt-milestone-template-display-row {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n  grid-column: 1 / -1;\n}\n\n@media (max-width: 900px) {\n  .ltt-milestone-template-display-row {\n    grid-template-columns: 1fr;\n  }\n}\n\n/* Form Hints - Smaller & Lighter */\n.ltt-milestone-form-hint {\n  font-size: 10px;\n  color: var(--ltt-text-muted, #c0c4cc);\n  margin-top: 4px;\n  font-weight: 400;\n  line-height: 1.3;\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-hint {\n  color: var(--ltt-text-muted, #6a7280);\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #f9fafb) 0%, var(--ltt-bg-tertiary, #f3f4f6) 100%);\n  border-radius: var(--ltt-radius-xl, 12px);\n  border: 2px dashed var(--ltt-border, #d1d5db);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates {\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #1f2937) 0%, var(--ltt-bg-tertiary, #111827) 100%);\n  border-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-empty-icon {\n  color: var(--ltt-text-muted, #9ca3af);\n  margin-bottom: 12px;\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates-text {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ltt-text-secondary, #6b7280);\n  text-align: center;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates-text {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n/* Error Styles */\n.ltt-milestone-input-error {\n  border-color: var(--ltt-error, #dc2626) !important;\n  background-color: rgba(220, 38, 38, 0.05) !important;\n}\n\n.ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;\n}\n\n.ltt-milestone-error-message {\n  font-size: 12px;\n  color: var(--ltt-error, #dc2626);\n  margin-top: 2px;\n  padding: 4px 8px;\n  background-color: rgba(220, 38, 38, 0.05);\n  border-radius: 4px;\n  border: 1px solid rgba(220, 38, 38, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error {\n  border-color: var(--ltt-error, #fca5a5) !important;\n  background-color: rgba(239, 68, 68, 0.1) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-error-message {\n  color: var(--ltt-error, #fca5a5);\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(252, 165, 165, 0.2);\n}\n\n/* Responsive Styles */\n@media (max-width: 768px) {\n  .ltt-milestone-templates-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: flex-start;\n  }\n\n  .ltt-milestone-add-template-btn {\n    width: 100%;\n    justify-content: center;\n  }\n\n  .ltt-milestone-form-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .ltt-milestone-template-card-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: stretch;\n  }\n\n  .ltt-milestone-template-actions {\n    justify-content: flex-end;\n  }\n\n  .ltt-milestone-template-info {\n    flex-wrap: wrap;\n  }\n\n  .ltt-milestone-error-message {\n    width: 100%;\n  }\n}\n\n/* ============================================================================\n   Toolbar Settings - JSON Editor Styles (Restored from v1.1.6)\n   ============================================================================ */\n\n/* Toolbar-specific styles */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON Editor Container */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n/* JSON Editor */\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ltt-border, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  background-color: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #3b82f6) !important;\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;\n}\n\n/* JSON Error Message */\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: var(--ltt-error, #ef4444);\n  margin-bottom: 12px;\n  padding: 8px 12px;\n  background-color: rgba(239, 68, 68, 0.1);\n  border-radius: 4px;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n/* JSON Editor Hint */\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 20px;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 6px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #374151);\n  font-weight: 600;\n}\n\n/* Dark Theme for JSON Editor */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ltt-bg-secondary, #1f2937) !important;\n  border: 1px solid var(--ltt-border, #374151) !important;\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ltt-text-primary, #e5e7eb) !important;\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-json-error {\n  background-color: rgba(239, 68, 68, 0.15);\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint {\n  background: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint ul {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n/* Responsive Styles for Toolbar Settings */\n@media (max-width: 768px) {\n  #ltt-toolbar-settings .ltt-settings-tab-content {\n    padding: 0 4px;\n  }\n\n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n  }\n\n  .ltt-setting-item.ltt-setting-item-json {\n    margin-bottom: 16px;\n  }\n}\n\n@media (max-width: 480px) {\n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n}\n/* 基础容器 */\n.ls-block:has(.ltt-summary-page) {\n  --card-radius: 10px;\n  --card-gap: 12px;\n  --tag-blue: #4387ff;\n  --tag-green: #10b981;\n  --tag-yellow: #f59e0b;\n  --tag-purple: #8b5cf6;\n  --tag-pink: #ec4899;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: var(--ls-secondary-background-color, #f8f9fa) !important;\n  padding: 24px 16px !important;\n  border-radius: 12px !important;\n  text-align: center !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(25% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  transition: all 0.3s ease !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"]:hover {\n  transform: translateY(-4px) !important;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(50% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 20px !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 8px !important;\n}\n\n/* 隐藏圆点箭头 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n/* ==================================\n3. 热门标签 → 彩色标签样式\n=================================== */\n/* .ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-children {\n  display: flex !important;\n  flex-wrap: nowrap !important;\n   gap: 8px !important;\n  flex-direction: row !important;\n   width: 100% !important;\n  overflow: visible !important;\n} */\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  /* background: var(--ls-secondary-background-color, #ffffff) !important; */\n  /* padding: 24px !important; */\n  /* border-radius: 12px !important; */\n  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important; */\n  /* border: 1px solid rgba(0, 0, 0, 0.05) !important; */\n  display: inline-block !important;\n  width: calc(15% - 16px) !important;\n  /* margin: 8px !important; */\n  /* vertical-align: top !important; */\n  min-height: 8px !important;\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  position: static !important;\n  vertical-align: top !important; */\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  min-height: unset !important;\n  white-space: nowrap !important; */\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-content .block-title-wrap {\n  display: inline-block !important;\n  padding: 6px 14px !important;\n  border-radius: 999px !important;\n  font-size: 13px !important;\n  font-weight: 500 !important;\n  color: #fff !important;\n  white-space: nowrap !important;\n}\n\n/* 自动给不同标签上色 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(1) .block-title-wrap {\n  background: var(--tag-blue);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(2) .block-title-wrap {\n  background: var(--tag-green);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(3) .block-title-wrap {\n  background: var(--tag-yellow);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(4) .block-title-wrap {\n  background: var(--tag-purple);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(5) .block-title-wrap {\n  background: var(--tag-pink);\n}\n\n/* 隐藏圆点 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .bullet-link-wrap {\n  display: none !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(2) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 24px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 30px !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] table {\n  width: 100% !important;\n  border-collapse: collapse !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] td {\n  padding: 8px 12px !important;\n  text-align: left !important;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(59, 130, 246, 0.08) !important;\n  font-weight: 600 !important;\n  font-size: 13px !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(96, 165, 250, 0.15) !important;\n}\n\n@media (max-width: 900px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(50% - 16px) !important;\n  }\n\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n@media (max-width: 500px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n/* Summary Modal Styles */\n/* 这个 CSS 文件定义了 Summary Modal 的样式，确保在不同主题下都有良好的视觉效果。 */\n\n.summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}\n.summary-error {\n  margin: 4px 0 8px;\n  color: #dc2626;\n  font-size: 12px;\n  line-height: 1.45;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-error {\n  color: #f87171;\n}\n/*$vite$:1*/";document.head.appendChild(__vite_style__);
+  'use strict';var __vite_style__ = document.createElement('style');__vite_style__.textContent = ".ltt-html-viewer-layer {\n  position: fixed;\n  inset: 0;\n  z-index: 10000;\n  pointer-events: none;\n  color: var(--ls-primary-text-color, #1f2937);\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", sans-serif;\n}\n\n.ltt-html-viewer-panel {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  display: flex;\n  flex-direction: column;\n  min-width: 30vw;\n  max-width: 90vw;\n  pointer-events: auto;\n  background: var(--ls-primary-background-color, #fff);\n  box-shadow: 0 0 28px rgba(15, 23, 42, 0.22);\n  border-left: 1px solid var(--ls-border-color, #e5e7eb);\n  border-right: 1px solid var(--ls-border-color, #e5e7eb);\n  overflow: hidden;\n}\n\n.ltt-html-viewer-panel.is-right { right: 0; }\n.ltt-html-viewer-panel.is-left { left: 0; }\n.ltt-html-viewer-panel.is-fullscreen { left: 0; right: 0; max-width: 100vw; width: 100% !important; }\n\n.ltt-html-viewer-resizer {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 8px;\n  cursor: col-resize;\n  z-index: 2;\n  background: rgba(59, 130, 246, 0.22);\n  border-radius: 3px;\n}\n.ltt-html-viewer-panel.is-right .ltt-html-viewer-resizer { left: -4px; }\n.ltt-html-viewer-panel.is-left .ltt-html-viewer-resizer { right: -4px; }\n.ltt-html-viewer-resizer:hover { background: rgba(59, 130, 246, 0.55); }\n\n.ltt-html-viewer-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  padding: 10px 14px;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n  background: var(--ls-secondary-background-color, #f8fafc);\n  flex: 0 0 auto;\n  flex-wrap: wrap;\n}\n\n.ltt-html-viewer-heading {\n  display: flex;\n  align-items: baseline;\n  gap: 8px;\n  min-width: 0;\n}\n.ltt-html-viewer-heading strong { font-size: 13px; letter-spacing: .04em; color: #2563eb; }\n.ltt-html-viewer-file {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #667085);\n}\n\n.ltt-html-viewer-actions { display: flex; gap: 4px; flex: 0 0 auto; }\n.ltt-html-viewer-actions button {\n  border: 1px solid transparent;\n  background: transparent;\n  color: inherit;\n  border-radius: 6px;\n  cursor: pointer;\n  font-size: 12px;\n  line-height: 1.25;\n  padding: 6px 8px;\n  white-space: nowrap;\n}\n.ltt-html-viewer-actions button:hover {\n  background: var(--ls-tertiary-background-color, #eef2f7);\n  border-color: var(--ls-border-color, #d8dee8);\n}\n\n.ltt-html-viewer-picker { padding: 14px; overflow: auto; flex: 1; }\n.ltt-html-viewer-toolbar { display: flex; gap: 8px; margin-bottom: 12px; }\n.ltt-html-viewer-toolbar input,\n.ltt-html-viewer-manual input {\n  flex: 1;\n  min-width: 0;\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  border-radius: 7px;\n  padding: 8px 10px;\n  background: var(--ls-primary-background-color, #fff);\n  color: inherit;\n  font-size: 13px;\n}\n.ltt-html-viewer-toolbar button,\n.ltt-html-viewer-manual button,\n.ltt-html-viewer-error button,\n.ltt-html-viewer-composer button,\n.ltt-html-viewer-list-toggle {\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  background: var(--ls-secondary-background-color, #f8fafc);\n  color: inherit;\n  border-radius: 7px;\n  padding: 7px 11px;\n  cursor: pointer;\n  font-size: 13px;\n}\n.ltt-html-viewer-toolbar button:hover,\n.ltt-html-viewer-manual button:hover,\n.ltt-html-viewer-composer button:hover,\n.ltt-html-viewer-list-toggle:hover { background: var(--ls-tertiary-background-color, #eef2f7); }\n\n.ltt-html-viewer-assets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.ltt-html-viewer-assets button {\n  width: 100%;\n  text-align: left;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  border-radius: 9px;\n  background: var(--ls-primary-background-color, #fff);\n  color: inherit;\n  padding: 10px 12px;\n  cursor: pointer;\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n}\n.ltt-html-viewer-assets button:hover { border-color: #93c5fd; background: #eff6ff; }\n.ltt-html-viewer-assets span { font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }\n.ltt-html-viewer-assets small { font-size: 11px; opacity: .62; overflow-wrap: anywhere; }\n\n.ltt-html-viewer-empty { display: flex; flex-direction: column; gap: 10px; color: var(--ls-secondary-text-color, #667085); }\n.ltt-html-viewer-manual { display: flex; gap: 8px; }\n.ltt-html-viewer-muted { font-size: 12px; color: var(--ls-secondary-text-color, #667085); }\n\n.ltt-html-viewer-content { display: flex; min-height: 0; flex: 1; }\n.ltt-html-viewer-main { position: relative; flex: 1; min-width: 0; background: #fff; }\n.ltt-html-viewer-frame { width: 100%; height: 100%; border: 0; display: block; background: #fff; }\n.ltt-html-viewer-status { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(255,255,255,.7); z-index: 3; }\n\n.ltt-html-viewer-sidebar {\n  width: 300px;\n  flex: 0 0 300px;\n  min-width: 240px;\n  border-left: 1px solid var(--ls-border-color, #e5e7eb);\n  background: var(--ls-secondary-background-color, #fbfcfe);\n  overflow: auto;\n  padding: 12px;\n}\n.ltt-html-viewer-sidebar-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; }\n.ltt-html-viewer-sidebar-title button { border: 0; background: transparent; cursor: pointer; font-size: 16px; }\n.ltt-html-viewer-sidebar ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }\n.ltt-html-viewer-sidebar li { border: 1px solid var(--ls-border-color, #e5e7eb); background: var(--ls-primary-background-color, #fff); border-radius: 9px; padding: 9px; }\n.ltt-html-viewer-sidebar li.active { border-color: #60a5fa; box-shadow: 0 0 0 1px #bfdbfe inset; }\n.ltt-html-viewer-annotation-jump { display: flex; flex-direction: column; gap: 5px; text-align: left; width: 100%; border: 0; background: transparent; color: inherit; cursor: pointer; padding: 0; }\n.ltt-html-viewer-annotation-jump span { font-size: 12px; line-height: 1.45; }\n.ltt-html-viewer-annotation-jump small { font-size: 12px; color: var(--ls-secondary-text-color, #667085); line-height: 1.4; }\n.ltt-html-viewer-annotation-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 7px; }\n.ltt-html-viewer-annotation-actions button { border: 0; background: transparent; color: #2563eb; cursor: pointer; font-size: 11px; padding: 0; }\n\n.ltt-html-viewer-annotate {\n  position: fixed;\n  z-index: 10002;\n  transform: translateY(-50%);\n  border: 0;\n  border-radius: 7px;\n  padding: 7px 12px;\n  background: #2563eb;\n  color: #fff;\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  box-shadow: 0 6px 18px rgba(37, 99, 235, .3);\n}\n\n.ltt-html-viewer-composer {\n  position: absolute;\n  left: 16px;\n  right: 16px;\n  bottom: 16px;\n  z-index: 4;\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  border-radius: 11px;\n  background: var(--ls-primary-background-color, #fff);\n  box-shadow: 0 16px 40px rgba(15, 23, 42, .22);\n  padding: 12px;\n}\n.ltt-html-viewer-composer blockquote {\n  margin: 0 0 8px;\n  padding: 7px 9px;\n  border-left: 3px solid #93c5fd;\n  background: #eff6ff;\n  border-radius: 4px;\n  font-size: 12px;\n  max-height: 90px;\n  overflow: auto;\n  white-space: pre-wrap;\n}\n.ltt-html-viewer-composer textarea {\n  width: 100%;\n  min-height: 70px;\n  resize: vertical;\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  border-radius: 8px;\n  padding: 8px 9px;\n  background: var(--ls-primary-background-color, #fff);\n  color: inherit;\n  font: inherit;\n  font-size: 13px;\n}\n.ltt-html-viewer-composer-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }\n.ltt-html-viewer-composer .primary { background: #2563eb; color: #fff; border-color: #2563eb; }\n.ltt-html-viewer-composer .primary:disabled { opacity: .6; cursor: wait; }\n.ltt-html-viewer-list-toggle { position: absolute; right: 12px; bottom: 12px; z-index: 3; }\n.ltt-html-viewer-message { margin: 10px 0 0; font-size: 12px; color: #2563eb; }\n\n.ltt-html-viewer-error { padding: 20px; color: #b42318; font-size: 13px; }\n.ltt-html-viewer-error p { margin: 8px 0; color: var(--ls-secondary-text-color, #667085); }\n\n.ltt-html-viewer-panel[data-side=\"left\"] .ltt-html-viewer-sidebar {\n  border-left: 0;\n  border-right: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n@media (max-width: 900px) {\n  .ltt-html-viewer-panel { width: 100% !important; max-width: 100vw; min-width: 0; }\n  .ltt-html-viewer-content { position: relative; }\n  .ltt-html-viewer-sidebar {\n    position: absolute;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    z-index: 5;\n    width: min(300px, 88vw);\n    box-shadow: -8px 0 24px rgba(15, 23, 42, .16);\n  }\n  .ltt-html-viewer-list-toggle { display: block; }\n}\n\n@media (min-width: 901px) {\n  .ltt-html-viewer-list-toggle { display: none; }\n}\n\n.ltt-html-asset-launcher {\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  width: 100%;\n  max-width: 520px;\n  padding: 9px 11px;\n  border: 1px solid var(--ls-border-color, #dbe3ef);\n  border-radius: 9px;\n  background: var(--ls-secondary-background-color, #f8fafc);\n  color: inherit;\n  cursor: pointer;\n  text-align: left;\n}\n.ltt-html-asset-launcher:hover { border-color: #93c5fd; background: #eff6ff; }\n.ltt-html-asset-launcher-icon {\n  flex: 0 0 auto;\n  border-radius: 5px;\n  background: #dbeafe;\n  color: #1d4ed8;\n  font-size: 10px;\n  font-weight: 700;\n  padding: 3px 5px;\n  letter-spacing: .04em;\n}\n.ltt-html-asset-launcher-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }\n.ltt-html-asset-launcher-action { flex: 0 0 auto; color: #2563eb; font-size: 12px; font-weight: 600; }\n.ltt-html-viewer-error-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }\n/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #1a1a1a;\n  --ltt-accent-muted: rgba(0, 0, 0, 0.1);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: #e5e5e5;\n  --ltt-accent-hover: #f5f5f5;\n  --ltt-accent-muted: rgba(255, 255, 255, 0.1);\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n/* Test App 样式 */\n\n/* 右上角工具栏横幅 - 很小很窄的浅灰色 */\n.toolbar-banner {\n  position: fixed;\n  top: 0;\n  right: 0;\n  z-index: 1000;\n  padding: 4px 12px;\n  background: #e5e7eb; /* 浅灰色 */\n  color: #374151;\n  border-radius: 0 0 0 8px;\n  box-shadow: -1px 1px 6px rgba(0, 0, 0, 0.1);\n  transform: translateY(0);\n  transition: transform 0.3s ease;\n}\n\n.toolbar-banner-content {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.toolbar-banner-text {\n  font-size: 11px;\n  font-weight: 500;\n  letter-spacing: 0.5px;\n}\n\n.toolbar-banner-actions {\n  display: flex;\n  gap: 4px;\n}\n\n.toolbar-banner-btn {\n  width: 24px;\n  height: 24px;\n  border: 1px solid #d1d5db;\n  background: #f3f4f6;\n  color: #374151;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.toolbar-banner-btn:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n  transform: translateY(-1px);\n}\n\n.toolbar-icon {\n  display: inline-block;\n}\n\n/* 顶部区域 */\n.top-toolbar {\n  width: 100%;\n  padding: 1rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.toolbar-content {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1rem;\n}\n\n.toolbar-content h1 {\n  font-size: 1.5rem;\n  font-weight: 600;\n  margin: 0;\n  color: var(--ls-primary-text-color-plugin);\n  letter-spacing: -0.025em;\n}\n\n/* 内容演示区域 */\n.content-header {\n  margin-bottom: 32px;\n  padding-bottom: 24px;\n  border-bottom: 1px solid var(--ls-border-color-plugin);\n}\n\n.content-title {\n  font-size: 28px;\n  font-weight: 700;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 8px 0;\n  letter-spacing: -0.025em;\n}\n\n.content-description {\n  font-size: 14px;\n  color: var(--ls-secondary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-container {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n\n.demo-section {\n  padding: 24px;\n  background: var(--ls-secondary-background-color-plugin);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n}\n\n.demo-section:hover {\n  border-color: var(--ls-accent-color-plugin);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n\n.demo-section-title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0 0 16px 0;\n}\n\n.demo-text {\n  font-size: 15px;\n  line-height: 1.8;\n  color: var(--ls-primary-text-color-plugin);\n  margin: 0;\n}\n\n.demo-text strong {\n  font-weight: 600;\n}\n\n.demo-text em {\n  font-style: italic;\n}\n\n.demo-text u {\n  text-decoration: underline;\n}\n\n.demo-text del {\n  text-decoration: line-through;\n  color: var(--ls-secondary-text-color-plugin);\n}\n\n.demo-text mark {\n  background: #fef08a;\n  padding: 2px 4px;\n  border-radius: 4px;\n}\n\n.demo-code {\n  background: var(--ls-primary-background-color-plugin);\n  padding: 16px;\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color-plugin);\n  margin-bottom: 16px;\n}\n\n.demo-code code {\n  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;\n  font-size: 14px;\n  color: #0f172a;\n}\n\n.dark-mode .demo-code code {\n  color: #e2e8f0;\n}\n\n.demo-list {\n  margin: 0;\n  padding-left: 24px;\n  color: var(--ls-primary-text-color-plugin);\n}\n\n.demo-list li {\n  margin-bottom: 8px;\n  font-size: 15px;\n  line-height: 1.6;\n}\n\n.highlight-yellow {\n  background: #fef08a;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-red {\n  background: #fecdd3;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n.highlight-blue {\n  background: #bfdbfe;\n  padding: 2px 6px;\n  border-radius: 4px;\n}\n\n/* 左侧面板 */\n.left-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.left-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.panel-section h4 {\n  color: var(--ls-secondary-text-color-plugin);\n  margin-bottom: 0.75rem;\n  font-size: 1rem;\n  font-weight: 500;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 0.75rem;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 6px;\n  margin-bottom: 0.5rem;\n  color: var(--ls-primary-text-color-plugin);\n  border: 1px solid var(--ls-border-color-plugin);\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.panel-section li:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n}\n\n/* 右侧面板 */\n.right-panel {\n  width: 280px;\n  background-color: var(--ls-secondary-background-color-plugin);\n  border-radius: 8px;\n  padding: 1.5rem;\n  transition: width 0.3s ease;\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.right-panel h3 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n\n.action-btn {\n  padding: 0.75rem 1rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-weight: 500;\n}\n\n.action-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n  border-color: var(--ls-accent-color-plugin);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 测试布局 */\n.test-layout {\n  display: flex;\n  width: 100%;\n  min-height: 600px;\n  gap: 1rem;\n  padding: 1rem;\n}\n\n.test-layout__left.collapsed,\n.test-layout__right.collapsed {\n  width: 60px;\n  padding: 1.5rem 0.75rem;\n}\n\n.panel-header {\n  display: flex;\n  justify-content: flex-end;\n  margin-bottom: 1.5rem;\n}\n\n.collapse-btn {\n  padding: 0.5rem;\n  border: 1px solid var(--ls-border-color-plugin);\n  background-color: var(--ls-primary-background-color-plugin);\n  color: var(--ls-primary-text-color-plugin);\n  cursor: pointer;\n  font-size: 0.8rem;\n  border-radius: 6px;\n  transition: all 0.2s ease;\n}\n\n.collapse-btn:hover {\n  background-color: var(--ls-hover-color-plugin);\n}\n\n.test-layout__main {\n  flex: 1;\n  background-color: var(--ls-primary-background-color-plugin);\n  border-radius: 8px;\n  padding: 2rem;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  border: 1px solid var(--ls-border-color-plugin);\n}\n\n.test-layout__content h2 {\n  color: var(--ls-primary-text-color-plugin);\n  margin-top: 0;\n  font-size: 1.75rem;\n  font-weight: 600;\n  margin-bottom: 1.5rem;\n  letter-spacing: -0.025em;\n}\n\n/* 应用容器 */\n.app {\n  width: 100%;\n  min-height: 100vh;\n  transition: all 0.3s ease;\n}\n\n.light-mode {\n  --ls-primary-background-color-plugin: var(--background-color-light, #ffffff);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-light, #f8fafc);\n  --ls-primary-text-color-plugin: var(--primary-text-color-light, #1e293b);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-light, #64748b);\n  --ls-border-color-plugin: var(--border-color-light, #e2e8f0);\n  --ls-accent-color-plugin: var(--accent-color-light, #3b82f6);\n  --ls-hover-color-plugin: var(--hover-color-light, #f1f5f9);\n  --ls-focus-color-plugin: var(--focus-color-light, #dbeafe);\n}\n\n.dark-mode {\n  --ls-primary-background-color-plugin: var(--background-color-dark, #0f172a);\n  --ls-secondary-background-color-plugin: var(--secondary-background-color-dark, #1e293b);\n  --ls-primary-text-color-plugin: var(--primary-text-color-dark, #f1f5f9);\n  --ls-secondary-text-color-plugin: var(--secondary-text-color-dark, #94a3b8);\n  --ls-border-color-plugin: var(--border-color-dark, #334155);\n  --ls-accent-color-plugin: var(--accent-color-dark, #60a5fa);\n  --ls-hover-color-plugin: var(--hover-color-dark, #334155);\n  --ls-focus-color-plugin: var(--focus-color-dark, #1e3a8a);\n}\n\n/* 中间内容容器 */\n.center-content {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n\n/* Hiccup 渲染器容器 */\n.hiccup-renderer-container {\n  margin-top: 20px;\n}\n\n/* 模式指示器 */\n.mode-indicator {\n  display: flex;\n  align-items: center;\n}\n\n.mode-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: 6px 14px;\n  border-radius: 20px;\n  font-size: 13px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.mode-badge.mock {\n  background: #fef3c7;\n  color: #92400e;\n  border: 1px solid #f59e0b;\n}\n\n.mode-badge.proxy {\n  background: #dbeafe;\n  color: #1e40af;\n  border: 1px solid #3b82f6;\n}\n\n.dark-mode .mode-badge.mock {\n  background: #78350f;\n  color: #fbbf24;\n  border-color: #f59e0b;\n}\n\n.dark-mode .mode-badge.proxy {\n  background: #1e3a8a;\n  color: #60a5fa;\n  border-color: #3b82f6;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .center-content {\n    gap: 15px;\n  }\n  \n  .hiccup-renderer-container {\n    margin-top: 15px;\n  }\n}.test-layout {\n  display: flex;\n  height: calc(100vh - 120px);\n  overflow: hidden;\n}\n\n.test-layout__left {\n  width: 250px;\n  background: #f5f5f5;\n  border-right: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__left.collapsed {\n  width: 40px;\n}\n\n.test-layout__main {\n  flex: 1;\n  overflow: auto;\n  padding: 20px;\n  min-height: 400px;\n}\n\n.test-layout__content {\n  max-width: 800px;\n  margin: 0 auto;\n}\n\n.test-layout__right {\n  width: 200px;\n  background: #f5f5f5;\n  border-left: 1px solid #ddd;\n  transition: width 0.3s ease;\n  overflow: hidden;\n}\n\n.test-layout__right.collapsed {\n  width: 40px;\n}\n\n.panel-header {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n}\n\n.collapse-btn {\n  background: none;\n  border: none;\n  font-size: 16px;\n  cursor: pointer;\n  padding: 5px;\n}\n\n.left-panel,\n.right-panel {\n  padding: 15px;\n}\n\n.panel-section {\n  margin-bottom: 20px;\n}\n\n.panel-section h4 {\n  margin-top: 0;\n  margin-bottom: 10px;\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n}\n\n.panel-section ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.panel-section li {\n  padding: 5px 0;\n  font-size: 13px;\n  color: #666;\n}\n\n.actions {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n\n.action-btn {\n  padding: 8px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 13px;\n  transition: background 0.2s ease;\n}\n\n.action-btn:hover {\n  background: #e0e0e0;\n}\n\n.editable-paragraph {\n  padding: 10px;\n  margin: 10px 0;\n  border: 1px solid transparent;\n  border-radius: 4px;\n  min-height: 40px;\n  transition: border-color 0.2s ease;\n}\n\n.editable-paragraph:hover {\n  border-color: #ddd;\n}\n\n.editable-paragraph:focus {\n  outline: none;\n  border-color: #4a90e2;\n  background-color: #f9f9f9;\n}\n.hiccup-renderer {\n  padding: 20px;\n  background: #f5f5f5;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n\n.hiccup-input-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-input-section h3 {\n  margin-bottom: 10px;\n  color: #333;\n}\n\n.hiccup-textarea {\n  width: 100%;\n  min-height: 120px;\n  padding: 10px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: 14px;\n  resize: vertical;\n}\n\n.hiccup-textarea:focus {\n  outline: none;\n  border-color: #007bff;\n  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);\n}\n\n.hiccup-output-section {\n  margin-bottom: 20px;\n}\n\n.hiccup-output-section h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.hiccup-result {\n  padding: 15px;\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  min-height: 60px;\n}\n\n.hiccup-examples {\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n\n.hiccup-examples h4 {\n  margin-bottom: 10px;\n  color: #555;\n}\n\n.example-buttons {\n  display: flex;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n\n.example-buttons button {\n  padding: 6px 12px;\n  background: #f0f0f0;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 14px;\n  transition: all 0.2s;\n}\n\n.example-buttons button:hover {\n  background: #e0e0e0;\n  border-color: #bbb;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .hiccup-renderer {\n    padding: 15px;\n  }\n  \n  .example-buttons {\n    flex-direction: column;\n  }\n  \n  .example-buttons button {\n    width: 100%;\n  }\n}\n\n/* 深色模式支持 */\n.dark-mode .hiccup-renderer {\n  background: #2d2d2d;\n}\n\n.dark-mode .hiccup-input-section h3,\n.dark-mode .hiccup-output-section h4,\n.dark-mode .hiccup-examples h4 {\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .hiccup-textarea:focus {\n  border-color: #007bff;\n}\n\n.dark-mode .hiccup-result {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button {\n  background: #3d3d3d;\n  border-color: #555;\n  color: #e0e0e0;\n}\n\n.dark-mode .example-buttons button:hover {\n  background: #4d4d4d;\n  border-color: #666;\n}.heatmap-container {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  background: #ffffff;\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n  transition: all 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n  --heatmap-gap: 2px;\n  --heatmap-gap-month: 2px;\n  --heatmap-gap-week: 2px;\n  --heatmap-cell-radius: 2px;\n  --heatmap-cell-small: 10px;\n  --heatmap-cell-large: 24px;\n  --heatmap-cell-week: 22px;\n  --heatmap-cell-large-height: 24px;\n  --heatmap-cell-week-height: 22px;\n  --heatmap-year-axis-width: 28px;\n  --heatmap-month-axis-width: 32px;\n  --heatmap-week-axis-width: 44px;\n  --heatmap-month-cell-width: 1fr;\n  --heatmap-month-cell-height: 24px;\n  --heatmap-week-cell-width: 1fr;\n  --heatmap-week-cell-height: 22px;\n  position: relative;\n}\n\n.heatmap-container.dark {\n  background: #171f33;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);\n}\n\n.heatmap-minimal {\n  padding: 4px;\n}\n\n.heatmap-basic {\n  padding: 8px;\n}\n\n.heatmap-full {\n  padding: 12px;\n}\n\n.heatmap-header {\n  display: flex !important;\n  justify-content: space-between !important;\n  align-items: center !important;\n  flex-direction: row !important;\n  margin-bottom: 12px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #e5e7eb;\n  gap: 0 !important;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  width: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n}\n\n.view-controls {\n  display: flex;\n  background: #f3f4f6;\n  border-radius: 6px;\n  padding: 2px;\n  flex-shrink: 0;\n  margin-right: 12px;\n}\n\n.navigation-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  margin-left: auto;\n}\n\n.dark .view-controls,\n.heatmap-container.dark .view-controls {\n  background: #2d3449;\n}\n\n.dark .navigation-controls,\n.heatmap-container.dark .navigation-controls {\n  color: #e5e7eb;\n}\n\n.dark .heatmap-header,\n.heatmap-container.dark .heatmap-header {\n  border-bottom-color: #374151;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.view-btn {\n  padding: 4px 10px;\n  font-size: 11px;\n  font-weight: 500;\n  color: #6b7280;\n  background: transparent;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.dark .view-btn,\n.heatmap-container.dark .view-btn {\n  color: #9ca3af;\n}\n\n.view-btn:hover {\n  color: #374151;\n}\n\n.dark .view-btn:hover,\n.heatmap-container.dark .view-btn:hover {\n  color: #e5e7eb;\n}\n\n.view-btn.active {\n  background: #ffffff;\n  color: #3b82f6;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n.dark .view-btn.active,\n.heatmap-container.dark .view-btn.active {\n  background: #4b5563;\n  color: #60a5fa;\n}\n\n.nav-btn {\n  width: 26px;\n  height: 26px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f3f4f6;\n  border: none;\n  border-radius: 4px;\n  color: #6b7280;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  padding: 0;\n}\n\n.dark .nav-btn,\n.heatmap-container.dark .nav-btn {\n  background: #2d3449;\n  color: #9ca3af;\n}\n\n.nav-btn:hover {\n  background: #e5e7eb;\n  color: #374151;\n}\n\n.dark .nav-btn:hover,\n.heatmap-container.dark .nav-btn:hover {\n  background: #4b5563;\n  color: #e5e7eb;\n}\n\n.nav-icon {\n  display: block;\n}\n\n.nav-label {\n  font-size: 12px;\n  font-weight: 500;\n  color: #374151;\n  min-width: 60px;\n  text-align: center;\n}\n\n.dark .nav-label,\n.heatmap-container.dark .nav-label {\n  color: #e5e7eb;\n}\n\n.heatmap-content {\n  animation: fadeIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.heatmap-year-view,\n.heatmap-month-view,\n.heatmap-week-view {\n  display: flex;\n  flex-direction: column;\n  animation: slideIn 0.3s ease;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(-20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n.year-month-header {\n  margin-bottom: 4px;\n}\n\n.year-month-header-grid {\n  display: grid;\n  align-items: end;\n  column-gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.year-axis-spacer {\n  width: var(--heatmap-year-axis-width);\n}\n\n.year-month-label {\n  font-size: 9px;\n  color: #9ca3af;\n  text-align: left;\n  cursor: pointer;\n  user-select: none;\n  padding-left: 2px;\n}\n\n.dark .year-month-label,\n.heatmap-container.dark .year-month-label {\n  color: #6b7280;\n}\n\n.year-grid {\n  display: flex;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.weekday-labels {\n  display: grid;\n  grid-auto-rows: var(--heatmap-cell-small);\n  row-gap: var(--heatmap-gap);\n  padding-right: var(--heatmap-gap);\n  width: var(--heatmap-year-axis-width);\n  flex-shrink: 0;\n}\n\n.weekday-label-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  cursor: pointer;\n  user-select: none;\n}\n\n.weekday-label {\n  font-size: 8px;\n  color: #9ca3af;\n}\n\n.dark .weekday-label,\n.heatmap-container.dark .weekday-label {\n  color: #6b7280;\n}\n\n.grid-container {\n  display: flex;\n  gap: var(--heatmap-gap);\n  flex: 1;\n  overflow-x: auto;\n  box-sizing: border-box;\n}\n\n.week-column {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap);\n  flex-shrink: 0;\n}\n\n.month-grid {\n  display: grid;\n  grid-template-columns: var(--heatmap-month-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-month);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-view-container {\n  display: flex;\n  flex-direction: column;\n  gap: var(--heatmap-gap-month);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.month-axis-spacer {\n  width: var(--heatmap-month-axis-width);\n  flex-shrink: 0;\n}\n\n.month-day-header {\n  font-size: 10px;\n  color: #9ca3af;\n  text-align: center;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  cursor: pointer;\n  user-select: none;\n}\n\n.dark .month-day-header {\n  color: #6b7280;\n}\n\n.month-week-label {\n  font-size: 10px;\n  color: #9ca3af;\n  height: var(--heatmap-month-cell-height);\n  width: var(--heatmap-month-axis-width);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .month-week-label {\n  color: #6b7280;\n}\n\n.week-header {\n  display: contents;\n}\n\n.hour-label-header {\n  width: var(--heatmap-week-axis-width);\n  flex-shrink: 0;\n}\n\n.day-header-grid {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: var(--heatmap-gap);\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.day-header-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 1px;\n  cursor: pointer;\n  user-select: none;\n  min-width: 0;\n}\n\n.day-name {\n  font-size: 9px;\n  color: #9ca3af;\n  font-weight: 500;\n}\n\n.dark .day-name,\n.heatmap-container.dark .day-name {\n  color: #6b7280;\n}\n\n.day-date {\n  font-size: 12px;\n  color: #374151;\n  font-weight: 600;\n}\n\n.dark .day-date,\n.heatmap-container.dark .day-date {\n  color: #e5e7eb;\n}\n\n.week-grid-container {\n  display: grid;\n  grid-template-columns: var(--heatmap-week-axis-width) repeat(7, 1fr);\n  gap: var(--heatmap-gap-week);\n  align-items: start;\n  width: 100%;\n  box-sizing: border-box;\n\n  grid-auto-rows: var(--heatmap-week-cell-height);\n  row-gap: var(--heatmap-gap-week);\n}\n\n.week-grid-container.minimal {\n  grid-template-columns: repeat(7, 1fr);\n}\n\n.hour-label-cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 9px;\n  color: #9ca3af;\n  width: var(--heatmap-week-axis-width);\n  height: var(--heatmap-cell-week);\n  cursor: pointer;\n  user-select: none;\n  flex-shrink: 0;\n}\n\n.dark .hour-label-cell,\n.heatmap-container.dark .hour-label-cell {\n  color: #6b7280;\n}\n\n.heatmap-cell {\n  border: 1px solid transparent;\n  position: relative;\n  transition: all 0.2s ease;\n  cursor: pointer;\n  box-sizing: border-box;\n  border-radius: var(--heatmap-cell-radius);\n  display: block;\n  width: 100% !important;\n  height: auto !important;\n  aspect-ratio: 1/1;\n}\n\n.heatmap-cell.size-small {\n  width: var(--heatmap-cell-small) !important;\n  height: var(--heatmap-cell-small) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-cell.size-large {\n  width: 100% !important;\n  aspect-ratio: unset;\n  height: var(--heatmap-cell-large-height) !important;\n}\n\n.heatmap-month-view .heatmap-cell.size-large {\n  width: var(--heatmap-month-cell-width) !important;\n  height: var(--heatmap-month-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.heatmap-week-view .heatmap-cell.size-large {\n  width: var(--heatmap-week-cell-width) !important;\n  height: var(--heatmap-week-cell-height) !important;\n  aspect-ratio: unset;\n}\n\n.dark .heatmap-cell,\n.heatmap-container.dark .heatmap-cell {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.heatmap-cell:hover {\n  transform: scale(1.1);\n  z-index: 10;\n  box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);\n  outline: 2px rgba(59, 130, 246, 0.5);\n  outline-offset: 2px;\n}\n\n.dark .heatmap-cell:hover,\n.heatmap-container.dark .heatmap-cell:hover {\n  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);\n  outline-color: rgba(96, 165, 250, 0.5);\n}\n\n.heatmap-cell.empty {\n  opacity: 0.3;\n}\n\n.heatmap-legend {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 6px;\n  margin-top: 10px;\n  padding-top: 10px;\n  border-top: 1px solid #e5e7eb;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .heatmap-legend,\n.heatmap-container.dark .heatmap-legend {\n  border-top-color: #374151;\n}\n\n.legend-label {\n  font-size: 10px;\n  color: #9ca3af;\n}\n\n.dark .legend-label,\n.heatmap-container.dark .legend-label {\n  color: #6b7280;\n}\n\n.legend-colors {\n  display: flex;\n  gap: 3px;\n}\n\n.legend-color {\n  width: 12px;\n  height: 12px;\n  border-radius: 2px;\n  transition: transform 0.2s ease;\n}\n\n.legend-color:hover {\n  transform: scale(1.2);\n}\n\n.dark .legend-color,\n.heatmap-container.dark .legend-color {\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.heatmap-tooltip {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  background: #1f2937;\n  color: #ffffff;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-size: 11px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-statistics {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 6px;\n  padding-top: 0;\n  border-top: none;\n  gap: 6px;\n  flex-shrink: 0;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.stat-item {\n  text-align: center;\n  padding: 2px 6px;\n  border-radius: 6px;\n  transition: background 0.2s ease;\n  flex: 0 0 auto;\n  background: rgba(243, 244, 246, 0.7);\n}\n\n.dark .stat-item,\n.heatmap-container.dark .stat-item {\n  background: rgba(45, 52, 73, 0.7);\n}\n\n.stat-value {\n  font-size: 10px;\n  font-weight: 600;\n  color: #374151;\n}\n\n.dark .stat-value,\n.heatmap-container.dark .stat-value {\n  color: #e5e7eb;\n}\n\n.stat-label {\n  font-size: 7px;\n  color: #9ca3af;\n  margin-top: 1px;\n  text-transform: uppercase;\n}\n\n.dark .stat-label,\n.heatmap-container.dark .stat-label {\n  color: #6b7280;\n}\n\n.week-activities {\n  margin-top: 8px;\n  padding-top: 8px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n\n.dark .week-activities,\n.heatmap-container.dark .week-activities {\n  border-top-color: #374151;\n}\n\n.week-activities h4 {\n  font-size: 11px;\n  font-weight: 600;\n  color: #374151;\n  margin: 0 0 4px 0;\n}\n\n.dark .week-activities h4,\n.heatmap-container.dark .week-activities h4 {\n  color: #e5e7eb;\n}\n\n.activity-list {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n}\n\n.activity-item {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  padding: 3px 6px;\n  background: #f3f4f6;\n  border-radius: 4px;\n  font-size: 10px;\n}\n\n.dark .activity-item,\n.heatmap-container.dark .activity-item {\n  background: #2d3449;\n}\n\n.activity-date {\n  color: #6b7280;\n}\n\n.dark .activity-date,\n.heatmap-container.dark .activity-date {\n  color: #9ca3af;\n}\n\n.activity-count {\n  font-weight: 500;\n  color: #3b82f6;\n}\n\n.dark .activity-count,\n.heatmap-container.dark .activity-count {\n  color: #60a5fa;\n}\n\n@media (max-width: 640px) {\n  .heatmap-container {\n    padding: 8px;\n    width: 100%;\n    box-sizing: border-box;\n  }\n  \n  .heatmap-header {\n    flex-direction: column;\n    gap: 8px;\n    align-items: stretch;\n  }\n  \n  .view-controls {\n    justify-content: center;\n  }\n  \n  .view-btn {\n    padding: 4px 8px;\n    font-size: 10px;\n  }\n  \n  .navigation-controls {\n    justify-content: center;\n  }\n  \n  .weekday-label {\n    font-size: 7px;\n  }\n  \n  .day-name {\n    font-size: 8px;\n  }\n  \n  .day-date {\n    font-size: 10px;\n  }\n  \n  .hour-label-cell {\n    width: 28px;\n    font-size: 8px;\n  }\n  \n  .legend-color {\n    width: 10px;\n    height: 10px;\n  }\n  \n  .heatmap-statistics {\n    flex-wrap: wrap;\n    justify-content: center;\n  }\n  \n  .stat-value {\n    font-size: 12px;\n  }\n  \n  .stat-label {\n    font-size: 8px;\n  }\n  \n  .stat-item {\n    padding: 3px 4px;\n  }\n}\n\n.heatmap-resize-handle {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 16px;\n  height: 16px;\n  cursor: se-resize;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);\n  border-radius: 0 0 8px 0;\n  opacity: 0;\n  transition: opacity 0.2s ease;\n}\n\n.heatmap-container:hover .heatmap-resize-handle {\n  opacity: 1;\n}\n\n.heatmap-resize-handle::before {\n  content: '';\n  width: 8px;\n  height: 8px;\n  border-right: 2px solid rgba(0, 0, 0, 0.2);\n  border-bottom: 2px solid rgba(0, 0, 0, 0.2);\n}\n\n.heatmap-container.dark .heatmap-resize-handle::before {\n  border-color: rgba(255, 255, 255, 0.3);\n}\n\n.year-month-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.year-month-label:hover {\n  color: #3b82f6;\n}\n\n.dark .year-month-label:hover {\n  color: #60a5fa;\n}\n\n.month-week-label {\n  cursor: pointer;\n  transition: color 0.2s ease;\n}\n\n.month-week-label:hover {\n  color: #3b82f6;\n}\n\n.dark .month-week-label:hover {\n  color: #60a5fa;\n}\n/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  overflow-y: visible;\n  overflow-x: hidden;\n  position: relative;\n}\n\n.ltt-milestone-container-inline {\n  padding: 0;\n  border-radius: 0;\n  box-shadow: none;\n  border: none;\n  background: transparent;\n  display: inline-flex;\n  align-items: center;\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== 通用动画 ========== */\n@keyframes ltt-milestone-pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.8;\n    transform: scale(1.02);\n  }\n}\n\n@keyframes ltt-milestone-glow {\n  0%, 100% {\n    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);\n  }\n  50% {\n    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);\n  }\n}\n\n@keyframes ltt-milestone-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.ltt-milestone-pulse {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-glow {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n}\n\n.ltt-milestone-spin {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 8px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-lg);\n  min-width: max-content;\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-node.ltt-milestone-pulse-node .ltt-milestone-symbol {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  min-width: 40px;\n  border-top: 2px dashed;\n  border-bottom: 2px dashed transparent;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 180px;\n  max-width: 280px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: flex-start;\n  gap: var(--ltt-spacing-lg);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  width: 100%;\n  max-width: 100%;\n  box-sizing: border-box;\n  position: relative;\n  margin: 0 var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-badge-item.ltt-milestone-pulse-node .ltt-milestone-badge-number {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin: var(--ltt-spacing-lg) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n  width: auto;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin: var(--ltt-spacing-xs) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n  min-width: max-content;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-dot.ltt-milestone-pulse-dot {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n  min-width: max-content;\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: 12px;\n  background: var(--ltt-bg-primary);\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 140px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease, border-color var(--ltt-transition-fast);\n  position: relative;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-content-horizontal.ltt-milestone-pulse-card {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n/* 第一层：卡片头部 */\n.ltt-milestone-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-status-text {\n  font-size: 11px;\n  font-weight: 600;\n  white-space: nowrap;\n}\n\n.ltt-milestone-card-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 1.5px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n  position: relative;\n}\n\n.ltt-milestone-card-icon.ltt-milestone-spin-icon {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n.ltt-milestone-card-icon-corner {\n  position: absolute;\n  top: 4px;\n  right: 4px;\n  font-size: 12px;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第二层：描述 */\n.ltt-milestone-card-description {\n  font-size: 12px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.4;\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第三层：进度条 */\n.ltt-milestone-card-progress {\n  position: relative;\n  height: 4px;\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-card-progress-bg {\n  position: absolute;\n  inset: 0;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-card-progress-fill {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n/* 第四层：底部 */\n.ltt-milestone-card-footer {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-footer .ltt-milestone-card-date {\n  font-size: 10px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-percent {\n  font-size: 11px;\n  font-weight: 600;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n  min-height: 48px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact-item {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  cursor: pointer;\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-compact-icon {\n  flex-shrink: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-compact-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n}\n\n.ltt-milestone-compact-label {\n  font-size: 9px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n}\n\n.ltt-milestone-compact-status {\n  font-size: 8px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-compact-progress {\n  font-size: 8px;\n}\n\n.ltt-milestone-compact-connector {\n  width: 16px;\n  height: 2px;\n  flex-shrink: 0;\n  border-radius: 1px;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n\n/* ========== Arrow Capsule 样式 ========== */\n.ltt-milestone-arrow-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-track {\n  display: flex;\n  align-items: center;\n  position: relative;\n  padding: 0 var(--ltt-spacing-md);\n  min-width: max-content;\n}\n\n.ltt-milestone-arrow-node {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n  padding: 6px 10px;\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  background: var(--ltt-bg-primary);\n  transition: all var(--ltt-transition-fast);\n}\n\n.ltt-milestone-arrow-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-arrow-node.ltt-milestone-arrow-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-milestone-arrow-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-node-active .ltt-milestone-arrow-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-arrow-icon {\n  font-size: 12px;\n  font-weight: bold;\n}\n\n.ltt-milestone-arrow-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  min-width: 80px;\n}\n\n.ltt-milestone-arrow-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-status {\n  font-size: 10px;\n  font-weight: 500;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-connector {\n  width: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-connector::after {\n  content: '→';\n  font-size: 14px;\n  color: var(--ltt-border);\n}\n\n/* ========== Timeline Track 样式 ========== */\n.ltt-milestone-timeline-track {\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 12px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track-inner {\n  display: flex;\n  align-items: center;\n  min-width: max-content;\n  padding: 0 16px;\n  position: relative;\n}\n\n.ltt-milestone-timeline-node-wrapper {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-timeline-connector {\n  height: 4px;\n  flex: 1;\n  min-width: 40px;\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-connector-left {\n  margin-right: 4px;\n}\n\n.ltt-milestone-timeline-connector-right {\n  margin-left: 4px;\n}\n\n.ltt-milestone-timeline-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n  padding: 6px 6px;\n  border-radius: 10px;\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  transition: all var(--ltt-transition-fast);\n  flex-shrink: 0;\n  cursor: pointer;\n  min-width: 64px;\n}\n\n.ltt-milestone-timeline-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-timeline-node.ltt-milestone-timeline-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n.ltt-milestone-timeline-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  transition: all 0.3s ease;\n}\n\n.ltt-milestone-timeline-node-active .ltt-milestone-timeline-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-timeline-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-timeline-content {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1px;\n  text-align: center;\n}\n\n.ltt-milestone-timeline-label {\n  font-size: 8px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n  word-wrap: break-word;\n  word-break: break-word;\n  max-width: 60px;\n}\n\n.ltt-milestone-timeline-status {\n  font-size: 7px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-timeline-progress {\n  font-size: 7px;\n}\n\n/* ========== Dark Theme Support ========== */\n[data-theme='dark'] .ltt-milestone-container {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n[data-theme='dark'] .ltt-milestone-card-content-horizontal,\n[data-theme='dark'] .ltt-milestone-arrow-node,\n[data-theme='dark'] .ltt-milestone-timeline-node {\n  background: var(--ltt-bg-secondary);\n}\n\n[data-theme='dark'] .ltt-milestone-tooltip {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n/* ========== Compact Tooltip 内容样式（通用） ========== */\n.ltt-milestone-compact-tooltip-content {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-compact-tooltip-label {\n  font-size: 10px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-compact-tooltip-date {\n  font-size: 9px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-compact-tooltip-status {\n  font-size: 9px;\n  font-weight: 500;\n}\n\n.ltt-milestone-compact-tooltip-progress {\n  font-size: 9px;\n}\n\n/* ========== Tooltip 样式变体 ========== */\n\n/* 简约模式 */\n.ltt-milestone-tooltip-minimal {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 6px 10px;\n  min-width: 100px;\n}\n\n.ltt-milestone-tooltip-minimal-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-minimal-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n/* 紧凑模式 */\n.ltt-milestone-tooltip-compact {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  padding: 8px 12px;\n  min-width: 140px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-compact-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-compact-date {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-compact-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-compact-progress {\n  font-size: 10px;\n}\n\n/* 详细模式 */\n.ltt-milestone-tooltip-detailed {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 10px 14px;\n  min-width: 180px;\n  max-width: 240px;\n}\n\n.ltt-milestone-tooltip-detailed-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-tooltip-detailed-label {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-detailed-status {\n  font-size: 10px;\n  font-weight: 600;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-tooltip-detailed-date {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n  font-size: 10px;\n}\n\n.ltt-milestone-tooltip-detailed-date-label {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-date-value {\n  color: var(--ltt-text-primary);\n  font-weight: 400;\n}\n\n.ltt-milestone-tooltip-detailed-progress-section {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.ltt-milestone-tooltip-detailed-progress-label {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar-container {\n  height: 4px;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar {\n  height: 100%;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-tooltip-detailed-progress-value {\n  font-size: 10px;\n  color: var(--ltt-text-primary);\n  font-weight: 600;\n  text-align: right;\n}\n\n/* 优雅模式 */\n.ltt-milestone-tooltip-elegant {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 12px 16px;\n  min-width: 160px;\n  max-width: 260px;\n  background: linear-gradient(135deg, var(--ltt-bg-primary) 0%, var(--ltt-bg-secondary) 100%);\n  border: 1px solid var(--ltt-border);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n\n.ltt-milestone-tooltip-elegant-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 2px;\n}\n\n.ltt-milestone-tooltip-elegant-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  flex-shrink: 0;\n  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);\n}\n\n.ltt-milestone-tooltip-elegant-label {\n  font-size: 13px;\n  font-weight: 700;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-elegant-divider {\n  height: 1px;\n  background: linear-gradient(90deg, transparent, var(--ltt-border), transparent);\n  margin: 2px 0;\n}\n\n.ltt-milestone-tooltip-elegant-row {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 11px;\n}\n\n.ltt-milestone-tooltip-elegant-icon {\n  font-size: 12px;\n  flex-shrink: 0;\n  opacity: 0.7;\n}\n\n.ltt-milestone-tooltip-elegant-text {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.summary-demo {\n  padding: 24px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  width: 100%;\n  margin: 0;\n  box-sizing: border-box;\n}\n\n.summary-demo h2 {\n  margin: 0 0 24px 0;\n  font-size: 1.5rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.summary-config {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 16px;\n  margin-bottom: 24px;\n}\n\n.config-group {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.config-group label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.config-group select,\n.config-group input {\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: border-color 0.2s;\n}\n\n.config-group select:focus,\n.config-group input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.config-row {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 16px;\n}\n\n.generate-btn {\n  padding: 12px 24px;\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n  justify-self: start;\n}\n\n.generate-btn:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n  transform: translateY(-1px);\n}\n\n.generate-btn:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-result {\n  margin-top: 24px;\n  padding: 20px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 12px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.result-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.result-header h3 {\n  margin: 0;\n  font-size: 1.125rem;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.result-header button {\n  padding: 6px 12px;\n  background: transparent;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  font-size: 13px;\n  cursor: pointer;\n  color: var(--ls-primary-text-color, #1f2937);\n  transition: background 0.2s;\n}\n\n.result-header button:hover {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.result-content {\n  max-height: 600px;\n  overflow-y: auto;\n}\n\n.summary-block {\n  padding: 8px 0;\n}\n\n.summary-block-content {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n  line-height: 1.6;\n}\n\n.summary-stats-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 12px;\n  margin: 12px 0;\n}\n\n.summary-stat-card {\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  text-align: center;\n}\n\n.summary-stat-value {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ls-primary-color, #3b82f6);\n  margin-bottom: 4px;\n}\n\n.summary-stat-label {\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #6b7280);\n}\n\n.summary-section {\n  margin: 16px 0;\n  padding: 16px;\n  background: var(--ls-primary-background-color, #fff);\n  border-radius: 8px;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-section h3 {\n  margin: 0 0 12px 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n  border-bottom: 2px solid var(--ls-primary-color, #3b82f6);\n  padding-bottom: 8px;\n}\n\n.dark .summary-demo {\n  background: var(--ls-primary-background-color, #1f2937);\n  border-color: var(--ls-border-color, #374151);\n}\n\n.dark .summary-demo h2,\n.dark .config-group label,\n.dark .summary-block-content,\n.dark .summary-stat-label,\n.dark .result-header h3,\n.dark .result-header button,\n.dark .summary-section h3 {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .config-group select,\n.dark .config-group input,\n.dark .summary-result,\n.dark .summary-stat-card {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .result-header button:hover {\n  background: var(--ls-border-color, #4b5563);\n}\n\n@media (max-width: 768px) {\n  .summary-config {\n    grid-template-columns: 1fr;\n  }\n  \n  .summary-stats-grid {\n    grid-template-columns: 1fr;\n  }\n  \n  .config-row {\n    grid-template-columns: 1fr;\n  }\n}\n/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n/*\n * Logseq slot wrappers are fixed-position stacking contexts. If the wrapper has\n * z-index:auto, the modal-overlay's z-index cannot escape it and later main\n * content (heatmap/block content) can sit above the modal for hit testing.\n */\n#text-toolkit-settings,\n#text-toolkit-comment-app,\n#text-toolkit-summary-modal,\n#text-toolkit-html-viewer {\n  position: fixed;\n  inset: 0;\n  z-index: 10000;\n  pointer-events: none;\n}\n\n#text-toolkit-settings .modal-overlay,\n#text-toolkit-comment-app .modal-overlay,\n#text-toolkit-summary-modal .modal-overlay {\n  pointer-events: auto;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n.switch-label {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.switch-text {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.switch-wrapper {\n  position: relative;\n}\n\n.switch-input {\n  position: absolute;\n  opacity: 0;\n  width: 0;\n  height: 0;\n  margin: 0;\n}\n\n.switch-track {\n  display: block;\n  width: 48px;\n  height: 24px;\n  background: var(--ls-border-color, #d1d5db);\n  border-radius: 12px;\n  transition: background 0.2s ease;\n  cursor: pointer;\n}\n\n.switch-track.checked {\n  background: var(--ls-primary-color, #3b82f6);\n}\n\n.switch-thumb {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n}\n\n.switch-thumb.checked {\n  transform: translateX(24px);\n}\n\n.switch-input:disabled + .switch-track {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.switch-input:disabled + .switch-track .switch-thumb {\n  cursor: not-allowed;\n}\n\n.dark .switch-text {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .switch-track {\n  background: var(--ls-border-color, #4b5563);\n}\n.proxy-settings-modal {\n  padding: 8px 0;\n}\n\n.setting-section {\n  padding: 16px 0;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.setting-section:last-child {\n  border-bottom: none;\n}\n\n.setting-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n\n.setting-section h3 {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.setting-description {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.5;\n}\n\n.proxy-url-input,\n.proxy-token-input {\n  width: 100%;\n  padding: 10px 12px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  margin: 12px 0;\n  transition: border-color 0.2s;\n}\n\n.proxy-url-input:focus,\n.proxy-token-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.proxy-url-input:disabled,\n.proxy-token-input:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.proxy-token-input {\n  font-family: monospace;\n  letter-spacing: 2px;\n}\n\n.connection-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 10px 12px;\n  background: var(--ls-secondary-background-color, #f9fafb);\n  border-radius: 8px;\n  margin-bottom: 16px;\n}\n\n.status-indicator {\n  font-size: 16px;\n  line-height: 1;\n}\n\n.status-text {\n  font-size: 14px;\n  color: var(--ls-primary-text-color, #1f2937);\n}\n\n.connection-actions {\n  display: flex;\n  gap: 12px;\n}\n\n.action-btn {\n  flex: 1;\n  padding: 10px 16px;\n  border: none;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n\n.action-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.action-btn.primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.action-btn.primary:hover:not(:disabled) {\n  background: var(--ls-primary-color-hover, #2563eb);\n}\n\n.action-btn.secondary {\n  background: var(--ls-secondary-background-color, #f9fafb);\n  color: var(--ls-primary-text-color, #1f2937);\n  border: 1px solid var(--ls-border-color, #d1d5db);\n}\n\n.action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #e5e7eb);\n}\n\n.info-section {\n  padding-bottom: 0;\n}\n\n.info-list {\n  margin: 12px 0 0 0;\n  padding-left: 20px;\n  font-size: 14px;\n  color: var(--ls-secondary-text-color, #6b7280);\n  line-height: 1.8;\n}\n\n.info-list li {\n  margin-bottom: 6px;\n}\n\n.dark .setting-section h3,\n.dark .status-text,\n.dark .action-btn.secondary {\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .setting-description,\n.dark .info-list {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.dark .proxy-url-input,\n.dark .proxy-token-input,\n.dark .connection-status,\n.dark .action-btn.secondary {\n  background: var(--ls-secondary-background-color, #374151);\n  border-color: var(--ls-border-color, #4b5563);\n  color: var(--ls-primary-text-color, #f9fafb);\n}\n\n.dark .action-btn.secondary:hover:not(:disabled) {\n  background: var(--ls-border-color, #4b5563);\n}\n/* =========================================================\n   BLOCK VIEW STYLES\n   Advanced View System with Multiple Themes\n\n   特性：\n   1. 优化的视图切换栏\n   2. 多主题支持\n   3. 响应式设计\n   4. Inline 模式支持\n========================================================= */\n\n/* =========================================================\n   VIEW BAR\n========================================================= */\n\n.ltt-view-bar {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 2px 4px;\n  background: var(--ls-secondary-background-color);\n  border: 1px solid var(--ls-border-color);\n  border-radius: 4px;\n  font-size: 9px;\n  width: fit-content;\n  max-width: 100%;\n  flex-wrap: wrap;\n  min-height: 20px;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);\n  transition: all 0.2s ease;\n}\n\n/* Inline mode for view bar */\n.ltt-view-bar-inline {\n  display: inline-flex !important;\n  margin-top: 0 !important;\n  margin-left: 6px !important;\n  padding: 1px 3px !important;\n  border: none !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  min-height: auto !important;\n  vertical-align: middle !important;\n}\n\n.ltt-view-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 2px;\n  padding: 2px 5px;\n  border: none;\n  border-radius: 3px;\n  background: transparent;\n  color: var(--ls-secondary-text-color);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  font-size: 9px;\n  font-weight: 500;\n  line-height: 1.3;\n}\n\n.ltt-view-btn:hover {\n  background: var(--ls-hover-color);\n  color: var(--ls-primary-text-color);\n  transform: translateY(-1px);\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n}\n\n.ltt-view-btn.active {\n  background: var(--ls-primary-text-color, #333333);\n  color: var(--ls-primary-background-color, #ffffff);\n  font-weight: 600;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-view-btn:focus-visible {\n  outline: 2px solid var(--ls-link-text-color, #3b82f6);\n  outline-offset: 1px;\n}\n\n.ltt-view-btn.active:hover {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);\n}\n\n.ltt-view-btn svg {\n  width: 11px;\n  height: 11px;\n  flex-shrink: 0;\n}\n\n.ltt-view-btn span {\n  font-size: 10px;\n}\n\n.ltt-view-bar[data-ltt-empty=\"false\"] .ltt-view-empty-hint {\n  display: none;\n}\n\n.ls-block[data-ltt-hide-view-bar=\"true\"] .ltt-view-bar,\n.ltt-view-bar[data-ltt-hidden=\"true\"] {\n  display: none !important;\n}\n\n.ltt-view-empty-hint {\n  margin-left: 4px;\n  padding-left: 6px;\n  border-left: 1px solid var(--ls-border-color);\n  color: var(--ls-secondary-text-color);\n  font-size: 10px;\n  white-space: nowrap;\n}\n\n/* =========================================================\n   VIEW BAR POSITIONING\n   Place below .block-title-wrap - consistent across all views\n========================================================= */\n\n.block-main-container .ltt-view-bar,\n.ltt-list-root .ltt-view-bar,\n.ltt-table-root .ltt-view-bar,\n.ltt-gallery-root .ltt-view-bar,\n.ltt-board-root .ltt-view-bar,\n.ltt-mindmap-root .ltt-view-bar {\n  display: inline-flex !important;\n  margin-left: 12px !important;\n  vertical-align: middle !important;\n  width: fit-content !important;\n}\n\n.ltt-list-root .lsp-hook-ui-slot ,\n.ltt-table-root .lsp-hook-ui-slot,\n.ltt-gallery-root .lsp-hook-ui-slot,\n.ltt-board-root .lsp-hook-ui-slot,\n.ltt-mindmap-root .lsp-hook-ui-slot {\n    height:36px\n}\n\n\n/* =========================================================\n   LIST VIEW\n========================================================= */\n\n/* List 视图 - 保持默认 Logseq 行为 */\n\n/* =========================================================\n   TABLE VIEW\n========================================================= */\n\n/* Table 视图样式已移到 tableView.css */\n\n/* =========================================================\n   GALLERY VIEW\n========================================================= */\n\n/* Gallery 视图样式已移到 galleryView.css */\n\n/* =========================================================\n   BOARD VIEW\n========================================================= */\n\n/* Board 视图样式已移到 boardView.css */\n\n/* =========================================================\n   MINDMAP VIEW\n========================================================= */\n\n/* Mindmap 视图样式已移到 mindMapView.css */\n\n/* =========================================================\n   THEME PRESETS\n========================================================= */\n\n/* Default Theme */\n.ltt-table-root.ltt-theme-default,\n.ltt-gallery-root.ltt-theme-default,\n.ltt-board-root.ltt-theme-default {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Notion Theme */\n.ltt-table-root.ltt-theme-notion,\n.ltt-gallery-root.ltt-theme-notion,\n.ltt-board-root.ltt-theme-notion {\n  --ltt-primary-color: #2d2d2d;\n}\n\n/* Linear Theme */\n.ltt-table-root.ltt-theme-linear,\n.ltt-gallery-root.ltt-theme-linear,\n.ltt-board-root.ltt-theme-linear {\n  --ltt-primary-color: #5e6ad2;\n}\n\n/* Dark Theme */\n.ltt-table-root.ltt-theme-dark,\n.ltt-gallery-root.ltt-theme-dark,\n.ltt-board-root.ltt-theme-dark {\n  --ltt-primary-color: #3b82f6;\n}\n\n/* Gradient Theme */\n.ltt-table-root.ltt-theme-gradient,\n.ltt-gallery-root.ltt-theme-gradient,\n.ltt-board-root.ltt-theme-gradient {\n  --ltt-primary-color: #8b5cf6;\n}\n\n/* Tana Theme */\n.ltt-table-root.ltt-theme-tana,\n.ltt-gallery-root.ltt-theme-tana,\n.ltt-board-root.ltt-theme-tana,\n.ltt-mindmap-root.ltt-theme-tana {\n  --ltt-primary-color: #10b981;\n}\n\n/* Indigo Theme */\n.ltt-table-root.ltt-theme-indigo,\n.ltt-gallery-root.ltt-theme-indigo,\n.ltt-board-root.ltt-theme-indigo,\n.ltt-mindmap-root.ltt-theme-indigo {\n  --ltt-primary-color: #6366f1;\n}\n\n/* =========================================================\n   ANIMATIONS\n========================================================= */\n\n@keyframes ltt-view-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(-4px);\n  }\n\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-view-bar {\n  animation: ltt-view-fade-in 0.2s ease-out;\n}\n\n/* =========================================================\n   RESPONSIVE\n========================================================= */\n\n@media (max-width: 768px) {\n  .ltt-view-bar {\n    padding: 2px 3px;\n    gap: 1px;\n  }\n\n  .ltt-view-btn {\n    padding: 1px 3px;\n    font-size: 8px;\n  }\n\n  .ltt-view-btn svg {\n    width: 8px;\n    height: 8px;\n  }\n\n  .ltt-view-btn span {\n    font-size: 8px;\n  }\n}.toast-container {\n  position: fixed;\n  z-index: 9999;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 16px;\n  pointer-events: none;\n}\n\n.toast-top-right {\n  top: 0;\n  right: 0;\n}\n\n.toast-top-left {\n  top: 0;\n  left: 0;\n}\n\n.toast-bottom-right {\n  bottom: 0;\n  right: 0;\n}\n\n.toast-bottom-left {\n  bottom: 0;\n  left: 0;\n}\n\n.toast {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  animation: toastEnter 0.3s ease-out;\n  pointer-events: auto;\n  min-width: 200px;\n  max-width: 400px;\n}\n\n.toast-content {\n  flex: 1;\n}\n\n.toast-message {\n  font-size: 14px;\n  line-height: 1.4;\n  color: #fff;\n}\n\n.toast-close {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 18px;\n  cursor: pointer;\n  margin-left: 12px;\n  opacity: 0.8;\n  transition: opacity 0.2s ease;\n}\n\n.toast-close:hover {\n  opacity: 1;\n}\n\n.toast-info {\n  background-color: #3b82f6;\n}\n\n.toast-error {\n  background-color: #ef4444;\n}\n\n.toast-warning {\n  background-color: #f59e0b;\n}\n\n.toast-success {\n  background-color: #10b981;\n}\n\n@keyframes toastEnter {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes toastExit {\n  from {\n    transform: translateX(0);\n    opacity: 1;\n  }\n  to {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n}\n\n.toast-exit {\n  animation: toastExit 0.3s ease-in forwards;\n}/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}.ltt-toolbar-container {\n  position: relative;\n  display: inline-flex;\n  flex-direction: column;\n  gap: 4px;\n  align-items: flex-start;\n  max-width: none;\n  width: auto;\n}\n\n.ltt-toolbar-main {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border-radius: 8px;\n  padding: 4px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 1000;\n  white-space: nowrap;\n  overflow: visible !important;\n  justify-content: flex-start;\n  width: auto !important;\n  min-width: 60px !important;\n  flex-wrap: nowrap;\n  flex-shrink: 0;\n}\n\n.ltt-toolbar-main-item {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  z-index: 1001;\n  flex-shrink: 0;\n}\n.ltt-toolbar-main-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  transform: scale(1.05);\n}\n\n.ltt-toolbar-group {\n  position: relative;\n  z-index: 1002;\n}\n\n.ltt-toolbar-group-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: 2.5px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 0 0 8px 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  min-width: auto;\n  white-space: nowrap;\n  padding: 2px 2px;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  /* 确保下拉菜单不会超出Toolbar的左右边界 */\n  max-width: none;\n}\n.ltt-toolbar-group-dropdown.ltt-no-border {\n  border: none;\n}\n\n.ltt-toolbar-group-item {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  padding: 0;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n  border-radius: 4px;\n  flex-shrink: 0;\n}\n.ltt-toolbar-group-item:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n\n.ltt-toolbar-more {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n  flex-shrink: 0;\n}\n.ltt-toolbar-more:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.ltt-toolbar-more-icon {\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ltt-toolbar-more-dropdown {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  margin-top: 4px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 4px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  z-index: 1004;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: row;\n  gap: 4px;\n  padding: 8px;\n  white-space: nowrap;\n  flex-shrink: 0;\n  overflow: visible;\n  min-width: max-content;\n  width: auto;\n  max-width: none;\n}\n\n.ltt-toolbar-more-dropdown .ltt-toolbar-main-item {\n  position: static;\n}\n\n.ltt-toolbar-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  padding: 4px 8px;\n  background: var(--ls-primary-background-color-plugin, #333);\n  color: var(--ls-primary-text-color-plugin, #fff);\n  border-radius: 4px;\n  font-size: 12px;\n  white-space: nowrap;\n  z-index: 1003;\n  margin-bottom: 4px;\n}\n.ltt-toolbar-tooltip-sub {\n  left: 100%;\n  top: 50%;\n  transform: translateY(-50%);\n  bottom: auto;\n  margin: 0 0 0 4px;\n}\n.ltt-toolbar-tooltip-sub-horizontal {\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  bottom: auto;\n  margin: 4px 0 0;\n}\n\n.ltt-toolbar-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 14px;\n  width: 20px;\n  height: 20px;\n}\n\n.ltt-toolbar-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n\n/* 确保工具栏图标在所有主题下都可见 */\n.ltt-toolbar-container .ltt-toolbar-item-icon,\n.ltt-toolbar-container .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 深色主题下，工具栏使用亮色时图标颜色调整 */\n.ltt-toolbar-container .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n/* 确保图标在深色工具栏主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-item-icon,\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* 确保分组图标在深色主题下可见 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group .ltt-toolbar-item-icon {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n/* ================= DARK ================= */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-main-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-dropdown {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-color: var(--ls-border-color-plugin, #333333);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border-radius: 8px;\n  padding: 6px;\n  gap: 4px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item {\n  border-radius: 6px;\n  width: 24px;\n  height: 24px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-group-item:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more {\n  border-radius: 6px;\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-more:hover {\n  background: var(--ls-secondary-background-color-plugin, #2a2a2a);\n}\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-tooltip {\n  background: var(--ls-primary-background-color-plugin, #1a1a1a);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n  border-radius: 6px;\n  padding: 6px 10px;\n  font-size: 13px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n}\n\n/* 赞助栏样式 */\n.ltt-toolbar-sponsor {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  border: none;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  margin-bottom: 4px;\n  transition: all 0.2s ease;\n  position: relative;\n  z-index: 999;\n  overflow: visible;\n  min-width: 120px;\n  max-width: 300px;\n  flex-shrink: 0;\n  padding: 0;\n}\n\n.ltt-toolbar-sponsor-iframe {\n  width: 100%;\n  height: 36px;\n  border: none;\n  display: block;\n  transition: all 0.2s ease;\n  flex-shrink: 0;\n  min-width: 120px;\n  max-width: 300px;\n}\n\n/* 当工具栏展开时，赞助栏也自适应宽度 */\n.ltt-toolbar-container .ltt-toolbar-sponsor {\n  transition: width 0.2s ease;\n}\n\n/* 确保赞助栏在不同尺寸下都能合理显示 */\n@media (max-width: 480px) {\n  .ltt-toolbar-sponsor {\n    min-width: 100px;\n    max-width: 200px;\n  }\n  .ltt-toolbar-sponsor-iframe {\n    min-width: 100px;\n    max-width: 200px;\n  }\n}\n\n/* 深色主题下的赞助栏样式 */\n.ltt-toolbar-container.ltt-toolbar-dark .ltt-toolbar-sponsor {\n  background: var(--ls-primary-background-color-plugin, #1e1e1e);\n  box-shadow: 0 2px 8px rgba(0,0,0,0.2);\n  border: 1px solid var(--ls-border-color-plugin, #333333);\n  border-radius: 8px;\n}\n/* Custom Select styles */\n.custom-select {\n  position: relative;\n  display: inline-block;\n  min-width: 120px;\n  font-size: 12px;\n  box-sizing: border-box;\n}\n\n.custom-select__control {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 2px 4px;\n  height: 24px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 6px;\n  background-color: #f5f5f5;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.custom-select__control:hover {\n  border-color: #000;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.custom-select__value {\n  flex: 1;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: var(--ls-primary-text-color-plugin, #333);\n  text-align: left;\n}\n\n.custom-select__arrow {\n  margin-left: 8px;\n  font-size: 10px;\n  color: var(--ls-primary-text-color-plugin, #666);\n  transition: transform 0.2s ease;\n}\n\n.custom-select__menu {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  margin-top: 2px;\n  border: 1px solid var(--ls-border-color-plugin, #ccc);\n  border-radius: 12px;\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  z-index: 9999;\n  max-height: 300px;\n  overflow-y: auto;\n  box-sizing: border-box;\n  padding: 8px;\n}\n\n.custom-select__option {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1px 2px;\n  height: 32px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n  white-space: nowrap;\n  color: var(--ls-primary-text-color-plugin, #333);\n  border-radius: 8px;\n  box-sizing: border-box;\n}\n\n.custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.custom-select__option-label {\n  flex: 1;\n  font-size: 12px;\n  text-align: left;\n}\n\n.custom-select__option-checkmark {\n  font-size: 16px;\n  color: #000;\n  font-weight: normal;\n  flex-shrink: 0;\n  width: 20px;\n  text-align: center;\n}\n\n.custom-select__option--selected {\n  background-color: transparent;\n}\n\n.custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n/* Dark mode */\n[data-theme=\"dark\"] .custom-select__control {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__value {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__arrow {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n[data-theme=\"dark\"] .custom-select__menu {\n  border-color: var(--ls-border-color-plugin, #555);\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n[data-theme=\"dark\"] .custom-select__option {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n[data-theme=\"dark\"] .custom-select__option:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}\n\n[data-theme=\"dark\"] .custom-select__option-checkmark {\n  color: #fff;\n}\n\n[data-theme=\"dark\"] .custom-select__option--selected:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n}.flex {\n  display: flex;\n}\n\n.w-full {\n  width: 100%;\n}\n\n.rounded-md {\n  border-radius: 0.375rem;\n}\n\n.border {\n  border-width: 1px;\n}\n\n.border-input {\n  border-color: #e5e7eb;\n}\n\n.bg-background {\n  background-color: #ffffff;\n}\n\n.px-3 {\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n\n.py-2 {\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-sm {\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.ring-offset-background {\n  --tw-ring-offset-color: #ffffff;\n}\n\n.placeholder\\:text-muted-foreground::placeholder {\n  color: #6b7280;\n}\n\n.focus-visible\\:outline-none:focus-visible {\n  outline: none;\n}\n\n.focus-visible\\:ring-2:focus-visible {\n  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);\n  --tw-ring-offset-width: 2px;\n  --tw-ring-offset-color: #ffffff;\n  --tw-ring-color: #3b82f6;\n  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);\n  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);\n  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);\n}\n\n.focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #333333;\n}\n\n[data-theme=\"dark\"] .focus-visible\\:ring-ring:focus-visible {\n  --tw-ring-color: #cccccc;\n}\n\n.focus-visible\\:ring-offset-2:focus-visible {\n  --tw-ring-offset-width: 0px;\n}\n\n.disabled\\:cursor-not-allowed:disabled {\n  cursor: not-allowed;\n}\n\n.disabled\\:opacity-50:disabled {\n  opacity: 0.5;\n}\n\n.resize-y {\n  resize: vertical;\n}\n\n.min-h-\\[30px\\] {\n  min-height: 30px;\n}\n/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n/* ============================================================================\n   Feature Management Grid Styles\n   ============================================================================ */\n\n.ltt-feature-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-feature-card {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: 8px;\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.ltt-feature-card:hover {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);\n}\n\n.ltt-feature-card-active {\n  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(102, 126, 234, 0.02) 100%);\n  border-color: rgba(102, 126, 234, 0.3);\n}\n\n.ltt-feature-icon {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  color: var(--ltt-accent, #667eea);\n}\n\n.ltt-feature-card-active .ltt-feature-icon {\n  background: rgba(102, 126, 234, 0.1);\n  color: var(--ltt-accent, #667eea);\n}\n\n.ltt-feature-info {\n  flex: 1;\n  min-width: 0;\n}\n\n.ltt-feature-name {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  margin-bottom: 4px;\n}\n\n.ltt-feature-desc {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n/* Dark theme */\n[data-theme=\"dark\"] .ltt-feature-card {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card:hover {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card-active {\n  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(102, 126, 234, 0.05) 100%);\n  border-color: rgba(102, 126, 234, 0.4);\n}\n\n[data-theme=\"dark\"] .ltt-feature-icon {\n  background: var(--ltt-bg-tertiary, #111827);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card-active .ltt-feature-icon {\n  background: rgba(102, 126, 234, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-feature-name {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-desc {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* ============================================================================\n   Macro Template Input Styles\n   ============================================================================ */\n\n.ltt-macro-template-input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  width: 100%;\n}\n\n.ltt-macro-template-input {\n  width: 100% !important;\n  max-width: 600px !important;\n  padding: 10px 14px !important;\n  border: 1px solid var(--ltt-border, #d1d5db) !important;\n  border-radius: 8px !important;\n  font-size: 13px !important;\n  font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;\n  background: var(--ltt-bg-primary, white) !important;\n  color: var(--ltt-text-primary, #374151) !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-macro-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;\n}\n\n.ltt-macro-template-input-error {\n  border-color: #ef4444 !important;\n  background: rgba(239, 68, 68, 0.05) !important;\n}\n\n.ltt-macro-template-input-error:focus {\n  border-color: #ef4444 !important;\n  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;\n}\n\n.ltt-macro-template-input-warning {\n  border-color: #f59e0b !important;\n}\n\n.ltt-macro-template-error,\n.ltt-macro-template-warning {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 10px;\n  border-radius: 4px;\n  font-size: 12px;\n  line-height: 1.4;\n}\n\n.ltt-macro-template-error {\n  background: rgba(239, 68, 68, 0.1);\n  color: #dc2626;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n.ltt-macro-template-warning {\n  background: rgba(245, 158, 11, 0.1);\n  color: #d97706;\n  border: 1px solid rgba(245, 158, 11, 0.2);\n}\n\n.ltt-macro-template-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* ============================================================================\n   Default Slash Command Template Input Styles\n   ============================================================================ */\n\n.ltt-default-template-input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n}\n\n.ltt-default-template-input {\n  width: 100% !important;\n  max-width: 600px !important;\n  padding: 10px 14px !important;\n  border: 1px solid var(--ltt-border, #d1d5db) !important;\n  border-radius: 8px !important;\n  font-size: 13px !important;\n  font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;\n  background: var(--ltt-bg-primary, white) !important;\n  color: var(--ltt-text-primary, #374151) !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-default-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;\n}\n\n.ltt-default-template-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n  word-break: break-all;\n}\n\n/* Settings hint consistent style */\n.ltt-settings-hint-small {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* Update ltt-setting-item for column layout for template inputs */\n.ltt-setting-item.ltt-template-setting {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  gap: 8px !important;\n}\n\n/* Settings hint consistent style */\n.ltt-settings-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* Dark theme for macro template input */\n[data-theme=\"dark\"] .ltt-macro-template-input {\n  background: var(--ltt-bg-secondary, #1f2937) !important;\n  border-color: var(--ltt-border, #374151) !important;\n  color: var(--ltt-text-primary, #f3f4f6) !important;\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-input:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-error {\n  background: rgba(239, 68, 68, 0.15);\n  color: #f87171;\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-warning {\n  background: rgba(245, 158, 11, 0.15);\n  color: #fbbf24;\n  border-color: rgba(245, 158, 11, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-hint {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Dark theme for default template input */\n[data-theme=\"dark\"] .ltt-default-template-input {\n  background: var(--ltt-bg-secondary, #1f2937) !important;\n  border-color: var(--ltt-border, #374151) !important;\n  color: var(--ltt-text-primary, #f3f4f6) !important;\n}\n\n[data-theme=\"dark\"] .ltt-default-template-input:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;\n}\n\n[data-theme=\"dark\"] .ltt-default-template-hint {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Responsive styles */\n@media (max-width: 768px) {\n  .ltt-macro-template-input,\n  .ltt-default-template-input {\n    max-width: 100% !important;\n  }\n}\n\n.ltt-setting-item > input[type=\"text\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  width: 40% !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 30px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n/* Macro Template Input Container */\n.ltt-macro-template-input-container {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  width: 40% !important;\n  display: flex !important;\n  flex-direction: column !important;\n}\n\n.ltt-macro-template-input {\n  width: 100% !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 30px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n  border: 1px solid var(--ltt-border, #e5e7eb) !important;\n}\n\n.ltt-macro-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n}\n\n.ltt-macro-template-input-error {\n  border-color: #ef4444 !important;\n}\n\n.ltt-macro-template-input-warning {\n  border-color: #f59e0b !important;\n}\n\n.ltt-macro-template-alert-left {\n  text-align: left !important;\n}\n\n.ltt-macro-template-alert-right {\n  text-align: right !important;\n}\n\n.ltt-macro-template-error,\n.ltt-macro-template-warning,\n.ltt-macro-template-hint {\n  margin-top: 4px !important;\n  font-size: 11px !important;\n  display: flex !important;\n  align-items: center !important;\n  gap: 4px !important;\n}\n\n.ltt-macro-template-error {\n  color: #ef4444 !important;\n}\n\n.ltt-macro-template-warning {\n  color: #f59e0b !important;\n}\n\n.ltt-macro-template-hint {\n  color: var(--ltt-text-muted, #9ca3af) !important;\n}\n\n/* ============================================================================\n * Apple-style Feature Management\n * ============================================================================ */\n\n.ltt-feature-management {\n  margin: 24px 0;\n}\n\n.ltt-feature-management-header {\n  cursor: pointer;\n  user-select: none;\n  padding: 12px 0;\n}\n\n.ltt-feature-management-header:hover {\n  opacity: 0.8;\n}\n\n.ltt-feature-management-title {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-feature-management-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 16px;\n  height: 16px;\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n.ltt-feature-management-title h4 {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n  flex: 1;\n}\n\n.ltt-feature-management-count {\n  font-size: 13px;\n  color: var(--ltt-text-muted, #6b7280);\n  font-weight: 500;\n}\n\n.ltt-feature-management-content {\n  animation: slideDown 0.2s ease-out;\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-8px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-feature-group {\n  margin-bottom: 0;\n}\n\n.ltt-feature-group-title {\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin-bottom: 8px;\n  padding: 0 0;\n}\n\n.ltt-feature-divider {\n  height: 1px;\n  background: var(--ltt-border, #e5e7eb);\n  margin: 0 0;\n}\n\n.ltt-feature-item {\n  display: flex;\n  align-items: center;\n  padding: 12px 0;\n  gap: 12px;\n}\n\n.ltt-feature-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 16px;\n  height: 16px;\n  color: var(--ltt-accent, #667eea);\n  flex-shrink: 0;\n}\n\n.ltt-feature-item-icon-disabled {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n.ltt-feature-item-content {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-feature-item-name {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #1f2937);\n  line-height: 1.4;\n}\n\n.ltt-feature-item-description {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #6b7280);\n  line-height: 1.4;\n}\n\n/* Dark theme for feature management */\n[data-theme=\"dark\"] .ltt-feature-management-title h4 {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-group-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-divider {\n  background: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-feature-item-name {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-item-description {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Custom scrollbar styles */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ltt-text-secondary, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ltt-border, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ltt-border, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ltt-bg-secondary, #f5f5f5);\n  color: var(--ltt-text-secondary, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ltt-bg-hover, #e0e0e0);\n  color: var(--ltt-text-primary, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ltt-bg-primary, #fff);\n  color: var(--ltt-text-primary, #333);\n  border-color: var(--ltt-border, #e0e0e0);\n  border-bottom: 1px solid var(--ltt-bg-primary, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ltt-text-muted, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ltt-text-primary, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch styles */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: var(--ltt-border, #ccc);\n  transition: 0.4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: var(--ltt-bg-primary, white);\n  transition: 0.4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: var(--ltt-accent, #000);\n  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 6px 10px !important;\n  border: 1px solid var(--ltt-border, #ccc) !important;\n  border-radius: 6px !important;\n  font-size: 13px !important;\n  box-sizing: border-box !important;\n  background: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #333) !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #000) !important;\n  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;\n}\n\n.ltt-settings-section {\n  margin: 24px 0;\n  padding: 0;\n}\n\n.ltt-settings-section h4 {\n  margin: 0 0 12px 0;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #333);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n.ltt-section-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #999);\n  margin: 4px 0 12px 0;\n  line-height: 1.4;\n}\n\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));\n  gap: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.ltt-status-color-row input[type=\"color\"] {\n  width: 30px;\n  height: 30px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 6px;\n}\n\n.ltt-status-label {\n  font-size: 13px;\n  color: var(--ltt-text-primary, #333);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 24px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ltt-border, #e0e0e0);\n  display: flex;\n  justify-content: flex-end;\n}\n\n.ltt-settings-btn {\n  padding: 8px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.ltt-settings-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.ltt-settings-btn-save {\n  background-color: var(--ltt-accent, #000);\n  color: var(--ltt-bg-primary, #fff);\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  opacity: 0.9;\n  transform: translateY(-1px);\n}\n\n/* Milestone Base Section Styles */\n.ltt-milestone-base-section {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n  margin-bottom: 24px;\n  padding: 0;\n}\n\n.ltt-milestone-color-grid-compact {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));\n  gap: 12px;\n}\n\n.ltt-milestone-color-item-compact {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 6px 10px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n}\n\n.ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact {\n  background: var(--ltt-bg-primary, #1e1e1e);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"] {\n  width: 24px;\n  height: 24px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 4px;\n}\n\n.ltt-milestone-color-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-dot {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.ltt-milestone-color-label {\n  font-size: 12px;\n  color: var(--ltt-text-secondary, #6b7280);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-label {\n  color: var(--ltt-text-secondary, #a0aec0);\n}\n\n/* Template Color Section */\n.ltt-milestone-template-color-section {\n  margin-top: 24px;\n  padding-top: 20px;\n  border-top: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-section {\n  border-top-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-template-color-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.ltt-milestone-template-color-title {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-template-color-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  background: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 2px 8px;\n  border-radius: 10px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-hint {\n  background: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n/* Milestone Templates Section Styles */\n.ltt-milestone-templates-section {\n  margin-bottom: 24px;\n}\n\n.ltt-milestone-templates-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n  padding-bottom: 12px;\n  border-bottom: 2px solid var(--ltt-border, #e5e7eb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-header {\n  border-bottom-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-templates-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-add-template-btn {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 14px;\n  background: var(--ltt-accent, #667eea);\n  color: var(--ltt-bg-primary, white);\n  border: none;\n  border-radius: var(--ltt-radius-md, 8px);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(102, 126, 234, 0.3));\n}\n\n.ltt-milestone-add-template-btn:hover {\n  transform: translateY(-1px);\n  box-shadow: var(--ltt-shadow-md, 0 4px 12px rgba(102, 126, 234, 0.4));\n}\n\n.ltt-milestone-add-icon {\n  width: 14px;\n  height: 14px;\n}\n\n/* Template Card Styles */\n.ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-xl, 12px);\n  margin-bottom: 12px;\n  transition: all 0.2s ease;\n  overflow: hidden;\n}\n\n.ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, #1a1a1a);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-template-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  background: var(--ltt-bg-secondary, #fafafa);\n  border-bottom: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-header {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-bottom-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-template-info {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex: 1;\n}\n\n.ltt-milestone-template-number {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 28px;\n  height: 28px;\n  background: linear-gradient(135deg, var(--ltt-accent, #111827) 0%, var(--ltt-accent-hover, #374151) 100%);\n  color: var(--ltt-bg-primary, white);\n  font-size: 13px;\n  font-weight: 600;\n  border-radius: var(--ltt-radius-md, 6px);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-name-input {\n  flex: 1;\n  padding: 6px 10px;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #111827);\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n  min-width: 0;\n}\n\n.ltt-milestone-template-name-input:hover {\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-border, #e5e7eb);\n}\n\n.ltt-milestone-template-name-input:focus {\n  outline: none;\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.05);\n}\n\n.ltt-milestone-template-id {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  font-family: ui-monospace, Monaco, 'SF Mono', monospace;\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 4px 8px;\n  border-radius: var(--ltt-radius-sm, 4px);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-id {\n  background-color: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n.ltt-milestone-template-actions {\n  display: flex;\n  gap: 8px;\n}\n\n.ltt-milestone-action-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  background-color: transparent;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 8px);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  border-color: var(--ltt-border-strong, #d1d5db);\n  color: var(--ltt-text-primary, #111827);\n}\n\n.ltt-milestone-action-btn:active {\n  transform: scale(0.95);\n}\n\n.ltt-milestone-action-btn-delete:hover {\n  background-color: var(--ltt-error, #fef2f2);\n  border-color: var(--ltt-error, #fecaca);\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-action-btn-collapse:hover {\n  background-color: var(--ltt-bg-hover, #e0e7ff);\n  border-color: var(--ltt-accent, #667eea);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn {\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border-strong, #4b5568);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-delete:hover {\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.3);\n  color: var(--ltt-error, #fca5a5);\n}\n\n.ltt-milestone-template-card-expanded {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-md, 0 8px 24px rgba(0, 0, 0, 0.12));\n}\n\n.ltt-milestone-template-card-body {\n  padding: 24px 20px;\n  background: var(--ltt-bg-primary, white);\n  animation: slideDown 0.2s ease-out;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-body {\n  background: var(--ltt-bg-primary, #111827);\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-milestone-form-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 20px;\n}\n\n.ltt-milestone-form-item {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.ltt-milestone-form-item-full {\n  grid-column: 1 / -1;\n}\n\n.ltt-milestone-form-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #374151);\n  letter-spacing: 0.1px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-label {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-form-label-required:after {\n  content: \" *\";\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-form-input {\n  width: 100%;\n  padding: 10px 14px;\n  font-size: 14px;\n  color: var(--ltt-text-primary, #111827);\n  background-color: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #d1d5db);\n  border-radius: var(--ltt-radius-md, 8px);\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #9ca3af);\n}\n\n.ltt-milestone-form-input:focus {\n  outline: none;\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);\n}\n\n.ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input {\n  background-color: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #4b5568);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:focus {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #6b7280);\n}\n\n/* Template Display Row - 3 items in a row on wide screens */\n.ltt-milestone-template-display-row {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n  grid-column: 1 / -1;\n}\n\n@media (max-width: 900px) {\n  .ltt-milestone-template-display-row {\n    grid-template-columns: 1fr;\n  }\n}\n\n/* Form Hints - Smaller & Lighter */\n.ltt-milestone-form-hint {\n  font-size: 10px;\n  color: var(--ltt-text-muted, #c0c4cc);\n  margin-top: 4px;\n  font-weight: 400;\n  line-height: 1.3;\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-hint {\n  color: var(--ltt-text-muted, #6a7280);\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #f9fafb) 0%, var(--ltt-bg-tertiary, #f3f4f6) 100%);\n  border-radius: var(--ltt-radius-xl, 12px);\n  border: 2px dashed var(--ltt-border, #d1d5db);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates {\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #1f2937) 0%, var(--ltt-bg-tertiary, #111827) 100%);\n  border-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-empty-icon {\n  color: var(--ltt-text-muted, #9ca3af);\n  margin-bottom: 12px;\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates-text {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ltt-text-secondary, #6b7280);\n  text-align: center;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates-text {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n/* Error Styles */\n.ltt-milestone-input-error {\n  border-color: var(--ltt-error, #dc2626) !important;\n  background-color: rgba(220, 38, 38, 0.05) !important;\n}\n\n.ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;\n}\n\n.ltt-milestone-error-message {\n  font-size: 12px;\n  color: var(--ltt-error, #dc2626);\n  margin-top: 2px;\n  padding: 4px 8px;\n  background-color: rgba(220, 38, 38, 0.05);\n  border-radius: 4px;\n  border: 1px solid rgba(220, 38, 38, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error {\n  border-color: var(--ltt-error, #fca5a5) !important;\n  background-color: rgba(239, 68, 68, 0.1) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-error-message {\n  color: var(--ltt-error, #fca5a5);\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(252, 165, 165, 0.2);\n}\n\n/* Responsive Styles */\n@media (max-width: 768px) {\n  .ltt-milestone-templates-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: flex-start;\n  }\n\n  .ltt-milestone-add-template-btn {\n    width: 100%;\n    justify-content: center;\n  }\n\n  .ltt-milestone-form-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .ltt-milestone-template-card-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: stretch;\n  }\n\n  .ltt-milestone-template-actions {\n    justify-content: flex-end;\n  }\n\n  .ltt-milestone-template-info {\n    flex-wrap: wrap;\n  }\n\n  .ltt-milestone-error-message {\n    width: 100%;\n  }\n}\n\n/* ============================================================================\n   Toolbar Settings - JSON Editor Styles (Restored from v1.1.6)\n   ============================================================================ */\n\n/* Toolbar-specific styles */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON Editor Container */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n/* JSON Editor */\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ltt-border, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  background-color: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #3b82f6) !important;\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;\n}\n\n/* JSON Error Message */\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: var(--ltt-error, #ef4444);\n  margin-bottom: 12px;\n  padding: 8px 12px;\n  background-color: rgba(239, 68, 68, 0.1);\n  border-radius: 4px;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n/* JSON Editor Hint */\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 20px;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 6px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #374151);\n  font-weight: 600;\n}\n\n/* Dark Theme for JSON Editor */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ltt-bg-secondary, #1f2937) !important;\n  border: 1px solid var(--ltt-border, #374151) !important;\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ltt-text-primary, #e5e7eb) !important;\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-json-error {\n  background-color: rgba(239, 68, 68, 0.15);\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint {\n  background: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint ul {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n/* Responsive Styles for Toolbar Settings */\n@media (max-width: 768px) {\n  #ltt-toolbar-settings .ltt-settings-tab-content {\n    padding: 0 4px;\n  }\n\n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n  }\n\n  .ltt-setting-item.ltt-setting-item-json {\n    margin-bottom: 16px;\n  }\n}\n\n@media (max-width: 480px) {\n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n}\n/* 基础容器 */\n.ls-block:has(.ltt-summary-page) {\n  --card-radius: 10px;\n  --card-gap: 12px;\n  --tag-blue: #4387ff;\n  --tag-green: #10b981;\n  --tag-yellow: #f59e0b;\n  --tag-purple: #8b5cf6;\n  --tag-pink: #ec4899;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: var(--ls-secondary-background-color, #f8f9fa) !important;\n  padding: 24px 16px !important;\n  border-radius: 12px !important;\n  text-align: center !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(25% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  transition: all 0.3s ease !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"]:hover {\n  transform: translateY(-4px) !important;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(50% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 20px !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 12px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 8px !important;\n}\n\n/* 隐藏圆点箭头 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(1) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n/* ==================================\n3. 热门标签 → 彩色标签样式\n=================================== */\n/* .ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-children {\n  display: flex !important;\n  flex-wrap: nowrap !important;\n   gap: 8px !important;\n  flex-direction: row !important;\n   width: 100% !important;\n  overflow: visible !important;\n} */\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"] {\n  /* background: var(--ls-secondary-background-color, #ffffff) !important; */\n  /* padding: 24px !important; */\n  /* border-radius: 12px !important; */\n  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important; */\n  /* border: 1px solid rgba(0, 0, 0, 0.05) !important; */\n  display: inline-block !important;\n  width: calc(15% - 16px) !important;\n  /* margin: 8px !important; */\n  /* vertical-align: top !important; */\n  min-height: 8px !important;\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  position: static !important;\n  vertical-align: top !important; */\n\n  /* display: inline-flex !important;\n  width: auto !important;\n  flex: none !important;\n  background: transparent !important;\n  padding: 0 !important;\n  margin: 0 !important;\n  box-shadow: none !important;\n  border: none !important;\n  min-height: unset !important;\n  white-space: nowrap !important; */\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-content .block-title-wrap {\n  display: inline-block !important;\n  padding: 6px 14px !important;\n  border-radius: 999px !important;\n  font-size: 13px !important;\n  font-weight: 500 !important;\n  color: #fff !important;\n  white-space: nowrap !important;\n}\n\n/* 自动给不同标签上色 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(1) .block-title-wrap {\n  background: var(--tag-blue);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(2) .block-title-wrap {\n  background: var(--tag-green);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(3) .block-title-wrap {\n  background: var(--tag-yellow);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(4) .block-title-wrap {\n  background: var(--tag-purple);\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .ls-block[level=\"3\"]:nth-child(5) .block-title-wrap {\n  background: var(--tag-pink);\n}\n\n/* 隐藏圆点 */\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(1) .bullet-link-wrap {\n  display: none !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"1\"]:nth-of-type(4) .ls-block[level=\"2\"]:nth-of-type(2) .ls-block[level=\"3\"] {\n  background: var(--ls-secondary-background-color, #ffffff) !important;\n  padding: 24px !important;\n  border-radius: 12px !important;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n  display: inline-block !important;\n  width: calc(20% - 16px) !important;\n  margin: 8px !important;\n  vertical-align: top !important;\n  min-height: 30px !important;\n}\n\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-control-wrap,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .bullet-link-wrap {\n  display: none !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] .block-content-wrapper {\n  padding-left: 0 !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] table {\n  width: 100% !important;\n  border-collapse: collapse !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th,\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] td {\n  padding: 8px 12px !important;\n  text-align: left !important;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;\n}\n\n.ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(59, 130, 246, 0.08) !important;\n  font-weight: 600 !important;\n  font-size: 13px !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n  background: rgba(45, 52, 73, 0.8) !important;\n  border-color: rgba(255, 255, 255, 0.1) !important;\n}\n\n.dark .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] th {\n  background: rgba(96, 165, 250, 0.15) !important;\n}\n\n@media (max-width: 900px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(50% - 16px) !important;\n  }\n\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"3\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n@media (max-width: 500px) {\n  .ls-block:has(.ltt-summary-page) .ls-block[level=\"4\"] {\n    width: calc(100% - 16px) !important;\n  }\n}\n\n/* Summary Modal Styles */\n/* 这个 CSS 文件定义了 Summary Modal 的样式，确保在不同主题下都有良好的视觉效果。 */\n\n.summary-modal-container {\n  width: 100%;\n  padding: 12px 16px;\n}\n\n.summary-content {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.summary-section {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n\n.summary-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ls-primary-text-color, #333);\n}\n\n.summary-label-small {\n  font-size: 12px;\n  font-weight: 400;\n  color: var(--ls-secondary-text-color, #666);\n}\n\n.custom-dates {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 12px;\n}\n\n.summary-date-field {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.summary-input {\n  width: 100%;\n  padding: 6px 10px;\n  font-size: 13px;\n  border: 1px solid var(--ls-border-color, #d1d5db);\n  border-radius: 6px;\n  background: var(--ls-secondary-background-color, #fff);\n  color: var(--ls-primary-text-color, #333);\n  transition: border-color 0.2s ease;\n}\n\n.summary-input:focus {\n  outline: none;\n  border-color: var(--ls-primary-color, #3b82f6);\n}\n\n.summary-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 8px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n.summary-btn {\n  padding: 8px 16px;\n  font-size: 13px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #f3f4f6);\n  color: var(--ls-primary-text-color, #374151);\n}\n\n.summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #e5e7eb);\n}\n\n.summary-btn-primary {\n  background: var(--ls-primary-color, #3b82f6);\n  color: white;\n}\n\n.summary-btn-primary:hover:not(:disabled) {\n  background: #2563eb;\n}\n\n.summary-btn-primary:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label {\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-label-small {\n  color: var(--ls-secondary-text-color, #9ca3af);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-input {\n  background: var(--ls-secondary-background-color, #1f2937);\n  color: var(--ls-primary-text-color, #f3f4f6);\n  border-color: var(--ls-border-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel {\n  background: var(--ls-secondary-background-color, #374151);\n  color: var(--ls-primary-text-color, #e5e7eb);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-btn-cancel:hover {\n  background: var(--ls-tertiary-background-color, #4b5563);\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-actions {\n  border-top-color: var(--ls-border-color, #4b5563);\n}\n.summary-error {\n  margin: 4px 0 8px;\n  color: #dc2626;\n  font-size: 12px;\n  line-height: 1.45;\n}\n\n.summary-modal-container[data-theme=\"dark\"] .summary-error {\n  color: #f87171;\n}\n/*$vite$:1*/";document.head.appendChild(__vite_style__);
 
   function _mergeNamespaces(n, m) {
     m.forEach(function (e) {
@@ -1105,6 +1105,19 @@
   		promptTemplate: ""
   	}
   };
+  const htmlViewer = {
+  	enabled: true,
+  	defaultSide: "right",
+  	defaultWidth: 56,
+  	allowScripts: false,
+  	allowRemote: false,
+  	writeAnnotationsToGraph: true,
+  	annotationPagePrefix: "HTML 标注 - ",
+  	showToolbarButton: true,
+  	dashboardAsset: "",
+  	dashboardFullscreen: true,
+  	defaultSlashCommandTemplate: ":html-viewer"
+  };
   const milestone = {
   	enabled: true,
   	defaultStyle: "capsule",
@@ -1402,6 +1415,7 @@
   	heatmap: heatmap,
   	blockView: blockView,
   	summary: summary,
+  	htmlViewer: htmlViewer,
   	milestone: milestone,
   	meta: meta,
   	ToolbarItems: ToolbarItems
@@ -1411,7 +1425,7 @@
 
   const SETTINGS_KEY = "text-toolkit-settings";
   const settingsChangeHandlers = [];
-  let currentSettings;
+  let currentSettings$1;
   const loadSettings = () => {
     try {
       const saved = localStorage.getItem(SETTINGS_KEY);
@@ -1430,16 +1444,16 @@
       console.error("Failed to save settings:", e);
     }
   };
-  currentSettings = loadSettings();
+  currentSettings$1 = loadSettings();
   const getSettings$1 = () => {
-    return currentSettings;
+    return currentSettings$1;
   };
   const updateSettings$1 = async (newSettings) => {
     console.log("Updated settings:", newSettings);
-    const oldSettings = { ...currentSettings };
-    Object.assign(currentSettings, newSettings);
-    saveSettings(currentSettings);
-    settingsChangeHandlers.forEach((cb) => cb(currentSettings, oldSettings));
+    const oldSettings = { ...currentSettings$1 };
+    Object.assign(currentSettings$1, newSettings);
+    saveSettings(currentSettings$1);
+    settingsChangeHandlers.forEach((cb) => cb(currentSettings$1, oldSettings));
   };
   const onSettingsChanged = (cb) => {
     console.log("Registered settings change handler");
@@ -1926,10 +1940,6 @@
   };
   let logseqAPI$1 = getLogseqAPI();
 
-  var jsxRuntime = {exports: {}};
-
-  var reactJsxRuntime_production_min = {};
-
   var react = {exports: {}};
 
   var react_production_min = {};
@@ -1972,6 +1982,10 @@
     __proto__: null,
     default: React
   }, [reactExports]);
+
+  var jsxRuntime = {exports: {}};
+
+  var reactJsxRuntime_production_min = {};
 
   /**
    * @license React
@@ -2719,6 +2733,2463 @@
     return Array.from(registeredSchemas.keys());
   }
 
+  function waitForElementById(id, timeoutMs = 1500, intervalMs = 30) {
+    return new Promise((resolve) => {
+      const find = () => {
+        try {
+          return getDocument()?.getElementById(id) ?? null;
+        } catch {
+          return null;
+        }
+      };
+      const immediate = find();
+      if (immediate) {
+        resolve(immediate);
+        return;
+      }
+      const startedAt = Date.now();
+      const timer = setInterval(() => {
+        const element = find();
+        if (element) {
+          clearInterval(timer);
+          resolve(element);
+          return;
+        }
+        if (Date.now() - startedAt >= timeoutMs) {
+          clearInterval(timer);
+          resolve(null);
+        }
+      }, intervalMs);
+    });
+  }
+
+  const taskProgress$2 = {
+  	nestingLevel: "Nesting Level"
+  };
+  const toolbar$2 = {
+  	bold: "Bold",
+  	highlight: "Highlight",
+  	fileLink: "File Link",
+  	comment: "Comment",
+  	noSelection: "Please select the text to process",
+  	replaceFailed: "Text replacement failed",
+  	noBlockContent: "Cannot get block content",
+  	noPluginCommand: "External plugin command is not configured",
+  	pluginCommandSuccess: "External plugin command executed successfully",
+  	pluginCommandFailed: "External plugin command failed",
+  	pluginNotInstalled: "External plugin {{pluginId}} is not installed or is disabled",
+  	buttonTooltip: "✨ Text Toolkit Plugin - Make your notes more interesting!"
+  };
+  const inlineComment$2 = {
+  	text: "Text",
+  	placeholder: "Enter your comment or annotation...",
+  	save: "Inline Comment",
+  	title: "Add Annotation",
+  	addComment: "Add Comment",
+  	selectedText: "Selected Text",
+  	annotate: "Annotate",
+  	comment: "Comment"
+  };
+  const comment$2 = {
+  	title: "Add Comment"
+  };
+  const modal$2 = {
+  	placeholder: "Please enter content"
+  };
+  const settings$2 = {
+  	featuresTitle: "Features",
+  	featuresHint: "Disabling a feature will hide its settings tab and disable the feature globally",
+  	features: {
+  		enabled: "Enabled",
+  		disabled: "Disabled",
+  		toolbarDescription: "Customize toolbar display",
+  		taskProgressDescription: "Project progress statistics and display",
+  		heatmapDescription: "Activity and behavior analysis",
+  		blockViewDescription: "Multiple content display modes",
+  		milestoneDescription: "Project phase tracking",
+  		summaryDescription: "Automatic summarization and induction",
+  		htmlViewerDescription: "HTML attachment preview, text annotations and notes"
+  	},
+  	"default": "Default",
+  	toolbar: "Toolbar",
+  	title: "Settings",
+  	tabs: {
+  		general: "⚙️ General Settings",
+  		toolbar: "🛠️ Toolbar Settings",
+  		taskProgress: "📊 Task Progress",
+  		heatmap: "📈 Heatmap",
+  		blockView: "📋 Block View",
+  		summary: "📝 Summary Generator",
+  		milestone: "🎯 Milestone",
+  		htmlViewer: "🌐 HTML Viewer",
+  		advanced: "⚡ Other Settings"
+  	},
+  	saveSuccessRestart: "Saved successfully, please restart the application to take effect",
+  	generalSettings: "General Settings",
+  	theme: "Theme",
+  	themeFollowSystem: "Follow System",
+  	language: "Language",
+  	languageFollowSystem: "Follow System",
+  	toolbarSettings: "Toolbar Settings",
+  	enabled: "Enable",
+  	disabled: "Disable",
+  	showBorder: "Show Border",
+  	width: "Width",
+  	height: "Height",
+  	hoverDelay: "Hover Delay (ms)",
+  	toolbarShortcut: "Toolbar Shortcut",
+  	toolbarShortcutPlaceholder: "Please enter shortcut",
+  	sponsorEnabled: "Sponsor Bar",
+  	developerMode: "Developer Mode",
+  	toolbarElements: "Toolbar Elements",
+  	addNewItem: "Add New Item",
+  	addItem: "Add Item",
+  	label: "Label",
+  	icon: "Icon",
+  	funcmode: "Function Mode",
+  	confirmDeleteItem: "Are you sure you want to delete this toolbar item?",
+  	jsonSettings: "JSON Settings",
+  	applyJson: "Apply JSON",
+  	resetToDefault: "Reset to Default",
+  	cancel: "Cancel",
+  	save: "Save",
+  	saving: "Saving...",
+  	loading: "Loading settings...",
+  	error: "Failed to load settings",
+  	confirmReset: "Are you sure you want to reset all settings to default values?",
+  	confirmResetItems: "Are you sure you want to reset toolbar elements to default values?",
+  	subtitle: "Manage various configurations of the application, each area can be saved independently",
+  	generalSettingsDescription: "Configure the theme and language of the application",
+  	toolbarSettingsDescription: "Configure the display and behavior of the toolbar",
+  	toolbarElementsConfig: "Elements Configuration",
+  	toolbarGroupFormat: "Group Format",
+  	toolbarSingleElement: "Single Element",
+  	toolbarHiddenElement: "Hidden Element",
+  	toolbarBindingShortcut: "Bind Shortcut",
+  	advancedSettings: "Advanced Settings",
+  	advancedSettingsDescription: "Advanced feature configurations to be added",
+  	lightTheme: "Light",
+  	darkTheme: "Dark",
+  	chinese: "简体中文",
+  	english: "English",
+  	japanese: "日本語",
+  	saveGeneralSettings: "Save General Settings",
+  	saveToolbarSettings: "Save Toolbar Settings",
+  	macroTemplate: {
+  		hint: "Format: :macro, param1=value1, param2=value2. Leave empty to use default.",
+  		prefixRequired: "Must start with macro prefix (e.g., :taskprogress)",
+  		invalidFormat: "Invalid template format",
+  		unknownParam: "Contains unknown parameters"
+  	},
+  	saveSuccess: "Saved successfully!",
+  	settingsNotConfigured: "This settings area is not configured yet",
+  	comingSoon: "More features coming soon...",
+  	taskProgressDescription: "Configure the display mode and behavior of task progress tracking.",
+  	milestoneDescription: "Configure default behavior and display style for milestone components.",
+  	taskProgress: {
+  		enabled: "Enable Task Progress Feature",
+  		defaultSlashCommandTemplate: "Default Slash Command Template",
+  		nestingSettings: "Nesting Settings",
+  		nestingLevel: "Nesting Level",
+  		nestingLevel1: "Current Level Only",
+  		nestingLevel2: "2 Levels Deep",
+  		nestingLevel3: "3 Levels Deep",
+  		nestingLevelAll: "All Levels",
+  		onlyLeaves: "Count Only Leaf Tasks",
+  		onlyLeavesDescription: "Only count tasks without subtasks",
+  		showNestingIndicator: "Show Nesting Indicator",
+  		showNestingIndicatorDescription: "Display task nesting depth indicator",
+  		defaultDisplayType: "Default Display Type",
+  		miniCircle: "Mini Circle",
+  		dotMatrix: "Dot Matrix",
+  		statusCursor: "Status Cursor",
+  		progressCapsule: "Progress Capsule",
+  		stepProgress: "Step Progress",
+  		size: "Component Size",
+  		sizeSmall: "Small",
+  		sizeMedium: "Medium",
+  		sizeLarge: "Large",
+  		showLabel: "Show Label",
+  		fireworksOnComplete: "Fireworks on Complete All Tasks",
+  		labelFormat: "Label Format",
+  		labelFraction: "Fraction (10/20)",
+  		labelPercentage: "Percentage (50%)",
+  		labelBoth: "Both (10/20 50%)",
+  		statusColors: "Status Colors",
+  		statusColorsHint: "Click color to change, more statuses can be configured in settings.json",
+  		statusNames: {
+  			todo: "To Do",
+  			doing: "In Progress",
+  			"in-review": "In Review",
+  			done: "Done",
+  			waiting: "Waiting",
+  			canceled: "Canceled"
+  		},
+  		tooltip: {
+  			progress: "Progress",
+  			total: "Total"
+  		}
+  	},
+  	saveTaskProgressSettings: "Save Task Progress Settings",
+  	saveHeatmapSettings: "Save Heatmap Settings",
+  	saveBlockViewSettings: "Save Block View Settings",
+  	saveSummarySettings: "Save Summary Settings",
+  	blockView: {
+  		description: "Configure the global default behavior of the block view module.",
+  		enabled: "Enable Block View",
+  		defaultView: "Default View Type",
+  		viewList: "List",
+  		viewTable: "Table",
+  		viewGallery: "Gallery",
+  		viewBoard: "Kanban",
+  		hideViewBar: "Hide View Switcher Bar",
+  		hideViewBarDescription: "When hidden, default view will be used. You can still switch views with view=xxx parameter",
+  		inline: "Inline Mode",
+  		defaultSlashCommandTemplate: "Default Slash Command Template",
+  		defaultTheme: "Default Theme",
+  		themeDefault: "Default",
+  		themeNotion: "Notion",
+  		themeLinear: "Linear",
+  		themeDark: "Dark",
+  		themeGradient: "Gradient",
+  		themeTana: "Tana",
+  		themeCustom: "Custom",
+  		table: {
+  			title: "📊 Table Settings",
+  			showStriped: "Show Striped Rows",
+  			showBorder: "Show Borders",
+  			customTheme: {
+  				title: "🔧 Custom Theme Configuration",
+  				borderColor: "Border Color",
+  				headerBgColor: "Header Background",
+  				headerTextColor: "Header Text Color",
+  				cellTextColor: "Cell Text Color",
+  				headerBorderColor: "Header Border Color",
+  				headerHeight: "Header Height",
+  				rowBgColor: "Row Background",
+  				rowHoverBgColor: "Row Hover Background",
+  				rowBorderColor: "Row Border Color",
+  				cellPadding: "Cell Padding",
+  				tableBorderRadius: "Table Border Radius"
+  			}
+  		},
+  		gallery: {
+  			title: "🖼️ Gallery Settings",
+  			showCardBorders: "Show Card Borders",
+  			cardsPerRow: "Cards Per Row",
+  			customTheme: {
+  				title: "🔧 Custom Theme Configuration",
+  				borderColor: "Border Color",
+  				cardBgColor: "Card Background",
+  				cardHoverBgColor: "Card Hover Background",
+  				headerBorderColor: "Header Border Color",
+  				headerBgColor: "Header Background",
+  				headerTextColor: "Header Text Color",
+  				cardTextColor: "Card Text Color",
+  				cardBorderRadius: "Card Border Radius",
+  				cardShadow: "Card Shadow"
+  			}
+  		},
+  		board: {
+  			title: "📋 Kanban Settings",
+  			showColumnBorders: "Show Column Borders",
+  			cardSpacing: "Card Spacing",
+  			customTheme: {
+  				title: "🔧 Custom Theme Configuration",
+  				borderColor: "Border Color",
+  				columnBgColor: "Column Background",
+  				columnHoverBgColor: "Column Hover Background",
+  				headerBgColor: "Header Background",
+  				headerTextColor: "Header Text Color",
+  				cardBgColor: "Card Background",
+  				cardTextColor: "Card Text Color",
+  				cardBorderColor: "Card Border Color",
+  				cardBorderRadius: "Card Border Radius"
+  			}
+  		},
+  		emptyHint: "Add child blocks to use this view"
+  	},
+  	heatmap: {
+  		description: "Configure heatmap display functionality and appearance.",
+  		enabled: "Enable Heatmap Feature",
+  		defaultSlashCommandTemplate: "Default Slash Command Template",
+  		defaultViewType: "Default View",
+  		viewTypeYear: "Year View",
+  		viewTypeMonth: "Month View",
+  		viewTypeWeek: "Week View",
+  		defaultDisplayMode: "Default Display Mode",
+  		displayModeFull: "Full Mode",
+  		displayModeBasic: "Basic Mode",
+  		displayModeMinimal: "Minimal Mode",
+  		defaultColorFormula: "Color Calculation Formula",
+  		colorFormulaSimple: "Simple Mode",
+  		colorFormulaWeighted: "Weighted Mode",
+  		colorScheme: "Color Scheme",
+  		minColor: "Min Color",
+  		maxColor: "Max Color",
+  		preview: "Preview",
+  		monthPageCreation: "Month Page Creation",
+  		enableMonthPageCreation: "Enable Month Page Creation",
+  		monthTemplateType: "Summary Template",
+  		templateNone: "None",
+  		monthPageNameTemplate: "Page Name Template",
+  		weekPageCreation: "Week Page Creation",
+  		enableWeekPageCreation: "Enable Week Page Creation",
+  		weekTemplateType: "Summary Template",
+  		weekPageNameTemplate: "Page Name Template",
+  		formulaNote: "Simple: count = blocks.length. Weighted: count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1).",
+  		templateNote: "Template variables: {year} - year, {month} - month (01-12), {week} - week number (01-53). Example: {year}-{month} or {year}-W{week}"
+  	},
+  	summary: {
+  		description: "Configure default behavior and parameters for the summary generation feature.",
+  		enabled: "Enable Summary Feature",
+  		defaultTemplate: "Default Template",
+  		defaultType: "Default Summary Type",
+  		dateFormat: "Date Format",
+  		weeklyPageNameTemplate: "Weekly Page Name Template",
+  		weeklyPageNamePlaceholder: "Weekly Summary-{{year}}-W{{week}}",
+  		monthlyPageNameTemplate: "Monthly Page Name Template",
+  		monthlyPageNamePlaceholder: "Monthly Summary-{{year}}-{{month}}",
+  		yearlyPageNameTemplate: "Yearly page name template",
+  		yearlyPageNamePlaceholder: "Yearly Summary-{{year}}",
+  		customPageNameTemplate: "Custom Page Name Template",
+  		customPageNamePlaceholder: "Custom Summary-{{date}}",
+  		pageNameTemplateHelp: "Available placeholders: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
+  		templateGtdWorkReview: "GTD Work Review",
+  		templateMinimalDashboard: "Minimal Dashboard",
+  		templateBulletJournal: "Bullet Journal",
+  		templateOkrReview: "OKR Review",
+  		templateStudySummary: "Study Summary",
+  		typeWeekly: "Weekly",
+  		typeMonthly: "Monthly",
+  		typeYearly: "Yearly",
+  		typeCustom: "Custom",
+  		startDate: "Start Date",
+  		endDate: "End Date",
+  		generate: "Generate summary",
+  		generating: "Generating...",
+  		generateFailed: "Generation failed. Check logs and try again.",
+  		customDateError: "Choose a valid start and end date (start cannot be after end)",
+  		noTemplates: "No templates available for this summary type",
+  		aiFallback: "If the AI request fails, local insights are used instead; summary generation is not blocked.",
+  		aiSettings: "🤖 AI Settings",
+  		aiEnabled: "Enable AI Enhancement",
+  		aiProvider: "AI Provider",
+  		aiProviderOpenAI: "OpenAI",
+  		aiProviderClaude: "Claude",
+  		aiProviderCustom: "Custom",
+  		aiApiKey: "API Key",
+  		aiApiUrl: "API URL",
+  		aiModel: "Model",
+  		aiPromptTemplate: "Prompt Template",
+  		aiPromptPlaceholder: "Please generate a summary based on the following content..."
+  	},
+  	htmlViewer: {
+  		description: "Preview HTML attachments in a side panel, annotate selected text, add notes and write annotations back to the graph.",
+  		defaultSide: "Default side",
+  		sideRight: "Right",
+  		sideLeft: "Left",
+  		defaultWidth: "Default width (%)",
+  		writeAnnotationsToGraph: "Write annotations as graph child blocks (page fallback)",
+  		showToolbarButton: "Show an HTML Viewer button in the top toolbar",
+  		dashboardSection: "Dashboard",
+  		dashboardAsset: "Dashboard HTML attachment",
+  		dashboardAssetPlaceholder: "assets/dashboard.html",
+  		dashboardHint: "Choose the periodically generated HTML. The toolbar button opens it directly; leave empty to open the attachment picker.",
+  		dashboardFullscreen: "Open dashboard fullscreen",
+  		linkUnsupported: "This dashboard link is not supported yet",
+  		dashboardNone: "No dashboard",
+  		annotationPagePrefix: "Annotation page prefix",
+  		openButton: "HTML Viewer",
+  		toolbarLabel: "Open HTML Viewer",
+  		annotationHint: "Prefer child blocks under the HTML asset block; fall back to a \"prefix + filename\" page if the asset block cannot be resolved.",
+  		allowScripts: "Allow HTML scripts (dangerous)",
+  		allowScriptsHint: "Disabled by default. Scripts in HTML can access page context; only open trusted files.",
+  		allowRemote: "Allow remote resources",
+  		allowRemoteHint: "Disabled by default to keep self-contained files offline; remote images/styles/links are stripped.",
+  		assets: "HTML attachments",
+  		search: "Search filename or path",
+  		refresh: "Refresh",
+  		open: "Open",
+  		noAssets: "No .html / .htm attachments in this graph.",
+  		loadError: "Failed to load HTML",
+  		fetchHint: "If the attachment cannot be read, try opening it in the system browser; some Logseq versions do not allow plugins to fetch asset URLs.",
+  		openInBrowser: "Open in system browser",
+  		annotation: "Annotate",
+  		addAnnotation: "Add annotation",
+  		commentPlaceholder: "Write a note (optional)",
+  		saveAnnotation: "Save annotation",
+  		cancel: "Cancel",
+  		deleteAnnotation: "Delete",
+  		annotationList: "Annotations",
+  		noAnnotations: "Select text to add the first annotation.",
+  		anchorLost: "Anchor lost",
+  		deleteConfirm: "Delete this annotation? The linked graph block will also be removed when possible.",
+  		openPage: "Open annotation page",
+  		fullscreen: "Fullscreen",
+  		exitFullscreen: "Exit fullscreen",
+  		close: "Close",
+  		left: "Left",
+  		right: "Right",
+  		annotationSaved: "Annotation saved",
+  		annotationFailed: "Failed to save annotation",
+  		annotationDeleted: "Annotation deleted",
+  		selectionHint: "Select text in the HTML, then click \"Annotate\"",
+  		source: "Source"
+  	},
+  	milestone: {
+  		description: "Configure default behavior and display style for milestone components.",
+  		enabled: "Enable Milestone Feature",
+  		defaultSlashCommandTemplate: "Default Slash Command Template",
+  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
+  		defaultStyle: "Default Display Style",
+  		styleCapsule: "Capsule",
+  		styleBadge: "Badge",
+  		styleTrack: "Track",
+  		styleCard: "Card",
+  		styleCompact: "Compact",
+  		styleArrowCapsule: "Arrow Capsule",
+  		styleTimelineTrack: "Timeline Track",
+  		tooltipStyle: "Tooltip Style",
+  		tooltipStyleMinimal: "Minimal",
+  		tooltipStyleCompact: "Compact",
+  		tooltipStyleDetailed: "Detailed",
+  		tooltipStyleElegant: "Elegant",
+  		inline: "Inline Mode",
+  		showLabel: "Show Labels",
+  		showLabels: "Show Labels",
+  		showProgress: "Show Progress",
+  		templates: "Predefined Templates",
+  		addTemplate: "Add Template",
+  		noTemplates: "No templates yet, click the button above to add.",
+  		newTemplate: "New Template",
+  		templateName: "Template Name",
+  		templateDescription: "Description (optional)",
+  		templateFilterTag: "Filter Tag (optional)",
+  		templateFilterPropKey: "Filter Property Key (optional)",
+  		templateFilterPropValue: "Filter Property Value (optional)",
+  		templateMilestonePropKey: "Milestone Property Key (required)",
+  		templateMilestoneList: "Milestone List (semicolon separated)",
+  		defaultColors: "Default Colors",
+  		edit: "Edit",
+  		collapse: "Collapse",
+  		"delete": "Delete",
+  		nameRequired: "Template name cannot be empty",
+  		nameDuplicate: "Template name already exists",
+  		colorCompleted: "Completed",
+  		colorInProgress: "In Progress",
+  		colorPending: "Pending",
+  		colorFailed: "Failed",
+  		colorSkipped: "Skipped",
+  		colorBackground: "Background",
+  		colorText: "Text",
+  		templatePropKeyHint: "Format: You can use :user.property/xxx or just xxx (system will add prefix automatically)",
+  		templateMilestoneListPlaceholder: "Requirement;Development;Testing;Release;Acceptance",
+  		customColorsTitle: "Custom Colors",
+  		customColorsHint: "Optional"
+  	},
+  	saveHtmlViewerSettings: "Save HTML viewer settings",
+  	saveMilestoneSettings: "Save Milestone Settings"
+  };
+  var en$1 = {
+  	taskProgress: taskProgress$2,
+  	toolbar: toolbar$2,
+  	inlineComment: inlineComment$2,
+  	comment: comment$2,
+  	modal: modal$2,
+  	settings: settings$2
+  };
+
+  const taskProgress$1 = {
+  	nestingLevel: "ネストレベル"
+  };
+  const toolbar$1 = {
+  	bold: "太字",
+  	highlight: "ハイライト",
+  	fileLink: "ファイルリンク",
+  	comment: "コメント",
+  	noSelection: "処理するテキストを選択してください",
+  	replaceFailed: "テキストの置換に失敗しました",
+  	noBlockContent: "ブロックの内容を取得できません",
+  	noPluginCommand: "外部プラグインコマンドが設定されていません",
+  	pluginCommandSuccess: "外部プラグインコマンドを実行しました",
+  	pluginCommandFailed: "外部プラグインコマンドの実行に失敗しました",
+  	pluginNotInstalled: "外部プラグイン {{pluginId}} がインストールされていないか無効です",
+  	buttonTooltip: "✨ Text Toolkit Plugin - ノートをより楽しく！"
+  };
+  const inlineComment$1 = {
+  	text: "テキスト",
+  	placeholder: "コメントを追加...",
+  	save: "コメントを追加",
+  	title: "コメントを追加",
+  	addComment: "コメントを追加",
+  	selectedText: "選択テキスト",
+  	annotate: "注釈",
+  	comment: "コメント"
+  };
+  const comment$1 = {
+  	title: "コメントを追加"
+  };
+  const modal$1 = {
+  	placeholder: "内容を入力してください"
+  };
+  const settings$1 = {
+  	featuresTitle: "機能管理",
+  	featuresHint: "機能を無効にすると、対応する設定タブが非表示になり、グローバルに機能が無効になります",
+  	features: {
+  		enabled: "有効",
+  		disabled: "無効",
+  		toolbarDescription: "ツールバー表示をカスタマイズ",
+  		taskProgressDescription: "プロジェクト進捗統計と表示",
+  		heatmapDescription: "アクティビティと行動分析",
+  		blockViewDescription: "複数のコンテンツ表示モード",
+  		milestoneDescription: "プロジェクトフェーズ追跡",
+  		summaryDescription: "自動要約と帰納機能",
+  		htmlViewerDescription: "HTML 添付のプレビュー、テキスト注釈、メモ"
+  	},
+  	"default": "デフォルト",
+  	toolbar: "ツールバー",
+  	title: "設定",
+  	tabs: {
+  		general: "⚙️ 一般設定",
+  		toolbar: "🛠️ ツールバー設定",
+  		taskProgress: "📊 タスク進捗",
+  		heatmap: "📈 ヒートマップ",
+  		blockView: "📋 ブロックビュー",
+  		summary: "📝 まとめ生成",
+  		milestone: "🎯 マイルストーン",
+  		htmlViewer: "🌐 HTML ビューア",
+  		advanced: "⚡ その他の設定"
+  	},
+  	saveSuccessRestart: "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
+  	generalSettings: "一般設定",
+  	theme: "テーマ",
+  	themeFollowSystem: "システムに追従",
+  	language: "言語",
+  	languageFollowSystem: "システムに追従",
+  	toolbarSettings: "ツールバー設定",
+  	enabled: "有効",
+  	disabled: "無効",
+  	showBorder: "境界線を表示",
+  	width: "幅",
+  	height: "高さ",
+  	hoverDelay: "ホバー遅延 (ミリ秒)",
+  	toolbarShortcut: "ツールバーショートカット",
+  	toolbarShortcutPlaceholder: "ショートカットを入力",
+  	sponsorEnabled: "スポンサーバー",
+  	developerMode: "開発者モード",
+  	toolbarElements: "ツールバー要素",
+  	addNewItem: "新しいアイテムを追加",
+  	addItem: "アイテムを追加",
+  	label: "ラベル",
+  	icon: "アイコン",
+  	funcmode: "機能モード",
+  	confirmDeleteItem: "このツールバーアイテムを削除しますか？",
+  	jsonSettings: "JSON設定",
+  	applyJson: "JSONを適用",
+  	resetToDefault: "デフォルトにリセット",
+  	cancel: "キャンセル",
+  	save: "保存",
+  	saving: "保存中...",
+  	loading: "設定を読み込んでいます...",
+  	error: "設定の読み込みに失敗しました",
+  	confirmReset: "すべての設定をデフォルトにリセットしますか？",
+  	confirmResetItems: "ツールバー要素をデフォルトにリセットしてもよろしいですか？",
+  	subtitle: "アプリケーションの設定を管理します。各セクションは独立して保存できます。",
+  	generalSettingsDescription: "アプリのテーマと言語を設定します",
+  	toolbarSettingsDescription: "ツールバーの外観と動作を設定します",
+  	toolbarElementsConfig: "要素設定",
+  	toolbarGroupFormat: "グループフォーマット",
+  	toolbarSingleElement: "単一要素",
+  	toolbarHiddenElement: "非表示要素",
+  	toolbarBindingShortcut: "ショートカットをバインド",
+  	advancedSettings: "詳細設定",
+  	advancedSettingsDescription: "追加予定の高度な機能設定",
+  	lightTheme: "ライト",
+  	darkTheme: "ダーク",
+  	chinese: "简体中文",
+  	english: "English",
+  	japanese: "日本語",
+  	saveGeneralSettings: "一般設定を保存",
+  	saveToolbarSettings: "ツールバー設定を保存",
+  	macroTemplate: {
+  		hint: "フォーマット: :macro, param1=value1, param2=value2。空欄の場合、デフォルト値を使用します。",
+  		prefixRequired: "マクロプレフィックスで始まる必要があります（例：:taskprogress）",
+  		invalidFormat: "無効なテンプレート形式",
+  		unknownParam: "不明なパラメータが含まれています"
+  	},
+  	saveSuccess: "保存しました！",
+  	settingsNotConfigured: "この設定エリアはまだ設定されていません",
+  	comingSoon: "近日追加予定...",
+  	taskProgressDescription: "タスク進捗追跡機能の表示と動作を設定します。",
+  	milestoneDescription: "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
+  	taskProgress: {
+  		enabled: "タスク進捗機能を有効化",
+  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
+  		nestingSettings: "ネスト設定",
+  		nestingLevel: "ネストレベル",
+  		nestingLevel1: "現在のレベルのみ",
+  		nestingLevel2: "2レベル深さ",
+  		nestingLevel3: "3レベル深さ",
+  		nestingLevelAll: "全レベル",
+  		onlyLeaves: "子タスクのみカウント",
+  		onlyLeavesDescription: "子タスクのないタスクのみカウントします",
+  		showNestingIndicator: "ネストインジケーターを表示",
+  		showNestingIndicatorDescription: "タスクのネスト深度インジケーターを表示",
+  		defaultDisplayType: "デフォルト表示タイプ",
+  		miniCircle: "ミニサークル",
+  		dotMatrix: "ドットマトリックス",
+  		statusCursor: "ステータスカーソル",
+  		progressCapsule: "進捗カプセル",
+  		stepProgress: "ステップ進捗",
+  		size: "コンポーネントサイズ",
+  		sizeSmall: "小",
+  		sizeMedium: "中",
+  		sizeLarge: "大",
+  		showLabel: "ラベルを表示",
+  		fireworksOnComplete: "全タスク完了時に花火を表示",
+  		labelFormat: "ラベル形式",
+  		labelFraction: "分数 (10/20)",
+  		labelPercentage: "パーセント (50%)",
+  		labelBoth: "両方 (10/20 50%)",
+  		statusColors: "ステータス色",
+  		statusColorsHint: "色をクリックして変更、その他のステータスは settings.json で設定可能",
+  		statusNames: {
+  			todo: "未着手",
+  			doing: "進行中",
+  			"in-review": "レビュー中",
+  			done: "完了",
+  			waiting: "待機中",
+  			canceled: "キャンセル"
+  		},
+  		tooltip: {
+  			progress: "進捗",
+  			total: "合計"
+  		}
+  	},
+  	saveTaskProgressSettings: "タスク進捗設定を保存",
+  	saveHeatmapSettings: "ヒートマップ設定を保存",
+  	saveBlockViewSettings: "ブロックビュー設定を保存",
+  	saveSummarySettings: "サマリー設定を保存",
+  	blockView: {
+  		description: "ブロックビューモジュールのグローバルなデフォルト動作を設定します。",
+  		enabled: "ブロックビューを有効化",
+  		defaultView: "デフォルトビュータイプ",
+  		viewList: "リスト",
+  		viewTable: "テーブル",
+  		viewGallery: "ギャラリー",
+  		viewBoard: "カンバン",
+  		hideViewBar: "ビュー切り替えバーを隠す",
+  		hideViewBarDescription: "隠した場合はデフォルトビューが使用されます。view=xxx パラメータでビューを切り替えることも可能です",
+  		inline: "インラインモード",
+  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
+  		defaultTheme: "デフォルトテーマ",
+  		themeDefault: "デフォルト",
+  		themeNotion: "Notion",
+  		themeLinear: "Linear",
+  		themeDark: "ダーク",
+  		themeGradient: "グラデーション",
+  		themeTana: "Tana",
+  		themeCustom: "カスタム",
+  		table: {
+  			title: "📊 テーブル設定",
+  			showStriped: "ストライプ行を表示",
+  			showBorder: "境界線を表示",
+  			customTheme: {
+  				title: "🔧 カスタムテーマ設定",
+  				borderColor: "境界線の色",
+  				headerBgColor: "ヘッダー背景色",
+  				headerTextColor: "ヘッダー文字色",
+  				cellTextColor: "セル文字色",
+  				headerBorderColor: "ヘッダー境界線色",
+  				headerHeight: "ヘッダーの高さ",
+  				rowBgColor: "行背景色",
+  				rowHoverBgColor: "行ホバー背景色",
+  				rowBorderColor: "行境界線色",
+  				cellPadding: "セルパディング",
+  				tableBorderRadius: "テーブル角丸"
+  			}
+  		},
+  		gallery: {
+  			title: "🖼️ ギャラリー設定",
+  			showCardBorders: "カード境界線を表示",
+  			cardsPerRow: "1行あたりのカード数",
+  			customTheme: {
+  				title: "🔧 カスタムテーマ設定",
+  				borderColor: "境界線の色",
+  				cardBgColor: "カード背景色",
+  				cardHoverBgColor: "カードホバー背景色",
+  				headerBorderColor: "ヘッダー境界線色",
+  				headerBgColor: "ヘッダー背景色",
+  				headerTextColor: "ヘッダー文字色",
+  				cardTextColor: "カード文字色",
+  				cardBorderRadius: "カード角丸",
+  				cardShadow: "カードシャドウ"
+  			}
+  		},
+  		board: {
+  			title: "📋 ボード設定",
+  			showColumnBorders: "列境界線を表示",
+  			cardSpacing: "カード間隔",
+  			customTheme: {
+  				title: "🔧 カスタムテーマ設定",
+  				borderColor: "境界線の色",
+  				columnBgColor: "列背景色",
+  				columnHoverBgColor: "列ホバー背景色",
+  				headerBgColor: "ヘッダー背景色",
+  				headerTextColor: "ヘッダー文字色",
+  				cardBgColor: "カード背景色",
+  				cardTextColor: "カード文字色",
+  				cardBorderColor: "カード境界線色",
+  				cardBorderRadius: "カード角丸"
+  			}
+  		},
+  		emptyHint: "子ブロックを追加するとビューを切り替えられます"
+  	},
+  	heatmap: {
+  		description: "ヒートマップ表示機能と外観を設定します。",
+  		enabled: "ヒートマップを有効化",
+  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
+  		defaultViewType: "デフォルトビュー",
+  		viewTypeYear: "年ビュー",
+  		viewTypeMonth: "月ビュー",
+  		viewTypeWeek: "週ビュー",
+  		defaultDisplayMode: "デフォルト表示モード",
+  		displayModeFull: "フルモード",
+  		displayModeBasic: "ベーシックモード",
+  		displayModeMinimal: "ミニマルモード",
+  		defaultColorFormula: "色計算式",
+  		colorFormulaSimple: "シンプル",
+  		colorFormulaWeighted: "ウェイト付き",
+  		colorScheme: "カラースキーム",
+  		minColor: "最小色",
+  		maxColor: "最大色",
+  		preview: "プレビュー",
+  		monthPageCreation: "月ページ作成",
+  		enableMonthPageCreation: "月ページ作成を有効化",
+  		monthTemplateType: "サマリーテンプレート",
+  		templateNone: "なし",
+  		monthPageNameTemplate: "ページ名テンプレート",
+  		weekPageCreation: "週ページ作成",
+  		enableWeekPageCreation: "週ページ作成を有効化",
+  		weekTemplateType: "サマリーテンプレート",
+  		weekPageNameTemplate: "ページ名テンプレート",
+  		formulaNote: "シンプル：カウント = ブロック数。ウェイト付き：カウント = ブロック数 + Σmin(子ブロック数×0.3, 3) + 0.1×Σmin(コンテンツ長/100, 1)。",
+  		templateNote: "テンプレート変数: {year} - 年, {month} - 月 (01-12), {week} - 週 (01-53)。例: {year}-{month} または {year}-W{week}"
+  	},
+  	summary: {
+  		description: "サマリー生成機能のデフォルト動作とパラメータを設定します。",
+  		enabled: "サマリー機能を有効化",
+  		defaultTemplate: "デフォルトテンプレート",
+  		defaultType: "デフォルトサマリータイプ",
+  		dateFormat: "日付形式",
+  		weeklyPageNameTemplate: "週次ページ名テンプレート",
+  		weeklyPageNamePlaceholder: "週次まとめ-{{year}}-W{{week}}",
+  		monthlyPageNameTemplate: "月次ページ名テンプレート",
+  		monthlyPageNamePlaceholder: "月次まとめ-{{year}}-{{month}}",
+  		yearlyPageNameTemplate: "年間ページ名テンプレート",
+  		yearlyPageNamePlaceholder: "年間まとめ-{{year}}",
+  		customPageNameTemplate: "カスタムページ名テンプレート",
+  		customPageNamePlaceholder: "カスタムまとめ-{{date}}",
+  		pageNameTemplateHelp: "使用可能なプレースホルダー: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
+  		templateGtdWorkReview: "GTD 作業レビュー",
+  		templateMinimalDashboard: "ミニマルダッシュボード",
+  		templateBulletJournal: "バレットジャーナル",
+  		templateOkrReview: "OKR レビュー",
+  		templateStudySummary: "学習サマリー",
+  		typeWeekly: "週次",
+  		typeMonthly: "月次",
+  		typeYearly: "年次",
+  		typeCustom: "カスタム",
+  		startDate: "開始日",
+  		endDate: "終了日",
+  		generate: "サマリーを生成",
+  		generating: "生成中...",
+  		generateFailed: "生成に失敗しました。ログを確認して再試行してください",
+  		customDateError: "有効な開始日と終了日を選択してください（開始日は終了日より後にできません）",
+  		noTemplates: "このサマリータイプで利用できるテンプレートがありません",
+  		aiFallback: "AI リクエストに失敗した場合はローカル洞察を使用し、サマリー生成は継続します。",
+  		aiSettings: "🤖 AI設定",
+  		aiEnabled: "AI拡張を有効化",
+  		aiProvider: "AIプロバイダー",
+  		aiProviderOpenAI: "OpenAI",
+  		aiProviderClaude: "Claude",
+  		aiProviderCustom: "カスタム",
+  		aiApiKey: "APIキー",
+  		aiApiUrl: "APIアドレス",
+  		aiModel: "モデル",
+  		aiPromptTemplate: "プロンプトテンプレート",
+  		aiPromptPlaceholder: "以下の内容に基づいてまとめを作成してください..."
+  	},
+  	htmlViewer: {
+  		description: "HTML 添付をサイドパネルで表示し、選択テキストの注釈・メモ・グラフへの書き戻しを行います。",
+  		defaultSide: "既定の表示位置",
+  		sideRight: "右",
+  		sideLeft: "左",
+  		defaultWidth: "既定の幅（%）",
+  		writeAnnotationsToGraph: "注釈をグラフページに書き込む",
+  		showToolbarButton: "上部ツールバーに HTML ビューアボタンを表示",
+  		dashboardSection: "Dashboard",
+  		dashboardAsset: "Dashboard HTML 添付",
+  		dashboardAssetPlaceholder: "assets/dashboard.html",
+  		dashboardHint: "定期生成した HTML を選択します。ツールバーボタンで直接開きます。空の場合は添付一覧を開きます。",
+  		dashboardFullscreen: "Dashboard を全画面で開く",
+  		linkUnsupported: "この Dashboard リンクはまだサポートされていません",
+  		dashboardNone: "Dashboard を設定しない",
+  		annotationPagePrefix: "注釈ページ名の接頭辞",
+  		openButton: "HTML ビューア",
+  		toolbarLabel: "HTML ビューアを開く",
+  		annotationHint: "有効にすると、各注釈は「接頭辞 + ファイル名」ページに書き込まれ、ローカルアンカーはジャンプ用に保持されます。",
+  		allowScripts: "HTML スクリプトを許可（危険）",
+  		allowScriptsHint: "既定では無効です。信頼できるファイルだけを開いてください。",
+  		allowRemote: "リモートリソースを許可",
+  		allowRemoteHint: "既定では無効です。リモートの画像/スタイル/リンクは削除されます。",
+  		assets: "HTML 添付",
+  		search: "ファイル名またはパスを検索",
+  		refresh: "更新",
+  		open: "開く",
+  		noAssets: "このグラフには .html / .htm 添付がありません。",
+  		loadError: "HTML の読み込みに失敗しました",
+  		fetchHint: "読み込めない場合はシステムブラウザで開いてください。Logseq のバージョンによってはプラグインが asset URL を fetch できない場合があります。",
+  		openInBrowser: "システムブラウザで開く",
+  		annotation: "注釈",
+  		addAnnotation: "注釈を追加",
+  		commentPlaceholder: "メモ（任意）",
+  		saveAnnotation: "注釈を保存",
+  		cancel: "キャンセル",
+  		deleteAnnotation: "削除",
+  		annotationList: "注釈",
+  		noAnnotations: "テキストを選択して最初の注釈を追加してください。",
+  		anchorLost: "アンカーが無効です",
+  		deleteConfirm: "この注釈を削除しますか？リンクされたグラフブロックも削除されます。",
+  		openPage: "注釈ページを開く",
+  		fullscreen: "全画面",
+  		exitFullscreen: "全画面を終了",
+  		close: "閉じる",
+  		left: "左",
+  		right: "右",
+  		annotationSaved: "注釈を保存しました",
+  		annotationFailed: "注釈の保存に失敗しました",
+  		annotationDeleted: "注釈を削除しました",
+  		selectionHint: "HTML 内のテキストを選択して「注釈」をクリック",
+  		source: "ソース"
+  	},
+  	milestone: {
+  		description: "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
+  		enabled: "マイルストーン機能を有効化",
+  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
+  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
+  		defaultStyle: "デフォルト表示スタイル",
+  		styleCapsule: "カプセル",
+  		styleBadge: "バッジ",
+  		styleTrack: "トラック",
+  		styleCard: "カード",
+  		styleCompact: "コンパクト",
+  		styleArrowCapsule: "アローカプセル",
+  		styleTimelineTrack: "タイムライントラック",
+  		tooltipStyle: "Tooltip スタイル",
+  		tooltipStyleMinimal: "ミニマル",
+  		tooltipStyleCompact: "コンパクト",
+  		tooltipStyleDetailed: "詳細",
+  		tooltipStyleElegant: "エレガント",
+  		inline: "インラインモード",
+  		showLabel: "ラベルを表示",
+  		showLabels: "ラベルを表示",
+  		showProgress: "進捗を表示",
+  		templates: "事前定義テンプレート",
+  		addTemplate: "テンプレートを追加",
+  		noTemplates: "テンプレートはまだありません。上のボタンをクリックして追加してください。",
+  		newTemplate: "新規テンプレート",
+  		templateName: "テンプレート名",
+  		templateDescription: "説明（任意）",
+  		templateFilterTag: "フィルタータグ（任意）",
+  		templateFilterPropKey: "フィルタープロパティキー（任意）",
+  		templateFilterPropValue: "フィルタープロパティ値（任意）",
+  		templateMilestonePropKey: "マイルストーンプロパティキー（必須）",
+  		templateMilestoneList: "マイルストーンリスト（セミコロン区切り）",
+  		defaultColors: "デフォルト配色",
+  		edit: "編集",
+  		collapse: "折りたたむ",
+  		"delete": "削除",
+  		nameRequired: "テンプレート名は空にできません",
+  		nameDuplicate: "テンプレート名は既に存在します",
+  		colorCompleted: "完了",
+  		colorInProgress: "進行中",
+  		colorPending: "未着手",
+  		colorFailed: "失敗",
+  		colorSkipped: "スキップ",
+  		colorBackground: "背景",
+  		colorText: "文字",
+  		templatePropKeyHint: "形式：:user.property/xxx または xxx（システムが自動的にプレフィックスを追加します）",
+  		templateMilestoneListPlaceholder: "要件;開発;テスト;リリース;検収",
+  		customColorsTitle: "カスタム配色",
+  		customColorsHint: "任意"
+  	},
+  	saveHtmlViewerSettings: "HTML ビューア設定を保存",
+  	saveMilestoneSettings: "マイルストーン設定を保存"
+  };
+  var ja = {
+  	taskProgress: taskProgress$1,
+  	toolbar: toolbar$1,
+  	inlineComment: inlineComment$1,
+  	comment: comment$1,
+  	modal: modal$1,
+  	settings: settings$1
+  };
+
+  const taskProgress = {
+  	nestingLevel: "嵌套层级"
+  };
+  const toolbar = {
+  	bold: "加粗",
+  	highlight: "高亮",
+  	fileLink: "文件链接",
+  	comment: "评论",
+  	noSelection: "请选择要处理的文本",
+  	replaceFailed: "文本替换失败",
+  	noBlockContent: "无法获取块内容",
+  	noPluginCommand: "未配置外部插件命令",
+  	pluginCommandSuccess: "外部插件命令执行成功",
+  	pluginCommandFailed: "外部插件命令执行失败",
+  	pluginNotInstalled: "外部插件 {{pluginId}} 未安装或已禁用",
+  	buttonTooltip: "✨ Text Toolkit Plugin - 让你的笔记更有趣！"
+  };
+  const inlineComment = {
+  	text: "文本",
+  	placeholder: "输入你的评论或注释...",
+  	save: "行内注释",
+  	title: "添加注释",
+  	addComment: "添加评论",
+  	selectedText: "选中文本",
+  	annotate: "注释",
+  	comment: "评论"
+  };
+  const comment = {
+  	title: "添加评论"
+  };
+  const modal = {
+  	placeholder: "请输入内容"
+  };
+  const settings = {
+  	featuresTitle: "功能管理",
+  	featuresHint: "关闭某功能将隐藏对应的设置标签页，并在全局禁用该功能",
+  	features: {
+  		enabled: "已启用",
+  		disabled: "未启用",
+  		toolbarDescription: "自定义工具栏显示方式",
+  		taskProgressDescription: "项目进度统计与展示",
+  		heatmapDescription: "活跃度与行为分析",
+  		blockViewDescription: "多种内容展示模式",
+  		milestoneDescription: "项目阶段追踪",
+  		summaryDescription: "自动总结与归纳能力",
+  		htmlViewerDescription: "HTML 附件预览、文字标注与备注"
+  	},
+  	"default": "默认",
+  	toolbar: "工具栏",
+  	title: "设置",
+  	tabs: {
+  		general: "⚙️ 通用设置",
+  		toolbar: "🛠️ 工具栏设置",
+  		taskProgress: "📊 任务进度",
+  		heatmap: "📈 热力图",
+  		blockView: "📋 块视图",
+  		summary: "📝 总结生成",
+  		milestone: "🎯 里程碑",
+  		htmlViewer: "🌐 HTML 阅读器",
+  		advanced: "⚡ 其他设置"
+  	},
+  	saveSuccessRestart: "保存成功，请重启应用生效",
+  	generalSettings: "通用设置",
+  	theme: "主题",
+  	themeFollowSystem: "跟随系统",
+  	language: "语言",
+  	languageFollowSystem: "跟随系统",
+  	toolbarSettings: "工具栏设置",
+  	enabled: "启用",
+  	disabled: "禁用",
+  	showBorder: "显示边框",
+  	width: "宽度",
+  	height: "高度",
+  	hoverDelay: "悬停延迟（毫秒）",
+  	toolbarShortcut: "工具栏快捷键",
+  	toolbarShortcutPlaceholder: "请输入快捷键",
+  	sponsorEnabled: "赞助栏",
+  	developerMode: "开发者模式",
+  	toolbarElements: "工具栏元素",
+  	addNewItem: "添加新项目",
+  	addItem: "添加项目",
+  	label: "标签",
+  	icon: "图标",
+  	funcmode: "功能模式",
+  	confirmDeleteItem: "确定要删除此工具栏项目吗？",
+  	jsonSettings: "JSON设置",
+  	applyJson: "应用JSON",
+  	resetToDefault: "重置为默认值",
+  	cancel: "取消",
+  	save: "保存",
+  	saving: "保存中...",
+  	loading: "加载设置中...",
+  	error: "加载设置失败",
+  	confirmReset: "确定要将所有设置重置为默认值吗？",
+  	confirmResetItems: "确定要将工具栏元素重置为默认值吗？",
+  	subtitle: "管理应用程序的各项配置，每个区域可独立保存",
+  	generalSettingsDescription: "配置应用的主题和语言",
+  	toolbarSettingsDescription: "配置工具栏的显示和行为",
+  	toolbarElementsConfig: "元素配置",
+  	toolbarGroupFormat: "分组格式",
+  	toolbarSingleElement: "单个元素",
+  	toolbarHiddenElement: "隐藏元素",
+  	toolbarBindingShortcut: "绑定快捷键",
+  	advancedSettings: "高级设置",
+  	advancedSettingsDescription: "待添加的高级功能配置",
+  	lightTheme: "浅色",
+  	darkTheme: "深色",
+  	chinese: "简体中文",
+  	english: "English",
+  	japanese: "日本語",
+  	saveGeneralSettings: "保存通用设置",
+  	saveToolbarSettings: "保存工具栏设置",
+  	macroTemplate: {
+  		hint: "格式: :macro, param1=value1, param2=value2。留空使用默认值。",
+  		prefixRequired: "必须以宏命令前缀开头（如 :taskprogress）",
+  		invalidFormat: "模板格式无效",
+  		unknownParam: "包含未知参数"
+  	},
+  	saveSuccess: "保存成功！",
+  	settingsNotConfigured: "此设置区域暂未配置",
+  	comingSoon: "敬请期待更多功能...",
+  	taskProgressDescription: "配置任务进度追踪功能的展示方式和行为。",
+  	milestoneDescription: "配置里程碑组件的默认行为和显示样式。",
+  	taskProgress: {
+  		enabled: "启用任务进度功能",
+  		defaultSlashCommandTemplate: "默认斜杠命令模板",
+  		nestingSettings: "嵌套任务设置",
+  		nestingLevel: "嵌套层级",
+  		nestingLevel1: "仅当前层",
+  		nestingLevel2: "向下 2 层",
+  		nestingLevel3: "向下 3 层",
+  		nestingLevelAll: "全部层级",
+  		onlyLeaves: "仅统计叶子任务",
+  		onlyLeavesDescription: "仅统计没有子任务的任务",
+  		showNestingIndicator: "显示嵌套指示器",
+  		showNestingIndicatorDescription: "显示任务嵌套深度指示",
+  		defaultDisplayType: "默认展示方式",
+  		miniCircle: "微型圆环",
+  		dotMatrix: "点阵进度",
+  		statusCursor: "状态光标",
+  		progressCapsule: "进度胶囊",
+  		stepProgress: "阶梯进度",
+  		size: "组件尺寸",
+  		sizeSmall: "小",
+  		sizeMedium: "中",
+  		sizeLarge: "大",
+  		showLabel: "显示标签",
+  		fireworksOnComplete: "完成所有任务时绽放烟花",
+  		labelFormat: "标签格式",
+  		labelFraction: "分数 (10/20)",
+  		labelPercentage: "百分比 (50%)",
+  		labelBoth: "两者 (10/20 50%)",
+  		statusColors: "状态颜色",
+  		statusColorsHint: "点击色块修改颜色，更多状态请在 settings.json 中配置",
+  		statusNames: {
+  			todo: "待办",
+  			doing: "进行中",
+  			"in-review": "审核中",
+  			done: "已完成",
+  			waiting: "等待中",
+  			canceled: "已取消"
+  		},
+  		tooltip: {
+  			progress: "进度",
+  			total: "总计"
+  		}
+  	},
+  	saveTaskProgressSettings: "保存任务进度设置",
+  	saveHeatmapSettings: "保存热力图设置",
+  	saveBlockViewSettings: "保存块视图设置",
+  	saveSummarySettings: "保存总结设置",
+  	blockView: {
+  		description: "配置块视图模块的全局默认行为。",
+  		enabled: "启用块视图功能",
+  		defaultView: "默认视图类型",
+  		viewList: "列表",
+  		viewTable: "表格",
+  		viewGallery: "画廊",
+  		viewBoard: "看板",
+  		hideViewBar: "隐藏视图切换栏",
+  		hideViewBarDescription: "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
+  		inline: "行内模式",
+  		defaultSlashCommandTemplate: "默认斜杠命令模板",
+  		defaultTheme: "默认主题",
+  		themeDefault: "默认",
+  		themeNotion: "Notion",
+  		themeLinear: "Linear",
+  		themeDark: "深色",
+  		themeGradient: "渐变",
+  		themeTana: "Tana",
+  		themeCustom: "自定义",
+  		table: {
+  			title: "📊 Table 设置",
+  			showStriped: "显示斑马纹行",
+  			showBorder: "显示边框",
+  			customTheme: {
+  				title: "🔧 自定义主题配置",
+  				borderColor: "边框颜色",
+  				headerBgColor: "表头背景色",
+  				headerTextColor: "表头文字色",
+  				cellTextColor: "单元格文字色",
+  				headerBorderColor: "表头边框色",
+  				headerHeight: "表头高度",
+  				rowBgColor: "行背景色",
+  				rowHoverBgColor: "行悬停背景色",
+  				rowBorderColor: "行边框色",
+  				cellPadding: "单元格内边距",
+  				tableBorderRadius: "表格圆角"
+  			}
+  		},
+  		gallery: {
+  			title: "🖼️ Gallery 设置",
+  			showCardBorders: "显示卡片边框",
+  			cardsPerRow: "每行卡片数量",
+  			customTheme: {
+  				title: "🔧 自定义主题配置",
+  				borderColor: "边框颜色",
+  				cardBgColor: "卡片背景色",
+  				cardHoverBgColor: "卡片悬停背景色",
+  				headerBorderColor: "表头边框色",
+  				headerBgColor: "表头背景色",
+  				headerTextColor: "表头文字色",
+  				cardTextColor: "卡片文字色",
+  				cardBorderRadius: "卡片圆角",
+  				cardShadow: "卡片阴影"
+  			}
+  		},
+  		board: {
+  			title: "📋 Kanban 设置",
+  			showColumnBorders: "显示列边框",
+  			cardSpacing: "卡片间距",
+  			customTheme: {
+  				title: "🔧 自定义主题配置",
+  				borderColor: "边框颜色",
+  				columnBgColor: "列背景色",
+  				columnHoverBgColor: "列悬停背景色",
+  				headerBgColor: "表头背景色",
+  				headerTextColor: "表头文字色",
+  				cardBgColor: "卡片背景色",
+  				cardTextColor: "卡片文字色",
+  				cardBorderColor: "卡片边框色",
+  				cardBorderRadius: "卡片圆角"
+  			}
+  		},
+  		emptyHint: "添加子块后可切换视图"
+  	},
+  	heatmap: {
+  		description: "配置热力图展示功能和显示效果。",
+  		enabled: "启用热力图功能",
+  		defaultSlashCommandTemplate: "默认斜杠命令模板",
+  		defaultViewType: "默认视图",
+  		viewTypeYear: "年度视图",
+  		viewTypeMonth: "月度视图",
+  		viewTypeWeek: "周度视图",
+  		defaultDisplayMode: "默认显示模式",
+  		displayModeFull: "完整模式",
+  		displayModeBasic: "基础模式",
+  		displayModeMinimal: "极简模式",
+  		defaultColorFormula: "颜色计算公式",
+  		colorFormulaSimple: "简化模式",
+  		colorFormulaWeighted: "加权模式",
+  		colorScheme: "配色方案",
+  		minColor: "最小颜色",
+  		maxColor: "最大颜色",
+  		preview: "预览",
+  		monthPageCreation: "月度页面创建",
+  		enableMonthPageCreation: "启用月度页面创建",
+  		monthTemplateType: "总结模板",
+  		templateNone: "不选",
+  		monthPageNameTemplate: "页面名称模板",
+  		weekPageCreation: "周度页面创建",
+  		enableWeekPageCreation: "启用周度页面创建",
+  		weekTemplateType: "总结模板",
+  		weekPageNameTemplate: "页面名称模板",
+  		formulaNote: "简化：当天 blocks 数量（count = blocks.length）。加权：count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1)。",
+  		templateNote: "模板变量：{year} - 年份，{month} - 月份（01-12），{week} - 周数（01-53）。示例：{year}-{month} 或 {year}-W{week}"
+  	},
+  	summary: {
+  		description: "配置总结生成功能的默认行为和参数。",
+  		enabled: "启用总结功能",
+  		defaultTemplate: "默认模板",
+  		defaultType: "默认总结类型",
+  		dateFormat: "日期格式",
+  		weeklyPageNameTemplate: "周度页面名称模板",
+  		weeklyPageNamePlaceholder: "周度总结-{{year}}-W{{week}}",
+  		monthlyPageNameTemplate: "月度页面名称模板",
+  		monthlyPageNamePlaceholder: "月度总结-{{year}}-{{month}}",
+  		yearlyPageNameTemplate: "年度页面名称模板",
+  		yearlyPageNamePlaceholder: "年度总结-{{year}}",
+  		customPageNameTemplate: "自定义页面名称模板",
+  		customPageNamePlaceholder: "自定义总结-{{date}}",
+  		pageNameTemplateHelp: "可用占位符: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
+  		templateGtdWorkReview: "GTD 工作回顾",
+  		templateMinimalDashboard: "极简仪表盘",
+  		templateBulletJournal: "子弹日记",
+  		templateOkrReview: "OKR 回顾",
+  		templateStudySummary: "学习总结",
+  		typeWeekly: "周度",
+  		typeMonthly: "月度",
+  		typeYearly: "年度",
+  		typeCustom: "自定义",
+  		startDate: "开始日期",
+  		endDate: "结束日期",
+  		generate: "生成总结",
+  		generating: "生成中...",
+  		generateFailed: "生成失败，请查看日志后重试",
+  		customDateError: "请选择有效的开始和结束日期（开始不能晚于结束）",
+  		noTemplates: "当前总结类型没有可用模板",
+  		aiFallback: "AI 调用失败时会自动使用本地洞察，不会阻断总结生成。",
+  		aiSettings: "🤖 AI 设置",
+  		aiEnabled: "启用 AI 增强",
+  		aiProvider: "AI 提供商",
+  		aiProviderOpenAI: "OpenAI",
+  		aiProviderClaude: "Claude",
+  		aiProviderCustom: "自定义",
+  		aiApiKey: "API Key",
+  		aiApiUrl: "API 地址",
+  		aiModel: "模型",
+  		aiPromptTemplate: "提示词模板",
+  		aiPromptPlaceholder: "请根据以下内容生成一个总结..."
+  	},
+  	htmlViewer: {
+  		description: "在侧边面板中预览 HTML 附件，支持选中文字标注、备注和写回图谱。",
+  		defaultSide: "默认打开位置",
+  		sideRight: "右侧",
+  		sideLeft: "左侧",
+  		defaultWidth: "默认宽度（%）",
+  		writeAnnotationsToGraph: "标注写入图谱块（后备页面）",
+  		showToolbarButton: "在顶部工具栏显示 HTML 阅读器按钮",
+  		dashboardSection: "Dashboard",
+  		dashboardAsset: "Dashboard HTML 附件",
+  		dashboardAssetPlaceholder: "assets/dashboard.html",
+  		dashboardHint: "选择定期生成的 HTML；工具栏按钮会直接打开它。留空则打开 HTML 附件列表。",
+  		dashboardFullscreen: "以全屏方式打开 Dashboard",
+  		linkUnsupported: "这个 Dashboard 链接暂不支持",
+  		dashboardNone: "不设置 Dashboard",
+  		annotationPagePrefix: "标注页面名前缀",
+  		openButton: "HTML 阅读器",
+  		toolbarLabel: "打开 HTML 阅读器",
+  		annotationHint: "优先挂到 HTML asset 块下面；找不到 asset 块时写入「前缀 + 文件名」页面。",
+  		allowScripts: "允许 HTML 运行脚本（危险）",
+  		allowScriptsHint: "默认关闭。开启后 HTML 中的脚本可以访问页面上下文，请只打开可信文件。",
+  		allowRemote: "允许远程资源",
+  		allowRemoteHint: "默认关闭，避免自包含文件向外部发起请求；关闭时会移除远程图片/样式/链接。",
+  		assets: "HTML 附件",
+  		search: "搜索文件名或路径",
+  		refresh: "刷新列表",
+  		open: "打开",
+  		noAssets: "当前图谱没有 .html / .htm 附件。",
+  		loadError: "HTML 加载失败",
+  		fetchHint: "若无法读取附件，请尝试在系统浏览器打开；部分 Logseq 版本不允许插件直接 fetch asset URL。",
+  		openInBrowser: "在系统浏览器打开",
+  		annotation: "标注",
+  		addAnnotation: "添加标注",
+  		commentPlaceholder: "写下备注（可选）",
+  		saveAnnotation: "保存标注",
+  		cancel: "取消",
+  		deleteAnnotation: "删除",
+  		annotationList: "标注",
+  		noAnnotations: "选中文字后添加第一条标注。",
+  		anchorLost: "锚点已失效",
+  		deleteConfirm: "确定删除这条标注吗？对应的图谱块也会尝试删除。",
+  		openPage: "打开标注页面",
+  		fullscreen: "全屏",
+  		exitFullscreen: "退出全屏",
+  		close: "关闭",
+  		left: "左侧",
+  		right: "右侧",
+  		annotationSaved: "标注已保存",
+  		annotationFailed: "标注保存失败",
+  		annotationDeleted: "标注已删除",
+  		selectionHint: "选中 HTML 中的文字后点击「标注」",
+  		source: "来源"
+  	},
+  	milestone: {
+  		description: "配置里程碑组件的默认行为和显示样式。",
+  		enabled: "启用里程碑功能",
+  		defaultSlashCommandTemplate: "默认斜杠命令模板",
+  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
+  		defaultStyle: "默认显示样式",
+  		styleCapsule: "胶囊",
+  		styleBadge: "徽章",
+  		styleTrack: "轨道",
+  		styleCard: "卡片",
+  		styleCompact: "紧凑",
+  		styleArrowCapsule: "箭头胶囊",
+  		styleTimelineTrack: "时间线轨道",
+  		tooltipStyle: "Tooltip 样式",
+  		tooltipStyleMinimal: "简约模式",
+  		tooltipStyleCompact: "紧凑模式",
+  		tooltipStyleDetailed: "详细模式",
+  		tooltipStyleElegant: "优雅模式",
+  		inline: "行内模式",
+  		showLabel: "显示标签",
+  		showLabels: "显示标签",
+  		showProgress: "显示进度",
+  		templates: "预定义模板",
+  		addTemplate: "添加模板",
+  		noTemplates: "暂无模板，点击上方按钮添加。",
+  		newTemplate: "新模板",
+  		templateName: "模板名称",
+  		templateDescription: "描述（可选）",
+  		templateFilterTag: "筛选标签（可选）",
+  		templateFilterPropKey: "筛选属性键（可选）",
+  		templateFilterPropValue: "筛选属性值（可选）",
+  		templateMilestonePropKey: "里程碑属性键（必填）",
+  		templateMilestoneList: "里程碑列表（分号分隔）",
+  		defaultColors: "默认配色",
+  		edit: "编辑",
+  		collapse: "折叠",
+  		"delete": "删除",
+  		nameRequired: "模板名称不能为空",
+  		nameDuplicate: "模板名称已存在",
+  		colorCompleted: "已完成",
+  		colorInProgress: "进行中",
+  		colorPending: "待开始",
+  		colorFailed: "失败",
+  		colorSkipped: "跳过",
+  		colorBackground: "背景",
+  		colorText: "文字",
+  		templatePropKeyHint: "填写格式：可以填写 :user.property/xxx 或直接填写 xxx（系统会自动添加前缀）",
+  		templateMilestoneListPlaceholder: "需求;开发;测试;上线;验收",
+  		customColorsTitle: "自定义配色",
+  		customColorsHint: "可选"
+  	},
+  	saveHtmlViewerSettings: "保存 HTML 阅读器设置",
+  	saveMilestoneSettings: "保存里程碑设置"
+  };
+  var zhCN = {
+  	taskProgress: taskProgress,
+  	toolbar: toolbar,
+  	inlineComment: inlineComment,
+  	comment: comment,
+  	modal: modal,
+  	settings: settings
+  };
+
+  const builtInTranslations = {
+    "en": en$1,
+    "ja": ja,
+    "zh-CN": zhCN
+  };
+  let dynamicTranslations = {};
+  const getNestedValue = (obj, key) => {
+    if (!obj || !key) return key;
+    const keys = key.split(".");
+    let result = obj;
+    for (const k of keys) {
+      if (result && typeof result === "object" && k in result) {
+        result = result[k];
+      } else {
+        return key;
+      }
+    }
+    return result;
+  };
+  const interpolate$1 = (message, params) => {
+    if (!params) return message;
+    return message.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, name) => {
+      const value = params[name];
+      return value === void 0 ? match : String(value);
+    });
+  };
+  const normalizeLanguage = (language) => {
+    if (language === "en" || language === "ja" || language === "zh-CN") {
+      return language;
+    }
+    return "zh-CN";
+  };
+  const loadLanguageFile = async (langCode, filePath) => {
+    try {
+      const response = await fetch(`./${filePath}`);
+      if (response.ok) {
+        const translation = await response.json();
+        return translation;
+      }
+      return null;
+    } catch (error) {
+      loggerProxy.warn(`Failed to load language file for ${langCode}:`, error);
+      return null;
+    }
+  };
+  const initI18n = async () => {
+    const settings = getSettings();
+    const languageMeta = settings.meta?.language;
+    if (languageMeta?.languages) {
+      for (const lang of languageMeta.languages) {
+        const translation = await loadLanguageFile(lang.code, lang.path);
+        if (translation) {
+          dynamicTranslations[lang.code] = translation;
+        }
+      }
+    }
+  };
+  function t(key, langOrParams, paramsOrLanguage) {
+    const hasExplicitLanguage = typeof langOrParams === "string";
+    const hasLegacyLanguage = typeof paramsOrLanguage === "string";
+    const interpolationParams = hasExplicitLanguage ? paramsOrLanguage : langOrParams;
+    const concreteLanguage = normalizeLanguage(
+      hasExplicitLanguage ? langOrParams : hasLegacyLanguage ? paramsOrLanguage : getSettings()?.language
+    );
+    if (dynamicTranslations[concreteLanguage]) {
+      const translation = getNestedValue(dynamicTranslations[concreteLanguage], key);
+      if (translation !== key) return interpolate$1(translation, interpolationParams);
+    }
+    const builtInTranslation = builtInTranslations[concreteLanguage] || builtInTranslations["zh-CN"];
+    return interpolate$1(getNestedValue(builtInTranslation, key), interpolationParams);
+  }
+
+  function textNodes(doc) {
+    const body = doc.body;
+    if (!body) return [];
+    const walker = doc.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+    const result = [];
+    let offset = 0;
+    let node = walker.nextNode();
+    while (node) {
+      const text = node.textContent || "";
+      result.push({ node, start: offset, end: offset + text.length });
+      offset += text.length;
+      node = walker.nextNode();
+    }
+    return result;
+  }
+  function bodyText(doc) {
+    return textNodes(doc).map((item) => item.node.textContent || "").join("");
+  }
+  function offsetAt(doc, container, offset) {
+    const range = doc.createRange();
+    range.selectNodeContents(doc.body);
+    range.setEnd(container, offset);
+    return range.toString().length;
+  }
+  function nodeAt(nodes, offset) {
+    for (const item of nodes) {
+      if (offset <= item.end) {
+        return { node: item.node, offset: Math.max(0, offset - item.start) };
+      }
+    }
+    const last = nodes[nodes.length - 1];
+    return last ? { node: last.node, offset: (last.node.textContent || "").length } : null;
+  }
+  function rangeToAnchor(doc, range) {
+    if (!doc.body || range.collapsed) return null;
+    const quote = range.toString();
+    if (!quote.trim()) return null;
+    const start = offsetAt(doc, range.startContainer, range.startOffset);
+    const end = offsetAt(doc, range.endContainer, range.endOffset);
+    if (end <= start) return null;
+    const full = bodyText(doc);
+    return {
+      quote,
+      start,
+      end,
+      prefix: full.slice(Math.max(0, start - 40), start),
+      suffix: full.slice(end, Math.min(full.length, end + 40))
+    };
+  }
+  function matchScore(full, index, anchor) {
+    let score = 0;
+    if (anchor.prefix && full.slice(Math.max(0, index - anchor.prefix.length), index) === anchor.prefix) {
+      score += 2;
+    }
+    const end = index + anchor.quote.length;
+    if (anchor.suffix && full.slice(end, end + anchor.suffix.length) === anchor.suffix) {
+      score += 2;
+    }
+    return score;
+  }
+  function anchorToRange(doc, anchor) {
+    const nodes = textNodes(doc);
+    const full = nodes.map((item) => item.node.textContent || "").join("");
+    if (!anchor.quote) return null;
+    let start = -1;
+    if (typeof anchor.start === "number" && typeof anchor.end === "number" && full.slice(anchor.start, anchor.end) === anchor.quote) {
+      start = anchor.start;
+    } else {
+      let best = -1;
+      let bestScore = -1;
+      let index = full.indexOf(anchor.quote);
+      while (index >= 0) {
+        const score = matchScore(full, index, anchor);
+        if (score > bestScore) {
+          best = index;
+          bestScore = score;
+        }
+        index = full.indexOf(anchor.quote, index + Math.max(1, anchor.quote.length));
+      }
+      start = best;
+    }
+    if (start < 0) return null;
+    const startPoint = nodeAt(nodes, start);
+    const endPoint = nodeAt(nodes, start + anchor.quote.length);
+    if (!startPoint || !endPoint) return null;
+    const range = doc.createRange();
+    range.setStart(startPoint.node, startPoint.offset);
+    range.setEnd(endPoint.node, endPoint.offset);
+    return range;
+  }
+  function applyHighlights(doc, annotations, keyPrefix = "ltt-html-") {
+    const result = /* @__PURE__ */ new Map();
+    const win = doc.defaultView;
+    if (!win?.CSS?.highlights || typeof win.Highlight !== "function") return result;
+    for (const key of Array.from(win.CSS.highlights.keys())) {
+      if (String(key).startsWith(keyPrefix)) win.CSS.highlights.delete(key);
+    }
+    for (const annotation of annotations) {
+      const range = anchorToRange(doc, annotation.anchor);
+      if (!range) continue;
+      try {
+        win.CSS.highlights.set(`${keyPrefix}${annotation.id}`, new win.Highlight(range));
+        result.set(annotation.id, range);
+      } catch {
+      }
+    }
+    return result;
+  }
+  function scrollToRange(doc, range) {
+    const element = range.startContainer.parentElement || doc.body;
+    element?.scrollIntoView({ block: "center", inline: "nearest", behavior: "smooth" });
+    const win = doc.defaultView;
+    if (!win) return;
+    const selection = win.getSelection();
+    if (selection) {
+      selection.removeAllRanges();
+      selection.addRange(range.cloneRange());
+    }
+  }
+
+  const MEMORY_PREFIX = "ltt-html-annotations:";
+  function storageKey(assetPath) {
+    return `html-viewer/${encodeURIComponent(assetPath)}.json`;
+  }
+  function memoryKey(assetPath) {
+    return `${MEMORY_PREFIX}${assetPath}`;
+  }
+  function parse(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === "string") {
+      try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  }
+  async function loadAnnotations(assetPath) {
+    const key = storageKey(assetPath);
+    try {
+      const storage = logseqAPI$1.FileStorage;
+      if (storage) {
+        return parse(await storage.getItem(key));
+      }
+    } catch {
+    }
+    try {
+      return parse(localStorage.getItem(memoryKey(assetPath)));
+    } catch {
+      return [];
+    }
+  }
+  async function saveAnnotations(assetPath, annotations) {
+    const value = JSON.stringify(annotations);
+    try {
+      const storage = logseqAPI$1.FileStorage;
+      if (storage) {
+        await storage.setItem(storageKey(assetPath), value);
+        return;
+      }
+    } catch {
+    }
+    try {
+      localStorage.setItem(memoryKey(assetPath), value);
+    } catch {
+    }
+  }
+
+  function safePageName(prefix, assetPath) {
+    const name = assetPath.split("/").pop() || assetPath;
+    const raw = `${prefix}${name}`;
+    return raw.replace(/[/\\?%*:|"<>]/g, "-").trim() || "HTML annotation";
+  }
+  async function findAssetBlock(assetPath) {
+    const editor = logseqAPI$1.Editor;
+    if (!editor?.getBlock) return null;
+    const file = assetPath.split("/").pop() || "";
+    const match = /^(.+)\.(html?|htm)$/i.exec(file);
+    if (!match) return null;
+    const uuid = match[1];
+    try {
+      const block = await editor.getBlock(uuid, { includeChildren: false });
+      const type = block?.["logseq.property.asset/type"] ?? block?.[":logseq.property.asset/type"];
+      if (!block || !["html", "htm", "text/html"].includes(String(type || "").toLowerCase())) {
+        return null;
+      }
+      return block;
+    } catch {
+      return null;
+    }
+  }
+  async function writeAnnotationToGraph(annotation, pagePrefix) {
+    const editor = logseqAPI$1.Editor;
+    if (!editor?.insertBlock) return null;
+    const assetBlock = await findAssetBlock(annotation.assetPath);
+    if (assetBlock?.uuid) {
+      const quote = annotation.quote.split(/\r?\n/).map((line) => `> ${line}`).join("\n");
+      const body = [
+        quote,
+        annotation.comment ? `
+${annotation.comment}` : "",
+        `
+来源: ${annotation.assetPath}`
+      ].join("");
+      try {
+        const block = await editor.insertBlock(String(assetBlock.uuid), body, {});
+        if (block?.uuid && typeof editor.upsertBlockProperty === "function") {
+          try {
+            await editor.upsertBlockProperty(block.uuid, "logseq.property/asset", assetBlock.uuid);
+          } catch {
+          }
+        }
+        return { blockUuid: block?.uuid, parentUuid: String(assetBlock.uuid) };
+      } catch {
+        return null;
+      }
+    }
+    if (!editor.getPage || !editor.createPage) return null;
+    const pageName = safePageName(pagePrefix, annotation.assetPath);
+    try {
+      let page = await editor.getPage(pageName);
+      if (!page) {
+        page = await editor.createPage(pageName, {}, { createFirstBlock: false });
+      }
+      const pageId = page?.uuid || page?.id;
+      if (!pageId) return { pageName };
+      const quote = annotation.quote.split(/\r?\n/).map((line) => `> ${line}`).join("\n");
+      const body = [
+        quote,
+        annotation.comment ? `
+${annotation.comment}` : "",
+        `
+来源: ${annotation.assetPath}`
+      ].join("");
+      const block = await editor.insertBlock(String(pageId), body, {});
+      return { blockUuid: block?.uuid, pageName };
+    } catch {
+      return { pageName };
+    }
+  }
+  async function removeAnnotationBlock(blockUuid) {
+    if (!blockUuid || typeof logseqAPI$1.Editor?.removeBlock !== "function") return;
+    try {
+      await logseqAPI$1.Editor.removeBlock(blockUuid);
+    } catch {
+    }
+  }
+
+  const REMOTE_PROTOCOL = /^(?:https?:)?\/\//i;
+  function isRemoteUrl(value) {
+    return REMOTE_PROTOCOL.test(value.trim());
+  }
+  function removeRemoteAttribute(element, name) {
+    const value = element.getAttribute(name);
+    if (value && isRemoteUrl(value)) {
+      element.removeAttribute(name);
+    }
+  }
+  function unwrap(element) {
+    const parent = element.parentNode;
+    if (!parent) return;
+    while (element.firstChild) parent.insertBefore(element.firstChild, element);
+    parent.removeChild(element);
+  }
+  function sanitizeHtml(raw, options) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(raw, "text/html");
+    doc.querySelectorAll("script").forEach((element) => {
+      if (!options.allowScripts) element.remove();
+    });
+    doc.querySelectorAll("iframe, frame, frameset, object, embed, applet").forEach((element) => {
+      element.remove();
+    });
+    doc.querySelectorAll("form").forEach(unwrap);
+    doc.querySelectorAll("*").forEach((element) => {
+      for (const attribute of Array.from(element.attributes)) {
+        const name = attribute.name.toLowerCase();
+        if (name.startsWith("on")) {
+          element.removeAttribute(attribute.name);
+          continue;
+        }
+        if (attribute.value.trim().toLowerCase().startsWith("javascript:")) {
+          element.removeAttribute(attribute.name);
+          continue;
+        }
+        if (!options.allowRemote && ["src", "href", "poster", "action"].includes(name)) {
+          removeRemoteAttribute(element, attribute.name);
+        }
+        if (!options.allowRemote && name === "srcset") {
+          element.removeAttribute(attribute.name);
+        }
+      }
+    });
+    if (!options.allowRemote) {
+      doc.querySelectorAll("link[href]").forEach((element) => {
+        removeRemoteAttribute(element, "href");
+      });
+      doc.querySelectorAll("style").forEach((element) => {
+        if (element.textContent) {
+          element.textContent = element.textContent.replace(/@import\s+(?:url\()?['"]?https?:\/\/[^;)]+['"]?\)?;?/gi, "").replace(/url\(\s*['"]?https?:\/\/[^)]+\)/gi, "none");
+        }
+      });
+    }
+    doc.querySelectorAll("meta[http-equiv]").forEach((element) => {
+      if ((element.getAttribute("http-equiv") || "").toLowerCase() === "refresh") {
+        element.remove();
+      }
+    });
+    doc.querySelectorAll("base").forEach((element) => element.remove());
+    if (options.baseUrl) {
+      const base = doc.createElement("base");
+      base.setAttribute("href", options.baseUrl);
+      doc.head.prepend(base);
+    }
+    const viewport = doc.querySelector('meta[name="viewport"]') || doc.createElement("meta");
+    viewport.setAttribute("name", "viewport");
+    viewport.setAttribute("content", "width=device-width, initial-scale=1");
+    if (!viewport.parentNode) doc.head.appendChild(viewport);
+    return `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
+  }
+
+  function parseLogseqHref(href) {
+    const match = /^logseq:\/\/(page|block)\/(.+)$/i.exec(String(href || "").trim());
+    if (!match) return null;
+    let value = match[2];
+    try {
+      value = decodeURIComponent(value);
+    } catch {
+    }
+    if (!value) return null;
+    return match[1].toLowerCase() === "page" ? { type: "page", name: value } : { type: "block", uuid: value };
+  }
+  function isSafeDashboardCall(method) {
+    return (/* @__PURE__ */ new Set([
+      "App.pushState",
+      "App.openExternalLink",
+      "Editor.openInRightSidebar"
+    ])).has(method);
+  }
+
+  const DEFAULT_VIEWER_SETTINGS = {
+    defaultSide: "right",
+    defaultWidth: 56,
+    allowScripts: false,
+    allowRemote: false,
+    writeAnnotationsToGraph: true,
+    annotationPagePrefix: "HTML 标注 - "
+  };
+  function currentSettings() {
+    return {
+      ...DEFAULT_VIEWER_SETTINGS,
+      ...getSettings().htmlViewer || {}
+    };
+  }
+  function basename(path) {
+    return path.split("/").pop() || path;
+  }
+  function clampWidth(value) {
+    return Math.min(90, Math.max(30, Math.round(value)));
+  }
+  function createId() {
+    try {
+      return crypto.randomUUID();
+    } catch {
+      return `html-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    }
+  }
+  const HtmlViewer = ({ isOpen, onClose, initialPath, initialFullscreen, dashboardMode }) => {
+    const language = getSettings().language || "zh-CN";
+    const [viewerSettings, setViewerSettings] = reactExports.useState(() => currentSettings());
+    const [assets, setAssets] = reactExports.useState([]);
+    const [assetsLoading, setAssetsLoading] = reactExports.useState(false);
+    const [search, setSearch] = reactExports.useState("");
+    const [manualPath, setManualPath] = reactExports.useState("");
+    const [selectedPath, setSelectedPath] = reactExports.useState("");
+    const [html, setHtml] = reactExports.useState("");
+    const [htmlKey, setHtmlKey] = reactExports.useState(0);
+    const [frameReady, setFrameReady] = reactExports.useState(0);
+    const [loading, setLoading] = reactExports.useState(false);
+    const [error, setError] = reactExports.useState("");
+    const [annotations, setAnnotations] = reactExports.useState([]);
+    const [selection, setSelection] = reactExports.useState(null);
+    const [composerOpen, setComposerOpen] = reactExports.useState(false);
+    const [comment, setComment] = reactExports.useState("");
+    const [saving, setSaving] = reactExports.useState(false);
+    const [side, setSide] = reactExports.useState("right");
+    const [width, setWidth] = reactExports.useState(56);
+    const [fullscreen, setFullscreen] = reactExports.useState(false);
+    const [showList, setShowList] = reactExports.useState(true);
+    const [activeId, setActiveId] = reactExports.useState("");
+    const [message, setMessage] = reactExports.useState("");
+    const iframeRef = reactExports.useRef(null);
+    const panelRef = reactExports.useRef(null);
+    const annotationsRef = reactExports.useRef([]);
+    const onCloseRef = reactExports.useRef(onClose);
+    onCloseRef.current = onClose;
+    const notify = (text, type = "success") => {
+      setMessage(text);
+      try {
+        void logseqAPI$1.UI?.showMsg?.(text, type);
+      } catch {
+      }
+    };
+    reactExports.useEffect(() => {
+      annotationsRef.current = annotations;
+    }, [annotations]);
+    reactExports.useEffect(() => {
+      if (!isOpen) return;
+      const next = currentSettings();
+      setViewerSettings(next);
+      setSide(next.defaultSide);
+      setWidth(clampWidth(next.defaultWidth));
+      setFullscreen(Boolean(initialFullscreen));
+      setShowList(!dashboardMode);
+      setError("");
+      setMessage("");
+      void refreshAssets(true);
+      if (initialPath) {
+        void openAsset(initialPath);
+      }
+    }, [isOpen, initialPath, initialFullscreen, dashboardMode]);
+    const refreshAssets = async (autoOpen = false) => {
+      setAssetsLoading(true);
+      try {
+        const files = await logseqAPI$1.Assets?.listFilesOfCurrentGraph?.(["html", "htm"]);
+        const list = Array.isArray(files) ? files : [];
+        const sorted = [...list].sort((a, b) => (b.modifiedTime || 0) - (a.modifiedTime || 0));
+        setAssets(sorted);
+        if (autoOpen && !selectedPath && sorted.length === 1) {
+          void openAsset(sorted[0].path);
+        }
+      } catch {
+        setAssets([]);
+      } finally {
+        setAssetsLoading(false);
+      }
+    };
+    const openAsset = async (path) => {
+      const normalized = path.trim();
+      if (!normalized) return;
+      setSelectedPath(normalized);
+      setLoading(true);
+      setError("");
+      setHtml("");
+      setFrameReady(0);
+      setAnnotations([]);
+      setSelection(null);
+      setComposerOpen(false);
+      setMessage("");
+      setActiveId("");
+      try {
+        const url = await logseqAPI$1.Assets?.makeUrl?.(normalized);
+        if (!url) throw new Error("ASSET_URL_UNAVAILABLE");
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const raw = await response.text();
+        const clean = sanitizeHtml(raw, {
+          allowScripts: viewerSettings.allowScripts,
+          allowRemote: viewerSettings.allowRemote,
+          baseUrl: url
+        });
+        const stored = await loadAnnotations(normalized);
+        setHtml(clean);
+        setHtmlKey((value) => value + 1);
+        setAnnotations(stored);
+      } catch (loadError) {
+        setError(String(loadError));
+      } finally {
+        setLoading(false);
+      }
+    };
+    const getFrameDocument = () => {
+      try {
+        return iframeRef.current?.contentDocument || null;
+      } catch {
+        return null;
+      }
+    };
+    const refreshHighlights = reactExports.useCallback(() => {
+      const doc = getFrameDocument();
+      if (!doc) return;
+      applyHighlights(doc, annotationsRef.current);
+    }, []);
+    const handleFrameLoad = () => {
+      const doc = getFrameDocument();
+      if (!doc) {
+        setError(t("settings.htmlViewer.fetchHint", language));
+        return;
+      }
+      setFrameReady((value) => value + 1);
+      refreshHighlights();
+    };
+    reactExports.useEffect(() => {
+      if (!selectedPath || !html) return;
+      const timer = window.setTimeout(() => {
+        handleFrameLoad();
+      }, 120);
+      return () => window.clearTimeout(timer);
+    }, [html, selectedPath, annotations, refreshHighlights]);
+    const navigateLogseqHref = async (href) => {
+      const parsed = parseLogseqHref(href);
+      if (!parsed) return false;
+      if (parsed.type === "page") {
+        await logseqAPI$1.App?.pushState?.("page", { name: parsed.name });
+        return true;
+      }
+      try {
+        const block = await logseqAPI$1.Editor?.getBlock?.(parsed.uuid, { includeChildren: false });
+        const pageName = block?.page?.name || block?.page?.title || block?.page?.originalName;
+        if (!pageName) return false;
+        await logseqAPI$1.App?.pushState?.("page", { name: pageName });
+        await logseqAPI$1.Editor?.scrollToBlockInPage?.(pageName, parsed.uuid);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+    const handleDashboardCall = async (element) => {
+      const method = element.getAttribute("data-ls-call") || "";
+      if (!isSafeDashboardCall(method)) return false;
+      let args = {};
+      try {
+        args = JSON.parse(element.getAttribute("data-ls-args") || "{}");
+      } catch {
+        return false;
+      }
+      if (method === "App.pushState") {
+        await logseqAPI$1.App?.pushState?.(args.k || "page", args.params || {});
+      } else if (method === "App.openExternalLink" && args.url) {
+        await logseqAPI$1.App?.openExternalLink?.(String(args.url));
+      } else if (method === "Editor.openInRightSidebar" && args.idOrKey) {
+        await logseqAPI$1.Editor?.openInRightSidebar?.(String(args.idOrKey));
+      }
+      return true;
+    };
+    reactExports.useEffect(() => {
+      if (!html || !frameReady) return;
+      const doc = getFrameDocument();
+      if (!doc) return;
+      const onSelection = () => {
+        window.setTimeout(() => {
+          const currentDoc = getFrameDocument();
+          if (!currentDoc) return;
+          const win = currentDoc.defaultView;
+          const sel = win?.getSelection();
+          if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
+            setSelection(null);
+            return;
+          }
+          const range = sel.getRangeAt(0);
+          const anchor = rangeToAnchor(currentDoc, range);
+          if (!anchor) {
+            setSelection(null);
+            return;
+          }
+          const frameRect = iframeRef.current?.getBoundingClientRect();
+          const rangeRect = range.getBoundingClientRect();
+          if (!frameRect) return;
+          setSelection({
+            anchor,
+            top: frameRect.top + rangeRect.bottom + 8,
+            left: Math.min(window.innerWidth - 120, frameRect.left + rangeRect.left)
+          });
+        }, 20);
+      };
+      const onClick = (event) => {
+        const target = event.target;
+        const callElement = target?.closest?.("[data-ls-call]");
+        if (callElement) {
+          event.preventDefault();
+          void handleDashboardCall(callElement).then((handled) => {
+            if (!handled) notify(t("settings.htmlViewer.linkUnsupported", language), "warning");
+          });
+          return;
+        }
+        const link = target?.closest?.("a[href]");
+        if (!link) return;
+        const href = link.getAttribute("href") || "";
+        if (/^logseq:\/\//i.test(href)) {
+          event.preventDefault();
+          void navigateLogseqHref(href).then((handled) => {
+            if (!handled) notify(t("settings.htmlViewer.linkUnsupported", language), "warning");
+          });
+          return;
+        }
+        if (/^https?:\/\//i.test(href)) {
+          event.preventDefault();
+          void logseqAPI$1.App?.openExternalLink?.(href);
+        }
+      };
+      doc.addEventListener("mouseup", onSelection);
+      doc.addEventListener("keyup", onSelection);
+      doc.addEventListener("click", onClick);
+      return () => {
+        doc.removeEventListener("mouseup", onSelection);
+        doc.removeEventListener("keyup", onSelection);
+        doc.removeEventListener("click", onClick);
+      };
+    }, [html, htmlKey, frameReady]);
+    reactExports.useEffect(() => {
+      if (!isOpen) return;
+      const onKeyDown = (event) => {
+        if (event.key !== "Escape") return;
+        if (composerOpen) {
+          setComposerOpen(false);
+          return;
+        }
+        if (fullscreen) {
+          setFullscreen(false);
+          return;
+        }
+        onCloseRef.current();
+      };
+      const doc = getDocument();
+      doc.addEventListener("keydown", onKeyDown);
+      return () => doc.removeEventListener("keydown", onKeyDown);
+    }, [isOpen, composerOpen, fullscreen]);
+    const jumpTo = (annotation) => {
+      const doc = getFrameDocument();
+      if (!doc) return;
+      const range = anchorToRange(doc, annotation.anchor);
+      setActiveId(annotation.id);
+      if (!range) {
+        notify(t("settings.htmlViewer.anchorLost", language), "warning");
+        return;
+      }
+      scrollToRange(doc, range);
+      setMessage("");
+    };
+    const saveAnnotation = async () => {
+      if (!selection) return;
+      setSaving(true);
+      setMessage("");
+      const annotation = {
+        id: createId(),
+        assetPath: selectedPath,
+        quote: selection.anchor.quote,
+        comment: comment.trim(),
+        anchor: selection.anchor,
+        createdAt: Date.now()
+      };
+      try {
+        if (viewerSettings.writeAnnotationsToGraph) {
+          const result = await writeAnnotationToGraph(annotation, viewerSettings.annotationPagePrefix);
+          if (result) {
+            annotation.blockUuid = result.blockUuid;
+            annotation.pageName = result.pageName;
+          }
+        }
+        const next = [...annotationsRef.current, annotation];
+        await saveAnnotations(selectedPath, next);
+        setAnnotations(next);
+        annotationsRef.current = next;
+        refreshHighlights();
+        setComposerOpen(false);
+        setComment("");
+        setSelection(null);
+        notify(t("settings.htmlViewer.annotationSaved", language));
+      } catch {
+        notify(t("settings.htmlViewer.annotationFailed", language), "error");
+      } finally {
+        setSaving(false);
+      }
+    };
+    const deleteAnnotation = async (annotation) => {
+      const confirmed = window.confirm(t("settings.htmlViewer.deleteConfirm", language));
+      if (!confirmed) return;
+      await removeAnnotationBlock(annotation.blockUuid);
+      const next = annotationsRef.current.filter((item) => item.id !== annotation.id);
+      await saveAnnotations(selectedPath, next);
+      setAnnotations(next);
+      annotationsRef.current = next;
+      refreshHighlights();
+      if (activeId === annotation.id) setActiveId("");
+      notify(t("settings.htmlViewer.annotationDeleted", language));
+    };
+    const startResize = (event) => {
+      event.preventDefault();
+      setFullscreen(false);
+      const startX = event.clientX;
+      const startWidth = width;
+      const onMove = (moveEvent) => {
+        const delta = side === "right" ? startX - moveEvent.clientX : moveEvent.clientX - startX;
+        setWidth(clampWidth(startWidth + delta / getWindow$1().innerWidth * 100));
+      };
+      const onUp = () => {
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerup", onUp);
+        getDocument().body.style.cursor = "";
+        getDocument().body.style.userSelect = "";
+      };
+      getDocument().body.style.cursor = "col-resize";
+      getDocument().body.style.userSelect = "none";
+      document.addEventListener("pointermove", onMove);
+      document.addEventListener("pointerup", onUp);
+    };
+    if (!isOpen) return null;
+    const visibleAssets = assets.filter((file) => {
+      const lower = file.path.toLowerCase();
+      if (!lower.endsWith(".html") && !lower.endsWith(".htm")) return false;
+      return !search.trim() || lower.includes(search.trim().toLowerCase());
+    });
+    const panelWidth = fullscreen ? 100 : width;
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-html-viewer-layer", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        ref: panelRef,
+        className: `ltt-html-viewer-panel ${fullscreen ? "is-fullscreen" : ""} is-${side}`,
+        "data-side": side,
+        style: { width: `${panelWidth}%` },
+        role: "dialog",
+        "aria-modal": "true",
+        "aria-label": t("settings.htmlViewer.assets", language),
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "ltt-html-viewer-resizer",
+              onPointerDown: startResize,
+              role: "separator",
+              "aria-orientation": "vertical"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "ltt-html-viewer-header", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-heading", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: t(dashboardMode ? "settings.htmlViewer.dashboardSection" : "settings.htmlViewer.openButton", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-html-viewer-file", title: selectedPath, children: selectedPath ? basename(selectedPath) : t("settings.htmlViewer.assets", language) })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-actions", children: [
+              selectedPath && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", "data-action": "assets", onClick: () => setSelectedPath(""), title: t("settings.htmlViewer.assets", language), children: t("settings.htmlViewer.assets", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  type: "button",
+                  "data-action": "annotations",
+                  "aria-pressed": showList,
+                  onClick: () => setShowList((value) => !value),
+                  title: t("settings.htmlViewer.annotationList", language),
+                  children: [
+                    t("settings.htmlViewer.annotationList", language),
+                    " (",
+                    annotations.length,
+                    ")"
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  type: "button",
+                  "data-action": "side",
+                  onClick: () => setSide(side === "right" ? "left" : "right"),
+                  title: side === "right" ? t("settings.htmlViewer.left", language) : t("settings.htmlViewer.right", language),
+                  children: [
+                    side === "right" ? "⇤ " : "⇥ ",
+                    side === "right" ? t("settings.htmlViewer.left", language) : t("settings.htmlViewer.right", language)
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  "data-action": "fullscreen",
+                  "aria-pressed": fullscreen,
+                  onClick: () => setFullscreen((value) => !value),
+                  title: fullscreen ? t("settings.htmlViewer.exitFullscreen", language) : t("settings.htmlViewer.fullscreen", language),
+                  children: fullscreen ? t("settings.htmlViewer.exitFullscreen", language) : t("settings.htmlViewer.fullscreen", language)
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", "data-action": "close", onClick: onClose, title: t("settings.htmlViewer.close", language), "aria-label": t("settings.htmlViewer.close", language), children: "×" })
+            ] })
+          ] }),
+          !selectedPath ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-picker", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-toolbar", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  type: "search",
+                  value: search,
+                  onChange: (event) => setSearch(event.target.value),
+                  placeholder: t("settings.htmlViewer.search", language)
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => void refreshAssets(false), children: t("settings.htmlViewer.refresh", language) })
+            ] }),
+            assetsLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-html-viewer-muted", children: "…" }) : null,
+            !assetsLoading && visibleAssets.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-empty", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t("settings.htmlViewer.noAssets", language) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-manual", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    value: manualPath,
+                    onChange: (event) => setManualPath(event.target.value),
+                    placeholder: "assets/report.html"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => void openAsset(manualPath), children: t("settings.htmlViewer.open", language) })
+              ] })
+            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "ltt-html-viewer-assets", children: visibleAssets.map((file) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", onClick: () => void openAsset(file.path), children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: basename(file.path) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: file.path })
+            ] }) }, file.path)) })
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-main", children: [
+              loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-html-viewer-status", children: "…" }) : null,
+              error ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-error", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: t("settings.htmlViewer.loadError", language) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: error }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t("settings.htmlViewer.fetchHint", language) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-error-actions", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => void openAsset(selectedPath), children: t("settings.htmlViewer.refresh", language) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: () => void logseqAPI$1.Assets?.builtInOpen?.(selectedPath),
+                      children: t("settings.htmlViewer.openInBrowser", language)
+                    }
+                  )
+                ] })
+              ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "iframe",
+                {
+                  ref: iframeRef,
+                  className: "ltt-html-viewer-frame",
+                  title: basename(selectedPath),
+                  srcDoc: html,
+                  sandbox: viewerSettings.allowScripts ? "allow-same-origin allow-scripts" : "allow-same-origin",
+                  referrerPolicy: "no-referrer",
+                  onLoad: handleFrameLoad
+                },
+                `${selectedPath}-${htmlKey}`
+              ),
+              selection && !composerOpen && !loading && !error ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  className: "ltt-html-viewer-annotate",
+                  style: { top: selection.top, left: selection.left },
+                  onMouseDown: (event) => event.preventDefault(),
+                  onClick: () => {
+                    setComposerOpen(true);
+                    setComment("");
+                  },
+                  children: t("settings.htmlViewer.annotation", language)
+                }
+              ) : null,
+              composerOpen && selection ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-composer", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("blockquote", { children: selection.anchor.quote }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "textarea",
+                  {
+                    autoFocus: true,
+                    value: comment,
+                    onChange: (event) => setComment(event.target.value),
+                    placeholder: t("settings.htmlViewer.commentPlaceholder", language)
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-composer-actions", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => {
+                    setComposerOpen(false);
+                    setComment("");
+                  }, children: t("settings.htmlViewer.cancel", language) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "primary", onClick: () => void saveAnnotation(), disabled: saving, children: saving ? "…" : t("settings.htmlViewer.saveAnnotation", language) })
+                ] })
+              ] }) : null
+            ] }),
+            showList ? /* @__PURE__ */ jsxRuntimeExports.jsxs("aside", { className: "ltt-html-viewer-sidebar", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-sidebar-title", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+                  t("settings.htmlViewer.annotationList", language),
+                  " (",
+                  annotations.length,
+                  ")"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => setShowList(false), children: "×" })
+              ] }),
+              annotations.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-html-viewer-muted", children: t("settings.htmlViewer.noAnnotations", language) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { children: annotations.map((annotation) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: activeId === annotation.id ? "active" : "", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", className: "ltt-html-viewer-annotation-jump", onClick: () => jumpTo(annotation), children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                    "“",
+                    annotation.quote.slice(0, 90),
+                    annotation.quote.length > 90 ? "…" : "",
+                    "”"
+                  ] }),
+                  annotation.comment ? /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: annotation.comment }) : null
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-html-viewer-annotation-actions", children: [
+                  annotation.pageName ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: () => void logseqAPI$1.App.pushState("page", { name: annotation.pageName }),
+                      children: t("settings.htmlViewer.openPage", language)
+                    }
+                  ) : null,
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => void deleteAnnotation(annotation), children: t("settings.htmlViewer.deleteAnnotation", language) })
+                ] })
+              ] }, annotation.id)) }),
+              message ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-html-viewer-message", children: message }) : null
+            ] }) : null
+          ] })
+        ]
+      }
+    ) });
+  };
+
+  const HtmlAssetLauncher = ({ path, filename, onOpen }) => {
+    const language = getSettings().language || "zh-CN";
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", className: "ltt-html-asset-launcher", onClick: onOpen, title: path, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-html-asset-launcher-icon", children: "HTML" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-html-asset-launcher-name", children: filename }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-html-asset-launcher-action", children: t("settings.htmlViewer.open", language) })
+    ] });
+  };
+
+  function property(props, key) {
+    const properties = props.properties || {};
+    return properties[key] ?? properties[`:${key}`];
+  }
+  function assetTypeOf(props) {
+    const type = property(props, "logseq.property.asset/type") ?? props.format ?? "";
+    return String(type).toLowerCase();
+  }
+  function isHtmlAssetBlock(props) {
+    return ["html", "htm", "text/html"].includes(assetTypeOf(props));
+  }
+  function assetPathFor(props) {
+    if (!isHtmlAssetBlock(props)) return null;
+    const uuid = props.uuid || property(props, "block/uuid");
+    if (!uuid) return null;
+    const type = assetTypeOf(props) === "text/html" ? "html" : assetTypeOf(props);
+    return `assets/${uuid}.${type}`;
+  }
+
+  const ID$2 = "text-toolkit-html-viewer";
+  let viewerOpen = false;
+  let initialPath = "";
+  let initialFullscreen = false;
+  let dashboardMode = false;
+  function renderViewer() {
+    const container = getDocument().getElementById(ID$2);
+    if (!container) return;
+    renderComponent(container, HtmlViewer, {
+      isOpen: viewerOpen,
+      initialPath,
+      initialFullscreen,
+      dashboardMode,
+      onClose: () => {
+        viewerOpen = false;
+        renderViewer();
+      }
+    });
+  }
+  async function initHtmlViewer() {
+    if (getSettings().htmlViewer?.enabled === false) {
+      loggerProxy.info("[HtmlViewer] Disabled by settings");
+      return;
+    }
+    logseqAPI$1.provideUI({
+      key: ID$2,
+      path: "#app-container",
+      template: `<div id="${ID$2}"></div>`
+    });
+    await waitForElementById(ID$2);
+    renderViewer();
+    logseqAPI$1.Editor.registerSlashCommand(
+      "[Text Toolkit] Open HTML Viewer",
+      async () => {
+        openHtmlViewer();
+      }
+    );
+    logseqAPI$1.Editor.registerSlashCommand(
+      "[Text Toolkit] Open Dashboard",
+      async () => {
+        openDashboard();
+      }
+    );
+    registerHtmlAssetBlockRenderer();
+    registerHtmlViewerToolbarButton();
+    loggerProxy.info("[HtmlViewer] Registered successfully");
+  }
+  function openHtmlViewer(path = "", options = {}) {
+    initialPath = path;
+    initialFullscreen = options.fullscreen === true;
+    dashboardMode = options.dashboard === true;
+    viewerOpen = true;
+    renderViewer();
+  }
+  function openDashboard() {
+    const settings = getSettings().htmlViewer;
+    if (!settings?.dashboardAsset) {
+      openHtmlViewer();
+      return;
+    }
+    openHtmlViewer(settings.dashboardAsset, {
+      fullscreen: settings.dashboardFullscreen !== false,
+      dashboard: true
+    });
+  }
+  function registerHtmlViewerToolbarButton() {
+    const settings = getSettings().htmlViewer;
+    if (settings?.showToolbarButton === false) return;
+    const language = getSettings().language || "zh-CN";
+    const hasDashboard = Boolean(settings?.dashboardAsset);
+    const title = hasDashboard ? t("settings.htmlViewer.dashboardSection", language) : t("settings.htmlViewer.toolbarLabel", language);
+    const action = hasDashboard ? "openDashboard" : "openHtmlViewer";
+    const icon = hasDashboard ? "ti-layout-dashboard" : "ti-file-type-html";
+    try {
+      logseqAPI$1.App.registerUIItem("toolbar", {
+        key: "ltt-html-viewer-button",
+        template: `<a class="button" id="ltt-html-viewer-button" data-on-click="${action}" title="${title}"><i class="ti ${icon}"></i></a>`
+      });
+    } catch (error) {
+      loggerProxy.warn("[HtmlViewer] Failed to register toolbar button", error);
+    }
+  }
+  function registerHtmlAssetBlockRenderer() {
+    const experiments = logseqAPI$1.Experiments;
+    if (!experiments?.registerBlockRenderer) return;
+    try {
+      experiments.registerBlockRenderer("html-asset-viewer", {
+        when: isHtmlAssetBlock,
+        render: (props) => {
+          const path = assetPathFor(props);
+          if (!path) return null;
+          const filename = String(props.content || path);
+          return React.createElement(HtmlAssetLauncher, {
+            path,
+            filename,
+            onOpen: () => openHtmlViewer(path)
+          });
+        }
+      });
+    } catch (error) {
+      loggerProxy.warn("[HtmlViewer] Failed to register asset block renderer", error);
+    }
+  }
+
   function TestLayout({ leftContent, centerContent, rightContent }) {
     const [leftCollapsed, setLeftCollapsed] = reactExports.useState(true);
     const [rightCollapsed, setRightCollapsed] = reactExports.useState(true);
@@ -3104,1221 +5575,6 @@
       }
     );
   };
-
-  const taskProgress$2 = {
-  	nestingLevel: "Nesting Level"
-  };
-  const toolbar$2 = {
-  	bold: "Bold",
-  	highlight: "Highlight",
-  	fileLink: "File Link",
-  	comment: "Comment",
-  	noSelection: "Please select the text to process",
-  	replaceFailed: "Text replacement failed",
-  	noBlockContent: "Cannot get block content",
-  	noPluginCommand: "External plugin command is not configured",
-  	pluginCommandSuccess: "External plugin command executed successfully",
-  	pluginCommandFailed: "External plugin command failed",
-  	pluginNotInstalled: "External plugin {{pluginId}} is not installed or is disabled",
-  	buttonTooltip: "✨ Text Toolkit Plugin - Make your notes more interesting!"
-  };
-  const inlineComment$2 = {
-  	text: "Text",
-  	placeholder: "Enter your comment or annotation...",
-  	save: "Inline Comment",
-  	title: "Add Annotation",
-  	addComment: "Add Comment",
-  	selectedText: "Selected Text",
-  	annotate: "Annotate",
-  	comment: "Comment"
-  };
-  const comment$2 = {
-  	title: "Add Comment"
-  };
-  const modal$2 = {
-  	placeholder: "Please enter content"
-  };
-  const settings$2 = {
-  	featuresTitle: "Features",
-  	featuresHint: "Disabling a feature will hide its settings tab and disable the feature globally",
-  	features: {
-  		enabled: "Enabled",
-  		disabled: "Disabled",
-  		toolbarDescription: "Customize toolbar display",
-  		taskProgressDescription: "Project progress statistics and display",
-  		heatmapDescription: "Activity and behavior analysis",
-  		blockViewDescription: "Multiple content display modes",
-  		milestoneDescription: "Project phase tracking",
-  		summaryDescription: "Automatic summarization and induction"
-  	},
-  	"default": "Default",
-  	toolbar: "Toolbar",
-  	title: "Settings",
-  	tabs: {
-  		general: "⚙️ General Settings",
-  		toolbar: "🛠️ Toolbar Settings",
-  		taskProgress: "📊 Task Progress",
-  		heatmap: "📈 Heatmap",
-  		blockView: "📋 Block View",
-  		summary: "📝 Summary Generator",
-  		milestone: "🎯 Milestone",
-  		advanced: "⚡ Other Settings"
-  	},
-  	saveSuccessRestart: "Saved successfully, please restart the application to take effect",
-  	generalSettings: "General Settings",
-  	theme: "Theme",
-  	themeFollowSystem: "Follow System",
-  	language: "Language",
-  	languageFollowSystem: "Follow System",
-  	toolbarSettings: "Toolbar Settings",
-  	enabled: "Enable",
-  	disabled: "Disable",
-  	showBorder: "Show Border",
-  	width: "Width",
-  	height: "Height",
-  	hoverDelay: "Hover Delay (ms)",
-  	toolbarShortcut: "Toolbar Shortcut",
-  	toolbarShortcutPlaceholder: "Please enter shortcut",
-  	sponsorEnabled: "Sponsor Bar",
-  	developerMode: "Developer Mode",
-  	toolbarElements: "Toolbar Elements",
-  	addNewItem: "Add New Item",
-  	addItem: "Add Item",
-  	label: "Label",
-  	icon: "Icon",
-  	funcmode: "Function Mode",
-  	confirmDeleteItem: "Are you sure you want to delete this toolbar item?",
-  	jsonSettings: "JSON Settings",
-  	applyJson: "Apply JSON",
-  	resetToDefault: "Reset to Default",
-  	cancel: "Cancel",
-  	save: "Save",
-  	saving: "Saving...",
-  	loading: "Loading settings...",
-  	error: "Failed to load settings",
-  	confirmReset: "Are you sure you want to reset all settings to default values?",
-  	confirmResetItems: "Are you sure you want to reset toolbar elements to default values?",
-  	subtitle: "Manage various configurations of the application, each area can be saved independently",
-  	generalSettingsDescription: "Configure the theme and language of the application",
-  	toolbarSettingsDescription: "Configure the display and behavior of the toolbar",
-  	toolbarElementsConfig: "Elements Configuration",
-  	toolbarGroupFormat: "Group Format",
-  	toolbarSingleElement: "Single Element",
-  	toolbarHiddenElement: "Hidden Element",
-  	toolbarBindingShortcut: "Bind Shortcut",
-  	advancedSettings: "Advanced Settings",
-  	advancedSettingsDescription: "Advanced feature configurations to be added",
-  	lightTheme: "Light",
-  	darkTheme: "Dark",
-  	chinese: "简体中文",
-  	english: "English",
-  	japanese: "日本語",
-  	saveGeneralSettings: "Save General Settings",
-  	saveToolbarSettings: "Save Toolbar Settings",
-  	macroTemplate: {
-  		hint: "Format: :macro, param1=value1, param2=value2. Leave empty to use default.",
-  		prefixRequired: "Must start with macro prefix (e.g., :taskprogress)",
-  		invalidFormat: "Invalid template format",
-  		unknownParam: "Contains unknown parameters"
-  	},
-  	saveSuccess: "Saved successfully!",
-  	settingsNotConfigured: "This settings area is not configured yet",
-  	comingSoon: "More features coming soon...",
-  	taskProgressDescription: "Configure the display mode and behavior of task progress tracking.",
-  	milestoneDescription: "Configure default behavior and display style for milestone components.",
-  	taskProgress: {
-  		enabled: "Enable Task Progress Feature",
-  		defaultSlashCommandTemplate: "Default Slash Command Template",
-  		nestingSettings: "Nesting Settings",
-  		nestingLevel: "Nesting Level",
-  		nestingLevel1: "Current Level Only",
-  		nestingLevel2: "2 Levels Deep",
-  		nestingLevel3: "3 Levels Deep",
-  		nestingLevelAll: "All Levels",
-  		onlyLeaves: "Count Only Leaf Tasks",
-  		onlyLeavesDescription: "Only count tasks without subtasks",
-  		showNestingIndicator: "Show Nesting Indicator",
-  		showNestingIndicatorDescription: "Display task nesting depth indicator",
-  		defaultDisplayType: "Default Display Type",
-  		miniCircle: "Mini Circle",
-  		dotMatrix: "Dot Matrix",
-  		statusCursor: "Status Cursor",
-  		progressCapsule: "Progress Capsule",
-  		stepProgress: "Step Progress",
-  		size: "Component Size",
-  		sizeSmall: "Small",
-  		sizeMedium: "Medium",
-  		sizeLarge: "Large",
-  		showLabel: "Show Label",
-  		fireworksOnComplete: "Fireworks on Complete All Tasks",
-  		labelFormat: "Label Format",
-  		labelFraction: "Fraction (10/20)",
-  		labelPercentage: "Percentage (50%)",
-  		labelBoth: "Both (10/20 50%)",
-  		statusColors: "Status Colors",
-  		statusColorsHint: "Click color to change, more statuses can be configured in settings.json",
-  		statusNames: {
-  			todo: "To Do",
-  			doing: "In Progress",
-  			"in-review": "In Review",
-  			done: "Done",
-  			waiting: "Waiting",
-  			canceled: "Canceled"
-  		},
-  		tooltip: {
-  			progress: "Progress",
-  			total: "Total"
-  		}
-  	},
-  	saveTaskProgressSettings: "Save Task Progress Settings",
-  	saveHeatmapSettings: "Save Heatmap Settings",
-  	saveBlockViewSettings: "Save Block View Settings",
-  	saveSummarySettings: "Save Summary Settings",
-  	blockView: {
-  		description: "Configure the global default behavior of the block view module.",
-  		enabled: "Enable Block View",
-  		defaultView: "Default View Type",
-  		viewList: "List",
-  		viewTable: "Table",
-  		viewGallery: "Gallery",
-  		viewBoard: "Kanban",
-  		hideViewBar: "Hide View Switcher Bar",
-  		hideViewBarDescription: "When hidden, default view will be used. You can still switch views with view=xxx parameter",
-  		inline: "Inline Mode",
-  		defaultSlashCommandTemplate: "Default Slash Command Template",
-  		defaultTheme: "Default Theme",
-  		themeDefault: "Default",
-  		themeNotion: "Notion",
-  		themeLinear: "Linear",
-  		themeDark: "Dark",
-  		themeGradient: "Gradient",
-  		themeTana: "Tana",
-  		themeCustom: "Custom",
-  		table: {
-  			title: "📊 Table Settings",
-  			showStriped: "Show Striped Rows",
-  			showBorder: "Show Borders",
-  			customTheme: {
-  				title: "🔧 Custom Theme Configuration",
-  				borderColor: "Border Color",
-  				headerBgColor: "Header Background",
-  				headerTextColor: "Header Text Color",
-  				cellTextColor: "Cell Text Color",
-  				headerBorderColor: "Header Border Color",
-  				headerHeight: "Header Height",
-  				rowBgColor: "Row Background",
-  				rowHoverBgColor: "Row Hover Background",
-  				rowBorderColor: "Row Border Color",
-  				cellPadding: "Cell Padding",
-  				tableBorderRadius: "Table Border Radius"
-  			}
-  		},
-  		gallery: {
-  			title: "🖼️ Gallery Settings",
-  			showCardBorders: "Show Card Borders",
-  			cardsPerRow: "Cards Per Row",
-  			customTheme: {
-  				title: "🔧 Custom Theme Configuration",
-  				borderColor: "Border Color",
-  				cardBgColor: "Card Background",
-  				cardHoverBgColor: "Card Hover Background",
-  				headerBorderColor: "Header Border Color",
-  				headerBgColor: "Header Background",
-  				headerTextColor: "Header Text Color",
-  				cardTextColor: "Card Text Color",
-  				cardBorderRadius: "Card Border Radius",
-  				cardShadow: "Card Shadow"
-  			}
-  		},
-  		board: {
-  			title: "📋 Kanban Settings",
-  			showColumnBorders: "Show Column Borders",
-  			cardSpacing: "Card Spacing",
-  			customTheme: {
-  				title: "🔧 Custom Theme Configuration",
-  				borderColor: "Border Color",
-  				columnBgColor: "Column Background",
-  				columnHoverBgColor: "Column Hover Background",
-  				headerBgColor: "Header Background",
-  				headerTextColor: "Header Text Color",
-  				cardBgColor: "Card Background",
-  				cardTextColor: "Card Text Color",
-  				cardBorderColor: "Card Border Color",
-  				cardBorderRadius: "Card Border Radius"
-  			}
-  		},
-  		emptyHint: "Add child blocks to use this view"
-  	},
-  	heatmap: {
-  		description: "Configure heatmap display functionality and appearance.",
-  		enabled: "Enable Heatmap Feature",
-  		defaultSlashCommandTemplate: "Default Slash Command Template",
-  		defaultViewType: "Default View",
-  		viewTypeYear: "Year View",
-  		viewTypeMonth: "Month View",
-  		viewTypeWeek: "Week View",
-  		defaultDisplayMode: "Default Display Mode",
-  		displayModeFull: "Full Mode",
-  		displayModeBasic: "Basic Mode",
-  		displayModeMinimal: "Minimal Mode",
-  		defaultColorFormula: "Color Calculation Formula",
-  		colorFormulaSimple: "Simple Mode",
-  		colorFormulaWeighted: "Weighted Mode",
-  		colorScheme: "Color Scheme",
-  		minColor: "Min Color",
-  		maxColor: "Max Color",
-  		preview: "Preview",
-  		monthPageCreation: "Month Page Creation",
-  		enableMonthPageCreation: "Enable Month Page Creation",
-  		monthTemplateType: "Summary Template",
-  		templateNone: "None",
-  		monthPageNameTemplate: "Page Name Template",
-  		weekPageCreation: "Week Page Creation",
-  		enableWeekPageCreation: "Enable Week Page Creation",
-  		weekTemplateType: "Summary Template",
-  		weekPageNameTemplate: "Page Name Template",
-  		formulaNote: "Simple: count = blocks.length. Weighted: count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1).",
-  		templateNote: "Template variables: {year} - year, {month} - month (01-12), {week} - week number (01-53). Example: {year}-{month} or {year}-W{week}"
-  	},
-  	summary: {
-  		description: "Configure default behavior and parameters for the summary generation feature.",
-  		enabled: "Enable Summary Feature",
-  		defaultTemplate: "Default Template",
-  		defaultType: "Default Summary Type",
-  		dateFormat: "Date Format",
-  		weeklyPageNameTemplate: "Weekly Page Name Template",
-  		weeklyPageNamePlaceholder: "Weekly Summary-{{year}}-W{{week}}",
-  		monthlyPageNameTemplate: "Monthly Page Name Template",
-  		monthlyPageNamePlaceholder: "Monthly Summary-{{year}}-{{month}}",
-  		yearlyPageNameTemplate: "Yearly page name template",
-  		yearlyPageNamePlaceholder: "Yearly Summary-{{year}}",
-  		customPageNameTemplate: "Custom Page Name Template",
-  		customPageNamePlaceholder: "Custom Summary-{{date}}",
-  		pageNameTemplateHelp: "Available placeholders: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
-  		templateGtdWorkReview: "GTD Work Review",
-  		templateMinimalDashboard: "Minimal Dashboard",
-  		templateBulletJournal: "Bullet Journal",
-  		templateOkrReview: "OKR Review",
-  		templateStudySummary: "Study Summary",
-  		typeWeekly: "Weekly",
-  		typeMonthly: "Monthly",
-  		typeYearly: "Yearly",
-  		typeCustom: "Custom",
-  		startDate: "Start Date",
-  		endDate: "End Date",
-  		generate: "Generate summary",
-  		generating: "Generating...",
-  		generateFailed: "Generation failed. Check logs and try again.",
-  		customDateError: "Choose a valid start and end date (start cannot be after end)",
-  		noTemplates: "No templates available for this summary type",
-  		aiFallback: "If the AI request fails, local insights are used instead; summary generation is not blocked.",
-  		aiSettings: "🤖 AI Settings",
-  		aiEnabled: "Enable AI Enhancement",
-  		aiProvider: "AI Provider",
-  		aiProviderOpenAI: "OpenAI",
-  		aiProviderClaude: "Claude",
-  		aiProviderCustom: "Custom",
-  		aiApiKey: "API Key",
-  		aiApiUrl: "API URL",
-  		aiModel: "Model",
-  		aiPromptTemplate: "Prompt Template",
-  		aiPromptPlaceholder: "Please generate a summary based on the following content..."
-  	},
-  	milestone: {
-  		description: "Configure default behavior and display style for milestone components.",
-  		enabled: "Enable Milestone Feature",
-  		defaultSlashCommandTemplate: "Default Slash Command Template",
-  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
-  		defaultStyle: "Default Display Style",
-  		styleCapsule: "Capsule",
-  		styleBadge: "Badge",
-  		styleTrack: "Track",
-  		styleCard: "Card",
-  		styleCompact: "Compact",
-  		styleArrowCapsule: "Arrow Capsule",
-  		styleTimelineTrack: "Timeline Track",
-  		tooltipStyle: "Tooltip Style",
-  		tooltipStyleMinimal: "Minimal",
-  		tooltipStyleCompact: "Compact",
-  		tooltipStyleDetailed: "Detailed",
-  		tooltipStyleElegant: "Elegant",
-  		inline: "Inline Mode",
-  		showLabel: "Show Labels",
-  		showLabels: "Show Labels",
-  		showProgress: "Show Progress",
-  		templates: "Predefined Templates",
-  		addTemplate: "Add Template",
-  		noTemplates: "No templates yet, click the button above to add.",
-  		newTemplate: "New Template",
-  		templateName: "Template Name",
-  		templateDescription: "Description (optional)",
-  		templateFilterTag: "Filter Tag (optional)",
-  		templateFilterPropKey: "Filter Property Key (optional)",
-  		templateFilterPropValue: "Filter Property Value (optional)",
-  		templateMilestonePropKey: "Milestone Property Key (required)",
-  		templateMilestoneList: "Milestone List (semicolon separated)",
-  		defaultColors: "Default Colors",
-  		edit: "Edit",
-  		collapse: "Collapse",
-  		"delete": "Delete",
-  		nameRequired: "Template name cannot be empty",
-  		nameDuplicate: "Template name already exists",
-  		colorCompleted: "Completed",
-  		colorInProgress: "In Progress",
-  		colorPending: "Pending",
-  		colorFailed: "Failed",
-  		colorSkipped: "Skipped",
-  		colorBackground: "Background",
-  		colorText: "Text",
-  		templatePropKeyHint: "Format: You can use :user.property/xxx or just xxx (system will add prefix automatically)",
-  		templateMilestoneListPlaceholder: "Requirement;Development;Testing;Release;Acceptance",
-  		customColorsTitle: "Custom Colors",
-  		customColorsHint: "Optional"
-  	},
-  	saveMilestoneSettings: "Save Milestone Settings"
-  };
-  var en$1 = {
-  	taskProgress: taskProgress$2,
-  	toolbar: toolbar$2,
-  	inlineComment: inlineComment$2,
-  	comment: comment$2,
-  	modal: modal$2,
-  	settings: settings$2
-  };
-
-  const taskProgress$1 = {
-  	nestingLevel: "ネストレベル"
-  };
-  const toolbar$1 = {
-  	bold: "太字",
-  	highlight: "ハイライト",
-  	fileLink: "ファイルリンク",
-  	comment: "コメント",
-  	noSelection: "処理するテキストを選択してください",
-  	replaceFailed: "テキストの置換に失敗しました",
-  	noBlockContent: "ブロックの内容を取得できません",
-  	noPluginCommand: "外部プラグインコマンドが設定されていません",
-  	pluginCommandSuccess: "外部プラグインコマンドを実行しました",
-  	pluginCommandFailed: "外部プラグインコマンドの実行に失敗しました",
-  	pluginNotInstalled: "外部プラグイン {{pluginId}} がインストールされていないか無効です",
-  	buttonTooltip: "✨ Text Toolkit Plugin - ノートをより楽しく！"
-  };
-  const inlineComment$1 = {
-  	text: "テキスト",
-  	placeholder: "コメントを追加...",
-  	save: "コメントを追加",
-  	title: "コメントを追加",
-  	addComment: "コメントを追加",
-  	selectedText: "選択テキスト",
-  	annotate: "注釈",
-  	comment: "コメント"
-  };
-  const comment$1 = {
-  	title: "コメントを追加"
-  };
-  const modal$1 = {
-  	placeholder: "内容を入力してください"
-  };
-  const settings$1 = {
-  	featuresTitle: "機能管理",
-  	featuresHint: "機能を無効にすると、対応する設定タブが非表示になり、グローバルに機能が無効になります",
-  	features: {
-  		enabled: "有効",
-  		disabled: "無効",
-  		toolbarDescription: "ツールバー表示をカスタマイズ",
-  		taskProgressDescription: "プロジェクト進捗統計と表示",
-  		heatmapDescription: "アクティビティと行動分析",
-  		blockViewDescription: "複数のコンテンツ表示モード",
-  		milestoneDescription: "プロジェクトフェーズ追跡",
-  		summaryDescription: "自動要約と帰納機能"
-  	},
-  	"default": "デフォルト",
-  	toolbar: "ツールバー",
-  	title: "設定",
-  	tabs: {
-  		general: "⚙️ 一般設定",
-  		toolbar: "🛠️ ツールバー設定",
-  		taskProgress: "📊 タスク進捗",
-  		heatmap: "📈 ヒートマップ",
-  		blockView: "📋 ブロックビュー",
-  		summary: "📝 まとめ生成",
-  		milestone: "🎯 マイルストーン",
-  		advanced: "⚡ その他の設定"
-  	},
-  	saveSuccessRestart: "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
-  	generalSettings: "一般設定",
-  	theme: "テーマ",
-  	themeFollowSystem: "システムに追従",
-  	language: "言語",
-  	languageFollowSystem: "システムに追従",
-  	toolbarSettings: "ツールバー設定",
-  	enabled: "有効",
-  	disabled: "無効",
-  	showBorder: "境界線を表示",
-  	width: "幅",
-  	height: "高さ",
-  	hoverDelay: "ホバー遅延 (ミリ秒)",
-  	toolbarShortcut: "ツールバーショートカット",
-  	toolbarShortcutPlaceholder: "ショートカットを入力",
-  	sponsorEnabled: "スポンサーバー",
-  	developerMode: "開発者モード",
-  	toolbarElements: "ツールバー要素",
-  	addNewItem: "新しいアイテムを追加",
-  	addItem: "アイテムを追加",
-  	label: "ラベル",
-  	icon: "アイコン",
-  	funcmode: "機能モード",
-  	confirmDeleteItem: "このツールバーアイテムを削除しますか？",
-  	jsonSettings: "JSON設定",
-  	applyJson: "JSONを適用",
-  	resetToDefault: "デフォルトにリセット",
-  	cancel: "キャンセル",
-  	save: "保存",
-  	saving: "保存中...",
-  	loading: "設定を読み込んでいます...",
-  	error: "設定の読み込みに失敗しました",
-  	confirmReset: "すべての設定をデフォルトにリセットしますか？",
-  	confirmResetItems: "ツールバー要素をデフォルトにリセットしてもよろしいですか？",
-  	subtitle: "アプリケーションの設定を管理します。各セクションは独立して保存できます。",
-  	generalSettingsDescription: "アプリのテーマと言語を設定します",
-  	toolbarSettingsDescription: "ツールバーの外観と動作を設定します",
-  	toolbarElementsConfig: "要素設定",
-  	toolbarGroupFormat: "グループフォーマット",
-  	toolbarSingleElement: "単一要素",
-  	toolbarHiddenElement: "非表示要素",
-  	toolbarBindingShortcut: "ショートカットをバインド",
-  	advancedSettings: "詳細設定",
-  	advancedSettingsDescription: "追加予定の高度な機能設定",
-  	lightTheme: "ライト",
-  	darkTheme: "ダーク",
-  	chinese: "简体中文",
-  	english: "English",
-  	japanese: "日本語",
-  	saveGeneralSettings: "一般設定を保存",
-  	saveToolbarSettings: "ツールバー設定を保存",
-  	macroTemplate: {
-  		hint: "フォーマット: :macro, param1=value1, param2=value2。空欄の場合、デフォルト値を使用します。",
-  		prefixRequired: "マクロプレフィックスで始まる必要があります（例：:taskprogress）",
-  		invalidFormat: "無効なテンプレート形式",
-  		unknownParam: "不明なパラメータが含まれています"
-  	},
-  	saveSuccess: "保存しました！",
-  	settingsNotConfigured: "この設定エリアはまだ設定されていません",
-  	comingSoon: "近日追加予定...",
-  	taskProgressDescription: "タスク進捗追跡機能の表示と動作を設定します。",
-  	milestoneDescription: "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
-  	taskProgress: {
-  		enabled: "タスク進捗機能を有効化",
-  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
-  		nestingSettings: "ネスト設定",
-  		nestingLevel: "ネストレベル",
-  		nestingLevel1: "現在のレベルのみ",
-  		nestingLevel2: "2レベル深さ",
-  		nestingLevel3: "3レベル深さ",
-  		nestingLevelAll: "全レベル",
-  		onlyLeaves: "子タスクのみカウント",
-  		onlyLeavesDescription: "子タスクのないタスクのみカウントします",
-  		showNestingIndicator: "ネストインジケーターを表示",
-  		showNestingIndicatorDescription: "タスクのネスト深度インジケーターを表示",
-  		defaultDisplayType: "デフォルト表示タイプ",
-  		miniCircle: "ミニサークル",
-  		dotMatrix: "ドットマトリックス",
-  		statusCursor: "ステータスカーソル",
-  		progressCapsule: "進捗カプセル",
-  		stepProgress: "ステップ進捗",
-  		size: "コンポーネントサイズ",
-  		sizeSmall: "小",
-  		sizeMedium: "中",
-  		sizeLarge: "大",
-  		showLabel: "ラベルを表示",
-  		fireworksOnComplete: "全タスク完了時に花火を表示",
-  		labelFormat: "ラベル形式",
-  		labelFraction: "分数 (10/20)",
-  		labelPercentage: "パーセント (50%)",
-  		labelBoth: "両方 (10/20 50%)",
-  		statusColors: "ステータス色",
-  		statusColorsHint: "色をクリックして変更、その他のステータスは settings.json で設定可能",
-  		statusNames: {
-  			todo: "未着手",
-  			doing: "進行中",
-  			"in-review": "レビュー中",
-  			done: "完了",
-  			waiting: "待機中",
-  			canceled: "キャンセル"
-  		},
-  		tooltip: {
-  			progress: "進捗",
-  			total: "合計"
-  		}
-  	},
-  	saveTaskProgressSettings: "タスク進捗設定を保存",
-  	saveHeatmapSettings: "ヒートマップ設定を保存",
-  	saveBlockViewSettings: "ブロックビュー設定を保存",
-  	saveSummarySettings: "サマリー設定を保存",
-  	blockView: {
-  		description: "ブロックビューモジュールのグローバルなデフォルト動作を設定します。",
-  		enabled: "ブロックビューを有効化",
-  		defaultView: "デフォルトビュータイプ",
-  		viewList: "リスト",
-  		viewTable: "テーブル",
-  		viewGallery: "ギャラリー",
-  		viewBoard: "カンバン",
-  		hideViewBar: "ビュー切り替えバーを隠す",
-  		hideViewBarDescription: "隠した場合はデフォルトビューが使用されます。view=xxx パラメータでビューを切り替えることも可能です",
-  		inline: "インラインモード",
-  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
-  		defaultTheme: "デフォルトテーマ",
-  		themeDefault: "デフォルト",
-  		themeNotion: "Notion",
-  		themeLinear: "Linear",
-  		themeDark: "ダーク",
-  		themeGradient: "グラデーション",
-  		themeTana: "Tana",
-  		themeCustom: "カスタム",
-  		table: {
-  			title: "📊 テーブル設定",
-  			showStriped: "ストライプ行を表示",
-  			showBorder: "境界線を表示",
-  			customTheme: {
-  				title: "🔧 カスタムテーマ設定",
-  				borderColor: "境界線の色",
-  				headerBgColor: "ヘッダー背景色",
-  				headerTextColor: "ヘッダー文字色",
-  				cellTextColor: "セル文字色",
-  				headerBorderColor: "ヘッダー境界線色",
-  				headerHeight: "ヘッダーの高さ",
-  				rowBgColor: "行背景色",
-  				rowHoverBgColor: "行ホバー背景色",
-  				rowBorderColor: "行境界線色",
-  				cellPadding: "セルパディング",
-  				tableBorderRadius: "テーブル角丸"
-  			}
-  		},
-  		gallery: {
-  			title: "🖼️ ギャラリー設定",
-  			showCardBorders: "カード境界線を表示",
-  			cardsPerRow: "1行あたりのカード数",
-  			customTheme: {
-  				title: "🔧 カスタムテーマ設定",
-  				borderColor: "境界線の色",
-  				cardBgColor: "カード背景色",
-  				cardHoverBgColor: "カードホバー背景色",
-  				headerBorderColor: "ヘッダー境界線色",
-  				headerBgColor: "ヘッダー背景色",
-  				headerTextColor: "ヘッダー文字色",
-  				cardTextColor: "カード文字色",
-  				cardBorderRadius: "カード角丸",
-  				cardShadow: "カードシャドウ"
-  			}
-  		},
-  		board: {
-  			title: "📋 ボード設定",
-  			showColumnBorders: "列境界線を表示",
-  			cardSpacing: "カード間隔",
-  			customTheme: {
-  				title: "🔧 カスタムテーマ設定",
-  				borderColor: "境界線の色",
-  				columnBgColor: "列背景色",
-  				columnHoverBgColor: "列ホバー背景色",
-  				headerBgColor: "ヘッダー背景色",
-  				headerTextColor: "ヘッダー文字色",
-  				cardBgColor: "カード背景色",
-  				cardTextColor: "カード文字色",
-  				cardBorderColor: "カード境界線色",
-  				cardBorderRadius: "カード角丸"
-  			}
-  		},
-  		emptyHint: "子ブロックを追加するとビューを切り替えられます"
-  	},
-  	heatmap: {
-  		description: "ヒートマップ表示機能と外観を設定します。",
-  		enabled: "ヒートマップを有効化",
-  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
-  		defaultViewType: "デフォルトビュー",
-  		viewTypeYear: "年ビュー",
-  		viewTypeMonth: "月ビュー",
-  		viewTypeWeek: "週ビュー",
-  		defaultDisplayMode: "デフォルト表示モード",
-  		displayModeFull: "フルモード",
-  		displayModeBasic: "ベーシックモード",
-  		displayModeMinimal: "ミニマルモード",
-  		defaultColorFormula: "色計算式",
-  		colorFormulaSimple: "シンプル",
-  		colorFormulaWeighted: "ウェイト付き",
-  		colorScheme: "カラースキーム",
-  		minColor: "最小色",
-  		maxColor: "最大色",
-  		preview: "プレビュー",
-  		monthPageCreation: "月ページ作成",
-  		enableMonthPageCreation: "月ページ作成を有効化",
-  		monthTemplateType: "サマリーテンプレート",
-  		templateNone: "なし",
-  		monthPageNameTemplate: "ページ名テンプレート",
-  		weekPageCreation: "週ページ作成",
-  		enableWeekPageCreation: "週ページ作成を有効化",
-  		weekTemplateType: "サマリーテンプレート",
-  		weekPageNameTemplate: "ページ名テンプレート",
-  		formulaNote: "シンプル：カウント = ブロック数。ウェイト付き：カウント = ブロック数 + Σmin(子ブロック数×0.3, 3) + 0.1×Σmin(コンテンツ長/100, 1)。",
-  		templateNote: "テンプレート変数: {year} - 年, {month} - 月 (01-12), {week} - 週 (01-53)。例: {year}-{month} または {year}-W{week}"
-  	},
-  	summary: {
-  		description: "サマリー生成機能のデフォルト動作とパラメータを設定します。",
-  		enabled: "サマリー機能を有効化",
-  		defaultTemplate: "デフォルトテンプレート",
-  		defaultType: "デフォルトサマリータイプ",
-  		dateFormat: "日付形式",
-  		weeklyPageNameTemplate: "週次ページ名テンプレート",
-  		weeklyPageNamePlaceholder: "週次まとめ-{{year}}-W{{week}}",
-  		monthlyPageNameTemplate: "月次ページ名テンプレート",
-  		monthlyPageNamePlaceholder: "月次まとめ-{{year}}-{{month}}",
-  		yearlyPageNameTemplate: "年間ページ名テンプレート",
-  		yearlyPageNamePlaceholder: "年間まとめ-{{year}}",
-  		customPageNameTemplate: "カスタムページ名テンプレート",
-  		customPageNamePlaceholder: "カスタムまとめ-{{date}}",
-  		pageNameTemplateHelp: "使用可能なプレースホルダー: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
-  		templateGtdWorkReview: "GTD 作業レビュー",
-  		templateMinimalDashboard: "ミニマルダッシュボード",
-  		templateBulletJournal: "バレットジャーナル",
-  		templateOkrReview: "OKR レビュー",
-  		templateStudySummary: "学習サマリー",
-  		typeWeekly: "週次",
-  		typeMonthly: "月次",
-  		typeYearly: "年次",
-  		typeCustom: "カスタム",
-  		startDate: "開始日",
-  		endDate: "終了日",
-  		generate: "サマリーを生成",
-  		generating: "生成中...",
-  		generateFailed: "生成に失敗しました。ログを確認して再試行してください",
-  		customDateError: "有効な開始日と終了日を選択してください（開始日は終了日より後にできません）",
-  		noTemplates: "このサマリータイプで利用できるテンプレートがありません",
-  		aiFallback: "AI リクエストに失敗した場合はローカル洞察を使用し、サマリー生成は継続します。",
-  		aiSettings: "🤖 AI設定",
-  		aiEnabled: "AI拡張を有効化",
-  		aiProvider: "AIプロバイダー",
-  		aiProviderOpenAI: "OpenAI",
-  		aiProviderClaude: "Claude",
-  		aiProviderCustom: "カスタム",
-  		aiApiKey: "APIキー",
-  		aiApiUrl: "APIアドレス",
-  		aiModel: "モデル",
-  		aiPromptTemplate: "プロンプトテンプレート",
-  		aiPromptPlaceholder: "以下の内容に基づいてまとめを作成してください..."
-  	},
-  	milestone: {
-  		description: "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
-  		enabled: "マイルストーン機能を有効化",
-  		defaultSlashCommandTemplate: "デフォルトスラッシュコマンドテンプレート",
-  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
-  		defaultStyle: "デフォルト表示スタイル",
-  		styleCapsule: "カプセル",
-  		styleBadge: "バッジ",
-  		styleTrack: "トラック",
-  		styleCard: "カード",
-  		styleCompact: "コンパクト",
-  		styleArrowCapsule: "アローカプセル",
-  		styleTimelineTrack: "タイムライントラック",
-  		tooltipStyle: "Tooltip スタイル",
-  		tooltipStyleMinimal: "ミニマル",
-  		tooltipStyleCompact: "コンパクト",
-  		tooltipStyleDetailed: "詳細",
-  		tooltipStyleElegant: "エレガント",
-  		inline: "インラインモード",
-  		showLabel: "ラベルを表示",
-  		showLabels: "ラベルを表示",
-  		showProgress: "進捗を表示",
-  		templates: "事前定義テンプレート",
-  		addTemplate: "テンプレートを追加",
-  		noTemplates: "テンプレートはまだありません。上のボタンをクリックして追加してください。",
-  		newTemplate: "新規テンプレート",
-  		templateName: "テンプレート名",
-  		templateDescription: "説明（任意）",
-  		templateFilterTag: "フィルタータグ（任意）",
-  		templateFilterPropKey: "フィルタープロパティキー（任意）",
-  		templateFilterPropValue: "フィルタープロパティ値（任意）",
-  		templateMilestonePropKey: "マイルストーンプロパティキー（必須）",
-  		templateMilestoneList: "マイルストーンリスト（セミコロン区切り）",
-  		defaultColors: "デフォルト配色",
-  		edit: "編集",
-  		collapse: "折りたたむ",
-  		"delete": "削除",
-  		nameRequired: "テンプレート名は空にできません",
-  		nameDuplicate: "テンプレート名は既に存在します",
-  		colorCompleted: "完了",
-  		colorInProgress: "進行中",
-  		colorPending: "未着手",
-  		colorFailed: "失敗",
-  		colorSkipped: "スキップ",
-  		colorBackground: "背景",
-  		colorText: "文字",
-  		templatePropKeyHint: "形式：:user.property/xxx または xxx（システムが自動的にプレフィックスを追加します）",
-  		templateMilestoneListPlaceholder: "要件;開発;テスト;リリース;検収",
-  		customColorsTitle: "カスタム配色",
-  		customColorsHint: "任意"
-  	},
-  	saveMilestoneSettings: "マイルストーン設定を保存"
-  };
-  var ja = {
-  	taskProgress: taskProgress$1,
-  	toolbar: toolbar$1,
-  	inlineComment: inlineComment$1,
-  	comment: comment$1,
-  	modal: modal$1,
-  	settings: settings$1
-  };
-
-  const taskProgress = {
-  	nestingLevel: "嵌套层级"
-  };
-  const toolbar = {
-  	bold: "加粗",
-  	highlight: "高亮",
-  	fileLink: "文件链接",
-  	comment: "评论",
-  	noSelection: "请选择要处理的文本",
-  	replaceFailed: "文本替换失败",
-  	noBlockContent: "无法获取块内容",
-  	noPluginCommand: "未配置外部插件命令",
-  	pluginCommandSuccess: "外部插件命令执行成功",
-  	pluginCommandFailed: "外部插件命令执行失败",
-  	pluginNotInstalled: "外部插件 {{pluginId}} 未安装或已禁用",
-  	buttonTooltip: "✨ Text Toolkit Plugin - 让你的笔记更有趣！"
-  };
-  const inlineComment = {
-  	text: "文本",
-  	placeholder: "输入你的评论或注释...",
-  	save: "行内注释",
-  	title: "添加注释",
-  	addComment: "添加评论",
-  	selectedText: "选中文本",
-  	annotate: "注释",
-  	comment: "评论"
-  };
-  const comment = {
-  	title: "添加评论"
-  };
-  const modal = {
-  	placeholder: "请输入内容"
-  };
-  const settings = {
-  	featuresTitle: "功能管理",
-  	featuresHint: "关闭某功能将隐藏对应的设置标签页，并在全局禁用该功能",
-  	features: {
-  		enabled: "已启用",
-  		disabled: "未启用",
-  		toolbarDescription: "自定义工具栏显示方式",
-  		taskProgressDescription: "项目进度统计与展示",
-  		heatmapDescription: "活跃度与行为分析",
-  		blockViewDescription: "多种内容展示模式",
-  		milestoneDescription: "项目阶段追踪",
-  		summaryDescription: "自动总结与归纳能力"
-  	},
-  	"default": "默认",
-  	toolbar: "工具栏",
-  	title: "设置",
-  	tabs: {
-  		general: "⚙️ 通用设置",
-  		toolbar: "🛠️ 工具栏设置",
-  		taskProgress: "📊 任务进度",
-  		heatmap: "📈 热力图",
-  		blockView: "📋 块视图",
-  		summary: "📝 总结生成",
-  		milestone: "🎯 里程碑",
-  		advanced: "⚡ 其他设置"
-  	},
-  	saveSuccessRestart: "保存成功，请重启应用生效",
-  	generalSettings: "通用设置",
-  	theme: "主题",
-  	themeFollowSystem: "跟随系统",
-  	language: "语言",
-  	languageFollowSystem: "跟随系统",
-  	toolbarSettings: "工具栏设置",
-  	enabled: "启用",
-  	disabled: "禁用",
-  	showBorder: "显示边框",
-  	width: "宽度",
-  	height: "高度",
-  	hoverDelay: "悬停延迟（毫秒）",
-  	toolbarShortcut: "工具栏快捷键",
-  	toolbarShortcutPlaceholder: "请输入快捷键",
-  	sponsorEnabled: "赞助栏",
-  	developerMode: "开发者模式",
-  	toolbarElements: "工具栏元素",
-  	addNewItem: "添加新项目",
-  	addItem: "添加项目",
-  	label: "标签",
-  	icon: "图标",
-  	funcmode: "功能模式",
-  	confirmDeleteItem: "确定要删除此工具栏项目吗？",
-  	jsonSettings: "JSON设置",
-  	applyJson: "应用JSON",
-  	resetToDefault: "重置为默认值",
-  	cancel: "取消",
-  	save: "保存",
-  	saving: "保存中...",
-  	loading: "加载设置中...",
-  	error: "加载设置失败",
-  	confirmReset: "确定要将所有设置重置为默认值吗？",
-  	confirmResetItems: "确定要将工具栏元素重置为默认值吗？",
-  	subtitle: "管理应用程序的各项配置，每个区域可独立保存",
-  	generalSettingsDescription: "配置应用的主题和语言",
-  	toolbarSettingsDescription: "配置工具栏的显示和行为",
-  	toolbarElementsConfig: "元素配置",
-  	toolbarGroupFormat: "分组格式",
-  	toolbarSingleElement: "单个元素",
-  	toolbarHiddenElement: "隐藏元素",
-  	toolbarBindingShortcut: "绑定快捷键",
-  	advancedSettings: "高级设置",
-  	advancedSettingsDescription: "待添加的高级功能配置",
-  	lightTheme: "浅色",
-  	darkTheme: "深色",
-  	chinese: "简体中文",
-  	english: "English",
-  	japanese: "日本語",
-  	saveGeneralSettings: "保存通用设置",
-  	saveToolbarSettings: "保存工具栏设置",
-  	macroTemplate: {
-  		hint: "格式: :macro, param1=value1, param2=value2。留空使用默认值。",
-  		prefixRequired: "必须以宏命令前缀开头（如 :taskprogress）",
-  		invalidFormat: "模板格式无效",
-  		unknownParam: "包含未知参数"
-  	},
-  	saveSuccess: "保存成功！",
-  	settingsNotConfigured: "此设置区域暂未配置",
-  	comingSoon: "敬请期待更多功能...",
-  	taskProgressDescription: "配置任务进度追踪功能的展示方式和行为。",
-  	milestoneDescription: "配置里程碑组件的默认行为和显示样式。",
-  	taskProgress: {
-  		enabled: "启用任务进度功能",
-  		defaultSlashCommandTemplate: "默认斜杠命令模板",
-  		nestingSettings: "嵌套任务设置",
-  		nestingLevel: "嵌套层级",
-  		nestingLevel1: "仅当前层",
-  		nestingLevel2: "向下 2 层",
-  		nestingLevel3: "向下 3 层",
-  		nestingLevelAll: "全部层级",
-  		onlyLeaves: "仅统计叶子任务",
-  		onlyLeavesDescription: "仅统计没有子任务的任务",
-  		showNestingIndicator: "显示嵌套指示器",
-  		showNestingIndicatorDescription: "显示任务嵌套深度指示",
-  		defaultDisplayType: "默认展示方式",
-  		miniCircle: "微型圆环",
-  		dotMatrix: "点阵进度",
-  		statusCursor: "状态光标",
-  		progressCapsule: "进度胶囊",
-  		stepProgress: "阶梯进度",
-  		size: "组件尺寸",
-  		sizeSmall: "小",
-  		sizeMedium: "中",
-  		sizeLarge: "大",
-  		showLabel: "显示标签",
-  		fireworksOnComplete: "完成所有任务时绽放烟花",
-  		labelFormat: "标签格式",
-  		labelFraction: "分数 (10/20)",
-  		labelPercentage: "百分比 (50%)",
-  		labelBoth: "两者 (10/20 50%)",
-  		statusColors: "状态颜色",
-  		statusColorsHint: "点击色块修改颜色，更多状态请在 settings.json 中配置",
-  		statusNames: {
-  			todo: "待办",
-  			doing: "进行中",
-  			"in-review": "审核中",
-  			done: "已完成",
-  			waiting: "等待中",
-  			canceled: "已取消"
-  		},
-  		tooltip: {
-  			progress: "进度",
-  			total: "总计"
-  		}
-  	},
-  	saveTaskProgressSettings: "保存任务进度设置",
-  	saveHeatmapSettings: "保存热力图设置",
-  	saveBlockViewSettings: "保存块视图设置",
-  	saveSummarySettings: "保存总结设置",
-  	blockView: {
-  		description: "配置块视图模块的全局默认行为。",
-  		enabled: "启用块视图功能",
-  		defaultView: "默认视图类型",
-  		viewList: "列表",
-  		viewTable: "表格",
-  		viewGallery: "画廊",
-  		viewBoard: "看板",
-  		hideViewBar: "隐藏视图切换栏",
-  		hideViewBarDescription: "隐藏后使用默认视图，仍可通过修改宏参数view=xxx切换",
-  		inline: "行内模式",
-  		defaultSlashCommandTemplate: "默认斜杠命令模板",
-  		defaultTheme: "默认主题",
-  		themeDefault: "默认",
-  		themeNotion: "Notion",
-  		themeLinear: "Linear",
-  		themeDark: "深色",
-  		themeGradient: "渐变",
-  		themeTana: "Tana",
-  		themeCustom: "自定义",
-  		table: {
-  			title: "📊 Table 设置",
-  			showStriped: "显示斑马纹行",
-  			showBorder: "显示边框",
-  			customTheme: {
-  				title: "🔧 自定义主题配置",
-  				borderColor: "边框颜色",
-  				headerBgColor: "表头背景色",
-  				headerTextColor: "表头文字色",
-  				cellTextColor: "单元格文字色",
-  				headerBorderColor: "表头边框色",
-  				headerHeight: "表头高度",
-  				rowBgColor: "行背景色",
-  				rowHoverBgColor: "行悬停背景色",
-  				rowBorderColor: "行边框色",
-  				cellPadding: "单元格内边距",
-  				tableBorderRadius: "表格圆角"
-  			}
-  		},
-  		gallery: {
-  			title: "🖼️ Gallery 设置",
-  			showCardBorders: "显示卡片边框",
-  			cardsPerRow: "每行卡片数量",
-  			customTheme: {
-  				title: "🔧 自定义主题配置",
-  				borderColor: "边框颜色",
-  				cardBgColor: "卡片背景色",
-  				cardHoverBgColor: "卡片悬停背景色",
-  				headerBorderColor: "表头边框色",
-  				headerBgColor: "表头背景色",
-  				headerTextColor: "表头文字色",
-  				cardTextColor: "卡片文字色",
-  				cardBorderRadius: "卡片圆角",
-  				cardShadow: "卡片阴影"
-  			}
-  		},
-  		board: {
-  			title: "📋 Kanban 设置",
-  			showColumnBorders: "显示列边框",
-  			cardSpacing: "卡片间距",
-  			customTheme: {
-  				title: "🔧 自定义主题配置",
-  				borderColor: "边框颜色",
-  				columnBgColor: "列背景色",
-  				columnHoverBgColor: "列悬停背景色",
-  				headerBgColor: "表头背景色",
-  				headerTextColor: "表头文字色",
-  				cardBgColor: "卡片背景色",
-  				cardTextColor: "卡片文字色",
-  				cardBorderColor: "卡片边框色",
-  				cardBorderRadius: "卡片圆角"
-  			}
-  		},
-  		emptyHint: "添加子块后可切换视图"
-  	},
-  	heatmap: {
-  		description: "配置热力图展示功能和显示效果。",
-  		enabled: "启用热力图功能",
-  		defaultSlashCommandTemplate: "默认斜杠命令模板",
-  		defaultViewType: "默认视图",
-  		viewTypeYear: "年度视图",
-  		viewTypeMonth: "月度视图",
-  		viewTypeWeek: "周度视图",
-  		defaultDisplayMode: "默认显示模式",
-  		displayModeFull: "完整模式",
-  		displayModeBasic: "基础模式",
-  		displayModeMinimal: "极简模式",
-  		defaultColorFormula: "颜色计算公式",
-  		colorFormulaSimple: "简化模式",
-  		colorFormulaWeighted: "加权模式",
-  		colorScheme: "配色方案",
-  		minColor: "最小颜色",
-  		maxColor: "最大颜色",
-  		preview: "预览",
-  		monthPageCreation: "月度页面创建",
-  		enableMonthPageCreation: "启用月度页面创建",
-  		monthTemplateType: "总结模板",
-  		templateNone: "不选",
-  		monthPageNameTemplate: "页面名称模板",
-  		weekPageCreation: "周度页面创建",
-  		enableWeekPageCreation: "启用周度页面创建",
-  		weekTemplateType: "总结模板",
-  		weekPageNameTemplate: "页面名称模板",
-  		formulaNote: "简化：当天 blocks 数量（count = blocks.length）。加权：count = blocks.length + Σmin(childrenCount×0.3, 3) + 0.1×Σmin(contentLength/100, 1)。",
-  		templateNote: "模板变量：{year} - 年份，{month} - 月份（01-12），{week} - 周数（01-53）。示例：{year}-{month} 或 {year}-W{week}"
-  	},
-  	summary: {
-  		description: "配置总结生成功能的默认行为和参数。",
-  		enabled: "启用总结功能",
-  		defaultTemplate: "默认模板",
-  		defaultType: "默认总结类型",
-  		dateFormat: "日期格式",
-  		weeklyPageNameTemplate: "周度页面名称模板",
-  		weeklyPageNamePlaceholder: "周度总结-{{year}}-W{{week}}",
-  		monthlyPageNameTemplate: "月度页面名称模板",
-  		monthlyPageNamePlaceholder: "月度总结-{{year}}-{{month}}",
-  		yearlyPageNameTemplate: "年度页面名称模板",
-  		yearlyPageNamePlaceholder: "年度总结-{{year}}",
-  		customPageNameTemplate: "自定义页面名称模板",
-  		customPageNamePlaceholder: "自定义总结-{{date}}",
-  		pageNameTemplateHelp: "可用占位符: {{year}}, {{month}}, {{week}}, {{date}}, {{endDate}}, {{type}}",
-  		templateGtdWorkReview: "GTD 工作回顾",
-  		templateMinimalDashboard: "极简仪表盘",
-  		templateBulletJournal: "子弹日记",
-  		templateOkrReview: "OKR 回顾",
-  		templateStudySummary: "学习总结",
-  		typeWeekly: "周度",
-  		typeMonthly: "月度",
-  		typeYearly: "年度",
-  		typeCustom: "自定义",
-  		startDate: "开始日期",
-  		endDate: "结束日期",
-  		generate: "生成总结",
-  		generating: "生成中...",
-  		generateFailed: "生成失败，请查看日志后重试",
-  		customDateError: "请选择有效的开始和结束日期（开始不能晚于结束）",
-  		noTemplates: "当前总结类型没有可用模板",
-  		aiFallback: "AI 调用失败时会自动使用本地洞察，不会阻断总结生成。",
-  		aiSettings: "🤖 AI 设置",
-  		aiEnabled: "启用 AI 增强",
-  		aiProvider: "AI 提供商",
-  		aiProviderOpenAI: "OpenAI",
-  		aiProviderClaude: "Claude",
-  		aiProviderCustom: "自定义",
-  		aiApiKey: "API Key",
-  		aiApiUrl: "API 地址",
-  		aiModel: "模型",
-  		aiPromptTemplate: "提示词模板",
-  		aiPromptPlaceholder: "请根据以下内容生成一个总结..."
-  	},
-  	milestone: {
-  		description: "配置里程碑组件的默认行为和显示样式。",
-  		enabled: "启用里程碑功能",
-  		defaultSlashCommandTemplate: "默认斜杠命令模板",
-  		defaultSlashPlaceholder: ":milestone, displayStyle=compact, inline=true, milestoneList=Initiation;Planning;Execution;Monitoring;Closure",
-  		defaultStyle: "默认显示样式",
-  		styleCapsule: "胶囊",
-  		styleBadge: "徽章",
-  		styleTrack: "轨道",
-  		styleCard: "卡片",
-  		styleCompact: "紧凑",
-  		styleArrowCapsule: "箭头胶囊",
-  		styleTimelineTrack: "时间线轨道",
-  		tooltipStyle: "Tooltip 样式",
-  		tooltipStyleMinimal: "简约模式",
-  		tooltipStyleCompact: "紧凑模式",
-  		tooltipStyleDetailed: "详细模式",
-  		tooltipStyleElegant: "优雅模式",
-  		inline: "行内模式",
-  		showLabel: "显示标签",
-  		showLabels: "显示标签",
-  		showProgress: "显示进度",
-  		templates: "预定义模板",
-  		addTemplate: "添加模板",
-  		noTemplates: "暂无模板，点击上方按钮添加。",
-  		newTemplate: "新模板",
-  		templateName: "模板名称",
-  		templateDescription: "描述（可选）",
-  		templateFilterTag: "筛选标签（可选）",
-  		templateFilterPropKey: "筛选属性键（可选）",
-  		templateFilterPropValue: "筛选属性值（可选）",
-  		templateMilestonePropKey: "里程碑属性键（必填）",
-  		templateMilestoneList: "里程碑列表（分号分隔）",
-  		defaultColors: "默认配色",
-  		edit: "编辑",
-  		collapse: "折叠",
-  		"delete": "删除",
-  		nameRequired: "模板名称不能为空",
-  		nameDuplicate: "模板名称已存在",
-  		colorCompleted: "已完成",
-  		colorInProgress: "进行中",
-  		colorPending: "待开始",
-  		colorFailed: "失败",
-  		colorSkipped: "跳过",
-  		colorBackground: "背景",
-  		colorText: "文字",
-  		templatePropKeyHint: "填写格式：可以填写 :user.property/xxx 或直接填写 xxx（系统会自动添加前缀）",
-  		templateMilestoneListPlaceholder: "需求;开发;测试;上线;验收",
-  		customColorsTitle: "自定义配色",
-  		customColorsHint: "可选"
-  	},
-  	saveMilestoneSettings: "保存里程碑设置"
-  };
-  var zhCN = {
-  	taskProgress: taskProgress,
-  	toolbar: toolbar,
-  	inlineComment: inlineComment,
-  	comment: comment,
-  	modal: modal,
-  	settings: settings
-  };
-
-  const builtInTranslations = {
-    "en": en$1,
-    "ja": ja,
-    "zh-CN": zhCN
-  };
-  let dynamicTranslations = {};
-  const getNestedValue = (obj, key) => {
-    if (!obj || !key) return key;
-    const keys = key.split(".");
-    let result = obj;
-    for (const k of keys) {
-      if (result && typeof result === "object" && k in result) {
-        result = result[k];
-      } else {
-        return key;
-      }
-    }
-    return result;
-  };
-  const interpolate$1 = (message, params) => {
-    if (!params) return message;
-    return message.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, name) => {
-      const value = params[name];
-      return value === void 0 ? match : String(value);
-    });
-  };
-  const normalizeLanguage = (language) => {
-    if (language === "en" || language === "ja" || language === "zh-CN") {
-      return language;
-    }
-    return "zh-CN";
-  };
-  const loadLanguageFile = async (langCode, filePath) => {
-    try {
-      const response = await fetch(`./${filePath}`);
-      if (response.ok) {
-        const translation = await response.json();
-        return translation;
-      }
-      return null;
-    } catch (error) {
-      loggerProxy.warn(`Failed to load language file for ${langCode}:`, error);
-      return null;
-    }
-  };
-  const initI18n = async () => {
-    const settings = getSettings();
-    const languageMeta = settings.meta?.language;
-    if (languageMeta?.languages) {
-      for (const lang of languageMeta.languages) {
-        const translation = await loadLanguageFile(lang.code, lang.path);
-        if (translation) {
-          dynamicTranslations[lang.code] = translation;
-        }
-      }
-    }
-  };
-  function t(key, langOrParams, paramsOrLanguage) {
-    const hasExplicitLanguage = typeof langOrParams === "string";
-    const hasLegacyLanguage = typeof paramsOrLanguage === "string";
-    const interpolationParams = hasExplicitLanguage ? paramsOrLanguage : langOrParams;
-    const concreteLanguage = normalizeLanguage(
-      hasExplicitLanguage ? langOrParams : hasLegacyLanguage ? paramsOrLanguage : getSettings()?.language
-    );
-    if (dynamicTranslations[concreteLanguage]) {
-      const translation = getNestedValue(dynamicTranslations[concreteLanguage], key);
-      if (translation !== key) return interpolate$1(translation, interpolationParams);
-    }
-    const builtInTranslation = builtInTranslations[concreteLanguage] || builtInTranslations["zh-CN"];
-    return interpolate$1(getNestedValue(builtInTranslation, key), interpolationParams);
-  }
 
   const Tooltip$3 = ({
     children,
@@ -6702,36 +7958,6 @@ ${where}
       }
     }
     return data;
-  }
-
-  function waitForElementById(id, timeoutMs = 1500, intervalMs = 30) {
-    return new Promise((resolve) => {
-      const find = () => {
-        try {
-          return getDocument()?.getElementById(id) ?? null;
-        } catch {
-          return null;
-        }
-      };
-      const immediate = find();
-      if (immediate) {
-        resolve(immediate);
-        return;
-      }
-      const startedAt = Date.now();
-      const timer = setInterval(() => {
-        const element = find();
-        if (element) {
-          clearInterval(timer);
-          resolve(element);
-          return;
-        }
-        if (Date.now() - startedAt >= timeoutMs) {
-          clearInterval(timer);
-          resolve(null);
-        }
-      }, intervalMs);
-    });
   }
 
   const MACRO_PREFIX$3 = ":heatmap";
@@ -30411,6 +31637,13 @@ ${serialized}`;
         description: t("settings.features.summaryDescription", language),
         enabled: settings.summary?.enabled ?? true,
         path: "summary.enabled"
+      },
+      {
+        id: "htmlViewer",
+        name: t("settings.tabs.htmlViewer", language),
+        description: t("settings.features.htmlViewerDescription", language),
+        enabled: settings.htmlViewer?.enabled ?? true,
+        path: "htmlViewer.enabled"
       }
     ];
     const enabledFeatures = features.filter((f) => f.enabled);
@@ -32572,6 +33805,214 @@ ${serialized}`;
     ] });
   }
 
+  const DEFAULT_SETTINGS = {
+    enabled: true,
+    defaultSide: "right",
+    defaultWidth: 56,
+    allowScripts: false,
+    allowRemote: false,
+    writeAnnotationsToGraph: true,
+    annotationPagePrefix: "HTML 标注 - ",
+    showToolbarButton: true,
+    dashboardAsset: "",
+    dashboardFullscreen: true,
+    defaultSlashCommandTemplate: ":html-viewer"
+  };
+  function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language }) {
+    const [dashboardAssets, setDashboardAssets] = reactExports.useState([]);
+    reactExports.useEffect(() => {
+      let cancelled = false;
+      void (async () => {
+        try {
+          const files = await logseqAPI$1.Assets?.listFilesOfCurrentGraph?.(["html", "htm"]);
+          if (!cancelled && Array.isArray(files)) {
+            setDashboardAssets(files.map((file) => String(file.path || "")).filter(Boolean));
+          }
+        } catch {
+        }
+      })();
+      return () => {
+        cancelled = true;
+      };
+    }, []);
+    const current = {
+      ...DEFAULT_SETTINGS,
+      ...settings?.htmlViewer || {}
+    };
+    const update = (patch) => {
+      setSettings((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          htmlViewer: {
+            ...DEFAULT_SETTINGS,
+            ...prev.htmlViewer || {},
+            ...patch
+          }
+        };
+      });
+    };
+    reactExports.useEffect(() => {
+      if (!settings.htmlViewer) {
+        update({});
+      }
+    }, []);
+    const sideOptions = [
+      { value: "right", label: t("settings.htmlViewer.sideRight", language) },
+      { value: "left", label: t("settings.htmlViewer.sideLeft", language) }
+    ];
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-tab-content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.htmlViewer.description", language) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.defaultSide", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CustomSelect,
+          {
+            options: sideOptions,
+            value: current.defaultSide,
+            onChange: (value) => update({ defaultSide: value })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.defaultWidth", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "number",
+            min: 30,
+            max: 90,
+            step: 1,
+            value: current.defaultWidth,
+            onChange: (e) => update({ defaultWidth: Math.min(90, Math.max(30, Number(e.target.value) || 56)) })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.showToolbarButton", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: current.showToolbarButton,
+              onChange: (e) => update({ showToolbarButton: e.target.checked })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-settings-section", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: t("settings.htmlViewer.dashboardSection", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.dashboardAsset", language) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            CustomSelect,
+            {
+              options: [
+                { value: "", label: t("settings.htmlViewer.dashboardNone", language) },
+                ...dashboardAssets.map((path) => ({ value: path, label: path })),
+                ...current.dashboardAsset && !dashboardAssets.includes(current.dashboardAsset) ? [{ value: current.dashboardAsset, label: current.dashboardAsset }] : []
+              ],
+              value: current.dashboardAsset,
+              onChange: (value) => update({ dashboardAsset: value })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.dashboardFullscreen", language) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "checkbox",
+                checked: current.dashboardFullscreen,
+                onChange: (e) => update({ dashboardFullscreen: e.target.checked })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.htmlViewer.dashboardHint", language) }),
+        dashboardAssets.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-setting-item", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: current.dashboardAsset,
+            onChange: (e) => update({ dashboardAsset: e.target.value }),
+            placeholder: t("settings.htmlViewer.dashboardAssetPlaceholder", language)
+          }
+        ) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.writeAnnotationsToGraph", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: current.writeAnnotationsToGraph,
+              onChange: (e) => update({ writeAnnotationsToGraph: e.target.checked })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.annotationPagePrefix", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: current.annotationPagePrefix,
+            onChange: (e) => update({ annotationPagePrefix: e.target.value }),
+            placeholder: "HTML 标注 - "
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.htmlViewer.annotationHint", language) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.allowScripts", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: current.allowScripts,
+              onChange: (e) => update({ allowScripts: e.target.checked })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small danger", children: t("settings.htmlViewer.allowScriptsHint", language) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ltt-setting-item", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: t("settings.htmlViewer.allowRemote", language) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ltt-switch", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              checked: current.allowRemote,
+              onChange: (e) => update({ allowRemote: e.target.checked })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ltt-switch-slider" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ltt-tab-section-description-small", children: t("settings.htmlViewer.allowRemoteHint", language) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ltt-settings-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          className: "ltt-settings-btn ltt-settings-btn-save",
+          onClick: onSave,
+          disabled: isSaving,
+          children: isSaving ? t("settings.saving", language) : t("settings.saveHtmlViewerSettings", language)
+        }
+      ) })
+    ] });
+  }
+
   function SettingsModal({ isOpen, onClose, theme }) {
     const {
       settings: loadedSettings,
@@ -32612,7 +34053,8 @@ ${serialized}`;
       settings.heatmap?.enabled !== false && { id: "heatmap", component: HeatmapSettings, label: t("settings.tabs.heatmap", language), icon: "" },
       settings.blockView?.enabled !== false && { id: "block-view", component: BlockViewSettings, label: t("settings.tabs.blockView", language), icon: "" },
       settings.summary?.enabled !== false && { id: "summary", component: SummarySettings, label: t("settings.tabs.summary", language), icon: "" },
-      settings.milestone?.enabled !== false && { id: "milestone", component: MilestoneSettings, label: t("settings.tabs.milestone", language), icon: "" }
+      settings.milestone?.enabled !== false && { id: "milestone", component: MilestoneSettings, label: t("settings.tabs.milestone", language), icon: "" },
+      settings.htmlViewer?.enabled !== false && { id: "html-viewer", component: HtmlViewerSettings, label: t("settings.tabs.htmlViewer", language), icon: "" }
     ].filter(Boolean) : [];
     const tabs = [
       { id: "general", component: GeneralSettings, label: t("settings.tabs.general", language), icon: "" },
@@ -35015,7 +36457,7 @@ ${serialized}`;
 
   var settingsModalCSSRaw = "/* Settings modal styles */\n.ltt-settings-container {\n  max-height: 70vh;\n  overflow-y: auto;\n  padding-right: 8px;\n/* ============================================================================\n   Feature Management Grid Styles\n   ============================================================================ */\n\n.ltt-feature-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 12px;\n  margin-top: 12px;\n}\n\n.ltt-feature-card {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: 8px;\n  transition: all 0.2s ease;\n  cursor: pointer;\n}\n\n.ltt-feature-card:hover {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);\n}\n\n.ltt-feature-card-active {\n  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(102, 126, 234, 0.02) 100%);\n  border-color: rgba(102, 126, 234, 0.3);\n}\n\n.ltt-feature-icon {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  color: var(--ltt-accent, #667eea);\n}\n\n.ltt-feature-card-active .ltt-feature-icon {\n  background: rgba(102, 126, 234, 0.1);\n  color: var(--ltt-accent, #667eea);\n}\n\n.ltt-feature-info {\n  flex: 1;\n  min-width: 0;\n}\n\n.ltt-feature-name {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  margin-bottom: 4px;\n}\n\n.ltt-feature-desc {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n/* Dark theme */\n[data-theme=\"dark\"] .ltt-feature-card {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card:hover {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card-active {\n  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(102, 126, 234, 0.05) 100%);\n  border-color: rgba(102, 126, 234, 0.4);\n}\n\n[data-theme=\"dark\"] .ltt-feature-icon {\n  background: var(--ltt-bg-tertiary, #111827);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-feature-card-active .ltt-feature-icon {\n  background: rgba(102, 126, 234, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-feature-name {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-desc {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* ============================================================================\n   Macro Template Input Styles\n   ============================================================================ */\n\n.ltt-macro-template-input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  width: 100%;\n}\n\n.ltt-macro-template-input {\n  width: 100% !important;\n  max-width: 600px !important;\n  padding: 10px 14px !important;\n  border: 1px solid var(--ltt-border, #d1d5db) !important;\n  border-radius: 8px !important;\n  font-size: 13px !important;\n  font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;\n  background: var(--ltt-bg-primary, white) !important;\n  color: var(--ltt-text-primary, #374151) !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-macro-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;\n}\n\n.ltt-macro-template-input-error {\n  border-color: #ef4444 !important;\n  background: rgba(239, 68, 68, 0.05) !important;\n}\n\n.ltt-macro-template-input-error:focus {\n  border-color: #ef4444 !important;\n  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;\n}\n\n.ltt-macro-template-input-warning {\n  border-color: #f59e0b !important;\n}\n\n.ltt-macro-template-error,\n.ltt-macro-template-warning {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 10px;\n  border-radius: 4px;\n  font-size: 12px;\n  line-height: 1.4;\n}\n\n.ltt-macro-template-error {\n  background: rgba(239, 68, 68, 0.1);\n  color: #dc2626;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n.ltt-macro-template-warning {\n  background: rgba(245, 158, 11, 0.1);\n  color: #d97706;\n  border: 1px solid rgba(245, 158, 11, 0.2);\n}\n\n.ltt-macro-template-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* ============================================================================\n   Default Slash Command Template Input Styles\n   ============================================================================ */\n\n.ltt-default-template-input-container {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n}\n\n.ltt-default-template-input {\n  width: 100% !important;\n  max-width: 600px !important;\n  padding: 10px 14px !important;\n  border: 1px solid var(--ltt-border, #d1d5db) !important;\n  border-radius: 8px !important;\n  font-size: 13px !important;\n  font-family: 'SF Mono', Monaco, 'Courier New', monospace !important;\n  background: var(--ltt-bg-primary, white) !important;\n  color: var(--ltt-text-primary, #374151) !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-default-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;\n}\n\n.ltt-default-template-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n  word-break: break-all;\n}\n\n/* Settings hint consistent style */\n.ltt-settings-hint-small {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* Update ltt-setting-item for column layout for template inputs */\n.ltt-setting-item.ltt-template-setting {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  gap: 8px !important;\n}\n\n/* Settings hint consistent style */\n.ltt-settings-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  line-height: 1.4;\n  opacity: 0.8;\n}\n\n/* Dark theme for macro template input */\n[data-theme=\"dark\"] .ltt-macro-template-input {\n  background: var(--ltt-bg-secondary, #1f2937) !important;\n  border-color: var(--ltt-border, #374151) !important;\n  color: var(--ltt-text-primary, #f3f4f6) !important;\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-input:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-error {\n  background: rgba(239, 68, 68, 0.15);\n  color: #f87171;\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-warning {\n  background: rgba(245, 158, 11, 0.15);\n  color: #fbbf24;\n  border-color: rgba(245, 158, 11, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-macro-template-hint {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Dark theme for default template input */\n[data-theme=\"dark\"] .ltt-default-template-input {\n  background: var(--ltt-bg-secondary, #1f2937) !important;\n  border-color: var(--ltt-border, #374151) !important;\n  color: var(--ltt-text-primary, #f3f4f6) !important;\n}\n\n[data-theme=\"dark\"] .ltt-default-template-input:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;\n}\n\n[data-theme=\"dark\"] .ltt-default-template-hint {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Responsive styles */\n@media (max-width: 768px) {\n  .ltt-macro-template-input,\n  .ltt-default-template-input {\n    max-width: 100% !important;\n  }\n}\n\n.ltt-setting-item > input[type=\"text\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  width: 40% !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 30px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n/* Macro Template Input Container */\n.ltt-macro-template-input-container {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  width: 40% !important;\n  display: flex !important;\n  flex-direction: column !important;\n}\n\n.ltt-macro-template-input {\n  width: 100% !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 30px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n  border: 1px solid var(--ltt-border, #e5e7eb) !important;\n}\n\n.ltt-macro-template-input:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #667eea) !important;\n}\n\n.ltt-macro-template-input-error {\n  border-color: #ef4444 !important;\n}\n\n.ltt-macro-template-input-warning {\n  border-color: #f59e0b !important;\n}\n\n.ltt-macro-template-alert-left {\n  text-align: left !important;\n}\n\n.ltt-macro-template-alert-right {\n  text-align: right !important;\n}\n\n.ltt-macro-template-error,\n.ltt-macro-template-warning,\n.ltt-macro-template-hint {\n  margin-top: 4px !important;\n  font-size: 11px !important;\n  display: flex !important;\n  align-items: center !important;\n  gap: 4px !important;\n}\n\n.ltt-macro-template-error {\n  color: #ef4444 !important;\n}\n\n.ltt-macro-template-warning {\n  color: #f59e0b !important;\n}\n\n.ltt-macro-template-hint {\n  color: var(--ltt-text-muted, #9ca3af) !important;\n}\n\n/* ============================================================================\n * Apple-style Feature Management\n * ============================================================================ */\n\n.ltt-feature-management {\n  margin: 24px 0;\n}\n\n.ltt-feature-management-header {\n  cursor: pointer;\n  user-select: none;\n  padding: 12px 0;\n}\n\n.ltt-feature-management-header:hover {\n  opacity: 0.8;\n}\n\n.ltt-feature-management-title {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-feature-management-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 16px;\n  height: 16px;\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n.ltt-feature-management-title h4 {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n  flex: 1;\n}\n\n.ltt-feature-management-count {\n  font-size: 13px;\n  color: var(--ltt-text-muted, #6b7280);\n  font-weight: 500;\n}\n\n.ltt-feature-management-content {\n  animation: slideDown 0.2s ease-out;\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-8px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-feature-group {\n  margin-bottom: 0;\n}\n\n.ltt-feature-group-title {\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin-bottom: 8px;\n  padding: 0 0;\n}\n\n.ltt-feature-divider {\n  height: 1px;\n  background: var(--ltt-border, #e5e7eb);\n  margin: 0 0;\n}\n\n.ltt-feature-item {\n  display: flex;\n  align-items: center;\n  padding: 12px 0;\n  gap: 12px;\n}\n\n.ltt-feature-item-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 16px;\n  height: 16px;\n  color: var(--ltt-accent, #667eea);\n  flex-shrink: 0;\n}\n\n.ltt-feature-item-icon-disabled {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n.ltt-feature-item-content {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-feature-item-name {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #1f2937);\n  line-height: 1.4;\n}\n\n.ltt-feature-item-description {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #6b7280);\n  line-height: 1.4;\n}\n\n/* Dark theme for feature management */\n[data-theme=\"dark\"] .ltt-feature-management-title h4 {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-group-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-divider {\n  background: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-feature-item-name {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-feature-item-description {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n/* Custom scrollbar styles */\n.ltt-settings-container::-webkit-scrollbar {\n  width: 6px;\n}\n\n.ltt-settings-container::-webkit-scrollbar-track {\n  background: transparent;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #ccc);\n  border-radius: 3px;\n  opacity: 0.5;\n}\n\n.ltt-settings-container::-webkit-scrollbar-thumb:hover {\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-settings-container::-webkit-scrollbar-thumb {\n  background: var(--ltt-border, #555);\n}\n\n.ltt-settings-loading,\n.ltt-settings-error {\n  padding: 40px 20px;\n  text-align: center;\n  color: var(--ltt-text-secondary, #666);\n}\n\n.ltt-settings-header {\n  margin-bottom: 16px;\n}\n\n.ltt-settings-tabs {\n  display: flex;\n  gap: 8px;\n  margin-bottom: 16px;\n  border-bottom: 1px solid var(--ltt-border, #e0e0e0);\n  padding-bottom: 8px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n\n.ltt-settings-tabs::-webkit-scrollbar {\n  display: none;\n}\n\n.ltt-settings-tab {\n  padding: 8px 16px;\n  border: 1px solid var(--ltt-border, #e0e0e0);\n  border-radius: 6px 6px 0 0;\n  background-color: var(--ltt-bg-secondary, #f5f5f5);\n  color: var(--ltt-text-secondary, #666);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  font-size: 14px;\n  border-bottom: none;\n  white-space: nowrap;\n}\n\n.ltt-settings-tab:hover {\n  background-color: var(--ltt-bg-hover, #e0e0e0);\n  color: var(--ltt-text-primary, #333);\n}\n\n.ltt-settings-tab.active {\n  background-color: var(--ltt-bg-primary, #fff);\n  color: var(--ltt-text-primary, #333);\n  border-color: var(--ltt-border, #e0e0e0);\n  border-bottom: 1px solid var(--ltt-bg-primary, #fff);\n  margin-bottom: -1px;\n}\n\n.ltt-settings-content {\n  min-height: 300px;\n}\n\n.ltt-settings-tab-content {\n  padding: 0;\n}\n\n.ltt-tab-section-description-small {\n  margin: 0 0 16px 0;\n  font-size: 12px;\n  color: var(--ltt-text-muted, #999);\n  line-height: 1.4;\n  text-align: left;\n  opacity: 0.8;\n}\n\n.ltt-setting-item {\n  display: flex !important;\n  flex-direction: row !important;\n  align-items: center !important;\n  justify-content: flex-start !important;\n  flex-wrap: nowrap !important;\n  gap: 12px !important;\n  width: 100% !important;\n  margin-bottom: 16px !important;\n  box-sizing: border-box !important;\n  position: relative;\n}\n\n.ltt-setting-item > label {\n  flex-shrink: 0 !important;\n  white-space: nowrap !important;\n  font-size: 14px !important;\n  line-height: 1.5 !important;\n  width: 120px;\n  color: var(--ltt-text-primary, #333);\n  text-align: left;\n}\n\n.ltt-setting-item > select {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 2px 4px !important;\n  border-radius: 6px !important;\n  font-size: 12px !important;\n  height: 24px;\n  background-color: var(--ltt-bg-secondary, #f5f5f5) !important;\n  box-sizing: border-box !important;\n}\n\n.ltt-setting-item input[type=\"checkbox\"] {\n  width: 28px;\n  height: 18px;\n  cursor: pointer;\n  margin-top: 0;\n}\n\n.ltt-setting-item {\n  justify-content: space-between !important;\n}\n\n/* Switch styles */\n.ltt-switch {\n  position: relative;\n  display: inline-block;\n  width: 36px !important;\n  height: 20px !important;\n  flex-shrink: 0 !important;\n}\n\n.ltt-switch input {\n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n\n.ltt-switch-slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: var(--ltt-border, #ccc);\n  transition: 0.4s;\n  border-radius: 20px;\n}\n\n.ltt-switch-slider:before {\n  position: absolute;\n  content: \"\";\n  height: 16px;\n  width: 16px;\n  left: 2px;\n  bottom: 2px;\n  background-color: var(--ltt-bg-primary, white);\n  transition: 0.4s;\n  border-radius: 50%;\n}\n\ninput:checked + .ltt-switch-slider {\n  background-color: var(--ltt-accent, #000);\n  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);\n}\n\ninput:checked + .ltt-switch-slider:before {\n  transform: translateX(16px);\n}\n\n.ltt-switch-slider:hover {\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-setting-item input[type=\"text\"],\n.ltt-setting-item input[type=\"number\"] {\n  flex: 0 0 auto !important;\n  min-width: 120px !important;\n  padding: 6px 10px !important;\n  border: 1px solid var(--ltt-border, #ccc) !important;\n  border-radius: 6px !important;\n  font-size: 13px !important;\n  box-sizing: border-box !important;\n  background: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #333) !important;\n}\n\n.ltt-setting-item input[type=\"text\"]:focus,\n.ltt-setting-item input[type=\"number\"]:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #000) !important;\n  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;\n}\n\n.ltt-settings-section {\n  margin: 24px 0;\n  padding: 0;\n}\n\n.ltt-settings-section h4 {\n  margin: 0 0 12px 0;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #333);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n.ltt-section-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #999);\n  margin: 4px 0 12px 0;\n  line-height: 1.4;\n}\n\n.ltt-status-colors-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));\n  gap: 12px;\n}\n\n.ltt-status-color-row {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.ltt-status-color-row input[type=\"color\"] {\n  width: 30px;\n  height: 30px;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-status-color-row input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 6px;\n}\n\n.ltt-status-label {\n  font-size: 13px;\n  color: var(--ltt-text-primary, #333);\n  font-weight: 500;\n}\n\n.ltt-settings-actions {\n  margin-top: 24px;\n  padding-top: 16px;\n  border-top: 1px solid var(--ltt-border, #e0e0e0);\n  display: flex;\n  justify-content: flex-end;\n}\n\n.ltt-settings-btn {\n  padding: 8px 20px;\n  font-size: 14px;\n  font-weight: 500;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.ltt-settings-btn:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.ltt-settings-btn-save {\n  background-color: var(--ltt-accent, #000);\n  color: var(--ltt-bg-primary, #fff);\n}\n\n.ltt-settings-btn-save:hover:not(:disabled) {\n  opacity: 0.9;\n  transform: translateY(-1px);\n}\n\n/* Milestone Base Section Styles */\n.ltt-milestone-base-section {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n  margin-bottom: 24px;\n  padding: 0;\n}\n\n.ltt-milestone-color-grid-compact {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));\n  gap: 12px;\n}\n\n.ltt-milestone-color-item-compact {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 6px 10px;\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n}\n\n.ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact {\n  background: var(--ltt-bg-primary, #1e1e1e);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-item-compact:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"] {\n  width: 24px;\n  height: 24px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  padding: 0;\n  background: transparent;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch-wrapper {\n  padding: 0;\n}\n\n.ltt-milestone-color-item-compact input[type=\"color\"]::-webkit-color-swatch {\n  border: none;\n  border-radius: 4px;\n}\n\n.ltt-milestone-color-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-dot {\n  border-color: rgba(255, 255, 255, 0.1);\n}\n\n.ltt-milestone-color-label {\n  font-size: 12px;\n  color: var(--ltt-text-secondary, #6b7280);\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-color-label {\n  color: var(--ltt-text-secondary, #a0aec0);\n}\n\n/* Template Color Section */\n.ltt-milestone-template-color-section {\n  margin-top: 24px;\n  padding-top: 20px;\n  border-top: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-section {\n  border-top-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-template-color-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.ltt-milestone-template-color-title {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #374151);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-template-color-hint {\n  font-size: 11px;\n  color: var(--ltt-text-muted, #9ca3af);\n  background: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 2px 8px;\n  border-radius: 10px;\n  font-weight: 500;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-color-hint {\n  background: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n/* Milestone Templates Section Styles */\n.ltt-milestone-templates-section {\n  margin-bottom: 24px;\n}\n\n.ltt-milestone-templates-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n  padding-bottom: 12px;\n  border-bottom: 2px solid var(--ltt-border, #e5e7eb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-header {\n  border-bottom-color: var(--ltt-border, #2d3748);\n}\n\n.ltt-milestone-templates-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ltt-text-primary, #1f2937);\n  margin: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-templates-title {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-add-template-btn {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 14px;\n  background: var(--ltt-accent, #667eea);\n  color: var(--ltt-bg-primary, white);\n  border: none;\n  border-radius: var(--ltt-radius-md, 8px);\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(102, 126, 234, 0.3));\n}\n\n.ltt-milestone-add-template-btn:hover {\n  transform: translateY(-1px);\n  box-shadow: var(--ltt-shadow-md, 0 4px 12px rgba(102, 126, 234, 0.4));\n}\n\n.ltt-milestone-add-icon {\n  width: 14px;\n  height: 14px;\n}\n\n/* Template Card Styles */\n.ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-xl, 12px);\n  margin-bottom: 12px;\n  transition: all 0.2s ease;\n  overflow: hidden;\n}\n\n.ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.05));\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card {\n  background: var(--ltt-bg-primary, #1a1a1a);\n  border-color: var(--ltt-border, #2d3748);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card:hover {\n  border-color: var(--ltt-border-strong, #4a5568);\n}\n\n.ltt-milestone-template-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  background: var(--ltt-bg-secondary, #fafafa);\n  border-bottom: 1px solid var(--ltt-border, #f3f4f6);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-header {\n  background: var(--ltt-bg-secondary, #1f2937);\n  border-bottom-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-template-info {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex: 1;\n}\n\n.ltt-milestone-template-number {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 28px;\n  height: 28px;\n  background: linear-gradient(135deg, var(--ltt-accent, #111827) 0%, var(--ltt-accent-hover, #374151) 100%);\n  color: var(--ltt-bg-primary, white);\n  font-size: 13px;\n  font-weight: 600;\n  border-radius: var(--ltt-radius-md, 6px);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-template-name-input {\n  flex: 1;\n  padding: 6px 10px;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #111827);\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: var(--ltt-radius-md, 6px);\n  transition: all 0.2s ease;\n  min-width: 0;\n}\n\n.ltt-milestone-template-name-input:hover {\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-border, #e5e7eb);\n}\n\n.ltt-milestone-template-name-input:focus {\n  outline: none;\n  background-color: var(--ltt-bg-secondary, #f9fafb);\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.05);\n}\n\n.ltt-milestone-template-id {\n  font-size: 12px;\n  color: var(--ltt-text-muted, #9ca3af);\n  font-family: ui-monospace, Monaco, 'SF Mono', monospace;\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  padding: 4px 8px;\n  border-radius: var(--ltt-radius-sm, 4px);\n  flex-shrink: 0;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-id {\n  background-color: var(--ltt-bg-tertiary, #2d3748);\n  color: var(--ltt-text-muted, #718096);\n}\n\n.ltt-milestone-template-actions {\n  display: flex;\n  gap: 8px;\n}\n\n.ltt-milestone-action-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  background-color: transparent;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  border-radius: var(--ltt-radius-md, 8px);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-secondary, #f3f4f6);\n  border-color: var(--ltt-border-strong, #d1d5db);\n  color: var(--ltt-text-primary, #111827);\n}\n\n.ltt-milestone-action-btn:active {\n  transform: scale(0.95);\n}\n\n.ltt-milestone-action-btn-delete:hover {\n  background-color: var(--ltt-error, #fef2f2);\n  border-color: var(--ltt-error, #fecaca);\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-action-btn-collapse:hover {\n  background-color: var(--ltt-bg-hover, #e0e7ff);\n  border-color: var(--ltt-accent, #667eea);\n  color: var(--ltt-accent, #667eea);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn {\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn:hover {\n  background-color: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border-strong, #4b5568);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-action-btn-delete:hover {\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(239, 68, 68, 0.3);\n  color: var(--ltt-error, #fca5a5);\n}\n\n.ltt-milestone-template-card-expanded {\n  border-color: var(--ltt-border-strong, #d1d5db);\n  box-shadow: var(--ltt-shadow-md, 0 8px 24px rgba(0, 0, 0, 0.12));\n}\n\n.ltt-milestone-template-card-body {\n  padding: 24px 20px;\n  background: var(--ltt-bg-primary, white);\n  animation: slideDown 0.2s ease-out;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-template-card-body {\n  background: var(--ltt-bg-primary, #111827);\n}\n\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n.ltt-milestone-form-grid {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  gap: 20px;\n}\n\n.ltt-milestone-form-item {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.ltt-milestone-form-item-full {\n  grid-column: 1 / -1;\n}\n\n.ltt-milestone-form-label {\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--ltt-text-primary, #374151);\n  letter-spacing: 0.1px;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-label {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n.ltt-milestone-form-label-required:after {\n  content: \" *\";\n  color: var(--ltt-error, #dc2626);\n}\n\n.ltt-milestone-form-input {\n  width: 100%;\n  padding: 10px 14px;\n  font-size: 14px;\n  color: var(--ltt-text-primary, #111827);\n  background-color: var(--ltt-bg-primary, white);\n  border: 1px solid var(--ltt-border, #d1d5db);\n  border-radius: var(--ltt-radius-md, 8px);\n  transition: all 0.2s ease;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #9ca3af);\n}\n\n.ltt-milestone-form-input:focus {\n  outline: none;\n  border-color: var(--ltt-accent, #111827);\n  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);\n}\n\n.ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input {\n  background-color: var(--ltt-bg-secondary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n  color: var(--ltt-text-primary, #f9fafb);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:hover {\n  border-color: var(--ltt-border-strong, #4b5568);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input:focus {\n  border-color: var(--ltt-accent, #667eea);\n  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-input::placeholder {\n  color: var(--ltt-text-muted, #6b7280);\n}\n\n/* Template Display Row - 3 items in a row on wide screens */\n.ltt-milestone-template-display-row {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n  grid-column: 1 / -1;\n}\n\n@media (max-width: 900px) {\n  .ltt-milestone-template-display-row {\n    grid-template-columns: 1fr;\n  }\n}\n\n/* Form Hints - Smaller & Lighter */\n.ltt-milestone-form-hint {\n  font-size: 10px;\n  color: var(--ltt-text-muted, #c0c4cc);\n  margin-top: 4px;\n  font-weight: 400;\n  line-height: 1.3;\n  opacity: 0.8;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-form-hint {\n  color: var(--ltt-text-muted, #6a7280);\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #f9fafb) 0%, var(--ltt-bg-tertiary, #f3f4f6) 100%);\n  border-radius: var(--ltt-radius-xl, 12px);\n  border: 2px dashed var(--ltt-border, #d1d5db);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates {\n  background: linear-gradient(135deg, var(--ltt-bg-secondary, #1f2937) 0%, var(--ltt-bg-tertiary, #111827) 100%);\n  border-color: var(--ltt-border, #374151);\n}\n\n.ltt-milestone-empty-icon {\n  color: var(--ltt-text-muted, #9ca3af);\n  margin-bottom: 12px;\n  opacity: 0.7;\n}\n\n.ltt-milestone-no-templates-text {\n  margin: 0;\n  font-size: 14px;\n  color: var(--ltt-text-secondary, #6b7280);\n  text-align: center;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-no-templates-text {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n/* Error Styles */\n.ltt-milestone-input-error {\n  border-color: var(--ltt-error, #dc2626) !important;\n  background-color: rgba(220, 38, 38, 0.05) !important;\n}\n\n.ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;\n}\n\n.ltt-milestone-error-message {\n  font-size: 12px;\n  color: var(--ltt-error, #dc2626);\n  margin-top: 2px;\n  padding: 4px 8px;\n  background-color: rgba(220, 38, 38, 0.05);\n  border-radius: 4px;\n  border: 1px solid rgba(220, 38, 38, 0.2);\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error {\n  border-color: var(--ltt-error, #fca5a5) !important;\n  background-color: rgba(239, 68, 68, 0.1) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-input-error:focus {\n  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-milestone-error-message {\n  color: var(--ltt-error, #fca5a5);\n  background-color: rgba(239, 68, 68, 0.1);\n  border-color: rgba(252, 165, 165, 0.2);\n}\n\n/* Responsive Styles */\n@media (max-width: 768px) {\n  .ltt-milestone-templates-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: flex-start;\n  }\n\n  .ltt-milestone-add-template-btn {\n    width: 100%;\n    justify-content: center;\n  }\n\n  .ltt-milestone-form-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .ltt-milestone-template-card-header {\n    flex-direction: column;\n    gap: 12px;\n    align-items: stretch;\n  }\n\n  .ltt-milestone-template-actions {\n    justify-content: flex-end;\n  }\n\n  .ltt-milestone-template-info {\n    flex-wrap: wrap;\n  }\n\n  .ltt-milestone-error-message {\n    width: 100%;\n  }\n}\n\n/* ============================================================================\n   Toolbar Settings - JSON Editor Styles (Restored from v1.1.6)\n   ============================================================================ */\n\n/* Toolbar-specific styles */\n#ltt-toolbar-settings .ltt-settings-tab-content {\n  overflow-x: hidden;\n  max-width: 100%;\n}\n\n#ltt-toolbar-settings .ltt-setting-item {\n  flex-wrap: wrap;\n}\n\n#ltt-toolbar-settings .ltt-json-editor {\n  max-width: 100%;\n  overflow-x: auto;\n  width: 100%;\n}\n\n/* JSON Editor Container */\n.ltt-setting-item.ltt-setting-item-json {\n  flex-direction: column !important;\n  align-items: flex-start !important;\n  width: 100% !important;\n  gap: 8px !important;\n}\n\n.ltt-setting-item-json label {\n  padding-top: 0;\n  width: 120px !important;\n  text-align: left !important;\n  margin-bottom: 4px;\n}\n\n/* JSON Editor */\n.ltt-json-editor {\n  flex: 1;\n  position: relative;\n  width: 100%;\n}\n\n.ltt-json-editor textarea {\n  width: 100% !important;\n  min-height: 240px !important;\n  max-height: 400px !important;\n  overflow-y: auto !important;\n  overflow-x: auto !important;\n  padding: 16px !important;\n  border: 1px solid var(--ltt-border, #e2e8f0) !important;\n  border-radius: 8px !important;\n  font-size: 14px !important;\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  background-color: var(--ltt-bg-primary, #fff) !important;\n  color: var(--ltt-text-primary, #1e293b) !important;\n  resize: vertical !important;\n  line-height: 1.5 !important;\n  transition: all 0.2s ease !important;\n  box-sizing: border-box !important;\n  white-space: pre-wrap !important;\n}\n\n.ltt-json-editor textarea:focus {\n  outline: none !important;\n  border-color: var(--ltt-accent, #3b82f6) !important;\n  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;\n}\n\n/* JSON Error Message */\n.ltt-json-error {\n  margin-top: 8px;\n  font-size: 12px;\n  color: var(--ltt-error, #ef4444);\n  margin-bottom: 12px;\n  padding: 8px 12px;\n  background-color: rgba(239, 68, 68, 0.1);\n  border-radius: 4px;\n  border: 1px solid rgba(239, 68, 68, 0.2);\n}\n\n/* JSON Editor Hint */\n.ltt-json-hint {\n  margin-bottom: 12px;\n  padding: 12px 16px;\n  background: var(--ltt-bg-secondary, #f9fafb);\n  border-radius: 8px;\n  border: 1px solid var(--ltt-border, #e5e7eb);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-json-hint ul {\n  margin: 0;\n  padding-left: 20px;\n  color: var(--ltt-text-secondary, #6b7280);\n}\n\n.ltt-json-hint li {\n  margin-bottom: 6px;\n  font-size: 12px;\n  line-height: 1.5;\n}\n\n.ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #374151);\n  font-weight: 600;\n}\n\n/* Dark Theme for JSON Editor */\n[data-theme=\"dark\"] .ltt-json-editor textarea {\n  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace !important;\n  font-size: 13px;\n  line-height: 1.5;\n  background-color: var(--ltt-bg-secondary, #1f2937) !important;\n  border: 1px solid var(--ltt-border, #374151) !important;\n  border-radius: 8px;\n  padding: 16px;\n  color: var(--ltt-text-primary, #e5e7eb) !important;\n  resize: vertical;\n  transition: all 0.2s ease;\n}\n\n[data-theme=\"dark\"] .ltt-json-editor textarea:focus {\n  border-color: var(--ltt-accent, #667eea) !important;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;\n}\n\n[data-theme=\"dark\"] .ltt-json-error {\n  background-color: rgba(239, 68, 68, 0.15);\n  border-color: rgba(239, 68, 68, 0.3);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint {\n  background: var(--ltt-bg-tertiary, #1f2937);\n  border-color: var(--ltt-border, #374151);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint ul {\n  color: var(--ltt-text-secondary, #9ca3af);\n}\n\n[data-theme=\"dark\"] .ltt-json-hint li strong {\n  color: var(--ltt-text-primary, #f3f4f6);\n}\n\n/* Responsive Styles for Toolbar Settings */\n@media (max-width: 768px) {\n  #ltt-toolbar-settings .ltt-settings-tab-content {\n    padding: 0 4px;\n  }\n\n  .ltt-json-editor textarea {\n    min-height: 200px !important;\n    font-size: 12px !important;\n    padding: 12px !important;\n  }\n\n  .ltt-setting-item.ltt-setting-item-json {\n    margin-bottom: 16px;\n  }\n}\n\n@media (max-width: 480px) {\n  .ltt-json-editor textarea {\n    min-height: 180px !important;\n    font-size: 11px !important;\n    padding: 10px !important;\n  }\n}\n";
 
-  var modalCSSRaw = "/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n/*\n * Logseq slot wrappers are fixed-position stacking contexts. If the wrapper has\n * z-index:auto, the modal-overlay's z-index cannot escape it and later main\n * content (heatmap/block content) can sit above the modal for hit testing.\n */\n#text-toolkit-settings,\n#text-toolkit-comment-app,\n#text-toolkit-summary-modal {\n  position: fixed;\n  inset: 0;\n  z-index: 10000;\n  pointer-events: none;\n}\n\n#text-toolkit-settings .modal-overlay,\n#text-toolkit-comment-app .modal-overlay,\n#text-toolkit-summary-modal .modal-overlay {\n  pointer-events: auto;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n";
+  var modalCSSRaw = "/* Modal styles */\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 10000;\n}\n\n/*\n * Logseq slot wrappers are fixed-position stacking contexts. If the wrapper has\n * z-index:auto, the modal-overlay's z-index cannot escape it and later main\n * content (heatmap/block content) can sit above the modal for hit testing.\n */\n#text-toolkit-settings,\n#text-toolkit-comment-app,\n#text-toolkit-summary-modal,\n#text-toolkit-html-viewer {\n  position: fixed;\n  inset: 0;\n  z-index: 10000;\n  pointer-events: none;\n}\n\n#text-toolkit-settings .modal-overlay,\n#text-toolkit-comment-app .modal-overlay,\n#text-toolkit-summary-modal .modal-overlay {\n  pointer-events: auto;\n}\n\n.modal-container {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  width: 100%;\n  max-width: 90vw;\n  max-height: 90vh;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 20px;\n  border-bottom: 1px solid;\n}\n\n.modal-title {\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.modal-close {\n  background: none;\n  border: none;\n  font-size: 24px;\n  cursor: pointer;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n}\n\n.modal-content {\n  padding: 20px;\n  overflow-y: auto;\n  flex: 1;\n}\n\n/* Theme-specific styles */\n.modal-light {\n  background-color: var(--ls-primary-background-color-plugin, #fff);\n}\n\n.modal-light .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #e0e0e0);\n}\n\n.modal-light .modal-title {\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-light .modal-close {\n  color: var(--ls-primary-text-color-plugin, #666);\n}\n\n.modal-light .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #f0f0f0);\n  color: var(--ls-primary-text-color-plugin, #333);\n}\n\n.modal-dark {\n  background-color: var(--ls-primary-background-color-plugin, #2d2d2d);\n}\n\n.modal-dark .modal-header {\n  border-bottom-color: var(--ls-border-color-plugin, #444);\n}\n\n.modal-dark .modal-title {\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n\n.modal-dark .modal-close {\n  color: var(--ls-primary-text-color-plugin, #aaa);\n}\n\n.modal-dark .modal-close:hover {\n  background-color: var(--ls-secondary-background-color-plugin, #444);\n  color: var(--ls-primary-text-color-plugin, #e0e0e0);\n}\n";
 
   var inlineCommentCSSRaw = "/**\n * 行内注释弹窗组件样式\n * 极简紧凑设计风格\n */\n\n.ltt-inline-comment-modal-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.25);\n  backdrop-filter: blur(4px);\n  z-index: 1000;\n  display: flex;\n  align-items: flex-start;\n  justify-content: center;\n  padding-top: 15vh;\n}\n\n.ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #ffffff);\n  border-radius: 14px;\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);\n  width: 100%;\n  max-width: 380px;\n  overflow: hidden;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);\n}\n\n.ltt-inline-comment-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 10px 18px 2px 18px;\n}\n\n.ltt-inline-comment-modal-title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--ls-primary-text-color, #1a1a1a);\n  letter-spacing: -0.2px;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-title {\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-close {\n  background: transparent;\n  border: none;\n  padding: 4px;\n  border-radius: 6px;\n  cursor: pointer;\n  color: var(--ls-secondary-text-color, #999);\n  transition: all 0.15s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n  color: var(--ls-primary-text-color, #1a1a1a);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-close:hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n  color: var(--ls-primary-text-color, #fafafa);\n}\n\n.ltt-inline-comment-modal-selected {\n  padding: 0 16px 4px;\n}\n\n.ltt-inline-comment-modal-selected-text {\n  display: block;\n  background: var(--ls-secondary-background-color, #f8f8f8);\n  color: var(--ls-secondary-text-color, #666);\n  font-size: 9px;\n  padding: 6px 10px;\n  border-radius: 6px;\n  font-weight: 400;\n  line-height: 1;\n  word-break: break-word;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-selected-text {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-secondary-text-color, #999);\n}\n\n.ltt-inline-comment-modal-content {\n  padding: 0 16px 10px;\n  display: flex;\n  justify-content: center;\n}\n\n.ltt-inline-comment-modal-content :deep(textarea) {\n  width: 90%;\n  height: 34px;\n  min-height: 34px;\n  max-height: 150px;\n  border: none;\n  border-radius: 6px;\n  padding: 8px 10px;\n  font-size: 13px;\n  line-height: 1.4;\n  resize: vertical;\n  background: var(--ls-secondary-background-color, #fafafa);\n  color: var(--ls-primary-text-color, #1a1a1a);\n  font-family: inherit;\n  transition: all 0.15s ease;\n  outline: none;\n  box-sizing: border-box;\n  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea) {\n  background: var(--ls-secondary-background-color, #252525);\n  color: var(--ls-primary-text-color, #fafafa);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #f5f5f5);\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):hover {\n  background: var(--ls-secondary-background-color, #2a2a2a);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea):focus,\n.ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #ffffff);\n  box-shadow: 0 0 0 1px #000000;\n}\n\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):focus,\n[data-theme=\"dark\"] .ltt-inline-comment-modal-content :deep(textarea):active {\n  background: var(--ls-primary-background-color, #1e1e1e);\n  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);\n}\n\n.ltt-inline-comment-modal-content :deep(textarea)::placeholder {\n  color: var(--ls-secondary-text-color, #bbb);\n}\n\n.ltt-inline-comment-modal-footer {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 8px;\n  padding: 8px 16px 12px;\n}\n\n.ltt-inline-comment-modal-btn {\n  display: inline-flex;\n  align-items: center;\n  gap: 2px;\n  padding: 6px 10px;\n  border-radius: 8px;\n  font-size: 10px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  border: none;\n  font-family: inherit;\n}\n\n.ltt-btn-primary {\n  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);\n  color: #ffffff;\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n.ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #2a2a2a 0%, #444444 100%);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);\n  transform: translateY(-0.5px);\n}\n\n.ltt-btn-primary:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary {\n  background: linear-gradient(135deg, #3a3a3a 0%, #555555 100%);\n}\n\n[data-theme=\"dark\"] .ltt-btn-primary:hover {\n  background: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);\n}";
 
@@ -35042,6 +36484,8 @@ ${serialized}`;
   var listViewCssRaw = ".ltt-list-root .block-title-wrap {\n    display: inline-flex !important;\n    align-items: center !important;\n    flex-wrap: wrap !important;\n    gap: 1px !important;\n}\n\n.ltt-list-root .lsp-hook-ui-slot {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    min-height: 0 !important;\n\n    margin: 0 !important;\n    padding: 0 !important;\n}\n\n.ltt-list-root .ltt-view-bar {\n    display: inline-flex !important;\n    align-items: center !important;\n\n    width: auto !important;\n    flex: 0 0 auto !important;\n\n    margin: 0px !important;\n    padding: 0 !important;\n\n    vertical-align: middle !important;\n}\n\n/* =========================================================\n   ROOT HEADER\n========================================================= */\n\n/* .ltt-list-root>.block-main-container {\n  margin-bottom: 12px;\n} */\n\n/* .ltt-list-root>.block-main-container .block-control-wrap {\n  display: none !important;\n} */\n\n";
 
   var milestoneCSSRaw = "/**\n * Milestone 组件样式 - 使用 LTT Design Tokens\n */\n\n.ltt-milestone-container {\n  font-family: var(--ltt-font-family);\n  padding: var(--ltt-spacing-lg);\n  border-radius: var(--ltt-radius-lg);\n  box-shadow: var(--ltt-shadow-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  overflow-y: visible;\n  overflow-x: hidden;\n  position: relative;\n}\n\n.ltt-milestone-container-inline {\n  padding: 0;\n  border-radius: 0;\n  box-shadow: none;\n  border: none;\n  background: transparent;\n  display: inline-flex;\n  align-items: center;\n}\n\n.ltt-milestone-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--ltt-spacing-xl);\n}\n\n/* ========== 通用动画 ========== */\n@keyframes ltt-milestone-pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.8;\n    transform: scale(1.02);\n  }\n}\n\n@keyframes ltt-milestone-glow {\n  0%, 100% {\n    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);\n  }\n  50% {\n    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);\n  }\n}\n\n@keyframes ltt-milestone-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.ltt-milestone-pulse {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-glow {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n}\n\n.ltt-milestone-spin {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n/* ========== Capsule 样式 ========== */\n.ltt-milestone-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-sm);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 8px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-track {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  position: relative;\n  padding: 0 var(--ltt-spacing-lg);\n  min-width: max-content;\n}\n\n.ltt-milestone-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-node.ltt-milestone-pulse-node .ltt-milestone-symbol {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-symbol {\n  font-size: 20px;\n  transition: color var(--ltt-transition-fast);\n  cursor: pointer;\n}\n\n.ltt-milestone-symbol:hover {\n  transform: scale(1.1);\n  transition: transform var(--ltt-transition-fast);\n}\n\n.ltt-milestone-line {\n  position: absolute;\n  top: 10px;\n  left: var(--ltt-spacing-xl);\n  right: var(--ltt-spacing-xl);\n  height: 2px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-line-dashed {\n  flex: 1;\n  min-width: 40px;\n  border-top: 2px dashed;\n  border-bottom: 2px dashed transparent;\n  opacity: 0.5;\n  margin: 0 var(--ltt-spacing-sm);\n  align-self: center;\n  transition: opacity var(--ltt-transition-fast);\n}\n\n.ltt-milestone-tooltip {\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 180px;\n  max-width: 280px;\n  animation: tooltipFadeIn var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip::after {\n  content: '';\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-top-color: var(--ltt-border);\n}\n\n.ltt-milestone-tooltip-label {\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n  color: var(--ltt-text-primary);\n  margin-bottom: 6px;\n}\n\n.ltt-milestone-tooltip-date {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-muted);\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-status {\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.ltt-milestone-tooltip-progress {\n  font-size: var(--ltt-font-size-sm);\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-badge {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInBadge var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-badge::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInBadge {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n@keyframes tooltipFadeIn {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-track {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInTrack var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-track::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInTrack {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-tooltip-compact {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInCompact var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-compact::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInCompact {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n.ltt-milestone-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  margin-top: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-label {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n}\n\n.ltt-milestone-status {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Badge 样式 ========== */\n.ltt-milestone-badge {\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-md);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid {\n  display: flex;\n  justify-content: flex-start;\n  gap: var(--ltt-spacing-lg);\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  width: 100%;\n  max-width: 100%;\n  box-sizing: border-box;\n  position: relative;\n  margin: 0 var(--ltt-spacing-lg);\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge .ltt-milestone-grid::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-badge-number {\n  width: 32px;\n  height: 32px;\n  border-radius: var(--ltt-radius-full);\n  background: var(--ltt-accent);\n  color: var(--ltt-text-inverse);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 600;\n  font-size: var(--ltt-font-size-md);\n}\n\n.ltt-milestone-badge-item.ltt-milestone-pulse-node .ltt-milestone-badge-number {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);\n}\n\n.ltt-milestone-sublabel {\n  font-size: var(--ltt-font-size-sm);\n}\n\n.ltt-milestone-overall-progress {\n  margin: var(--ltt-spacing-lg) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  height: 8px;\n  background: var(--ltt-bg-secondary);\n  border-radius: var(--ltt-radius-sm);\n  position: relative;\n  overflow: hidden;\n  width: auto;\n  box-sizing: border-box;\n}\n\n.ltt-milestone-progress-bar {\n  height: 100%;\n  background: var(--ltt-accent);\n  border-radius: var(--ltt-radius-sm);\n  transition: width var(--ltt-transition-slow);\n}\n\n.ltt-milestone-progress-label {\n  display: block;\n  text-align: center;\n  margin: var(--ltt-spacing-xs) var(--ltt-spacing-lg) 0 var(--ltt-spacing-lg);\n  font-size: var(--ltt-font-size-md);\n}\n\n/* ========== Track 样式 ========== */\n.ltt-milestone-track-minimal {\n  position: relative;\n  padding: var(--ltt-spacing-lg) 0;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-track-minimal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-line-container {\n  display: flex;\n  align-items: center;\n  position: relative;\n  height: 4px;\n  border-radius: var(--ltt-radius-full);\n  overflow: hidden;\n  min-width: max-content;\n}\n\n.ltt-milestone-line-bg {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  opacity: 0.3;\n}\n\n.ltt-milestone-dot {\n  width: 12px;\n  height: 12px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid var(--ltt-bg-primary);\n  z-index: 1;\n  transition: background-color var(--ltt-transition-fast);\n  flex-shrink: 0;\n}\n\n.ltt-milestone-dot.ltt-milestone-pulse-dot {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-segment {\n  flex: 1;\n  height: 4px;\n  transition: background-color var(--ltt-transition-slow);\n}\n\n.ltt-milestone-labels {\n  display: flex;\n  justify-content: space-between;\n  margin-top: var(--ltt-spacing-sm);\n  min-width: max-content;\n}\n\n.ltt-milestone-label-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 2px;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-time {\n  font-size: var(--ltt-font-size-md);\n  font-weight: 500;\n}\n\n.ltt-milestone-desc {\n  font-size: var(--ltt-font-size-sm);\n}\n\n/* ========== Card 样式 ========== */\n.ltt-milestone-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  gap: var(--ltt-spacing-xl);\n  padding: 20px 0;\n}\n\n.ltt-milestone-card-horizontal {\n  position: relative;\n  display: flex;\n  align-items: center;\n  gap: 0;\n  padding: 20px 10px;\n  overflow-x: auto;\n  overflow-y: visible;\n  -webkit-overflow-scrolling: touch;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n}\n\n.ltt-milestone-card-horizontal::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n}\n\n.ltt-milestone-center-line {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 50%;\n  height: 2px;\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-card-item {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-card-item.top {\n  justify-content: flex-start;\n  padding-right: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item.bottom {\n  justify-content: flex-end;\n  padding-left: calc(50% + var(--ltt-spacing-md));\n}\n\n.ltt-milestone-card-item-horizontal {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  position: relative;\n  flex-shrink: 0;\n  z-index: 1;\n}\n\n.ltt-milestone-card-content {\n  padding: var(--ltt-spacing-sm) var(--ltt-spacing-md);\n  background: var(--ltt-bg-primary);\n  border-radius: var(--ltt-radius-sm);\n  border: 1px solid;\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-card-content-horizontal {\n  padding: 12px;\n  background: var(--ltt-bg-primary);\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  box-shadow: var(--ltt-shadow-sm);\n  min-width: 140px;\n  max-width: 160px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  cursor: pointer;\n  transition: transform var(--ltt-transition-fast) ease, box-shadow var(--ltt-transition-fast) ease, border-color var(--ltt-transition-fast);\n  position: relative;\n}\n\n.ltt-milestone-card-content-horizontal:hover {\n  transform: translateY(-4px);\n  box-shadow: var(--ltt-shadow-md);\n}\n\n.ltt-milestone-card-content-horizontal.ltt-milestone-pulse-card {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n/* 第一层：卡片头部 */\n.ltt-milestone-card-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-status-text {\n  font-size: 11px;\n  font-weight: 600;\n  white-space: nowrap;\n}\n\n.ltt-milestone-card-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 1.5px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-card-icon {\n  font-size: 24px;\n  font-weight: bold;\n  position: relative;\n}\n\n.ltt-milestone-card-icon.ltt-milestone-spin-icon {\n  animation: ltt-milestone-spin 2s linear infinite;\n}\n\n.ltt-milestone-card-icon-corner {\n  position: absolute;\n  top: 4px;\n  right: 4px;\n  font-size: 12px;\n}\n\n.ltt-milestone-card-info {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--ltt-spacing-xs);\n  text-align: center;\n}\n\n.ltt-milestone-card-title {\n  font-weight: 500;\n  font-size: var(--ltt-font-size-md);\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n\n.ltt-milestone-card-title-horizontal {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第二层：描述 */\n.ltt-milestone-card-description {\n  font-size: 12px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.4;\n  word-wrap: break-word;\n  word-break: break-word;\n}\n\n/* 第三层：进度条 */\n.ltt-milestone-card-progress {\n  position: relative;\n  height: 4px;\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-card-progress-bg {\n  position: absolute;\n  inset: 0;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-card-progress-fill {\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-card-date {\n  font-size: var(--ltt-font-size-sm);\n  opacity: 0.6;\n}\n\n.ltt-milestone-card-date-horizontal {\n  font-size: 11px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-status-horizontal {\n  font-size: 11px;\n  font-weight: 500;\n}\n\n/* 第四层：底部 */\n.ltt-milestone-card-footer {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-card-footer .ltt-milestone-card-date {\n  font-size: 10px;\n  color: var(--ltt-text-muted);\n}\n\n.ltt-milestone-card-percent {\n  font-size: 11px;\n  font-weight: 600;\n}\n\n.ltt-milestone-arrow {\n  position: absolute;\n  width: 0;\n  height: 0;\n  border: 6px solid transparent;\n}\n\n.ltt-milestone-arrow.down {\n  top: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(-50%);\n}\n\n.ltt-milestone-arrow.up {\n  bottom: 50%;\n  left: calc(50% - 6px);\n  transform: translateY(50%);\n}\n\n.ltt-milestone-connector-horizontal {\n  width: 40px;\n  height: 2px;\n  background: var(--ltt-border);\n  flex-shrink: 0;\n  position: relative;\n  top: -40px;\n}\n\n.ltt-milestone-tooltip-horizontal {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  margin-top: var(--ltt-spacing-sm);\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  border-radius: var(--ltt-radius-lg);\n  padding: var(--ltt-spacing-md);\n  box-shadow: var(--ltt-shadow-md);\n  z-index: 100000;\n  min-width: 160px;\n  max-width: 280px;\n  animation: tooltipFadeInHorizontal var(--ltt-transition-fast) ease;\n  pointer-events: none;\n}\n\n.ltt-milestone-tooltip-horizontal::after {\n  content: '';\n  position: absolute;\n  bottom: 100%;\n  left: 50%;\n  transform: translateX(-50%);\n  border: 6px solid transparent;\n  border-bottom-color: var(--ltt-border);\n}\n\n@keyframes tooltipFadeInHorizontal {\n  from {\n    opacity: 0;\n    transform: translateX(-50%) translateY(-5px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(-50%) translateY(0);\n  }\n}\n\n/* ========== Compact 样式 ========== */\n.ltt-milestone-compact {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n  min-height: 48px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-compact-item {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-shrink: 0;\n  cursor: pointer;\n  position: relative;\n  z-index: 1;\n}\n\n.ltt-milestone-compact-icon {\n  flex-shrink: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-compact-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n}\n\n.ltt-milestone-compact-label {\n  font-size: 9px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n}\n\n.ltt-milestone-compact-status {\n  font-size: 8px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-compact-progress {\n  font-size: 8px;\n}\n\n.ltt-milestone-compact-connector {\n  width: 16px;\n  height: 2px;\n  flex-shrink: 0;\n  border-radius: 1px;\n}\n\n.ltt-milestone-compact .ltt-milestone-badge {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--ltt-spacing-xs) var(--ltt-spacing-md);\n  border-radius: var(--ltt-radius-full);\n  font-size: var(--ltt-font-size-sm);\n  font-weight: 500;\n  color: var(--ltt-text-inverse);\n  gap: var(--ltt-spacing-xs);\n}\n\n.ltt-milestone-connector {\n  font-size: var(--ltt-font-size-sm);\n  user-select: none;\n}\n\n/* ========== Arrow Capsule 样式 ========== */\n.ltt-milestone-arrow-capsule {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 4px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-capsule::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-arrow-track {\n  display: flex;\n  align-items: center;\n  position: relative;\n  padding: 0 var(--ltt-spacing-md);\n  min-width: max-content;\n}\n\n.ltt-milestone-arrow-node {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  position: relative;\n  z-index: 1;\n  flex-shrink: 0;\n  padding: 6px 10px;\n  border-radius: 12px;\n  border: 1px solid var(--ltt-border);\n  background: var(--ltt-bg-primary);\n  transition: all var(--ltt-transition-fast);\n}\n\n.ltt-milestone-arrow-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-arrow-node.ltt-milestone-arrow-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);\n}\n\n.ltt-milestone-arrow-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: var(--ltt-radius-full);\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-node-active .ltt-milestone-arrow-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-arrow-icon {\n  font-size: 12px;\n  font-weight: bold;\n}\n\n.ltt-milestone-arrow-content {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  min-width: 80px;\n}\n\n.ltt-milestone-arrow-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-status {\n  font-size: 10px;\n  font-weight: 500;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.ltt-milestone-arrow-connector {\n  width: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-arrow-connector::after {\n  content: '→';\n  font-size: 14px;\n  color: var(--ltt-border);\n}\n\n/* ========== Timeline Track 样式 ========== */\n.ltt-milestone-timeline-track {\n  overflow-x: auto;\n  overflow-y: visible;\n  padding: 12px 0;\n  -webkit-overflow-scrolling: touch;\n  position: relative;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar {\n  height: 4px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-track {\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track::-webkit-scrollbar-thumb {\n  background: var(--ltt-border);\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-track-inner {\n  display: flex;\n  align-items: center;\n  min-width: max-content;\n  padding: 0 16px;\n  position: relative;\n}\n\n.ltt-milestone-timeline-node-wrapper {\n  display: flex;\n  align-items: center;\n  position: relative;\n}\n\n.ltt-milestone-timeline-connector {\n  height: 4px;\n  flex: 1;\n  min-width: 40px;\n  border-radius: 2px;\n}\n\n.ltt-milestone-timeline-connector-left {\n  margin-right: 4px;\n}\n\n.ltt-milestone-timeline-connector-right {\n  margin-left: 4px;\n}\n\n.ltt-milestone-timeline-node {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n  padding: 6px 6px;\n  border-radius: 10px;\n  background: var(--ltt-bg-primary);\n  border: 1px solid var(--ltt-border);\n  transition: all var(--ltt-transition-fast);\n  flex-shrink: 0;\n  cursor: pointer;\n  min-width: 64px;\n}\n\n.ltt-milestone-timeline-node:hover {\n  border-color: var(--ltt-accent);\n  box-shadow: var(--ltt-shadow-sm);\n}\n\n.ltt-milestone-timeline-node.ltt-milestone-timeline-node-active {\n  animation: ltt-milestone-glow 2s ease-in-out infinite;\n  border-color: var(--ltt-accent);\n}\n\n.ltt-milestone-timeline-icon-wrapper {\n  width: 24px;\n  height: 24px;\n  border-radius: 12px;\n  border: 2px solid;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  transition: all 0.3s ease;\n}\n\n.ltt-milestone-timeline-node-active .ltt-milestone-timeline-icon-wrapper {\n  animation: ltt-milestone-pulse 2s ease-in-out infinite;\n}\n\n.ltt-milestone-timeline-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ltt-milestone-timeline-content {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 1px;\n  text-align: center;\n}\n\n.ltt-milestone-timeline-label {\n  font-size: 8px;\n  font-weight: 500;\n  color: var(--ltt-text-primary);\n  line-height: 1.2;\n  word-wrap: break-word;\n  word-break: break-word;\n  max-width: 60px;\n}\n\n.ltt-milestone-timeline-status {\n  font-size: 7px;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 2px;\n}\n\n.ltt-milestone-timeline-progress {\n  font-size: 7px;\n}\n\n/* ========== Dark Theme Support ========== */\n[data-theme='dark'] .ltt-milestone-container {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n[data-theme='dark'] .ltt-milestone-card-content-horizontal,\n[data-theme='dark'] .ltt-milestone-arrow-node,\n[data-theme='dark'] .ltt-milestone-timeline-node {\n  background: var(--ltt-bg-secondary);\n}\n\n[data-theme='dark'] .ltt-milestone-tooltip {\n  background: var(--ltt-bg-secondary);\n  border-color: var(--ltt-border);\n}\n\n/* ========== Compact Tooltip 内容样式（通用） ========== */\n.ltt-milestone-compact-tooltip-content {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-compact-tooltip-label {\n  font-size: 10px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-compact-tooltip-date {\n  font-size: 9px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-compact-tooltip-status {\n  font-size: 9px;\n  font-weight: 500;\n}\n\n.ltt-milestone-compact-tooltip-progress {\n  font-size: 9px;\n}\n\n/* ========== Tooltip 样式变体 ========== */\n\n/* 简约模式 */\n.ltt-milestone-tooltip-minimal {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  padding: 6px 10px;\n  min-width: 100px;\n}\n\n.ltt-milestone-tooltip-minimal-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-minimal-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n/* 紧凑模式 */\n.ltt-milestone-tooltip-compact {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  padding: 8px 12px;\n  min-width: 140px;\n  line-height: 1.3;\n}\n\n.ltt-milestone-tooltip-compact-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-compact-date {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n}\n\n.ltt-milestone-tooltip-compact-status {\n  font-size: 10px;\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-compact-progress {\n  font-size: 10px;\n}\n\n/* 详细模式 */\n.ltt-milestone-tooltip-detailed {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 10px 14px;\n  min-width: 180px;\n  max-width: 240px;\n}\n\n.ltt-milestone-tooltip-detailed-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n}\n\n.ltt-milestone-tooltip-detailed-label {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-detailed-status {\n  font-size: 10px;\n  font-weight: 600;\n  flex-shrink: 0;\n}\n\n.ltt-milestone-tooltip-detailed-date {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 8px;\n  font-size: 10px;\n}\n\n.ltt-milestone-tooltip-detailed-date-label {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-date-value {\n  color: var(--ltt-text-primary);\n  font-weight: 400;\n}\n\n.ltt-milestone-tooltip-detailed-progress-section {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n}\n\n.ltt-milestone-tooltip-detailed-progress-label {\n  font-size: 10px;\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar-container {\n  height: 4px;\n  background: var(--ltt-bg-secondary);\n  border-radius: 2px;\n  overflow: hidden;\n}\n\n.ltt-milestone-tooltip-detailed-progress-bar {\n  height: 100%;\n  border-radius: 2px;\n  transition: width 0.3s ease;\n}\n\n.ltt-milestone-tooltip-detailed-progress-value {\n  font-size: 10px;\n  color: var(--ltt-text-primary);\n  font-weight: 600;\n  text-align: right;\n}\n\n/* 优雅模式 */\n.ltt-milestone-tooltip-elegant {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 12px 16px;\n  min-width: 160px;\n  max-width: 260px;\n  background: linear-gradient(135deg, var(--ltt-bg-primary) 0%, var(--ltt-bg-secondary) 100%);\n  border: 1px solid var(--ltt-border);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n\n.ltt-milestone-tooltip-elegant-header {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 2px;\n}\n\n.ltt-milestone-tooltip-elegant-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  flex-shrink: 0;\n  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);\n}\n\n.ltt-milestone-tooltip-elegant-label {\n  font-size: 13px;\n  font-weight: 700;\n  color: var(--ltt-text-primary);\n  line-height: 1.3;\n  word-wrap: break-word;\n}\n\n.ltt-milestone-tooltip-elegant-divider {\n  height: 1px;\n  background: linear-gradient(90deg, transparent, var(--ltt-border), transparent);\n  margin: 2px 0;\n}\n\n.ltt-milestone-tooltip-elegant-row {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 11px;\n}\n\n.ltt-milestone-tooltip-elegant-icon {\n  font-size: 12px;\n  flex-shrink: 0;\n  opacity: 0.7;\n}\n\n.ltt-milestone-tooltip-elegant-text {\n  color: var(--ltt-text-secondary);\n  font-weight: 500;\n}\n\n";
+
+  var htmlViewerCSSRaw = ".ltt-html-viewer-layer {\n  position: fixed;\n  inset: 0;\n  z-index: 10000;\n  pointer-events: none;\n  color: var(--ls-primary-text-color, #1f2937);\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", sans-serif;\n}\n\n.ltt-html-viewer-panel {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  display: flex;\n  flex-direction: column;\n  min-width: 30vw;\n  max-width: 90vw;\n  pointer-events: auto;\n  background: var(--ls-primary-background-color, #fff);\n  box-shadow: 0 0 28px rgba(15, 23, 42, 0.22);\n  border-left: 1px solid var(--ls-border-color, #e5e7eb);\n  border-right: 1px solid var(--ls-border-color, #e5e7eb);\n  overflow: hidden;\n}\n\n.ltt-html-viewer-panel.is-right { right: 0; }\n.ltt-html-viewer-panel.is-left { left: 0; }\n.ltt-html-viewer-panel.is-fullscreen { left: 0; right: 0; max-width: 100vw; width: 100% !important; }\n\n.ltt-html-viewer-resizer {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 8px;\n  cursor: col-resize;\n  z-index: 2;\n  background: rgba(59, 130, 246, 0.22);\n  border-radius: 3px;\n}\n.ltt-html-viewer-panel.is-right .ltt-html-viewer-resizer { left: -4px; }\n.ltt-html-viewer-panel.is-left .ltt-html-viewer-resizer { right: -4px; }\n.ltt-html-viewer-resizer:hover { background: rgba(59, 130, 246, 0.55); }\n\n.ltt-html-viewer-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 12px;\n  padding: 10px 14px;\n  border-bottom: 1px solid var(--ls-border-color, #e5e7eb);\n  background: var(--ls-secondary-background-color, #f8fafc);\n  flex: 0 0 auto;\n  flex-wrap: wrap;\n}\n\n.ltt-html-viewer-heading {\n  display: flex;\n  align-items: baseline;\n  gap: 8px;\n  min-width: 0;\n}\n.ltt-html-viewer-heading strong { font-size: 13px; letter-spacing: .04em; color: #2563eb; }\n.ltt-html-viewer-file {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: 13px;\n  color: var(--ls-secondary-text-color, #667085);\n}\n\n.ltt-html-viewer-actions { display: flex; gap: 4px; flex: 0 0 auto; }\n.ltt-html-viewer-actions button {\n  border: 1px solid transparent;\n  background: transparent;\n  color: inherit;\n  border-radius: 6px;\n  cursor: pointer;\n  font-size: 12px;\n  line-height: 1.25;\n  padding: 6px 8px;\n  white-space: nowrap;\n}\n.ltt-html-viewer-actions button:hover {\n  background: var(--ls-tertiary-background-color, #eef2f7);\n  border-color: var(--ls-border-color, #d8dee8);\n}\n\n.ltt-html-viewer-picker { padding: 14px; overflow: auto; flex: 1; }\n.ltt-html-viewer-toolbar { display: flex; gap: 8px; margin-bottom: 12px; }\n.ltt-html-viewer-toolbar input,\n.ltt-html-viewer-manual input {\n  flex: 1;\n  min-width: 0;\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  border-radius: 7px;\n  padding: 8px 10px;\n  background: var(--ls-primary-background-color, #fff);\n  color: inherit;\n  font-size: 13px;\n}\n.ltt-html-viewer-toolbar button,\n.ltt-html-viewer-manual button,\n.ltt-html-viewer-error button,\n.ltt-html-viewer-composer button,\n.ltt-html-viewer-list-toggle {\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  background: var(--ls-secondary-background-color, #f8fafc);\n  color: inherit;\n  border-radius: 7px;\n  padding: 7px 11px;\n  cursor: pointer;\n  font-size: 13px;\n}\n.ltt-html-viewer-toolbar button:hover,\n.ltt-html-viewer-manual button:hover,\n.ltt-html-viewer-composer button:hover,\n.ltt-html-viewer-list-toggle:hover { background: var(--ls-tertiary-background-color, #eef2f7); }\n\n.ltt-html-viewer-assets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }\n.ltt-html-viewer-assets button {\n  width: 100%;\n  text-align: left;\n  border: 1px solid var(--ls-border-color, #e5e7eb);\n  border-radius: 9px;\n  background: var(--ls-primary-background-color, #fff);\n  color: inherit;\n  padding: 10px 12px;\n  cursor: pointer;\n  display: flex;\n  flex-direction: column;\n  gap: 3px;\n}\n.ltt-html-viewer-assets button:hover { border-color: #93c5fd; background: #eff6ff; }\n.ltt-html-viewer-assets span { font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }\n.ltt-html-viewer-assets small { font-size: 11px; opacity: .62; overflow-wrap: anywhere; }\n\n.ltt-html-viewer-empty { display: flex; flex-direction: column; gap: 10px; color: var(--ls-secondary-text-color, #667085); }\n.ltt-html-viewer-manual { display: flex; gap: 8px; }\n.ltt-html-viewer-muted { font-size: 12px; color: var(--ls-secondary-text-color, #667085); }\n\n.ltt-html-viewer-content { display: flex; min-height: 0; flex: 1; }\n.ltt-html-viewer-main { position: relative; flex: 1; min-width: 0; background: #fff; }\n.ltt-html-viewer-frame { width: 100%; height: 100%; border: 0; display: block; background: #fff; }\n.ltt-html-viewer-status { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(255,255,255,.7); z-index: 3; }\n\n.ltt-html-viewer-sidebar {\n  width: 300px;\n  flex: 0 0 300px;\n  min-width: 240px;\n  border-left: 1px solid var(--ls-border-color, #e5e7eb);\n  background: var(--ls-secondary-background-color, #fbfcfe);\n  overflow: auto;\n  padding: 12px;\n}\n.ltt-html-viewer-sidebar-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; }\n.ltt-html-viewer-sidebar-title button { border: 0; background: transparent; cursor: pointer; font-size: 16px; }\n.ltt-html-viewer-sidebar ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }\n.ltt-html-viewer-sidebar li { border: 1px solid var(--ls-border-color, #e5e7eb); background: var(--ls-primary-background-color, #fff); border-radius: 9px; padding: 9px; }\n.ltt-html-viewer-sidebar li.active { border-color: #60a5fa; box-shadow: 0 0 0 1px #bfdbfe inset; }\n.ltt-html-viewer-annotation-jump { display: flex; flex-direction: column; gap: 5px; text-align: left; width: 100%; border: 0; background: transparent; color: inherit; cursor: pointer; padding: 0; }\n.ltt-html-viewer-annotation-jump span { font-size: 12px; line-height: 1.45; }\n.ltt-html-viewer-annotation-jump small { font-size: 12px; color: var(--ls-secondary-text-color, #667085); line-height: 1.4; }\n.ltt-html-viewer-annotation-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 7px; }\n.ltt-html-viewer-annotation-actions button { border: 0; background: transparent; color: #2563eb; cursor: pointer; font-size: 11px; padding: 0; }\n\n.ltt-html-viewer-annotate {\n  position: fixed;\n  z-index: 10002;\n  transform: translateY(-50%);\n  border: 0;\n  border-radius: 7px;\n  padding: 7px 12px;\n  background: #2563eb;\n  color: #fff;\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n  box-shadow: 0 6px 18px rgba(37, 99, 235, .3);\n}\n\n.ltt-html-viewer-composer {\n  position: absolute;\n  left: 16px;\n  right: 16px;\n  bottom: 16px;\n  z-index: 4;\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  border-radius: 11px;\n  background: var(--ls-primary-background-color, #fff);\n  box-shadow: 0 16px 40px rgba(15, 23, 42, .22);\n  padding: 12px;\n}\n.ltt-html-viewer-composer blockquote {\n  margin: 0 0 8px;\n  padding: 7px 9px;\n  border-left: 3px solid #93c5fd;\n  background: #eff6ff;\n  border-radius: 4px;\n  font-size: 12px;\n  max-height: 90px;\n  overflow: auto;\n  white-space: pre-wrap;\n}\n.ltt-html-viewer-composer textarea {\n  width: 100%;\n  min-height: 70px;\n  resize: vertical;\n  border: 1px solid var(--ls-border-color, #d0d5dd);\n  border-radius: 8px;\n  padding: 8px 9px;\n  background: var(--ls-primary-background-color, #fff);\n  color: inherit;\n  font: inherit;\n  font-size: 13px;\n}\n.ltt-html-viewer-composer-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }\n.ltt-html-viewer-composer .primary { background: #2563eb; color: #fff; border-color: #2563eb; }\n.ltt-html-viewer-composer .primary:disabled { opacity: .6; cursor: wait; }\n.ltt-html-viewer-list-toggle { position: absolute; right: 12px; bottom: 12px; z-index: 3; }\n.ltt-html-viewer-message { margin: 10px 0 0; font-size: 12px; color: #2563eb; }\n\n.ltt-html-viewer-error { padding: 20px; color: #b42318; font-size: 13px; }\n.ltt-html-viewer-error p { margin: 8px 0; color: var(--ls-secondary-text-color, #667085); }\n\n.ltt-html-viewer-panel[data-side=\"left\"] .ltt-html-viewer-sidebar {\n  border-left: 0;\n  border-right: 1px solid var(--ls-border-color, #e5e7eb);\n}\n\n@media (max-width: 900px) {\n  .ltt-html-viewer-panel { width: 100% !important; max-width: 100vw; min-width: 0; }\n  .ltt-html-viewer-content { position: relative; }\n  .ltt-html-viewer-sidebar {\n    position: absolute;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    z-index: 5;\n    width: min(300px, 88vw);\n    box-shadow: -8px 0 24px rgba(15, 23, 42, .16);\n  }\n  .ltt-html-viewer-list-toggle { display: block; }\n}\n\n@media (min-width: 901px) {\n  .ltt-html-viewer-list-toggle { display: none; }\n}\n\n.ltt-html-asset-launcher {\n  display: flex;\n  align-items: center;\n  gap: 9px;\n  width: 100%;\n  max-width: 520px;\n  padding: 9px 11px;\n  border: 1px solid var(--ls-border-color, #dbe3ef);\n  border-radius: 9px;\n  background: var(--ls-secondary-background-color, #f8fafc);\n  color: inherit;\n  cursor: pointer;\n  text-align: left;\n}\n.ltt-html-asset-launcher:hover { border-color: #93c5fd; background: #eff6ff; }\n.ltt-html-asset-launcher-icon {\n  flex: 0 0 auto;\n  border-radius: 5px;\n  background: #dbeafe;\n  color: #1d4ed8;\n  font-size: 10px;\n  font-weight: 700;\n  padding: 3px 5px;\n  letter-spacing: .04em;\n}\n.ltt-html-asset-launcher-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }\n.ltt-html-asset-launcher-action { flex: 0 0 auto; color: #2563eb; font-size: 12px; font-weight: 600; }\n.ltt-html-viewer-error-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }\n";
 
   var mainCSSRaw = "/* src/main.css */\n\n/* ============================================\n   LTT (Logseq Text Toolkit) Design Tokens\n   ============================================ */\n\n:root,\n.light-mode {\n  /* ---- 颜色 - 背景 ---- */\n  --ltt-bg-primary: var(--ls-primary-background-color, #ffffff);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #f8fafc);\n  --ltt-bg-tertiary: #f1f5f9;\n  --ltt-bg-hover: var(--ls-menu-hover-color, #e2e8f0);\n  --ltt-bg-inverse: #0f172a;\n\n  /* ---- 颜色 - 文本 ---- */\n  --ltt-text-primary: var(--ls-primary-text-color, #1e293b);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #64748b);\n  --ltt-text-muted: #94a3b8;\n  --ltt-text-inverse: #f8fafc;\n\n  /* ---- 颜色 - 边框 ---- */\n  --ltt-border: var(--ls-border-color, #e2e8f0);\n  --ltt-border-strong: #cbd5e1;\n\n  /* ---- 颜色 - 强调 ---- */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #1a1a1a;\n  --ltt-accent-muted: rgba(0, 0, 0, 0.1);\n\n  /* ---- 颜色 - 状态 ---- */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  --ltt-info: #3b82f6;\n\n  /* ---- 间距 ---- */\n  --ltt-spacing-xs: 4px;\n  --ltt-spacing-sm: 8px;\n  --ltt-spacing-md: 12px;\n  --ltt-spacing-lg: 16px;\n  --ltt-spacing-xl: 24px;\n\n  /* ---- 圆角 ---- */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  --ltt-radius-full: 9999px;\n\n  /* ---- 阴影 ---- */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  --ltt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n\n  /* ---- 过渡 ---- */\n  --ltt-transition-fast: 150ms ease;\n  --ltt-transition-normal: 200ms ease;\n  --ltt-transition-slow: 300ms ease;\n\n  /* ---- 字体 ---- */\n  --ltt-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  --ltt-font-size-xs: 10px;\n  --ltt-font-size-sm: 12px;\n  --ltt-font-size-md: 14px;\n  --ltt-font-size-lg: 16px;\n  --ltt-font-size-xl: 18px;\n\n  /* ---- 向后兼容别名 ---- */\n  --ls-primary-background-color-plugin: var(--ltt-bg-primary);\n  --ls-secondary-background-color-plugin: var(--ltt-bg-secondary);\n  --ls-primary-text-color-plugin: var(--ltt-text-primary);\n  --ls-secondary-text-color-plugin: var(--ltt-text-secondary);\n  --ls-border-color-plugin: var(--ltt-border);\n  --ls-accent-color-plugin: var(--ltt-accent);\n  --ls-hover-color-plugin: var(--ltt-bg-hover);\n  --ls-focus-color-plugin: var(--ltt-accent-muted);\n}\n\n/* ---- 深色主题 ---- */\n.dark-mode,\n[data-theme=\"dark\"] {\n  --ltt-bg-primary: var(--ls-primary-background-color, #0f172a);\n  --ltt-bg-secondary: var(--ls-secondary-background-color, #1e293b);\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #475569;\n  --ltt-text-primary: var(--ls-primary-text-color, #f1f5f9);\n  --ltt-text-secondary: var(--ls-secondary-text-color, #94a3b8);\n  --ltt-text-muted: #64748b;\n  --ltt-border: var(--ls-border-color, #334155);\n  --ltt-border-strong: #475569;\n  --ltt-accent: #e5e5e5;\n  --ltt-accent-hover: #f5f5f5;\n  --ltt-accent-muted: rgba(255, 255, 255, 0.1);\n}\n\n/* =========================================================\n   LTT Theme: Notion Style (Optional)\n   简洁白、灰度、柔和圆角\n========================================================= */\n\n.ltt-theme-notion {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f7f6f3;\n  --ltt-bg-tertiary: #efefef;\n  --ltt-bg-hover: #e8e7e4;\n  \n  /* 文本 */\n  --ltt-text-primary: #37352f;\n  --ltt-text-secondary: #9b9a97;\n  --ltt-text-muted: #787774;\n  \n  /* 边框 */\n  --ltt-border: #e9e9e7;\n  --ltt-border-strong: #d9d9d7;\n  \n  /* 强调色 */\n  --ltt-accent: #2383e2;\n  --ltt-accent-hover: #1b6fc4;\n  --ltt-accent-muted: #e8f2fc;\n  \n  /* 状态色 */\n  --ltt-success: #23894c;\n  --ltt-warning: #d5a500;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Notion 阴影较轻 */\n  --ltt-shadow-sm: 0 1px 1px rgba(0, 0, 0, 0.05);\n  --ltt-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);\n  --ltt-shadow-lg: none;\n}\n\n.ltt-theme-notion.dark-mode,\n.ltt-theme-notion[data-theme=\"dark\"] {\n  --ltt-bg-primary: #191919;\n  --ltt-bg-secondary: #242424;\n  --ltt-bg-tertiary: #2d2d2d;\n  --ltt-text-primary: #ffffff;\n  --ltt-text-secondary: #9b9b9b;\n  --ltt-border: #373737;\n  --ltt-accent: #2383e2;\n}\n\n/* =========================================================\n   LTT Theme: Tana Style (Optional)\n   绿色强调、卡片式布局\n========================================================= */\n\n.ltt-theme-tana {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8faf9;\n  --ltt-bg-tertiary: #f0f4f2;\n  --ltt-bg-hover: #e8f0ec;\n  \n  /* 文本 */\n  --ltt-text-primary: #1a2e22;\n  --ltt-text-secondary: #5a7265;\n  --ltt-text-muted: #8fa99a;\n  \n  /* 边框 */\n  --ltt-border: #d4e0d9;\n  --ltt-border-strong: #b8cec3;\n  \n  /* 强调色 - Tana 绿色 */\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #d1fae5;\n  \n  /* 状态色 */\n  --ltt-success: #10b981;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #ef4444;\n  \n  /* 圆角 - Tana 圆角较大 */\n  --ltt-radius-sm: 6px;\n  --ltt-radius-md: 8px;\n  --ltt-radius-lg: 12px;\n  --ltt-radius-xl: 16px;\n  \n  /* 阴影 - Tana 卡片阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(16, 185, 129, 0.05);\n  --ltt-shadow-md: 0 4px 12px rgba(16, 185, 129, 0.1);\n  --ltt-shadow-lg: 0 8px 24px rgba(16, 185, 129, 0.15);\n}\n\n.ltt-theme-tana.dark-mode,\n.ltt-theme-tana[data-theme=\"dark\"] {\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  --ltt-accent: #10b981;\n  --ltt-accent-hover: #059669;\n  --ltt-accent-muted: #064e3b;\n}\n\n/* =========================================================\n   LTT Theme: Linear Style (Optional)\n   深色优先、紫色强调、紧凑\n========================================================= */\n\n.ltt-theme-linear {\n  /* 背景 - Linear 偏好深色背景 */\n  --ltt-bg-primary: #13151a;\n  --ltt-bg-secondary: #1c1f26;\n  --ltt-bg-tertiary: #252830;\n  --ltt-bg-hover: #2d323c;\n  \n  /* 文本 - 高对比度 */\n  --ltt-text-primary: #e8eaed;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  \n  /* 边框 - Linear 边框较细 */\n  --ltt-border: #2d323c;\n  --ltt-border-strong: #3d424c;\n  \n  /* 强调色 - Linear 紫色 */\n  --ltt-accent: #5e6ad2;\n  --ltt-accent-hover: #4f5abd;\n  --ltt-accent-muted: #2a2d42;\n  \n  /* 状态色 */\n  --ltt-success: #26c940;\n  --ltt-warning: #f59e0b;\n  --ltt-error: #eb5757;\n  \n  /* 圆角 - Linear 圆角较小 */\n  --ltt-radius-sm: 3px;\n  --ltt-radius-md: 4px;\n  --ltt-radius-lg: 6px;\n  --ltt-radius-xl: 8px;\n  \n  /* 阴影 - Linear 深色阴影 */\n  --ltt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);\n  --ltt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);\n  --ltt-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);\n}\n\n.ltt-theme-linear.light-mode {\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #f8f9fa;\n  --ltt-text-primary: #1e293b;\n  --ltt-accent: #5e6ad2;\n}\n\n/* =========================================================\n   LTT Theme: Indigo Style (Optional)\n   Indigo 渐变、科技感\n========================================================= */\n\n.ltt-theme-indigo {\n  /* 背景 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #eef2ff;\n  --ltt-bg-tertiary: #e0e7ff;\n  --ltt-bg-hover: #c7d2fe;\n  \n  /* 文本 */\n  --ltt-text-primary: #1e1b4b;\n  --ltt-text-secondary: #4338ca;\n  --ltt-text-muted: #6366f1;\n  \n  /* 边框 */\n  --ltt-border: #c7d2fe;\n  --ltt-border-strong: #a5b4fc;\n  \n  /* 强调色 - Indigo 渐变 */\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #e0e7ff;\n  \n  /* 状态色 */\n  --ltt-success: #059669;\n  --ltt-warning: #d97706;\n  --ltt-error: #dc2626;\n  \n  /* 圆角 */\n  --ltt-radius-sm: 4px;\n  --ltt-radius-md: 6px;\n  --ltt-radius-lg: 8px;\n  --ltt-radius-xl: 12px;\n  \n  /* 阴影 - Indigo 阴影带色相 */\n  --ltt-shadow-sm: 0 1px 2px rgba(99, 102, 241, 0.1);\n  --ltt-shadow-md: 0 4px 6px rgba(99, 102, 241, 0.15);\n  --ltt-shadow-lg: 0 10px 15px rgba(99, 102, 241, 0.2);\n}\n\n.ltt-theme-indigo.dark-mode,\n.ltt-theme-indigo[data-theme=\"dark\"] {\n  --ltt-bg-primary: #12151a;\n  --ltt-bg-secondary: #1e293b;\n  --ltt-bg-tertiary: #334155;\n  --ltt-bg-hover: #374151;\n  --ltt-text-primary: #e5e7eb;\n  --ltt-text-secondary: #9ca3af;\n  --ltt-text-muted: #6b7280;\n  --ltt-border: #374151;\n  --ltt-border-strong: #475569;\n  --ltt-accent: #6366f1;\n  --ltt-accent-hover: #4f46e5;\n  --ltt-accent-muted: #1e293b;\n}\n\n/* =========================================================\n   LTT Theme: Minimal Style (Optional)\n   极致简洁、无边框\n========================================================= */\n\n.ltt-theme-minimal {\n  /* 背景 - 纯白 */\n  --ltt-bg-primary: #ffffff;\n  --ltt-bg-secondary: #fafafa;\n  --ltt-bg-tertiary: #f5f5f5;\n  --ltt-bg-hover: #f0f0f0;\n  \n  /* 文本 */\n  --ltt-text-primary: #000000;\n  --ltt-text-secondary: #666666;\n  --ltt-text-muted: #999999;\n  \n  /* 边框 - Minimal 几乎无边框 */\n  --ltt-border: #f0f0f0;\n  --ltt-border-strong: #e0e0e0;\n  \n  /* 强调色 - Minimal 黑色强调 */\n  --ltt-accent: #000000;\n  --ltt-accent-hover: #333333;\n  --ltt-accent-muted: #f5f5f5;\n  \n  /* 圆角 - Minimal 极小圆角 */\n  --ltt-radius-sm: 0px;\n  --ltt-radius-md: 0px;\n  --ltt-radius-lg: 2px;\n  --ltt-radius-xl: 4px;\n  \n  /* 阴影 - Minimal 无阴影 */\n  --ltt-shadow-sm: none;\n  --ltt-shadow-md: none;\n  --ltt-shadow-lg: none;\n}\n\n";
 
@@ -35150,6 +36594,11 @@ ${serialized}`;
       type: "both",
       inlineContent: milestoneCSSRaw,
       externalPath: "milestone.css"
+    });
+    registerCSS("htmlViewer", {
+      type: "both",
+      inlineContent: htmlViewerCSSRaw,
+      externalPath: "htmlViewer.css"
     });
   }
   let settingsModalOpen = false;
@@ -35279,7 +36728,7 @@ ${serialized}`;
     }
   }
   async function initializeComponent() {
-    logseqAPI$1.provideModel({ settingToggle });
+    logseqAPI$1.provideModel({ settingToggle, openHtmlViewer, openDashboard });
     await initTaskProgress();
     loggerProxy.info("📊 Plugin: TaskProgress ready");
     await initHeatmap();
@@ -35297,6 +36746,8 @@ ${serialized}`;
     loggerProxy.info("📊 Plugin: BlockView ready");
     await initMilestone();
     loggerProxy.info("🏷️ Plugin: Milestone ready");
+    await initHtmlViewer();
+    loggerProxy.info("🌐 Plugin: HTML Viewer ready");
     loggerProxy.info("✅ Plugin: Components initialized");
   }
   async function main() {
