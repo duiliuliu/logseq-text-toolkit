@@ -1,7 +1,7 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.2.13
+- **插件版本**：1.2.15
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
 - **结果**：**E2E 25/25 PASS；单元/集成 718/718 PASS**
 
@@ -15,7 +15,7 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.2.13 |
+| Plugin | logseq-text-toolkit 1.2.15 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
 
@@ -27,7 +27,8 @@
 - 8 个设置 Tab 保持单行，左右箭头滚动，HTML 阅读器可到达
 - 选中文本后选区工具栏出现（`Editor.onInputSelectionEnd`）
 - 评论弹窗可输入、可关闭，不再被低 z-index / pointer-events 阻挡
-- 工具栏子项 Tooltip 锚定到对应图标；Format 组图标统一为 16px Lucide / currentColor
+- 工具栏子项 Tooltip 锚定到对应图标；Format 组图标统一 15px / currentColor
+- 工具栏 8 秒无 hover 自动收起；hover 时取消计时，移出后重新计时
 - 真实 `assets/*.html` 可以通过 `Assets.makeUrl()` 读取并渲染
 - HTML asset 块显示紧凑预览按钮（host React block renderer）
 - 选中 HTML 文本 → 标注 → 保存成功

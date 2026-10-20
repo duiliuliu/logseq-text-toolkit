@@ -65,7 +65,7 @@ function Toolbar({
     const preset = itemId ? formatIcons[itemId] : undefined
     if (preset) {
       const IconComponent = preset
-      return <IconComponent size={16} strokeWidth={1.8} className="ltt-toolbar-icon" />
+      return <IconComponent size={15} strokeWidth={1.8} className="ltt-toolbar-icon" />
     }
     if (!icon) return '📝'
     

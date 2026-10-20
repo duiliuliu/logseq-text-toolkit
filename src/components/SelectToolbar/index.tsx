@@ -34,6 +34,7 @@ interface ToolbarPosition {
 }
 
 const SELECTION_DELAY = 200;
+const AUTO_HIDE_DELAY = 8000;
 const FALLBACK_TOOLBAR_WIDTH = 200;
 
 interface SelectToolbarProps {
@@ -73,6 +74,24 @@ function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false
   const floatingRef = useRef<HTMLDivElement>(null);
   const sdkRequestIdRef = useRef(0);
   const lastSDKSelectionAtRef = useRef(0);
+  const autoHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isHoveringToolbarRef = useRef(false);
+
+  const clearAutoHide = useCallback(() => {
+    if (autoHideTimerRef.current) {
+      clearTimeout(autoHideTimerRef.current);
+      autoHideTimerRef.current = null;
+    }
+  }, []);
+
+  const scheduleAutoHide = useCallback(() => {
+    clearAutoHide();
+    if (isHoveringToolbarRef.current) return;
+    autoHideTimerRef.current = setTimeout(() => {
+      autoHideTimerRef.current = null;
+      setShowToolbar(false);
+    }, AUTO_HIDE_DELAY);
+  }, [clearAutoHide]);
 
   const sdkSelectionAvailable =
     typeof logseqAPI.Editor?.onInputSelectionEnd === 'function';
@@ -134,7 +153,8 @@ function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false
     };
     setToolbarPosition(calculateToolbarPositionFromPoint(anchor, toolbarWidth));
     setShowToolbar(true);
-  }, []);
+    scheduleAutoHide();
+  }, [scheduleAutoHide]);
 
   const handleSDKSelection = useCallback(async (event: SDKSelectionEvent) => {
     const requestId = ++sdkRequestIdRef.current;
@@ -323,6 +343,42 @@ function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false
   // 滚动或窗口尺寸变化后选区位置不再可靠，直接收起工具栏。
   useEffect(() => {
     if (!showToolbar) {
+      clearAutoHide();
+      return;
+    }
+    scheduleAutoHide();
+    return clearAutoHide;
+  }, [showToolbar, selectedData.timestamp, scheduleAutoHide, clearAutoHide]);
+
+  useEffect(() => {
+    const toolbar = floatingRef.current;
+    if (!showToolbar || !toolbar) return;
+
+    const enter = () => {
+      isHoveringToolbarRef.current = true;
+      clearAutoHide();
+    };
+    const leave = () => {
+      isHoveringToolbarRef.current = false;
+      scheduleAutoHide();
+    };
+    const move = () => {
+      isHoveringToolbarRef.current = true;
+      clearAutoHide();
+    };
+
+    toolbar.addEventListener('mouseenter', enter);
+    toolbar.addEventListener('mousemove', move);
+    toolbar.addEventListener('mouseleave', leave);
+    return () => {
+      toolbar.removeEventListener('mouseenter', enter);
+      toolbar.removeEventListener('mousemove', move);
+      toolbar.removeEventListener('mouseleave', leave);
+    };
+  }, [showToolbar, clearAutoHide, scheduleAutoHide]);
+
+  useEffect(() => {
+    if (!showToolbar) {
       return;
     }
 
@@ -362,6 +418,17 @@ function SelectToolbar({ targetElement, items: ToolbarItems, defaultShow = false
           ref={floatingRef}
           className="ltt-floating-toolbar"
           data-selection-source={selectedData.source ?? 'unknown'}
+          onMouseEnter={() => {
+            isHoveringToolbarRef.current = true
+            clearAutoHide()
+          }}
+          onMouseLeave={() => {
+            isHoveringToolbarRef.current = false
+            scheduleAutoHide()
+          }}
+          onMouseMove={() => {
+            if (isHoveringToolbarRef.current) clearAutoHide()
+          }}
           style={{
             position: 'fixed',
             left: toolbarPosition.x,

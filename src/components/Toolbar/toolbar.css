@@ -195,6 +195,11 @@
   display: block;
 }
 
+.ltt-toolbar-group-item .ltt-toolbar-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
 
 /* 确保工具栏图标在所有主题下都可见 */
 .ltt-toolbar-container .ltt-toolbar-item-icon,
