@@ -139,7 +139,7 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
       const list = Array.isArray(files) ? files : []
       const sorted = [...list].sort((a, b) => (b.modifiedTime || 0) - (a.modifiedTime || 0))
       setAssets(sorted)
-      if (autoOpen && !selectedPath && sorted.length === 1) {
+      if (autoOpen && !initialPath && !selectedPath && sorted.length === 1) {
         void openAsset(sorted[0].path)
       }
     } catch {
