@@ -440,8 +440,7 @@ You can override plugin default styles via Logseq CSS:
 ### 8.1 Open an HTML attachment
 
 - Command: `[Text Toolkit] Open HTML Viewer`
-- Toolbar: HTML Viewer button
-- HTML asset block: launcher card (experimental block renderer)
+- HTML asset block: compact preview button (experimental block renderer; the top toolbar button is reserved for Dashboard)
 - A single attachment opens automatically; multiple attachments show the picker
 
 The panel supports left/right docking, resize, fullscreen, close, attachment

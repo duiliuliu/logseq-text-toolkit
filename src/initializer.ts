@@ -205,6 +205,7 @@ export function registerAllCSS(): void {
    ============================================================================ */
 
 let settingsModalOpen = false
+let lastSettingsToggleAt = 0
 
 /**
  * 渲染 SettingsModal 组件到 DOM
@@ -243,13 +244,20 @@ export async function initSettingsModal(): Promise<void> {
  * 由 logseq 工具栏按钮触发
  */
 export async function settingToggle(): Promise<void> {
+  const now = Date.now()
+  if (now - lastSettingsToggleAt < 300) return
+  lastSettingsToggleAt = now
   settingsModalOpen = !settingsModalOpen
-  logseqAPI.provideUI({
-    key: ID.SETTINGS,
-    path: '#app-container',
-    template: `<div id="${ID.SETTINGS}"></div>`,
-  })
-  await waitForElementById(ID.SETTINGS)
+  // initSettingsModal already owns this container. Re-providing it from the
+  // toolbar callback can replace the node under React's root on the real Host.
+  if (!getDocument().getElementById(ID.SETTINGS)) {
+    logseqAPI.provideUI({
+      key: ID.SETTINGS,
+      path: '#app-container',
+      template: `<div id="${ID.SETTINGS}"></div>`,
+    })
+    await waitForElementById(ID.SETTINGS)
+  }
   renderSettingsModal()
 }
 
@@ -264,13 +272,34 @@ export function registerLogseqButton(): void {
     key: ID.BUTTON,
     template: `
       <a class="button" id="${ID.BUTTON}"
-         data-on-click="settingToggle"
          data-rect
          title="${buttonTooltip}">
         <i class="ti ti-text-wrap"></i>
       </a>
     `,
   })
+  bindSettingsButton()
+}
+
+/**
+ * 直接绑定点击事件。
+ *
+ * 真实 DB Host 上，插件工具栏的 data-on-click 模型调用并不可靠；直接监听
+ * 自己注入的按钮可以保证设置面板始终可打开，同时避免与 Host 重复触发。
+ */
+function bindSettingsButton(attempt = 0): void {
+  const button = getDocument().getElementById(ID.BUTTON) as HTMLElement | null
+  if (!button) {
+    if (attempt < 60) setTimeout(() => bindSettingsButton(attempt + 1), 50)
+    return
+  }
+  if ((button as any).__lttSettingsBound) return
+  ;(button as any).__lttSettingsBound = true
+  button.addEventListener('click', (event) => {
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    void settingToggle()
+  }, true)
 }
 
 /* ============================================================================

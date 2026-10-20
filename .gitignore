@@ -34,3 +34,6 @@ coverage/
 # Package manager files
 yarn.lock
 pnpm-lock.yaml
+
+# Local release artifacts
+/release

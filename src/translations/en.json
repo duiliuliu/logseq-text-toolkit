@@ -327,7 +327,7 @@
       "sideLeft": "Left",
       "defaultWidth": "Default width (%)",
       "writeAnnotationsToGraph": "Write annotations as graph child blocks (page fallback)",
-      "showToolbarButton": "Show an HTML Viewer button in the top toolbar",
+      "showToolbarButton": "Show a Dashboard toolbar button",
       "dashboardSection": "Dashboard",
       "dashboardAsset": "Dashboard HTML attachment",
       "dashboardAssetPlaceholder": "assets/dashboard.html",

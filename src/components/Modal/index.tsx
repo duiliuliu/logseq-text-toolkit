@@ -12,6 +12,9 @@ interface ModalProps {
 }
 
 const Modal = ({ title, onClose, children, isOpen = false, width = '90vw', theme = 'light' }: ModalProps) => {
+  // Do not leave an opacity:0 overlay in the DOM: in the real DB Host the
+  // exit animation can remain mounted and keep blocking toolbar clicks.
+  if (!isOpen) return null
   return (
     <AnimatePresence>
       {isOpen && (

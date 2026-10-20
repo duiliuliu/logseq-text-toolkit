@@ -1,7 +1,7 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.2.0
+- **插件版本**：1.2.4
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
 - **结果**：**E2E 25/25 PASS；单元/集成 718/718 PASS**
 
@@ -15,7 +15,7 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.2.0 |
+| Plugin | logseq-text-toolkit 1.2.4 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
 

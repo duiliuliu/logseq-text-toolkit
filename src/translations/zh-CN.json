@@ -327,7 +327,7 @@
       "sideLeft": "左侧",
       "defaultWidth": "默认宽度（%）",
       "writeAnnotationsToGraph": "标注写入图谱块（后备页面）",
-      "showToolbarButton": "在顶部工具栏显示 HTML 阅读器按钮",
+      "showToolbarButton": "显示 Dashboard 工具栏按钮",
       "dashboardSection": "Dashboard",
       "dashboardAsset": "Dashboard HTML 附件",
       "dashboardAssetPlaceholder": "assets/dashboard.html",

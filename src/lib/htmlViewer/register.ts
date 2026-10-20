@@ -6,7 +6,6 @@ import { waitForElementById } from '../render/slot';
 import { getSettings } from '../../settings';
 import { t } from '../../translations/i18n';
 import { HtmlViewer } from '../../components/HtmlViewer/HtmlViewer';
-import { HtmlAssetLauncher } from '../../components/HtmlViewer/HtmlAssetLauncher';
 import { assetPathFor, isHtmlAssetBlock } from './assetBlock';
 import logger from '../logger';
 
@@ -16,6 +15,7 @@ let viewerOpen = false;
 let initialPath = '';
 let initialFullscreen = false;
 let dashboardMode = false;
+let htmlToolbarRegistered = false;
 
 function renderViewer(): void {
   const container = getDocument().getElementById(ID);
@@ -62,6 +62,9 @@ export async function initHtmlViewer(): Promise<void> {
 
   registerHtmlAssetBlockRenderer();
   registerHtmlViewerToolbarButton();
+  logseqAPI.onSettingsChanged?.(() => {
+    registerHtmlViewerToolbarButton();
+  });
   logger.info('[HtmlViewer] Registered successfully');
 }
 
@@ -93,22 +96,41 @@ export function closeHtmlViewer(): void {
 function registerHtmlViewerToolbarButton(): void {
   const settings = getSettings().htmlViewer;
   if (settings?.showToolbarButton === false) return;
+  if (!settings?.dashboardAsset || htmlToolbarRegistered) return;
+  // HTML assets get a compact preview button on the block itself. The global
+  // toolbar button is reserved for a configured dashboard.
   const language = getSettings().language || 'zh-CN';
   const hasDashboard = Boolean(settings?.dashboardAsset);
   const title = hasDashboard
     ? t('settings.htmlViewer.dashboardSection' as any, language)
     : t('settings.htmlViewer.toolbarLabel' as any, language);
-  const action = 'openDashboard';
   const icon = hasDashboard ? 'ti-layout-dashboard' : 'ti-file-type-html';
 
   try {
+    htmlToolbarRegistered = true;
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'ltt-html-viewer-button',
-      template: `<a class="button" id="ltt-html-viewer-button" data-on-click="${action}" title="${title}"><i class="ti ${icon}"></i></a>`,
+      template: `<a class="button" id="ltt-html-viewer-button" title="${title}"><i class="ti ${icon}"></i></a>`,
     });
+    bindHtmlViewerButton();
   } catch (error) {
     logger.warn('[HtmlViewer] Failed to register toolbar button', error);
   }
+}
+
+function bindHtmlViewerButton(attempt = 0): void {
+  const button = getDocument().getElementById('ltt-html-viewer-button') as HTMLElement | null;
+  if (!button) {
+    if (attempt < 60) setTimeout(() => bindHtmlViewerButton(attempt + 1), 50);
+    return;
+  }
+  if ((button as any).__lttHtmlBound) return;
+  (button as any).__lttHtmlBound = true;
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    openDashboard();
+  }, true);
 }
 
 function registerHtmlAssetBlockRenderer(): void {
@@ -122,11 +144,24 @@ function registerHtmlAssetBlockRenderer(): void {
         const path = assetPathFor(props);
         if (!path) return null;
         const filename = String(props.content || path);
-        return React.createElement(HtmlAssetLauncher, {
-          path,
-          filename,
-          onOpen: () => openHtmlViewer(path),
-        });
+        const HostReact = (logseqAPI as any).Experiments?.React || React;
+        return HostReact.createElement(
+          'button',
+          {
+            type: 'button',
+            className: 'ltt-html-asset-launcher',
+            title: path,
+            'aria-label': filename,
+            onClick: (event: MouseEvent) => {
+              event.preventDefault();
+              event.stopPropagation();
+              openHtmlViewer(path);
+            },
+          },
+          HostReact.createElement('span', { className: 'ltt-html-asset-launcher-icon' }, 'HTML'),
+          HostReact.createElement('span', { className: 'ltt-html-asset-launcher-name' }, filename),
+          HostReact.createElement('span', { className: 'ltt-html-asset-launcher-action' }, t('settings.htmlViewer.open' as any, getSettings().language || 'zh-CN'))
+        );
       },
     });
   } catch (error) {

@@ -440,8 +440,7 @@ Block View 支持多种预设主题：
 ### 8.1 打开 HTML 附件
 
 - 命令：`[Text Toolkit] Open HTML Viewer`
-- 顶部工具栏：HTML 阅读器按钮
-- HTML asset 块：点击启动卡片（实验性块渲染器）
+- HTML asset 块：点击紧凑预览按钮（实验性块渲染器；顶部工具栏只保留 Dashboard 按钮）
 - 只有一个 HTML 附件时自动打开；多个附件时显示列表
 
 面板支持左侧/右侧、拖动宽度、全屏、关闭、HTML 附件列表和标注列表开关。

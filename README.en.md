@@ -43,7 +43,7 @@ views, summaries, HTML reading/annotation and AI-generated dashboards.
 2. **Load plugin from URL**
 3. Enter `https://github.com/duiliuliu/logseq-text-toolkit/`
 
-Current version: **1.2.0**.
+Current version: **1.2.4**.
 
 ### Text formatting
 
@@ -107,7 +107,7 @@ Open:
 [Text Toolkit] Open HTML Viewer
 ```
 
-or use the toolbar button / HTML asset block launcher.
+or use the compact preview button on an HTML asset block. The top toolbar button is reserved for a configured Dashboard.
 
 - Left/right dock, drag to resize, fullscreen, close
 - Select text → **Annotate** → optional note
@@ -192,7 +192,7 @@ HTML Viewer settings include:
 |---|---|---|
 | Default side | right | left or right dock |
 | Default width | 56 | percentage of viewport |
-| Toolbar button | on | show HTML Viewer/Dashboard button |
+| Dashboard toolbar button | on | show the Dashboard button when a dashboard is configured |
 | Dashboard asset | empty | chosen HTML attachment |
 | Dashboard fullscreen | on | open dashboard fullscreen |
 | Write annotations to graph | on | asset child block, fallback page |

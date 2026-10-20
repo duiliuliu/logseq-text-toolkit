@@ -207,12 +207,11 @@
 
 **打开方式**：
 
-```text
-[Text Toolkit] Open HTML Viewer
-[Text Toolkit] Open Dashboard
-```
+- HTML asset 块上的紧凑 **HTML 预览按钮**（`registerBlockRenderer`）
+- 命令 `[Text Toolkit] Open HTML Viewer`
+- 配置 Dashboard 后，顶部工具栏显示 Dashboard 按钮
+- 命令 `[Text Toolkit] Open Dashboard`
 
-也可以在 HTML asset 块上点击启动卡片，或使用顶部工具栏按钮。
 
 **Dashboard 设置**：
 
@@ -286,7 +285,7 @@
 2. 点击 **从 URL 加载插件**
 3. 输入：`https://github.com/duiliuliu/logseq-text-toolkit/`
 
-> 当前版本 **1.2.0**，面向 Logseq DB 图，`minSDKVersion` 为 `0.3.1`；文件图不支持。
+> 当前版本 **1.2.4**，面向 Logseq DB 图，`minSDKVersion` 为 `0.3.1`；文件图不支持。
 
 ---
 
@@ -1091,9 +1090,9 @@ vim dist/tableView.css
 
 #### 4.9.1 打开附件
 
+- HTML asset 块：实验性块渲染器提供紧凑预览按钮（不再占用顶部工具栏）
 - 命令：`[Text Toolkit] Open HTML Viewer`
-- 工具栏：HTML 阅读器按钮
-- HTML asset 块：实验性块渲染器提供启动卡片
+- 配置 Dashboard 后，顶部工具栏显示 Dashboard 按钮
 - 单附件时会自动打开；多附件显示列表
 
 #### 4.9.2 阅读与标注
@@ -1127,7 +1126,7 @@ vim dist/tableView.css
 |---|---|
 | Dashboard HTML 附件 | 从当前图谱 HTML 附件中选择 |
 | 以全屏方式打开 | 默认开启 |
-| 顶部工具栏显示按钮 | 默认开启 |
+| 显示 Dashboard 工具栏按钮 | 默认开启（仅配置 Dashboard 后生效） |
 
 Dashboard 为空时，工具栏按钮回到普通附件选择器。
 
