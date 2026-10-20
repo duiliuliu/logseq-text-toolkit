@@ -129,12 +129,23 @@ export function applyHighlights(
     if (String(key).startsWith(keyPrefix)) win.CSS.highlights.delete(key);
   }
 
+  if (!doc.getElementById('ltt-html-highlight-style')) {
+    const style = doc.createElement('style');
+    style.id = 'ltt-html-highlight-style';
+    style.textContent = '::highlight(ltt-html-highlight) { background-color: rgba(250, 204, 21, .42); color: inherit; }';
+    (doc.head || doc.documentElement).appendChild(style);
+  }
+
+  const ranges: Range[] = [];
   for (const annotation of annotations) {
     const range = anchorToRange(doc, annotation.anchor);
     if (!range) continue;
+    ranges.push(range);
+    result.set(annotation.id, range);
+  }
+  if (ranges.length) {
     try {
-      win.CSS.highlights.set(`${keyPrefix}${annotation.id}`, new win.Highlight(range));
-      result.set(annotation.id, range);
+      win.CSS.highlights.set(`${keyPrefix}highlight`, new win.Highlight(...ranges));
     } catch {
       // Ignore ranges that the browser cannot represent.
     }

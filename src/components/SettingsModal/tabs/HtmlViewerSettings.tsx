@@ -69,7 +69,7 @@ function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language 
   ]
 
   return (
-    <div className="ltt-settings-tab-content">
+    <div className="ltt-settings-tab-content ltt-html-viewer-settings">
       <p className="ltt-tab-section-description-small">
         {t('settings.htmlViewer.description' as any, language)}
       </p>
