@@ -1,7 +1,7 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.2.10
+- **插件版本**：1.2.12
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
 - **结果**：**E2E 25/25 PASS；单元/集成 718/718 PASS**
 
@@ -15,7 +15,7 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.2.10 |
+| Plugin | logseq-text-toolkit 1.2.12 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
 
@@ -24,7 +24,7 @@
 2026-10-20 在真实 Logseq 2.0.2 test DB 图（`test`）完成一轮 smoke：
 
 - 设置按钮可以打开、切换 Tab、关闭，不再被不可见 modal overlay 阻挡
-- 8 个设置 Tab 自动换行，HTML 阅读器不再被挤到水平滚动区外
+- 8 个设置 Tab 保持单行，左右箭头滚动，HTML 阅读器可到达
 - 选中文本后选区工具栏出现（`Editor.onInputSelectionEnd`）
 - 评论弹窗可输入、可关闭，不再被低 z-index / pointer-events 阻挡
 - 真实 `assets/*.html` 可以通过 `Assets.makeUrl()` 读取并渲染

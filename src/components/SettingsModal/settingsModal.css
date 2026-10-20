@@ -547,19 +547,50 @@
   margin-bottom: 16px;
 }
 
+.ltt-settings-tabs-shell {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  border-bottom: 1px solid var(--ltt-border, #e0e0e0);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+}
+
 .ltt-settings-tabs {
   display: flex;
+  flex: 1;
   gap: 8px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--ltt-border, #e0e0e0);
-  padding-bottom: 8px;
-  flex-wrap: wrap;
-  overflow-x: visible;
-  -ms-overflow-style: none;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 .ltt-settings-tabs::-webkit-scrollbar {
-  display: none;
+  height: 4px;
+}
+
+.ltt-settings-tabs::-webkit-scrollbar-thumb {
+  background: var(--ltt-border, #d0d5dd);
+  border-radius: 999px;
+}
+
+.ltt-settings-tabs-scroll {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 34px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ltt-text-secondary, #667085);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.ltt-settings-tabs-scroll:hover {
+  background: var(--ltt-bg-secondary, #f5f5f5);
+  color: var(--ltt-text-primary, #333);
 }
 
 .ltt-settings-tab {

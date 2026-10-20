@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Modal from '../Modal/index'
 import { useSettingsContext } from '../../settings/useSettings'
@@ -43,6 +43,8 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   
   const [settings, setSettings] = useState<Settings | null>(null)
   const [activeTab, setActiveTab] = useState('general')
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const activeTabRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -106,6 +108,14 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     }
   }, [tabs, activeTab])
 
+  useEffect(() => {
+    activeTabRef.current?.scrollIntoView({ block: 'nearest', inline: 'center' })
+  }, [activeTab])
+
+  const scrollTabs = (direction: -1 | 1) => {
+    tabsRef.current?.scrollBy({ left: direction * 220, behavior: 'smooth' })
+  }
+
   if (isLoading) {
     return (
       <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
@@ -124,22 +134,28 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
 
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={modalTheme}>
       <div className="ltt-settings-container" data-theme={modalTheme}>
         <div className="ltt-settings-header">
-          <div className="ltt-settings-tabs">
-          {tabs.map(tab => (
-            <button 
-              key={tab.id}
-              className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              <span style={{ marginRight: '4px' }}>{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
-        </div>
+          <div className="ltt-settings-tabs-shell">
+            <button type="button" className="ltt-settings-tabs-scroll" onClick={() => scrollTabs(-1)} aria-label="previous settings tab">‹</button>
+            <div className="ltt-settings-tabs" ref={tabsRef}>
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  ref={activeTab === tab.id ? activeTabRef : undefined}
+                  className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span style={{ marginRight: '4px' }}>{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            <button type="button" className="ltt-settings-tabs-scroll" onClick={() => scrollTabs(1)} aria-label="next settings tab">›</button>
+          </div>
         </div>
 
         <div className="ltt-settings-content">
