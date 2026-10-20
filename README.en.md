@@ -43,7 +43,7 @@ views, summaries, HTML reading/annotation and AI-generated dashboards.
 2. **Load plugin from URL**
 3. Enter `https://github.com/duiliuliu/logseq-text-toolkit/`
 
-Current version: **1.2.16**.
+Current version: **1.2.17**.
 
 ### Text formatting
 

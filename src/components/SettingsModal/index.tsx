@@ -116,9 +116,14 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     tabsRef.current?.scrollBy({ left: direction * 220, behavior: 'smooth' })
   }
 
+  const pluginVersion = (logseqAPI as any).baseInfo?.version || (logseqAPI as any)._version || ''
+  const settingsTitle = pluginVersion
+    ? `${t('settings.title', language)} · v${pluginVersion}`
+    : t('settings.title', language)
+
   if (isLoading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
+      <Modal isOpen={isOpen} onClose={onClose} title={settingsTitle} theme={theme}>
         <div className="settings-loading">{t('settings.loading')}</div>
       </Modal>
     )
@@ -126,7 +131,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
   if (!settings) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
+      <Modal isOpen={isOpen} onClose={onClose} title={settingsTitle} theme={theme}>
         <div className="settings-error">{t('settings.error')}</div>
       </Modal>
     )
@@ -136,7 +141,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={modalTheme}>
+    <Modal isOpen={isOpen} onClose={onClose} title={settingsTitle} theme={modalTheme}>
       <div className="ltt-settings-container" data-theme={modalTheme}>
         <div className="ltt-settings-header">
           <div className="ltt-settings-tabs-shell">
