@@ -6,7 +6,7 @@
 import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import './toolbar.css'
-import { Bold, Italic, Underline, Strikethrough, Highlighter, Type, X, Menu } from 'lucide-react'
+import { Bold, Italic, Underline, Strikethrough, Subscript, Superscript, Code2, Highlighter, Type, X, Menu } from 'lucide-react'
 import { SelectedData } from './types.ts'
 import { ToolbarItem, ToolbarGroup } from './types.ts'
 import { parseItems, filterToolbarItems, IconName } from './ToolbarLogic.ts'
@@ -22,6 +22,15 @@ interface ToolbarProps {
   onItemClick?: (item: any, selectedData: SelectedData) => void
   sponsorEnabled?: boolean
   language?: string
+}
+
+const formatIcons: Record<string, React.ElementType> = {
+  'wrap-bold': Bold,
+  'wrap-italic': Italic,
+  'wrap-strike-through': Strikethrough,
+  'wrap-subscript': Subscript,
+  'wrap-superscript': Superscript,
+  'wrap-code': Code2,
 }
 
 const iconMap: Record<IconName, React.ElementType> = {
@@ -52,7 +61,12 @@ function Toolbar({
   const [moreExpanded, setMoreExpanded] = useState(false)
   const hoverTimerRef = useRef<number | null>(null)
 
-  const renderIcon = (icon: any) => {
+  const renderIcon = (icon: any, itemId?: string) => {
+    const preset = itemId ? formatIcons[itemId] : undefined
+    if (preset) {
+      const IconComponent = preset
+      return <IconComponent size={16} strokeWidth={1.8} className="ltt-toolbar-icon" />
+    }
     if (!icon) return '📝'
     
     // 处理字符串类型的图标名称
@@ -157,7 +171,7 @@ function Toolbar({
                   onClick={() => handleItemClickInternal(subItem)}
                 >
                   <div className="ltt-toolbar-item-icon">
-                    {renderIcon(subItem.icon)}
+                    {renderIcon(subItem.icon, subItem.id)}
                   </div>
                   {hoveredItem && hoveredItem.id === subItem.id && subItem.label && (
                     <div className="ltt-toolbar-tooltip ltt-toolbar-tooltip-sub">
