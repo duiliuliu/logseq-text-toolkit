@@ -1,9 +1,9 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.1.18
+- **插件版本**：1.1.19
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
-- **结果**：**E2E 20/20 PASS；单元/集成 695/695 PASS**
+- **结果**：**E2E 24/24 PASS；单元/集成 713/713 PASS**
 
 > 截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 [Real-Logseq-Smoke-Test.md](../../architecture/Real-Logseq-Smoke-Test.md) 做发版前人工确认。
 
@@ -15,7 +15,7 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.1.18 |
+| Plugin | logseq-text-toolkit 1.1.19 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
 
@@ -25,15 +25,14 @@
 |---|---:|---:|---|
 | 主功能套件 | 13 | 13 | 插件注册、设置、选区工具栏、评论、BlockView、TaskProgress、Heatmap、Milestone、Summary、slash commands |
 | Summary 专项 | 3 | 3 | 自定义日期范围、年度模板/页面名、同名总结安全替换 |
+| HTML 阅读器 | 4 | 4 | 附件列表、文字标注、高亮、面板控制、持久化 |
 | 旧 Host fallback | 2 | 2 | 无 onInputSelectionEnd；原生 textarea 选区 |
 | SDK 静默 fallback | 2 | 2 | 暴露 SDK hook 但从不发事件；原生选区仍可用 |
 
 ```text
-Electron E2E: 20/20 passed
-Vitest:      74 files / 695 tests passed
+Electron E2E: 24/24 passed
+Vitest:      79 files / 713 tests passed
 ```
-
-原始输出：[Electron E2E](assets/e2e-output.txt) · [Vitest 摘要](assets/unit-test-summary.txt)
 
 ## 功能覆盖
 
@@ -47,6 +46,7 @@ Vitest:      74 files / 695 tests passed
 | Heatmap | 年度/月度/周度切换；42 个 week cell；scheduled 日期属性 |
 | Milestone | Initiation / Planning 两个阶段渲染 |
 | Summary | GTD 生成、活跃块数、自动洞察、view=week 热力图宏、自定义范围、年度页面 |
+| HTML 阅读器 | HTML 附件列表/预览；选区标注/备注；高亮/跳回；左侧/右侧/全屏；持久化 |
 | Slash commands | TaskProgress / Heatmap / BlockView / Milestone 四条宏插入 |
 
 ## 截图
@@ -98,6 +98,24 @@ Initiation → Planning，两个阶段均渲染。
 ![Summary 弹窗](assets/08-summary-modal.png)
 
 默认类型、默认模板、取消/生成按钮；弹窗层级可点击。
+
+### HTML 阅读器：附件列表
+
+![HTML 阅读器：附件列表](assets/09-html-viewer-assets.png)
+
+右侧面板列出当前图谱的 HTML 附件。
+
+### HTML 阅读器：预览
+
+![HTML 阅读器：预览](assets/10-html-viewer.png)
+
+自包含 HTML 在沙箱 iframe 中渲染；右侧为标注列表。
+
+### HTML 阅读器：标注
+
+![HTML 阅读器：标注](assets/11-html-viewer-annotation.png)
+
+选中文字生成高亮和标注卡片；可写回标注页面。
 
 ## 报告生成过程中发现并修复的问题
 

@@ -43,7 +43,8 @@
       "heatmapDescription": "アクティビティと行動分析",
       "blockViewDescription": "複数のコンテンツ表示モード",
       "milestoneDescription": "プロジェクトフェーズ追跡",
-      "summaryDescription": "自動要約と帰納機能"
+      "summaryDescription": "自動要約と帰納機能",
+      "htmlViewerDescription": "HTML 添付のプレビュー、テキスト注釈、メモ"
     },
     "default": "デフォルト",
     "toolbar": "ツールバー",
@@ -56,6 +57,7 @@
       "blockView": "📋 ブロックビュー",
       "summary": "📝 まとめ生成",
       "milestone": "🎯 マイルストーン",
+      "htmlViewer": "🌐 HTML ビューア",
       "advanced": "⚡ その他の設定"
     },
     "saveSuccessRestart": "保存に成功しました。設定を反映するにはアプリケーションを再起動してください",
@@ -318,6 +320,47 @@
       "aiPromptTemplate": "プロンプトテンプレート",
       "aiPromptPlaceholder": "以下の内容に基づいてまとめを作成してください..."
     },
+    "htmlViewer": {
+      "description": "HTML 添付をサイドパネルで表示し、選択テキストの注釈・メモ・グラフへの書き戻しを行います。",
+      "defaultSide": "既定の表示位置",
+      "sideRight": "右",
+      "sideLeft": "左",
+      "defaultWidth": "既定の幅（%）",
+      "writeAnnotationsToGraph": "注釈をグラフページに書き込む",
+      "annotationPagePrefix": "注釈ページ名の接頭辞",
+      "annotationHint": "有効にすると、各注釈は「接頭辞 + ファイル名」ページに書き込まれ、ローカルアンカーはジャンプ用に保持されます。",
+      "allowScripts": "HTML スクリプトを許可（危険）",
+      "allowScriptsHint": "既定では無効です。信頼できるファイルだけを開いてください。",
+      "allowRemote": "リモートリソースを許可",
+      "allowRemoteHint": "既定では無効です。リモートの画像/スタイル/リンクは削除されます。",
+      "assets": "HTML 添付",
+      "search": "ファイル名またはパスを検索",
+      "refresh": "更新",
+      "open": "開く",
+      "noAssets": "このグラフには .html / .htm 添付がありません。",
+      "loadError": "HTML の読み込みに失敗しました",
+      "fetchHint": "読み込めない場合はシステムブラウザで開いてください。Logseq のバージョンによってはプラグインが asset URL を fetch できない場合があります。",
+      "openInBrowser": "システムブラウザで開く",
+      "annotation": "注釈",
+      "addAnnotation": "注釈を追加",
+      "commentPlaceholder": "メモ（任意）",
+      "saveAnnotation": "注釈を保存",
+      "cancel": "キャンセル",
+      "deleteAnnotation": "削除",
+      "annotationList": "注釈",
+      "noAnnotations": "テキストを選択して最初の注釈を追加してください。",
+      "anchorLost": "アンカーが無効です",
+      "openPage": "注釈ページを開く",
+      "fullscreen": "全画面",
+      "exitFullscreen": "全画面を終了",
+      "close": "閉じる",
+      "left": "左",
+      "right": "右",
+      "annotationSaved": "注釈を保存しました",
+      "annotationFailed": "注釈の保存に失敗しました",
+      "selectionHint": "HTML 内のテキストを選択して「注釈」をクリック",
+      "source": "ソース"
+    },
     "milestone": {
       "description": "マイルストーンコンポーネントのデフォルト動作と表示スタイルを設定します。",
       "enabled": "マイルストーン機能を有効化",
@@ -369,6 +412,7 @@
       "customColorsTitle": "カスタム配色",
       "customColorsHint": "任意"
     },
+    "saveHtmlViewerSettings": "HTML ビューア設定を保存",
     "saveMilestoneSettings": "マイルストーン設定を保存"
   }
 }

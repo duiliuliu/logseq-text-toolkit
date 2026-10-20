@@ -84,6 +84,13 @@ function GeneralSettings({ settings, setSettings, onSave, isSaving, language }: 
       description: t('settings.features.summaryDescription', language),
       enabled: settings.summary?.enabled ?? true,
       path: 'summary.enabled'
+    },
+    {
+      id: 'htmlViewer',
+      name: t('settings.tabs.htmlViewer' as any, language),
+      description: t('settings.features.htmlViewerDescription' as any, language),
+      enabled: settings.htmlViewer?.enabled ?? true,
+      path: 'htmlViewer.enabled'
     }
   ]
 

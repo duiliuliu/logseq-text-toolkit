@@ -1,8 +1,3 @@
-npm warn Unknown env config "side-effects-cache". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
-
-> logseq-text-toolkit@1.1.18 e2e:no-build
-> node scripts/e2e/run.mjs
-
 
 === main functional suite ===
 PASS  plugin-registration
@@ -25,6 +20,13 @@ PASS  summary-custom-range
 PASS  summary-yearly
 PASS  summary-replace
 3/3 passed
+
+=== html viewer suite ===
+PASS  html-viewer-open
+PASS  html-viewer-annotation
+PASS  html-viewer-panel-controls
+PASS  html-viewer-persistence
+4/4 passed
 
 === native fallback suite ===
 PASS  native-host-no-sdk-hook

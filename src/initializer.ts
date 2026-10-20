@@ -42,6 +42,7 @@ import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
 import mindMapViewCSSRaw from './components/BlockView/mindMapView.css?raw'
 import listViewCssRaw from './components/BlockView/listView.css?raw'
 import milestoneCSSRaw from './components/Milestone/milestone.css?raw'
+import htmlViewerCSSRaw from './components/HtmlViewer/htmlViewer.css?raw'
 import mainCSSRaw from './main.css?raw'
 
 import { Milestone } from './components/Milestone'
@@ -190,6 +191,12 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: milestoneCSSRaw,
     externalPath: 'milestone.css'
+  })
+
+  registerCSS('htmlViewer', {
+    type: 'both',
+    inlineContent: htmlViewerCSSRaw,
+    externalPath: 'htmlViewer.css'
   })
 }
 

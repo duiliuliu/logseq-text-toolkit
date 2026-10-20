@@ -43,7 +43,8 @@
       "heatmapDescription": "活跃度与行为分析",
       "blockViewDescription": "多种内容展示模式",
       "milestoneDescription": "项目阶段追踪",
-      "summaryDescription": "自动总结与归纳能力"
+      "summaryDescription": "自动总结与归纳能力",
+      "htmlViewerDescription": "HTML 附件预览、文字标注与备注"
     },
     "default": "默认",
     "toolbar": "工具栏",
@@ -56,6 +57,7 @@
       "blockView": "📋 块视图",
       "summary": "📝 总结生成",
       "milestone": "🎯 里程碑",
+      "htmlViewer": "🌐 HTML 阅读器",
       "advanced": "⚡ 其他设置"
     },
     "saveSuccessRestart": "保存成功，请重启应用生效",
@@ -318,6 +320,47 @@
       "aiPromptTemplate": "提示词模板",
       "aiPromptPlaceholder": "请根据以下内容生成一个总结..."
     },
+    "htmlViewer": {
+      "description": "在侧边面板中预览 HTML 附件，支持选中文字标注、备注和写回图谱。",
+      "defaultSide": "默认打开位置",
+      "sideRight": "右侧",
+      "sideLeft": "左侧",
+      "defaultWidth": "默认宽度（%）",
+      "writeAnnotationsToGraph": "标注写入图谱页面",
+      "annotationPagePrefix": "标注页面名前缀",
+      "annotationHint": "开启后，每条标注会写入「前缀 + 文件名」页面，同时保留本地锚点用于跳回。",
+      "allowScripts": "允许 HTML 运行脚本（危险）",
+      "allowScriptsHint": "默认关闭。开启后 HTML 中的脚本可以访问页面上下文，请只打开可信文件。",
+      "allowRemote": "允许远程资源",
+      "allowRemoteHint": "默认关闭，避免自包含文件向外部发起请求；关闭时会移除远程图片/样式/链接。",
+      "assets": "HTML 附件",
+      "search": "搜索文件名或路径",
+      "refresh": "刷新列表",
+      "open": "打开",
+      "noAssets": "当前图谱没有 .html / .htm 附件。",
+      "loadError": "HTML 加载失败",
+      "fetchHint": "若无法读取附件，请尝试在系统浏览器打开；部分 Logseq 版本不允许插件直接 fetch asset URL。",
+      "openInBrowser": "在系统浏览器打开",
+      "annotation": "标注",
+      "addAnnotation": "添加标注",
+      "commentPlaceholder": "写下备注（可选）",
+      "saveAnnotation": "保存标注",
+      "cancel": "取消",
+      "deleteAnnotation": "删除",
+      "annotationList": "标注",
+      "noAnnotations": "选中文字后添加第一条标注。",
+      "anchorLost": "锚点已失效",
+      "openPage": "打开标注页面",
+      "fullscreen": "全屏",
+      "exitFullscreen": "退出全屏",
+      "close": "关闭",
+      "left": "左侧",
+      "right": "右侧",
+      "annotationSaved": "标注已保存",
+      "annotationFailed": "标注保存失败",
+      "selectionHint": "选中 HTML 中的文字后点击「标注」",
+      "source": "来源"
+    },
     "milestone": {
       "description": "配置里程碑组件的默认行为和显示样式。",
       "enabled": "启用里程碑功能",
@@ -369,6 +412,7 @@
       "customColorsTitle": "自定义配色",
       "customColorsHint": "可选"
     },
+    "saveHtmlViewerSettings": "保存 HTML 阅读器设置",
     "saveMilestoneSettings": "保存里程碑设置"
   }
 }

@@ -124,6 +124,16 @@
       "promptTemplate": ""
     }
   },
+  "htmlViewer": {
+    "enabled": true,
+    "defaultSide": "right",
+    "defaultWidth": 56,
+    "allowScripts": false,
+    "allowRemote": false,
+    "writeAnnotationsToGraph": true,
+    "annotationPagePrefix": "HTML 标注 - ",
+    "defaultSlashCommandTemplate": ":html-viewer"
+  },
   "milestone": {
     "enabled": true,
     "defaultStyle": "capsule",

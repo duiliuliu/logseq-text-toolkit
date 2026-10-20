@@ -300,6 +300,7 @@ export interface FeaturesTranslation {
   blockViewDescription: string;
   milestoneDescription: string;
   summaryDescription: string;
+  htmlViewerDescription: string;
 }
 
 export interface SettingsTabsTranslation {
@@ -309,6 +310,8 @@ export interface SettingsTabsTranslation {
   heatmap: string;
   blockView: string;
   summary: string;
+  milestone: string;
+  htmlViewer: string;
   advanced: string;
 }
 

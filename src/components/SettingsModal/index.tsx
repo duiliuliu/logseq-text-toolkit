@@ -10,6 +10,7 @@ import HeatmapSettings from './tabs/HeatmapSettings'
 import BlockViewSettings from './tabs/BlockViewSettings'
 import SummarySettings from './tabs/SummarySettings'
 import MilestoneSettings from './tabs/MilestoneSettings'
+import HtmlViewerSettings from './tabs/HtmlViewerSettings'
 import { t, getCurrentLanguage } from '../../translations/i18n'
 import { ThemeType, Settings } from '../../settings/types'
 import { logseqAPI } from '../../logseq/index.ts'
@@ -89,6 +90,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     settings.blockView?.enabled !== false && { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
     settings.summary?.enabled !== false && { id: 'summary', component: SummarySettings, label: t('settings.tabs.summary', language), icon: '' },
     settings.milestone?.enabled !== false && { id: 'milestone', component: MilestoneSettings, label: t('settings.tabs.milestone', language), icon: '' },
+    settings.htmlViewer?.enabled !== false && { id: 'html-viewer', component: HtmlViewerSettings, label: t('settings.tabs.htmlViewer' as any, language), icon: '' },
   ].filter(Boolean) as Tab[] : []
 
   const tabs: Tab[] = [

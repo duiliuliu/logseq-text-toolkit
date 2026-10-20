@@ -16,7 +16,7 @@
 
   try {
     add('plugin-registration',
-      s.ready === true && s.macroHandlers.length === 4 && Object.keys(s.commands).length === 5,
+      s.ready === true && s.macroHandlers.length === 4 && Object.keys(s.commands).length === 6,
       { ready: s.ready, handlers: s.macroHandlers.length, commands: Object.keys(s.commands) });
     add('style-and-i18n', document.styleSheets.length >= 10,
       { styleSheets: document.styleSheets.length });
@@ -37,7 +37,7 @@
       const bv = Array.from(modal.querySelectorAll('.ltt-settings-tab')).find(t => t.innerText.includes('块视图'));
       if (bv) { bv.click(); await wait(200); tabOk = document.querySelector('.ltt-settings-tab.active')?.innerText.includes('块视图'); }
     }
-    add('settings-modal', !!modal && tabs.length === 7 && tabOk && settingsClickable, { tabs, tabOk, settingsClickable });
+    add('settings-modal', !!modal && tabs.length === 8 && tabOk && settingsClickable, { tabs, tabOk, settingsClickable });
     document.querySelector('#text-toolkit-settings .modal-close')?.click();
     await wait(300);
   } catch (e) { add('settings-modal', false, String(e)); }

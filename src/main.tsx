@@ -6,6 +6,7 @@
  */
 
 import { logseqAPI } from './logseq'
+import { initHtmlViewer } from './lib/htmlViewer/register'
 import { getDocument } from './logseq/utils'
 import { renderComponent, clearAllRoots } from './lib/render'
 import TestApp from './test/testAPP'
@@ -119,6 +120,9 @@ export async function initializeComponent(): Promise<void> {
 
   await initMilestone()
   logger.info('🏷️ Plugin: Milestone ready')
+
+  await initHtmlViewer()
+  logger.info('🌐 Plugin: HTML Viewer ready')
 
   cleanupFunctions.push(() => logger.info('🧹 Plugin: Cleaning up...'))
   logger.info('✅ Plugin: Components initialized')

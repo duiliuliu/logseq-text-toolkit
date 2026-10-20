@@ -18,6 +18,7 @@
     blocks: [],
     messages: [],
     settingsPatches: [],
+    fileStorage: new Map(),
     currentBlock: { uuid: 'block-1', content: 'hello world' },
   };
   window.__state = state;
@@ -167,7 +168,28 @@
     return results;
   };
 
+  const assetUrl = (path) => `${location.origin}/${String(path).replace(/^\/+/, '')}`;
+
+  const htmlViewerApi = {
+    Assets: {
+      listFilesOfCurrentGraph: async () => ([
+        { path: 'assets/sample.html', size: 1024, modifiedTime: Date.now() },
+      ]),
+      makeUrl: async (path) => assetUrl(path),
+      builtInOpen: async () => true,
+    },
+    FileStorage: {
+      getItem: async (key) => state.fileStorage.get(key),
+      setItem: async (key, value) => { state.fileStorage.set(key, value); },
+      removeItem: async (key) => { state.fileStorage.delete(key); },
+      hasItem: async (key) => state.fileStorage.has(key),
+      allKeys: async () => Array.from(state.fileStorage.keys()),
+      clear: async () => { state.fileStorage.clear(); },
+    },
+  };
+
   window.logseq = {
+    ...htmlViewerApi,
     ready: (cb) => {
       setTimeout(() => {
         state.ready = true;

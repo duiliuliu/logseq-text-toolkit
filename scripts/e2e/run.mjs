@@ -170,6 +170,19 @@ function startServer(settings) {
       return;
     }
 
+    if (pathname.startsWith('/assets/')) {
+      const file = resolve(join(E2E_DIR, 'assets'), pathname.slice('/assets/'.length));
+      const assetsRoot = join(E2E_DIR, 'assets');
+      if (!file.startsWith(assetsRoot) || !existsSync(file)) {
+        res.writeHead(404);
+        res.end('not found');
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': MIME[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+      createReadStream(file).pipe(res);
+      return;
+    }
+
     if (pathname.startsWith('/dist/')) {
       const file = resolve(DIST, pathname.slice('/dist/'.length));
       if (!file.startsWith(DIST) || !existsSync(file)) {
@@ -418,6 +431,11 @@ async function main() {
     await cdp.send('Page.navigate', { url: `${baseUrl}?phase=summary&v=${Date.now()}` });
     await waitForPlugin(cdp);
     allPassed = printResults('summary logic suite', await runScript(cdp, 'summary_runner.js', 'summary')) && allPassed;
+
+    // HTML attachment viewer: asset list, selection, annotation, panel controls, persistence.
+    await cdp.send('Page.navigate', { url: `${baseUrl}?phase=html&v=${Date.now()}` });
+    await waitForPlugin(cdp);
+    allPassed = printResults('html viewer suite', await runScript(cdp, 'html_runner.js', 'html')) && allPassed;
 
     // Native fallback: old host with no onInputSelectionEnd.
     await cdp.send('Page.navigate', { url: `${baseUrl}?native=1&v=${Date.now()}` });

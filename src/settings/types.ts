@@ -176,6 +176,17 @@ export interface SummarySettings {
   customPageNameTemplate: string;
 }
 
+export interface HtmlViewerSettings {
+  enabled: boolean
+  defaultSide: 'left' | 'right'
+  defaultWidth: number
+  allowScripts: boolean
+  allowRemote: boolean
+  writeAnnotationsToGraph: boolean
+  annotationPagePrefix: string
+  defaultSlashCommandTemplate?: string
+}
+
 export interface MilestoneSettings {
   enabled: boolean;
   defaultStyle: MilestoneDisplayStyle;
@@ -214,5 +225,6 @@ export interface Settings {
   blockView?: BlockViewSettings
   summary?: SummarySettings
   milestone?: MilestoneSettings
+  htmlViewer?: HtmlViewerSettings
   ToolbarItems?: any[]
 }

@@ -46,9 +46,9 @@
   <h1>Text Toolkit 功能测试报告</h1>
   <p>2026-10-19 · Electron + Host mock · 真实构建产物</p>
   <div class="badges">
-    <span class="badge">E2E 20/20 PASS</span>
-    <span class="badge">Vitest 695/695 PASS</span>
-    <span class="badge">plugin 1.1.18</span>
+    <span class="badge">E2E 24/24 PASS</span>
+    <span class="badge">Vitest 713/713 PASS</span>
+    <span class="badge">plugin 1.1.19</span>
     <span class="badge">min SDK 0.3.1+</span>
   </div>
 </header>
@@ -60,18 +60,18 @@
   <div class="card"><span>Summary 专项</span><strong>3/3</strong><span>PASS</span></div>
   <div class="card"><span>旧 Host fallback</span><strong>2/2</strong><span>PASS</span></div>
   <div class="card"><span>SDK 静默 fallback</span><strong>2/2</strong><span>PASS</span></div>
+  <div class="card"><span>HTML 阅读器</span><strong>4/4</strong><span>PASS</span></div>
 </div>
-<p style="margin-top:14px"><span class="ok">Vitest 74 files / 695 tests passed</span></p>
-<p><a href="assets/e2e-output.txt">Electron E2E 原始输出</a> · <a href="assets/unit-test-summary.txt">Vitest 摘要</a></p>
+<p style="margin-top:14px"><span class="ok">Vitest 79 files / 713 tests passed</span></p>
 
 <h2>环境</h2>
-<table><tbody><tr><td>OS</td><td>macOS 26.3.2 (Build 25D2150)</td></tr><tr><td>Electron</td><td>42.11.15</td></tr><tr><td>Chromium</td><td>148.0.7778.280</td></tr><tr><td>Node.js</td><td>24.17.0</td></tr><tr><td>Plugin</td><td>logseq-text-toolkit 1.1.18</td></tr><tr><td>SDK floor</td><td>@logseq/libs 0.3.1+ / host 2.0.2</td></tr><tr><td>Runner</td><td>scripts/e2e (Electron + Host mock)</td></tr></tbody></table>
+<table><tbody><tr><td>OS</td><td>macOS 26.3.2 (Build 25D2150)</td></tr><tr><td>Electron</td><td>42.11.15</td></tr><tr><td>Chromium</td><td>148.0.7778.280</td></tr><tr><td>Node.js</td><td>24.17.0</td></tr><tr><td>Plugin</td><td>logseq-text-toolkit 1.1.19</td></tr><tr><td>SDK floor</td><td>@logseq/libs 0.3.1+ / host 2.0.2</td></tr><tr><td>Runner</td><td>scripts/e2e (Electron + Host mock)</td></tr></tbody></table>
 
 <h2>套件结果</h2>
-<table><thead><tr><th>套件</th><th>通过</th><th>覆盖</th></tr></thead><tbody><tr><td>主功能套件</td><td class="num pass">13/13</td><td>插件注册、设置、选区工具栏、评论、BlockView、TaskProgress、Heatmap、Milestone、Summary、slash commands</td></tr><tr><td>Summary 专项</td><td class="num pass">3/3</td><td>自定义日期范围、年度模板/页面名、同名总结安全替换</td></tr><tr><td>旧 Host fallback</td><td class="num pass">2/2</td><td>无 onInputSelectionEnd；原生 textarea 选区</td></tr><tr><td>SDK 静默 fallback</td><td class="num pass">2/2</td><td>暴露 SDK hook 但从不发事件；原生选区仍可用</td></tr></tbody></table>
+<table><thead><tr><th>套件</th><th>通过</th><th>覆盖</th></tr></thead><tbody><tr><td>主功能套件</td><td class="num pass">13/13</td><td>插件注册、设置、选区工具栏、评论、BlockView、TaskProgress、Heatmap、Milestone、Summary、slash commands</td></tr><tr><td>Summary 专项</td><td class="num pass">3/3</td><td>自定义日期范围、年度模板/页面名、同名总结安全替换</td></tr><tr><td>HTML 阅读器</td><td class="num pass">4/4</td><td>附件列表、文字标注、高亮、面板控制、持久化</td></tr><tr><td>旧 Host fallback</td><td class="num pass">2/2</td><td>无 onInputSelectionEnd；原生 textarea 选区</td></tr><tr><td>SDK 静默 fallback</td><td class="num pass">2/2</td><td>暴露 SDK hook 但从不发事件；原生选区仍可用</td></tr></tbody></table>
 
 <h2>功能覆盖</h2>
-<table><thead><tr><th>功能</th><th>验证点</th></tr></thead><tbody><tr><td>设置弹窗</td><td>7 个 Tab；BlockView Tab 可切换；保存成功；hit-test 在弹窗内</td></tr><tr><td>选区工具栏</td><td>SDK onInputSelectionEnd → 工具栏 → 加粗 → updateBlock</td></tr><tr><td>评论</td><td>工具栏评论项 → 弹窗 → 保存 → inline-comment</td></tr><tr><td>BlockView</td><td>list/table/gallery/board；Table 3 个 grid track；表格行 control 不再占用 grid 列；设置实时刷新</td></tr><tr><td>TaskProgress</td><td>1/2；tag-only 无 status 任务计入 todo</td></tr><tr><td>Heatmap</td><td>年度/月度/周度切换；42 个 week cell；scheduled 日期属性</td></tr><tr><td>Milestone</td><td>Initiation / Planning 两个阶段渲染</td></tr><tr><td>Summary</td><td>GTD 生成、活跃块数、自动洞察、view=week 热力图宏、自定义范围、年度页面</td></tr><tr><td>Slash commands</td><td>TaskProgress / Heatmap / BlockView / Milestone 四条宏插入</td></tr></tbody></table>
+<table><thead><tr><th>功能</th><th>验证点</th></tr></thead><tbody><tr><td>设置弹窗</td><td>7 个 Tab；BlockView Tab 可切换；保存成功；hit-test 在弹窗内</td></tr><tr><td>选区工具栏</td><td>SDK onInputSelectionEnd → 工具栏 → 加粗 → updateBlock</td></tr><tr><td>评论</td><td>工具栏评论项 → 弹窗 → 保存 → inline-comment</td></tr><tr><td>BlockView</td><td>list/table/gallery/board；Table 3 个 grid track；表格行 control 不再占用 grid 列；设置实时刷新</td></tr><tr><td>TaskProgress</td><td>1/2；tag-only 无 status 任务计入 todo</td></tr><tr><td>Heatmap</td><td>年度/月度/周度切换；42 个 week cell；scheduled 日期属性</td></tr><tr><td>Milestone</td><td>Initiation / Planning 两个阶段渲染</td></tr><tr><td>Summary</td><td>GTD 生成、活跃块数、自动洞察、view=week 热力图宏、自定义范围、年度页面</td></tr><tr><td>HTML 阅读器</td><td>HTML 附件列表/预览；选区标注/备注；高亮/跳回；左侧/右侧/全屏；持久化</td></tr><tr><td>Slash commands</td><td>TaskProgress / Heatmap / BlockView / Milestone 四条宏插入</td></tr></tbody></table>
 
 <h2>截图</h2>
 <div class="shots"><figure class="shot">
@@ -98,6 +98,15 @@
 </figure><figure class="shot">
   <a href="assets/08-summary-modal.png" target="_blank"><img src="assets/08-summary-modal.png" alt="Summary 弹窗"></a>
   <figcaption><strong>Summary 弹窗</strong><span>默认类型、默认模板、取消/生成按钮；弹窗层级可点击。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/09-html-viewer-assets.png" target="_blank"><img src="assets/09-html-viewer-assets.png" alt="HTML 阅读器：附件列表"></a>
+  <figcaption><strong>HTML 阅读器：附件列表</strong><span>右侧面板列出当前图谱的 HTML 附件。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/10-html-viewer.png" target="_blank"><img src="assets/10-html-viewer.png" alt="HTML 阅读器：预览"></a>
+  <figcaption><strong>HTML 阅读器：预览</strong><span>自包含 HTML 在沙箱 iframe 中渲染；右侧为标注列表。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/11-html-viewer-annotation.png" target="_blank"><img src="assets/11-html-viewer-annotation.png" alt="HTML 阅读器：标注"></a>
+  <figcaption><strong>HTML 阅读器：标注</strong><span>选中文字生成高亮和标注卡片；可写回标注页面。</span></figcaption>
 </figure></div>
 
 <h2>报告生成过程中发现并修复的问题</h2>
