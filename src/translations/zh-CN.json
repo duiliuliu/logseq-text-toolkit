@@ -333,6 +333,8 @@
       "dashboardAssetPlaceholder": "assets/dashboard.html",
       "dashboardHint": "选择定期生成的 HTML；工具栏按钮会直接打开它。留空则打开 HTML 附件列表。",
       "dashboardFullscreen": "以全屏方式打开 Dashboard",
+      "dashboardBlock": "指定 asset block",
+      "dashboardBlockHint": "可直接粘贴 block UUID，插件会解析为 assets/<uuid>.html。也支持 block:<uuid> 形式。",
       "linkUnsupported": "这个 Dashboard 链接暂不支持",
       "dashboardNone": "不设置 Dashboard",
       "annotationPagePrefix": "标注页面名前缀",

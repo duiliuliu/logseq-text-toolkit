@@ -1,7 +1,7 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.2.4
+- **插件版本**：1.2.10
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
 - **结果**：**E2E 25/25 PASS；单元/集成 718/718 PASS**
 
@@ -15,7 +15,7 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.2.4 |
+| Plugin | logseq-text-toolkit 1.2.10 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
 
@@ -24,14 +24,17 @@
 2026-10-20 在真实 Logseq 2.0.2 test DB 图（`test`）完成一轮 smoke：
 
 - 设置按钮可以打开、切换 Tab、关闭，不再被不可见 modal overlay 阻挡
+- 8 个设置 Tab 自动换行，HTML 阅读器不再被挤到水平滚动区外
 - 选中文本后选区工具栏出现（`Editor.onInputSelectionEnd`）
+- 评论弹窗可输入、可关闭，不再被低 z-index / pointer-events 阻挡
 - 真实 `assets/*.html` 可以通过 `Assets.makeUrl()` 读取并渲染
 - HTML asset 块显示紧凑预览按钮（host React block renderer）
 - 选中 HTML 文本 → 标注 → 保存成功
 - 标注块写入 HTML asset 子块，来源路径正确
+- Dashboard 支持 `block:<uuid>`，真实 asset block 可解析并全屏打开
 - 真实图内复测后，未发现不可恢复错误
 
-> 真实测试会修改 test 图：新增 `HTML Test` 页面、一个 HTML asset 和一条测试标注块。
+> 真实测试会修改 test 图：新增 `HTML Test` 页面、一个 HTML asset、一条测试标注块和少量测试文本。
 
 ## 结果总览
 
@@ -52,7 +55,7 @@ Vitest:      80 files / 718 tests passed
 
 | 功能 | 验证点 |
 |---|---|
-| 设置弹窗 | 8 个 Tab / 7 个功能；BlockView / HTML 阅读器 Tab 可切换；保存成功；真实 Host 可打开/关闭 |
+| 设置弹窗 | 7 个 Tab；BlockView Tab 可切换；保存成功；hit-test 在弹窗内 |
 | 选区工具栏 | SDK onInputSelectionEnd → 工具栏 → 加粗 → updateBlock |
 | 评论 | 工具栏评论项 → 弹窗 → 保存 → inline-comment |
 | BlockView | list/table/gallery/board；Table 3 个 grid track；表格行 control 不再占用 grid 列；设置实时刷新 |
@@ -61,7 +64,7 @@ Vitest:      80 files / 718 tests passed
 | Milestone | Initiation / Planning 两个阶段渲染 |
 | Summary | GTD 生成、活跃块数、自动洞察、view=week 热力图宏、自定义范围、年度页面 |
 | HTML 阅读器 | HTML 附件列表/预览；选区标注/备注；高亮/跳回；左侧/右侧/全屏；Dashboard；持久化 |
-| Slash commands | TaskProgress / Heatmap / BlockView / Milestone / HTML Viewer / Dashboard 六条命令 |
+| Slash commands | TaskProgress / Heatmap / BlockView / Milestone 四条宏插入 |
 
 ## 截图
 

@@ -333,6 +333,8 @@
       "dashboardAssetPlaceholder": "assets/dashboard.html",
       "dashboardHint": "Choose the periodically generated HTML. The toolbar button opens it directly; leave empty to open the attachment picker.",
       "dashboardFullscreen": "Open dashboard fullscreen",
+      "dashboardBlock": "Specify an asset block",
+      "dashboardBlockHint": "Paste a block UUID and the plugin resolves it to assets/<uuid>.html. The block:<uuid> form is also supported.",
       "linkUnsupported": "This dashboard link is not supported yet",
       "dashboardNone": "No dashboard",
       "annotationPagePrefix": "Annotation page prefix",

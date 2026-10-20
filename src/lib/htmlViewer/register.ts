@@ -7,6 +7,7 @@ import { getSettings } from '../../settings';
 import { t } from '../../translations/i18n';
 import { HtmlViewer } from '../../components/HtmlViewer/HtmlViewer';
 import { assetPathFor, isHtmlAssetBlock } from './assetBlock';
+import { resolveDashboardAsset } from './dashboard';
 import logger from '../logger';
 
 const ID = 'text-toolkit-html-viewer';
@@ -76,13 +77,18 @@ export function openHtmlViewer(path: string = '', options: { fullscreen?: boolea
   renderViewer();
 }
 
-export function openDashboard(): void {
+export async function openDashboard(): Promise<void> {
   const settings = getSettings().htmlViewer;
   if (!settings?.dashboardAsset) {
     openHtmlViewer();
     return;
   }
-  openHtmlViewer(settings.dashboardAsset, {
+  const path = await resolveDashboardAsset(settings.dashboardAsset);
+  if (!path) {
+    openHtmlViewer();
+    return;
+  }
+  openHtmlViewer(path, {
     fullscreen: settings.dashboardFullscreen !== false,
     dashboard: true,
   });

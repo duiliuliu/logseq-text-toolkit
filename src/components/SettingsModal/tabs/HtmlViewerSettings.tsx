@@ -4,6 +4,7 @@ import CustomSelect from '../../CustomSelect/index.tsx'
 import { HtmlViewerSettings as HtmlViewerSettingsType } from '../../../settings/types'
 import { TabComponentProps } from '../index'
 import { logseqAPI } from '../../../logseq'
+import { listHtmlDashboardBlocks } from '../../../lib/htmlViewer/dashboard'
 
 const DEFAULT_SETTINGS: HtmlViewerSettingsType = {
   enabled: true,
@@ -21,14 +22,21 @@ const DEFAULT_SETTINGS: HtmlViewerSettingsType = {
 
 function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
   const [dashboardAssets, setDashboardAssets] = useState<string[]>([])
+  const [dashboardBlocks, setDashboardBlocks] = useState<Array<{ uuid: string; title: string; path: string }>>([])
 
   useEffect(() => {
     let cancelled = false
     void (async () => {
       try {
-        const files = await logseqAPI.Assets?.listFilesOfCurrentGraph?.(['html', 'htm'])
-        if (!cancelled && Array.isArray(files)) {
-          setDashboardAssets(files.map((file: any) => String(file.path || '')).filter(Boolean))
+        const [files, blocks] = await Promise.all([
+          logseqAPI.Assets?.listFilesOfCurrentGraph?.(['html', 'htm']),
+          listHtmlDashboardBlocks(),
+        ])
+        if (!cancelled) {
+          if (Array.isArray(files)) {
+            setDashboardAssets(files.map((file: any) => String(file.path || '')).filter(Boolean))
+          }
+          setDashboardBlocks(blocks)
         }
       } catch {
         // Manual asset path below remains available.
@@ -36,6 +44,21 @@ function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language 
     })()
     return () => { cancelled = true }
   }, [])
+
+  const refreshDashboardOptions = async () => {
+    try {
+      const [files, blocks] = await Promise.all([
+        logseqAPI.Assets?.listFilesOfCurrentGraph?.(['html', 'htm']),
+        listHtmlDashboardBlocks(),
+      ])
+      if (Array.isArray(files)) {
+        setDashboardAssets(files.map((file: any) => String(file.path || '')).filter(Boolean))
+      }
+      setDashboardBlocks(blocks)
+    } catch {
+      // Keep current options.
+    }
+  }
 
   const current: HtmlViewerSettingsType = {
     ...DEFAULT_SETTINGS,
@@ -114,14 +137,26 @@ function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language 
           <CustomSelect
             options={[
               { value: '', label: t('settings.htmlViewer.dashboardNone' as any, language) },
-              ...dashboardAssets.map((path) => ({ value: path, label: path })),
-              ...(current.dashboardAsset && !dashboardAssets.includes(current.dashboardAsset)
+              ...dashboardBlocks.map((block) => ({
+                value: `block:${block.uuid}`,
+                label: `${block.title} · block asset`,
+              })),
+              ...dashboardAssets
+                .filter((path) => !dashboardBlocks.some((block) => block.path === path))
+                .map((path) => ({ value: path, label: path })),
+              ...(current.dashboardAsset &&
+                current.dashboardAsset !== '' &&
+                !dashboardAssets.includes(current.dashboardAsset) &&
+                !dashboardBlocks.some((block) => `block:${block.uuid}` === current.dashboardAsset)
                 ? [{ value: current.dashboardAsset, label: current.dashboardAsset }]
                 : []),
             ]}
             value={current.dashboardAsset}
             onChange={(value) => update({ dashboardAsset: value })}
           />
+          <button type="button" className="ltt-html-dashboard-refresh" onClick={() => void refreshDashboardOptions()}>
+            {t('settings.htmlViewer.refresh' as any, language)}
+          </button>
         </div>
         <div className="ltt-setting-item">
           <label>{t('settings.htmlViewer.dashboardFullscreen' as any, language)}</label>
@@ -134,19 +169,25 @@ function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language 
             <span className="ltt-switch-slider"></span>
           </label>
         </div>
+        <div className="ltt-setting-item">
+          <label>{t('settings.htmlViewer.dashboardBlock' as any, language)}</label>
+          <input
+            type="text"
+            value={current.dashboardAsset}
+            onChange={(e) => {
+              const value = e.target.value.trim()
+              const normalized = /^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(value) ? `block:${value}` : value
+              update({ dashboardAsset: normalized })
+            }}
+            placeholder="block:<uuid> 或 assets/foo.html"
+          />
+        </div>
+        <p className="ltt-tab-section-description-small">
+          {t('settings.htmlViewer.dashboardBlockHint' as any, language)}
+        </p>
         <p className="ltt-tab-section-description-small">
           {t('settings.htmlViewer.dashboardHint' as any, language)}
         </p>
-        {dashboardAssets.length === 0 && (
-          <div className="ltt-setting-item">
-            <input
-              type="text"
-              value={current.dashboardAsset}
-              onChange={(e) => update({ dashboardAsset: e.target.value })}
-              placeholder={t('settings.htmlViewer.dashboardAssetPlaceholder' as any, language)}
-            />
-          </div>
-        )}
       </div>
 
       <div className="ltt-setting-item">

@@ -553,9 +553,8 @@
   margin-bottom: 16px;
   border-bottom: 1px solid var(--ltt-border, #e0e0e0);
   padding-bottom: 8px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  overflow-x: visible;
   -ms-overflow-style: none;
 }
 
@@ -1560,3 +1559,5 @@ input:checked + .ltt-switch-slider:before {
 }
 
 .ltt-html-viewer-settings .ltt-setting-item > label { width: 220px; white-space: normal; }
+.ltt-html-dashboard-refresh { flex: 0 0 auto; font-size: 11px; padding: 4px 8px; border-radius: 6px; }
+.ltt-html-viewer-settings .ltt-setting-item { flex-wrap: wrap !important; }

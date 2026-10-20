@@ -11,7 +11,8 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
-  z-index: 1000;
+  z-index: 10050;
+  pointer-events: auto;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -100,7 +101,7 @@
   justify-content: center;
 }
 
-.ltt-inline-comment-modal-content :deep(textarea) {
+.ltt-inline-comment-modal-content textarea {
   width: 90%;
   height: 34px;
   min-height: 34px;
@@ -120,33 +121,33 @@
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
-[data-theme="dark"] .ltt-inline-comment-modal-content :deep(textarea) {
+[data-theme="dark"] .ltt-inline-comment-modal-content textarea {
   background: var(--ls-secondary-background-color, #252525);
   color: var(--ls-primary-text-color, #fafafa);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.ltt-inline-comment-modal-content :deep(textarea):hover {
+.ltt-inline-comment-modal-content textarea:hover {
   background: var(--ls-secondary-background-color, #f5f5f5);
 }
 
-[data-theme="dark"] .ltt-inline-comment-modal-content :deep(textarea):hover {
+[data-theme="dark"] .ltt-inline-comment-modal-content textarea:hover {
   background: var(--ls-secondary-background-color, #2a2a2a);
 }
 
-.ltt-inline-comment-modal-content :deep(textarea):focus,
-.ltt-inline-comment-modal-content :deep(textarea):active {
+.ltt-inline-comment-modal-content textarea:focus,
+.ltt-inline-comment-modal-content textarea:active {
   background: var(--ls-primary-background-color, #ffffff);
   box-shadow: 0 0 0 1px #000000;
 }
 
-[data-theme="dark"] .ltt-inline-comment-modal-content :deep(textarea):focus,
-[data-theme="dark"] .ltt-inline-comment-modal-content :deep(textarea):active {
+[data-theme="dark"] .ltt-inline-comment-modal-content textarea:focus,
+[data-theme="dark"] .ltt-inline-comment-modal-content textarea:active {
   background: var(--ls-primary-background-color, #1e1e1e);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
-.ltt-inline-comment-modal-content :deep(textarea)::placeholder {
+.ltt-inline-comment-modal-content textarea::placeholder {
   color: var(--ls-secondary-text-color, #bbb);
 }
 

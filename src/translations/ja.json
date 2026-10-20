@@ -333,6 +333,8 @@
       "dashboardAssetPlaceholder": "assets/dashboard.html",
       "dashboardHint": "定期生成した HTML を選択します。ツールバーボタンで直接開きます。空の場合は添付一覧を開きます。",
       "dashboardFullscreen": "Dashboard を全画面で開く",
+      "dashboardBlock": "asset block を指定",
+      "dashboardBlockHint": "block UUID を貼り付けると assets/<uuid>.html として解決します。block:<uuid> 形式も使用できます。",
       "linkUnsupported": "この Dashboard リンクはまだサポートされていません",
       "dashboardNone": "Dashboard を設定しない",
       "annotationPagePrefix": "注釈ページ名の接頭辞",
