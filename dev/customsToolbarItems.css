@@ -1,0 +1,353 @@
+/* ==============================================
+   1. 颜色变量定义
+   ============================================== */
+:root {
+  --kef-wrap-tb-bg: #333e;
+}
+:root.dark {
+  --kef-wrap-tb-bg: #777e;
+}
+/* ==============================================
+   2. 工具栏样式
+   ============================================== */
+#kef-wrap-toolbar {
+  position: absolute;
+  top: 0;
+  left: -99999px;
+  z-index: var(--ls-z-index-level-2);
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 100ms ease-in-out;
+  background: var(--kef-wrap-tb-bg);
+  border-radius: 6px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 10px;
+}
+.kef-wrap-tb-list {
+  position: relative;
+}
+.kef-wrap-tb-list:hover .kef-wrap-tb-itemlist {
+  transform: scaleY(1);
+}
+.kef-wrap-tb-itemlist {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--kef-wrap-tb-bg);
+  border-radius: 0 0 6px 6px;
+  transform: scaleY(0);
+  transform-origin: top center;
+  will-change: transform;
+  transition: transform 100ms ease-in-out;
+}
+.kef-wrap-tb-item {
+  width: 28px;
+  line-height: 20px;
+  height: 30px;
+  overflow: hidden;
+  text-align: center;
+  padding: 5px 4px;
+  margin: 0;
+  cursor: pointer;
+}
+.kef-wrap-tb-item:hover {
+  filter: drop-shadow(0 0 3px #fff);
+}
+.kef-wrap-tb-item img {
+  width: 20px;
+  height: 20px;
+  vertical-align: initial;
+}
+.kef-wrap-hidden #kef-wrap-toolbar {
+  display: none;
+}
+/* ==============================================
+   3. 颜色变量定义（使用 Logseq 主题变量）
+   ============================================== */
+:root {
+  --mark-red: var(--ls-highlight-color-red, #ffc7c7);
+  --mark-blue: var(--ls-highlight-color-blue, #abdfff);
+  --mark-yellow: var(--ls-highlight-color-yellow, #fff3a3);
+  --mark-green: var(--ls-highlight-color-green, #ccffc1);
+  --mark-purple: var(--ls-highlight-color-purple, #d2b3ff);
+  --span-red: var(--ls-color-red, #ff0000);
+  --span-blue: var(--ls-color-blue, #0066ff);
+  --span-yellow: var(--ls-color-yellow, #ffdd00);
+  --span-green: var(--ls-color-green, #00cc00);
+  --span-purple: var(--ls-color-purple, #6800ff);
+  --mark-border-radius: 0.25rem;
+}
+/* ————————————————————————————————————————
+ mark 高亮样式（原项目结构 100% 保留）
+ 修复：彩色 mark 不生效问题
+———————————————————————————————————————— */
+mark,
+.ls-block .block-content-inner mark,
+.ls-block .block-title mark,
+.journal-title mark {
+  --ctl-highlight-color: var(--mark-yellow);
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-decoration: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-radius: 4px !important;
+  padding: 0 0.18em !important;
+  box-decoration-break: clone !important;
+  -webkit-box-decoration-break: clone !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+  background-size: 100% 100% !important;
+  background-position: 0% 0% !important;
+  background-repeat: no-repeat !important;
+}
+
+/* 红色高亮 */
+mark.red {
+  --ctl-highlight-color: var(--mark-red) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+}
+
+/* 蓝色高亮 */
+mark.blue {
+  --ctl-highlight-color: var(--mark-blue) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+}
+
+/* 绿色高亮 */
+mark.green {
+  --ctl-highlight-color: var(--mark-green) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+}
+
+/* 紫色高亮 */
+mark.purple {
+  --ctl-highlight-color: var(--mark-purple) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+}
+
+/* 黄色高亮 */
+mark.yellow {
+  --ctl-highlight-color: var(--mark-yellow) !important;
+  background-image: linear-gradient(45deg, var(--ctl-highlight-color) 0%, var(--ctl-highlight-color) 100%) !important;
+}
+/* ==============================================
+   6. 文字颜色样式（span 元素）
+   ============================================== */
+span.red {
+  color: var(--span-red) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+span.blue {
+  color: var(--span-blue) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+span.yellow {
+  color: var(--span-yellow) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+span.green {
+  color: var(--span-green) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+span.purple {
+  color: var(--span-purple) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+/* ==============================================
+   7. 下划线高亮样式（u 元素）
+   ============================================== */
+u.red {
+  text-decoration: underline !important;
+  text-decoration-color: var(--span-red) !important;
+  text-decoration-thickness: 2px !important;
+  text-decoration-skip-ink: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+u.blue {
+  text-decoration: underline !important;
+  text-decoration-color: var(--span-blue) !important;
+  text-decoration-thickness: 2px !important;
+  text-decoration-skip-ink: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+u.yellow {
+  text-decoration: underline !important;
+  text-decoration-color: var(--span-yellow) !important;
+  text-decoration-thickness: 2px !important;
+  text-decoration-skip-ink: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+u.green {
+  text-decoration: underline !important;
+  text-decoration-color: var(--span-green) !important;
+  text-decoration-thickness: 2px !important;
+  text-decoration-skip-ink: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+u.purple {
+  text-decoration: underline !important;
+  text-decoration-color: var(--span-purple) !important;
+  text-decoration-thickness: 2px !important;
+  text-decoration-skip-ink: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: inline !important;
+  border: none !important;
+}
+/* ==============================================
+   8. 特殊样式
+   ============================================== */
+.block-content-inner:has(+ .block-body [data-ref="#caption"] + mark) > .flex-1 {
+  text-align: center;
+}
+
+/* ==============================================
+   9. Cloze 样式
+   ============================================== */
+span.cloze {
+  color: transparent !important;
+  font-size: 0 !important;
+  background: #e6e6e6;
+  border-radius: 2px;
+  padding: 1px 6px;
+  margin: 0 2px;
+  position: relative;
+}
+
+span.cloze::after {
+  content: "...";
+  font-size: 16px;
+  color: #999;
+  letter-spacing: 2px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 深色主题下的cloze样式 */
+[data-theme="dark"] span.cloze {
+  background: #444;
+}
+
+[data-theme="dark"] span.cloze::after {
+  color: #aaa;
+}
+
+/* ==============================================
+   10. Inline Comment 样式
+   ============================================== */
+span.inline-comment {
+  background: rgba(251, 191, 36, 0.2);
+  border-bottom: 2px dashed #fbbf24;
+  padding: 1px 4px;
+  margin: 0 2px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+span.inline-comment:hover {
+  background: rgba(251, 191, 36, 0.4);
+}
+
+span.inline-comment::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  background: var(--ls-primary-background-color, #ffffff);
+  color: var(--ls-secondary-text-color, #666);
+  padding: 4px 10px 4px 22px;
+  border-radius: 16px;
+  font-size: 11px;
+  white-space: nowrap;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  margin-bottom: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: inline-flex;
+  align-items: center;
+}
+
+span.inline-comment::after {
+  content: attr(data-comment);
+}
+
+span.inline-comment::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23a3e635' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1'/%3E%3C/svg%3E");
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  background-position: 6px center;
+}
+
+/* 深色主题下的气泡样式 */
+[data-theme="dark"] span.inline-comment::after {
+  background: var(--ls-primary-background-color, #1f2937);
+  color: var(--ls-primary-text-color, #f9fafb);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+span.inline-comment:hover::after {
+  opacity: 1;
+}
+
+/* 深色主题下的inline-comment样式 */
+[data-theme="dark"] span.inline-comment {
+  background: rgba(251, 191, 36, 0.15);
+}
+
+[data-theme="dark"] span.inline-comment:hover {
+  background: rgba(251, 191, 36, 0.3);
+}
