@@ -123,6 +123,12 @@ Initiation → Planning，两个阶段均渲染。
 
 设置定期生成的 HTML 为 Dashboard，全屏打开；链接可跳 Logseq 页面/块。
 
+### HTML 阅读器设置
+
+![HTML 阅读器设置](assets/13-html-viewer-settings.png)
+
+Dashboard 选择、全屏开关、标注写回、脚本/远程资源开关。
+
 ## 报告生成过程中发现并修复的问题
 
 | 问题 | 影响 | 修复 |
