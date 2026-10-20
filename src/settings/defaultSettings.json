@@ -133,6 +133,8 @@
     "writeAnnotationsToGraph": true,
     "annotationPagePrefix": "HTML 标注 - ",
     "showToolbarButton": true,
+    "dashboardAsset": "",
+    "dashboardFullscreen": true,
     "defaultSlashCommandTemplate": ":html-viewer"
   },
   "milestone": {

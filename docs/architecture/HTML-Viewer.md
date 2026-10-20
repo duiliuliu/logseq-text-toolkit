@@ -36,6 +36,49 @@ The asset picker lists `Assets.listFilesOfCurrentGraph(['html', 'htm'])`; if the
 host does not implement asset listing, a path can be entered manually
 (`assets/report.html`).
 
+## Dashboard mode
+
+A periodically generated HTML report can be registered as the dashboard:
+
+- Settings → HTML Viewer → Dashboard: choose `assets/<generated>.html`
+- The toolbar button then becomes **Dashboard** and opens that file fullscreen
+- `[Text Toolkit] Open Dashboard` command opens the same file
+- Leave the dashboard asset empty to keep the toolbar button as the attachment picker
+
+The dashboard is a viewer surface, not a second data store. Replacing the HTML
+file is enough to refresh it; no Logseq DB migration is needed.
+
+### Links from dashboard HTML to Logseq
+
+Scripts remain disabled by default. The viewer's parent page attaches a safe
+click bridge, so generated HTML can link to graph nodes without JavaScript:
+
+```html
+<a href="logseq://page/2026-W42">This week's report</a>
+<a href="logseq://block/6a1f3c2e-...">Open a specific task</a>
+```
+
+Also supported for generated dashboards:
+
+```html
+<button data-ls-call="App.pushState"
+        data-ls-args='{"k":"page","params":{"name":"2026-W42"}}'>
+  This week's report
+</button>
+<button data-ls-call="Editor.openInRightSidebar"
+        data-ls-args='{"idOrKey":"6a1f3c2e-..."}'>
+  Open in sidebar
+</button>
+```
+
+Only a small navigation whitelist is allowed (`App.pushState`,
+`App.openExternalLink`, `Editor.openInRightSidebar`). Write operations are
+intentionally not available to dashboard HTML.
+
+The dashboard does not change Logseq's `:default-home`; that remains a user
+config entry. A generated dashboard can be opened from the toolbar or command
+without touching graph configuration.
+
 ## Annotation storage
 
 Two layers:

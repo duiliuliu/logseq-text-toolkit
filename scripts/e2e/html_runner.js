@@ -105,6 +105,33 @@
   }
 
   try {
+    window.logseq.settings.htmlViewer = {
+      ...(window.logseq.settings.htmlViewer || {}),
+      dashboardAsset: 'assets/sample.html',
+      dashboardFullscreen: true,
+    };
+    await s.models.openDashboard();
+    const dashboardFrame = await waitForFrame();
+    const dashboardPanel = document.querySelector('.ltt-html-viewer-panel');
+    const fullscreen = dashboardPanel?.classList.contains('is-fullscreen');
+    let linked = false;
+    if (dashboardFrame) {
+      const link = dashboardFrame.contentDocument?.getElementById('e2e-page-link');
+      link?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      await wait(300);
+      linked = s.pushes.some((push) => push?.args?.name === 'E2E-Dashboard');
+    }
+    add('html-dashboard', !!dashboardFrame && !!fullscreen && linked, {
+      frame: !!dashboardFrame,
+      fullscreen: !!fullscreen,
+      linked,
+      pushes: s.pushes.slice(-3),
+    });
+  } catch (error) {
+    add('html-dashboard', false, String(error));
+  }
+
+  try {
     document.querySelector('[data-action="close"]')?.click();
     await wait(400);
     const closed = !document.querySelector('.ltt-html-viewer-panel');

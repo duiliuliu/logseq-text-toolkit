@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
 import { HtmlViewerSettings as HtmlViewerSettingsType } from '../../../settings/types'
 import { TabComponentProps } from '../index'
+import { logseqAPI } from '../../../logseq'
 
 const DEFAULT_SETTINGS: HtmlViewerSettingsType = {
   enabled: true,
@@ -13,10 +14,29 @@ const DEFAULT_SETTINGS: HtmlViewerSettingsType = {
   writeAnnotationsToGraph: true,
   annotationPagePrefix: 'HTML 标注 - ',
   showToolbarButton: true,
+  dashboardAsset: '',
+  dashboardFullscreen: true,
   defaultSlashCommandTemplate: ':html-viewer',
 }
 
 function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
+  const [dashboardAssets, setDashboardAssets] = useState<string[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        const files = await logseqAPI.Assets?.listFilesOfCurrentGraph?.(['html', 'htm'])
+        if (!cancelled && Array.isArray(files)) {
+          setDashboardAssets(files.map((file: any) => String(file.path || '')).filter(Boolean))
+        }
+      } catch {
+        // Manual asset path below remains available.
+      }
+    })()
+    return () => { cancelled = true }
+  }, [])
+
   const current: HtmlViewerSettingsType = {
     ...DEFAULT_SETTINGS,
     ...(settings?.htmlViewer || {}),
@@ -85,6 +105,48 @@ function HtmlViewerSettings({ settings, setSettings, onSave, isSaving, language 
           />
           <span className="ltt-switch-slider"></span>
         </label>
+      </div>
+
+      <div className="ltt-settings-section">
+        <h4>{t('settings.htmlViewer.dashboardSection' as any, language)}</h4>
+        <div className="ltt-setting-item">
+          <label>{t('settings.htmlViewer.dashboardAsset' as any, language)}</label>
+          <CustomSelect
+            options={[
+              { value: '', label: t('settings.htmlViewer.dashboardNone' as any, language) },
+              ...dashboardAssets.map((path) => ({ value: path, label: path })),
+              ...(current.dashboardAsset && !dashboardAssets.includes(current.dashboardAsset)
+                ? [{ value: current.dashboardAsset, label: current.dashboardAsset }]
+                : []),
+            ]}
+            value={current.dashboardAsset}
+            onChange={(value) => update({ dashboardAsset: value })}
+          />
+        </div>
+        <div className="ltt-setting-item">
+          <label>{t('settings.htmlViewer.dashboardFullscreen' as any, language)}</label>
+          <label className="ltt-switch">
+            <input
+              type="checkbox"
+              checked={current.dashboardFullscreen}
+              onChange={(e) => update({ dashboardFullscreen: e.target.checked })}
+            />
+            <span className="ltt-switch-slider"></span>
+          </label>
+        </div>
+        <p className="ltt-tab-section-description-small">
+          {t('settings.htmlViewer.dashboardHint' as any, language)}
+        </p>
+        {dashboardAssets.length === 0 && (
+          <div className="ltt-setting-item">
+            <input
+              type="text"
+              value={current.dashboardAsset}
+              onChange={(e) => update({ dashboardAsset: e.target.value })}
+              placeholder={t('settings.htmlViewer.dashboardAssetPlaceholder' as any, language)}
+            />
+          </div>
+        )}
       </div>
 
       <div className="ltt-setting-item">

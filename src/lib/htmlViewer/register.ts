@@ -14,6 +14,8 @@ const ID = 'text-toolkit-html-viewer';
 
 let viewerOpen = false;
 let initialPath = '';
+let initialFullscreen = false;
+let dashboardMode = false;
 
 function renderViewer(): void {
   const container = getDocument().getElementById(ID);
@@ -22,6 +24,8 @@ function renderViewer(): void {
   renderComponent(container, HtmlViewer, {
     isOpen: viewerOpen,
     initialPath,
+    initialFullscreen,
+    dashboardMode,
     onClose: () => {
       viewerOpen = false;
       renderViewer();
@@ -49,16 +53,36 @@ export async function initHtmlViewer(): Promise<void> {
       openHtmlViewer();
     }
   );
+  logseqAPI.Editor.registerSlashCommand(
+    '[Text Toolkit] Open Dashboard',
+    async () => {
+      openDashboard();
+    }
+  );
 
   registerHtmlAssetBlockRenderer();
   registerHtmlViewerToolbarButton();
   logger.info('[HtmlViewer] Registered successfully');
 }
 
-export function openHtmlViewer(path: string = ''): void {
+export function openHtmlViewer(path: string = '', options: { fullscreen?: boolean; dashboard?: boolean } = {}): void {
   initialPath = path;
+  initialFullscreen = options.fullscreen === true;
+  dashboardMode = options.dashboard === true;
   viewerOpen = true;
   renderViewer();
+}
+
+export function openDashboard(): void {
+  const settings = getSettings().htmlViewer;
+  if (!settings?.dashboardAsset) {
+    openHtmlViewer();
+    return;
+  }
+  openHtmlViewer(settings.dashboardAsset, {
+    fullscreen: settings.dashboardFullscreen !== false,
+    dashboard: true,
+  });
 }
 
 export function closeHtmlViewer(): void {
@@ -70,12 +94,17 @@ function registerHtmlViewerToolbarButton(): void {
   const settings = getSettings().htmlViewer;
   if (settings?.showToolbarButton === false) return;
   const language = getSettings().language || 'zh-CN';
-  const title = t('settings.htmlViewer.toolbarLabel' as any, language);
+  const hasDashboard = Boolean(settings?.dashboardAsset);
+  const title = hasDashboard
+    ? t('settings.htmlViewer.dashboardSection' as any, language)
+    : t('settings.htmlViewer.toolbarLabel' as any, language);
+  const action = hasDashboard ? 'openDashboard' : 'openHtmlViewer';
+  const icon = hasDashboard ? 'ti-layout-dashboard' : 'ti-file-type-html';
 
   try {
     logseqAPI.App.registerUIItem('toolbar', {
       key: 'ltt-html-viewer-button',
-      template: `<a class="button" id="ltt-html-viewer-button" data-on-click="openHtmlViewer" title="${title}"><i class="ti ti-file-type-html"></i></a>`,
+      template: `<a class="button" id="ltt-html-viewer-button" data-on-click="${action}" title="${title}"><i class="ti ${icon}"></i></a>`,
     });
   } catch (error) {
     logger.warn('[HtmlViewer] Failed to register toolbar button', error);

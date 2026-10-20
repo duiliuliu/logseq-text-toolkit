@@ -18,6 +18,7 @@ import {
   writeAnnotationToGraph,
 } from '../../lib/htmlViewer/graph'
 import { sanitizeHtml } from '../../lib/htmlViewer/sanitize'
+import { isSafeDashboardCall, parseLogseqHref } from '../../lib/htmlViewer/links'
 import type { HtmlAnnotation, HtmlAssetFile, SelectionSnapshot } from '../../lib/htmlViewer/types'
 import './htmlViewer.css'
 
@@ -25,6 +26,8 @@ interface HtmlViewerProps {
   isOpen: boolean;
   onClose: () => void;
   initialPath?: string;
+  initialFullscreen?: boolean;
+  dashboardMode?: boolean;
 }
 
 interface ViewerSettings {
@@ -68,7 +71,7 @@ function createId(): string {
   }
 }
 
-export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initialPath }) => {
+export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initialPath, initialFullscreen, dashboardMode }) => {
   const language = getSettings().language || 'zh-CN'
   const [viewerSettings, setViewerSettings] = useState<ViewerSettings>(() => currentSettings())
   const [assets, setAssets] = useState<HtmlAssetFile[]>([])
@@ -118,7 +121,8 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
     setViewerSettings(next)
     setSide(next.defaultSide)
     setWidth(clampWidth(next.defaultWidth))
-    setFullscreen(false)
+    setFullscreen(Boolean(initialFullscreen))
+    setShowList(!dashboardMode)
     setError('')
     setMessage('')
     void refreshAssets(true)
@@ -126,7 +130,7 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
       void openAsset(initialPath)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, initialPath])
+  }, [isOpen, initialPath, initialFullscreen, dashboardMode])
 
   const refreshAssets = async (autoOpen = false) => {
     setAssetsLoading(true)
@@ -213,6 +217,45 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
     return () => window.clearTimeout(timer)
   }, [html, selectedPath, annotations, refreshHighlights])
 
+  const navigateLogseqHref = async (href: string) => {
+    const parsed = parseLogseqHref(href)
+    if (!parsed) return false
+    if (parsed.type === 'page') {
+      await logseqAPI.App?.pushState?.('page', { name: parsed.name })
+      return true
+    }
+    try {
+      const block = await logseqAPI.Editor?.getBlock?.(parsed.uuid, { includeChildren: false })
+      const pageName = block?.page?.name || block?.page?.title || block?.page?.originalName
+      if (!pageName) return false
+      await logseqAPI.App?.pushState?.('page', { name: pageName })
+      await logseqAPI.Editor?.scrollToBlockInPage?.(pageName, parsed.uuid)
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  const handleDashboardCall = async (element: HTMLElement) => {
+    const method = element.getAttribute('data-ls-call') || ''
+    if (!isSafeDashboardCall(method)) return false
+    let args: any = {}
+    try {
+      args = JSON.parse(element.getAttribute('data-ls-args') || '{}')
+    } catch {
+      return false
+    }
+    if (method === 'App.pushState') {
+      await logseqAPI.App?.pushState?.(args.k || 'page', args.params || {})
+    } else if (method === 'App.openExternalLink' && args.url) {
+      await logseqAPI.App?.openExternalLink?.(String(args.url))
+    } else if (method === 'Editor.openInRightSidebar' && args.idOrKey) {
+      await logseqAPI.Editor?.openInRightSidebar?.(String(args.idOrKey))
+    }
+    return true
+  }
+
+  // Selection events live inside the sandboxed document. Scripts are disabled,
   // Selection events live inside the sandboxed document. Scripts are disabled,
   // but allow-same-origin lets the host attach read-only selection listeners.
   useEffect(() => {
@@ -249,9 +292,25 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
 
     const onClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null
+      const callElement = target?.closest?.('[data-ls-call]') as HTMLElement | null
+      if (callElement) {
+        event.preventDefault()
+        void handleDashboardCall(callElement).then((handled) => {
+          if (!handled) notify(t('settings.htmlViewer.linkUnsupported' as any, language), 'warning')
+        })
+        return
+      }
+
       const link = target?.closest?.('a[href]') as HTMLAnchorElement | null
       if (!link) return
       const href = link.getAttribute('href') || ''
+      if (/^logseq:\/\//i.test(href)) {
+        event.preventDefault()
+        void navigateLogseqHref(href).then((handled) => {
+          if (!handled) notify(t('settings.htmlViewer.linkUnsupported' as any, language), 'warning')
+        })
+        return
+      }
       if (/^https?:\/\//i.test(href)) {
         event.preventDefault()
         void logseqAPI.App?.openExternalLink?.(href)
@@ -399,7 +458,7 @@ export const HtmlViewer: React.FC<HtmlViewerProps> = ({ isOpen, onClose, initial
         />
         <header className="ltt-html-viewer-header">
           <div className="ltt-html-viewer-heading">
-            <strong>{t('settings.htmlViewer.openButton' as any, language)}</strong>
+            <strong>{t(dashboardMode ? 'settings.htmlViewer.dashboardSection' : 'settings.htmlViewer.openButton' as any, language)}</strong>
             <span className="ltt-html-viewer-file" title={selectedPath}>
               {selectedPath ? basename(selectedPath) : t('settings.htmlViewer.assets' as any, language)}
             </span>

@@ -25,8 +25,9 @@ PASS  summary-replace
 PASS  html-viewer-open
 PASS  html-viewer-annotation
 PASS  html-viewer-panel-controls
+PASS  html-dashboard
 PASS  html-viewer-persistence
-4/4 passed
+5/5 passed
 
 === native fallback suite ===
 PASS  native-host-no-sdk-hook

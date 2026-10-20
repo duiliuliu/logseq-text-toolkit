@@ -16,7 +16,7 @@
 
   try {
     add('plugin-registration',
-      s.ready === true && s.macroHandlers.length === 4 && Object.keys(s.commands).length === 6,
+      s.ready === true && s.macroHandlers.length === 4 && Object.keys(s.commands).length === 7,
       { ready: s.ready, handlers: s.macroHandlers.length, commands: Object.keys(s.commands) });
     add('style-and-i18n', document.styleSheets.length >= 10,
       { styleSheets: document.styleSheets.length });

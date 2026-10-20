@@ -185,6 +185,8 @@ export interface HtmlViewerSettings {
   writeAnnotationsToGraph: boolean
   annotationPagePrefix: string
   showToolbarButton: boolean
+  dashboardAsset: string
+  dashboardFullscreen: boolean
   defaultSlashCommandTemplate?: string
 }
 

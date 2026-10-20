@@ -202,6 +202,7 @@
 | 跳回原文 | 使用 quote + prefix/suffix + offset 还原高亮 |
 | 图谱联动 | 标注优先挂到 HTML asset 块下，生成普通子块；无法解析 asset 时回退标注页面 |
 | 安全默认 | 默认禁用脚本和远程资源；单附件显式开启 |
+| Dashboard | 设置定期生成的 HTML 为 Dashboard，工具栏一键全屏打开；支持跳 Logseq 页面/块 |
 
 详见 [HTML-Viewer.md](docs/architecture/HTML-Viewer.md)。
 
