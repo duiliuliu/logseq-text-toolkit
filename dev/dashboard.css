@@ -1,0 +1,40 @@
+.ltt-dashboard { border:1px solid var(--ls-border-color-plugin,#d9d8ce); background:var(--ls-primary-background-color-plugin,#fffdf8); border-radius:18px; padding:18px; color:var(--ls-primary-text-color-plugin,#18211e); max-width:100%; }
+.ltt-dashboard-head { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; margin-bottom:16px; }
+.ltt-dashboard-kicker { font-size:9px; letter-spacing:.18em; color:#0f766e; font-weight:800; }
+.ltt-dashboard-head h3 { margin:5px 0 3px; font-size:23px; letter-spacing:-.04em; }
+.ltt-dashboard-head p { margin:0; color:#68736e; font-size:11px; }
+.ltt-dashboard-refresh { border:1px solid #d9d8ce; background:#faf9f4; color:#68736e; border-radius:99px; padding:7px 10px; font-size:10px; cursor:pointer; white-space:nowrap; }
+.ltt-dashboard-refresh:hover { color:#0f766e; border-color:#9bc7ba; }
+.ltt-dashboard-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }
+.ltt-dashboard-stats > div { background:#f7f5ee; border:1px solid #e6e3d8; border-radius:12px; padding:9px 10px; }
+.ltt-dashboard-stats b { display:block; font-size:22px; letter-spacing:-.04em; }
+.ltt-dashboard-stats span { color:#68736e; font-size:10px; }
+.ltt-dashboard-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.ltt-dashboard-card { border:1px solid #e6e3d8; border-radius:14px; padding:12px; min-width:0; }
+.ltt-dashboard-card header { display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:750; }
+.ltt-dashboard-card header button { border:0; background:transparent; color:#0f766e; font-size:10px; cursor:pointer; }
+.ltt-dashboard-status { display:flex; flex-wrap:wrap; gap:4px; margin:10px 0 4px; }
+.ltt-dashboard-pill { border:1px solid #e6e3d8; border-radius:99px; padding:3px 6px; font-size:9px; color:#68736e; }
+.ltt-dashboard-pill b { color:#18211e; }
+.ltt-dashboard-list { list-style:none; margin:8px 0 0; padding:0; }
+.ltt-dashboard-list li { display:grid; grid-template-columns:6px 1fr 30px; gap:6px; align-items:center; padding:5px 0; border-top:1px solid #efede4; font-size:10px; }
+.ltt-dashboard-list li:first-child { border-top:0; }
+.ltt-dashboard-list li > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ltt-dashboard-list li > time { text-align:right; color:#8b958f; font-size:9px; }
+.ltt-dashboard-list li > i { width:5px; height:5px; border-radius:50%; background:#94a3b8; }
+.ltt-dashboard-list li > i.status-doing { background:#0f766e; } .ltt-dashboard-list li > i.status-done { background:#166534; } .ltt-dashboard-list li > i.status-waiting { background:#b45309; }
+.ltt-dashboard-reports { display:grid; gap:5px; margin-top:10px; }
+.ltt-dashboard-reports button { text-align:left; border:1px solid #e6e3d8; background:#faf9f4; border-radius:9px; padding:7px 8px; cursor:pointer; overflow:hidden; }
+.ltt-dashboard-reports button:hover { border-color:#9bc7ba; background:#f2f8f5; }
+.ltt-dashboard-reports b { display:block; font-size:10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ltt-dashboard-reports span { display:block; color:#68736e; font-size:9px; margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ltt-dashboard-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+.ltt-dashboard-tags span { display:flex; gap:5px; align-items:center; border:1px solid #e6e3d8; background:#faf9f4; border-radius:99px; padding:4px 7px; font-size:10px; }
+.ltt-dashboard-tags b { font-weight:650; max-width:90px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ltt-dashboard-tags i { font-style:normal; color:#0f766e; font-size:9px; }
+.ltt-dashboard-empty { color:#8b958f; font-size:10px; line-height:1.5; margin:8px 0 0; }
+.ltt-toolbar-dark .ltt-dashboard, .dark .ltt-dashboard { background:#1c2421; color:#e8eee9; border-color:#33413b; }
+.ltt-toolbar-dark .ltt-dashboard-card, .dark .ltt-dashboard-card { border-color:#33413b; }
+.ltt-toolbar-dark .ltt-dashboard-stats > div, .dark .ltt-dashboard-stats > div { background:#222d28; border-color:#33413b; }
+.ltt-toolbar-dark .ltt-dashboard-head p, .dark .ltt-dashboard-head p, .ltt-toolbar-dark .ltt-dashboard-empty, .dark .ltt-dashboard-empty { color:#9aa9a2; }
+@media (max-width:680px) { .ltt-dashboard-grid { grid-template-columns:1fr; } .ltt-dashboard-stats { grid-template-columns:1fr 1fr; } }
