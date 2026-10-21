@@ -4,6 +4,7 @@ import { PageGenerator } from './PageGenerator';
 import { SummaryModal } from '../../components/Summary/SummaryModal';
 import { renderComponent } from '../render';
 import { getDocument } from '../../logseq/utils';
+import { waitForElementById } from '../render/slot';
 
 const ID = {
   SUMMARY_MODAL: 'text-toolkit-summary-modal',
@@ -30,17 +31,19 @@ export async function initSummaryModal(): Promise<void> {
     path: '#app-container',
     template: `<div id="${ID.SUMMARY_MODAL}"></div>`,
   });
-  setTimeout(renderSummaryModal, 1);
+  await waitForElementById(ID.SUMMARY_MODAL);
+  renderSummaryModal();
 }
 
-export function toggleSummaryModal(): void {
+export async function toggleSummaryModal(): Promise<void> {
   summaryModalOpen = !summaryModalOpen;
   logseqAPI.provideUI({
     key: ID.SUMMARY_MODAL,
     path: '#app-container',
     template: `<div id="${ID.SUMMARY_MODAL}"></div>`,
   });
-  setTimeout(renderSummaryModal, 1);
+  await waitForElementById(ID.SUMMARY_MODAL);
+  renderSummaryModal();
 }
 
 export function registerSummaryCommands(): void {
@@ -69,7 +72,12 @@ export async function generateSummary(
   );
 
   if (pageName) {
-    await logseqAPI.Editor.scrollToBlockInPage(pageName);
+    try {
+      await logseqAPI.App.pushState('page', { name: pageName });
+    } catch (error) {
+      // 页面已经生成成功；导航失败不应该让 UI 误报“生成失败”。
+      logger.warn('[Summary] Page generated but navigation failed', error);
+    }
     logger.info(`✅ Summary: Generated page "${pageName}"`);
   }
 

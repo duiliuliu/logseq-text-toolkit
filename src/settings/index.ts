@@ -9,17 +9,22 @@ import { logseqAPI } from '../logseq'
 import logger from '../lib/logger/index'
 
 function processSettings(logseqSettings: any, userConfigs?: any): Settings {
+  const pickBoolean = (key: keyof Settings): boolean => (
+    logseqSettings[key] === undefined
+      ? Boolean((defaultSettings as any)[key])
+      : Boolean(logseqSettings[key])
+  )
   const settings = {
     ...defaultSettings,
     ...logseqSettings,
     theme: (logseqSettings.theme || 'light') as ThemeType,
     language: (logseqSettings.language || 'zh-CN') as LanguageType,
-    useSystemTheme: Boolean(logseqSettings.useSystemTheme),
-    useSystemLanguage: Boolean(logseqSettings.useSystemLanguage),
-    toolbar: Boolean(logseqSettings.toolbar),
-    disabled: Boolean(logseqSettings.disabled),
-    showBorder: Boolean(logseqSettings.showBorder),
-    sponsorEnabled: Boolean(logseqSettings.sponsorEnabled),
+    useSystemTheme: pickBoolean('useSystemTheme'),
+    useSystemLanguage: pickBoolean('useSystemLanguage'),
+    toolbar: pickBoolean('toolbar'),
+    disabled: pickBoolean('disabled'),
+    showBorder: pickBoolean('showBorder'),
+    sponsorEnabled: pickBoolean('sponsorEnabled'),
     hoverDelay: parseInt(logseqSettings.hoverDelay) || 500,
     toolbarShortcut: logseqSettings.toolbarShortcut || '',
   }

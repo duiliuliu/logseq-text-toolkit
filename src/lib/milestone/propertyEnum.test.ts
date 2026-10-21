@@ -58,6 +58,21 @@ describe('PropertyEnumService', () => {
       expect(logseqAPI.DB.datascriptQuery).toHaveBeenCalled();
     });
 
+    it('should normalize user.property/ without leading colon', async () => {
+      (logseqAPI.DB.datascriptQuery as any).mockResolvedValue([]);
+      await PropertyEnumService.getPropertyEnums('user.property/phase');
+      const query = (logseqAPI.DB.datascriptQuery as any).mock.calls[0][0] as string;
+      expect(query).toContain(':user.property/phase');
+      expect(query).not.toContain('user.property/user.property');
+    });
+
+    it('should normalize plugin.property prefix', async () => {
+      (logseqAPI.DB.datascriptQuery as any).mockResolvedValue([]);
+      await PropertyEnumService.getPropertyEnums('plugin.property.abc/phase');
+      const query = (logseqAPI.DB.datascriptQuery as any).mock.calls[0][0] as string;
+      expect(query).toContain(':plugin.property.abc/phase');
+    });
+
     it('should handle keys with leading colon', async () => {
       (logseqAPI.DB.datascriptQuery as any).mockResolvedValue([]);
       

@@ -1,4 +1,4 @@
-import { SummaryTemplate, SummaryData, BlockNode, SummaryType } from '../types';
+import { TemplateType, SummaryTemplate, SummaryData, BlockNode, SummaryType } from '../types';
 import { DataAnalyzer } from '../DataAnalyzer';
 
 export class MinimalDashboardTemplate implements SummaryTemplate {
@@ -15,6 +15,7 @@ export class MinimalDashboardTemplate implements SummaryTemplate {
 
   render(data: SummaryData, _params: Record<string, any>): BlockNode[] {
     const topTags = this.analyzer.getTopTags(data.blocks.tags, 3);
+    const insights = data.aiSuggestions?.length ? data.aiSuggestions : (data.insights || []);
     const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
 
     return [
@@ -31,7 +32,7 @@ export class MinimalDashboardTemplate implements SummaryTemplate {
           {
             content: '## 📝 内容统计',
             children: [
-              { content: `总块数: ${data.blocks.total}` },
+              { content: `涉及块数: ${data.blocks.total}` },
               { content: `创建: ${data.blocks.created}` },
               { content: `修改: ${data.blocks.modified}` },
               { content: `平均长度: ${data.blocks.avgContentLength} 字符` },
@@ -60,6 +61,12 @@ export class MinimalDashboardTemplate implements SummaryTemplate {
             children: topTags.map(([tag, count]) => ({
               content: `${tag}: ${count}`,
             })),
+          },
+          {
+            content: '## 💡 自动洞察',
+            children: insights.length > 0
+              ? insights.map((item) => ({ content: `- ${item}` }))
+              : [{ content: '- 暂无额外洞察' }],
           },
         ],
       },

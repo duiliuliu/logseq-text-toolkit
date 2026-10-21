@@ -1,10 +1,11 @@
 {
   "title": "Text Toolkit",
-  "description": "A toolkit for text formatting and manipulation",
+  "description": "A DB-first Logseq toolkit with HTML viewer, annotations and dashboards",
   "author": "duiliuliu",
   "repo": "duiliuliu/logseq-text-toolkit",
   "icon": "./icon.png",
   "unsupportedGraphType": "file",
   "supportsDB": true,
-  "supportsDBOnly": true
+  "supportsDBOnly": true,
+  "minSDKVersion": "0.3.1"
 }

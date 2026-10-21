@@ -1,7 +1,7 @@
 {
   "name": "logseq-text-toolkit",
-  "version": "1.1.17",
-  "description": "A toolkit for text formatting and manipulation in Logseq",
+  "version": "1.2.25",
+  "description": "A DB-first Logseq toolkit for text formatting, tasks, heatmaps, block views, summaries, HTML reading/annotations and AI-generated dashboards",
   "author": "duiliuliu",
   "license": "MIT",
   "keywords": [
@@ -28,17 +28,24 @@
     "总结",
     "块视图",
     "里程碑",
-    "评论"
+    "评论",
+    "html",
+    "html-viewer",
+    "dashboard",
+    "annotation",
+    "pdf",
+    "reader"
   ],
   "main": "dist/index.html",
   "logseq": {
     "id": "logseq-text-toolkit",
     "title": "Text Toolkit",
-    "description": "A toolkit for text formatting and manipulation",
+    "description": "Text Toolkit with HTML viewer, annotations and dashboards",
     "main": "dist/index.html",
     "icon": "./icon.png",
-    "minSDKVersion": "0.2.12",
-    "supportsDB": true
+    "minSDKVersion": "0.3.1",
+    "supportsDB": true,
+    "supportsDBOnly": true
   },
   "scripts": {
     "dev": "vite --mode test",
@@ -58,10 +65,12 @@
     "build:plugin": "npm run validate:translations && vite build && npm run copy-assets",
     "preview": "vite preview",
     "copy-assets": "mkdir -p dist/translations && cp -f src/translations/*.json dist/translations/ && npm run copy-css",
-    "copy-css": "node scripts/copy-css.js"
+    "copy-css": "node scripts/copy-css.js",
+    "e2e": "npm run build:plugin && node scripts/e2e/run.mjs",
+    "e2e:no-build": "node scripts/e2e/run.mjs"
   },
   "dependencies": {
-    "@logseq/libs": "^0.3.3",
+    "@logseq/libs": "^0.3.4",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@thi.ng/hiccup": "^5.4.5",
     "dayjs": "^1.11.20",

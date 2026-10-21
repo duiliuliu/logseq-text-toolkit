@@ -15,6 +15,7 @@ export class BulletJournalTemplate implements SummaryTemplate {
 
   render(data: SummaryData, _params: Record<string, any>): BlockNode[] {
     const topTags = this.analyzer.getTopTags(data.blocks.tags, 5);
+    const insights = data.aiSuggestions?.length ? data.aiSuggestions : (data.insights || []);
     const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
 
     return [
@@ -58,6 +59,12 @@ export class BulletJournalTemplate implements SummaryTemplate {
             children: topTags.map(([tag, count]) => ({
               content: `${tag}: ${count}`,
             })),
+          },
+          {
+            content: '## 💡 自动洞察',
+            children: insights.length > 0
+              ? insights.map((item) => ({ content: `- ${item}` }))
+              : [{ content: '- 暂无额外洞察' }],
           },
           {
             content: '## 🎯 下周/下月目标',

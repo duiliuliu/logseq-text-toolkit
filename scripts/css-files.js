@@ -20,5 +20,6 @@ module.exports = [
   "boardView.css",
   "mindMapView.css",
   "listView.css",
-  "milestone.css"
+  "milestone.css",
+  "htmlViewer.css"
 ]

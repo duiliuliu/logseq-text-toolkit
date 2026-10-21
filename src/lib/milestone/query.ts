@@ -8,6 +8,28 @@ import { StatusCalculator } from './statusCalculator';
 import logger from '../logger/index';
 import { logseqAPI } from '../../logseq';
 
+function readTitle(value: any): string {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  return value[':block/title']
+    ?? value['block/title']
+    ?? value['title']
+    ?? value[':title']
+    ?? '';
+}
+
+function escapeQueryString(value: string): string {
+  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+function normalizePropertyKey(key: string): string {
+  return key.startsWith(':') ? key : `:${key}`;
+}
+
+function isPropertyKey(key: string): boolean {
+  return /^(?::)?(?:user|logseq|plugin)\.property\//.test(key);
+}
+
 export class MilestoneQuery {
   /**
    * 公开的排序方法，供测试使用
@@ -121,7 +143,7 @@ export class MilestoneQuery {
       }
 
       if (property) {
-        return await this.queryByPropertyEnum(property, filterTag, dateField, formattedMilestonePropKey);
+        return await this.queryByPropertyEnum(property, filterTag, dateField);
       }
 
       if (filterTag) {
@@ -538,9 +560,10 @@ export class MilestoneQuery {
       if (value !== undefined && value !== null) {
         if (typeof value === 'object') {
           // 尝试多种可能的标题键名
-          if (value['title']) return value['title'];
-          if (value['block/title']) return value['block/title'];
           if (value[':block/title']) return value[':block/title'];
+          if (value['block/title']) return value['block/title'];
+          if (value['title']) return value['title'];
+          if (value[':title']) return value[':title'];
         }
         return String(value);
       }
@@ -629,7 +652,7 @@ export class MilestoneQuery {
     const query = `[:find (pull ?b ${pullSpec})
                     :where
                     [?b :block/tags ?t]
-                    [?t :block/title "${tag}"]]`;
+                    [?t :block/title "${escapeQueryString(tag)}"]]`;
 
     try {
       const result = await logseqAPI.DB.datascriptQuery(query);
@@ -753,15 +776,15 @@ export class MilestoneQuery {
     let query = `[:find (pull ?b ${pullSpec})
                     :where
                     [?b :${formattedKey} ?val]
-                    [?val :block/title "${filterPropValue}"]]`;
+                    [?val :block/title "${escapeQueryString(filterPropValue)}"]]`;
 
     if (filterTag) {
       query = `[:find (pull ?b ${pullSpec})
                 :where
                 [?b :${formattedKey} ?val]
-                [?val :block/title "${filterPropValue}"]
+                [?val :block/title "${escapeQueryString(filterPropValue)}"]
                 [?b :block/tags ?t]
-                [?t :block/title "${filterTag}"]]`;
+                [?t :block/title "${escapeQueryString(filterTag)}"]]`;
     }
 
     try {
@@ -795,13 +818,15 @@ export class MilestoneQuery {
       ? `[* {${milestonePropKey} [:block/title]}]` 
       : `[*]`;
 
-    const parentIdPattern = parentUuids.map(uuid => `["${uuid}"]`).join(' | ');
+    const uuidSet = `#{${parentUuids.map(uuid => `"${uuid}"`).join(' ')}}`;
     const query = `[:find (pull ?child ${pullSpec})
                     :where
                     [?child :block/parent ?parent]
-                    [?parent :block/uuid ${parentIdPattern}]
-                    [?child :block/content ?c]
-                    [(clojure.string/includes? ?c "${stage}")]]`;
+                    [?parent :block/uuid ?parentUuid]
+                    [(str ?parentUuid) ?parentUuidStr]
+                    [(contains? ${uuidSet} ?parentUuidStr)]
+                    [?child :block/title ?c]
+                    [(clojure.string/includes? ?c "${escapeQueryString(stage)}")]]`;
 
     try {
       const result = await logseqAPI.DB.datascriptQuery(query);
@@ -899,15 +924,15 @@ export class MilestoneQuery {
       : `[*]`;
 
     let query = `[:find (pull ?b ${pullSpec}) :where
-                  [?b :block/content ?c]
-                  [(clojure.string/includes? ?c "${stage}")]]`;
+                  [?b :block/title ?c]
+                  [(clojure.string/includes? ?c "${escapeQueryString(stage)}")]]`;
     
     if (filterTag) {
       query = `[:find (pull ?b ${pullSpec}) :where
-                [?b :block/content ?c]
-                [(clojure.string/includes? ?c "${stage}")]
+                [?b :block/title ?c]
+                [(clojure.string/includes? ?c "${escapeQueryString(stage)}")]
                 [?b :block/tags ?t]
-                [?t :block/title "${filterTag}"]]`;
+                [?t :block/title "${escapeQueryString(filterTag)}"]]`;
     }
 
     try {
@@ -936,15 +961,15 @@ export class MilestoneQuery {
       : `[*]`;
 
     let query = `[:find (pull ?b ${pullSpec}) :where
-                  [?b :block/content ?c]
-                  [(clojure.string/includes? ?c "${label}")]]`;
+                  [?b :block/title ?c]
+                  [(clojure.string/includes? ?c "${escapeQueryString(label)}")]]`;
     
     if (tag) {
       query = `[:find (pull ?b ${pullSpec}) :where
-                [?b :block/content ?c]
-                [(clojure.string/includes? ?c "${label}")]
+                [?b :block/title ?c]
+                [(clojure.string/includes? ?c "${escapeQueryString(label)}")]
                 [?b :block/tags ?t]
-                [?t :block/title "${tag}"]]`;
+                [?t :block/title "${escapeQueryString(tag)}"]]`;
     }
 
     try {
@@ -1010,7 +1035,7 @@ export class MilestoneQuery {
     const query = `[:find (pull ?b ${pullSpec})
                     :where
                     [?b :block/tags ?t]
-                    [?t :block/title "${tag}"]]`;
+                    [?t :block/title "${escapeQueryString(tag)}"]]`;
 
     try {
       const result = await logseqAPI.DB.datascriptQuery(query);
@@ -1040,22 +1065,30 @@ export class MilestoneQuery {
         // 从 item.properties 初始化，并收集所有 :user.property/ 和 :logseq.property/ 前缀的属性
         const properties: { [key: string]: any } = { ...(item.properties || {}) };
         
-        // 遍历 item 的所有 key，收集带 :user.property/ 或 :logseq.property/ 前缀的属性
+        // 遍历 item 的所有 key，收集 user/logseq/plugin 属性并统一补冒号
         for (const key of Object.keys(item)) {
-          if (key.startsWith(':user.property/') || key.startsWith(':logseq.property/')) {
-            properties[key] = item[key];
+          if (isPropertyKey(key)) {
+            properties[normalizePropertyKey(key)] = item[key];
           }
         }
 
         blocks.push({
-          id: item.id?.toString() || '',
-          uuid: item.uuid || '',
-          content: item.content || item['block/title'] || item[':block/title'] || '',
+          id: item.id?.toString() || item[':db/id']?.toString() || item['db/id']?.toString() || '',
+          uuid: item.uuid || item[':block/uuid'] || item['block/uuid'] || '',
+          content: item.content || readTitle(item),
           properties,
-          createdAt: item['created-at'] || item[':block/created-at'] || '',
-          updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
-          scheduled: item['scheduled'] || item['block/scheduled'] || item[':logseq.property/scheduled'] || '',
-          deadline: item['deadline'] || item['block/deadline'] || item[':logseq.property/deadline'] || '',
+          createdAt: item['created-at'] || item[':block/created-at'] || item['block/created-at'] || '',
+          updatedAt: item['updated-at'] || item[':block/updated-at'] || item['block/updated-at'] || '',
+          scheduled: item['scheduled']
+            || item[':logseq.property/scheduled']
+            || item['logseq.property/scheduled']
+            || item['block/scheduled']
+            || '',
+          deadline: item['deadline']
+            || item[':logseq.property/deadline']
+            || item['logseq.property/deadline']
+            || item['block/deadline']
+            || '',
         });
       }
     }
@@ -1064,7 +1097,8 @@ export class MilestoneQuery {
       const groups = new Map<string, BlockWithProperty[]>();
 
       blocks.forEach(block => {
-        const value = block.properties?.[prop]?.toString() || 'Unknown';
+        const raw = block.properties?.[prop];
+        const value = readTitle(raw) || (raw === undefined || raw === null ? 'Unknown' : String(raw));
         if (!groups.has(value)) {
           groups.set(value, []);
         }
@@ -1094,12 +1128,12 @@ export class MilestoneQuery {
       const sortedItems = this.sortMilestoneItems(items);
 
       return {
-        items,
-        totalCount: items.length,
-        completedCount: items.filter(i => i.status === 'completed').length,
-        inProgressCount: items.filter(i => i.status === 'in_progress').length,
-        pendingCount: items.filter(i => i.status === 'pending').length,
-        overallProgress: this.calculateOverallProgress(items),
+        items: sortedItems,
+        totalCount: sortedItems.length,
+        completedCount: sortedItems.filter(i => i.status === 'completed').length,
+        inProgressCount: sortedItems.filter(i => i.status === 'in_progress').length,
+        pendingCount: sortedItems.filter(i => i.status === 'pending').length,
+        overallProgress: this.calculateOverallProgress(sortedItems),
       };
     }
 
@@ -1143,22 +1177,30 @@ export class MilestoneQuery {
         // 从 item.properties 初始化，并收集所有 :user.property/ 和 :logseq.property/ 前缀的属性
         const properties: { [key: string]: any } = { ...(item.properties || {}) };
         
-        // 遍历 item 的所有 key，收集带 :user.property/ 或 :logseq.property/ 前缀的属性
+        // 遍历 item 的所有 key，收集 user/logseq/plugin 属性并统一补冒号
         for (const key of Object.keys(item)) {
-          if (key.startsWith(':user.property/') || key.startsWith(':logseq.property/')) {
-            properties[key] = item[key];
+          if (isPropertyKey(key)) {
+            properties[normalizePropertyKey(key)] = item[key];
           }
         }
         
         blocks.push({
-          id: item.id?.toString() || '',
-          uuid: item.uuid || '',
-          content: item.content || item['block/title'] || item[':block/title'] || '',
+          id: item.id?.toString() || item[':db/id']?.toString() || item['db/id']?.toString() || '',
+          uuid: item.uuid || item[':block/uuid'] || item['block/uuid'] || '',
+          content: item.content || readTitle(item),
           properties,
-          createdAt: item['created-at'] || item[':block/created-at'] || '',
-          updatedAt: item['updated-at'] || item[':block/updated-at'] || '',
-          scheduled: item['scheduled'] || item['block/scheduled'] || item[':logseq.property/scheduled'] || '',
-          deadline: item['deadline'] || item['block/deadline'] || item[':logseq.property/deadline'] || '',
+          createdAt: item['created-at'] || item[':block/created-at'] || item['block/created-at'] || '',
+          updatedAt: item['updated-at'] || item[':block/updated-at'] || item['block/updated-at'] || '',
+          scheduled: item['scheduled']
+            || item[':logseq.property/scheduled']
+            || item['logseq.property/scheduled']
+            || item['block/scheduled']
+            || '',
+          deadline: item['deadline']
+            || item[':logseq.property/deadline']
+            || item['logseq.property/deadline']
+            || item['block/deadline']
+            || '',
         });
       }
     }

@@ -51,6 +51,7 @@ export interface SummaryData {
   tasks: TaskStats;
   pages: PageStats;
   aiSuggestions?: string[];
+  insights?: string[];
 }
 
 export interface TemplateConfig {

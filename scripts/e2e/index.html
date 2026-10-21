@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>LTT Electron Functional Test</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 16px; }
+    #app-container { min-height: 80px; }
+    #main-content-container { margin-top: 24px; }
+    .ls-block { margin: 8px 0; }
+    .block-children-container { margin-left: 20px; border-left: 1px solid #ddd; padding-left: 8px; }
+    #text-toolkit-settings { position: fixed; inset: 0; }
+    #text-toolkit-comment-app { position: fixed; inset: 0; }
+    #text-toolkit-summary-modal { position: fixed; inset: 0; }
+  </style>
+</head>
+<body>
+  <div id="toolbar"></div>
+  <textarea id="native-editor" style="width:400px;height:60px;font-size:18px">hello world</textarea>
+  <div id="app-container"></div>
+  <div id="main-content-container">
+    <div class="ls-block" blockid="block-1">
+      <div class="block-control-wrap" data-has-children="true"></div>
+      <div class="block-main-container">Parent block</div>
+      <div class="block-children-container">
+        <div class="block-children">
+          <div class="blocks-list-wrap">
+            <div class="ls-block" blockid="row-1">
+              <div class="block-control-wrap" data-has-children="true"></div>
+              <div class="block-main-container">Row one</div>
+              <div class="block-children-container">
+                <div class="block-children">
+                  <div class="blocks-list-wrap">
+                    <div class="ls-block" blockid="cell-11"><div class="block-main-container">Cell 11</div></div>
+                    <div class="ls-block" blockid="cell-12"><div class="block-main-container">Cell 12</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ls-block" blockid="row-2">
+              <div class="block-control-wrap" data-has-children="true"></div>
+              <div class="block-main-container">Row two</div>
+              <div class="block-children-container">
+                <div class="block-children">
+                  <div class="blocks-list-wrap">
+                    <div class="ls-block" blockid="cell-21"><div class="block-main-container">Cell 21</div></div>
+                    <div class="ls-block" blockid="cell-22"><div class="block-main-container">Cell 22</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/settings.js"></script>
+  <script src="/host.js"></script>
+  <script src="/dist/index.js"></script>
+</body>
+</html>

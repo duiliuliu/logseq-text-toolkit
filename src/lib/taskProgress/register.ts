@@ -9,9 +9,9 @@ import { calculateTaskProgress } from './taskQuery'
 import { ProgressDisplayType } from '../../components/TaskProgress/types'
 import TaskProgress from '../../components/TaskProgress/TaskProgress'
 import { logseqAPI } from '../../logseq'
-import { getDocument } from '../../logseq/utils'
 import { getSettingsWithSystem } from '../../settings'
 import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render'
+import { waitForElementById } from '../render/slot'
 import logger from '../logger'
 
 const MACRO_PREFIX = ':taskprogress'
@@ -89,20 +89,21 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
       template: `<div id="${containerId}"></div>`,
     })
 
-    setTimeout(() => {
-      const container = getDocument().getElementById(containerId)
-      if (container) {
-        renderComponent(container, TaskProgress, {
-          progressData,
-          displayType,
-          config: { ...config, showLabel, labelFormat, fireworksOnComplete },
-          lang,
-          nestingLevel,
-          onlyLeaves,
-          showNestingIndicator,
-        })
-      }
-    }, 1)
+    const container = await waitForElementById(containerId)
+    if (!container) {
+      logger.warn('[TaskProgress] Slot container not mounted', { containerId })
+      return false
+    }
+
+    renderComponent(container, TaskProgress, {
+      progressData,
+      displayType,
+      config: { ...config, showLabel, labelFormat, fireworksOnComplete },
+      lang,
+      nestingLevel,
+      onlyLeaves,
+      showNestingIndicator,
+    })
 
     return true
   } catch (err) {
@@ -113,7 +114,8 @@ async function renderProgress(blockId: string, slot: string, displayTypeArg?: st
 
 export function registerTaskProgress(): void {
   logseqAPI.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-    const split = splitRendererArgs(payload.arguments)
+    try {
+      const split = splitRendererArgs(payload.arguments)
     const type = split?.type
     const argMap = type ? parseRendererArgs(type, split?.tokens || []) : {}
     const displayTypeArg = argMap.display
@@ -170,20 +172,24 @@ export function registerTaskProgress(): void {
         template: `<div id="${containerId}"></div>`,
       })
 
-      setTimeout(() => {
-        const container = getDocument().getElementById(containerId)
-        if (container) {
-          renderComponent(container, TaskProgress, {
-            progressData,
-            displayType,
-            config: { ...config, ...extraConfig, showLabel, labelFormat, fireworksOnComplete },
-            lang,
-            nestingLevel,
-            onlyLeaves,
-            showNestingIndicator,
-          })
-        }
-      }, 1)
+      const container = await waitForElementById(containerId)
+      if (!container) {
+        logger.warn('[TaskProgress] Slot container not mounted', { containerId })
+        return
+      }
+
+      renderComponent(container, TaskProgress, {
+        progressData,
+        displayType,
+        config: { ...config, ...extraConfig, showLabel, labelFormat, fireworksOnComplete },
+        lang,
+        nestingLevel,
+        onlyLeaves,
+        showNestingIndicator,
+      })
+      }
+    } catch (error) {
+      logger.error('[TaskProgress] Macro render failed', error)
     }
   })
 

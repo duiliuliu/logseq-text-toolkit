@@ -12,11 +12,11 @@ import {
   DateFieldConfig
 } from './types';
 import { logseqAPI } from '../../logseq';
-import { getDocument } from '../../logseq/utils';
 import { getSettingsWithSystem } from '../../settings';
 import logger from '../logger/index';
 import { generateIndigoGradient } from './colorCalculator';
 import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs, createRendererArgUpdater } from '../render';
+import { waitForElementById } from '../render/slot';
 
 const MACRO_PREFIX = ':heatmap';
 const MACRO_PREFIX_CN = ':热力图';
@@ -65,7 +65,7 @@ const DATE_FIELD_TYPE_MAP: Record<string, DateFieldType> = {
 
 function parseMacroArguments(tokens: string[], argMap: Record<string, string>): {
   viewType: HeatmapViewType;
-  queryType: 'tag' | 'page' | 'property';
+  queryType: 'tag' | 'page' | 'property' | 'all';
   queryValue: string;
   propertyKey?: string;
   displayMode: DisplayMode;
@@ -82,12 +82,12 @@ function parseMacroArguments(tokens: string[], argMap: Record<string, string>): 
   weekPageLogseqTemplate?: string;
   dateField?: DateFieldConfig;
 } {
-  let viewType: HeatmapViewType ;
-  let queryType: 'tag' | 'page' | 'property' = 'tag';
+  let viewType: HeatmapViewType = 'year';
+  let queryType: 'tag' | 'page' | 'property' | 'all' = 'tag';
   let queryValue = '';
   let propertyKey = '';
-  let displayMode: DisplayMode ;
-  let colorFormula: ColorFormula  ;
+  let displayMode: DisplayMode = 'full';
+  let colorFormula: ColorFormula = 'simple';
   let referenceYear: number | undefined;
   let referenceMonth: number | undefined;
   let referenceWeek: number | undefined;
@@ -297,6 +297,10 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
 
     const resolvedTheme: 'light' | 'dark' = settings?.theme === 'dark' ? 'dark' : 'light';
 
+    // 兼容可能存在的旧版嵌套配置 monthPageCreation / weekPageCreation
+    const legacyMonthPage = (settings?.heatmap as any)?.monthPageCreation;
+    const legacyWeekPage = (settings?.heatmap as any)?.weekPageCreation;
+
     const heatmapConfig: HeatmapConfig = {
       viewType: viewType || settings?.heatmap?.defaultViewType || 'year',
       displayMode: displayMode || settings?.heatmap?.defaultDisplayMode || 'full',
@@ -314,12 +318,30 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       language: settings?.language || 'en',
       referenceDate,
       containerWidth,
-      enableMonthPageCreation: enableMonthPageCreation ?? settings?.heatmap?.enableMonthPageCreation ?? false,
-      monthPageTemplate: monthPageTemplate || settings?.heatmap?.monthPageTemplate || '',
+      enableMonthPageCreation:
+        enableMonthPageCreation
+        ?? settings?.heatmap?.enableMonthPageCreation
+        ?? legacyMonthPage?.enabled
+        ?? false,
+      monthPageTemplate:
+        monthPageTemplate
+        || settings?.heatmap?.monthPageTemplate
+        || legacyMonthPage?.pageNameTemplate
+        || '',
       monthPageTemplateType: settings?.heatmap?.monthPageTemplateType || '',
-      enableWeekPageCreation: enableWeekPageCreation ?? settings?.heatmap?.enableWeekPageCreation ?? false,
-      weekPageTemplate: weekPageTemplate || settings?.heatmap?.weekPageTemplate || '',
+      monthPageLogseqTemplate: monthPageLogseqTemplate || legacyMonthPage?.logseqTemplate || '',
+      enableWeekPageCreation:
+        enableWeekPageCreation
+        ?? settings?.heatmap?.enableWeekPageCreation
+        ?? legacyWeekPage?.enabled
+        ?? false,
+      weekPageTemplate:
+        weekPageTemplate
+        || settings?.heatmap?.weekPageTemplate
+        || legacyWeekPage?.pageNameTemplate
+        || '',
       weekPageTemplateType: settings?.heatmap?.weekPageTemplateType || '',
+      weekPageLogseqTemplate: weekPageLogseqTemplate || legacyWeekPage?.logseqTemplate || '',
       dateFormat: settings?.dateFormat || '',
     };
     logger.debug('🌡️ Heatmap: Configuration resolved', {
@@ -375,20 +397,19 @@ async function renderHeatmap(slot: string, type: string, tokens: string[], block
       template: `<div id="${containerId}"></div>`,
     });
 
-    setTimeout(() => {
-      const container = getDocument().getElementById(containerId);
-      if (container) {
-        logger.debug('🌡️ Heatmap: Rendering component', { containerId });
-        renderComponent(container, HeatmapComponent, {
-          config: heatmapConfig,
-          data: heatmapData,
-          theme: resolvedTheme,
-          onBlockId: blockUuid,
-        });
-      } else {
-        logger.warn('🌡️ Heatmap: Container not found', { containerId });
-      }
-    }, 1);
+    const container = await waitForElementById(containerId);
+    if (!container) {
+      logger.warn('🌡️ Heatmap: Container not mounted', { containerId });
+      return false;
+    }
+
+    logger.debug('🌡️ Heatmap: Rendering component', { containerId });
+    renderComponent(container, HeatmapComponent, {
+      config: heatmapConfig,
+      data: heatmapData,
+      theme: resolvedTheme,
+      onBlockId: blockUuid,
+    });
 
     return true;
   } catch (err) {

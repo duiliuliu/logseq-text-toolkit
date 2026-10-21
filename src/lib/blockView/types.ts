@@ -1,4 +1,4 @@
-export type ViewType = 'list' | 'table' | 'gallery' | 'board' | 'mindmap';
+export type ViewType = 'list' | 'table' | 'gallery' | 'board';
 export type ThemeType = 'default' | 'notion' | 'linear' | 'dark' | 'gradient' | 'tana' | 'indigo' | 'custom';
 
 export interface ViewConfig {
@@ -34,14 +34,6 @@ const VIEW_ICONS: Record<ViewType, string> = {
     <rect x="9.5" y="2" width="3" height="8" rx="1"/>
   </svg>`,
 
-  mindmap: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="7" cy="7" r="2"/>
-    <circle cx="3" cy="3" r="1.5"/>
-    <circle cx="11" cy="3" r="1.5"/>
-    <circle cx="3" cy="11" r="1.5"/>
-    <circle cx="11" cy="11" r="1.5"/>
-    <path d="M5.5 5.5L4 4M8.5 5.5L10 4M5.5 8.5L4 10M8.5 8.5L10 10"/>
-  </svg>`
 };
 
 export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
@@ -69,12 +61,6 @@ export const VIEW_REGISTRY: Record<ViewType, ViewConfig> = {
     icon: VIEW_ICONS.board,
     cssClass: 'ltt-board-root',
   },
-  // 'mindmap': {
-  //   id: 'mindmap',
-  //   name: 'Mindmap',
-  //   icon: VIEW_ICONS.mindmap,
-  //   cssClass: 'ltt-mindmap-root',
-  // },
 };
 
 export interface CustomTableTheme {

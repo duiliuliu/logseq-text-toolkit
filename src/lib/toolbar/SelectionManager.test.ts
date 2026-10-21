@@ -5,7 +5,8 @@
  * SelectionManager 单元测试
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
+import type { BlockEntity } from '@logseq/libs/dist/LSPlugin.user';
 import { SelectionEventAdapter, calculateToolbarPosition, type SelectionInfo, type AdaptedSelection } from './SelectionManager';
 
 describe('SelectionEventAdapter', () => {
@@ -97,7 +98,7 @@ describe('SelectionEventAdapter', () => {
         properties: {}
       };
 
-      const result = SelectionEventAdapter.enrichWithContext(selection, block);
+      const result = SelectionEventAdapter.enrichWithContext(selection, block as unknown as BlockEntity);
 
       expect(result.start).toBe(0);
       expect(result.end).toBe(5);
@@ -125,7 +126,7 @@ describe('SelectionEventAdapter', () => {
         properties: {}
       };
 
-      const result = SelectionEventAdapter.enrichWithContext(selection, block);
+      const result = SelectionEventAdapter.enrichWithContext(selection, block as unknown as BlockEntity);
 
       expect(result.start).toBe(0);
       expect(result.end).toBe(8);
@@ -153,7 +154,7 @@ describe('SelectionEventAdapter', () => {
         properties: {}
       };
 
-      const result = SelectionEventAdapter.enrichWithContext(selection, block);
+      const result = SelectionEventAdapter.enrichWithContext(selection, block as unknown as BlockEntity);
 
       expect(result.text).toBe('Test');
       expect(result.block).toBe(block);

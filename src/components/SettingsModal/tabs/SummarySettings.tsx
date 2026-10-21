@@ -1,37 +1,61 @@
+import { useEffect } from 'react'
 import { t } from '../../../translations/i18n.ts'
 import CustomSelect from '../../CustomSelect/index.tsx'
-import { Settings, SummarySettings as SummarySettingsType } from '../../../settings/types'
+import { SummarySettings as SummarySettingsType } from '../../../settings/types'
 import { TabComponentProps } from '../index'
 import { getAllTemplates } from '../../../lib/summary/templates'
 
+const DEFAULT_SUMMARY_SETTINGS: SummarySettingsType = {
+  enabled: true,
+  defaultTemplate: 'gtd-work-review',
+  defaultType: 'weekly',
+  dateFormat: 'yyyy-MM-dd EEE',
+  weeklyPageNameTemplate: '周度总结-{{year}}-W{{week}}',
+  monthlyPageNameTemplate: '月度总结-{{year}}-{{month}}',
+  yearlyPageNameTemplate: '年度总结-{{year}}',
+  customPageNameTemplate: '自定义总结-{{date}}',
+  ai: {
+    enabled: false,
+    provider: 'openai',
+    apiKey: '',
+    apiUrl: '',
+    model: 'gpt-3.5-turbo',
+    promptTemplate: ''
+  }
+}
+
 function SummarySettings({ settings, setSettings, onSave, isSaving, language }: TabComponentProps) {
-  const summarySettings: SummarySettingsType = settings.summary || {
-    enabled: true,
-    defaultTemplate: 'gtd-work-review',
-    defaultType: 'weekly',
-    dateFormat: 'yyyy-MM-dd EEE',
-    weeklyPageNameTemplate: '周度总结-{{year}}-W{{week}}',
-    monthlyPageNameTemplate: '月度总结-{{year}}-{{month}}',
-    customPageNameTemplate: '自定义总结-{{date}}',
+  // 合并默认值，兼容旧版本缺少字段的 settings。
+  const summarySettings: SummarySettingsType = {
+    ...DEFAULT_SUMMARY_SETTINGS,
+    ...(settings?.summary || {}),
     ai: {
-      enabled: false,
-      provider: 'openai',
-      apiKey: '',
-      apiUrl: '',
-      model: 'gpt-3.5-turbo',
-      promptTemplate: ''
-    }
+      ...DEFAULT_SUMMARY_SETTINGS.ai,
+      ...(settings?.summary?.ai || {}),
+    },
   }
 
   const templates = getAllTemplates()
+  const availableTemplates = templates.filter(template =>
+    template.supportedTypes.includes(summarySettings.defaultType)
+  )
 
   const handleSettingChange = (key: keyof SummarySettingsType, value: any) => {
     setSettings(prev => {
       if (!prev) return prev
+      // 使用 prev 中的最新 summary，避免连续两次 setSettings 用旧闭包互相覆盖。
+      const current: SummarySettingsType = {
+        ...DEFAULT_SUMMARY_SETTINGS,
+        ...(prev.summary || {}),
+        ai: {
+          ...DEFAULT_SUMMARY_SETTINGS.ai,
+          ...(prev.summary?.ai || {}),
+        },
+      }
       return {
         ...prev,
         summary: {
-          ...summarySettings,
+          ...current,
           [key]: value,
         },
       }
@@ -39,15 +63,42 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
   }
 
   const handleAiSettingChange = (key: keyof SummarySettingsType['ai'], value: any) => {
-    handleSettingChange('ai', {
-      ...summarySettings.ai,
-      [key]: value,
+    setSettings(prev => {
+      if (!prev) return prev
+      const current: SummarySettingsType = {
+        ...DEFAULT_SUMMARY_SETTINGS,
+        ...(prev.summary || {}),
+        ai: {
+          ...DEFAULT_SUMMARY_SETTINGS.ai,
+          ...(prev.summary?.ai || {}),
+        },
+      }
+      return {
+        ...prev,
+        summary: {
+          ...current,
+          ai: {
+            ...current.ai,
+            [key]: value,
+          },
+        },
+      }
     })
   }
 
-  const templateOptions = templates.map(template => ({
+  useEffect(() => {
+    if (!availableTemplates.some(template => template.id === summarySettings.defaultTemplate)) {
+      const nextTemplate = availableTemplates[0]?.id
+      if (nextTemplate) {
+        handleSettingChange('defaultTemplate', nextTemplate)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [summarySettings.defaultType, summarySettings.defaultTemplate, availableTemplates.length])
+
+  const templateOptions = availableTemplates.map(template => ({
     value: template.id,
-    label: t(`settings.summary.template${template.id.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('')}`, language) || template.name
+    label: t(`settings.summary.template${template.id.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('')}` as any, language) || template.name
   }))
 
   const typeOptions = [
@@ -98,7 +149,13 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
         <CustomSelect
           options={typeOptions}
           value={summarySettings.defaultType}
-          onChange={(value) => handleSettingChange('defaultType', value)}
+          onChange={(value) => {
+            const compatible = templates.filter(template => template.supportedTypes.includes(value as any))
+            handleSettingChange('defaultType', value)
+            if (!compatible.some(template => template.id === summarySettings.defaultTemplate)) {
+              handleSettingChange('defaultTemplate', compatible[0]?.id || 'minimal-dashboard')
+            }
+          }}
         />
       </div>
 
@@ -128,6 +185,16 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
           value={summarySettings.monthlyPageNameTemplate}
           onChange={(e) => handleSettingChange('monthlyPageNameTemplate', e.target.value)}
           placeholder={t('settings.summary.monthlyPageNamePlaceholder', language)}
+        />
+      </div>
+
+      <div className="ltt-setting-item">
+        <label>{t('settings.summary.yearlyPageNameTemplate', language)}</label>
+        <input
+          type="text"
+          value={summarySettings.yearlyPageNameTemplate}
+          onChange={(e) => handleSettingChange('yearlyPageNameTemplate', e.target.value)}
+          placeholder={t('settings.summary.yearlyPageNamePlaceholder', language)}
         />
       </div>
 
@@ -211,6 +278,9 @@ function SummarySettings({ settings, setSettings, onSave, isSaving, language }: 
           style={{ width: '100%', minHeight: '80px' }}
         />
       </div>
+      <p className="ltt-tab-section-description-small">
+        {t('settings.summary.aiFallback', language)}
+      </p>
         </>
       )}
 

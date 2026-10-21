@@ -65,18 +65,16 @@ export interface HeatmapSettings {
     maxColor: string
     gradientSteps: number
   }
-  // Month page creation settings
-  monthPageCreation?: {
-    enabled: boolean
-    pageNameTemplate?: string
-    logseqTemplate?: string
-  }
+  // Month page creation settings（与设置页/宏参数保持扁平结构）
+  enableMonthPageCreation?: boolean
+  monthPageTemplate?: string
+  monthPageTemplateType?: string
+  monthPageLogseqTemplate?: string
   // Week page creation settings
-  weekPageCreation?: {
-    enabled: boolean
-    pageNameTemplate?: string
-    logseqTemplate?: string
-  }
+  enableWeekPageCreation?: boolean
+  weekPageTemplate?: string
+  weekPageTemplateType?: string
+  weekPageLogseqTemplate?: string
   defaultSlashCommandTemplate?: string
 }
 
@@ -174,7 +172,22 @@ export interface SummarySettings {
   ai: AIConfig;
   weeklyPageNameTemplate: string;
   monthlyPageNameTemplate: string;
+  yearlyPageNameTemplate: string;
   customPageNameTemplate: string;
+}
+
+export interface HtmlViewerSettings {
+  enabled: boolean
+  defaultSide: 'left' | 'right'
+  defaultWidth: number
+  allowScripts: boolean
+  allowRemote: boolean
+  writeAnnotationsToGraph: boolean
+  annotationPagePrefix: string
+  showToolbarButton: boolean
+  dashboardAsset: string
+  dashboardFullscreen: boolean
+  defaultSlashCommandTemplate?: string
 }
 
 export interface MilestoneSettings {
@@ -215,5 +228,6 @@ export interface Settings {
   blockView?: BlockViewSettings
   summary?: SummarySettings
   milestone?: MilestoneSettings
+  htmlViewer?: HtmlViewerSettings
   ToolbarItems?: any[]
 }

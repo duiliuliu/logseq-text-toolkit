@@ -11,16 +11,20 @@ export class PropertyEnumService {
    * 格式化属性键，如果没有前缀则添加 :user.property/ 前缀
    */
   private static formatPropertyKey(key: string): string {
-    // 如果已有前缀，直接返回
-    if (key.startsWith(':user.property/') || key.startsWith(':logseq.property/')) {
-      return key;
+    const trimmed = key.trim();
+
+    // 已带 user/logseq/plugin 属性前缀（含无冒号形式）时直接规范化
+    if (/^(?::)?(?:user|logseq|plugin)\.property[./]/.test(trimmed)) {
+      return trimmed.startsWith(':') ? trimmed : `:${trimmed}`;
     }
-    
-    // 移除可能的前导冒号
-    const cleanKey = key.startsWith(':') ? key.slice(1) : key;
-    
-    // 添加 :user.property/ 前缀
+
+    // 移除可能的前导冒号，普通属性名默认按 user.property 处理
+    const cleanKey = trimmed.replace(/^:/, '');
     return `:user.property/${cleanKey}`;
+  }
+
+  private static escapeQueryString(value: string): string {
+    return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
   }
 
   /**
@@ -73,10 +77,11 @@ export class PropertyEnumService {
       if (!row || !Array.isArray(row)) continue;
 
       for (const item of row) {
-        if (!item || !item['block/title']) continue;
+        const value = item?.['block/title'] ?? item?.[':block/title'] ?? item?.title;
+        if (!item || !value) continue;
 
-        const value = item['block/title'];
-        const refBlocks = item['block/refs'] || [];
+        const refBlocksRaw = item['block/refs'] || item[':block/refs'] || item['refs'] || [];
+        const refBlocks = Array.isArray(refBlocksRaw) ? refBlocksRaw : [];
 
         if (!enumMap.has(value)) {
           enumMap.set(value, {
@@ -90,11 +95,12 @@ export class PropertyEnumService {
         enumValue.count++;
 
         refBlocks.forEach((ref: any) => {
-          if (ref && ref['block/title']) {
+          const refTitle = ref?.['block/title'] ?? ref?.[':block/title'] ?? ref?.title;
+          if (ref && refTitle) {
             enumValue.blocks.push({
-              id: ref.id?.toString() || '',
-              uuid: ref.uuid || '',
-              content: ref['block/title'],
+              id: ref.id?.toString() || ref['db/id']?.toString() || '',
+              uuid: ref.uuid || ref['block/uuid'] || '',
+              content: refTitle,
               properties: {},
               createdAt: '',
               updatedAt: '',
@@ -149,6 +155,6 @@ export class PropertyEnumService {
                     [?b :${cleanKey} ?val]
                     [?val :block/title ?title]
                     [?b :block/tags ?t]
-                    [?t :block/title "${tag}"]]`;
+                    [?t :block/title "${this.escapeQueryString(tag)}"]]`;
   }
 }

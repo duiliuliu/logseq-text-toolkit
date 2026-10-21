@@ -44,15 +44,38 @@ const parseCustomProperty = (value: any): number | null => {
 const getTimestampByField = (block: any, dateField: string = 'scheduled'): number | null => {
   switch (dateField) {
     case 'scheduled':
-      return parseTimestamp(block?.['scheduled'] ?? block?.['block/scheduled'] ?? block?.[':logseq.property/scheduled']);
+      return parseTimestamp(
+        block?.['scheduled']
+        ?? block?.['block/scheduled']
+        ?? block?.[':logseq.property/scheduled']
+        ?? block?.['logseq.property/scheduled']
+      );
     case 'deadline':
-      return parseTimestamp(block?.['deadline'] ?? block?.['block/deadline'] ?? block?.[':logseq.property/deadline']);
+      return parseTimestamp(
+        block?.['deadline']
+        ?? block?.['block/deadline']
+        ?? block?.[':logseq.property/deadline']
+        ?? block?.['logseq.property/deadline']
+      );
     case 'created-at':
-      return parseTimestamp(block?.['created-at'] ?? block?.['block/created-at']);
+      return parseTimestamp(
+        block?.['created-at']
+        ?? block?.['block/created-at']
+        ?? block?.[':block/created-at']
+      );
     case 'updated-at':
-      return parseTimestamp(block?.['updated-at'] ?? block?.['block/updated-at']);
+      return parseTimestamp(
+        block?.['updated-at']
+        ?? block?.['block/updated-at']
+        ?? block?.[':block/updated-at']
+      );
     default:
-      const customValue = block?.['block/properties']?.[dateField];
+      const cleanKey = dateField.startsWith(':') ? dateField.slice(1) : dateField;
+      const customValue = block?.['block/properties']?.[dateField]
+        ?? block?.['block/properties']?.[cleanKey]
+        ?? block?.[dateField]
+        ?? block?.[`:${cleanKey}`]
+        ?? block?.[cleanKey];
       return parseCustomProperty(customValue);
   }
 };

@@ -5,10 +5,10 @@
 import type { MilestoneDisplayStyle, MilestoneConfig, MilestoneTemplate } from './types';
 import { MilestoneQuery } from './query';
 import { renderComponent, registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import { waitForElementById } from '../render/slot';
 import logger from '../logger/index';
 import { getSettingsWithSystem } from '../../settings/index.ts';
 import { logseqAPI } from '../../logseq';
-import { getDocument } from '../../logseq/utils';
 import React from 'react';
 
 const PLUGIN_ID = 'milestone';
@@ -62,15 +62,14 @@ async function renderMilestone(slot: string, config: MilestoneConfig, currentBlo
       template: `<div id="${containerId}"></div>`,
     });
 
-    setTimeout(() => {
-      const container = getDocument().getElementById(containerId);
-      if (container) {
-        logger.debug('🎯 Milestone: Rendering component', { containerId });
-        renderComponent(container, MilestoneComponent, { data, config });
-      } else {
-        logger.warn('🎯 Milestone: Container not found', { containerId });
-      }
-    }, 1);
+    const container = await waitForElementById(containerId);
+    if (!container) {
+      logger.warn('🎯 Milestone: Container not mounted', { containerId });
+      return false;
+    }
+
+    logger.debug('🎯 Milestone: Rendering component', { containerId });
+    renderComponent(container, MilestoneComponent, { data, config });
 
     return true;
   } catch (err) {

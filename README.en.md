@@ -1,695 +1,249 @@
 # Logseq Text Toolkit ✨
 
-A powerful and flexible Logseq plugin designed to enhance text editing and formatting capabilities.
+A DB-first Logseq toolkit for text formatting, task progress, heatmaps, block
+views, summaries, HTML reading/annotation and AI-generated dashboards.
 
-[English Version](README.en.md) | [中文版本](README.md)
+[中文版本](README.md) | English
 
-👉 [Online Preview](https://duiliuliu.github.io/logseq-text-toolkit/) | [Experimental Preview](https://duiliuliu.github.io/logseq-text-toolkit/dev/) | [Detailed User Guide](docs/USER_GUIDE.en.md)
-
----
-
-## 一、Showcase
-
-<table>
-  <tr>
-    <td align="center">
-      <img width="280" alt="文本操作" src="https://github.com/user-attachments/assets/4be36305-3d06-443d-8548-a121894cb46d" />
-      <br>Text Formatting
-    </td>
-    <td align="center">
-      <img width="280" alt="工具栏" src="https://github.com/user-attachments/assets/ff0810d8-b201-4680-b316-683e03013133" />
-      <br>Toolbar Buttons
-    </td>
-      <td align="center">
-      <img width="280" alt="任务进度" src="https://github.com/user-attachments/assets/8bb1861d-0b07-4056-a6b4-b5ebd40c5e68" />
-      <br>Task Progress Tracking
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-       <img width="280" alt="toolbar设置面板" src="https://github.com/user-attachments/assets/383a176b-f94a-4f1c-b50a-a4f738d0ac0f" />
-      <br>Toolbar Settings Panel
-    </td>
-      <td align="center">
-       <img width="280" alt="taskprogress设置面板" src="https://github.com/user-attachments/assets/73c9eb90-2c4f-4ace-99ea-a9eb510f7bcf" />
-      <br>Task Progress Settings
-    </td>
-    <td align="center">
-      <img width="280" height="200" alt="heatmap" src="docs/screenshots/heatmap.png" />
-      <br>Heatmap
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img width="280" alt="BlockView Table" src="docs/screenshots/tableView.png" />
-      <br>Block View - Table
-    </td>
-    <td align="center">
-      <img width="280" alt="BlockView Gallery" src="docs/screenshots/gallery.png" />
-      <br>Block View - Gallery
-    </td>
-    <td align="center">
-      <img width="280" alt="BlockView Board" src="docs/screenshots/board.png" />
-      <br>Block View - Board
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img width="280" alt="BlockView Mind" src="docs/screenshots/mindView.png" />
-      <br>Block View - Mind (Experimental) 🧪
-    </td>
-  </tr>
-</table>
+👉 [Live preview](https://duiliuliu.github.io/logseq-text-toolkit/) | [Experimental preview](https://duiliuliu.github.io/logseq-text-toolkit/dev/) | [User guide](docs/USER_GUIDE.en.md) | [HTML Viewer design](docs/architecture/HTML-Viewer.md)
 
 ---
 
-## 二、Key Features
+## Features
 
-### 📝 Text Formatting
+| Module | What it does |
+|---|---|
+| **Text formatting** | Bold, italic, strike, sub/sup, code, highlight, text color, underline, file link, inline comments |
+| **Selection toolbar** | Appears on text selection; configurable buttons and shortcuts |
+| **Task Progress** | Nested task counting, five display styles, custom status colors, completion fireworks |
+| **Heatmap** | Year / month / week views, tag/page/property queries, custom colors, page creation |
+| **Block View** | List, table, gallery, board and experimental mind map; multiple themes |
+| **Milestone** | Capsule/badge/track/card/compact views, tag/page/property queries, templates |
+| **Summary** | Weekly/monthly/yearly/custom ranges, GTD/minimal dashboard/OKR/study templates |
+| **HTML Viewer** | Sandboxed HTML attachment preview, text annotations and notes, jump-back highlights |
+| **HTML Dashboard** | Select a periodically generated HTML file as a fullscreen dashboard; links open Logseq pages/blocks |
+| **Theme / i18n** | Light/dark, Chinese/English/Japanese, CSS overrides |
 
-| Feature | Description |
-|---------|-------------|
-| Bold, Italic, Strikethrough, Subscript, Superscript, Code | Common text formatting operations |
-| Background Highlights | 5 colors: Red/Yellow/Blue/Green/Purple |
-| Text Colors | Multiple colors available |
-| Colorful Underlines | 5 colors available |
-| File Links | Quick file link insertion |
-
-**Usage**: Select text → Toolbar auto-pops up → Click button
+> Requires a **Logseq DB graph**. `minSDKVersion` is **0.3.1**. File graphs are not supported.
 
 ---
 
-### 📊 Task Progress Tracking
+## Quick start
 
-| Feature | Description |
-|---------|-------------|
-| Display Styles | Mini Circle, Dot Matrix, Status Cursor, Progress Capsule, Step Progress |
-| Nested Statistics | Supports 1-N level nesting, only counts leaf tasks |
-| Status Recognition | Auto-detects todo/doing/done/waiting/in-review etc. |
-| Custom Colors | Customizable status colors |
-| 🎆 Achievement Fireworks | Fireworks when all tasks complete (toggleable) |
+### Install
 
-**Basic Usage**:
+**Marketplace (recommended)**
+
+1. Logseq → menu → **Plugins**
+2. Search `logseq-text-toolkit` → **Install**
+
+**Load from GitHub**
+
+1. Logseq → menu → **Plugins**
+2. **Load plugin from URL**
+3. Enter `https://github.com/duiliuliu/logseq-text-toolkit/`
+
+Current version: **1.2.25**.
+
+### Text formatting
+
+Select text → click a toolbar button.
+
 ```markdown
-- My Project {{renderer :taskprogress}}
+**bold**  *italic*  ~~strike~~  `code`  ==highlight==
+```
+
+### Task progress
+
+```markdown
+- My project {{renderer :taskprogress}}
   - Task 1 #task status:: todo
   - Task 2 #task status:: doing
   - Task 3 #task status:: done
 ```
 
----
+### Heatmap
 
-### 🎯 Milestone Tracking
-
-| Feature | Description |
-|---------|-------------|
-| Display Styles | Capsule, Badge, Track, Card, Compact five styles |
-| Query Methods | Supports tag, page, property three query methods |
-| Template System | Pre-defined templates for quick configuration and reuse |
-| Auto Progress | Automatically calculates milestone progress based on task status |
-| Timeline | Shows planned or completed dates for each milestone |
-
-**Basic Usage**:
 ```markdown
-{{renderer :milestone, displayStyle=capsule, filterTag=project, milestonePropKey=phase, milestoneList=Requirement;Design;Development;Testing;Launch}}
+{{renderer :heatmap, view=year, tag=work}}
+{{renderer :heatmap, view=month, page=My Page}}
+{{renderer :heatmap, view=week, property=category::work}}
 ```
 
-**Using Template**:
+### Block View
+
 ```markdown
+{{renderer :block-view, view=table, theme=notion}}
+{{renderer :block-view, view=gallery}}
+{{renderer :block-view, view=board}}
+{{renderer :block-view, view=mind}}
+```
+
+### Milestone
+
+```markdown
+{{renderer :milestone, filterTag=project, milestonePropKey=phase, milestoneList=Requirement;Design;Development;Testing;Launch}}
 {{renderer :milestone, template=my_template}}
 ```
 
----
+### Summary
 
-### 🔥 Heatmap
+Open the Summary modal from the plugin command, or run:
 
-| Feature | Description |
-|---------|-------------|
-| Views | year / month / week three views |
-| Query | Supports tag / page / property three query methods |
-| Color Scheme | Min/max gradient colors and two calculation formulas |
-| Quick Create | Supports clicking month and week numbers to create corresponding date pages |
-
-**Basic Usage**:
-```markdown
-{{renderer :heatmap, month, tag=work}}
-{{renderer :heatmap, view=year, tag=work}}
-{{renderer :heatmap, view=month, page=My Page}}
+```text
+[Text Toolkit] Generate Summary
 ```
+
+Choose summary type, template and range. GTD work review, minimal dashboard,
+bullet journal, OKR review and study summary templates are available.
 
 ---
 
-### 📋 Block View 🆕
+## HTML Viewer
 
-| Feature | Description |
-|---------|-------------|
-| View Types | List, Table, Gallery, Board, Mind (Experimental) |
-| Theme Support | Default, Notion, Linear, Dark, Gradient, Tana, Custom |
-| Custom Themes | Independent color, border, radius configuration per view |
-| View Switcher | Show/hide toggle |
+Open:
 
-**Basic Usage**:
-```markdown
-{{renderer :block-view}}
-{{renderer :block-view, view=table}}
-{{renderer :block-view, view=gallery}}
-{{renderer :block-view, view=board}}
+```text
+[Text Toolkit] Open HTML Viewer
 ```
 
-**Specify Theme**:
-```markdown
-{{renderer :block-view, theme=notion}}
-{{renderer :block-view, view=table, theme=linear}}
-```
+or use the compact preview button on an HTML asset block. The top toolbar button is reserved for a configured Dashboard.
 
-**Parameters**:
-| Parameter | Description | Values |
-|-----------|-------------|--------|
-| view | View Type | list, table, gallery, board, mind |
-| theme | Theme Style | default, notion, linear, dark, gradient, tana, custom |
-| hideBar | Hide Switcher | true, false |
+- Left/right dock, drag to resize, fullscreen, close
+- Select text → **Annotate** → optional note
+- Highlights are restored on reopen
+- Annotations are written as child blocks of the HTML asset block; fallback is
+  an `HTML 标注 - <filename>` page
+- Precise text anchors are stored in plugin FileStorage
 
-**Using Mind View (Experimental Feature)**:
-```markdown
-{{renderer :block-view, view=mind}}
-```
+Security defaults:
 
-> ⚠️ Mind View is an experimental feature and is continuously being optimized.
+- iframe sandbox is `allow-same-origin` without scripts
+- remote resources and scripts are stripped/disabled
+- only trusted HTML should enable scripts or remote resources in settings
 
 ---
 
-### 📝 Summary Generator (Summary) ⚠️
+## HTML Dashboard
 
-| Feature | Description |
-|---------|-------------|
-| Summary Types | Weekly, Monthly, Yearly, Custom time range |
-| Templates | GTD Work Review, Minimal Dashboard, Bullet Journal, OKR Review, Study Summary |
-| AI Enhancement | OpenAI/Claude support |
+Put a periodically generated file under `assets/`:
 
-> ⚠️ Summary feature is under development and currently unavailable.
+```text
+assets/dashboard-2026-10-20.html
+```
+
+Then:
+
+```text
+Settings → HTML Viewer → Dashboard
+```
+
+- choose the HTML attachment
+- keep **Open dashboard fullscreen** enabled
+- optionally show the toolbar button
+
+Click the toolbar dashboard button or run:
+
+```text
+[Text Toolkit] Open Dashboard
+```
+
+Regenerating the same file updates the dashboard; no plugin restart or DB
+migration is required.
+
+### Link dashboard HTML to Logseq
+
+Scripts are disabled by default, but the viewer safely handles links:
+
+```html
+<a href="logseq://page/2026-W42">This week's report</a>
+<a href="logseq://block/6a1f3c2e-...">Open task</a>
+```
+
+Restricted declarative navigation is also supported:
+
+```html
+<button data-ls-call="App.pushState"
+        data-ls-args='{"k":"page","params":{"name":"2026-W42"}}'>
+  This week's report
+</button>
+```
+
+Allowed navigation methods: `App.pushState`, `App.openExternalLink`,
+`Editor.openInRightSidebar`. Write operations are intentionally blocked.
+
+> Dashboard opens from the toolbar/command. Logseq's `:default-home` is not
+> modified. Making it the startup page requires a real page macro plus
+> `:default-home`.
 
 ---
 
-### 🎛️ Toolbar
+## Settings
 
-| Feature | Description |
-|---------|-------------|
-| Auto-popup | Toolbar appears when text is selected |
-| Shortcuts | Customizable keyboard shortcuts |
-| Internationalization | Uses emoji icons with multi-language support |
+The settings modal has eight tabs:
+
+```text
+General / Toolbar / Task Progress / Heatmap / Block View / Summary / Milestone / HTML Viewer
+```
+
+HTML Viewer settings include:
+
+| Setting | Default | Description |
+|---|---|---|
+| Default side | right | left or right dock |
+| Default width | 56 | percentage of viewport |
+| Dashboard toolbar button | on | show the Dashboard button when a dashboard is configured |
+| Dashboard asset | empty | chosen HTML attachment |
+| Dashboard fullscreen | on | open dashboard fullscreen |
+| Write annotations to graph | on | asset child block, fallback page |
+| Annotation page prefix | `HTML 标注 - ` | fallback page prefix |
+| Allow scripts | off | dangerous; trusted files only |
+| Allow remote resources | off | keep self-contained HTML offline |
 
 ---
 
-### ⚙️ Theme & Multi-language
+## Tests and docs
 
-| Feature | Description |
-|---------|-------------|
-| Theme | light / dark auto-follows Logseq |
-| Languages | Chinese, English, Japanese |
-| Extensibility | CSS override, language file extension |
+- [Full functional report](docs/testing/reports/2026-10-19-functional-test-report.html)
+- [User guide](docs/USER_GUIDE.en.md)
+- [HTML Viewer design and limitations](docs/architecture/HTML-Viewer.md)
+- [Real Logseq smoke checklist](docs/architecture/Real-Logseq-Smoke-Test.md)
+
+Current verification:
+
+```text
+Vitest: 80 files / 718 tests passed
+Electron E2E: 25/25 passed
+```
+
+The Electron suite uses a host mock, not a real Logseq installation. Run the
+real-device smoke checklist before claiming full production validation.
 
 ---
 
-### 🎨 CSS Customization
-
-Override default styles via Logseq CSS:
-
-```css
-/* Custom toolbar styles */
-.ltt-toolbar {
-  --ltt-bg: #ffffff;
-  --ltt-border: #e5e7eb;
-}
-
-/* Custom task progress colors */
-.ltt-task-progress {
-  --ltt-done-color: #22c55e;
-}
-```
-
----
-
-## 三、Installation
-
-### Method 1: Plugin Marketplace (Recommended)
-
-1. Logseq → Menu → **Plugins**
-2. Search `logseq-text-toolkit` → **Install**
-
-### Method 2: GitHub URL
-
-1. Logseq → Menu → **Plugins**
-2. Click **Load plugin from URL**
-3. Enter: `https://github.com/duiliuliu/logseq-text-toolkit/`
-
----
-
-## 四、Detailed Usage Guide
-
-### 4.1 Text Formatting
-
-Select text → Toolbar auto-pops up → Click button. Toolbar supports the following features:
-
-#### 4.1.1 Formatting Toolbar Features
-
-The toolbar consists of multiple functional groups and individual buttons. Complete feature list:
-
-| Group/Button | Function | Shortcut | Output Format |
-|-------------|---------|---------|---------------|
-| **Format (Formatting Group)** | - | - | - |
-| → Bold | Bold text | - | `**${selectedText}**` |
-| → Italic | Italic text | mod+shift+i | `*${selectedText}*` |
-| → Strike through | Strikethrough | - | `~~${selectedText}~~` |
-| → Subscript | Subscript | - | `[:sub ${selectedText}]` |
-| → Superscript | Superscript | - | `[:sup ${selectedText}]` |
-| → Code | Inline code | - | `` `${selectedText}` `` |
-| **Highlight (Highlight Group)** | - | - | - |
-| → Yellow | Yellow highlight | - | `==${selectedText}==` |
-| → Red | Red highlight | - | `[:mark.red ${selectedText}]` |
-| → Blue | Blue highlight | - | `[:mark.blue ${selectedText}]` |
-| → Green | Green highlight | - | `[:mark.green ${selectedText}]` |
-| → Purple | Purple highlight | - | `[:mark.purple ${selectedText}]` |
-| **Text Color (Text Color Group)** | - | - | - |
-| → Red text | Red text color | - | `[:span.red ${selectedText}]` |
-| → Blue text | Blue text color | - | `[:span.blue ${selectedText}]` |
-| → Yellow text | Yellow text color | - | `[:span.yellow ${selectedText}]` |
-| → Green text | Green text color | - | `[:span.green ${selectedText}]` |
-| → Purple text | Purple text color | - | `[:span.purple ${selectedText}]` |
-| **Underline (Underline Group)** | - | - | - |
-| → Red underline | Red underline | - | `[:u.red ${selectedText}]` |
-| → Blue underline | Blue underline | - | `[:u.blue ${selectedText}]` |
-| → Yellow underline | Yellow underline | - | `[:u.yellow ${selectedText}]` |
-| → Green underline | Green underline | - | `[:u.green ${selectedText}]` |
-| → Purple underline | Purple underline | - | `[:u.purple ${selectedText}]` |
-| **Cloze (Hidden by default)** | - | - | `[:span.cloze ${selectedText}]` |
-| **Remove formatting** | Remove all formatting | mod+shift+x | - |
-| **Comment** | Add inline comment | - | - |
-
-#### 4.1.2 Color Options Summary
-
-All highlight and color options use the following colors:
-
-| Color | Color Code | Supported Formats |
-|-------|------------|------------------|
-| 🔴 Red | #ef4444 | Highlight, Text Color, Underline |
-| 🟡 Yellow | #f59e0b | Highlight, Text Color, Underline |
-| 🔵 Blue | #3b82f6 | Highlight, Text Color, Underline |
-| 🟢 Green | #22c55e | Highlight, Text Color, Underline |
-| 🟣 Purple | #a855f7 | Highlight, Text Color, Underline |
-
-### 4.3 Task Progress Tracking
-
-#### 4.3.1 Supported Task Statuses
-
-| Status | Label | Description |
-|--------|-------|-------------|
-| todo | To Do | Tasks not yet started |
-| doing | In Progress | Currently executing tasks |
-| in-review | In Review | Tasks awaiting review |
-| done | Done | Completed tasks |
-| waiting | Waiting | Tasks waiting for other tasks |
-| canceled | Canceled | Canceled tasks |
-
-#### Display Style Parameters
-
-| Style | Command Parameter |
-|-------|-----------------|
-| Mini Circle | mini-circle |
-| Dot Matrix | dot-matrix |
-| Status Cursor | status-cursor |
-| Progress Capsule | progress-capsule |
-| Step Progress | step-progress |
-
-#### Nested Levels
-
-| Nested Level | Description |
-|--------------|-------------|
-| Current Level Only | Only count direct subtasks |
-| 2 Levels Deep | Count current and next level |
-| 3 Levels Deep | Count current and two levels down |
-| All Levels | Count all nested levels |
-
-### 4.3 Heatmap
-
-#### View Types
-
-| View | Parameter | Description |
-|------|-----------|-------------|
-| Year View | year | Display full year heatmap |
-| Month View | month | Display single month heatmap |
-| Week View | week | Display single week heatmap |
-
-#### Query Methods
-
-| Query Type | Parameter Format | Example |
-|------------|------------------|---------|
-| Tag Query | tag=tagname | tag=work |
-| Page Query | page=pagename | page=My Page |
-| Property Query | property=property::value | property=category::work |
-
-### 4.4 Block View
-
-#### Theme Styles
-
-| Theme | Features | Use Case |
-|-------|----------|----------|
-| Default | Clean and clear | General use |
-| Notion | Borderless, minimalist | Pursue simplicity |
-| Linear | Tech-focused | Programmers |
-| Dark | Dark color scheme | Night use |
-| Gradient | Gradient effects | Aesthetic appeal |
-| Tana | Soft colors | Fresh style |
-| Custom | Fully customizable | Custom needs |
-
-#### Mind View (Experimental Feature)
-
-Mind View is the fifth view type of Block View, displaying the hierarchical relationship between blocks in a mind map format.
-
-| Feature | Description |
-|---------|-------------|
-| Hierarchy Visualization | Automatically parses block nesting to form a mind map structure |
-| Auto Layout | Intelligent algorithm calculates node positions for beautiful arrangement |
-| Node Styling | Supports customization of node colors, borders, radius, and more |
-| Interactions | Supports mouse drag, zoom, collapse/expand, and other operations |
-
-**Usage Example**:
-```markdown
-{{renderer :block-view, view=mind}}
-```
-
-**Notes**:
-> ⚠️ Mind View is an experimental feature that may need optimization in the following cases:
-> - Very large hierarchical structures (100+ nodes)
-> - Deep nesting (more than 6 levels)
-> - Blocks containing lots of special characters or formatting
-
-### 4.4 Toolbar Configuration
-
-Configure toolbar elements via JSON in Settings:
-
-```json
-[
-  {
-    "id": "format-bold",
-    "label": "Bold",
-    "icon": "**",
-    "invoke": "editor/insert-batch-edit",
-    "invokeParams": {
-      "texts": [["**{{selected}}**", "{{selected}}**"]]
-    }
-  }
-]
-```
-
-**Configuration Fields**:
-| Field | Type | Description |
-|-------|------|-------------|
-| id | string | Unique identifier |
-| label | string | Button display name |
-| icon | string | Button icon (supports emoji) |
-| invoke | string | Logseq command to invoke |
-| invokeParams | object | Command parameters |
-| hidden | boolean | Hide button |
-
-### 4.5 Custom Languages and Internationalization
-
-The plugin supports multi-language extension. You can add new language packs or modify existing translations.
-
-
-#### File Operation Instructions
- 
-| dist File Operation Example	 | settings File Operation Example |
-| :---------------: | :-------------------: |
-| Action: open package<br><img width="300"   alt="image" src="https://github.com/user-attachments/assets/8e2447f3-2f39-4111-a187-499c3c0498d8" /> | Action: open settings<br><img width="300"   alt="image" src="https://github.com/user-attachments/assets/8e2447f3-2f39-4111-a187-499c3c0498d8" /> |
-
-#### Current Supported Languages
-
-| Language Code | Language Name | File Path |
-|---------------|---------------|-----------|
-| zh-CN | 简体中文 | translations/zh-CN.json |
-| en | English | translations/en.json |
-| ja | 日本語 | translations/ja.json |
-
-#### Adding New Languages
-
-Requires two steps:
-
-**Step 1: Add language file to `dist/translations/`**
-
-Create a new language file (e.g., `de.json` for German):
-
-```json
-{
-  "toolbar": {
-    "bold": "Fett",
-    "highlight": "Hervorheben"
-  },
-  "settings": {
-    "title": "Einstellungen"
-  }
-}
-```
-
-**Step 2: Register language in Settings**
-
-Add configuration in `src/settings/defaultSettings.json` under `meta.language.languages`:
-
-```json
-{
-  "code": "de",
-  "name": "Deutsch",
-  "path": "translations/de.json"
-}
-```
-
-Complete languages configuration example:
-
-```json
-"languages": [
-  {
-    "code": "zh-CN",
-    "name": "简体中文",
-    "path": "translations/zh-CN.json"
-  },
-  {
-    "code": "en",
-    "name": "English",
-    "path": "translations/en.json"
-  },
-  {
-    "code": "ja",
-    "name": "日本語",
-    "path": "translations/ja.json"
-  },
-  {
-    "code": "de",
-    "name": "Deutsch",
-    "path": "translations/de.json"
-  }
-]
-```
-
-#### Modifying Existing Translations
-
-Directly edit the corresponding JSON file in `dist/translations/`:
+## Development
 
 ```bash
-# Edit Chinese translation
-vim dist/translations/zh-CN.json
-
-# Edit English translation
-vim dist/translations/en.json
+npm install
+npm run dev
+npm test
+npm run check
+npm run build:plugin
+npm run e2e
+npm run validate:translations
 ```
 
-You need to restart the plugin for changes to take effect.
+Project structure:
 
-#### Translation File Structure
-
-Each language JSON file structure:
-
-```json
-{
-  "toolbar": {
-    "bold": "Bold",
-    "highlight": "Highlight",
-    "fileLink": "File Link",
-    "comment": "Comment"
-  },
-  "settings": {
-    "title": "Settings",
-    "tabs": {
-      "general": "⚙️ General Settings",
-      "toolbar": "🛠️ Toolbar Settings"
-    },
-    "enabled": "Enable",
-    "disabled": "Disable"
-  },
-  "blockView": {
-    "description": "Configure the global default behavior of the block view module.",
-    "enabled": "Enable Block View"
-  }
-}
-```
-
-### 4.6 Custom CSS Styles
-
-The plugin's CSS files are located in `dist/` directory. You can customize styles by modifying CSS files.
-
-#### CSS Files Description
-
-| Filename | Description |
-|----------|-------------|
-| `toolbar.css` | Toolbar styles |
-| `taskProgress.css` | Task progress styles |
-| `heatmap.css` | Heatmap styles |
-| `blockView.css` | Block view base styles |
-| `tableView.css` | Table view styles |
-| `galleryView.css` | Gallery view styles |
-| `boardView.css` | Board view styles |
-| `settingsModal.css` | Settings panel styles |
-| `summary.css` | Summary generation styles |
-| `customSelect.css` | Custom dropdown styles |
-
-#### Custom Style Methods
-
-**Method 1: Directly Modify CSS Files (Recommended for Deep Customization)**
-
-Find and modify the corresponding CSS file in `dist/` directory, restart the plugin for changes to take effect:
-
-```bash
-# Edit toolbar styles
-vim dist/toolbar.css
-
-# Edit table view styles
-vim dist/tableView.css
-```
-
-**Method 2: Use Logseq CSS Override (Recommended for Simple Customization)**
-
-Add override styles in Logseq's `custom.css` file:
-
-```css
-/* Custom toolbar styles */
-.ltt-toolbar {
-  --ltt-bg: #ffffff;
-  --ltt-border: #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Custom task progress colors */
-.ltt-task-progress {
-  --ltt-done-color: #22c55e;
-  --ltt-todo-color: #94a3b8;
-}
-
-/* Custom table view styles */
-.ltt-table-root {
-  --ltt-border: #e2e8f0;
-  --ltt-header-bg: #f8fafc;
-  --ltt-radius: 8px;
-}
-
-/* Custom view switcher bar */
-.ltt-view-bar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 6px;
-}
-
-/* Dark mode customization */
-.dark .ltt-toolbar {
-  --ltt-bg: #1e2128;
-  --ltt-border: rgba(255, 255, 255, 0.1);
-}
-```
-
-#### CSS Variables Reference
-
-| Variable | Description | Example Value |
-|----------|-------------|---------------|
-| `--ltt-bg` | Background color | `#ffffff` |
-| `--ltt-border` | Border color | `#e5e7eb` |
-| `--ltt-text` | Text color | `#333333` |
-| `--ltt-primary` | Primary color | `#3b82f6` |
-| `--ltt-hover` | Hover color | `rgba(0,0,0,0.05)` |
-
-#### Custom Theme Examples
-
-**Notion Style Theme**:
-
-```css
-.ltt-table-root.theme-notion {
-  --ltt-border: #f0f0f0;
-  --ltt-header-bg: #ffffff;
-  --ltt-radius: 0px;
-  --ltt-shadow: none;
-}
-```
-
-**Dark Tech Style**:
-
-```css
-.dark .ltt-table-root.theme-linear {
-  --ltt-border: rgba(255, 255, 255, 0.08);
-  --ltt-header-bg: #1e2128;
-  --ltt-header-text: #5e6ad2;
-  --ltt-cell-text: #b8c0cc;
-}
-```
-
-#### Notes
-
-1. **Priority**: Logseq's custom.css has higher priority than plugin's built-in CSS
-2. **Override Method**: Use `!important` to force override
-3. **Dark Mode**: Plugin automatically follows Logseq's dark mode. It is recommended to configure `.dark` selector as well
-4. **Backup**: It is recommended to backup original CSS files before modification
-5. **Debugging**: Use browser developer tools to view actually applied styles
-
----
-
-## 五、Development Guide
-
-### Development Environment
-
-```bash
-npm install          # Install dependencies
-npm run dev          # Development server (http://localhost:3000)
-npm run build        # Build production version
-npm run test         # Test mode
-```
-
-### Project Structure
-
-```
+```text
 src/
-├── components/       # React components
-│   ├── Toolbar/     # Toolbar component
-│   ├── TaskProgress/# Task Progress component
-│   ├── Heatmap/     # Heatmap component
-│   ├── BlockView/   # Block View component
-│   ├── Summary/     # Summary component
-│   └── SettingsModal/# Settings panel
-├── lib/            # Business logic
-│   ├── blockView/  # Block View logic
-│   ├── summary/    # Summary logic
-│   └── render/     # Renderer related
-├── settings/       # Settings management
-├── translations/    # Internationalization files
-└── utils/          # Utility functions
+├── components/       # React UI (Toolbar, TaskProgress, Heatmap, BlockView, Summary, HtmlViewer, Settings)
+├── lib/              # business logic (blockView, summary, htmlViewer, render, ...)
+├── settings/         # settings schema and defaults
+├── translations/     # zh-CN / en / ja
+└── utils/
 ```
 
-### CSS Variables
-
-| Variable | Description |
-|----------|-------------|
-| --ltt-bg | Background color |
-| --ltt-border | Border color |
-| --ltt-text | Text color |
-| --ltt-primary | Primary color |
-| --ltt-hover | Hover color |
-
----
-
-## 六、License
+## License
 
 MIT

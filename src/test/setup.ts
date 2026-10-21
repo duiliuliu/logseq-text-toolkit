@@ -1,5 +1,10 @@
 // 测试环境设置文件
 import { vi } from 'vitest';
+import { configure } from '@testing-library/dom';
+
+// 组件测试里包含真实定时器/slot 挂载等待，放宽默认 waitFor 超时，
+// 避免 CI 或并行负载下出现偶发超时。
+configure({ asyncUtilTimeout: 3000 });
 
 // Mock ResizeObserver
 class ResizeObserver {

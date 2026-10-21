@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Modal from '../Modal/index'
 import { useSettingsContext } from '../../settings/useSettings'
@@ -10,6 +10,7 @@ import HeatmapSettings from './tabs/HeatmapSettings'
 import BlockViewSettings from './tabs/BlockViewSettings'
 import SummarySettings from './tabs/SummarySettings'
 import MilestoneSettings from './tabs/MilestoneSettings'
+import HtmlViewerSettings from './tabs/HtmlViewerSettings'
 import { t, getCurrentLanguage } from '../../translations/i18n'
 import { ThemeType, Settings } from '../../settings/types'
 import { logseqAPI } from '../../logseq/index.ts'
@@ -42,6 +43,8 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
   
   const [settings, setSettings] = useState<Settings | null>(null)
   const [activeTab, setActiveTab] = useState('general')
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const activeTabRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -89,6 +92,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     settings.blockView?.enabled !== false && { id: 'block-view', component: BlockViewSettings, label: t('settings.tabs.blockView', language), icon: '' },
     settings.summary?.enabled !== false && { id: 'summary', component: SummarySettings, label: t('settings.tabs.summary', language), icon: '' },
     settings.milestone?.enabled !== false && { id: 'milestone', component: MilestoneSettings, label: t('settings.tabs.milestone', language), icon: '' },
+    settings.htmlViewer?.enabled !== false && { id: 'html-viewer', component: HtmlViewerSettings, label: t('settings.tabs.htmlViewer' as any, language), icon: '' },
   ].filter(Boolean) as Tab[] : []
 
   const tabs: Tab[] = [
@@ -104,9 +108,22 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
     }
   }, [tabs, activeTab])
 
+  useEffect(() => {
+    activeTabRef.current?.scrollIntoView({ block: 'nearest', inline: 'center' })
+  }, [activeTab])
+
+  const scrollTabs = (direction: -1 | 1) => {
+    tabsRef.current?.scrollBy({ left: direction * 220, behavior: 'smooth' })
+  }
+
+  const pluginVersion = (logseqAPI as any).baseInfo?.version || (logseqAPI as any)._version || ''
+  const settingsTitle = pluginVersion
+    ? `${t('settings.title', language)} · v${pluginVersion}`
+    : t('settings.title', language)
+
   if (isLoading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
+      <Modal isOpen={isOpen} onClose={onClose} title={settingsTitle} theme={theme}>
         <div className="settings-loading">{t('settings.loading')}</div>
       </Modal>
     )
@@ -114,7 +131,7 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
   if (!settings) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title')} theme={theme}>
+      <Modal isOpen={isOpen} onClose={onClose} title={settingsTitle} theme={theme}>
         <div className="settings-error">{t('settings.error')}</div>
       </Modal>
     )
@@ -122,22 +139,28 @@ function SettingsModal({ isOpen, onClose, theme }: SettingsModalProps) {
 
   const TabComponent = tabs.find(tab => tab.id === activeTab)?.component
 
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={t('settings.title', language)} theme={modalTheme}>
+    <Modal isOpen={isOpen} onClose={onClose} title={settingsTitle} theme={modalTheme}>
       <div className="ltt-settings-container" data-theme={modalTheme}>
         <div className="ltt-settings-header">
-          <div className="ltt-settings-tabs">
-          {tabs.map(tab => (
-            <button 
-              key={tab.id}
-              className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              <span style={{ marginRight: '4px' }}>{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
-        </div>
+          <div className="ltt-settings-tabs-shell">
+            <button type="button" className="ltt-settings-tabs-scroll" onClick={() => scrollTabs(-1)} aria-label="previous settings tab">‹</button>
+            <div className="ltt-settings-tabs" ref={tabsRef}>
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  ref={activeTab === tab.id ? activeTabRef : undefined}
+                  className={`ltt-settings-tab ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span style={{ marginRight: '4px' }}>{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            <button type="button" className="ltt-settings-tabs-scroll" onClick={() => scrollTabs(1)} aria-label="next settings tab">›</button>
+          </div>
         </div>
 
         <div className="ltt-settings-content">

@@ -18,22 +18,17 @@ export const Comment = {
    * @returns 包装后的文本
    */
   wrapText: (selectedText: string, comment: string): string => {
-    const escapedText = selectedText
-      .replace(/\\/g, '\\\\')
-      .replace(/"/g, '&quot;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\n/g, '\\n')
-      .replace(/\r/g, '\\r')
-      .replace(/\t/g, '\\t');
-    const escapedComment = comment
-      .replace(/\\/g, '\\\\')
-      .replace(/"/g, '&quot;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\n/g, '\\n')
-      .replace(/\r/g, '\\r')
-      .replace(/\t/g, '\\t');
+    // Hiccup/EDN 字符串需要反斜杠 + 引号转义；HTML 实体（&quot;）会被当成普通文本。
+    const escapeEdn = (value: string): string =>
+      value
+        .replace(/\\/g, '\\\\')
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t');
+
+    const escapedText = escapeEdn(selectedText);
+    const escapedComment = escapeEdn(comment);
     return `[:span.inline-comment {:data-comment "${escapedComment}"} "${escapedText}"]`;
   },
 
@@ -43,11 +38,21 @@ export const Comment = {
    * @returns 原始文本和注释
    */
   unwrapText: (htmlText: string): CommentConfig => {
-    const regex = /\[:span\.inline-comment\s*\{:data-comment\s*"([^"]*)"\}\s*"([^"]*)"\]/i;
+    const regex = /\[:span\.inline-comment\s*\{:data-comment\s*"((?:\\.|[^"\\])*)"\}\s*"((?:\\.|[^"\\])*)"\]/i;
     const match = htmlText.match(regex);
     if (match) {
+      const unescapeEdn = (value: string): string =>
+        value.replace(/\\(["\\nrt])/g, (_m, ch) => ({
+          '"': '"',
+          '\\': '\\',
+          n: '\n',
+          r: '\r',
+          t: '\t',
+        }[ch] ?? ch));
       return {
-        selectedText: match[2], comment: match[1] };
+        selectedText: unescapeEdn(match[2]),
+        comment: unescapeEdn(match[1]),
+      };
     }
     return { selectedText: '', comment: '' };
   }

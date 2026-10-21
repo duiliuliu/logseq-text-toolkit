@@ -59,6 +59,15 @@ function buildLeafOnlyClause(): string {
   return `(not [?child :block/parent ?b])`
 }
 
+function readStatusTitle(value: any): string | undefined {
+  if (!value) return undefined;
+  if (typeof value === 'string') return value;
+  return value['block/title']
+    ?? value[':block/title']
+    ?? value['title']
+    ?? value[':title'];
+}
+
 function buildTaskFilter(): string {
   // 任务识别条件：有 #task 标签 或 有 status 属性
   return `
@@ -87,13 +96,12 @@ export async function calculateTaskProgress(
     const taskFilterClause = buildTaskFilter()
 
     const query = `
-      [:find (pull ?b [:block/uuid :block/title :block/properties :block/tags]) ?status-title
+      [:find (pull ?b [:block/uuid :block/title :block/tags
+                       {:logseq.property/status [:block/title]}])
        :where
        ${nestingClauses}
        ${leafClause}
        ${taskFilterClause}
-       [?b :logseq.property/status ?status]
-       [?status :block/title ?status-title]
       ]
     `
 
@@ -122,13 +130,16 @@ export async function calculateTaskProgress(
     const statusCounts: Record<string, number> = {}
     
     for (const result of results) {
-      if (!result || !Array.isArray(result) || result.length < 2) continue
-      
+      if (!result || !Array.isArray(result) || result.length < 1) continue
+
       const block = result[0]
-      const statusTitle = result[1] // 直接从查询结果获取状态名称
-      
       if (!block) continue
-      
+
+      const statusValue = block['logseq.property/status']
+        ?? block[':logseq.property/status']
+        ?? block['block/properties']?.['logseq.property/status']
+        ?? block['block/properties']?.[':logseq.property/status']
+      const statusTitle = readStatusTitle(statusValue)
       const status = statusTitle ? statusTitle.toLowerCase() : 'todo'
       statusCounts[status] = (statusCounts[status] || 0) + 1
     }
@@ -152,7 +163,9 @@ export async function calculateTaskProgress(
       })
     }
 
-    const completedTasks = statusStats.find(s => s.status.toLowerCase() === 'done')?.count || 0
+    const completedTasks = statusStats
+      .filter(s => ['done', 'completed'].includes(s.status.toLowerCase()))
+      .reduce((sum, s) => sum + s.count, 0)
     const progress = Math.round((completedTasks / totalTasks) * 100)
 
     const result = {

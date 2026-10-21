@@ -406,9 +406,13 @@ html.dark .theme-indigo {
    COLUMN
 ========================================================= */
 
+.ltt-board-root[data-ltt-column-borders="false"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-color: transparent !important;
+}
+
 .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
-  min-width: var(--ltt-column-width);
-  max-width: var(--ltt-column-width);
+  min-width: min(var(--ltt-column-width, 320px), 85vw);
+  max-width: min(var(--ltt-column-width, 320px), 85vw);
   flex-shrink: 0;
   background: var(--ltt-column-bg);
   border: 1px solid var(--ltt-border);
@@ -450,7 +454,7 @@ html.dark .theme-indigo {
 .ltt-board-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap {
   display: flex !important;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--ltt-gap, 10px);
   padding: 8px !important;
   min-height: 100px;
 }

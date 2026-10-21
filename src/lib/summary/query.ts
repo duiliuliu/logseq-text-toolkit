@@ -2,42 +2,93 @@ import { logseqAPI } from '../../logseq';
 import { DateRange, BlockStats, TaskStats, PageStats } from './types';
 import logger from '../logger';
 
+function readTitle(value: any): string {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  return value['block/title']
+    ?? value[':block/title']
+    ?? value['title']
+    ?? value[':title']
+    ?? '';
+}
+
+function readTimestamp(value: any): number | null {
+  if (value == null) return null;
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  if (value instanceof Date) return value.getTime();
+
+  const asNumber = Number(value);
+  if (Number.isFinite(asNumber)) return asNumber;
+
+  const asDate = new Date(String(value));
+  return Number.isNaN(asDate.getTime()) ? null : asDate.getTime();
+}
+
+function readProperty(block: any, key: string): any {
+  if (!block) return undefined;
+  return block[key]
+    ?? block[`:${key}`]
+    ?? block[key.replace(/^:/, '')];
+}
+
 export class Query {
   async queryBlocks(dateRange: DateRange): Promise<BlockStats> {
     const { start, end } = dateRange;
     const startTimestamp = start.getTime();
     const endTimestamp = end.getTime();
 
-    const allBlocksWithMeta = await logseqAPI.DB.datascriptQuery(`
-      [:find  (pull ?b 
-                [:block/content 
+    // 统计“本周期创建或修改过”的块，避免 total 与 created 完全重复。
+    const touchedBlocks = await logseqAPI.DB.datascriptQuery(`
+      [:find (pull ?b
+                [:block/title
                  :block/created-at
+                 :block/updated-at
                  {:block/page [:block/title]}
                  {:block/tags [:block/title]}
                  {:block/refs [:block/title]}])
        :where
-       [?b :block/created-at ?date]
-       [(>= ?date ${startTimestamp})]
-       [(<= ?date ${endTimestamp})]
+       (or-join [?b]
+         (and [?b :block/created-at ?created]
+              [(>= ?created ${startTimestamp})]
+              [(<= ?created ${endTimestamp})])
+         (and [?b :block/updated-at ?updated]
+              [(>= ?updated ${startTimestamp})]
+              [(<= ?updated ${endTimestamp})]))
+       (not [?b :block/name])
      ]
     `);
 
     const tagCount: Record<string, number> = {};
     const pageCount: Record<string, number> = {};
     let totalContentLength = 0;
+    let created = 0;
+    let modified = 0;
 
-    for (const row of allBlocksWithMeta) {
+    for (const row of touchedBlocks) {
       if (!row || !Array.isArray(row) || row.length < 1) continue;
 
       const blockData = row[0] as any;
-      const content = blockData?.['content'] || blockData?.[':block/content'] || blockData?.[':block/title'] || '';
-      const pageData = blockData?.['page'] || blockData?.[':block/page'];
-      const tagsData = blockData?.['tags'] || blockData?.[':block/tags'];
+      const content = readTitle(blockData)
+        || blockData?.['content']
+        || blockData?.[':block/content']
+        || '';
+      const pageData = blockData?.['page'] || blockData?.[':block/page'] || blockData?.['block/page'];
+      const tagsData = blockData?.['tags'] || blockData?.[':block/tags'] || blockData?.['block/tags'];
+
+      const createdAt = readTimestamp(readProperty(blockData, 'block/created-at'));
+      const updatedAt = readTimestamp(readProperty(blockData, 'block/updated-at'));
+
+      if (createdAt != null && createdAt >= startTimestamp && createdAt <= endTimestamp) {
+        created++;
+      }
+      if (updatedAt != null && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
+        modified++;
+      }
 
       totalContentLength += content.length;
 
       if (pageData) {
-        const pageName = pageData['title'] || pageData[':block/title'];
+        const pageName = readTitle(pageData);
         if (pageName) {
           pageCount[pageName] = (pageCount[pageName] || 0) + 1;
         }
@@ -45,7 +96,7 @@ export class Query {
 
       if (tagsData && Array.isArray(tagsData)) {
         tagsData.forEach((tagData: any) => {
-          const tagName = tagData?.['title'] || tagData?.[':block/title'];
+          const tagName = readTitle(tagData);
           if (tagName) {
             tagCount[tagName] = (tagCount[tagName] || 0) + 1;
           }
@@ -53,19 +104,7 @@ export class Query {
       }
     }
 
-    const created = allBlocksWithMeta.length;
-
-    const modifiedBlocks = await logseqAPI.DB.datascriptQuery(`
-      [:find (pull ?b [:block/uuid])
-       :where
-       [?b :block/updated-at ?updated]
-       [(>= ?updated ${startTimestamp})]
-       [(<= ?updated ${endTimestamp})]
-     ]
-    `);
-    const modified = modifiedBlocks.length;
-
-    const total = allBlocksWithMeta.length;
+    const total = touchedBlocks.length;
 
     logger.info('[Query:queryBlocks] completed', {
       total,
@@ -91,22 +130,32 @@ export class Query {
     const startTimestamp = start.getTime();
     const endTimestamp = end.getTime();
 
+    // 任务范围：本周期创建、计划在本周期、或本周期有更新（完成状态变化通常落在 updated-at）。
     const tasks = await logseqAPI.DB.datascriptQuery(`
-      [:find  (pull ?b 
-                [:block/content 
+      [:find (pull ?b
+                [:block/title
                  :block/created-at
-                 :block/title
+                 :block/updated-at
                  {:block/page [:block/title]}
                  {:block/tags [:block/title]}
                  {:logseq.property/status [:block/title]}
                  {:logseq.property/priority [:block/title]}
                  :logseq.property/scheduled])
        :where
-       [?b :block/created-at ?date]
-       [(>= ?date ${startTimestamp})]
-       [(<= ?date ${endTimestamp})]
-       [?b :block/tags ?t]
-       [?t :block/title "Task"]]
+       (or-join [?b]
+         (and [?b :block/created-at ?created]
+              [(>= ?created ${startTimestamp})]
+              [(<= ?created ${endTimestamp})])
+         (and [?b :logseq.property/scheduled ?scheduled]
+              [(>= ?scheduled ${startTimestamp})]
+              [(<= ?scheduled ${endTimestamp})])
+         (and [?b :block/updated-at ?updated]
+              [(>= ?updated ${startTimestamp})]
+              [(<= ?updated ${endTimestamp})]))
+       (or-join [?b]
+         (and [?b :block/tags ?t]
+              [?t :block/title "Task"])
+         [?b :logseq.property/status ?status])]
     `);
 
     const total = tasks.length;
@@ -123,33 +172,35 @@ export class Query {
       if (!task || !Array.isArray(task) || task.length < 1) continue;
 
       const block = task[0] as any;
-      
-      const statusData = block?.['logseq.property/status'];
-      const priorityData = block?.['logseq.property/priority'];
-      
-      const status = statusData?.[':block/title']?.toLowerCase() || 
-                     statusData?.['title']?.toLowerCase() || 
-                     'todo';
-      const priority = priorityData?.[':block/title']?.toLowerCase() || 
-                       priorityData?.['title']?.toLowerCase() || 
-                       'none';
 
-      if (status === 'done' || status === 'completed') {
+      const statusData = readProperty(block, 'logseq.property/status');
+      const priorityData = readProperty(block, 'logseq.property/priority');
+
+      const status = readTitle(statusData).toLowerCase() || 'todo';
+      const priority = readTitle(priorityData).toLowerCase() || 'none';
+
+      if (['done', 'completed'].includes(status)) {
         completed++;
-      } else if (status === 'cancelled') {
+      } else if (['cancelled', 'canceled'].includes(status)) {
         cancelled++;
-      } else if (status === 'doing' || status === 'now') {
+      } else if (
+        ['doing', 'now', 'in progress', 'in-progress', 'in-review', 'in review'].includes(status)
+      ) {
         inProgress++;
-      } else if (status === 'waiting' || status === 'later') {
-        // waiting
       } else {
+        // waiting / later / todo 都归入待办，保证各状态数量之和等于 total
         todo++;
       }
 
-      const scheduled = block?.['scheduled'] || block?.[':logseq.property/scheduled'];
-      if (scheduled && status !== 'done' && status !== 'completed' && status !== 'cancelled') {
-        const scheduledDate = new Date(scheduled);
-        if (scheduledDate < now) {
+      const scheduledRaw = readProperty(block, 'logseq.property/scheduled')
+        || block?.['scheduled']
+        || block?.['block/scheduled'];
+      const scheduledTimestamp = readTimestamp(scheduledRaw);
+      if (
+        scheduledTimestamp != null &&
+        !['done', 'completed', 'cancelled', 'canceled'].includes(status)
+      ) {
+        if (scheduledTimestamp < now.getTime()) {
           overdue++;
         }
       }
@@ -160,6 +211,9 @@ export class Query {
       }
     }
 
+    const completionBase = Math.max(1, total - cancelled);
+    const completionRate = total > 0 ? Math.round((completed / completionBase) * 100) : 0;
+
     logger.info('[Query:queryTasks] completed', {
       total,
       completed,
@@ -167,7 +221,7 @@ export class Query {
       todo,
       overdue,
       cancelled,
-      completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
+      completionRate,
       byPriority
     });
 
@@ -178,28 +232,35 @@ export class Query {
       todo,
       overdue,
       cancelled,
-      completionRate: total > 0 ? Math.round((completed / total) * 100) : 0,
+      completionRate,
       byPriority,
     };
   }
 
-  async queryPages(dateRange: DateRange): Promise<PageStats> {
-    const { start, end } = dateRange;
+  async queryPages(_dateRange: DateRange): Promise<PageStats> {
+    const { start, end } = _dateRange;
     const startTimestamp = start.getTime();
     const endTimestamp = end.getTime();
 
+    // 所有正常页面（排除内置/属性/类页面），用于“总页面数”；
+    // 新增/修改再按本周期计算，避免早创建但本周期修改的页面被漏掉。
     const pages = await logseqAPI.DB.datascriptQuery(`
-      [:find  (pull ?b 
+      [:find  (pull ?b
                 [:block/title
+                 :block/name
                  :block/created-at
                  :block/updated-at
                  {:block/tags [:block/title]}])
        :where
-       [?b :block/tags ?t]
-       [?t :block/title "Page"]
-       [?b :block/created-at ?date]
-       [(>= ?date ${startTimestamp})]
-       [(<= ?date ${endTimestamp})]
+       [?b :block/name]
+       [(get-else $ ?b :logseq.property/built-in? false) ?builtin]
+       [(false? ?builtin)]
+       (not-join [?b]
+         [?b :block/tags ?pt]
+         [?pt :block/title "Property"])
+       (not-join [?b]
+         [?b :block/tags ?ct]
+         [?ct :block/title "Class"])
      ]
     `);
 
@@ -212,21 +273,20 @@ export class Query {
       if (!page || !Array.isArray(page) || page.length < 1) continue;
 
       const pageData = page[0] as any;
-      const createdAt = pageData?.['created-at'] || pageData?.[':block/created-at'];
-      const updatedAt = pageData?.['updated-at'] || pageData?.[':block/updated-at'];
-      const tagsData = pageData?.['tags'] || pageData?.[':block/tags'];
+      const createdAt = readTimestamp(readProperty(pageData, 'block/created-at'));
+      const updatedAt = readTimestamp(readProperty(pageData, 'block/updated-at'));
+      const tagsData = pageData?.['tags'] || pageData?.[':block/tags'] || pageData?.['block/tags'];
 
-      if (createdAt && createdAt >= startTimestamp && createdAt <= endTimestamp) {
+      if (createdAt != null && createdAt >= startTimestamp && createdAt <= endTimestamp) {
         newPages++;
       }
-
-      if (updatedAt && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
+      if (updatedAt != null && updatedAt >= startTimestamp && updatedAt <= endTimestamp) {
         modifiedPages++;
       }
 
       if (tagsData && Array.isArray(tagsData)) {
         tagsData.forEach((tagData: any) => {
-          const tagName = tagData?.['title'] || tagData?.[':block/title'];
+          const tagName = readTitle(tagData);
           if (tagName) {
             byTag[tagName] = (byTag[tagName] || 0) + 1;
           }

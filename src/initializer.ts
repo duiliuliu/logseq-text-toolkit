@@ -13,6 +13,7 @@ import SelectToolbar from './components/SelectToolbar'
 import SettingsModal from './components/SettingsModal'
 import Heatmap from './components/Heatmap/Heatmap'
 import { renderComponent } from './lib/render'
+import { waitForElementById } from './lib/render/slot'
 import { registerTaskProgress } from './lib/taskProgress/register'
 import { registerHeatmap, setHeatmapComponent } from './lib/heatmap/register'
 import { registerBlockView } from './lib/blockView/register'
@@ -41,6 +42,7 @@ import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
 import mindMapViewCSSRaw from './components/BlockView/mindMapView.css?raw'
 import listViewCssRaw from './components/BlockView/listView.css?raw'
 import milestoneCSSRaw from './components/Milestone/milestone.css?raw'
+import htmlViewerCSSRaw from './components/HtmlViewer/htmlViewer.css?raw'
 import mainCSSRaw from './main.css?raw'
 
 import { Milestone } from './components/Milestone'
@@ -190,6 +192,12 @@ export function registerAllCSS(): void {
     inlineContent: milestoneCSSRaw,
     externalPath: 'milestone.css'
   })
+
+  registerCSS('htmlViewer', {
+    type: 'both',
+    inlineContent: htmlViewerCSSRaw,
+    externalPath: 'htmlViewer.css'
+  })
 }
 
 /* ============================================================================
@@ -197,6 +205,7 @@ export function registerAllCSS(): void {
    ============================================================================ */
 
 let settingsModalOpen = false
+let lastSettingsToggleAt = 0
 
 /**
  * 渲染 SettingsModal 组件到 DOM
@@ -226,7 +235,8 @@ export async function initSettingsModal(): Promise<void> {
     path: '#app-container',
     template: `<div id="${ID.SETTINGS}"></div>`,
   })
-  setTimeout(renderSettingsModal, 1)
+  await waitForElementById(ID.SETTINGS)
+  renderSettingsModal()
 }
 
 /**
@@ -234,13 +244,21 @@ export async function initSettingsModal(): Promise<void> {
  * 由 logseq 工具栏按钮触发
  */
 export async function settingToggle(): Promise<void> {
+  const now = Date.now()
+  if (now - lastSettingsToggleAt < 300) return
+  lastSettingsToggleAt = now
   settingsModalOpen = !settingsModalOpen
-  logseqAPI.provideUI({
-    key: ID.SETTINGS,
-    path: '#app-container',
-    template: `<div id="${ID.SETTINGS}"></div>`,
-  })
-  setTimeout(renderSettingsModal, 1)
+  // initSettingsModal already owns this container. Re-providing it from the
+  // toolbar callback can replace the node under React's root on the real Host.
+  if (!getDocument().getElementById(ID.SETTINGS)) {
+    logseqAPI.provideUI({
+      key: ID.SETTINGS,
+      path: '#app-container',
+      template: `<div id="${ID.SETTINGS}"></div>`,
+    })
+    await waitForElementById(ID.SETTINGS)
+  }
+  renderSettingsModal()
 }
 
 /**
@@ -254,13 +272,34 @@ export function registerLogseqButton(): void {
     key: ID.BUTTON,
     template: `
       <a class="button" id="${ID.BUTTON}"
-         data-on-click="settingToggle"
          data-rect
          title="${buttonTooltip}">
         <i class="ti ti-text-wrap"></i>
       </a>
     `,
   })
+  bindSettingsButton()
+}
+
+/**
+ * 直接绑定点击事件。
+ *
+ * 真实 DB Host 上，插件工具栏的 data-on-click 模型调用并不可靠；直接监听
+ * 自己注入的按钮可以保证设置面板始终可打开，同时避免与 Host 重复触发。
+ */
+function bindSettingsButton(attempt = 0): void {
+  const button = getDocument().getElementById(ID.BUTTON) as HTMLElement | null
+  if (!button) {
+    if (attempt < 60) setTimeout(() => bindSettingsButton(attempt + 1), 50)
+    return
+  }
+  if ((button as any).__lttSettingsBound) return
+  ;(button as any).__lttSettingsBound = true
+  button.addEventListener('click', (event) => {
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    void settingToggle()
+  }, true)
 }
 
 /* ============================================================================
@@ -268,16 +307,36 @@ export function registerLogseqButton(): void {
    ============================================================================ */
 
 /**
- * 渲染 SelectToolbar 组件到 DOM
+ * 解析工具栏的原生选区监听容器。
+ *
+ * DB 图主要走 Editor.onInputSelectionEnd，不依赖该容器；file 图 / 旧 Host
+ * 才需要它。不同版本/路由下 App 可能使用 #main-content-container 或
+ * #app-main-home，两者都做兜底。
  */
-function renderSelectToolbar(): void {
-  const toolbarContainer = getDocument().getElementById(ID.TOOLBAR)
-  const mainContentContainer = getDocument().getElementById('main-content-container')
-  if (!toolbarContainer || !mainContentContainer) return
+export function resolveToolbarTarget(doc: Document = getDocument()): HTMLElement | null {
+  return doc.getElementById('main-content-container')
+    ?? doc.getElementById('app-main-home')
+}
+
+/**
+ * 渲染 SelectToolbar 组件到 DOM。
+ *
+ * 只强依赖插件自己的 toolbarContainer；主内容容器可能晚于插件就绪挂载，
+ * 不能因为它暂时为空就永久放弃渲染。
+ */
+function renderSelectToolbar(attempt = 0): void {
+  const doc = getDocument()
+  const toolbarContainer = doc.getElementById(ID.TOOLBAR)
+  if (!toolbarContainer) {
+    if (attempt < 40) {
+      setTimeout(() => renderSelectToolbar(attempt + 1), 50)
+    }
+    return
+  }
 
   const currentSettings = getSettings()
   renderComponent(toolbarContainer, SelectToolbar, {
-    targetElement: mainContentContainer,
+    targetElement: resolveToolbarTarget(doc),
     items: currentSettings.ToolbarItems || [],
   })
 }
@@ -295,7 +354,8 @@ export async function initSelectToolbar(): Promise<void> {
     path: '#app-container',
     template: `<div id="${ID.TOOLBAR}"></div>`,
   })
-  setTimeout(renderSelectToolbar, 1)
+  await waitForElementById(ID.TOOLBAR)
+  renderSelectToolbar(0)
 }
 
 /* ============================================================================
@@ -320,7 +380,8 @@ export async function initCommentApp(): Promise<void> {
     path: '#app-container',
     template: `<div id="${ID.COMMENT}"></div>`,
   })
-  setTimeout(renderCommentApp, 1)
+  await waitForElementById(ID.COMMENT)
+  renderCommentApp()
 }
 
 /* ============================================================================

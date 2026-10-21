@@ -51,12 +51,27 @@ export async function createPage(
 ): Promise<boolean> {
   try {
     logger.info('📄 PageUtils: Creating page', { pageName, template });
-    const pageID = await logseqAPI.Editor.createPage(pageName, '', { createFirstBlock: true });
-    logger.debug('📄 PageUtils: Page created with ID', { pageName, pageID });
-    const block = pageID && await logseqAPI.Editor.insertBlock(pageID, "");
-    logger.debug('📄 PageUtils: First block created', { pageName, block });
-    block && await logseqAPI.App.insertTemplate(block.uuid, template || '');
-    logger.debug('📄 PageUtils: Template inserted', { pageName, template });
+    const page = await logseqAPI.Editor.createPage(pageName, '', { createFirstBlock: true });
+    logger.debug('📄 PageUtils: Page created', { pageName, pageId: page?.uuid });
+
+    if (!page) {
+      logger.error('[PageUtils] Failed to create page:', pageName);
+      return false;
+    }
+
+    // 只有调用方显式提供模板内容时才写入；不要默认创建空块或调用
+    // App.insertTemplate(block, name)（该 API 接收的是模板名，不是模板内容）。
+    if (template) {
+      const blocks = await logseqAPI.Editor.getPageBlocksTree(page.uuid);
+      const firstBlock = blocks?.[0];
+      if (firstBlock?.uuid) {
+        await logseqAPI.Editor.updateBlock(firstBlock.uuid, template);
+      } else {
+        await logseqAPI.Editor.insertBlock(page.uuid, template);
+      }
+      logger.debug('📄 PageUtils: Template content inserted', { pageName });
+    }
+
     logger.info(`[PageUtils] Created page: ${pageName}`);
 
     if (typeof window !== 'undefined' && (window as any).addToast) {

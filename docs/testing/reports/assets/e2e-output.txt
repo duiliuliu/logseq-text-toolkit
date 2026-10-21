@@ -1,0 +1,41 @@
+
+=== main functional suite ===
+PASS  plugin-registration
+PASS  style-and-i18n
+PASS  settings-modal
+PASS  selection-sdk-bold
+PASS  comment-inline
+FAIL  blockview-macro-switch
+      {"buttons":["list","table","gallery","board"],"tableCols":"none","galleryCols":"438.328px 438.336px 438.336px","tableOk":false,"galleryOk":true,"rowControlHidden":false,"update":{"type":"update","id":"block-1","content":"{{renderer :blockview, gallery}}"}}
+PASS  blockview-settings-refresh
+PASS  taskprogress-macro
+PASS  heatmap-macro-interaction
+PASS  milestone-macro
+PASS  summary-generate
+PASS  slash-commands
+PASS  settings-save
+12/13 passed
+
+=== summary logic suite ===
+PASS  summary-custom-range
+PASS  summary-yearly
+PASS  summary-replace
+3/3 passed
+
+=== html viewer suite ===
+PASS  html-viewer-open
+PASS  html-viewer-annotation
+PASS  html-viewer-panel-controls
+PASS  html-dashboard
+PASS  html-viewer-persistence
+5/5 passed
+
+=== native fallback suite ===
+PASS  native-host-no-sdk-hook
+PASS  native-selection-bold
+2/2 passed
+
+=== silent SDK fallback suite ===
+PASS  sdk-hook-present
+PASS  silent-sdk-native-fallback
+2/2 passed

@@ -16,7 +16,10 @@ export class StudySummaryTemplate implements SummaryTemplate {
   render(data: SummaryData, params: Record<string, any>): BlockNode[] {
     const dateRangeStr = this.analyzer.formatDateRange(data.dateRange);
     const topTags = this.analyzer.getTopTags(data.blocks.tags, 5);
-    const studyTopics = params.topics || ['编程', '英语', '阅读', '数学'];
+    const insights = data.aiSuggestions?.length ? data.aiSuggestions : (data.insights || []);
+    const studyTopics = Array.isArray(params.topics) && params.topics.length > 0
+      ? params.topics
+      : (topTags.length > 0 ? topTags.map(([tag]) => tag) : ['待填写主题']);
 
     return [
       {
@@ -63,6 +66,12 @@ export class StudySummaryTemplate implements SummaryTemplate {
               { content: '遇到的难点和解决方法:' },
               { content: '下一步学习计划:' },
             ],
+          },
+          {
+            content: '## 💡 自动洞察',
+            children: insights.length > 0
+              ? insights.map((item) => ({ content: `- ${item}` }))
+              : [{ content: '- 暂无额外洞察' }],
           },
           {
             content: '## 🎯 学习目标',
