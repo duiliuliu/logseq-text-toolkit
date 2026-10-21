@@ -34510,7 +34510,7 @@ ${serialized}`;
     for (const selector of getBlockIdSelectors(blockId)) {
       try {
         const element = doc.querySelector(selector);
-        if (element instanceof HTMLElement) {
+        if (element && element.nodeType === Node.ELEMENT_NODE) {
           return element;
         }
       } catch {
@@ -34768,15 +34768,15 @@ ${serialized}`;
     blockElement.style.setProperty("--ltt-table-columns", String(columns));
     return columns;
   }
-  function applyViewOptions(blockElement, viewType, viewSettings) {
-    const cardsPerRow = Number(viewSettings?.cardsPerRow);
+  function applyViewOptions(blockElement, viewType, viewSettings2) {
+    const cardsPerRow = Number(viewSettings2?.cardsPerRow);
     const cardsValue = Number.isFinite(cardsPerRow) && cardsPerRow > 0 ? String(Math.min(Math.max(Math.round(cardsPerRow), 1), 6)) : "3";
-    const gap = typeof viewSettings?.cardSpacing === "string" && viewSettings.cardSpacing.trim() ? viewSettings.cardSpacing.trim() : "12px";
+    const gap = typeof viewSettings2?.cardSpacing === "string" && viewSettings2.cardSpacing.trim() ? viewSettings2.cardSpacing.trim() : "12px";
     const attributes = {
-      "data-ltt-striped": String(viewSettings?.showStriped ?? true),
-      "data-ltt-table-border": String(viewSettings?.showBorder ?? true),
-      "data-ltt-card-borders": String(viewSettings?.showCardBorders ?? true),
-      "data-ltt-column-borders": String(viewSettings?.showColumnBorders ?? true)
+      "data-ltt-striped": String(viewSettings2?.showStriped ?? true),
+      "data-ltt-table-border": String(viewSettings2?.showBorder ?? true),
+      "data-ltt-card-borders": String(viewSettings2?.showCardBorders ?? true),
+      "data-ltt-column-borders": String(viewSettings2?.showColumnBorders ?? true)
     };
     const styleVars = {
       "--ltt-gap": gap,
@@ -34809,28 +34809,40 @@ ${serialized}`;
       loggerProxy.debug("[BlockView] Block element not mounted yet", { blockId });
       return false;
     }
-    let settings = null;
-    try {
-      settings = await getSettingsWithSystem();
-    } catch (error) {
-      loggerProxy.warn("[BlockView] Failed to load settings, using defaults", error);
-    }
-    const viewSettings = settings?.blockView?.[viewType];
-    const visuals = applyViewOptions(blockElement, viewType, viewSettings);
-    visuals.attributes["data-ltt-hide-view-bar"] = settings?.blockView?.hideViewBar ? "true" : "false";
-    applyVisualOptions(blockElement, visuals);
-    syncViewBarState(
-      doc,
-      blockId,
-      viewType,
-      themeType,
-      !!settings?.blockView?.hideViewBar
-    );
-    rememberBlockView(blockId, viewType, themeType, visuals);
-    ensureBlockViewObserver(doc);
     applyViewClasses(blockElement, viewType, themeType);
     blockElement.setAttribute("data-ltt-view", viewType);
     blockElement.setAttribute("data-ltt-theme", themeType);
+    let settings = getSettings();
+    try {
+      settings = await Promise.race([
+        getSettingsWithSystem(),
+        new Promise((resolve) => setTimeout(() => resolve(getSettings()), 180))
+      ]);
+    } catch {
+      settings = getSettings();
+    }
+    let visuals = void 0;
+    try {
+      const viewSettings2 = settings?.blockView?.[viewType];
+      visuals = applyViewOptions(blockElement, viewType, viewSettings2);
+      visuals.attributes["data-ltt-hide-view-bar"] = settings?.blockView?.hideViewBar ? "true" : "false";
+      applyVisualOptions(blockElement, visuals);
+    } catch (error) {
+      loggerProxy.warn("[BlockView] Failed to apply visual options", error);
+    }
+    try {
+      syncViewBarState(
+        doc,
+        blockId,
+        viewType,
+        themeType,
+        !!settings?.blockView?.hideViewBar
+      );
+      rememberBlockView(blockId, viewType, themeType, visuals);
+      ensureBlockViewObserver(doc);
+    } catch (error) {
+      loggerProxy.warn("[BlockView] Failed to sync view bar", error);
+    }
     blockElement.setAttribute(
       "data-ltt-virtualized",
       hasVirtualizedChildren(blockElement) ? "true" : "false"
@@ -34893,6 +34905,21 @@ ${serialized}`;
       return argMap.inline === "true";
     }
     return defaultInline;
+  }
+  function applyImmediateView(doc, blockId, viewType, themeType, settings) {
+    const blockElement = findBlockElement(doc, blockId);
+    if (!blockElement) return false;
+    applyViewClasses(blockElement, viewType, themeType);
+    blockElement.setAttribute("data-ltt-view", viewType);
+    blockElement.setAttribute("data-ltt-theme", themeType);
+    try {
+      const viewSettings2 = settings?.blockView?.[viewType];
+      const visuals = applyViewOptions(blockElement, viewType, viewSettings2);
+      visuals.attributes["data-ltt-hide-view-bar"] = settings?.blockView?.hideViewBar ? "true" : "false";
+      applyVisualOptions(blockElement, visuals);
+    } catch {
+    }
+    return true;
   }
   async function switchView(blockId, viewType, themeType) {
     setViewOverride(blockId, viewType, themeType);
@@ -35003,12 +35030,7 @@ ${serialized}`;
   async function renderViewBar(blockId, slot, tokens) {
     const doc = getDocument();
     const containerId = `${PLUGIN_ID$1}__${slot}`;
-    let settings = null;
-    try {
-      settings = await getSettingsWithSystem();
-    } catch (error) {
-      loggerProxy.warn("[BlockView] Failed to load settings, using defaults", error);
-    }
+    let settings = getSettings();
     const blockViewSettings = settings?.blockView || {
       defaultView: "list",
       defaultTheme: "default",
@@ -35041,6 +35063,11 @@ ${serialized}`;
       template: `<div id="${containerId}">${viewBarHtml}</div>`
     });
     await applyViewStyleWithRetry(blockId, currentView, currentTheme);
+    [0, 60, 220, 600].forEach((delay2) => {
+      setTimeout(() => {
+        applyImmediateView(doc, blockId, currentView, currentTheme, settings);
+      }, delay2);
+    });
     setTimeout(() => syncRememberedViews(doc), 0);
     setTimeout(() => syncRememberedViews(doc), 120);
   }
