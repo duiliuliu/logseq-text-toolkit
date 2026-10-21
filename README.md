@@ -291,7 +291,7 @@
 2. 点击 **从 URL 加载插件**
 3. 输入：`https://github.com/duiliuliu/logseq-text-toolkit/`
 
-> 当前版本 **1.2.25**，面向 Logseq DB 图，`minSDKVersion` 为 `0.3.1`；文件图不支持。
+> 当前版本 **1.2.26**，面向 Logseq DB 图，`minSDKVersion` 为 `0.3.1`；文件图不支持。
 
 ---
 

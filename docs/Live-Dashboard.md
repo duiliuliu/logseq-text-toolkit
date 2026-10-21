@@ -9,7 +9,7 @@
 └── 工作台 Dashboard {{renderer :dashboard}}
 ```
 
-宏由插件 `1.3.0+` 注册，直接读取当前 graph：
+宏由插件 `1.2.26+` 注册，直接读取当前 graph：
 
 - 任务：`:block/tags "Task"` + 状态 / 更新时间
 - 标签：`:block/tags` 引用量
