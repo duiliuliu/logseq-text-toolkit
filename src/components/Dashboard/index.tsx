@@ -116,7 +116,7 @@ const Dashboard: React.FC = () => {
       const tagRows = (await query(
         '[:find ?t (count ?b) :where [?b :block/tags ?tag] [?tag :block/title ?t]]'
       )).map((row: any[]) => ({ name: String(row[0]), count: Number(row[1]) }))
-        .filter((row: TagRow) => !['Task', 'Page', 'Journal', 'Asset', 'Property', 'Comment', 'Comments', 'Tag', 'Query', 'Card', 'Template', 'pinned', 'Code', 'Quote'].includes(row.name))
+        .filter((row: TagRow) => !['Task', 'Page', 'Journal', 'Asset', 'Property', 'Comment', 'Comments', 'Tag', 'Query', 'Card', 'Template', 'pinned', 'Code', 'Quote', 'Rate'].includes(row.name))
         .sort((a, b) => b.count - a.count)
         .slice(0, 8)
 
@@ -136,7 +136,16 @@ const Dashboard: React.FC = () => {
 
   const recent7 = tasks.filter(t => t.updated && sinceDays(t.updated, 7))
   const recent30 = tasks.filter(t => t.updated && sinceDays(t.updated, 30))
-  const latest = (page: string) => attachments.filter(a => a.page === page).sort((a, b) => b.updated - a.updated).slice(0, 4)
+  const dedupe = (items: Attachment[]) => {
+    const byTitle = new Map<string, Attachment>()
+    for (const item of items) {
+      const key = `${item.page}|${item.title}`
+      const prev = byTitle.get(key)
+      if (!prev || item.updated > prev.updated) byTitle.set(key, item)
+    }
+    return [...byTitle.values()].sort((a, b) => b.updated - a.updated)
+  }
+  const latest = (page: string) => dedupe(attachments.filter(a => a.page === page)).slice(0, 4)
   const latestBusiness = latest('业务看板')
   const latestFinance = latest('金融报告')
   const statusCounts = recent30.reduce<Record<Status, number>>((acc, task) => {
@@ -161,7 +170,7 @@ const Dashboard: React.FC = () => {
       <div className="ltt-dashboard-stats">
         <div><b>{recent7.length}</b><span>近 7 天任务</span></div>
         <div><b>{recent30.length}</b><span>近 30 天任务</span></div>
-        <div><b>{latestBusiness.length + latestFinance.length}</b><span>内部报告附件</span></div>
+        <div><b>{dedupe(attachments).length}</b><span>内部报告附件</span></div>
         <div><b>{tags.length}</b><span>核心标签</span></div>
       </div>
 
