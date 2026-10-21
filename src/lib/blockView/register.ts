@@ -10,7 +10,10 @@ import {
   type CustomGalleryTheme,
   type CustomBoardTheme,
 } from './types';
-import { registerRendererArgModel, splitRendererArgs, parseRendererArgs } from '../render';
+import { registerRendererArgModel, splitRendererArgs, parseRendererArgs, renderComponent } from '../render';
+import { waitForElementById } from '../render/slot';
+import { QueryBlockView } from '../../components/BlockView/QueryBlockView';
+import { parseQuerySource } from './query';
 import { createRendererArgUpdater } from '../render/rendererArgs';
 import {
   applyViewClasses,
@@ -550,6 +553,7 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   const currentView = override?.view ?? getCurrentViewFromParams(tokens, defaultView);
   const currentTheme = override?.theme ?? getCurrentThemeFromParams(tokens, defaultTheme);
   const currentInline = getCurrentInlineFromParams(tokens, blockViewSettings.inline);
+  const querySource = parseQuerySource(tokens);
 
   ensureViewBarClickHandler(doc);
   ensureBlockViewObserver(doc);
@@ -558,7 +562,7 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   // 交给 CSS 隐藏，这样用户在设置里重新打开时可以立即恢复。
   const blockElement = findBlockElement(doc, blockId);
   // 块 DOM 还没挂载时不要误报空状态；折叠块通过 data-has-children 判断。
-  const hasChildren = blockElement ? blockHasChildren(blockElement) : true;
+  const hasChildren = querySource ? true : (blockElement ? blockHasChildren(blockElement) : true);
 
   const viewBarHtml = buildViewBarHtml(
     blockId,
@@ -577,14 +581,16 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
     template: `<div id="${containerId}">${viewBarHtml}</div>`,
   });
 
-  await applyViewStyleWithRetry(blockId, currentView, currentTheme);
-  // Real DB hosts can mount the macro slot before the block wrapper is
-  // queryable. Apply the class directly on the next frames as a fallback.
-  [0, 60, 220, 600].forEach((delay) => {
-    setTimeout(() => {
-      applyImmediateView(doc, blockId, currentView, currentTheme, settings);
-    }, delay);
-  });
+  const applied = await applyViewStyleWithRetry(blockId, currentView, currentTheme);
+  if (!applied) {
+    // Real DB hosts can mount the macro slot before the block wrapper is
+    // queryable. Apply the class directly on the next frames as a fallback.
+    [0, 60, 220, 600].forEach((delay) => {
+      setTimeout(() => {
+        applyImmediateView(doc, blockId, currentView, currentTheme, settings);
+      }, delay);
+    });
+  }
 
   // slot 可能比块 DOM 更晚挂载；再同步一次，保证按钮事件和 class 都在。
   setTimeout(() => syncRememberedViews(doc), 0);
