@@ -15,11 +15,13 @@ module.exports = [
   "heatmap.css",
   "summary.css",
   "blockView.css",
+  "queryView.css",
   "tableView.css",
   "galleryView.css",
   "boardView.css",
   "mindMapView.css",
   "listView.css",
   "milestone.css",
-  "htmlViewer.css"
+  "htmlViewer.css",
+  "dashboard.css"
 ]

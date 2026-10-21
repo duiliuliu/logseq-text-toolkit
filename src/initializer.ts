@@ -36,6 +36,7 @@ import customSelectCSSRaw from './components/CustomSelect/customSelect.css?raw'
 import heatmapCSSRaw from './components/Heatmap/heatmap.css?raw'
 import summaryCSSRaw from './components/Summary/summary.css?raw'
 import blockViewCSSRaw from './components/BlockView/blockView.css?raw'
+import queryViewCSSRaw from './components/BlockView/queryView.css?raw'
 import tableViewCSSRaw from './components/BlockView/tableView.css?raw'
 import galleryViewCSSRaw from './components/BlockView/galleryView.css?raw'
 import boardViewCSSRaw from './components/BlockView/boardView.css?raw'
@@ -43,6 +44,7 @@ import mindMapViewCSSRaw from './components/BlockView/mindMapView.css?raw'
 import listViewCssRaw from './components/BlockView/listView.css?raw'
 import milestoneCSSRaw from './components/Milestone/milestone.css?raw'
 import htmlViewerCSSRaw from './components/HtmlViewer/htmlViewer.css?raw'
+import dashboardCSSRaw from './components/Dashboard/dashboard.css?raw'
 import mainCSSRaw from './main.css?raw'
 
 import { Milestone } from './components/Milestone'
@@ -157,6 +159,12 @@ export function registerAllCSS(): void {
     externalPath: 'blockView.css'
   })
 
+  registerCSS('queryView', {
+    type: 'both',
+    inlineContent: queryViewCSSRaw,
+    externalPath: 'queryView.css'
+  })
+
   registerCSS('tableView', {
     type: 'both',
     inlineContent: tableViewCSSRaw,
@@ -197,6 +205,12 @@ export function registerAllCSS(): void {
     type: 'both',
     inlineContent: htmlViewerCSSRaw,
     externalPath: 'htmlViewer.css'
+  })
+
+  registerCSS('dashboard', {
+    type: 'both',
+    inlineContent: dashboardCSSRaw,
+    externalPath: 'dashboard.css'
   })
 }
 

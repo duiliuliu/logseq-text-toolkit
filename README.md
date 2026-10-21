@@ -202,7 +202,7 @@
 | 文字标注 | 选中 HTML 文字 → 标注 → 可选备注 |
 | 跳回原文 | 使用 quote + prefix/suffix + offset 还原高亮 |
 | 图谱联动 | 标注优先挂到 HTML asset 块下，生成普通子块；无法解析 asset 时回退标注页面 |
-| Dashboard | 设置定期生成的 HTML 为 Dashboard，工具栏一键全屏打开；支持跳 Logseq 页面/块 |
+| Live Dashboard | 页面内 `{{renderer :dashboard}}` 实时读取任务/标签/业务与金融内部附件，无需每天导出 HTML |
 | 安全默认 | 脚本、远程资源默认关闭；单附件显式开启 |
 
 **打开方式**：
@@ -213,10 +213,16 @@
 - 命令 `[Text Toolkit] Open Dashboard`
 
 
-**Dashboard 设置**：
+**Live Dashboard（推荐）**：
 
-1. 把定期生成的 HTML 放到 `assets/` 下。
-2. 设置 → 🌐 HTML 阅读器 → Dashboard，选择该文件。
+1. 在 `工作台` 页面插入 `{{renderer :dashboard}}`，或执行命令 `[Text Toolkit] Insert Dashboard`。
+2. 宏会实时读取当前 graph 的 Task、标签，以及 `业务看板` / `金融报告` 页面里的内部 HTML 附件。
+3. 不需要设置外部 HTML 路径；报告附件直接作为 Logseq asset 节点挂到页面。
+
+**旧版静态 Dashboard（可选）**：
+
+1. 把 HTML 放到 `assets/` 下。
+2. 设置 → 🌐 HTML 阅读器 → Dashboard，选择该文件；不要填 `file:///` 或绝对路径。
 3. 勾选“以全屏方式打开 Dashboard”。
 4. 点击顶部 Dashboard 按钮，或执行 `[Text Toolkit] Open Dashboard`。
 
@@ -1118,7 +1124,39 @@ vim dist/tableView.css
 - 移除脚本、远程资源、事件属性、iframe/object/embed/form、meta refresh
 - 需要运行脚本或 CDN 时，在设置中显式开启；只用于可信 HTML
 
-### 4.10 HTML Dashboard
+### 4.10 Live Dashboard（工作台）
+
+`工作台` 页面使用：
+
+```text
+{{renderer :dashboard}}
+```
+
+实时读取：
+
+- `:block/tags "Task"` 的任务、状态、更新时间
+- 标签引用量
+- `业务看板` / `金融报告` 页面中的 HTML asset 附件
+
+报告附件用内部 `assets/<uuid>.html`，点击后用内置 HTML Viewer 打开；不需要 `dashboardAsset` 外部路径。
+
+页面结构：
+
+```text
+业务看板
+├── 最新简报
+├── 按周归档/<ISO周>
+└── 按月归档/<YYYY-MM>
+
+金融报告
+├── 最新报告
+├── 按周归档/<ISO周>
+└── 按月归档/<YYYY-MM>
+```
+
+AI 定时任务只负责把 HTML 作为内部附件挂到上述节点；Dashboard 刷新即可读取。
+
+### 4.10 HTML Dashboard（旧版静态附件）
 
 #### 4.10.1 设置
 
