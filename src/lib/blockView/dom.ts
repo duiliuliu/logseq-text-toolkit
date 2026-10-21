@@ -71,8 +71,10 @@ export function findBlockElement(doc: Document, blockId: string): HTMLElement | 
   for (const selector of getBlockIdSelectors(blockId)) {
     try {
       const element = doc.querySelector(selector);
-      if (element instanceof HTMLElement) {
-        return element;
+      // The plugin iframe and Logseq's parent document have different
+      // HTMLElement constructors; instanceof fails across realms.
+      if (element && element.nodeType === Node.ELEMENT_NODE) {
+        return element as HTMLElement;
       }
     } catch {
       // 忽略非法选择器，继续尝试下一个

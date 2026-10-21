@@ -48,12 +48,14 @@
   <div class="badges">
     <span class="badge">E2E 25/25 PASS</span>
     <span class="badge">Vitest 718/718 PASS</span>
-    <span class="badge">plugin 1.2.18</span>
+    <span class="badge">plugin 1.2.25</span>
     <span class="badge">min SDK 0.3.1+</span>
   </div>
 </header>
-<p class="notice">截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 <a href="../../architecture/Real-Logseq-Smoke-Test.md">Real-Logseq-Smoke-Test.md</a> 做发版前人工确认。</p>
+<p class="notice">截图包含 Electron Host mock 与真实 Logseq 2.0.2 test 图两组；真实 Logseq 仍需按 <a href="../../architecture/Real-Logseq-Smoke-Test.md">Real-Logseq-Smoke-Test.md</a> 做发版前人工确认。</p>
 
+<h2>真实 Logseq 2.0.2 Smoke</h2>
+<div class="notice"><strong>2026-10-21 真实 test DB 图：</strong>Settings、Toolbar/Comment、BlockView Table/Gallery/Board、TaskProgress 2/4、Heatmap、Milestone、HTML 预览/标注、Dashboard block UUID 均通过；Summary 由 E2E 3/3 覆盖。修复了跨 realm BlockView、modal/comment pointer-events、默认 settings 和 Format 图标覆盖问题。</div>
 <h2>结果总览</h2>
 <div class="stat">
   <div class="card"><span>Electron 主功能</span><strong>13/13</strong><span>PASS</span></div>
@@ -65,7 +67,7 @@
 <p style="margin-top:14px"><span class="ok">Vitest 80 files / 718 tests passed</span></p>
 
 <h2>环境</h2>
-<table><tbody><tr><td>OS</td><td>macOS 26.3.2 (Build 25D2150)</td></tr><tr><td>Electron</td><td>42.11.15</td></tr><tr><td>Chromium</td><td>148.0.7778.280</td></tr><tr><td>Node.js</td><td>24.17.0</td></tr><tr><td>Plugin</td><td>logseq-text-toolkit 1.2.18</td></tr><tr><td>SDK floor</td><td>@logseq/libs 0.3.1+ / host 2.0.2</td></tr><tr><td>Runner</td><td>scripts/e2e (Electron + Host mock)</td></tr></tbody></table>
+<table><tbody><tr><td>OS</td><td>macOS 26.3.2 (Build 25D2150)</td></tr><tr><td>Electron</td><td>42.11.15</td></tr><tr><td>Chromium</td><td>148.0.7778.280</td></tr><tr><td>Node.js</td><td>24.17.0</td></tr><tr><td>Plugin</td><td>logseq-text-toolkit 1.2.25</td></tr><tr><td>SDK floor</td><td>@logseq/libs 0.3.1+ / host 2.0.2</td></tr><tr><td>Runner</td><td>scripts/e2e (Electron + Host mock)</td></tr></tbody></table>
 
 <h2>套件结果</h2>
 <table><thead><tr><th>套件</th><th>通过</th><th>覆盖</th></tr></thead><tbody><tr><td>主功能套件</td><td class="num pass">13/13</td><td>插件注册、设置、选区工具栏、评论、BlockView、TaskProgress、Heatmap、Milestone、Summary、slash commands</td></tr><tr><td>Summary 专项</td><td class="num pass">3/3</td><td>自定义日期范围、年度模板/页面名、同名总结安全替换</td></tr><tr><td>HTML 阅读器</td><td class="num pass">5/5</td><td>附件列表、文字标注、高亮、面板控制、Dashboard、持久化</td></tr><tr><td>旧 Host fallback</td><td class="num pass">2/2</td><td>无 onInputSelectionEnd；原生 textarea 选区</td></tr><tr><td>SDK 静默 fallback</td><td class="num pass">2/2</td><td>暴露 SDK hook 但从不发事件；原生选区仍可用</td></tr></tbody></table>
@@ -113,6 +115,24 @@
 </figure><figure class="shot">
   <a href="assets/13-html-viewer-settings.png" target="_blank"><img src="assets/13-html-viewer-settings.png" alt="HTML 阅读器设置"></a>
   <figcaption><strong>HTML 阅读器设置</strong><span>Dashboard 选择、全屏开关、标注写回、脚本/远程资源开关。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/14-real-features.png" target="_blank"><img src="assets/14-real-features.png" alt="真实 Logseq：功能页"></a>
+  <figcaption><strong>真实 Logseq：功能页</strong><span>TaskProgress / Heatmap / Milestone / BlockView 在真实 test 图渲染。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/15-real-blockview-table.png" target="_blank"><img src="assets/15-real-blockview-table.png" alt="真实 Logseq：BlockView Table"></a>
+  <figcaption><strong>真实 Logseq：BlockView Table</strong><span>真实 DB 块应用 ltt-table-root，两行数据正确成表。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/16-real-blockview-gallery.png" target="_blank"><img src="assets/16-real-blockview-gallery.png" alt="真实 Logseq：BlockView Gallery"></a>
+  <figcaption><strong>真实 Logseq：BlockView Gallery</strong><span>真实 DB 块切换 Gallery 后的卡片视图。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/17-real-taskprogress.png" target="_blank"><img src="assets/17-real-taskprogress.png" alt="真实 Logseq：TaskProgress"></a>
+  <figcaption><strong>真实 Logseq：TaskProgress</strong><span>真实任务状态 2/4 进度与 tooltip。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/18-real-heatmap.png" target="_blank"><img src="assets/18-real-heatmap.png" alt="真实 Logseq：Heatmap"></a>
+  <figcaption><strong>真实 Logseq：Heatmap</strong><span>真实 tag=tt-e2e 月度热力图与统计。</span></figcaption>
+</figure><figure class="shot">
+  <a href="assets/19-real-milestone.png" target="_blank"><img src="assets/19-real-milestone.png" alt="真实 Logseq：Milestone"></a>
+  <figcaption><strong>真实 Logseq：Milestone</strong><span>真实 compact 里程碑节点与状态。</span></figcaption>
 </figure></div>
 
 <h2>报告生成过程中发现并修复的问题</h2>

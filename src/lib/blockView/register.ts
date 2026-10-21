@@ -1,6 +1,6 @@
 import { logseqAPI } from '../../logseq';
 import { getDocument } from '../../logseq/utils';
-import { getSettingsWithSystem } from '../../settings';
+import { getSettings, getSettingsWithSystem } from '../../settings';
 import { t } from '../../translations/i18n';
 import {
   VIEW_REGISTRY,
@@ -241,31 +241,45 @@ async function applyViewStyle(
     return false;
   }
 
-  let settings: any = null;
-  try {
-    settings = await getSettingsWithSystem();
-  } catch (error) {
-    logger.warn('[BlockView] Failed to load settings, using defaults', error);
-  }
-  const viewSettings = (settings?.blockView as any)?.[viewType];
-  const visuals = applyViewOptions(blockElement, viewType, viewSettings);
-  visuals.attributes['data-ltt-hide-view-bar'] = settings?.blockView?.hideViewBar ? 'true' : 'false';
-  applyVisualOptions(blockElement, visuals);
-
-  syncViewBarState(
-    doc,
-    blockId,
-    viewType,
-    themeType,
-    !!settings?.blockView?.hideViewBar
-  );
-
-  rememberBlockView(blockId, viewType, themeType, visuals);
-  ensureBlockViewObserver(doc);
-
+  // Apply the essential classes first. Optional visual settings must never
+  // prevent the view from rendering if a host-specific metric throws.
   applyViewClasses(blockElement, viewType, themeType);
   blockElement.setAttribute('data-ltt-view', viewType);
   blockElement.setAttribute('data-ltt-theme', themeType);
+
+  let settings: any = getSettings();
+  try {
+    settings = await Promise.race([
+      getSettingsWithSystem(),
+      new Promise((resolve) => setTimeout(() => resolve(getSettings()), 180)),
+    ]);
+  } catch {
+    settings = getSettings();
+  }
+  let visuals: any = undefined;
+  try {
+    const viewSettings = (settings?.blockView as any)?.[viewType];
+    visuals = applyViewOptions(blockElement, viewType, viewSettings);
+    visuals.attributes['data-ltt-hide-view-bar'] = settings?.blockView?.hideViewBar ? 'true' : 'false';
+    applyVisualOptions(blockElement, visuals);
+  } catch (error) {
+    logger.warn('[BlockView] Failed to apply visual options', error);
+  }
+
+  try {
+    syncViewBarState(
+      doc,
+      blockId,
+      viewType,
+      themeType,
+      !!settings?.blockView?.hideViewBar
+    );
+    rememberBlockView(blockId, viewType, themeType, visuals);
+    ensureBlockViewObserver(doc);
+  } catch (error) {
+    logger.warn('[BlockView] Failed to sync view bar', error);
+  }
+
   blockElement.setAttribute(
     'data-ltt-virtualized',
     hasVirtualizedChildren(blockElement) ? 'true' : 'false'
@@ -348,6 +362,29 @@ function getCurrentInlineFromParams(tokens: string[], defaultInline: boolean): b
   }
 
   return defaultInline;
+}
+
+function applyImmediateView(
+  doc: Document,
+  blockId: string,
+  viewType: ViewType,
+  themeType: ThemeType,
+  settings: any
+): boolean {
+  const blockElement = findBlockElement(doc, blockId);
+  if (!blockElement) return false;
+  applyViewClasses(blockElement, viewType, themeType);
+  blockElement.setAttribute('data-ltt-view', viewType);
+  blockElement.setAttribute('data-ltt-theme', themeType);
+  try {
+    const viewSettings = (settings?.blockView as any)?.[viewType];
+    const visuals = applyViewOptions(blockElement, viewType, viewSettings);
+    visuals.attributes['data-ltt-hide-view-bar'] = settings?.blockView?.hideViewBar ? 'true' : 'false';
+    applyVisualOptions(blockElement, visuals);
+  } catch {
+    // CSS classes are enough to render; optional visual settings can fail.
+  }
+  return true;
 }
 
 async function switchView(blockId: string, viewType: ViewType, themeType: ThemeType): Promise<void> {
@@ -492,12 +529,9 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   const doc = getDocument();
   const containerId = `${PLUGIN_ID}__${slot}`;
 
-  let settings: any = null;
-  try {
-    settings = await getSettingsWithSystem();
-  } catch (error) {
-    logger.warn('[BlockView] Failed to load settings, using defaults', error);
-  }
+  // Class application must not wait for host user-config IPC; on real DB
+  // hosts that promise can lag behind and leave the view bar without classes.
+  let settings: any = getSettings();
   const blockViewSettings = settings?.blockView || {
     defaultView: 'list' as ViewType,
     defaultTheme: 'default' as ThemeType,
@@ -544,6 +578,13 @@ async function renderViewBar(blockId: string, slot: string, tokens: string[]): P
   });
 
   await applyViewStyleWithRetry(blockId, currentView, currentTheme);
+  // Real DB hosts can mount the macro slot before the block wrapper is
+  // queryable. Apply the class directly on the next frames as a fallback.
+  [0, 60, 220, 600].forEach((delay) => {
+    setTimeout(() => {
+      applyImmediateView(doc, blockId, currentView, currentTheme, settings);
+    }, delay);
+  });
 
   // slot 可能比块 DOM 更晚挂载；再同步一次，保证按钮事件和 class 都在。
   setTimeout(() => syncRememberedViews(doc), 0);

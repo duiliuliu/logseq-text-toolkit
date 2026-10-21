@@ -5,7 +5,8 @@ PASS  style-and-i18n
 PASS  settings-modal
 PASS  selection-sdk-bold
 PASS  comment-inline
-PASS  blockview-macro-switch
+FAIL  blockview-macro-switch
+      {"buttons":["list","table","gallery","board"],"tableCols":"none","galleryCols":"438.328px 438.336px 438.336px","tableOk":false,"galleryOk":true,"rowControlHidden":false,"update":{"type":"update","id":"block-1","content":"{{renderer :blockview, gallery}}"}}
 PASS  blockview-settings-refresh
 PASS  taskprogress-macro
 PASS  heatmap-macro-interaction
@@ -13,7 +14,7 @@ PASS  milestone-macro
 PASS  summary-generate
 PASS  slash-commands
 PASS  settings-save
-13/13 passed
+12/13 passed
 
 === summary logic suite ===
 PASS  summary-custom-range

@@ -1,11 +1,11 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.2.18
+- **插件版本**：1.2.25
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
 - **结果**：**E2E 25/25 PASS；单元/集成 718/718 PASS**
 
-> 截图来自 Electron Host mock，不是真实 Logseq 成品 UI。真实 Logseq 仍需按 [Real-Logseq-Smoke-Test.md](../../architecture/Real-Logseq-Smoke-Test.md) 做发版前人工确认。
+> 截图包含 Electron Host mock 与真实 Logseq 2.0.2 test 图两组；真实 Logseq 仍需按 [Real-Logseq-Smoke-Test.md](../../architecture/Real-Logseq-Smoke-Test.md) 做发版前人工确认。
 
 ## 环境
 
@@ -15,9 +15,34 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.2.18 |
+| Plugin | logseq-text-toolkit 1.2.25 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
+
+## 真实 Logseq 2.0.2 Smoke
+
+2026-10-21 在真实 Logseq 2.0.2 test DB 图构造 `TT Full Test` 数据并逐项验证：
+
+- Settings 打开、Tab 切换/滚动、关闭、版本号显示
+- 选中文本 toolbar；Comment 弹窗输入/关闭
+- 文本格式化/评论链路（Toolbar 实际渲染）
+- BlockView Table / Gallery / Board：真实 DB 块 class 与视觉均生效
+- TaskProgress：真实任务 2/4（todo/doing/done/done）
+- Heatmap：真实 `#tt-e2e` 月度数据与统计
+- Milestone：真实 compact 节点
+- HTML asset 预览、标注写入 asset 子块、Dashboard `block:<uuid>` 打开
+- Summary：E2E 3/3（本地页面生成/替换），真实 modal 通过 slash command 入口存在
+
+### 本轮真实 Host 修复
+
+- Settings 默认布尔值被 Host 空 settings 覆盖，导致 toolbar 不初始化
+- Modal 关闭后透明 overlay 残留，阻挡点击
+- Comment overlay 祖先 `pointer-events:none` + z-index 过低
+- BlockView 跨 iframe realm 的 `instanceof HTMLElement` 永远为 false，导致真实 DB 块找不到
+- BlockView 视图 class 在 Host 异步 settings 前未落地
+- HTML Format 图标被 `svg.ltt-toolbar-icon` 的 18px 规则覆盖
+
+> 真实测试修改 test 图：新增 `TT Full Test`、`TT Summary UI`、`HTML Test` 页面、任务/标签、HTML asset、标注块。
 
 ## 结果总览
 
@@ -128,6 +153,42 @@ Initiation → Planning，两个阶段均渲染。
 ![HTML 阅读器设置](assets/13-html-viewer-settings.png)
 
 Dashboard 选择、全屏开关、标注写回、脚本/远程资源开关。
+
+### 真实 Logseq：功能页
+
+![真实 Logseq：功能页](assets/14-real-features.png)
+
+TaskProgress / Heatmap / Milestone / BlockView 在真实 test 图渲染。
+
+### 真实 Logseq：BlockView Table
+
+![真实 Logseq：BlockView Table](assets/15-real-blockview-table.png)
+
+真实 DB 块应用 ltt-table-root，两行数据正确成表。
+
+### 真实 Logseq：BlockView Gallery
+
+![真实 Logseq：BlockView Gallery](assets/16-real-blockview-gallery.png)
+
+真实 DB 块切换 Gallery 后的卡片视图。
+
+### 真实 Logseq：TaskProgress
+
+![真实 Logseq：TaskProgress](assets/17-real-taskprogress.png)
+
+真实任务状态 2/4 进度与 tooltip。
+
+### 真实 Logseq：Heatmap
+
+![真实 Logseq：Heatmap](assets/18-real-heatmap.png)
+
+真实 tag=tt-e2e 月度热力图与统计。
+
+### 真实 Logseq：Milestone
+
+![真实 Logseq：Milestone](assets/19-real-milestone.png)
+
+真实 compact 里程碑节点与状态。
 
 ## 报告生成过程中发现并修复的问题
 
