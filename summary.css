@@ -354,3 +354,13 @@
 .summary-modal-container[data-theme="dark"] .summary-actions {
   border-top-color: var(--ls-border-color, #4b5563);
 }
+.summary-error {
+  margin: 4px 0 8px;
+  color: #dc2626;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.summary-modal-container[data-theme="dark"] .summary-error {
+  color: #f87171;
+}

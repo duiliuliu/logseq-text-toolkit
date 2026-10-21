@@ -531,6 +531,24 @@ html.dark .theme-indigo {
   max-width: 100%;
 }
 
+/* 设置项：显示边框 */
+.ltt-table-root[data-ltt-table-border="false"] > .block-children-container {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.ltt-table-root[data-ltt-table-border="false"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block,
+.ltt-table-root[data-ltt-table-border="false"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-main-container,
+.ltt-table-root[data-ltt-table-border="false"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-children-container > .block-children > .blocks-list-wrap > * {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 设置项：斑马纹 */
+.ltt-table-root[data-ltt-striped="true"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:nth-child(even) > .block-children-container > .block-children > .blocks-list-wrap > * {
+  background: var(--ltt-row-hover);
+}
+
 /* =========================================================
    REMOVE TREE STYLE
 ========================================================= */
@@ -566,7 +584,7 @@ html.dark .theme-indigo {
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   display: grid !important;
-  grid-template-columns: minmax(var(--ltt-first-col-min-width), var(--ltt-first-col-max-width)) repeat(20, minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
+  grid-template-columns: minmax(var(--ltt-first-col-min-width), var(--ltt-first-col-max-width)) repeat(var(--ltt-table-columns, 20), minmax(var(--ltt-col-min-width), var(--ltt-col-max-width)));
   align-items: stretch;
   position: relative;
   transition: background 0.15s ease;
@@ -581,6 +599,11 @@ html.dark .theme-indigo {
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:last-child {
   border-bottom: none;
 }
+.ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block > .block-control-wrap {
+  /* 行级 bullet/control 不能成为 grid item，否则会占掉首列并挤乱单元格。 */
+  display: none !important;
+}
+
 
 .ltt-table-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block:hover {
   background: var(--ltt-row-hover);

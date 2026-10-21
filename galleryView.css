@@ -352,7 +352,12 @@ html.dark .theme-indigo {
 
 .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* 以用户设置的每行数量为上限；容器变窄时自动减少列数 */
+  --ltt-card-min: max(
+    240px,
+    calc((100% - (var(--ltt-cards-per-row, 3) - 1) * var(--ltt-gap, 12px)) / var(--ltt-cards-per-row, 3))
+  );
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--ltt-card-min)), 1fr));
   gap: var(--ltt-gap);
   padding: var(--ltt-padding) !important;
 }
@@ -360,6 +365,11 @@ html.dark .theme-indigo {
 /* =========================================================
    CARD
 ========================================================= */
+
+.ltt-gallery-root[data-ltt-card-borders="false"] > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
 
 .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap > .ls-block {
   background: var(--ltt-card-bg);
@@ -490,7 +500,7 @@ html.dark .theme-indigo {
 
 @media (max-width: 768px) {
   .ltt-gallery-root > .block-children-container > .block-children > .blocks-list-wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 16px;
     padding: 16px !important;
   }
