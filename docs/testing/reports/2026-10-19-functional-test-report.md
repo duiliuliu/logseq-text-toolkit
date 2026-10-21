@@ -1,7 +1,7 @@
 # Text Toolkit 功能测试报告
 
 - **日期**：2026-10-19
-- **插件版本**：1.2.17
+- **插件版本**：1.2.18
 - **测试方式**：Electron 42 + Host mock，加载真实 `dist/index.js`
 - **结果**：**E2E 25/25 PASS；单元/集成 718/718 PASS**
 
@@ -15,21 +15,9 @@
 | Electron | 42.11.15 |
 | Chromium | 148.0.7778.280 |
 | Node.js | 24.17.0 |
-| Plugin | logseq-text-toolkit 1.2.17 |
+| Plugin | logseq-text-toolkit 1.2.18 |
 | SDK floor | @logseq/libs 0.3.1+ / host 2.0.2 |
 | Runner | scripts/e2e (Electron + Host mock) |
-
-## 真实 Logseq 2.0.2 Smoke
-
-2026-10-20 在真实 Logseq 2.0.2 test DB 图（`test`）完成一轮 smoke：
-
-- 设置标题显示插件版本，便于确认实际加载版本
-- 设置打开/Tab 切换/关闭，8 Tab 单行 + 箭头滚动
-- 选中文本工具栏；评论弹窗输入/关闭
-- Tooltip 锚定；Format 组图标 13px / stroke 1.5 / currentColor
-- 8 秒无 hover 自动收起，hover 取消、移出重新计时
-- HTML asset 预览、标注写入 asset 子块
-- Dashboard `block:<uuid>` 解析并打开
 
 ## 结果总览
 
